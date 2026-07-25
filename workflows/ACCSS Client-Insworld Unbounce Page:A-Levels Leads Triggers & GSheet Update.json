@@ -1,0 +1,423 @@
+{
+  "updatedAt": "2023-11-23T15:07:28.000Z",
+  "createdAt": "2023-11-02T05:04:44.043Z",
+  "id": "ERiUnGWjfwpEQ5Tm",
+  "name": "ACCSS Client-Insworld Unbounce Page:A-Levels Leads Triggers & GSheet Update",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "Insworld_Institute_A-Levels",
+        "options": {}
+      },
+      "id": "dd04c0f5-b58d-40e9-adbf-887c4649d46c",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        760,
+        320
+      ],
+      "webhookId": "37a4c264-767c-47ef-b158-74adf57844ca"
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "date_submitted_unformatted",
+              "stringValue": "={{ $json.body.date_submitted }}"
+            },
+            {
+              "name": "time_submitted",
+              "stringValue": "={{ $json.body.time_submitted }}"
+            },
+            {
+              "name": "ip_address",
+              "stringValue": "={{ $json.body.ip_address }}"
+            },
+            {
+              "name": "variant",
+              "stringValue": "={{ $json.body.variant }}"
+            },
+            {
+              "name": "page_uuid",
+              "stringValue": "={{ $json.body.page_uuid }}"
+            },
+            {
+              "name": "page_url",
+              "stringValue": "={{ $json.body.page_url }}"
+            },
+            {
+              "name": "page_name",
+              "stringValue": "={{ $json.body.page_name }}"
+            },
+            {
+              "name": "relationship",
+              "stringValue": "={{ $json.body.relationship }}"
+            },
+            {
+              "name": "name",
+              "stringValue": "={{ $json.body.name }}"
+            },
+            {
+              "name": "email",
+              "stringValue": "={{ $json.body.email }}"
+            },
+            {
+              "name": "phone_number",
+              "stringValue": "={{ $json.body.phone_number }}"
+            },
+            {
+              "name": "nationality",
+              "stringValue": "={{ $json.body.nationality }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {
+          "dotNotation": true
+        }
+      },
+      "id": "43849201-7c90-4424-bda9-5ad87d9fed60",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1020,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $json.date_submitted_unformatted }}",
+        "format": "custom",
+        "customFormat": "dd/MM/yyyy",
+        "outputFieldName": "date_submitted",
+        "options": {}
+      },
+      "id": "b7e6798a-2f50-40c5-baf4-396ac7991a7e",
+      "name": "Date & Time",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        1360,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "date_submitted",
+              "stringValue": "={{ $json.date_submitted }}"
+            },
+            {
+              "name": "time_submitted",
+              "stringValue": "={{ $('Edit Fields').item.json.time_submitted }}"
+            },
+            {
+              "name": "ip_address",
+              "stringValue": "={{ $('Edit Fields').item.json.ip_address }}"
+            },
+            {
+              "name": "variant",
+              "stringValue": "={{ $('Edit Fields').item.json.variant }}"
+            },
+            {
+              "name": "page_uuid",
+              "stringValue": "={{ $('Edit Fields').item.json.page_uuid }}"
+            },
+            {
+              "name": "page_url",
+              "stringValue": "={{ $('Edit Fields').item.json.page_url }}"
+            },
+            {
+              "name": "page_name",
+              "stringValue": "={{ $('Edit Fields').item.json.page_name }}"
+            },
+            {
+              "name": "relationship",
+              "stringValue": "={{ $('Edit Fields').item.json.relationship }}"
+            },
+            {
+              "name": "name",
+              "stringValue": "={{ $('Edit Fields').item.json.name }}"
+            },
+            {
+              "name": "email",
+              "stringValue": "={{ $('Edit Fields').item.json.email }}"
+            },
+            {
+              "name": "phone_number",
+              "stringValue": "={{ $('Edit Fields').item.json.phone_number }}"
+            },
+            {
+              "name": "nationality",
+              "stringValue": "={{ $('Edit Fields').item.json.nationality }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "0ffd6b8a-f554-4533-b4a3-b4fa0ea12b52",
+      "name": "Edit Fields1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1620,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "13rtucHvEJzCBn_q7WAPPAQJkfhDOC8gHtvN5j7NPcRQ",
+          "mode": "list",
+          "cachedResultName": "Insworlds Institute - FB Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13rtucHvEJzCBn_q7WAPPAQJkfhDOC8gHtvN5j7NPcRQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1076491533,
+          "mode": "list",
+          "cachedResultName": "Landing Page Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13rtucHvEJzCBn_q7WAPPAQJkfhDOC8gHtvN5j7NPcRQ/edit#gid=1076491533"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "date_submitted": "={{ $json.date_submitted }}",
+            "time_submitted": "={{ $json.time_submitted }}",
+            "ip_address": "={{ $json.ip_address }}",
+            "variant": "={{ $json.variant }}",
+            "page_uuid": "={{ $json.page_uuid }}",
+            "page_url": "={{ $json.page_url }}",
+            "page_name": "={{ $json.page_name }}",
+            "relationship": "={{ $json.relationship }}",
+            "name": "={{ $json.name }}",
+            "email": "={{ $json.email }}",
+            "phone_number": "={{ $json.phone_number }}",
+            "nationality": "={{ $json.nationality }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "date_submitted",
+              "displayName": "date_submitted",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "time_submitted",
+              "displayName": "time_submitted",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ip_address",
+              "displayName": "ip_address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "variant",
+              "displayName": "variant",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "page_uuid",
+              "displayName": "page_uuid",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "page_url",
+              "displayName": "page_url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "page_name",
+              "displayName": "page_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "relationship",
+              "displayName": "relationship",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "phone_number",
+              "displayName": "phone_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "nationality",
+              "displayName": "nationality",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "programme",
+              "displayName": "programme",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "06a490d9-9fe0-489a-b794-f6794bd87f6b",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [
+        1940,
+        -40
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "02ddb05f-17ce-4154-a245-ecb3927fb90b",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2023-11-02T05:04:44.056Z",
+      "createdAt": "2023-11-02T05:04:44.056Z",
+      "role": "workflow:owner",
+      "workflowId": "ERiUnGWjfwpEQ5Tm",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2023-11-01T07:15:32.767Z",
+      "createdAt": "2023-11-01T07:15:32.767Z",
+      "id": "DG2uXVFvLDEnH34q",
+      "name": "ACCSS"
+    }
+  ]
+}
