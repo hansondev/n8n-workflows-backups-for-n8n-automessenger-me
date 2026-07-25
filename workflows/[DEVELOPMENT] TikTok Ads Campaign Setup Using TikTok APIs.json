@@ -1,0 +1,918 @@
+{
+  "updatedAt": "2025-07-04T12:25:23.000Z",
+  "createdAt": "2025-07-04T05:14:13.737Z",
+  "id": "uR3SuyxHN6kHjPwa",
+  "name": "[DEVELOPMENT] TikTok Ads Campaign Setup Using TikTok APIs",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://business-api.tiktok.com/open_api/v1.3/campaign/create",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n   \"advertiser_id\": \"\",\n   \"objective_type\": \"TRAFFIC\",\n   \"campaign_name\": \"{{campaign_name}}\",\n   \"budget_mode\": \"BUDGET_MODE_TOTAL\",\n   \"budget\": {{budget}}\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1120,
+        -160
+      ],
+      "id": "e7cdc5cc-f150-49fe-9e91-ac97bc855e23",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "PLDeYo4fV49jWYGo",
+          "name": "TTApp HeaderAuth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Advertiser Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Creo creative0506"
+                  },
+                  {
+                    "option": "Creo Creative TT Ad Account"
+                  },
+                  {
+                    "option": "Impianjayaa Wellness International San Bhd"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Advertiser ID",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "7501287363512303632"
+                  },
+                  {
+                    "option": "7501275877792219137"
+                  },
+                  {
+                    "option": "7485928730544619521"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Objective Type",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "REACH"
+                  },
+                  {
+                    "option": "TRAFFIC"
+                  },
+                  {
+                    "option": "VIDEO_VIEWS"
+                  },
+                  {
+                    "option": "LEAD_GENERATION"
+                  },
+                  {
+                    "option": "ENGAGEMENT"
+                  },
+                  {
+                    "option": "APP_PROMOTION"
+                  },
+                  {
+                    "option": "PRODUCT_SALES"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Campaign Level Budget",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Enabled"
+                  },
+                  {
+                    "option": "Disabled"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Campaign Budget Mode (Select This If Enabled CBO)",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "BUDGET_MODE_TOTAL"
+                  },
+                  {
+                    "option": "BUDGET_MODE_DYNAMIC_DAILY_BUDGET"
+                  },
+                  {
+                    "option": "BUDGET_MODE_DAY"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Budget Mode (Select This If CBO Disabled)",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "BUDGET_MODE_INFINITE"
+                  },
+                  {
+                    "option": "BUDGET_MODE_TOTAL"
+                  },
+                  {
+                    "option": "BUDGET_MODE_DAY"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 1,
+      "position": [
+        -360,
+        -980
+      ],
+      "id": "753a3b51-51ae-4a47-ab21-0c96464ab749",
+      "name": "Campaign Level Config Input Insertion",
+      "webhookId": "01689105-2af8-4414-ba72-a6b1f44ac16b",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=1. Today Date: {{ $json.today_Date }}\n2. Current Month: {{ $json.month }}\n3. Client Name: {{ $json.client_name }}\n4. Campaign Objective: {{ $json.campaign_objective }}\n5. Campaign Description: {{ $json.campaign_description }}"
+            },
+            {
+              "content": "=# Role\nYou are a social media ads campaign specialist who managing multiple clients and clients social media ads accounts to assist then to setup and run the ads campaigns including TikTok Ads and Meta (Facebook & Instagram) Ads.\n\n# Task\nYou are tasked to assist me to generate a naming convention to lable as campaign name as the initial step before going to setup campaign level configuration.\n\n# Output\nThe format of the campaign name should be refer like this:\n- `{{ $json.today_Date }}[{{ $json.month }}] - {{ $json.client_name.replace(\" \",\"\") }} - {CAMPAIGN_DESCRIPTION} -{{ $json.campaign_objective.replace(\"_\",\"\") }}`\n- For the placeholder `{CAMPAIGN_DESCRIPTION}` make sure that should come out in short, brief and relevant to the given actual Campaign Description: {{ $json.campaign_description }} with ideal maximum character up to 20 character counts.\n- For {{ $json.campaign_objective.replace(\"_\",\"\") }} can be rename in short form. For example, \"LEADGENERATION\" can be in renaming as LEADGEN.\n- The output generated should be only formatted campaign name without any other irrelevant information or explanation.\n",
+              "role": "system"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        180,
+        0
+      ],
+      "id": "d86b5254-7b47-43be-9e09-b4a42bd2beb6",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formTitle": "TikTok Ads Campaign Level Configuration Details Insertion",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Advertiser Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Creo creative0506"
+                  },
+                  {
+                    "option": "Creo Creative TT Ad Account"
+                  },
+                  {
+                    "option": "Impianjayaa Wellness International San Bhd"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Advertiser ID",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "7501287363512303632"
+                  },
+                  {
+                    "option": "7501275877792219137"
+                  },
+                  {
+                    "option": "7485928730544619521"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Client Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Sementra Resort"
+                  },
+                  {
+                    "option": "LaaLaa"
+                  },
+                  {
+                    "option": "KPJ Ipoh Specialist"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Objective Type",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "REACH"
+                  },
+                  {
+                    "option": "TRAFFIC"
+                  },
+                  {
+                    "option": "VIDEO_VIEWS"
+                  },
+                  {
+                    "option": "LEAD_GENERATION"
+                  },
+                  {
+                    "option": "ENGAGEMENT"
+                  },
+                  {
+                    "option": "APP_PROMOTION"
+                  },
+                  {
+                    "option": "WEB_CONVERSIONS"
+                  },
+                  {
+                    "option": "PRODUCT_SALES"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Campaign Level Budget",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Enabled"
+                  },
+                  {
+                    "option": "Disabled"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Campaign Budget Mode (Select This If Enabled CBO)",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "BUDGET_MODE_INFINITE"
+                  },
+                  {
+                    "option": "BUDGET_MODE_DYNAMIC_DAILY_BUDGET"
+                  },
+                  {
+                    "option": "BUDGET_MODE_DAY"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Budget Mode (Select This If CBO Disabled)",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "BUDGET_MODE_TOTAL"
+                  },
+                  {
+                    "option": "BUDGET_MODE_INFINITE"
+                  },
+                  {
+                    "option": "BUDGET_MODE_DAY"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Budget",
+              "fieldType": "number"
+            },
+            {
+              "fieldLabel": "Campaign Description"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -340,
+        0
+      ],
+      "id": "3e2fa9fa-c227-4d54-9037-84472544b5ce",
+      "name": "Campaign Level Config Input Insertion1",
+      "webhookId": "0e4bc75b-7a3a-4db2-8485-74aae9088cbb"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTimeTool",
+      "typeVersion": 2,
+      "position": [
+        200,
+        160
+      ],
+      "id": "9e3eef0d-eaf6-4489-bf0f-2b55ed49d053",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e82a7190-7355-45d3-b7c0-8493f30c88e1",
+              "name": "today_Date",
+              "value": "={{ $now.format('yyyyMMdd') }}",
+              "type": "string"
+            },
+            {
+              "id": "6352b444-2b2f-4171-9d89-65ce26c615bd",
+              "name": "month",
+              "value": "={{ $now.format('LLLLyy') }}",
+              "type": "string"
+            },
+            {
+              "id": "d9519419-1a5f-46a7-8f6c-3b2ca47caf3d",
+              "name": "client_name",
+              "value": "={{ $json['Client Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "88fc7baa-174c-4331-b46c-bc00f0f47ab7",
+              "name": "campaign_objective",
+              "value": "={{ $json['Objective Type'] }}",
+              "type": "string"
+            },
+            {
+              "id": "0cdc5409-2717-4600-83ee-ab4ef32cb46a",
+              "name": "campaign_description",
+              "value": "={{ $json['Campaign Description'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -80,
+        0
+      ],
+      "id": "9c11859c-db03-4e3f-b1a4-a4b394138c9b",
+      "name": "Extract Client Name To Generate Campaign Name"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "156e0795-d89a-4e66-9530-1866a6f3eacb",
+              "name": "advertiser_id",
+              "value": "={{ $('Campaign Level Config Input Insertion1').first().json['Advertiser ID'] }}",
+              "type": "string"
+            },
+            {
+              "id": "9b4de816-5b16-4a04-832e-da380d908110",
+              "name": "objective_type",
+              "value": "={{ $('Campaign Level Config Input Insertion1').first().json['Objective Type'] }}",
+              "type": "string"
+            },
+            {
+              "id": "38ec4e50-1c28-4419-81ab-0873478f9288",
+              "name": "campaign_name",
+              "value": "={{ $json.message.content }}",
+              "type": "string"
+            },
+            {
+              "id": "f3de8518-6900-41bd-81c3-45443a74fe63",
+              "name": "budget_mode",
+              "value": "={{ $('Campaign Level Config Input Insertion1').first().json['Budget Mode (Select This If CBO Disabled)'] }}",
+              "type": "string"
+            },
+            {
+              "id": "eeb9d903-3bf5-408d-ad7c-555207e77e0e",
+              "name": "budget",
+              "value": "={{ $('Campaign Level Config Input Insertion1').first().json.Budget }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        540,
+        0
+      ],
+      "id": "be389bcf-b9fb-4fb0-80e5-f283f07d601b",
+      "name": "SET Camapign Config Input"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Campaign Level Config Input Insertion1').first().json['Campaign Level Budget'] }}",
+                    "rightValue": "Enabled",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "3277cb98-a18a-46e2-a316-6c8a9d440758"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "CBO"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "63d1ac35-1f9a-4811-ae24-9dbf65d494d1",
+                    "leftValue": "={{ $('Campaign Level Config Input Insertion1').first().json['Campaign Level Budget'] }}",
+                    "rightValue": "Disabled",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Non-CBO"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        760,
+        0
+      ],
+      "id": "d03566e1-3178-492d-a66b-9ea33cf95a3b",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://business-api.tiktok.com/open_api/v1.3/campaign/create",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n   \"advertiser_id\": {{ JSON.stringify($json.advertiser_id) }},\n   \"objective_type\": {{ JSON.stringify($json.objective_type) }},\n   \"campaign_name\": {{ JSON.stringify($json.campaign_name) }},\n   \"budget_mode\": {{ JSON.stringify($json.budget_mode) }},\n   \"budget\": {{ JSON.stringify($json.budget) }}\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1160,
+        120
+      ],
+      "id": "b25027c4-3785-419e-b013-a7ac99fc08c5",
+      "name": "HTTP Request1",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "PLDeYo4fV49jWYGo",
+          "name": "TTApp HeaderAuth"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1536791c-2cdd-4107-9665-c7906e63f133",
+              "name": "advertiser_id",
+              "value": "={{ $('SET Camapign Config Input').first().json.advertiser_id }}",
+              "type": "string"
+            },
+            {
+              "id": "c6976a69-4277-4563-acc9-4b6411a75b8e",
+              "name": "campaign_id",
+              "value": "={{ $json.data.campaign_id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1400,
+        120
+      ],
+      "id": "2fcc7f33-0a87-4a46-b9d9-2cfdfd419152",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://business-api.tiktok.com/open_api/v1.3/adgroup/create",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Access-Token",
+              "value": "{{Access-Token}}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "{\n    \"advertiser_id\": \"{{advertiser_id}}\",\n    \"campaign_id\": \"{{campaign_id}}\",\n    \"adgroup_name\": \"{{adgroup_name}}\",\n    \"promotion_type\": \"WEBSITE\",\n    \"placement_type\": \"PLACEMENT_TYPE_NORMAL\",\n    \"placements\": [\"PLACEMENT_TIKTOK\"],\n    \"video_download_disabled\": false,\n    \"location_ids\": [\"{{location_id}}\"],\n    \"gender\": \"GENDER_UNLIMITED\",\n    \"operating_systems\": [\"ANDROID\"],\n    \"budget_mode\": \"BUDGET_MODE_TOTAL\",\n    \"budget\": {{budget}},\n    \"schedule_type\": \"SCHEDULE_START_END\",\n    \"schedule_end_time\": \"{{schedule_end_time}}\",\n    \"schedule_start_time\": \"{{schedule_start_time}}\",\n    \"optimization_goal\": \"CLICK\",\n    \"bid_type\": \"BID_TYPE_NO_BID\",\n    \"billing_event\": \"CPC\",\n    \"pacing\": \"PACING_MODE_SMOOTH\",\n      \"operation_status\": \"ENABLE\"\n}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2020,
+        120
+      ],
+      "id": "8863e82b-c682-40ee-bc26-e0912382af65",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Promotion Type",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "WEBSITE"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Placement Type",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "PLACEMENT_TYPE_AUTOMATIC"
+                  },
+                  {
+                    "option": "PLACEMENT_TYPE_NORMAL"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Placements (Set Only If Select Normal Placement Type)",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "PLACEMENT_TIKTOK"
+                  },
+                  {
+                    "option": "PLACEMENT_PANGLE"
+                  },
+                  {
+                    "option": "PLACEMENT_GLOBAL_APP_BUNDLE"
+                  }
+                ]
+              },
+              "multiselect": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 1,
+      "position": [
+        1660,
+        120
+      ],
+      "id": "0db760ac-0db6-4d2b-8397-9cee8d97b676",
+      "name": "Form",
+      "webhookId": "974b60d7-7325-4f3d-865a-5ff2079fda77"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://business-api.tiktok.com/open_api/v1.3/tool/targeting/search",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Access-Token",
+              "value": " {{Access-Token}}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"advertiser_id\": \"{{advertiser_id}}\",\n  \"objective_type\": \"{{objective_type}}\",\n  \"placements\": [\n    \"PLACEMENT_TIKTOK\"\n  ],\n  \"promotion_type\": \"{{promotion_type}}\",\n  \"search_type\": \"FUZZY_SEARCH\",\n  \"keywords\": [\n    \"A0A\"\n  ],\n  \"region_codes\": [\n    \"CA\"\n  ]\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        20,
+        -380
+      ],
+      "id": "8ab3eb1d-1ff1-457c-8104-51a0b080c8c7",
+      "name": "HTTP Request3"
+    },
+    {
+      "parameters": {
+        "path": "3b1a74fe-e991-4ed5-9ad8-1f2da80f77ae",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -340,
+        -380
+      ],
+      "id": "08178ec2-30d5-40f2-8934-f104b139abac",
+      "name": "Webhook",
+      "webhookId": "3b1a74fe-e991-4ed5-9ad8-1f2da80f77ae"
+    }
+  ],
+  "connections": {
+    "Campaign Level Config Input Insertion": {
+      "main": [
+        []
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "SET Camapign Config Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Campaign Level Config Input Insertion1": {
+      "main": [
+        [
+          {
+            "node": "Extract Client Name To Generate Campaign Name",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "ai_tool": [
+        [
+          {
+            "node": "Message a model",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Client Name To Generate Campaign Name": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SET Camapign Config Input": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Form": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        []
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Campaign Level Config Input Insertion1": [
+      {
+        "json": {
+          "Advertiser Name": "Creo Creative TT Ad Account",
+          "Advertiser ID": "7501275877792219137",
+          "Client Name": "Sementra Resort",
+          "Objective Type": "LEAD_GENERATION",
+          "Campaign Level Budget": "Disabled",
+          "Campaign Budget Mode (Select This If Enabled CBO)": "",
+          "Budget Mode (Select This If CBO Disabled)": "BUDGET_MODE_DAY",
+          "Budget": 60,
+          "Campaign Description": "To promote team building promo packages",
+          "submittedAt": "2025-07-04T15:33:06.770+08:00",
+          "formMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "fd9a219c-46a6-4472-a0e1-c4d56415306a",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-07-04T05:14:13.742Z",
+      "createdAt": "2025-07-04T05:14:13.742Z",
+      "role": "workflow:owner",
+      "workflowId": "uR3SuyxHN6kHjPwa",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2025-07-04T05:14:23.841Z",
+      "createdAt": "2025-07-04T05:14:23.841Z",
+      "id": "GhsmEJPnZBiNfBPI",
+      "name": "TikTok Ads"
+    },
+    {
+      "updatedAt": "2025-07-04T05:14:36.984Z",
+      "createdAt": "2025-07-04T05:14:36.984Z",
+      "id": "SH2VsVJXVHPKM0rq",
+      "name": "TikTok Ads Campaign Setu"
+    }
+  ]
+}
