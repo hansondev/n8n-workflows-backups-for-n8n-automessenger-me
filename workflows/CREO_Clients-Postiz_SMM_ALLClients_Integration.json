@@ -1,0 +1,352 @@
+{
+  "updatedAt": "2025-07-18T04:46:18.000Z",
+  "createdAt": "2025-07-18T04:17:51.305Z",
+  "id": "jHka4RY8GlBVmveZ",
+  "name": "CREO_Clients-Postiz_SMM_ALLClients_Integration",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "CREO Clients Postiz SMM Integration Profile Finder",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Get All Integration Endpoints",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "https://postiz-1.automessenger.me/api/public/v1/integrations"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -560,
+        -48
+      ],
+      "id": "d8ba27e0-b764-4db7-a407-1a7e366a12b5",
+      "name": "On form submission",
+      "webhookId": "47592cd2-a8f3-4078-adf2-c9d627d27e11"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        -320
+      ],
+      "id": "175db55f-5ec2-4a00-9326-703dd3900b0f",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.getAllIntergrations || $json['Get All Integration Endpoints']  }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -176,
+        -160
+      ],
+      "id": "b1934f1d-6b8a-42fa-b3e4-110ee45d7591",
+      "name": "Get All Postiz Integrations",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "DzijKDzGmSsenvJe",
+          "name": "HeaderAuth-Postiz.automessenger.me"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "plwh2zl12uptqlq",
+        "table": "mix2on5xtts8y7t",
+        "returnAll": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        256,
+        -160
+      ],
+      "id": "de1c5a3e-509e-4043-a993-454b4188becc",
+      "name": "Get many rows",
+      "alwaysOutputData": true,
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "300c7548-03c1-4b6f-81f0-bedf569cf2da",
+              "leftValue": "={{ $json[\"Integration Id\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notExists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        480,
+        -160
+      ],
+      "id": "9224de8f-9959-424e-b99f-c1b101a96119",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "create",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "plwh2zl12uptqlq",
+        "table": "mix2on5xtts8y7t",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Integration Id",
+              "fieldValue": "={{ $json.id }}"
+            },
+            {
+              "fieldName": "Integration Name",
+              "fieldValue": "={{ $json.name }}"
+            },
+            {
+              "fieldName": "Identifier",
+              "fieldValue": "={{ $json.identifier }}"
+            },
+            {
+              "fieldName": "Profile Name",
+              "fieldValue": "={{ $json.profile }}"
+            },
+            {
+              "fieldName": "Profile Picture",
+              "fieldValue": "={{ $json.picture }}"
+            },
+            {
+              "fieldName": "Create/Update Date",
+              "fieldValue": "={{ $now.format('yyyy-MM-dd') }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        896,
+        -288
+      ],
+      "id": "64306f61-45a3-460d-833b-3dc51fca452e",
+      "name": "Create a row",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $('On form submission').item.json['Get All Integration Endpoints'] }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        704,
+        -288
+      ],
+      "id": "5269a33b-7134-474e-9e42-a788319a29b9",
+      "name": "Get All Postiz Integrations1",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "DzijKDzGmSsenvJe",
+          "name": "HeaderAuth-Postiz.automessenger.me"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        32,
+        -160
+      ],
+      "id": "d6fc6bcb-e829-4522-b8f6-11f87077077a",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        688,
+        -64
+      ],
+      "id": "8c370e96-bbae-489b-a004-6289b20e01e9",
+      "name": "No Operation, do nothing"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get All Postiz Integrations",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Get All Postiz Integrations",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get All Postiz Integrations": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Get All Postiz Integrations1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get All Postiz Integrations1": {
+      "main": [
+        [
+          {
+            "node": "Create a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a row": {
+      "main": [
+        []
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Get many rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "When clicking ‘Execute workflow’": [
+      {
+        "json": {
+          "getAllIntergrations": "https://postiz-1.automessenger.me/api/public/v1/integrations",
+          "uploadFile": "https://postiz-1.automessenger.me/api/public/v1/upload",
+          "createNewPost": "https://postiz-1.automessenger.me/api/public/v1/posts"
+        }
+      }
+    ]
+  },
+  "versionId": "26816e87-b7d1-45e3-afc6-2261ff54fc81",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-07-18T04:17:51.312Z",
+      "createdAt": "2025-07-18T04:17:51.312Z",
+      "role": "workflow:owner",
+      "workflowId": "jHka4RY8GlBVmveZ",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
