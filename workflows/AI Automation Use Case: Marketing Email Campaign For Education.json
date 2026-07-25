@@ -1,0 +1,530 @@
+{
+  "updatedAt": "2025-02-19T11:53:19.000Z",
+  "createdAt": "2024-10-11T01:19:37.044Z",
+  "id": "CtAcwfF98PRb2Vak",
+  "name": "AI Automation Use Case: Marketing Email Campaign For Education",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "model": "gpt-4o-mini-2024-07-18",
+        "options": {
+          "maxTokens": 16384,
+          "temperature": 0
+        }
+      },
+      "id": "e50b47f3-9ab7-41ee-bc17-76b4060e2f6a",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        1880,
+        680
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "dm-interview-assignment-cipt-course",
+        "formTitle": "CIPT Course Landing Page Scraping",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "course_url"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8322d35f-3815-4133-aa7e-c69cbb61c743",
+      "name": "n8n Form Trigger",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.1,
+      "position": [
+        460,
+        480
+      ],
+      "webhookId": "5afdb429-f5c0-4d74-9841-9061d89f6dc5"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "785ee06f-04a6-4563-ad54-04001d9d9942",
+              "name": "course_url",
+              "value": "={{ $json.course_url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2f547285-d130-4f72-9e86-1234507fd16d",
+      "name": "Course URL To Scrape",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        740,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.course_url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "content-type",
+              "value": "text/html"
+            }
+          ]
+        },
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 10000
+            }
+          },
+          "allowUnauthorizedCerts": true,
+          "timeout": 20000
+        }
+      },
+      "id": "1c25b5c9-2efd-4f73-a722-9ca2fc54640c",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1080,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "cfb8ed2d-23d5-454e-ae43-853c7efc04a7",
+      "name": "Auto-fixing Output Parser",
+      "type": "@n8n/n8n-nodes-langchain.outputParserAutofixing",
+      "typeVersion": 1,
+      "position": [
+        2280,
+        700
+      ]
+    },
+    {
+      "parameters": {
+        "options": {
+          "temperature": 0
+        }
+      },
+      "id": "d8bf3e3f-a6a4-4ea4-aaa1-9c9fc534f7a6",
+      "name": "OpenAI Chat Model1",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        2260,
+        860
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"course_headline\": {\n      \"type\": \"string\",\n      \"description\": \"The email headline to showcase the course\"\n    },\n    \"course_introduction\": {\n      \"type\": \"string\",\n      \"description\": \"The introduction of the course that had launched\"\n    },\n    \"course_description\": {\n      \"type\": \"string\",\n      \"description\": \"The description of the course that had launched\"\n    },\n    \"course_features\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"feature_headline\": {\n            \"type\": \"string\",\n            \"description\": \"The course headline features about the course\"\n          },\n          \"feature_description\": {\n            \"type\": \"string\",\n            \"description\": \"The course description features about the course\"\n          }\n        },\n        \"required\": [\"course_features\"],\n        \"additionalProperties\": false        \n      }\n    },\n    \"course_expectations\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"expectation\": {\n            \"type\": \"string\",\n            \"description\": \"The expectations that will offering after completed the course\"\n          }\n        },\n        \"required\": [\n          \"course_expectations\"\n        ],\n        \"additionalProperties\": false\n      }\n    },\n    \"course_modules\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"module\": {\n            \"type\": \"string\",\n            \"description\": \"The module that will offering on the course\"\n          }\n        },\n        \"required\": [\n          \"course_modules\"\n        ],\n        \"additionalProperties\": false\n      }\n    },\n    \"course_testimonials\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"testimonial\": {\n            \"type\": \"string\",\n            \"description\": \"The testimonials had received from the students who completed the course\"\n          },\n          \"student_name\":{\n            \"type\": \"string\",\n            \"description\": \"The name of the student who delivered the testimonials about the course\"\n          }\n        },\n        \"required\": [\n          \"course_testimonials\"\n        ],\n        \"additionalProperties\": false\n      }\n    },\n    \"call_to_action\": {\n      \"type\": \"string\",\n      \"description\": \"The call-to-action to get the potential student to enroll the course\"\n    }\n  }\n}"
+      },
+      "id": "f9dcb013-b251-4c85-8d37-3fda299e7e91",
+      "name": "Structured Output Parser",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        2420,
+        860
+      ]
+    },
+    {
+      "parameters": {
+        "html": "={{ $json.data }}"
+      },
+      "id": "d45421db-3c81-45ff-8a3f-00478f61b1a7",
+      "name": "WebpageContentExtractor",
+      "type": "n8n-nodes-webpage-content-extractor.WebpageContentExtractor",
+      "typeVersion": 1,
+      "position": [
+        1440,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec064b51-26a7-49fc-b99c-39633723bd36",
+              "name": "course_content",
+              "value": "={{ $json.textContent.trimStart().trimEnd().trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "387284dc-75de-4e99-a64f-2db51c504896",
+              "name": "course_title",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "ffeaa1b6-463d-43d8-8dda-59f3c5ea3779",
+              "name": "organization_name",
+              "value": "Chartered Institute of Professional Certifications",
+              "type": "string"
+            },
+            {
+              "id": "f0bf2814-655d-4535-ae67-839f39277fe6",
+              "name": "target_skills",
+              "value": "Impact Assessment, Environmental Risk Mitigation, Impact Evaluation Process, Environmental Risk Assessment and, Environmental Management Systems",
+              "type": "string"
+            },
+            {
+              "id": "56408974-332c-40e7-94eb-018e8a4584b3",
+              "name": "landing_page_url",
+              "value": "={{ $('Course URL To Scrape').item.json.course_url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "bd94251a-1e45-4248-b8cf-2ab7198fd1c4",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1700,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "name": "cipc_course_modules_extraction",
+        "description": "Call this tool to extract a list of course modules from the given landing page url",
+        "workflowId": {
+          "__rl": true,
+          "value": "9t0dg7DOK2PNcZco",
+          "mode": "list",
+          "cachedResultName": "AI Custom Tool Workflow: cipc_course_module_accordion_extraction"
+        }
+      },
+      "id": "a4156ffc-1c12-45a4-bf9f-a0473834c7d1",
+      "name": "cipc_course_modules_extraction",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        2120,
+        700
+      ]
+    },
+    {
+      "parameters": {
+        "html": "<!DOCTYPE html>\n<html xmlns=\"http://www.w3.org/1999/xhtml\" class=\"crsa-selected\">\n    <head>\n        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n        <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n        <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n        <title>{{ $('Edit Fields').item.json.course_title }}</title>\n        <style type=\"text/css\">.row {\n        width: 100%;\n}\n      .column {\n        float: left;\n        -webkit-box-sizing: border-box;\n        -moz-box-sizing: border-box;\n        box-sizing: border-box;\n}\n      .divider {\n        height: 1px;\n        display: block;\n        margin: 10px 0;\n}\n      h1 {\n        color: #720707;\n}\n      a {\n        text-decoration: none;\n}\n      .container-content {\n        text-align: center;\n        border-left: 1px solid #e1e1e1;\n        border-right: 1px solid #e1e1e1;\n}\n      .btn {\n        padding: 10px 20px;\n        margin: 10px 0;\n        display: inline-block;\n        font-size: 22px;\n        border-radius: 3px;\n}\n      .btn-dark-red {\n        background-color: #871b1b;\n        color: white;\n}</style>\n        <link href=\"css/theme.css\" rel=\"stylesheet\" type=\"text/css\">\n    </head>\n    <body style=\"margin:0;padding:0;\">\n        <table cellpadding=\"0\" cellspacing=\"0\" width=\"100%\" class=\"row-container\">\n            <tbody>\n                <tr bgcolor=\"#efefef\">\n                    <td width=\"600\" class=\"\">\n                        <table align=\"center\" cellpadding=\"0\" cellspacing=\"0\" width=\"600\" class=\"container-content\">\n                            <tbody align>\n                                <tr bgcolor=\"#ffffff\" align>\n                                    <td class=\"\" align style=\"padding: 0 10px;\">\n                                        <table cellpadding=\"0\" cellspacing=\"0\" class=\"container\" align>\n                                            <tbody>\n                                                <tr width=\"100%\" class=\"row\">\n                                                    <td class=\"column\" width=\"100%\" style=\"display: flex; flex-direction: row; justify-content: center;\">\n                                                        <img src=\"https://i.postimg.cc/SsFHW4zZ/charted-institute-ceia-certification-email-banner-demo-1.png\" style=\"max-width: 640px; max-height: 250px; position: static; display: flex; vertical-align: middle; align-items: center; flex-direction: row;\">\n                                                    </td>\n                                                </tr>\n                                                <tr width=\"100%\" class=\"row\" padding=\"0.2rem\">\n                                                    <td align style=\"background: #e31121;\"> <h1 align style=\"color: #ffffff;\">{{ $('Text Paragraph Splits').item.json.email_headline }}</h1> </td>\n                                                </tr>\n                                                <tr width=\"100%\" bgcolor=\"gray\" align=\"center\" class=\"divider\">\n                                                    <td></td>\n                                                </tr>\n                                                <tr width=\"100%\" class=\"row\" id=\"course-introduce\">\n                                                    <td class=\"column\" width=\"100%\" align=\"left\"> <h2>Introduction</h2>{{ $json.intro_paragraph_html_wrapped }}<h2>Description</h2>{{ $json.desc_paragraph_html_wrapped }} </td>\n                                                </tr>\n                                                <tr width=\"100%\" class=\"row\" id=\"course-feature\">\n                                                    <td class=\"column\" width=\"100%\" align=\"center\"><h2>Course Features</h2></td>\n                                                    <td class=\"column\" width=\"58.33333333%\"> <p>Integer luctus eros vel egestas viverra. Quisque congue urna efficitur enim porttitor aliquet. Vestibulum dolor est, placerat vitae dignissim eget, vehicula porta eros. Fusce vel hendrerit risus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p> </td>\n                                                    <td class=\"column\" width=\"41.66666667%\">\n                                                        <img src=\"http://oi57.tinypic.com/3d8vq.jpg\" width=\"100%\"/>\n                                                    </td>\n                                                </tr>\n                                                <tr width=\"100%\" class=\"row\">\n                                                    <td class=\"column\" width=\"41.66666667%\">\n                                                        <img src=\"http://oi57.tinypic.com/3d8vq.jpg\" width=\"100%\"/>\n                                                    </td>\n                                                    <td class=\"column\" width=\"58.33333333%\"> <p>Integer luctus eros vel egestas viverra. Quisque congue urna efficitur enim porttitor aliquet. Vestibulum dolor est, placerat vitae dignissim eget, vehicula porta eros. Fusce vel hendrerit risus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p> </td>\n                                                </tr>\n                                                <tr width=\"100%\" class=\"row\">\n                                                    <td class=\"column\" width=\"58.33333333%\"> <p>Integer luctus eros vel egestas viverra. Quisque congue urna efficitur enim porttitor aliquet. Vestibulum dolor est, placerat vitae dignissim eget, vehicula porta eros. Fusce vel hendrerit risus. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p> </td>\n                                                    <td class=\"column\" width=\"41.66666667%\">\n                                                        <img src=\"http://oi57.tinypic.com/3d8vq.jpg\" width=\"100%\"/>\n                                                    </td>\n                                                </tr>\n                                                <tr width=\"100%\" class=\"row\">\n</tr>\n                                                <tr width=\"100%\" bgcolor=\"gray\" align=\"center\" class=\"divider\">\n                                                    <td></td>\n                                                </tr>\n                                                <tr width=\"100%\" class=\"row\">\n                                                    <td class=\"column\" width=\"50%\"> <h3>Keep in touch</h3> </td>\n                                                    <td class=\"column\" width=\"50%\"> <a href=\"#\"> <svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 512 512\" style=\"width: 30px;\">\n                                                                <!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->\n                                                                <path fill=\"#74C0FC\" d=\"M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5V334.2H141.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287V510.1C413.8 494.8 512 386.9 512 256h0z\"/>\n                                                            </svg> </a> <a href=\"#\"> <img src=\"https://d2q0qd5iz04n9u.cloudfront.net/_ssl/proxy.php/http/cdn-images.mailchimp.com/icons/social-block-v2/color-twitter-96.png\" width=\"50px\" style=\"padding: 0px 10px 0px 10px\"> </a> <a href=\"#\"> <img src=\"https://d2q0qd5iz04n9u.cloudfront.net/_ssl/proxy.php/http/cdn-images.mailchimp.com/icons/social-block-v2/color-link-96.png\" width=\"50px\" style=\"padding: 0px 10px 0px 10px\"> </a> </td>\n                                                </tr>\n                                            </tbody>\n                                        </table>\n                                    </td>\n                                </tr>\n                                <tr width=\"100%\" class=\"row\" align=\"left\" bgcolor=\"#e1e1e1\" style=\"background: #e31121;\">\n                                    <td class=\"column\" width=\"75%\" style=\"padding: 0 10px;\"> <p>Contact me if you find any problem <a href=\"mailto:contact@mhdaljuboori.me\">contact@mhdaljuboori.me</a></p> </td>\n                                    <td class=\"column\" width=\"25%\"> <p><a href=\"mailto:contact@mhdaljuboori.me\">mhdaljuboori.me</a></p> </td>\n                                </tr>\n                            </tbody>\n                        </table>\n                    </td>\n                </tr>\n            </tbody>\n        </table>\n    </body>\n</html>"
+      },
+      "id": "f9225d72-b345-49fb-9d87-c9bb50c62bd5",
+      "name": "HTML",
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        2900,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Generate an email marketing copywriting for this course information below:\n1. Course Title:{{ $json.course_title }}\n2. Course Details:{{ $json.course_content.replaceAll(\"[^]+\", \"\").replaceAll(\"[/\\n/\\n]+\", \"\") }}\n3. Certified By: {{ $json.organization_name }}\n4. Actual Course Landing Page URL: {{ $json.landing_page_url }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are a professional email marketer who specialized on education courses or programs for professional career development.\n\nYou are requested to create an email content based on the course that your education organization named, {{ $json.organization_name }} would like to promote a new course to those professions who are looking for the professional course or program to enhance the skillsets.The professions are looking for enrollment who have the skillsets such as: {{ $json.target_skills }}\n\nYou are required to follow the key properties below in order to generate the proper email content structure in unified JSON format:\n1. course_title\n2. course_introduction\n3. course_description\n4. course_features\n5. course_expectations\n6. course_modules\n7. course_testimonials\n8. call_to_action\n\nFor course_modules JSON key property, you have to access cipc course modules extraction tool in order to get the course module list. \n\nFor course_introduction and course_description, each of this key property must be write at least three paragraphs with two sentences for each paragraph.\n\nLastly, do NOT generate the plain text format, you must be output the content in JSON structure that had specified above.\n\n",
+          "maxIterations": 10
+        }
+      },
+      "id": "39d80777-d9f3-455c-8175-86ec70a30ab6",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        2020,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6fa28c08-d58c-475e-98e1-365739a964a6",
+              "name": "email_headline",
+              "value": "={{ $json.output.course_headline }}",
+              "type": "string"
+            },
+            {
+              "id": "40c629bd-9e06-4cd2-8be9-edf10346c220",
+              "name": "introduction_arr",
+              "value": "={{$json.output.course_introduction.split(\".\").toSpliced(2) }}",
+              "type": "array"
+            },
+            {
+              "id": "94019baa-8243-412e-b303-1fd60ec7cf30",
+              "name": "description_arr",
+              "value": "={{ $json.output.course_description.split(\".\").toSpliced(2) }}",
+              "type": "array"
+            },
+            {
+              "id": "dfa28567-ac97-4ce5-950e-4f8f8667443c",
+              "name": "features_arr",
+              "value": "={{ $json.output.course_features }}",
+              "type": "array"
+            },
+            {
+              "id": "4c1937ec-56ea-4bff-9c47-77fe62de8de0",
+              "name": "expectations",
+              "value": "={{ $json.output.course_expectations }}",
+              "type": "array"
+            },
+            {
+              "id": "33fda13e-361c-4cbd-a665-1b6f1dd288b9",
+              "name": "modules",
+              "value": "={{ $json.output.course_modules }}",
+              "type": "array"
+            },
+            {
+              "id": "b740c84c-b9e1-4ab2-8fd2-8f201e447ae4",
+              "name": "testimonials",
+              "value": "={{ $json.output.course_testimonials }}",
+              "type": "array"
+            },
+            {
+              "id": "ef834e60-ff8a-428b-bc20-39990b502339",
+              "name": "call_to_action",
+              "value": "={{ $json.output.call_to_action }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7819ce01-970b-47c1-85b2-29179aa6d040",
+      "name": "Text Paragraph Splits",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2400,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7133ad73-4edc-4a8a-81c9-46e34c21e544",
+              "name": "intro_paragraph_html_wrapped",
+              "value": "=<p>{{ $json.introduction_arr[0] }}</p></br><p>{{ $json.introduction_arr[1] }}</p>",
+              "type": "string"
+            },
+            {
+              "id": "2416c4b4-d6d8-4d0b-9362-7e12bf805283",
+              "name": "desc_paragraph_html_wrapped",
+              "value": "=<p>{{ $json.description_arr[0] }}</p></br><p>{{ $json.description_arr[1] }}</p>",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "eb570719-6bc6-40f2-baa2-8baf30c5f3c5",
+      "name": "Edit Fields1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2660,
+        480
+      ]
+    }
+  ],
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "n8n Form Trigger": {
+      "main": [
+        [
+          {
+            "node": "Course URL To Scrape",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Course URL To Scrape": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "WebpageContentExtractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Auto-fixing Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Auto-fixing Output Parser",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Auto-fixing Output Parser",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WebpageContentExtractor": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cipc_course_modules_extraction": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Text Paragraph Splits",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text Paragraph Splits": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "034e8e07-a837-432e-9b5f-02907ea8423d",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-10-11T01:19:37.049Z",
+      "createdAt": "2024-10-11T01:19:37.049Z",
+      "role": "workflow:owner",
+      "workflowId": "CtAcwfF98PRb2Vak",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
