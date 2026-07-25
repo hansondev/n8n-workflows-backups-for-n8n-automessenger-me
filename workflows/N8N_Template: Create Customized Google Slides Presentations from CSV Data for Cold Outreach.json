@@ -1,0 +1,831 @@
+{
+  "updatedAt": "2025-07-27T04:23:23.000Z",
+  "createdAt": "2025-05-14T04:34:37.588Z",
+  "id": "w24kvlEoqG7L8sIL",
+  "name": "N8N_Template: Create Customized Google Slides Presentations from CSV Data for Cold Outreach",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $json.id }}"
+        },
+        "options": {}
+      },
+      "id": "fb38498c-4c81-4b32-8c0b-570c56b0b664",
+      "name": "Download by ID",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        -200,
+        360
+      ],
+      "typeVersion": 3
+    },
+    {
+      "parameters": {
+        "operation": "move",
+        "fileId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $('Create new Sheet').first().json.spreadsheetId }}"
+        },
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "=1-oMQTyijYXNmt-Dwh748JFjlDZVCu6ii"
+        }
+      },
+      "id": "dd762ce8-3670-4420-9485-4cff2a16f895",
+      "name": "MoveToLeadListFolder",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        1140,
+        360
+      ],
+      "typeVersion": 3
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $('Create new Sheet').first().json.spreadsheetId }}"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $('Create new Sheet').first().json.sheets[0].properties.sheetId }}"
+        },
+        "columns": {
+          "value": {
+            "Email": "={{ $('Get all Leads').item.json.Email }}",
+            "PresentationID": "={{ $json.presentationId }}"
+          },
+          "schema": [
+            {
+              "id": "First Name",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "displayName": "First Name",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Last Name",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "displayName": "Last Name",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Full Name",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "displayName": "Full Name",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Title",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "displayName": "Title",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "Email",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Company",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "displayName": "Company",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Contact Location",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "displayName": "Contact Location",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Employees",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "displayName": "Employees",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Phone",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "displayName": "Phone",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Industry",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "displayName": "Industry",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Country",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "displayName": "Country",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "State",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "displayName": "State",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "City",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "displayName": "City",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "PresentationID",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "PresentationID",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Keywords",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "displayName": "Keywords",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "readOnly": true,
+              "required": false,
+              "displayName": "row_number",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            }
+          ],
+          "mappingMode": "defineBelow",
+          "matchingColumns": [
+            "Email"
+          ]
+        },
+        "options": {}
+      },
+      "id": "f1d565dc-76ba-4af4-97d7-a2c58308ac89",
+      "name": "Add Presentation ID to Lead List",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        1820,
+        360
+      ],
+      "typeVersion": 4.5
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $('Create new Sheet').first().json.spreadsheetId }}"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $('Create new Sheet').first().json.sheets[0].properties.sheetId }}"
+        },
+        "options": {}
+      },
+      "id": "2229ea3b-0dbf-4f57-a95b-f0fc5aa89784",
+      "name": "Get all Leads",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        920,
+        360
+      ],
+      "executeOnce": true,
+      "typeVersion": 4.5
+    },
+    {
+      "parameters": {
+        "resource": "spreadsheet",
+        "title": "=Leads_{{ $now.setZone('Europe/Berlin').toFormat('yyyy-dd-MM') }}",
+        "sheetsUi": {
+          "sheetValues": [
+            {
+              "title": "sample_data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "95f5ce88-62f4-4b70-bdd8-d1b60009090f",
+      "name": "Create new Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        80,
+        240
+      ],
+      "typeVersion": 4.5
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $('Create new Sheet').first().json.spreadsheetId }}"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $('Create new Sheet').first().json.sheets[0].properties.sheetId }}"
+        },
+        "columns": {
+          "value": {},
+          "schema": [
+            {
+              "id": "First Name",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "First Name",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Last Name",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "Last Name",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Full Name",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "Full Name",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Title",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "Title",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "Email",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Company",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "Company",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Contact Location",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "Contact Location",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Employees",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "Employees",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Phone",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "Phone",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Industry",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "Industry",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Country",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "Country",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "State",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "State",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "City",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "City",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Keywords",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "Keywords",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            }
+          ],
+          "mappingMode": "autoMapInputData",
+          "matchingColumns": []
+        },
+        "options": {
+          "useAppend": true
+        }
+      },
+      "id": "6f786fa5-3952-4d27-86e5-4ab4bb779599",
+      "name": "Merge Data for new Lead Document",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        660,
+        360
+      ],
+      "typeVersion": 4.5
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "mode": "list",
+          "value": "1GYT9Z8_BnqqY9dqsMpFWJqjeNVsq_xTY",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1GYT9Z8_BnqqY9dqsMpFWJqjeNVsq_xTY",
+          "cachedResultName": "__cmath"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "id": "aad9b96b-a8a3-4c63-901a-63e6f4cc4d70",
+      "name": "New Leads Arrived",
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "position": [
+        -720,
+        360
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "leftValue": "={{ $json.mimeType }}",
+                    "rightValue": "text/csv"
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "csv"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "version": 2,
+                  "leftValue": "",
+                  "caseSensitive": true,
+                  "typeValidation": "strict"
+                },
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "id": "c2f2fb50-a750-4870-aff7-11df142a9be5",
+                    "operator": {
+                      "name": "filter.operator.equals",
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "leftValue": "={{ $json.mimeType }}",
+                    "rightValue": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                  }
+                ]
+              },
+              "renameOutput": true,
+              "outputKey": "xlsx"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b4616366-2473-409b-94e6-c9cc01823cfd",
+      "name": "File Type?",
+      "type": "n8n-nodes-base.switch",
+      "position": [
+        -480,
+        360
+      ],
+      "typeVersion": 3.2
+    },
+    {
+      "parameters": {
+        "mode": "chooseBranch",
+        "useDataOfInput": 2
+      },
+      "id": "652a22a0-f5ef-49d9-b969-bc30706b9b81",
+      "name": "Combine Empty New Document with CSV Data",
+      "type": "n8n-nodes-base.merge",
+      "position": [
+        380,
+        360
+      ],
+      "typeVersion": 3
+    },
+    {
+      "parameters": {
+        "operation": "replaceText",
+        "presentationId": "={{ $json.id }}",
+        "textUi": {
+          "textValues": [
+            {
+              "text": "{COMPANYNAME}",
+              "replaceText": "={{ $('Get all Leads').item.json.Company }}"
+            },
+            {
+              "text": "{Testdurchgestrichen}",
+              "replaceText": "={{ $('Get all Leads').item.json['Full Name'] }}"
+            },
+            {
+              "text": "{nichtdurchgestrichen}",
+              "replaceText": "={{ $('Get all Leads').item.json['First Name'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e853f129-b743-4c58-b040-ad1fdb3cc7e5",
+      "name": "Create Custom Presentation",
+      "type": "n8n-nodes-base.googleSlides",
+      "position": [
+        1600,
+        360
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "content": "# Duplicate Template and Create Custom Presentations",
+        "height": 340,
+        "width": 960,
+        "color": 4
+      },
+      "id": "0dc005fe-1c81-4bb2-bdb2-9508eb1fb435",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1060,
+        260
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "# Create New Google Sheets and Insert Data from CSV file",
+        "height": 520,
+        "width": 1300,
+        "color": 4
+      },
+      "id": "4078abe0-3ffe-4825-9211-870efda13884",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -240,
+        80
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "options": {
+          "delimiter": ",",
+          "encoding": "utf-8",
+          "headerRow": true
+        }
+      },
+      "id": "52eaa8e7-19b8-4389-92a9-4c45b68c61f1",
+      "name": "Extract Information from CSV file",
+      "type": "n8n-nodes-base.extractFromFile",
+      "position": [
+        80,
+        420
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "operation": "copy",
+        "fileId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "1FtMBECbZY-9gSW6L6DtioOOJv-V9LXduEjZO0pp-NmA",
+          "cachedResultUrl": "https://docs.google.com/presentation/d/1FtMBECbZY-9gSW6L6DtioOOJv-V9LXduEjZO0pp-NmA/edit?usp=drivesdk",
+          "cachedResultName": "Stardawn Updated"
+        },
+        "name": "={{ $('Get all Leads').item.json.Company }} X MYCOMPANYNAME_{{ $now.setZone('Europe/Berlin').toFormat('yyyy-dd-MM') }}",
+        "sameFolder": false,
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "1Yu2s72rgOJlz1-tMuzlaeN8UZezYftRT",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1Yu2s72rgOJlz1-tMuzlaeN8UZezYftRT",
+          "cachedResultName": "Custom Presentations"
+        },
+        "options": {}
+      },
+      "id": "593e286e-458c-4685-89b9-c2a30c89b5fd",
+      "name": "Copy Presentation Template",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        1380,
+        360
+      ],
+      "typeVersion": 3
+    }
+  ],
+  "connections": {
+    "File Type?": {
+      "main": [
+        [
+          {
+            "node": "Download by ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get all Leads": {
+      "main": [
+        [
+          {
+            "node": "MoveToLeadListFolder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download by ID": {
+      "main": [
+        [
+          {
+            "node": "Extract Information from CSV file",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Create new Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create new Sheet": {
+      "main": [
+        [
+          {
+            "node": "Combine Empty New Document with CSV Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "New Leads Arrived": {
+      "main": [
+        [
+          {
+            "node": "File Type?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MoveToLeadListFolder": {
+      "main": [
+        [
+          {
+            "node": "Copy Presentation Template",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Copy Presentation Template": {
+      "main": [
+        [
+          {
+            "node": "Create Custom Presentation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Custom Presentation": {
+      "main": [
+        [
+          {
+            "node": "Add Presentation ID to Lead List",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Data for new Lead Document": {
+      "main": [
+        [
+          {
+            "node": "Get all Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Information from CSV file": {
+      "main": [
+        [
+          {
+            "node": "Combine Empty New Document with CSV Data",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Combine Empty New Document with CSV Data": {
+      "main": [
+        [
+          {
+            "node": "Merge Data for new Lead Document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "df0e4292-a6b5-45d6-8028-ee8e9e349132",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-05-14T04:34:37.609Z",
+      "createdAt": "2025-05-14T04:34:37.609Z",
+      "role": "workflow:owner",
+      "workflowId": "w24kvlEoqG7L8sIL",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
