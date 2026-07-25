@@ -1,0 +1,836 @@
+{
+  "updatedAt": "2025-06-17T15:29:37.000Z",
+  "createdAt": "2025-06-17T14:24:55.421Z",
+  "id": "NgqWSvK0sfHy8Hou",
+  "name": "[PRODUCTION][Creo_Project: SementraResort] - Company Research Generator",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ddc53601-f3de-4f0e-9bac-4ad590891705",
+              "leftValue": "={{ $json['Research Output'] }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "string",
+                "operation": "notExists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        780,
+        580
+      ],
+      "id": "590931ec-9479-41b4-b3b4-18daef2dc476",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        980,
+        740
+      ],
+      "id": "ea7fc3d0-c609-40ad-b26a-09fbd4e1655c",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to get the search query through the search engine, gather the sources and summarize the web research as the output.",
+        "workflowId": {
+          "__rl": true,
+          "value": "Ek66VfFhjAWBSb3v",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Tavily AI Research Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ $('If').item.json['Company Name'] }} {{ $('If').item.json['Company Location'] }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1340,
+        740
+      ],
+      "id": "751a2183-8c16-4c26-bb0f-650f9ca1aeba",
+      "name": "ai_web_research_tool"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Company Name: {{ $json['Company Name'] }} {{ $json['Company Location'] }}\nIndustry Type: {{ $json['Industry Types'] }}\nWebsite URL: {{ $json['Company Website'] }}",
+        "options": {
+          "systemMessage": "=# Role\nYou are a web research specialist who familiarized on scraping the web content from the user search query and summarizing what the company, brand and products details.  \n\n# Task\nYou are tasked to scrape and summarize the web research output based on user provided information such as company name, website url and industry type.\n\n# Tool\nIn order able to scrape the web content based on user provided website url and summarize it as the web research summary, you are require to use the following tool:\n- **`ai_web_research_tool`** : Call this tool to get the search query through the ai search engine, gather the sources and summarize the web research as the output.\n\n# Output\nThe output should be in plain text based without any task explaination and other unnecessary details."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        1100,
+        560
+      ],
+      "id": "693d8f79-374b-4be3-90c6-326804131a51",
+      "name": "Web Research Agent"
+    },
+    {
+      "parameters": {
+        "formTitle": "Creo Client: Sementra Resort Company Research",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Sementra Hot Spring Nature Resort Gopeng"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Company Website",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "https://sementra.my/"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Company Location",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Perak, Malaysia"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Industry Types",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Hospitality"
+                  },
+                  {
+                    "option": "Eco-tourism"
+                  },
+                  {
+                    "option": "Resort"
+                  },
+                  {
+                    "option": "Local Attraction"
+                  }
+                ]
+              },
+              "multiselect": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        20,
+        580
+      ],
+      "id": "f62a8477-fdb6-409c-a1f4-4be91eb7d6ce",
+      "name": "On form submission",
+      "webhookId": "e914690d-a7e1-40f4-9fac-72425addce82"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "create",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mz1o2jdyqtf2vy4",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Company Name",
+              "fieldValue": "={{ $json.Name }}"
+            },
+            {
+              "fieldName": "Company Website",
+              "fieldValue": "={{ $json['Company Website'] }}"
+            },
+            {
+              "fieldName": "Company Location",
+              "fieldValue": "={{ $json['Company Location'] }}"
+            },
+            {
+              "fieldName": "Industry Types",
+              "fieldValue": "={{ $json['Industry Types'] }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        280,
+        580
+      ],
+      "id": "fe0b940b-880e-4e76-8560-17676f4e88b0",
+      "name": "Create Company Details Input",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mz1o2jdyqtf2vy4",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        500,
+        580
+      ],
+      "id": "91375bf9-018a-493d-9cf2-66e83c12a769",
+      "name": "NocoDB",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "delete",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mz1o2jdyqtf2vy4",
+        "id": "={{ $json.Id }}"
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        700,
+        820
+      ],
+      "id": "af513e74-7981-438d-9c20-6f417a1ac290",
+      "name": "NocoDB1",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mz1o2jdyqtf2vy4",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('If').first().json.Id }}"
+            },
+            {
+              "fieldName": "Research Output",
+              "fieldValue": "={{ $json.output }}"
+            },
+            {
+              "fieldName": "Status",
+              "fieldValue": "Completed"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1460,
+        560
+      ],
+      "id": "ab92590f-a61d-47be-bb46-22cb46d23802",
+      "name": "NocoDB2",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls",
+          "mode": "list",
+          "cachedResultName": "[2025] - SementraResort - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2095342283,
+          "mode": "list",
+          "cachedResultName": "Web Research",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls/edit#gid=2095342283"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        340,
+        100
+      ],
+      "id": "49b8306c-7c41-4ef2-b804-5415e6b69f7c",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Company Name: {{ $('Google Sheets Trigger').first().json.Name }} {{ $('Google Sheets Trigger').first().json.Geolocation }}\nIndustry Type: {{ $json['Industry'] }}\nWebsite URL: {{ $('Google Sheets Trigger').first().json['Website URL']}}",
+        "options": {
+          "systemMessage": "={{ $('Google Sheets Trigger').first().json['Prompt For AI Agent'] }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        1860,
+        -140
+      ],
+      "id": "b9b9db72-fa4e-4b7e-a079-d6c2a6cd3f39",
+      "name": "Web Research Agent1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to get the search query through the search engine, gather the sources and summarize the web research as the output.",
+        "workflowId": {
+          "__rl": true,
+          "value": "KdAUfF05Oj85t0Vb",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Perplexica AI Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ $('If').item.json.Name }} {{ $('If').item.json.Geolocation }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        2100,
+        40
+      ],
+      "id": "0aa1a52c-395d-4bfa-a8f0-1a0e8fe29364",
+      "name": "ai_web_research_tool1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1740,
+        40
+      ],
+      "id": "700cc236-8479-4bff-ba92-f8e6e4f50659",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls",
+          "mode": "list",
+          "cachedResultName": "[2025] - SementraResort - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2095342283,
+          "mode": "list",
+          "cachedResultName": "Web Research",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls/edit#gid=2095342283"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $('Google Sheets Trigger').item.json.Name }}",
+            "Website URL": "={{ $('Google Sheets Trigger').item.json['Website URL'] }}",
+            "Industry": "={{ $json.text }}"
+          },
+          "matchingColumns": [
+            "Name"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Website URL",
+              "displayName": "Website URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Geolocation",
+              "displayName": "Geolocation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Industry",
+              "displayName": "Industry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Prompt For AI Agent",
+              "displayName": "Prompt For AI Agent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1620,
+        -140
+      ],
+      "id": "7573be54-f080-4126-86b2-31d19095a1d2",
+      "name": "Update Industry Type",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Identify the input user's search query for segmenting the most suitable industry:\n{{ $json.searchQuery }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "# Role\nYou are a market research specialist who are specialize on doing market search and market analysis\n\n# Task\nYou are tasked to identify which the right category industry to be segmented based on the user requested search query\n\n# Output Format\nOnly output the actual text-based answer without any unnecessary explanations, definitions and other factual data. If you had been identified more than one category, you can output the categories with comma-separated for each category"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.6,
+      "position": [
+        1240,
+        -140
+      ],
+      "id": "d580c093-44a7-4bb8-aa83-dda5a8f0db0f",
+      "name": "Identify Industry Type",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        40
+      ],
+      "id": "15c200eb-dd78-49ae-90d9-976f1c6d0e99",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "abf5a1f2-936f-4edf-b82c-aadcfd599aff",
+              "name": "webURL",
+              "value": "={{ $json['Website URL'] }}",
+              "type": "string"
+            },
+            {
+              "id": "ca7f411b-82e6-4d2c-9b5b-3cf511095390",
+              "name": "searchQuery",
+              "value": "={{ $json.Name }}{{ $json.Geolocation }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1040,
+        -140
+      ],
+      "id": "5b51d691-9494-43dc-81ff-64707cb48dc0",
+      "name": "Edit Fields",
+      "disabled": true
+    }
+  ],
+  "connections": {
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Web Research Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "NocoDB1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Web Research Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_web_research_tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Web Research Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Web Research Agent": {
+      "main": [
+        [
+          {
+            "node": "NocoDB2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Create Company Details Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Company Details Input": {
+      "main": [
+        [
+          {
+            "node": "NocoDB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NocoDB": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_web_research_tool1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Web Research Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Web Research Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Industry Type": {
+      "main": [
+        [
+          {
+            "node": "Web Research Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Identify Industry Type": {
+      "main": [
+        [
+          {
+            "node": "Update Industry Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Identify Industry Type",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Identify Industry Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "On form submission": [
+      {
+        "json": {
+          "Name": "Sementra Hot Spring Nature Resort Gopeng",
+          "Company Website": "https://sementra.my/",
+          "Company Location": "Perak, Malaysia",
+          "Industry Types": [
+            "Hospitality",
+            "Eco-tourism",
+            "Resort",
+            "Local Attraction"
+          ],
+          "submittedAt": "2025-06-17T22:51:34.575+08:00",
+          "formMode": "test"
+        }
+      }
+    ],
+    "Create Company Details Input": [
+      {
+        "json": {
+          "Company Name": "Sementra Hot Spring Nature Resort Gopeng",
+          "Company Website": "https://sementra.my/",
+          "Company Location": "Perak, Malaysia",
+          "Industry Types": [
+            "Hospitality",
+            "Eco-tourism",
+            "Resort",
+            "Local Attraction"
+          ],
+          "Id": 67
+        }
+      }
+    ]
+  },
+  "versionId": "26aa8876-d200-47ef-ad46-1e05025e95d8",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-06-17T14:24:55.430Z",
+      "createdAt": "2025-06-17T14:24:55.430Z",
+      "role": "workflow:owner",
+      "workflowId": "NgqWSvK0sfHy8Hou",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
