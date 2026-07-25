@@ -1,0 +1,419 @@
+{
+  "updatedAt": "2024-04-25T09:12:29.000Z",
+  "createdAt": "2024-03-11T15:58:23.274Z",
+  "id": "IqUvXRZSqEOY7Dbw",
+  "name": "Scrape and summarize webpages with AI",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "6d1e31ea-c950-4bbf-874c-800983f526a0",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        -820,
+        560
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "url": "http://www.paulgraham.com/articles.html",
+        "options": {}
+      },
+      "id": "289003f4-e4ef-4744-9205-2e857536d4e6",
+      "name": "Fetch essay list",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        -600,
+        560
+      ],
+      "typeVersion": 4.1
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "dataPropertyName": "=data",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "essay",
+              "cssSelector": "table table a",
+              "returnValue": "attribute",
+              "attribute": "href",
+              "returnArray": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "25964d53-e975-4385-be8f-989c36692b53",
+      "name": "Extract essay names",
+      "type": "n8n-nodes-base.html",
+      "position": [
+        -380,
+        560
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "url": "=http://www.paulgraham.com/{{ $json.essay }}",
+        "options": {}
+      },
+      "id": "153ef725-bcb7-4535-be50-d72a252fceb9",
+      "name": "Fetch essay texts",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        280,
+        560
+      ],
+      "typeVersion": 4.1
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "essay",
+        "options": {}
+      },
+      "id": "5f778208-71b3-4459-b5da-b2f32bbefef8",
+      "name": "Split out into items",
+      "type": "n8n-nodes-base.itemLists",
+      "position": [
+        -160,
+        560
+      ],
+      "typeVersion": 3
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "af85d203-4c3f-4f3b-8bc7-659572d39bcd",
+      "name": "Summarization Chain",
+      "type": "@n8n/n8n-nodes-langchain.chainSummarization",
+      "position": [
+        620,
+        560
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "model": "gpt-3.5-turbo-instruct",
+        "options": {}
+      },
+      "id": "9b1b506c-7d9b-4e50-b384-60c7debcf683",
+      "name": "OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.lmOpenAi",
+      "position": [
+        600,
+        780
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAi account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pointers": "=",
+        "options": {}
+      },
+      "id": "824c3faf-a73e-41b2-be11-aaf2dfee2f79",
+      "name": "JSON Input Loader",
+      "type": "@n8n/n8n-nodes-langchain.documentJsonInputLoader",
+      "position": [
+        740,
+        780
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "4def1345-6395-44df-82c1-5e7442c3fb0c",
+      "name": "Recursive Character Text Splitter1",
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "position": [
+        880,
+        940
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "operation": "limit",
+        "maxItems": 3
+      },
+      "id": "d06187ad-6589-4236-a9d3-befc51b8dc62",
+      "name": "Limit to first 3",
+      "type": "n8n-nodes-base.itemLists",
+      "position": [
+        60,
+        560
+      ],
+      "typeVersion": 3
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "title",
+              "cssSelector": "title"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b44ad556-4e5c-4a08-8d57-fad89f630618",
+      "name": "Extract title",
+      "type": "n8n-nodes-base.html",
+      "position": [
+        620,
+        260
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combinationMode": "mergeByPosition",
+        "options": {}
+      },
+      "id": "9b225811-67d7-4de9-9dd5-68da49e2c8fd",
+      "name": "Merge title and summary",
+      "type": "n8n-nodes-base.merge",
+      "position": [
+        1060,
+        540
+      ],
+      "typeVersion": 2.1
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "title",
+              "stringValue": "={{ $json.title }}"
+            },
+            {
+              "name": "summary",
+              "stringValue": "={{ $json.response.text }}"
+            },
+            {
+              "name": "url",
+              "stringValue": "=http://www.paulgraham.com/{{ $('Limit to first 3').item.json.essay }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "0b8b28f5-f2ea-4bd7-880f-bdf38c94af2e",
+      "name": "Clean up",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1280,
+        540
+      ],
+      "typeVersion": 3
+    },
+    {
+      "parameters": {
+        "content": "## Scrape latest Paul Graham essays",
+        "height": 285.66037735849045,
+        "width": 1071.752021563343
+      },
+      "id": "488705d5-a3b6-458b-afb5-124f76106852",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -660,
+        480
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Summarize them with GPT",
+        "height": 606.7924528301882,
+        "width": 465.3908355795153
+      },
+      "id": "0a7101ce-986d-47c6-b784-986100822be1",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        540,
+        480
+      ],
+      "typeVersion": 1
+    }
+  ],
+  "connections": {
+    "OpenAI": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Summarization Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract title": {
+      "main": [
+        [
+          {
+            "node": "Merge title and summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch essay list": {
+      "main": [
+        [
+          {
+            "node": "Extract essay names",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit to first 3": {
+      "main": [
+        [
+          {
+            "node": "Fetch essay texts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch essay texts": {
+      "main": [
+        [
+          {
+            "node": "Summarization Chain",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Extract title",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON Input Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Summarization Chain",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract essay names": {
+      "main": [
+        [
+          {
+            "node": "Split out into items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarization Chain": {
+      "main": [
+        [
+          {
+            "node": "Merge title and summary",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Split out into items": {
+      "main": [
+        [
+          {
+            "node": "Limit to first 3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge title and summary": {
+      "main": [
+        [
+          {
+            "node": "Clean up",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Fetch essay list",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter1": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "JSON Input Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "6052235e-00b9-4e99-af83-594be2cdffc3",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-03-11T15:58:23.299Z",
+      "createdAt": "2024-03-11T15:58:23.299Z",
+      "role": "workflow:owner",
+      "workflowId": "IqUvXRZSqEOY7Dbw",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
