@@ -1,0 +1,318 @@
+{
+  "updatedAt": "2024-04-14T09:07:38.000Z",
+  "createdAt": "2024-04-14T08:43:52.656Z",
+  "id": "ljrnKZMUQJQcB3m2",
+  "name": "N8N Tut - OCR Assistant with NOTION and MINDEE Invoice API",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "bf438926-766b-418a-8446-ea412d0bd3bc",
+          "mode": "list",
+          "cachedResultName": "OCR Assistant",
+          "cachedResultUrl": "https://www.notion.so/bf438926766b418a8446ea412d0bd3bc"
+        },
+        "returnAll": true,
+        "options": {}
+      },
+      "id": "1fb06487-0e5e-4c22-ae79-05a9a807128d",
+      "name": "Notion",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        1100,
+        340
+      ],
+      "credentials": {
+        "notionApi": {
+          "id": "FLsp4qKnEya8NwFa",
+          "name": "NotionAPI- info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.property_invoice_pdf[0] }}",
+        "options": {}
+      },
+      "id": "f6c7f5fe-31f3-4efa-b99a-423ad18882c4",
+      "name": "Download Attached PDFs",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1560,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "8d9f9b86-02b8-4f9b-8e09-2ee7a43ba85d",
+              "leftValue": "={{ $json.property_invoice_pdf[0] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "a0a97400-e6b1-4697-a93a-bba02103f614",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "03c9d3db-b04a-4ce9-b5cc-d9691b15ac60",
+              "leftValue": "={{ $json.property_value }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "80385aa3-ff89-4bf1-b774-48aad6f2650f",
+              "leftValue": "={{ $json.property_customer_name }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "41d6818c-ad73-4583-84cb-e49e43c1c12d",
+              "leftValue": "={{ $json.property_currency }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "84d60996-cd55-4170-a49c-e4bb8291c9bb",
+      "name": "Filter Out DB Already Filled",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [
+        1320,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "invoice"
+      },
+      "id": "ab9f8d69-1a42-43ec-a695-d89fced3a5f0",
+      "name": "Mindee",
+      "type": "n8n-nodes-base.mindee",
+      "typeVersion": 3,
+      "position": [
+        1820,
+        180
+      ],
+      "credentials": {
+        "mindeeInvoiceApi": {
+          "id": "vGTkfoBiq8w2oHOv",
+          "name": "Mindee Invoice - info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $('Notion').item.json.id }}",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Invoice number|title",
+              "title": "={{ $json.invoice_number }}"
+            },
+            {
+              "key": "Customer name|rich_text",
+              "textContent": "={{ $json.customer_name }}"
+            },
+            {
+              "key": "Date|date",
+              "includeTime": false,
+              "date": "={{ $json.date }}"
+            },
+            {
+              "key": "Due date|date",
+              "includeTime": false,
+              "date": "={{ $json.due_date }}"
+            },
+            {
+              "key": "Value|number",
+              "numberValue": "={{ $json.total_amount }}"
+            },
+            {
+              "key": "Currency|rich_text",
+              "textContent": "={{ $json.currency }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7c8b65ef-86b2-48d5-ad1e-54f0b78ef49c",
+      "name": "Notion1",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2120,
+        160
+      ],
+      "credentials": {
+        "notionApi": {
+          "id": "FLsp4qKnEya8NwFa",
+          "name": "NotionAPI- info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyHour"
+            }
+          ]
+        },
+        "event": "pagedUpdatedInDatabase",
+        "databaseId": {
+          "__rl": true,
+          "value": "bf438926-766b-418a-8446-ea412d0bd3bc",
+          "mode": "list",
+          "cachedResultName": "OCR Assistant",
+          "cachedResultUrl": "https://www.notion.so/bf438926766b418a8446ea412d0bd3bc"
+        }
+      },
+      "id": "24c36356-d9c0-4f35-ad60-fb74dabb45f4",
+      "name": "Notion Trigger",
+      "type": "n8n-nodes-base.notionTrigger",
+      "typeVersion": 1,
+      "position": [
+        800,
+        440
+      ],
+      "credentials": {
+        "notionApi": {
+          "id": "FLsp4qKnEya8NwFa",
+          "name": "NotionAPI- info.hansondev@gmail.com"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Notion": {
+      "main": [
+        [
+          {
+            "node": "Filter Out DB Already Filled",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Out DB Already Filled": {
+      "main": [
+        [
+          {
+            "node": "Download Attached PDFs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Attached PDFs": {
+      "main": [
+        [
+          {
+            "node": "Mindee",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mindee": {
+      "main": [
+        [
+          {
+            "node": "Notion1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion Trigger": {
+      "main": [
+        [
+          {
+            "node": "Notion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "6341927f-828c-414d-b25b-155b76e0a30d",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-04-14T08:43:52.664Z",
+      "createdAt": "2024-04-14T08:43:52.664Z",
+      "role": "workflow:owner",
+      "workflowId": "ljrnKZMUQJQcB3m2",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2024-04-14T07:31:49.916Z",
+      "createdAt": "2024-04-14T07:31:49.916Z",
+      "id": "ScuvvVPj2YdLYDqM",
+      "name": "N8N_Workflow_Demo"
+    }
+  ]
+}
