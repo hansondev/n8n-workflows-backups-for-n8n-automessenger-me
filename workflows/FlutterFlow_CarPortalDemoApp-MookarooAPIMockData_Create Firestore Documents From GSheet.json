@@ -1,0 +1,618 @@
+{
+  "updatedAt": "2023-12-26T09:07:31.000Z",
+  "createdAt": "2023-12-26T07:48:54.416Z",
+  "id": "bh8HwsRYbP0s9W3W",
+  "name": "FlutterFlow_CarPortalDemoApp-MookarooAPIMockData_Create Firestore Documents From GSheet",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "bb52a09d-c7ca-4725-84fa-98388756d4ea",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        820,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "collection",
+        "projectId": "={{ $('Set Firestore Project Name').item.json.firebaseProjectName }}"
+      },
+      "id": "a4b4fb23-6852-4aa5-91d6-0ff706f6fc5f",
+      "name": "Google Cloud Firestore",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        1800,
+        300
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "projectId": "={{ $('Set Firestore Project Name').item.json.firebaseProjectName }}",
+        "collection": "={{ $json.collectionName }}",
+        "documentId": "={{ $json.documentID }}"
+      },
+      "id": "f992934f-02be-49e7-89ae-75bc432d0af7",
+      "name": "Google Cloud Firestore1",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        2260,
+        180
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1oOETWIXhf7QQOvTW_f95IAQQ2EyUDA9uC5-i9Mruszs",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Freelancer Demo App Mock API Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oOETWIXhf7QQOvTW_f95IAQQ2EyUDA9uC5-i9Mruszs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oOETWIXhf7QQOvTW_f95IAQQ2EyUDA9uC5-i9Mruszs/edit#gid=0"
+        },
+        "options": {}
+      },
+      "id": "98792df0-f144-464d-a8ae-b6d02cf76d1a",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        2520,
+        140
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "projectId": "={{ $('Set Firestore Project Name').item.json.firebaseProjectName }}",
+        "collection": "={{ $('Set Firestore Document ID').item.json.collectionName }}",
+        "updateKey": "_id",
+        "columns": "name,email,expertise,description,country,rate,rating"
+      },
+      "id": "413a2543-93e0-4454-9c0c-174763ba6978",
+      "name": "Google Cloud Firestore3",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        3220,
+        60
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://my.api.mockaroo.com/car_portal_mock_data.json",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-Key",
+              "value": "3e569e00"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b0a771ed-2c08-443c-ad5a-093f26f3ad14",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1320,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "firebaseProjectName",
+              "stringValue": "fftutorial-freelancerappdemo"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "b4823acb-d90d-4ce3-93e7-5e33345a0af9",
+      "name": "Set Firestore Project Name",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1080,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1oOETWIXhf7QQOvTW_f95IAQQ2EyUDA9uC5-i9Mruszs",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Freelancer Demo App Mock API Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oOETWIXhf7QQOvTW_f95IAQQ2EyUDA9uC5-i9Mruszs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oOETWIXhf7QQOvTW_f95IAQQ2EyUDA9uC5-i9Mruszs/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "First Name": "={{ $json.first_name }}",
+            "Email": "={{ $json.email }}",
+            "Expertise": "={{ $json.expertise }}",
+            "Country": "={{ $json.state }}",
+            "Description": "={{ $json.description }}",
+            "Rate": "={{ $json.rate }}",
+            "Rating": "={{ $json.rating }}"
+          },
+          "matchingColumns": [
+            "First Name"
+          ],
+          "schema": [
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Expertise",
+              "displayName": "Expertise",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Country",
+              "displayName": "Country",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Description",
+              "displayName": "Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Rate",
+              "displayName": "Rate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Rating",
+              "displayName": "Rating",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2b7ab576-135c-4409-a566-37edd22cedd8",
+      "name": "Google Sheets1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        1540,
+        360
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "collectionName",
+              "stringValue": "={{ $json.name }}"
+            },
+            {
+              "name": "documentID",
+              "stringValue": "7A5vzE98x4MmLnuXzKsH"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "0caf23ca-75c8-42ee-af70-c63ad61bea1d",
+      "name": "Set Firestore Document ID",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2040,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "_id",
+              "stringValue": "={{ $('Google Sheets').item.json.row_number }}"
+            },
+            {
+              "name": "name",
+              "stringValue": "={{ $json['First Name'] }}"
+            },
+            {
+              "name": "email",
+              "stringValue": "={{ $json.Email }}"
+            },
+            {
+              "name": "expertise",
+              "stringValue": "={{ $json.Expertise }}"
+            },
+            {
+              "name": "description",
+              "stringValue": "={{ $json.Description }}"
+            },
+            {
+              "name": "country",
+              "stringValue": "={{ $json.Country }}"
+            },
+            {
+              "name": "rate",
+              "type": "numberValue",
+              "numberValue": "={{ $json.Rate }}"
+            },
+            {
+              "name": "rating",
+              "type": "numberValue",
+              "numberValue": "={{ $json.Rating }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "f96e08de-d5e9-42da-8ffa-d74d8f833c6b",
+      "name": "Set Update Key For Firestore Documents",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2780,
+        200
+      ]
+    }
+  ],
+  "connections": {
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Set Firestore Project Name",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Cloud Firestore": {
+      "main": [
+        [
+          {
+            "node": "Set Firestore Document ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Cloud Firestore1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Set Update Key For Firestore Documents",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Firestore Project Name": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Firestore Document ID": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Update Key For Firestore Documents": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Set Firestore Project Name": [
+      {
+        "json": {
+          "firebaseProjectName": "fftutorial-freelancerappdemo"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "HTTP Request": [
+      {
+        "json": {
+          "id": 1,
+          "car_brand": "Lexus",
+          "car_model": "SC",
+          "miles": 56,
+          "location": "KS",
+          "image": "http://dummyimage.com/180x100.png/ff4444/ffffff"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "id": 2,
+          "car_brand": "Lincoln",
+          "car_model": "Navigator",
+          "miles": 95,
+          "location": "TX",
+          "image": "http://dummyimage.com/149x100.png/cc0000/ffffff"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "id": 3,
+          "car_brand": "Mitsubishi",
+          "car_model": "Expo",
+          "miles": 94,
+          "location": "DC",
+          "image": "http://dummyimage.com/149x100.png/5fa2dd/ffffff"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "id": 4,
+          "car_brand": "Porsche",
+          "car_model": "Cayman",
+          "miles": 43,
+          "location": "CT",
+          "image": "http://dummyimage.com/174x100.png/ff4444/ffffff"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "id": 5,
+          "car_brand": "Mazda",
+          "car_model": "RX-8",
+          "miles": 97,
+          "location": "CA",
+          "image": "http://dummyimage.com/216x100.png/5fa2dd/ffffff"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "id": 6,
+          "car_brand": "Ford",
+          "car_model": "Aerostar",
+          "miles": 11,
+          "location": "UT",
+          "image": "http://dummyimage.com/242x100.png/cc0000/ffffff"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "id": 7,
+          "car_brand": "Mazda",
+          "car_model": "Miata MX-5",
+          "miles": 48,
+          "location": "TX",
+          "image": "http://dummyimage.com/214x100.png/ff4444/ffffff"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "id": 8,
+          "car_brand": "Hyundai",
+          "car_model": "XG350",
+          "miles": 53,
+          "location": "NJ",
+          "image": "http://dummyimage.com/236x100.png/dddddd/000000"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "id": 9,
+          "car_brand": "Subaru",
+          "car_model": "Justy",
+          "miles": 85,
+          "location": "TX",
+          "image": "http://dummyimage.com/243x100.png/ff4444/ffffff"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "id": 10,
+          "car_brand": "Chevrolet",
+          "car_model": "Corvette",
+          "miles": 82,
+          "location": "VA",
+          "image": "http://dummyimage.com/170x100.png/dddddd/000000"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "3b29e486-44e0-4e6b-9c4c-946d2a918d92",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2023-12-26T07:48:54.482Z",
+      "createdAt": "2023-12-26T07:48:54.482Z",
+      "role": "workflow:owner",
+      "workflowId": "bh8HwsRYbP0s9W3W",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
