@@ -1,0 +1,185 @@
+{
+  "updatedAt": "2025-05-25T17:03:53.000Z",
+  "createdAt": "2025-05-24T15:56:02.603Z",
+  "id": "JExDvsJ6XHvmo4xm",
+  "name": "[DEVELOPMENT] [Sub-workflow] - GSlides Image Replacement Batch Update",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://slides.googleapis.com/v1/presentations/{{ $('When Executed by Another Workflow').item.json.presentation_id }}:batchUpdate ",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleSlidesOAuth2Api",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"requests\": [\n    {\n        \"replaceImage\": {\n          \"imageObjectId\": \"{{ $json.objectId }}\",\n          \"url\": \"{{ $('When Executed by Another Workflow').item.json.client_logo || $('When Executed by Another Workflow').item.json.ad_image }}\",\n          \"imageReplaceMethod\": \"CENTER_CROP\"\n        }\n    },\n    {\n      \"updatePageElementAltText\": {\n        \"objectId\": \"{{ $json.objectId }}\",\n        \"description\": \"{{ $('When Executed by Another Workflow').item.json.clientLogo_key || $('When Executed by Another Workflow').item.json.adImage_key }}\"\n      }\n    }\n  ]\n}  \n   ",
+        "options": {}
+      },
+      "id": "a97b71f0-a48b-455c-8a07-e37f9104a7bd",
+      "name": "Replace Images",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        460,
+        0
+      ],
+      "typeVersion": 4.2,
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const clientLogo_key = $('When Executed by Another Workflow').first().json.clientLogo_key;\n\nconst adImage_key = $('When Executed by Another Workflow').first().json.adImage_key;\n\nconst pageElements = $input\n  .all()\n  .flatMap(item => item.json.slides)\n  .flatMap(slide => slide.pageElements.filter(el => el.image && el.description === clientLogo_key || adImage_key));\n\nconst objectIds = pageElements.map(el => ({ objectId: el.objectId }));\n\nreturn objectIds"
+      },
+      "id": "9fc85274-78f1-4527-8605-3a0b0083bd47",
+      "name": "Retrieve matching Images ObjectIds",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        180,
+        0
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "url": "=https://slides.googleapis.com/v1/presentations/{{ $json.presentation_id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleSlidesOAuth2Api",
+        "options": {}
+      },
+      "id": "9172a152-32a8-4617-a52d-17d315b37821",
+      "name": "Retrieve All Slide Elements",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        -60,
+        0
+      ],
+      "typeVersion": 4.2,
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "presentation_id"
+            },
+            {
+              "name": "clientLogo_key"
+            },
+            {
+              "name": "client_logo"
+            },
+            {
+              "name": "adImage_key"
+            },
+            {
+              "name": "ad_image",
+              "type": "array"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -300,
+        0
+      ],
+      "id": "50e06f65-a132-4a96-95e4-1468274add6d",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -140,
+        -360
+      ],
+      "id": "bcfb1676-be90-4a48-9d9d-9cbb477f0121",
+      "name": "When clicking ‘Test workflow’",
+      "disabled": true
+    }
+  ],
+  "connections": {
+    "Retrieve matching Images ObjectIds": {
+      "main": [
+        [
+          {
+            "node": "Replace Images",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retrieve All Slide Elements": {
+      "main": [
+        [
+          {
+            "node": "Retrieve matching Images ObjectIds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Retrieve All Slide Elements",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "When clicking ‘Test workflow’": [
+      {
+        "json": {
+          "presentation_id": "19QXowrB0bwJ0DFSmIr_3S-IR2if1GTtjjGW2O7Bd35M",
+          "clientLogo_key": "clientLogo",
+          "client_logo": "https://drive.google.com/uc?id=1AgnhBwK34z7V_2VBpRBdX3loNa5zi2vf&export=download",
+          "adImage_key": "adImage",
+          "ad_image": "https://scontent-fra3-1.xx.fbcdn.net/v/t45.1600-4/497347664_2495155420882997_8855483160795429023_n.jpg?_nc_cat=105&ccb=1-7&_nc_ohc=00EC5S6vpm4Q7kNvwFR4vyC&_nc_oc=Adkmq0RkG9uXwGoyj4gYZc4IReySGpIMM0CnxRiWx1Jthb2DGExAsMy95B7Yuv_WFUg&_nc_zt=1&_nc_ht=scontent-fra3-1.xx&edm=AAT1rw8EAAAA&_nc_gid=2EH2ggfd4jfYvCcpYq5Gpg&stp=c0.5000x0.5000f_dst-emg0_p500x500_q75_tt6&ur=4c02d7&_nc_sid=58080a&oh=00_AfIKIggJaM2Pny2tP-VS3TuKLB5G1g38KMClYCMRu7yMrw&oe=68352A4F"
+        }
+      }
+    ]
+  },
+  "versionId": "b88b1363-054a-44e1-b042-c2d735110336",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-05-24T15:56:02.606Z",
+      "createdAt": "2025-05-24T15:56:02.606Z",
+      "role": "workflow:owner",
+      "workflowId": "JExDvsJ6XHvmo4xm",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
