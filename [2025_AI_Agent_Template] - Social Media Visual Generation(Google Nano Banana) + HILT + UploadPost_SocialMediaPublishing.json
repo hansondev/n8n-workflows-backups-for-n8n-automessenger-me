@@ -1,0 +1,872 @@
+{
+  "updatedAt": "2025-09-13T10:44:26.000Z",
+  "createdAt": "2025-09-13T07:53:30.089Z",
+  "id": "BCHj4Wtr6S0GKBuV",
+  "name": "[2025_AI_Agent_Template] - Social Media Visual Generation(Google Nano Banana) + HILT + UploadPost_SocialMediaPublishing",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "content": "# 🎨 Image Generation Process",
+        "height": 336,
+        "width": 1088,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        384,
+        384
+      ],
+      "id": "cdf621f6-d6c5-41e8-9900-6b80eb641bf4",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "# 📝 Input",
+        "height": 336,
+        "width": 182,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        160,
+        384
+      ],
+      "id": "3da4f3b3-436d-47da-aec1-72385d22f727",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6355ac9e-1f4c-42a3-8167-8bb8298cd369",
+              "name": "data",
+              "value": "={{ $('Nano 🍌: Generate Image').item.json.choices[0].message.images[0].image_url.url }}",
+              "type": "string"
+            },
+            {
+              "id": "dc98bc1c-4048-4fcb-80c5-73dc99b78ddd",
+              "name": "base",
+              "value": "={{ $('Nano 🍌: Generate Image').item.json.choices[0].message.images[0].image_url.url.split(',')[1] }}",
+              "type": "string"
+            },
+            {
+              "id": "8033a47e-f50c-43ae-b404-99d0fb5cf4eb",
+              "name": "mime",
+              "value": "={{ $('Nano 🍌: Generate Image').item.json.choices[0].message.images[0].image_url.url.split(';')[0].split(':')[1] }}",
+              "type": "string"
+            },
+            {
+              "id": "0e516163-02cc-4242-ba70-ac2bce94d2dd",
+              "name": "fileName",
+              "value": ".png",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        320,
+        1856
+      ],
+      "id": "0cdfb675-2202-4fdd-8b8b-ba90ef84f921",
+      "name": "Edit Fields Again"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "base",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        512,
+        1856
+      ],
+      "id": "15abd538-8bcc-4904-9171-f25d515fc6dc",
+      "name": "Convert to Binary Again"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-upload-post.uploadPost",
+      "typeVersion": 1,
+      "position": [
+        752,
+        1856
+      ],
+      "id": "bcc505e6-f59d-4c44-9979-3ad5049fc176",
+      "name": "Facebook",
+      "alwaysOutputData": true,
+      "credentials": {}
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-upload-post.uploadPost",
+      "typeVersion": 1,
+      "position": [
+        976,
+        1856
+      ],
+      "id": "a5b6489e-7f65-45ce-822d-9b22325d0b3b",
+      "name": "Instagram",
+      "credentials": {}
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-upload-post.uploadPost",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        1856
+      ],
+      "id": "55ea4f06-a46b-4a87-a91d-a29b6d2dd760",
+      "name": "Linkedin",
+      "credentials": {}
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-upload-post.uploadPost",
+      "typeVersion": 1,
+      "position": [
+        1424,
+        1856
+      ],
+      "id": "80298f5a-8aa2-4f1f-a699-0233d8076991",
+      "name": "X",
+      "credentials": {}
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-upload-post.uploadPost",
+      "typeVersion": 1,
+      "position": [
+        1648,
+        1856
+      ],
+      "id": "869454bb-7a64-4889-8098-d7d37a6719ed",
+      "name": "Threads",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "content": "# 📤 Upload to Social Media",
+        "height": 336,
+        "width": 1888,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        160,
+        1760
+      ],
+      "id": "d845c25e-a277-4068-bdbd-2e6f8f4f6080",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "# 🙋‍♂️ Response From User",
+        "height": 496,
+        "width": 928,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        160,
+        1216
+      ],
+      "id": "c4e5d214-82f8-4eaa-819c-925d64bf0baf",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "text": "=About Product: {{ $('Input').item.json['About Your Product'] }}\n\nBased on this [About Product] Generate Perfect And Social Media Platform Based Captions. Don't use (*) this star symbol in the output.",
+        "attributes": {
+          "attributes": [
+            {
+              "name": "Facebook Caption",
+              "description": "Caption for Facebook Post with proper Hashtags",
+              "required": true
+            },
+            {
+              "name": "Instagram Caption",
+              "description": "Caption for Instagram post with proper Hashtags",
+              "required": true
+            },
+            {
+              "name": "Linkedin Caption",
+              "description": "Caption for Linkedin Post with proper Hashtags",
+              "required": true
+            },
+            {
+              "name": "X Tweet",
+              "description": "perfect Tweet in less than 280 Characters",
+              "required": true
+            },
+            {
+              "name": "Threads Caption",
+              "description": "perfect Thread in less than 500 Characters",
+              "required": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        464,
+        864
+      ],
+      "id": "ce75b728-b057-4baf-ab2c-91ab3e38b79d",
+      "name": "Text Content Generator"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        304,
+        864
+      ],
+      "id": "46aacbed-7064-40f5-b3bf-afb5d0d0f345",
+      "name": "Wait",
+      "webhookId": "578a6fb4-d160-4d59-9cf4-9b8f238b33c2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        464,
+        1040
+      ],
+      "id": "2f405444-c70e-4cd2-9e8b-a326a363939c",
+      "name": "2.5 Flash"
+    },
+    {
+      "parameters": {
+        "content": "# ✍️ Copywriting",
+        "height": 416,
+        "width": 672,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        160,
+        768
+      ],
+      "id": "fcc047a0-1538-4da9-a9b5-602cd65fec7d",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# 🤖 Complete Social Media Automation System For Businesses",
+        "height": 80,
+        "width": 1056,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        160,
+        224
+      ],
+      "id": "bee5cd8c-fa33-4bef-a94f-05c5e4780601",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "# 📌 Guide Line \n**Click on the Orange Texts to go to the sites**\n\n\n1. **Add Nano 🍌 - [Open Router](https://openrouter.ai/)**\nGet the End Point URL\n\n\n2. **Add Gemini - [Gemini](https://aistudio.google.com/apikey)**\nGet the API Key\n\n3. **Add Upload - Post - [Upload Post](https://app.upload-post.com/welcome)**\nGet the Upload Post API Key\n\n",
+        "height": 304,
+        "width": 432,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -576,
+        400
+      ],
+      "id": "2ee27074-8de8-4f31-ad51-0be3864b0f8a",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "# STEP: 1",
+        "height": 80,
+        "width": 166,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -48,
+        480
+      ],
+      "id": "01642f30-5d13-437d-9a71-f3a48c29b4cf",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "content": "# STEP: 2",
+        "height": 80,
+        "width": 166,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -48,
+        880
+      ],
+      "id": "a3ed95db-861f-4918-83f7-7daaed41402e",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "content": "# STEP: 3",
+        "height": 80,
+        "width": 166,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -48,
+        1344
+      ],
+      "id": "61137b6f-93a8-4425-b14b-81f722f709fc",
+      "name": "Sticky Note10"
+    },
+    {
+      "parameters": {
+        "content": "# STEP: 4",
+        "height": 80,
+        "width": 166,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -48,
+        1856
+      ],
+      "id": "84151ca0-0555-49d5-86a7-7fb43404c064",
+      "name": "Sticky Note11"
+    },
+    {
+      "parameters": {
+        "content": "## Start here: Step-by Step Youtube Tutorial :star:\n[![I Built an Auto Lead Finder AI Agent](https://img.youtube.com/vi/pJrGY6S7Kb0/sddefault.jpg)](https://youtu.be/pJrGY6S7Kb0)",
+        "height": 464,
+        "width": 480,
+        "color": 7
+      },
+      "id": "ee063392-1044-46bf-9250-81a82c322915",
+      "name": "Sticky Note12",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -624,
+        752
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "formTitle": "Social Media Automation",
+        "formDescription": "Give Your Product Images only AI will do the Rest 😉",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Your Product Image 🎴",
+              "fieldType": "file",
+              "multipleFiles": false,
+              "acceptFileTypes": ".jpg, .png",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Reference Product Image 🎭",
+              "fieldType": "file",
+              "multipleFiles": false,
+              "acceptFileTypes": ".jpg, .png",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "About Your Product",
+              "fieldType": "textarea",
+              "requiredField": true
+            }
+          ]
+        },
+        "responseMode": "lastNode",
+        "options": {
+          "appendAttribution": false,
+          "buttonLabel": "GO 🗳"
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        464
+      ],
+      "id": "c10647f2-d3c0-4c13-a4ff-810ab55140b7",
+      "name": "Input",
+      "webhookId": "73ca5acc-9263-491e-80a9-1cf9e61e7e87"
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "binaryPropertyName": "Your_Product_Image___",
+        "destinationKey": "product image data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        496,
+        464
+      ],
+      "id": "21d7c202-7307-465d-b5fa-823c4c4d741a",
+      "name": "Main Product Image Base64 String"
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "binaryPropertyName": "Reference_Product_Image___",
+        "destinationKey": "image style data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        672,
+        464
+      ],
+      "id": "670a35c4-4e1e-435c-8ae6-6fa3ef880e12",
+      "name": "Image Style to Follow Base64 String"
+    },
+    {
+      "parameters": {
+        "jsCode": "const imageStyleData = $input.all().map((item) => item.json)[0][\n  \"image style data\"\n];\nconst productImageData = $(\"Main Product Image Base64 String\")\n  .all()\n  .map((item) => item.json)[0][\"product image data\"];\n\nconst imageStyleURL = `data:image/png;base64,${imageStyleData}`;\nconst productImageURL = `data:image/png;base64,${productImageData}`;\n\nreturn { imageStyleURL, productImageURL };\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        864,
+        464
+      ],
+      "id": "f10e0c48-8237-4730-9ef4-39eefeec8943",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openRouterApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"google/gemini-2.5-flash-image-preview\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": \"IMAGE 1 is a reference advertisement. IMAGE 2 is a product. Analyze the style, composition, mood, and setting of IMAGE 1. Then, generate a new, high-quality photorealistic image featuring the product from IMAGE 2 presented in the exact same style as IMAGE 1.\\n\\nPay extremely close attention to:\\n1. **Lighting:** The direction, warmth, and softness/harshness of the light.\\n2. **Composition:** The angle of the shot (e.g., overhead, eye-level), framing, and how the subject is positioned.\\n3. **Background & Setting:** The environment, colors, and textures.\\n4. **Mood & Atmosphere:** The overall feeling (e.g., happy, serene, luxurious, energetic).\\n5. **Product Presentation:** How the product is held, used, or displayed within the scene.\\n\\nThe final image should look like a professional advertisement for the product, created by the same photographer or marketing team as the reference image (IMAGE 1).\"\n        },\n        {\n          \"type\": \"image_url\",\n          \"image_url\": {\n            \"url\": \"{{ $json.imageStyleURL }}\"\n          }\n        },\n        {\n          \"type\": \"image_url\",\n          \"image_url\": {\n            \"url\": \"{{ $json.productImageURL }}\"\n          }\n        }\n      ]\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1040,
+        464
+      ],
+      "id": "8667ab80-2478-49c8-94d0-34c732ca73a8",
+      "name": "Nano 🍌: Generate Image",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "operation": "completion",
+        "completionTitle": "Image Generation Failed 😥",
+        "completionMessage": "Check Your Workflow Please",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 1,
+      "position": [
+        1264,
+        480
+      ],
+      "id": "a5978c02-1836-4a8a-ad83-d8e59e8a097c",
+      "name": "Image Gen Failed",
+      "webhookId": "7d9f183a-6776-41dc-a5fe-3d70254edb9d"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e9bb78dd-0b5d-447f-91db-b99578761e7f",
+              "leftValue": "={{ $('Nano 🍌: Generate Image').item.json.choices[0].message.images[0].image_url.url }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "bcd69ef8-82be-46e2-bdd8-1ed227c92a18",
+              "leftValue": "={{ $('Nano 🍌: Generate Image').item.json.choices[0].message.images[0].image_url.url }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        320,
+        1328
+      ],
+      "id": "22f131e2-3ba0-4933-8860-089d6d559c4a",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "sendTo": "Your Preferred Email Address",
+        "subject": "=Approval for Your Product Post",
+        "message": "=<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Social Media Captions</title>\n  <style>\n    /* Google Fonts */\n    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');\n\n    body {\n      font-family: 'Inter', sans-serif;\n      background: linear-gradient(135deg, #e0f7fa, #e3f2fd);\n      margin: 0;\n      padding: 20px;\n      display: flex;\n      justify-content: center;\n      align-items: center;\n      min-height: 100vh;\n    }\n\n    .container {\n      background: #fff;\n      padding: 40px;\n      border-radius: 20px;\n      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);\n      max-width: 850px;\n      width: 100%;\n      animation: fadeIn 0.8s ease-in-out;\n    }\n\n    h1 {\n      color: #0d47a1;\n      text-align: center;\n      margin-bottom: 35px;\n      font-size: 2.2rem;\n      font-weight: 700;\n      position: relative;\n    }\n\n    h1::after {\n      content: \"\";\n      width: 80px;\n      height: 4px;\n      background: #0d47a1;\n      display: block;\n      margin: 10px auto 0;\n      border-radius: 2px;\n    }\n\n    .section {\n      margin-bottom: 25px;\n      background: #f5f9ff;\n      border-left: 6px solid #0d47a1;\n      padding: 18px 20px;\n      border-radius: 12px;\n      transition: transform 0.2s ease, box-shadow 0.2s ease;\n    }\n\n    .section:hover {\n      transform: translateY(-3px);\n      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);\n    }\n\n    .section-title {\n      font-weight: 600;\n      font-size: 1.05rem;\n      color: #0d47a1;\n      margin-bottom: 8px;\n      display: flex;\n      align-items: center;\n      gap: 8px;\n    }\n\n    .section-title::before {\n      content: \"💡\";\n      font-size: 1.2rem;\n    }\n\n    p {\n      margin: 0;\n      line-height: 1.6;\n      color: #444;\n      font-size: 0.95rem;\n    }\n\n    .image-container {\n      text-align: center;\n      margin-top: 40px;\n      border-top: 2px dashed #bbb;\n      padding-top: 25px;\n    }\n\n    .image-container .section-title {\n      justify-content: center;\n      margin-bottom: 15px;\n    }\n\n    .image-container img {\n      max-width: 100%;\n      border-radius: 15px;\n      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);\n      transition: transform 0.3s ease;\n    }\n\n    .image-container img:hover {\n      transform: scale(1.03);\n    }\n\n    /* Animation */\n    @keyframes fadeIn {\n      from {\n        opacity: 0;\n        transform: translateY(15px);\n      }\n      to {\n        opacity: 1;\n        transform: translateY(0);\n      }\n    }\n  </style>\n</head>\n<body>\n\n<div class=\"container\">\n  <h1>✨ Social Media Content ✨</h1>\n\n  <div class=\"section\">\n    <div class=\"section-title\">Facebook Caption</div>\n    <p>{{ $json.output['Facebook Caption'] }}</p>\n  </div>\n\n  <div class=\"section\">\n    <div class=\"section-title\">Instagram Caption</div>\n    <p>{{ $json.output['Instagram Caption'] }}</p>\n  </div>\n\n  <div class=\"section\">\n    <div class=\"section-title\">LinkedIn Caption</div>\n    <p>{{ $json.output['Linkedin Caption'] }}</p>\n  </div>\n\n  <div class=\"section\">\n    <div class=\"section-title\">Pinterest Caption</div>\n    <p>{{ $json.output['X Tweet'] }}</p>\n  </div>\n\n  <div class=\"section\">\n    <div class=\"section-title\">Tweet</div>\n    <p>{{ $json.output['X Tweet'] }}</p>\n  </div>\n\n  <div class=\"section\">\n    <div class=\"section-title\">Threads Caption</div>\n    <p>{{ $json.output['Threads Caption'] }}</p>\n  </div>\n\n  <div class=\"image-container\">\n    <div class=\"section-title\">Generated Image</div>\n    <img src=\"{{ $('Nano 🍌: Generate Image').item.json.choices[0].message.images[0].image_url.url }}\" alt=\"Generated Image\">\n  </div>\n</div>\n</body>\n</html>",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double",
+            "disapproveLabel": "Regenerate",
+            "buttonDisapprovalStyle": "primary"
+          }
+        },
+        "options": {
+          "limitWaitTime": {
+            "values": {
+              "resumeAmount": 10,
+              "resumeUnit": "minutes"
+            }
+          },
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        592,
+        1312
+      ],
+      "id": "6d1cb9ab-1cd2-41f9-8c5b-da549d6d5827",
+      "name": "Send a message",
+      "webhookId": "cd7468d8-a844-48e5-80a0-2aaa38a24907",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "UbtxnVhzhRkvcgHa",
+          "name": "Gmail-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.data.approved }}",
+                    "rightValue": "true",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "36244d46-7d7f-4fd2-9023-bfac55d6fc13"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Approved"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "7b03acd8-46d3-44a6-a7e2-479b392a3b63",
+                    "leftValue": "={{ $json.data.approved }}",
+                    "rightValue": "false",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "false",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Regenerate"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e7b40816-5693-470f-a579-c353869fead6",
+                    "leftValue": "={{ $json.data.approved }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "empty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "No Action"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        784,
+        1296
+      ],
+      "id": "eeb99c0d-ff3e-45a9-9716-19da6aecee54",
+      "name": "Switch"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        784,
+        1536
+      ],
+      "id": "c66688e8-4208-4d4a-ba97-3a456cbe3aa1",
+      "name": "No Operation, do nothing"
+    }
+  ],
+  "connections": {
+    "Edit Fields Again": {
+      "main": [
+        [
+          {
+            "node": "Convert to Binary Again",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Text Content Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2.5 Flash": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Text Content Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text Content Generator": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Input": {
+      "main": [
+        [
+          {
+            "node": "Main Product Image Base64 String",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Main Product Image Base64 String": {
+      "main": [
+        [
+          {
+            "node": "Image Style to Follow Base64 String",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Image Style to Follow Base64 String": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Nano 🍌: Generate Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nano 🍌: Generate Image": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Image Gen Failed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields Again",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "55cb786e-f2ea-4673-986a-e7f29a13aadc",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-09-13T07:53:30.092Z",
+      "createdAt": "2025-09-13T07:53:30.092Z",
+      "role": "workflow:owner",
+      "workflowId": "BCHj4Wtr6S0GKBuV",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
