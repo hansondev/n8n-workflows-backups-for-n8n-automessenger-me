@@ -1,0 +1,1199 @@
+{
+  "updatedAt": "2025-04-26T08:49:40.000Z",
+  "createdAt": "2025-04-20T09:11:41.764Z",
+  "id": "sIHQTEDhqMpLP2mw",
+  "name": "[Creo_Porject: BigPos] - Meta Ad Copies Generator",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Craft {{ $json.numberAdCopies.toString() }} ad copies version for each of the ad name: {{ $json.adName }} under the specific adset name:{{ $json.adsetName }}\n\nHere is the information provided of the ad name, {{ $json.adName }}:\n1. Angle: {{ $json.angle }}\n2. Target Language: {{ $json.targetLanguage }}\n3. Copywriting Strategy: {{ $json.copywritingStrategy }}\n4. Media Format: {{ $json.mediaFormat }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a professional ad copywriter who is also fluent in multiple languages.\n\n# Task\nYou are tasked with crafting multiple versions of ad copies based on different industries, niches, languages, and copywriting strategies. \n\n# Tools\nYou are required to use the following tools to craft the right and accurate ad copies and avoid any hallucinations:\n1. **competitor_ad_copies**:For getting competitor ad text copies as the reference for ad copies crafting\n2. **web_search**: Search through the web to get company, products or services information for ad copies crafting\n\n# User Context\nThe user will provide several important inputs to ensure that you are able to generate the right output such as:\n- adsetName\n- adName\n- mediaFormat\n- angle\n- targetLanguage\n- copywritingStrategy\n- numberAdCopies\n\n# Output\nAll output must follow the structured JSON format."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        440,
+        0
+      ],
+      "id": "583e592f-e24c-472e-8537-21bb512ce424",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Read and extract the ad copies from the column or field name, \"Ad Body Text\" from the listed advertisers recorded in the sheet",
+        "documentId": {
+          "__rl": true,
+          "value": "1XHTTCJi5G8Aw3VjBoxkIOd-8zhkEmnW_XriuNX12r44",
+          "mode": "list",
+          "cachedResultName": "BigPOS & Competitors MetaAds Library Active Ads Records",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XHTTCJi5G8Aw3VjBoxkIOd-8zhkEmnW_XriuNX12r44/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 992517558,
+          "mode": "list",
+          "cachedResultName": "Ads Query Output",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XHTTCJi5G8Aw3VjBoxkIOd-8zhkEmnW_XriuNX12r44/edit#gid=992517558"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRange"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        540,
+        240
+      ],
+      "id": "13fc16ef-ec5c-49e0-a0cf-f7bd77434087",
+      "name": "competitor_ad_copies",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"adName\": \"The ad name labelled specifically\",\n  \"angle\": \"The perspective used to position a product or service to attract and engage a specific target audience.\",\n  \"targetLanguage\": \"The selected language to craft the ad copies\",\n  \"copywritingStrategy\": \"Type of copywriting strategies that can be used to engage and persuade readers.\",\n  \"mediaFormat\": \"Type of targeted media format\",\n  \"ad copies\": [\"Owner restoran, mesti stres bila staf tak cukup masa waktu makan tengah hari, customer banyak? QR Order & Pay StoreHub membolehkan customer korang\", \"Hai semua pemilik kedai! 📢 Bersedia untuk menangani kegilaan membeli-belah dengan POS StoreHub. Apa itu POS StoreHub?\", \"Owner restoran, mesti korang stres bila menu best seller habis tapi menu yang kurang laku bertimbun? Pengurusan inventori StoreHub membantu anda\"]  \n\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        860,
+        240
+      ],
+      "id": "35db3d27-1dec-4549-8a95-5061bcc2f3a7",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "33b7b279-e993-45cf-9e34-37a29a5819ee",
+              "name": "response",
+              "value": "={{ $json.message }}\n\nSources:\n{{ $json.sources.toJsonString() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        820,
+        580
+      ],
+      "id": "8699334a-a21b-460d-871a-12249ee4d966",
+      "name": "Response"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://perplexica-1.automessenger.me/api/search",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"chatModel\": {\n    \"provider\": \"openai\",\n    \"name\": \"gpt-4o-mini\"\n  },\n  \"embeddingModel\": {\n    \"provider\": \"openai\",\n    \"name\": \"text-embedding-3-large\"\n  },\n  \"optimizationMode\": \"speed\",\n  \"focusMode\": \"webSearch\",\n  \"query\": \"{{ $json.query }}\",\n  \"history\": [\n    [\"human\", \"Hi, how are you?\"],\n    [\"assistant\", \"I am doing well, how can I help you today?\"]\n  ],\n  \"systemInstructions\": \"Focus on providing technical details where requested by the user.\",\n  \"stream\": false\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        620,
+        580
+      ],
+      "id": "e00bd757-da14-4f27-b593-32bbed13f287",
+      "name": "Perplexity API"
+    },
+    {
+      "parameters": {
+        "content": "## Perplexity\n- Get account from OpenRouter.ai to access Perplexity API\n- Set API key in the Perplexity API node\n- Credential \n   Name : Authorization \n   Value: Bearer <api-key value>",
+        "height": 254,
+        "width": 1094,
+        "color": 7
+      },
+      "id": "e5c00285-3b0f-449f-b630-f034af589561",
+      "name": "Sticky Note15",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -140,
+        520
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"query\": \"the search term\"\n}"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        420,
+        580
+      ],
+      "id": "7c079ace-ce46-4eeb-874e-27ca5c43370d",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "name": "web_search",
+        "description": "=Get the in depth information about the user's search query that is relevant to the search query, including web content, and other relevant sources",
+        "workflowId": {
+          "__rl": true,
+          "value": "={{ $workflow.id }}",
+          "mode": "id"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ $fromAI(\"query\",\"The search term\") }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        720,
+        260
+      ],
+      "id": "e0201522-2be3-4a05-88ee-af88e5543604",
+      "name": "web_search"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        300,
+        220
+      ],
+      "id": "33802ec7-b8c7-46e5-a145-4dfe6a9c16e9",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "66f475b1-e679-48c5-b560-ef00e67f5f79",
+              "name": "adname",
+              "value": "={{ $json.output.adName }}",
+              "type": "string"
+            },
+            {
+              "id": "5faf9cdb-daff-44dc-8f0e-5739f70e01aa",
+              "name": "angle",
+              "value": "={{ $json.output.angle }}",
+              "type": "string"
+            },
+            {
+              "id": "5f6c86f4-659e-4dd9-848a-2e0a9d080de2",
+              "name": "targetLanguage",
+              "value": "={{ $json.output.targetLanguage }}",
+              "type": "string"
+            },
+            {
+              "id": "d8a84a8a-4e5d-4b86-b9d1-a92970a952a1",
+              "name": "copywritingStrategy",
+              "value": "={{ $json.output.copywritingStrategy }}",
+              "type": "string"
+            },
+            {
+              "id": "de7d8f28-9054-4d8f-a9af-18bc986ae19d",
+              "name": "mediaFormat",
+              "value": "={{ $json.output.mediaFormat }}",
+              "type": "string"
+            },
+            {
+              "id": "6fbea22f-7cf4-4d25-8ff6-980a03391635",
+              "name": "adcopies",
+              "value": "={{ $json.output[\"ad copies\"] }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        880,
+        0
+      ],
+      "id": "069bc1c7-e0a4-49f7-821a-e7b842191b4c",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        1160,
+        200
+      ],
+      "id": "ca3c7eed-ec10-4365-b857-cc094e87981b",
+      "name": "Think"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1801hpV3alskHI_WrtFbMtEnxsnaywegG6fwbGbtrieI",
+          "mode": "list",
+          "cachedResultName": "Creo_BigPos - MetaAds- Media Plan",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1801hpV3alskHI_WrtFbMtEnxsnaywegG6fwbGbtrieI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1342458573,
+          "mode": "list",
+          "cachedResultName": "Ad Copy Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1801hpV3alskHI_WrtFbMtEnxsnaywegG6fwbGbtrieI/edit#gid=1342458573"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -100,
+        0
+      ],
+      "id": "ee6b6849-79e8-40e7-a566-771c8a4ee0f8",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "oMHjbut2VzVQ0VcS",
+          "name": "GSheet Trigger- boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "242156ff-12d8-41c4-87e7-0cf4abb94bf4",
+              "name": "adsetName",
+              "value": "={{ $json['Adset Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "e53c609a-a6b8-4bac-8e99-a94f644266bb",
+              "name": "adName",
+              "value": "={{ $json['Ad Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "0fab52df-6cd0-4d74-b400-527fd12ab551",
+              "name": "mediaFormat",
+              "value": "={{ $json['Media Format'] }}",
+              "type": "string"
+            },
+            {
+              "id": "742c8dcb-be20-4a4b-89f3-7f4c3ebc0bc1",
+              "name": "targetLanguage",
+              "value": "={{ $json[\"Target Language\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "4c94dc54-24f6-4882-9b6a-4efd9d55f75b",
+              "name": "angle",
+              "value": "={{ $json.Angle }}",
+              "type": "string"
+            },
+            {
+              "id": "e161d9c1-fd0a-4074-862e-845b92b0ad3d",
+              "name": "copywritingStrategy",
+              "value": "={{ $json['Copywriting Strategy'] }}",
+              "type": "string"
+            },
+            {
+              "id": "fd47873d-d302-4648-9098-50677265fa58",
+              "name": "numberAdCopies",
+              "value": "={{ $json['No of Ad Copies'] }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        120,
+        0
+      ],
+      "id": "268bb89a-648b-483e-ad57-b6aedc0ef619",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.adcopies.length }}",
+                    "rightValue": 2,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    },
+                    "id": "605a5e72-7c26-403e-83df-ad0419de55b8"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "2 Ad Copies"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "2f46720e-3eb6-41e0-a738-0892a6697cb9",
+                    "leftValue": "={{ $json.adcopies.length }}",
+                    "rightValue": 3,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "3 Ad Copies"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1100,
+        0
+      ],
+      "id": "dfb9c1df-04f6-4c58-8880-c088b0689964",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "66f475b1-e679-48c5-b560-ef00e67f5f79",
+              "name": "adname",
+              "value": "={{ $json.adname }}",
+              "type": "string"
+            },
+            {
+              "id": "5faf9cdb-daff-44dc-8f0e-5739f70e01aa",
+              "name": "angle",
+              "value": "={{ $json.angle }}",
+              "type": "string"
+            },
+            {
+              "id": "5f6c86f4-659e-4dd9-848a-2e0a9d080de2",
+              "name": "targetLanguage",
+              "value": "={{ $json.targetLanguage }}",
+              "type": "string"
+            },
+            {
+              "id": "d8a84a8a-4e5d-4b86-b9d1-a92970a952a1",
+              "name": "copywritingStrategy",
+              "value": "={{ $json.copywritingStrategy }}",
+              "type": "string"
+            },
+            {
+              "id": "de7d8f28-9054-4d8f-a9af-18bc986ae19d",
+              "name": "mediaFormat",
+              "value": "={{ $json.mediaFormat }}",
+              "type": "string"
+            },
+            {
+              "id": "6fbea22f-7cf4-4d25-8ff6-980a03391635",
+              "name": "adCopyV1",
+              "value": "={{ $json.adcopies[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "2900006b-211f-43f0-afb9-fb78a265e2d3",
+              "name": "adCopyV2",
+              "value": "={{ $json.adcopies[1] }}",
+              "type": "string"
+            },
+            {
+              "id": "c6aac409-6dee-48d4-8c0e-316acd1ac91b",
+              "name": "adCopyV3",
+              "value": "={{ $json.adcopies[2] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1360,
+        80
+      ],
+      "id": "d4366703-59d1-4a3b-9cd7-0214b7bc2dc1",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "66f475b1-e679-48c5-b560-ef00e67f5f79",
+              "name": "adname",
+              "value": "={{ $json.adname }}",
+              "type": "string"
+            },
+            {
+              "id": "5faf9cdb-daff-44dc-8f0e-5739f70e01aa",
+              "name": "angle",
+              "value": "={{ $json.angle }}",
+              "type": "string"
+            },
+            {
+              "id": "5f6c86f4-659e-4dd9-848a-2e0a9d080de2",
+              "name": "targetLanguage",
+              "value": "={{ $json.targetLanguage }}",
+              "type": "string"
+            },
+            {
+              "id": "d8a84a8a-4e5d-4b86-b9d1-a92970a952a1",
+              "name": "copywritingStrategy",
+              "value": "={{ $json.copywritingStrategy }}",
+              "type": "string"
+            },
+            {
+              "id": "de7d8f28-9054-4d8f-a9af-18bc986ae19d",
+              "name": "mediaFormat",
+              "value": "={{ $json.mediaFormat }}",
+              "type": "string"
+            },
+            {
+              "id": "6fbea22f-7cf4-4d25-8ff6-980a03391635",
+              "name": "adCopyV1",
+              "value": "={{ $json.adcopies[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "2900006b-211f-43f0-afb9-fb78a265e2d3",
+              "name": "adCopyV2",
+              "value": "={{ $json.adcopies[1] }}",
+              "type": "string"
+            },
+            {
+              "id": "c6aac409-6dee-48d4-8c0e-316acd1ac91b",
+              "name": "adCopyV3",
+              "value": "={{ $json.adcopies[2] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1360,
+        -80
+      ],
+      "id": "89bd5870-4bca-4a06-aa50-2ff9955f5321",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1801hpV3alskHI_WrtFbMtEnxsnaywegG6fwbGbtrieI",
+          "mode": "list",
+          "cachedResultName": "Creo_BigPos - MetaAds- Media Plan",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1801hpV3alskHI_WrtFbMtEnxsnaywegG6fwbGbtrieI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1342458573,
+          "mode": "list",
+          "cachedResultName": "Ad Copy Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1801hpV3alskHI_WrtFbMtEnxsnaywegG6fwbGbtrieI/edit#gid=1342458573"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Ad Name": "={{ $json.adname }}",
+            "Media Format": "={{ $json.mediaFormat }}",
+            "Target Language": "={{ $json.targetLanguage }}",
+            "Angle": "={{ $json.angle }}",
+            "Copywriting Strategy": "={{ $json.copywritingStrategy }}",
+            "Ad Copy V1": "={{ $json.adCopyV1 }}",
+            "Ad Copy V2": "={{ $json.adCopyV2 }}",
+            "Ad Copy V3": "={{ $json.adCopyV3 }}"
+          },
+          "matchingColumns": [
+            "Ad Name"
+          ],
+          "schema": [
+            {
+              "id": "Campaign Name",
+              "displayName": "Campaign Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Adset Name",
+              "displayName": "Adset Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Name",
+              "displayName": "Ad Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Media Format",
+              "displayName": "Media Format",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Target Language",
+              "displayName": "Target Language",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Angle",
+              "displayName": "Angle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Copywriting Strategy",
+              "displayName": "Copywriting Strategy",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "No of Ad Copies",
+              "displayName": "No of Ad Copies",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Copy V1",
+              "displayName": "Ad Copy V1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Copy V2",
+              "displayName": "Ad Copy V2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Copy V3",
+              "displayName": "Ad Copy V3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1580,
+        80
+      ],
+      "id": "70fd7366-e307-4ec9-afd1-9dbacd957d1f",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1801hpV3alskHI_WrtFbMtEnxsnaywegG6fwbGbtrieI",
+          "mode": "list",
+          "cachedResultName": "Creo_BigPos - MetaAds- Media Plan",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1801hpV3alskHI_WrtFbMtEnxsnaywegG6fwbGbtrieI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1342458573,
+          "mode": "list",
+          "cachedResultName": "Ad Copy Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1801hpV3alskHI_WrtFbMtEnxsnaywegG6fwbGbtrieI/edit#gid=1342458573"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Ad Name": "={{ $json.adname }}",
+            "Media Format": "={{ $json.mediaFormat }}",
+            "Target Language": "={{ $json.targetLanguage }}",
+            "Angle": "={{ $json.angle }}",
+            "Copywriting Strategy": "={{ $json.copywritingStrategy }}",
+            "Ad Copy V1": "={{ $json.adCopyV1 }}",
+            "Ad Copy V2": "={{ $json.adCopyV2 }}",
+            "Ad Copy V3": "={{ $json.adCopyV3 }}"
+          },
+          "matchingColumns": [
+            "Ad Name"
+          ],
+          "schema": [
+            {
+              "id": "Campaign Name",
+              "displayName": "Campaign Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Adset Name",
+              "displayName": "Adset Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Name",
+              "displayName": "Ad Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Media Format",
+              "displayName": "Media Format",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Target Language",
+              "displayName": "Target Language",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Angle",
+              "displayName": "Angle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Copywriting Strategy",
+              "displayName": "Copywriting Strategy",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "No of Ad Copies",
+              "displayName": "No of Ad Copies",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Copy V1",
+              "displayName": "Ad Copy V1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Copy V2",
+              "displayName": "Ad Copy V2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Copy V3",
+              "displayName": "Ad Copy V3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1560,
+        -80
+      ],
+      "id": "bdb831b3-ca40-4687-a789-cf4d447e7651",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "competitor_ad_copies": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Perplexity API": {
+      "main": [
+        [
+          {
+            "node": "Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Perplexity API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "web_search": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "AI Agent": [
+      {
+        "json": {
+          "output": {
+            "adName": "VID - Product Features - General Biz Owner -V1",
+            "angle": "Pin point for most of small & medium business owners facing the pains, difficulties and challenges facing in day-to-day order, sales and inventory operations",
+            "targetLanguage": "Malay",
+            "copywritingStrategy": "PAS (Problem, Agitate, Solution)",
+            "mediaFormat": "Single Video",
+            "ad copies": [
+              "😔 Pernah rasa akan kerumitan dalam pengurusan inventori? 43% pemilik perniagaan kecil menghadapi isu stok berlebihan atau habis. Ini merugikan keuntungan dan kepuasan pelanggan. Dengan sistem kami, urus inventori secara automatik, dan bertenang setiap kali pelanggan datang! Demo percuma menanti!",
+              "🤯 Menyesal bila jualan tinggi tetapi pengurusan itu gagal? Tanpa sistem yang tepat, perkara ini biasa terjadi. Jangan biarkan pelanggan anda menunggu. Kami membantu anda mengalahkan kerumitan dan meningkatkan kepuasan pelanggan. Tempah demo percuma hari ini!",
+              "🌟 Adakah anda sering kehabisan stok barang yang laris? Stok yang tidak tepat bukan sahaja hilang peluang jualan tetapi juga mengecewakan pelanggan. Dengan sistem kami, anda akan sentiasa selangkah di hadapan. Jangan tunggu lagi, dapatkan pengalaman percuma hari ini!"
+            ]
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "adName": "Carousel  - Product Features - General Biz Owner -V1",
+            "angle": "Product showcasing about BigPOS product features, pricing plan and other necessary information that beneficial to most of the business shop owners in general",
+            "targetLanguage": "Malay",
+            "copywritingStrategy": "FAB (Feature, Advantage, Benefit)",
+            "mediaFormat": "Image Carousel",
+            "ad copies": [
+              "🎉 Kenali BIG POS - Sistem POS yang Terbaik untuk Kedai Anda! 🚀\n\n🔑 **Ciri Utama:** Sistem berasaskan awan ini memberi anda akses 24/7 untuk pemantauan prestasi perniagaan.  \n💼 **Kelebihan:** Kawal operasi harian anda dengan mudah.  \n🎯 **Manfaat:** Dapatkan analisis data automatik untuk membuat keputusan yang lebih baik dan tingkatkan keuntungan kedai anda!  \n\n👉 Tempah tayangan percuma sekarang dan rasai perubahan yang ketara!",
+              "📦 **Pengurusan Inventori Mudah!** \n\n✨ **Ciri:** BIG POS menawarkan pengurusan inventori yang berkesan, membolehkan anda menjejak stok dengan hanya beberapa klik.  \n🚀 **Kelebihan:** Selesaikan masalah kekurangan atau kelebihan stok.  \n💸 **Manfaat:** Pastikan pelanggan sentiasa puas hati dengan produk yang tersedia.  \n\n📲 Dapatkan demonstrasi percuma hari ini dan lihat sendiri betapa mudahnya menguruskan kedai anda!",
+              "💻 **Sistem Pelanggan Pintar!** \n\n🏷️ **Ciri:** BIG POS membolehkan anda mengurus hubungan pelanggan dengan mudah, menjejak pembelian dan preferensi mereka.  \n📈 **Kelebihan:** Dapatkan pandangan mendalam tentang perilaku pelanggan.  \n🤝 **Manfaat:** Tingkatkan kempen pemasaran dan kesetiaan pelanggan anda!  \n\n🎊 Hubungi kami untuk membooking demo percuma dan mulakan perjalanan perniagaan yang lebih baik!"
+            ]
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "adName": "VID - UGC - General Biz Owner Testimonials - General Biz Owner -V1",
+            "angle": "BigPOS's client or customer who already using BigPOS point of sale system showing and crediting some testimonials after using the product",
+            "targetLanguage": "Malay",
+            "copywritingStrategy": "BAB (Before, After, Bridge)",
+            "mediaFormat": "Single Video",
+            "ad copies": [
+              "Sebelum menggunakan BigPOS, kami sering menghadapi masalah kekacauan dalam pengurusan inventori. Banyak produk terlepas pandang dan kami tidak tahu apa yang laku dan tidak. Kini, selepas beralih kepada BigPOS, kami dapat menguruskan stok dengan lebih berkesan, memantau penjualan secara real-time, dan mengurangkan pembaziran. Dapatkan sistem POS terbaik hari ini dan nikmati pengalaman perniagaan yang lebih lancar!",
+              "Dulu, kami terpaksa menghabiskan berjam-jam untuk mengira jualan harian secara manual. Selepas beralih kepada BigPOS, semua itu tidak lagi menjadi masalah! Sistem ini membolehkan kami merekod semua transaksi secara automatik dan menyediakan laporan yang jelas. Bergabunglah dengan kami untuk menukarkan cara anda mengurus perniagaan!",
+              "Kami sering diserang Kebingungan ketika pelanggan meminta baju yang telah habis stok! Tapi dengan BigPOS, kami menerima notifikasi apabila stok hampir habis dan dapat mengesyorkan produk lain kepada pelanggan. Jom tingkatkan perkhidmatan pelanggan anda dengan BigPOS!"
+            ]
+          }
+        }
+      }
+    ],
+    "Edit Fields2": [
+      {
+        "json": {
+          "adname": "VID - Product Features - General Biz Owner -V1",
+          "angle": "Pin point for most of small & medium business owners facing the pains, difficulties and challenges facing in day-to-day order, sales and inventory operations",
+          "targetLanguage": "Malay",
+          "copywritingStrategy": "PAS (Problem, Agitate, Solution)",
+          "mediaFormat": "Single Video",
+          "adCopyV1": "😔 Pernah rasa akan kerumitan dalam pengurusan inventori? 43% pemilik perniagaan kecil menghadapi isu stok berlebihan atau habis. Ini merugikan keuntungan dan kepuasan pelanggan. Dengan sistem kami, urus inventori secara automatik, dan bertenang setiap kali pelanggan datang! Demo percuma menanti!",
+          "adCopyV2": "🤯 Menyesal bila jualan tinggi tetapi pengurusan itu gagal? Tanpa sistem yang tepat, perkara ini biasa terjadi. Jangan biarkan pelanggan anda menunggu. Kami membantu anda mengalahkan kerumitan dan meningkatkan kepuasan pelanggan. Tempah demo percuma hari ini!",
+          "adCopyV3": "🌟 Adakah anda sering kehabisan stok barang yang laris? Stok yang tidak tepat bukan sahaja hilang peluang jualan tetapi juga mengecewakan pelanggan. Dengan sistem kami, anda akan sentiasa selangkah di hadapan. Jangan tunggu lagi, dapatkan pengalaman percuma hari ini!"
+        }
+      },
+      {
+        "json": {
+          "adname": "Carousel  - Product Features - General Biz Owner -V1",
+          "angle": "Product showcasing about BigPOS product features, pricing plan and other necessary information that beneficial to most of the business shop owners in general",
+          "targetLanguage": "Malay",
+          "copywritingStrategy": "FAB (Feature, Advantage, Benefit)",
+          "mediaFormat": "Image Carousel",
+          "adCopyV1": "🎉 Kenali BIG POS - Sistem POS yang Terbaik untuk Kedai Anda! 🚀\n\n🔑 **Ciri Utama:** Sistem berasaskan awan ini memberi anda akses 24/7 untuk pemantauan prestasi perniagaan.  \n💼 **Kelebihan:** Kawal operasi harian anda dengan mudah.  \n🎯 **Manfaat:** Dapatkan analisis data automatik untuk membuat keputusan yang lebih baik dan tingkatkan keuntungan kedai anda!  \n\n👉 Tempah tayangan percuma sekarang dan rasai perubahan yang ketara!",
+          "adCopyV2": "📦 **Pengurusan Inventori Mudah!** \n\n✨ **Ciri:** BIG POS menawarkan pengurusan inventori yang berkesan, membolehkan anda menjejak stok dengan hanya beberapa klik.  \n🚀 **Kelebihan:** Selesaikan masalah kekurangan atau kelebihan stok.  \n💸 **Manfaat:** Pastikan pelanggan sentiasa puas hati dengan produk yang tersedia.  \n\n📲 Dapatkan demonstrasi percuma hari ini dan lihat sendiri betapa mudahnya menguruskan kedai anda!",
+          "adCopyV3": "💻 **Sistem Pelanggan Pintar!** \n\n🏷️ **Ciri:** BIG POS membolehkan anda mengurus hubungan pelanggan dengan mudah, menjejak pembelian dan preferensi mereka.  \n📈 **Kelebihan:** Dapatkan pandangan mendalam tentang perilaku pelanggan.  \n🤝 **Manfaat:** Tingkatkan kempen pemasaran dan kesetiaan pelanggan anda!  \n\n🎊 Hubungi kami untuk membooking demo percuma dan mulakan perjalanan perniagaan yang lebih baik!"
+        }
+      },
+      {
+        "json": {
+          "adname": "VID - UGC - General Biz Owner Testimonials - General Biz Owner -V1",
+          "angle": "BigPOS's client or customer who already using BigPOS point of sale system showing and crediting some testimonials after using the product",
+          "targetLanguage": "Malay",
+          "copywritingStrategy": "BAB (Before, After, Bridge)",
+          "mediaFormat": "Single Video",
+          "adCopyV1": "Sebelum menggunakan BigPOS, kami sering menghadapi masalah kekacauan dalam pengurusan inventori. Banyak produk terlepas pandang dan kami tidak tahu apa yang laku dan tidak. Kini, selepas beralih kepada BigPOS, kami dapat menguruskan stok dengan lebih berkesan, memantau penjualan secara real-time, dan mengurangkan pembaziran. Dapatkan sistem POS terbaik hari ini dan nikmati pengalaman perniagaan yang lebih lancar!",
+          "adCopyV2": "Dulu, kami terpaksa menghabiskan berjam-jam untuk mengira jualan harian secara manual. Selepas beralih kepada BigPOS, semua itu tidak lagi menjadi masalah! Sistem ini membolehkan kami merekod semua transaksi secara automatik dan menyediakan laporan yang jelas. Bergabunglah dengan kami untuk menukarkan cara anda mengurus perniagaan!",
+          "adCopyV3": "Kami sering diserang Kebingungan ketika pelanggan meminta baju yang telah habis stok! Tapi dengan BigPOS, kami menerima notifikasi apabila stok hampir habis dan dapat mengesyorkan produk lain kepada pelanggan. Jom tingkatkan perkhidmatan pelanggan anda dengan BigPOS!"
+        }
+      }
+    ],
+    "Edit Fields3": [
+      {
+        "json": {
+          "adname": "VID - Product Features - General Biz Owner -V1",
+          "angle": "Pin point for most of small & medium business owners facing the pains, difficulties and challenges facing in day-to-day order, sales and inventory operations",
+          "targetLanguage": "Malay",
+          "copywritingStrategy": "PAS (Problem, Agitate, Solution)",
+          "mediaFormat": "Single Video",
+          "adCopyV1": "😔 Pernah rasa akan kerumitan dalam pengurusan inventori? 43% pemilik perniagaan kecil menghadapi isu stok berlebihan atau habis. Ini merugikan keuntungan dan kepuasan pelanggan. Dengan sistem kami, urus inventori secara automatik, dan bertenang setiap kali pelanggan datang! Demo percuma menanti!",
+          "adCopyV2": "🤯 Menyesal bila jualan tinggi tetapi pengurusan itu gagal? Tanpa sistem yang tepat, perkara ini biasa terjadi. Jangan biarkan pelanggan anda menunggu. Kami membantu anda mengalahkan kerumitan dan meningkatkan kepuasan pelanggan. Tempah demo percuma hari ini!",
+          "adCopyV3": "🌟 Adakah anda sering kehabisan stok barang yang laris? Stok yang tidak tepat bukan sahaja hilang peluang jualan tetapi juga mengecewakan pelanggan. Dengan sistem kami, anda akan sentiasa selangkah di hadapan. Jangan tunggu lagi, dapatkan pengalaman percuma hari ini!"
+        }
+      },
+      {
+        "json": {
+          "adname": "Carousel  - Product Features - General Biz Owner -V1",
+          "angle": "Product showcasing about BigPOS product features, pricing plan and other necessary information that beneficial to most of the business shop owners in general",
+          "targetLanguage": "Malay",
+          "copywritingStrategy": "FAB (Feature, Advantage, Benefit)",
+          "mediaFormat": "Image Carousel",
+          "adCopyV1": "🎉 Kenali BIG POS - Sistem POS yang Terbaik untuk Kedai Anda! 🚀\n\n🔑 **Ciri Utama:** Sistem berasaskan awan ini memberi anda akses 24/7 untuk pemantauan prestasi perniagaan.  \n💼 **Kelebihan:** Kawal operasi harian anda dengan mudah.  \n🎯 **Manfaat:** Dapatkan analisis data automatik untuk membuat keputusan yang lebih baik dan tingkatkan keuntungan kedai anda!  \n\n👉 Tempah tayangan percuma sekarang dan rasai perubahan yang ketara!",
+          "adCopyV2": "📦 **Pengurusan Inventori Mudah!** \n\n✨ **Ciri:** BIG POS menawarkan pengurusan inventori yang berkesan, membolehkan anda menjejak stok dengan hanya beberapa klik.  \n🚀 **Kelebihan:** Selesaikan masalah kekurangan atau kelebihan stok.  \n💸 **Manfaat:** Pastikan pelanggan sentiasa puas hati dengan produk yang tersedia.  \n\n📲 Dapatkan demonstrasi percuma hari ini dan lihat sendiri betapa mudahnya menguruskan kedai anda!",
+          "adCopyV3": "💻 **Sistem Pelanggan Pintar!** \n\n🏷️ **Ciri:** BIG POS membolehkan anda mengurus hubungan pelanggan dengan mudah, menjejak pembelian dan preferensi mereka.  \n📈 **Kelebihan:** Dapatkan pandangan mendalam tentang perilaku pelanggan.  \n🤝 **Manfaat:** Tingkatkan kempen pemasaran dan kesetiaan pelanggan anda!  \n\n🎊 Hubungi kami untuk membooking demo percuma dan mulakan perjalanan perniagaan yang lebih baik!"
+        }
+      },
+      {
+        "json": {
+          "adname": "VID - UGC - General Biz Owner Testimonials - General Biz Owner -V1",
+          "angle": "BigPOS's client or customer who already using BigPOS point of sale system showing and crediting some testimonials after using the product",
+          "targetLanguage": "Malay",
+          "copywritingStrategy": "BAB (Before, After, Bridge)",
+          "mediaFormat": "Single Video",
+          "adCopyV1": "Sebelum menggunakan BigPOS, kami sering menghadapi masalah kekacauan dalam pengurusan inventori. Banyak produk terlepas pandang dan kami tidak tahu apa yang laku dan tidak. Kini, selepas beralih kepada BigPOS, kami dapat menguruskan stok dengan lebih berkesan, memantau penjualan secara real-time, dan mengurangkan pembaziran. Dapatkan sistem POS terbaik hari ini dan nikmati pengalaman perniagaan yang lebih lancar!",
+          "adCopyV2": "Dulu, kami terpaksa menghabiskan berjam-jam untuk mengira jualan harian secara manual. Selepas beralih kepada BigPOS, semua itu tidak lagi menjadi masalah! Sistem ini membolehkan kami merekod semua transaksi secara automatik dan menyediakan laporan yang jelas. Bergabunglah dengan kami untuk menukarkan cara anda mengurus perniagaan!",
+          "adCopyV3": "Kami sering diserang Kebingungan ketika pelanggan meminta baju yang telah habis stok! Tapi dengan BigPOS, kami menerima notifikasi apabila stok hampir habis dan dapat mengesyorkan produk lain kepada pelanggan. Jom tingkatkan perkhidmatan pelanggan anda dengan BigPOS!"
+        }
+      }
+    ]
+  },
+  "versionId": "07f5f6ec-12e0-4bd9-ad76-497122107278",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-04-20T09:11:41.771Z",
+      "createdAt": "2025-04-20T09:11:41.771Z",
+      "role": "workflow:owner",
+      "workflowId": "sIHQTEDhqMpLP2mw",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
