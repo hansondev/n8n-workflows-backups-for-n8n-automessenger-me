@@ -1,0 +1,83 @@
+{
+  "updatedAt": "2023-12-29T03:17:22.000Z",
+  "createdAt": "2023-12-29T03:15:28.624Z",
+  "id": "zThk1lTdBfZOZ9MR",
+  "name": "Crawlbase API-Google Search Scraper Demo",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "91f23f1f-c432-4f78-b363-4cdc768aec5a",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        820,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.crawlbase.com",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "token",
+              "value": "XWWV5Q3H1ctXymJGumaB0A"
+            },
+            {
+              "name": "url",
+              "value": "https://www.google.com/search?q=samsung+shops"
+            },
+            {
+              "name": "scraper",
+              "value": "google-serp"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "91553ebe-914a-47b1-8494-b0e67b263ef3",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1060,
+        320
+      ]
+    }
+  ],
+  "connections": {
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "ba97d951-c963-4cdf-b34f-06b3f2dc0812",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2023-12-29T03:15:28.663Z",
+      "createdAt": "2023-12-29T03:15:28.663Z",
+      "role": "workflow:owner",
+      "workflowId": "zThk1lTdBfZOZ9MR",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
