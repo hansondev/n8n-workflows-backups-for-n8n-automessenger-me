@@ -1,0 +1,485 @@
+{
+  "updatedAt": "2024-01-01T08:20:32.000Z",
+  "createdAt": "2023-12-31T08:09:29.928Z",
+  "id": "siNsuzsmKiGu9d6p",
+  "name": "FlutterFlow_CMSDemoApp-NewsAPI_Create  & Update Firestore Documents From GSheet",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "7c1b1e4f-cdd9-4a62-a5be-d6e29fd6d08f",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        880,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1SRh_9KmfCvL5jS-FGedWWDC0lXwTGcFq3vXqmRC5Cbo",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-CMS Demo App-News API Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1SRh_9KmfCvL5jS-FGedWWDC0lXwTGcFq3vXqmRC5Cbo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1SRh_9KmfCvL5jS-FGedWWDC0lXwTGcFq3vXqmRC5Cbo/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Title": "={{ $json.newsTitle }}",
+            "Content": "={{ $json.newsContent }}",
+            "Image": "={{ $json.newsImage }}",
+            "Date": "={{ $json.datePublished }}"
+          },
+          "matchingColumns": [
+            "Title"
+          ],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Content",
+              "displayName": "Content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Image",
+              "displayName": "Image",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "522ca840-0306-4944-ad76-01fc5e91cd6a",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        2140,
+        160
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "articles",
+        "options": {}
+      },
+      "id": "313bb77a-36c8-4244-a383-b68ae5389a5e",
+      "name": "Item Lists",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3.1,
+      "position": [
+        1600,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "projectId": "={{ $json.firebaseProjectID }}",
+        "collection": "={{ $json.firebaseCollectionName }}",
+        "documentId": "={{ $json.firebaseInitialDocID }}"
+      },
+      "id": "95019c9e-795d-4310-be47-bf157349acd5",
+      "name": "Google Cloud Firestore1",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        3040,
+        60
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1G9gqyPr6FUaFbWHn3NLtwTVbqD8s4_0UB7TA69-kSoI",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Ecommerce Demo App Fake Store API Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1G9gqyPr6FUaFbWHn3NLtwTVbqD8s4_0UB7TA69-kSoI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 104771511,
+          "mode": "list",
+          "cachedResultName": "Category",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1G9gqyPr6FUaFbWHn3NLtwTVbqD8s4_0UB7TA69-kSoI/edit#gid=104771511"
+        },
+        "options": {}
+      },
+      "id": "281685dc-cf2e-461c-95cb-4e09d19c1b10",
+      "name": "Google Sheets3",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        3260,
+        0
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "projectId": "={{ $('Edit Fields').item.json.firestoreProjectName }}",
+        "collection": "={{ $('Edit Fields').item.json.collectionName }}",
+        "updateKey": "_id",
+        "columns": "Name"
+      },
+      "id": "9da7b0f2-d771-4f2b-962a-8427dccf281e",
+      "name": "Google Cloud Firestore3",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        3760,
+        -60
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "_id",
+              "stringValue": "={{ $json.row_number }}"
+            },
+            {
+              "name": "Name",
+              "stringValue": "={{ $json.Name }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "b76a85f0-81c5-43dd-9e64-729cc6ac6af3",
+      "name": "Edit Fields2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        3480,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://newsapi.org/v2/top-headlines",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "country",
+              "value": "us"
+            },
+            {
+              "name": "apiKey",
+              "value": "af27b1c750a24f88a7cbed1a8caded92"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5bb41874-5751-4b3b-bcd7-b1efe21475e9",
+      "name": "Get Top Headline News",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1240,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "newsTitle",
+              "stringValue": "={{ $json.title }}"
+            },
+            {
+              "name": "newsContent",
+              "stringValue": "={{ $json.content }}"
+            },
+            {
+              "name": "newsImage",
+              "stringValue": "={{ $json.urlToImage }}"
+            },
+            {
+              "name": "datePublished",
+              "stringValue": "={{ $json.publishedAt }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "96cfc9cb-0aa9-4ffb-a3fa-6ccd7aaa6633",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1860,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "firebaseProjectID",
+              "stringValue": " fftutorial-cmsdemoapp"
+            },
+            {
+              "name": "firebaseCollectionName",
+              "stringValue": "posts"
+            },
+            {
+              "name": "firebaseInitialDocID",
+              "stringValue": "5c0ncF9yHDdmWYXOMQD5"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "fcd4572d-1d93-40b9-a291-9f89c05b01b0",
+      "name": "Edit Fields1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2420,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "961620d8-a436-4525-8432-46f79876fc61",
+      "name": "Loop Over Items1",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        2640,
+        120
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "26fd20a7-03b8-4e09-9182-8fd0766d89f1",
+      "name": "Replace Me1",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2840,
+        180
+      ]
+    }
+  ],
+  "connections": {
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Get Top Headline News",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Cloud Firestore1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Top Headline News": {
+      "main": [
+        [
+          {
+            "node": "Item Lists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Replace Me1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Cloud Firestore1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "d390a5d8-90b7-406c-9df7-64544ef82e64",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2023-12-31T08:09:29.943Z",
+      "createdAt": "2023-12-31T08:09:29.943Z",
+      "role": "workflow:owner",
+      "workflowId": "siNsuzsmKiGu9d6p",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
