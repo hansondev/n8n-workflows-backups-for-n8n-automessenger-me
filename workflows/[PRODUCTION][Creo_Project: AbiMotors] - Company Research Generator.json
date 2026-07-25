@@ -1,0 +1,463 @@
+{
+  "updatedAt": "2025-06-18T16:24:43.000Z",
+  "createdAt": "2025-06-18T16:16:00.286Z",
+  "id": "vIT4SzoG7WP1wioR",
+  "name": "[PRODUCTION][Creo_Project: AbiMotors] - Company Research Generator",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ddc53601-f3de-4f0e-9bac-4ad590891705",
+              "leftValue": "={{ $json['Research Output'] }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "string",
+                "operation": "notExists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -120,
+        180
+      ],
+      "id": "a56b7aa5-b20b-49e7-99e5-a789eb6febf7",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        340
+      ],
+      "id": "04f4d5da-e32b-4451-88cf-c514eaa0f09b",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to get the search query through the search engine, gather the sources and summarize the web research as the output.",
+        "workflowId": {
+          "__rl": true,
+          "value": "Ek66VfFhjAWBSb3v",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Tavily AI Research Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ $('If').item.json['Company Name'] }} {{ $('If').item.json['Company Location'] }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        440,
+        340
+      ],
+      "id": "cca4141d-e153-4ef4-9bd2-981cd480bddc",
+      "name": "ai_web_research_tool"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Company Name: {{ $json['Company Name'] }} {{ $json['Company Location'] }}\nIndustry Type: {{ $json['Industry Types'] }}\nWebsite URL: {{ $json['Company Website'] }}",
+        "options": {
+          "systemMessage": "=# Role\nYou are a web research specialist who familiarized on scraping the web content from the user search query and summarizing what the company, brand and products details.  \n\n# Task\nYou are tasked to scrape and summarize the web research output based on user provided information such as company name, website url and industry type.\n\n# Tool\nIn order able to scrape the web content based on user provided website url and summarize it as the web research summary, you are require to use the following tool:\n- **`ai_web_research_tool`** : Call this tool to get the search query through the ai search engine, gather the sources and summarize the web research as the output.\n\n# Output\nThe output should be in plain text based without any task explaination and other unnecessary details."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        200,
+        160
+      ],
+      "id": "6cb0c631-c58a-4b6b-a63b-90d8e1a2ff66",
+      "name": "Web Research Agent"
+    },
+    {
+      "parameters": {
+        "formTitle": "Creo Client: ReadyCare Company Research",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Sementra Hot Spring Nature Resort Gopeng"
+                  },
+                  {
+                    "option": "Readycare Signature"
+                  },
+                  {
+                    "option": "Abi Motors Sdn Bhd"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Company Website",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "https://sementra.my/"
+                  },
+                  {
+                    "option": "https://rcsignature.com.my/"
+                  },
+                  {
+                    "option": "https://www.facebook.com/peroduoabimotors"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Company Location",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Ipoh Perak, Malaysia"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Industry Types",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Local Brand Automotive"
+                  },
+                  {
+                    "option": "Local Car Dealership"
+                  },
+                  {
+                    "option": "After-Sales Services"
+                  },
+                  {
+                    "option": "Affordable Car Brand "
+                  }
+                ]
+              },
+              "multiselect": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -880,
+        180
+      ],
+      "id": "e4474973-bbe9-4e82-a91e-430249bf0f0e",
+      "name": "On form submission",
+      "webhookId": "e914690d-a7e1-40f4-9fac-72425addce82"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "create",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pn83rt95epwfhjl",
+        "table": "mxtwgdsa7z00l69",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Company Name",
+              "fieldValue": "={{ $json.Name }}"
+            },
+            {
+              "fieldName": "Company Website",
+              "fieldValue": "={{ $json['Company Website'] }}"
+            },
+            {
+              "fieldName": "Company Location",
+              "fieldValue": "={{ $json['Company Location'] }}"
+            },
+            {
+              "fieldName": "Industry Types",
+              "fieldValue": "={{ $json['Industry Types'] }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -620,
+        180
+      ],
+      "id": "556b1b01-c952-4215-9433-f3754d1eb18a",
+      "name": "Create Company Details Input",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pn83rt95epwfhjl",
+        "table": "mxtwgdsa7z00l69",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -400,
+        180
+      ],
+      "id": "9af00173-6110-4a39-b184-461b0c4f4f4d",
+      "name": "NocoDB",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "delete",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pn83rt95epwfhjl",
+        "table": "mxtwgdsa7z00l69",
+        "id": "={{ $json.Id }}"
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -200,
+        420
+      ],
+      "id": "5f66048c-88f7-40af-951c-e1f3f7260f92",
+      "name": "NocoDB1",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pn83rt95epwfhjl",
+        "table": "mxtwgdsa7z00l69",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('If').first().json.Id }}"
+            },
+            {
+              "fieldName": "Research Output",
+              "fieldValue": "={{ $json.output }}"
+            },
+            {
+              "fieldName": "Status",
+              "fieldValue": "Completed"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        560,
+        160
+      ],
+      "id": "34c6b870-5781-4925-bb9c-07313d505142",
+      "name": "NocoDB2",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Web Research Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "NocoDB1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Web Research Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_web_research_tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Web Research Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Web Research Agent": {
+      "main": [
+        [
+          {
+            "node": "NocoDB2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Create Company Details Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Company Details Input": {
+      "main": [
+        [
+          {
+            "node": "NocoDB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NocoDB": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "On form submission": [
+      {
+        "json": {
+          "Name": "Abi Motors Sdn Bhd",
+          "Company Website": "https://www.facebook.com/peroduoabimotors",
+          "Company Location": "Ipoh Perak, Malaysia",
+          "Industry Types": [
+            "Local Brand Automotive",
+            "Local Car Dealership",
+            "After-Sales Services",
+            "Affordable Car Brand"
+          ],
+          "submittedAt": "2025-06-19T00:22:34.467+08:00",
+          "formMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "387752e4-6b27-42d8-b786-7a7915cd266b",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-06-18T16:16:00.297Z",
+      "createdAt": "2025-06-18T16:16:00.297Z",
+      "role": "workflow:owner",
+      "workflowId": "vIT4SzoG7WP1wioR",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
