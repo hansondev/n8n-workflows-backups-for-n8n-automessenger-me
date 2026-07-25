@@ -1,0 +1,74 @@
+{
+  "updatedAt": "2025-06-08T05:08:11.000Z",
+  "createdAt": "2025-06-06T05:23:04.394Z",
+  "id": "moFTlMC93v6HePgt",
+  "name": "My workflow 12",
+  "active": false,
+  "isArchived": true,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "a9fa3edb-d4a7-408b-aa25-1283b0209aff",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.wooCommerce",
+      "typeVersion": 1,
+      "position": [
+        220,
+        0
+      ],
+      "id": "4fbb0631-53f8-4fb8-a262-ed38b6382da8",
+      "name": "WooCommerce",
+      "credentials": {
+        "wooCommerceApi": {
+          "id": "vUUGG8jfnynWfhkh",
+          "name": "WooCommerce(https://rcsignature.com.my/)"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "WooCommerce",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "56fd72af-02a4-442f-8290-09474b100117",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-06-06T05:23:04.402Z",
+      "createdAt": "2025-06-06T05:23:04.402Z",
+      "role": "workflow:owner",
+      "workflowId": "moFTlMC93v6HePgt",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
