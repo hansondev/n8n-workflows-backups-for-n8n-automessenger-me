@@ -1,0 +1,1432 @@
+{
+  "updatedAt": "2025-06-13T12:49:33.000Z",
+  "createdAt": "2025-05-20T08:05:28.668Z",
+  "id": "its76KQ1R0QxGHiy",
+  "name": "[DEVELOPMENT] - Telegram Group Files Trigger And Save To GDrive",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.message.chat.type }}",
+                    "rightValue": "supergroup",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "b9a91a5d-2a27-46b8-9927-6843ff0d3140"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Supergroup"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "0951fc45-0728-4fa3-8a8e-030686bde2b2",
+                    "leftValue": "={{ $json.body.message.chat.type }}",
+                    "rightValue": "group",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Group"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -140,
+        -80
+      ],
+      "id": "6ec835fd-666a-4db1-bad8-af9e873a471d",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $('Switch').item.json.message.document.file_id }}"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1600,
+        -480
+      ],
+      "id": "fbba506d-acd4-46ee-a422-27256b4c0b67",
+      "name": "Telegram1",
+      "webhookId": "79c2675e-2136-4548-8f89-7dd30dd81474",
+      "credentials": {
+        "telegramApi": {
+          "id": "CMng6gAaMmqZbHLF",
+          "name": "TGBot-access_token-n8n_ai_1_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "812c307c-2fee-45af-9a04-90ebcf045855",
+              "name": "senderName",
+              "value": "={{ $json.message.from.first_name }}",
+              "type": "string"
+            },
+            {
+              "id": "93e62037-9206-4f71-ac63-95f1b70e1fb3",
+              "name": "chatId",
+              "value": "={{ $json.message.chat.id }}",
+              "type": "string"
+            },
+            {
+              "id": "e3188dbe-83a7-45f3-ba72-d535d66b935b",
+              "name": "groupName",
+              "value": "={{ $json.message.chat.title }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        400,
+        -580
+      ],
+      "id": "ef2f7d77-9054-475a-84c0-88f5ea3195ed",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "227c45e7-6296-4c2a-a608-127d6fc0acf2"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Text"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "fddf01b4-650a-465c-8bc9-9e9c3646c413",
+                    "leftValue": "={{ $json.message.document.file_id }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Document"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        140,
+        -500
+      ],
+      "id": "7e4d2c57-3226-4874-92de-a9448efc310f",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "TG Saved Documents Folder",
+        "filter": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        680,
+        -320
+      ],
+      "id": "67ea46e9-eb15-4d2b-8526-b4a2bc81c16c",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "folder",
+        "name": "=Imported_From_TG_{{ $now.format('yyyy-MM-dd') }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ $('Google Drive').item.json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1360,
+        -480
+      ],
+      "id": "99d83f85-feca-4413-9383-939e32c102f0",
+      "name": "Google Drive1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "=Imported_From_TG_{{ $now.format('yyyy-MM-dd') }}",
+        "filter": {
+          "includeTrashed": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        900,
+        -320
+      ],
+      "id": "c87f44db-e6c9-4be4-ab05-0f25943508ac",
+      "name": "Google Drive2",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c5667645-fdfb-40d5-b6ed-1c164ad686cd",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notExists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1140,
+        -320
+      ],
+      "id": "446a83f7-933a-467d-9420-932bc7bb6054",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "name": "={{ $('Switch1').item.json.message.document.file_name }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ $('Google Drive1').item.json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1860,
+        -480
+      ],
+      "id": "f78e7e0d-67a2-411b-841e-b5f65c05e84a",
+      "name": "Google Drive3",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bf51ecfe-5ddf-4e95-af2c-9834539bf920",
+              "name": "fileType",
+              "value": "={{ $json.message.document.file_id }}",
+              "type": "string"
+            },
+            {
+              "id": "812c307c-2fee-45af-9a04-90ebcf045855",
+              "name": "fileName",
+              "value": "={{ $json.message.document.file_name }}",
+              "type": "string"
+            },
+            {
+              "id": "93e62037-9206-4f71-ac63-95f1b70e1fb3",
+              "name": "mimeType",
+              "value": "={{ $json.message.document.mime_type }}",
+              "type": "string"
+            },
+            {
+              "id": "e3188dbe-83a7-45f3-ba72-d535d66b935b",
+              "name": "groupName",
+              "value": "={{ $json.message.chat.title }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        420,
+        -320
+      ],
+      "id": "a2c75609-4b30-4c59-9c4d-299ab88a51c3",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $('Switch').item.json.message.document.file_id }}"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1460,
+        -260
+      ],
+      "id": "a0877af0-7343-42b1-a1d8-7c4c913823d4",
+      "name": "Telegram",
+      "webhookId": "79c2675e-2136-4548-8f89-7dd30dd81474",
+      "credentials": {
+        "telegramApi": {
+          "id": "CMng6gAaMmqZbHLF",
+          "name": "TGBot-access_token-n8n_ai_1_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "={{ $('Switch1').item.json.message.document.file_name }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ $('Google Drive2').item.json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1720,
+        -260
+      ],
+      "id": "3ac0d42f-3ab3-46d5-9256-fe8fc159deac",
+      "name": "Google Drive4",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.message.chat.title }}",
+                    "rightValue": "HC N8N Automation Group",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "227c45e7-6296-4c2a-a608-127d6fc0acf2"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "HC N8N Automation Group"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "fddf01b4-650a-465c-8bc9-9e9c3646c413",
+                    "leftValue": "={{ $json.body.message.chat.title }}",
+                    "rightValue": "HC Test Group 1",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "HC Test Group 1"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        220,
+        200
+      ],
+      "id": "3fd811d7-b4de-421e-aeca-0b54cbbb0109",
+      "name": "From Which Group Chat"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.message.text }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "d67dcc5f-a679-4836-8ec5-e913b1b73951"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Text Message Type"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "fd59de2a-2f5a-4386-8f99-c031ac537ff4",
+                    "leftValue": "={{ $json.body.message.photo }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "array",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Image Type"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "0592ec5a-9b17-4ba8-839c-e7d8a345bd48",
+                    "leftValue": "={{ $json.body.message.document }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Document Type"
+            }
+          ]
+        },
+        "options": {
+          "allMatchingOutputs": true
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        600,
+        100
+      ],
+      "id": "8bc64c20-dd76-45ba-85a1-efb1fe1e98e3",
+      "name": "Switch2"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.imageFileId }}"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1180,
+        360
+      ],
+      "id": "91378e0d-bf63-4013-87b4-d59517f558f9",
+      "name": "Telegram2",
+      "webhookId": "c953cf65-e660-4810-8b65-526cb7d650bb",
+      "credentials": {
+        "telegramApi": {
+          "id": "CMng6gAaMmqZbHLF",
+          "name": "TGBot-access_token-n8n_ai_1_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "afa00133-13a0-4ffc-97cf-7eca08b48dfe",
+              "name": "imageFileId",
+              "value": "={{ $json.body.message.photo.last().file_id }}",
+              "type": "string"
+            },
+            {
+              "id": "d8e1b661-32d5-48c7-b8ac-c775f0cec4bb",
+              "name": "chatId",
+              "value": "={{ $json.body.message.chat.id }}",
+              "type": "string"
+            },
+            {
+              "id": "e05cbd82-e141-4384-95a2-14aa5d7fcfc8",
+              "name": "mediaGroupId",
+              "value": "={{ $json.body.message.media_group_id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        920,
+        360
+      ],
+      "id": "4fe2a2ca-e426-4f2b-9866-5198a9d041bc",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        1400,
+        360
+      ],
+      "id": "a4b69af7-5ad2-4a09-8642-fb25eae5ee13",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1620,
+        360
+      ],
+      "id": "d848be77-3aae-4449-a1ec-a5a816a560a9",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "text": "Extract the content from the image",
+        "inputType": "base64",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1840,
+        360
+      ],
+      "id": "68101f10-d9cd-44e8-b277-d93e5293c4ed",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Edit Fields2').item.json.chatId }}",
+        "text": "={{ $json.content }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2060,
+        360
+      ],
+      "id": "7497ef76-76c8-41d4-b5d8-d559cb792b1e",
+      "name": "Telegram3",
+      "webhookId": "77ddca72-8dc4-44b4-a0f8-ce99aa4480af",
+      "credentials": {
+        "telegramApi": {
+          "id": "CMng6gAaMmqZbHLF",
+          "name": "TGBot-access_token-n8n_ai_1_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "75cd8d0c-7d6e-4e60-99e1-0f62e4f90632",
+      "name": "gpt-4o-mini1",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "position": [
+        1220,
+        160
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Listen for Telegram Events').item.json.body.message.chat.id }}",
+        "text": "=Task message: <i>{{ $json.text }}</i>",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "id": "b618ab63-90cb-4395-8088-7e206438a2db",
+      "name": "Text Task Message",
+      "type": "n8n-nodes-base.telegram",
+      "position": [
+        1600,
+        -60
+      ],
+      "typeVersion": 1.2,
+      "webhookId": "aadfc725-6640-43e8-a0fb-3811bb1b5bb0",
+      "credentials": {
+        "telegramApi": {
+          "id": "CMng6gAaMmqZbHLF",
+          "name": "TGBot-access_token-n8n_ai_1_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Listen for Telegram Events').item.json.body.message.chat.id }}",
+        "text": "=Other message: <i>{{ $json.text }}</i>",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "id": "448a5b4e-c6da-4dd4-965f-6672fc3439a3",
+      "name": "Text Other Message",
+      "type": "n8n-nodes-base.telegram",
+      "position": [
+        1600,
+        120
+      ],
+      "typeVersion": 1.2,
+      "webhookId": "82229b17-77a6-4ba2-bc3f-c54f67625aa8",
+      "credentials": {
+        "telegramApi": {
+          "id": "CMng6gAaMmqZbHLF",
+          "name": "TGBot-access_token-n8n_ai_1_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $json.text }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "task",
+              "description": "If the message is about about creating a task/todo"
+            },
+            {
+              "category": "other",
+              "description": "If the message is not about creating a task/todo "
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "bfcc005b-e33e-429b-995f-b2d6ba9720bc",
+      "name": "Text Classifier",
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "position": [
+        1200,
+        0
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b37b48ba-8fef-4e6c-bbca-73e6c2e1e0a8",
+              "name": "text",
+              "type": "string",
+              "value": "={{ $json.body.message.text }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d5856a2b-6254-43ad-a696-17cfdc3077db",
+      "name": "Edit Fields3",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        1000,
+        0
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "multipleMethods": true,
+        "path": "n8n-tg-group-update",
+        "options": {
+          "binaryPropertyName": "data"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -520,
+        -80
+      ],
+      "id": "b9f12f28-3c3e-46f7-9c7a-8b251eacc742",
+      "name": "Webhook",
+      "webhookId": "e3110203-e550-47b1-94d8-5b5b35de5e65"
+    },
+    {
+      "parameters": {
+        "chatId": "1234567890",
+        "text": "={{ $json.description }} for Testing",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -40,
+        -580
+      ],
+      "id": "ef58094f-d2e3-44f1-9752-7a16b4c48615",
+      "name": "Telegram5",
+      "webhookId": "9b5079d8-58a0-47ad-9a58-4e87a5c7918d",
+      "credentials": {
+        "telegramApi": {
+          "id": "CMng6gAaMmqZbHLF",
+          "name": "TGBot-access_token-n8n_ai_1_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "chat",
+        "chatId": "1234567890"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -260,
+        -580
+      ],
+      "id": "135817ae-4348-4c3a-b73b-c2c1d624f92f",
+      "name": "Telegram4",
+      "webhookId": "28b79968-08b6-48e4-820a-29b5aaf11835",
+      "credentials": {
+        "telegramApi": {
+          "id": "CMng6gAaMmqZbHLF",
+          "name": "TGBot-access_token-n8n_ai_1_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://api.telegram.org/bot6830418029:AAE1bXj0EZBeg931tmpI2TXtkSQ4-xJkLLQ/setWebhook",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "url",
+              "value": "https://n8n.automessenger.me/webhook-test/n8n-tg-group-update"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -600,
+        -580
+      ],
+      "id": "db9d4d60-5bc2-4f0b-9c28-3e2199e5d1be",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d8e1b661-32d5-48c7-b8ac-c775f0cec4bb",
+              "name": "chatId",
+              "value": "={{ $json.body.message.chat.id }}",
+              "type": "string"
+            },
+            {
+              "id": "afa00133-13a0-4ffc-97cf-7eca08b48dfe",
+              "name": "fileId",
+              "value": "={{ $json.body.message.document.file_id }}",
+              "type": "string"
+            },
+            {
+              "id": "e05cbd82-e141-4384-95a2-14aa5d7fcfc8",
+              "name": "fileName",
+              "value": "={{ $json.body.message.document.file_name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        920,
+        700
+      ],
+      "id": "20d922cc-da18-49a9-9bd5-996d6c2f914d",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.fileId }}"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1140,
+        700
+      ],
+      "id": "1b5a64e4-fd0f-4fa4-bea6-ffe3e35508c3",
+      "name": "Telegram6",
+      "webhookId": "ea0a76e0-c69a-47c9-b9b5-6feafa470358",
+      "credentials": {
+        "telegramApi": {
+          "id": "CMng6gAaMmqZbHLF",
+          "name": "TGBot-access_token-n8n_ai_1_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        1380,
+        700
+      ],
+      "id": "16079e19-5542-4120-80e7-a51e6a21c78f",
+      "name": "Extract from File1"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1600,
+        700
+      ],
+      "id": "ebb50da5-295d-4cf2-ae74-dc40eee31acc",
+      "name": "Convert to File1"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "options": {
+          "purpose": "assistants"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1840,
+        680
+      ],
+      "id": "b2ed1926-c1d5-4e91-8401-b3a463772024",
+      "name": "OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendDocument",
+        "chatId": "={{ $('Edit Fields4').item.json.chatId }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2140,
+        680
+      ],
+      "id": "ffa0b14c-deca-42df-afc1-e4f80e1e3e9f",
+      "name": "Telegram7",
+      "webhookId": "77ddca72-8dc4-44b4-a0f8-ce99aa4480af",
+      "credentials": {
+        "telegramApi": {
+          "id": "CMng6gAaMmqZbHLF",
+          "name": "TGBot-access_token-n8n_ai_1_bot"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "From Which Group Chat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram1": {
+      "main": [
+        [
+          {
+            "node": "Google Drive3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Google Drive2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive2": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Google Drive1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive1": {
+      "main": [
+        [
+          {
+            "node": "Telegram1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram": {
+      "main": [
+        [
+          {
+            "node": "Google Drive4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "From Which Group Chat": {
+      "main": [
+        [
+          {
+            "node": "Switch2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Telegram2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram2": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Telegram3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gpt-4o-mini1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text Classifier": {
+      "main": [
+        [
+          {
+            "node": "Text Task Message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Text Other Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram5": {
+      "main": [
+        []
+      ]
+    },
+    "Telegram4": {
+      "main": [
+        [
+          {
+            "node": "Telegram5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Telegram4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Telegram6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File1": {
+      "main": [
+        [
+          {
+            "node": "Convert to File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram6": {
+      "main": [
+        [
+          {
+            "node": "Extract from File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI1": {
+      "main": [
+        [
+          {
+            "node": "Telegram7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File1": {
+      "main": [
+        [
+          {
+            "node": "OpenAI1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "07397473-a758-4e60-aac1-4de132077acb",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-05-20T08:05:28.673Z",
+      "createdAt": "2025-05-20T08:05:28.673Z",
+      "role": "workflow:owner",
+      "workflowId": "its76KQ1R0QxGHiy",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
