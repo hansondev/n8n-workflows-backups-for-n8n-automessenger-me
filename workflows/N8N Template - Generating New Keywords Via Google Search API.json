@@ -1,0 +1,487 @@
+{
+  "updatedAt": "2025-02-19T11:46:35.000Z",
+  "createdAt": "2025-01-11T03:00:14.139Z",
+  "id": "VF8F545TSwnacUAH",
+  "name": "N8N Template - Generating New Keywords Via Google Search API",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "fieldToSplitOut": "results",
+        "options": {}
+      },
+      "id": "02b95dbf-253b-4e11-9119-dc0dbb5347d8",
+      "name": "Split Out",
+      "type": "n8n-nodes-base.splitOut",
+      "position": [
+        340,
+        60
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Generate new keywords for SEO with the monthly Search volumes\n\nThis workflow is an improvement on the workflows below. It can be used to generate new keywords that you can use for your SEO campaigns or Google ads campaigns\n\n\n[Generate SEO Keyword Search Volume Data using Google API](https://n8n.io/workflows/2494-generate-seo-keyword-search-volume-data-using-google-api/) and [Generating Keywords using Google Autosuggest](https://n8n.io/workflows/2155-generating-keywords-using-google-autosuggest/)\n\n## Usage\n1. Send the keywords you need as an array to this workflow\n2. Pin the data and map it to the `set Keywords`  node\n3. Map the keywords to the Google ads API with the location and Language of your choice\n4. Split the results and set them data \n5. Pass this to the next nodes as needed for storage\n6. Make a copy of this [spreedsheet](https://docs.google.com/spreadsheets/d/10mXXLB987b7UySHtS9F4EilxeqbQjTkLOfMabnR2i5s/edit?usp=sharing) and update the data accordingly\n\n## Having challenges with the google Ads API? Read this [blog ](https://funautomations.io/workflows/automating-keyword-generation-with-n8n-google-ads-api/)\n\nMade by [@Imperol](https://www.linkedin.com/in/zacharia-kimotho/)",
+        "height": 500,
+        "width": 360,
+        "color": 4
+      },
+      "id": "2d5bcebf-c7c1-4832-9094-e98b0dd1c9e2",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -260,
+        320
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://googleads.googleapis.com/v18/customers/{customer-id}:generateKeywordIdeas",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleAdsOAuth2Api",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "content-type",
+              "value": "application/json"
+            },
+            {
+              "name": "developer-token",
+              "value": "{developer-token}"
+            },
+            {
+              "name": "login-customer-id",
+              "value": "{login-customer-id}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"geoTargetConstants\": [\"geoTargetConstants/2840\"], \n  \"includeAdultKeywords\": false,\n  \"pageToken\": \"\",\n  \"pageSize\": 2,\n  \"keywordPlanNetwork\": \"GOOGLE_SEARCH\",\n  \"language\": \"languageConstants/1000\", \n  \"keywordSeed\": {\n    \"keywords\": {{ $json.Keyword }}\n  }\n}",
+        "options": {}
+      },
+      "id": "c66ccadc-37ec-4f7c-ac6d-451bae336974",
+      "name": "Generate new keywords",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        120,
+        60
+      ],
+      "notesInFlow": true,
+      "retryOnFail": true,
+      "typeVersion": 4.2,
+      "credentials": {
+        "googleAdsOAuth2Api": {
+          "id": "yrOcW5H4HverHw3r",
+          "name": "GAds(boonhong0309@gmail.com)"
+        }
+      },
+      "notes": "Call the endpoint: \n\nhttps://googleads.googleapis.com/v18/customers/{customer_id}:generateKeywordIdeas \n\nwith your Customer id"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7413e132-d68a-4f28-91f6-d6e814f95343",
+              "name": "keyword",
+              "type": "string",
+              "value": "={{ $json.text }}"
+            },
+            {
+              "id": "21526a09-e58d-48e0-b7f7-9766772e3c1d",
+              "name": "competition",
+              "type": "string",
+              "value": "={{ $json.keywordIdeaMetrics.competition }}"
+            },
+            {
+              "id": "88771e43-8429-49cb-bc49-90b10b3a399c",
+              "name": "avgMonthlySearches",
+              "type": "string",
+              "value": "={{ $json.keywordIdeaMetrics.avgMonthlySearches }}"
+            },
+            {
+              "id": "41437fb7-4de4-4820-835d-c3fa459dc7ed",
+              "name": "competitionIndex",
+              "type": "string",
+              "value": "={{ $json.keywordIdeaMetrics.competitionIndex }}"
+            },
+            {
+              "id": "6237440a-cf99-4c25-8b09-015df07f42ef",
+              "name": "lowTopOfPageBidMicros",
+              "type": "string",
+              "value": "={{ ($json[\"keywordIdeaMetrics\"].lowTopOfPageBidMicros / 1000000).toFixed(2) }}"
+            },
+            {
+              "id": "68fc20e6-ffff-4e72-9da1-7132aad57ca1",
+              "name": "highTopOfPageBidMicros",
+              "type": "string",
+              "value": "={{ ($json.keywordIdeaMetrics.highTopOfPageBidMicros  / 1000000).toFixed(2) }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "82adb487-a0cb-4695-98aa-3f47200fa7fe",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        560,
+        60
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "973e949e-1afd-4378-8482-d2168532eff6",
+              "name": "Keyword",
+              "type": "string",
+              "value": "={{ $json.query.Keyword }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4106b284-dc46-4a28-b900-0647542dd2ae",
+      "name": "Set Keywords",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        -100,
+        60
+      ],
+      "notesInFlow": true,
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "10mXXLB987b7UySHtS9F4EilxeqbQjTkLOfMabnR2i5s",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10mXXLB987b7UySHtS9F4EilxeqbQjTkLOfMabnR2i5s/edit?usp=drivesdk",
+          "cachedResultName": "SEO DOCTOR: Keyword Tool"
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": 1475484115,
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10mXXLB987b7UySHtS9F4EilxeqbQjTkLOfMabnR2i5s/edit#gid=1475484115",
+          "cachedResultName": "Keyword"
+        },
+        "columns": {
+          "value": {},
+          "schema": [
+            {
+              "id": "keyword",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "displayName": "keyword",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "domain",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "displayName": "domain",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "uuid",
+              "type": "string",
+              "display": true,
+              "required": false,
+              "displayName": "uuid",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "keywordAnnotations",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "keywordAnnotations",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "closeVariants",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "closeVariants",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "competition",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "competition",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "monthlySearchVolumes",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "monthlySearchVolumes",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "avgMonthlySearches",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "avgMonthlySearches",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "competitionIndex",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "competitionIndex",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "lowTopOfPageBidMicros",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "lowTopOfPageBidMicros",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "highTopOfPageBidMicros",
+              "type": "string",
+              "display": true,
+              "removed": false,
+              "required": false,
+              "displayName": "highTopOfPageBidMicros",
+              "defaultMatch": false,
+              "canBeUsedToMatch": true
+            }
+          ],
+          "mappingMode": "autoMapInputData",
+          "matchingColumns": []
+        },
+        "options": {}
+      },
+      "id": "730751f8-8878-4538-8851-8d774c6582a2",
+      "name": "Upsert",
+      "type": "n8n-nodes-base.googleSheets",
+      "position": [
+        760,
+        60
+      ],
+      "typeVersion": 4.5,
+      "notes": "Upsert the new keywords to sheets"
+    },
+    {
+      "parameters": {},
+      "id": "cf1559d5-3a32-4402-a257-cb742f5b4ed6",
+      "name": "Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        -320,
+        60
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Setup\n\n1. Replace the trigger with your desired trigger eg a webhook or manual trigger\n\n2. Map the data correctly to the `set Keywords` node\n3. On the `Generate new keywords`, Update the `{customer_id} on the url and login-customer-id with your actual one. Update the `developer-token` also with your values. \n\nThe url should be corrected as below https://googleads.googleapis.com/v18/customers/{customer-id}:generateKeywordIdeas\n\nYou should send the headers as below\n\n```\n\n\n            {\n              \"name\": \"content-type\",\n              \"value\": \"application/json\"\n            },\n            {\n              \"name\": \"developer-token\",\n              \"value\": \"{developer-token}\"\n            },\n            {\n              \"name\": \"login-customer-id\",\n              \"value\": \"{login-customer-id}\"\n            }\n         \n    \n\n\n```\n\nand the json body should take the following format \n\n```\n\n{\n  \"geoTargetConstants\": [\"geoTargetConstants/2840\"], \n  \"includeAdultKeywords\": false,\n  \"pageToken\": \"\",\n  \"pageSize\": 2,\n  \"keywordPlanNetwork\": \"GOOGLE_SEARCH\",\n  \"language\": \"languageConstants/1000\", \n  \"keywordSeed\": {\n    \"keywords\": {{ $json.Keyword }}\n  }\n}\n\n```",
+        "height": 500,
+        "width": 340,
+        "color": 4
+      },
+      "id": "ad8e5085-74f2-44a7-8543-1d0abe003104",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        120,
+        320
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Troubleshooting\n\n1. If you get an error with the workflow, check the credentials you are using\n\n2. Check the account you are using eg the right customer id and developer token\n\n3. Follow the [guide ](https://funautomations.io/workflows/automating-keyword-generation-with-n8n-google-ads-api/)on the blog to set up your Google ads account ",
+        "height": 500,
+        "width": 320,
+        "color": 3
+      },
+      "id": "4023ca92-b535-4bfc-86d8-bb3e08b733c1",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        480,
+        320
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "### Generate new keywords and split the data out to set only the keyword and average monthly search ",
+        "height": 260,
+        "width": 660,
+        "color": 4
+      },
+      "id": "1f818467-ec72-4304-8c6b-7c55d48c1392",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        60,
+        -20
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "### Set up a new trigger and map the data with a column name as keyword",
+        "height": 260,
+        "width": 400,
+        "color": 4
+      },
+      "id": "b83368fd-28a6-48e5-84a3-057239ed038f",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -360,
+        -20
+      ],
+      "typeVersion": 1
+    }
+  ],
+  "connections": {
+    "Trigger": {
+      "main": [
+        [
+          {
+            "node": "Set Keywords",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Upsert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Keywords": {
+      "main": [
+        [
+          {
+            "node": "Generate new keywords",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate new keywords": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Trigger": [
+      {
+        "json": {
+          "query": {
+            "Keyword": [
+              "workflow automation software",
+              "enterprise workflow automation",
+              "finance automation software",
+              "saas automation platform",
+              "automation roi calculator",
+              "hr process automation",
+              "data synchronization software",
+              "n8n workflow automation",
+              "scalable business operations",
+              "n8n vs zapier",
+              "lead generation automation",
+              "automation consulting services",
+              "n8n automation",
+              "marketing automation tools",
+              "custom automation solutions",
+              "ecommerce automation solutions",
+              "business process automation",
+              "small business automation",
+              "no code automation",
+              "crm automation integration"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "versionId": "51e9a23e-2097-4f2a-be4f-c52b427f54e4",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-01-11T03:00:14.195Z",
+      "createdAt": "2025-01-11T03:00:14.195Z",
+      "role": "workflow:owner",
+      "workflowId": "VF8F545TSwnacUAH",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
