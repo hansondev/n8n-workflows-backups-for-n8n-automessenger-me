@@ -1,0 +1,556 @@
+{
+  "updatedAt": "2023-12-18T07:39:33.000Z",
+  "createdAt": "2023-12-09T15:51:27.082Z",
+  "id": "5Sn2mv7anZreaJjC",
+  "name": "APIFY-GAds Scraper-First Page Digital",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "gads-scraper-first-page-digital",
+        "options": {}
+      },
+      "id": "8022088f-fb9c-4fa0-913c-bc5fc667c65e",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        800,
+        320
+      ],
+      "webhookId": "995408cd-0973-48dd-b568-dc8c36931434"
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "APItoken",
+              "stringValue": "RMcnCuQuPp4AAsEwZjt5FNDF4"
+            },
+            {
+              "name": "datasetID",
+              "stringValue": "={{ $json.body.resource.defaultDatasetId }}"
+            },
+            {
+              "name": "actorRunID",
+              "stringValue": "={{ $json.body.eventData.actorRunId }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "b4966f5b-c0b3-44a2-b24a-3bb339661dad",
+      "name": "Set Datadset HTTP Request Variable",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1080,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.datasetID }}/items?token={{ $json.APItoken }}&format=json&clean=false",
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 3000
+            }
+          }
+        }
+      },
+      "id": "b82c538d-4654-4b5e-8391-512ba04e3653",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1400,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "adLastShown",
+              "stringValue": "={{ $json.lastAdShown }}"
+            },
+            {
+              "name": "adScreenshot",
+              "stringValue": "={{ $('Item Lists').item.json.image }}"
+            },
+            {
+              "name": "adTextContent",
+              "stringValue": "={{ $('Item Lists').item.json.textContent }}"
+            },
+            {
+              "name": "adCopy",
+              "stringValue": "={{ $('Item Lists').item.json.copy }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {
+          "includeBinary": true,
+          "ignoreConversionErrors": true
+        }
+      },
+      "id": "4ae6a458-fd9a-43fd-a2ea-0b8916a296ad",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2160,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "limit",
+        "maxItems": 10
+      },
+      "id": "0c9fac73-67f2-47c3-b920-41a6ca91a363",
+      "name": "Item Lists",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3.1,
+      "position": [
+        1620,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1d7mu3iTnio6zhKAgTKhDPbKJ61UeB8-jpVRBJNViDCg",
+          "mode": "list",
+          "cachedResultName": "APIFY-GAds Scraper-First Page Digital (10 Dec 23 Update)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1d7mu3iTnio6zhKAgTKhDPbKJ61UeB8-jpVRBJNViDCg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1d7mu3iTnio6zhKAgTKhDPbKJ61UeB8-jpVRBJNViDCg/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date Ad Shown": "={{ $json.adLastShown }}",
+            "Ad Screenshot URL": "={{ $json.adScreenshot }}",
+            "Ad Text Content": "={{ $json.adTextContent }}",
+            "Ad Copy": "={{ $json.adCopy }}"
+          },
+          "matchingColumns": [
+            "Date Ad Shown"
+          ],
+          "schema": [
+            {
+              "id": "Date Ad Shown",
+              "displayName": "Date Ad Shown",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ad Screenshot URL",
+              "displayName": "Ad Screenshot URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Text Content",
+              "displayName": "Ad Text Content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Copy",
+              "displayName": "Ad Copy",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {
+          "cellFormat": "USER_ENTERED"
+        }
+      },
+      "id": "06814369-ceae-415f-8d4e-74f7703ed223",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        2460,
+        40
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $json.lastShownAt }}",
+        "format": "custom",
+        "customFormat": "dd-MM-yyyy",
+        "outputFieldName": "lastAdShown",
+        "options": {}
+      },
+      "id": "381dbb86-9e3e-4464-a46a-e4cbb3f3ca02",
+      "name": "Date & Time",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        1840,
+        140
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Set Datadset HTTP Request Variable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Datadset HTTP Request Variable": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Item Lists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Set Datadset HTTP Request Variable": [
+      {
+        "json": {
+          "APItoken": "RMcnCuQuPp4AAsEwZjt5FNDF4",
+          "datasetID": "Zhoe2o7gS6r67vCSc",
+          "actorRunID": "bHpXtCHcWjCO2wYt4"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "x-forwarded-host": "n8n.automessenger.me",
+            "x-forwarded-server": "n8n.automessenger.me",
+            "x-real-ip": "3.235.193.247",
+            "x-forwarded-for": "3.235.193.247",
+            "x-forwarded-proto": "https",
+            "host": "n8n.automessenger.me",
+            "connection": "Upgrade",
+            "content-length": "2184",
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "x-apify-webhook": "yo",
+            "x-apify-webhook-dispatch-id": "Ma1flqB57xPZ8OJCI",
+            "x-apify-request-origin": "WEBHOOK",
+            "x-apify-workflow-key": "keijf1tnmau3",
+            "user-agent": "axios/0.27.2"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "userId": "MgfRjc3oxA7ihmNAP",
+            "createdAt": "2023-12-09T16:26:55.760Z",
+            "eventType": "ACTOR.RUN.SUCCEEDED",
+            "eventData": {
+              "actorId": "3Y5oM7ystipacxama",
+              "actorTaskId": "F2cR9BCf21O9pJ1OZ",
+              "actorRunId": "bHpXtCHcWjCO2wYt4"
+            },
+            "resource": {
+              "id": "bHpXtCHcWjCO2wYt4",
+              "actId": "3Y5oM7ystipacxama",
+              "userId": "MgfRjc3oxA7ihmNAP",
+              "actorTaskId": "F2cR9BCf21O9pJ1OZ",
+              "startedAt": "2023-12-09T16:00:12.579Z",
+              "finishedAt": "2023-12-09T16:26:49.586Z",
+              "status": "SUCCEEDED",
+              "meta": {
+                "origin": "WEB",
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0"
+              },
+              "stats": {
+                "inputBodyLen": 122,
+                "rebootCount": 0,
+                "restartCount": 0,
+                "durationMillis": 1553427,
+                "resurrectCount": 0,
+                "runTimeSecs": 1553.4270000000001,
+                "metamorph": 0,
+                "computeUnits": 0.43150750000000004,
+                "memAvgBytes": 280115987.5760996,
+                "memMaxBytes": 525312000,
+                "memCurrentBytes": 181272576,
+                "cpuAvgUsage": 20.49532514223649,
+                "cpuMaxUsage": 239.61341728677735,
+                "cpuCurrentUsage": 3.0547553324968635,
+                "netRxBytes": 102075455,
+                "netTxBytes": 10557608
+              },
+              "options": {
+                "build": "latest",
+                "timeoutSecs": 0,
+                "memoryMbytes": 1024,
+                "maxItems": 20,
+                "diskMbytes": 2048
+              },
+              "buildId": "ZbdhKI0np9TxZ30Gw",
+              "exitCode": 0,
+              "defaultKeyValueStoreId": "M9J8vsfvBbDFwVW26",
+              "defaultDatasetId": "Zhoe2o7gS6r67vCSc",
+              "defaultRequestQueueId": "WYian6PZjDhkHS9yz",
+              "buildNumber": "0.0.5",
+              "containerUrl": "https://aipb7btouwhg.runs.apify.net",
+              "usage": {
+                "ACTOR_COMPUTE_UNITS": 0.43150750000000004,
+                "DATASET_READS": 0,
+                "DATASET_WRITES": 112,
+                "KEY_VALUE_STORE_READS": 5,
+                "KEY_VALUE_STORE_WRITES": 55,
+                "KEY_VALUE_STORE_LISTS": 0,
+                "REQUEST_QUEUE_READS": 301,
+                "REQUEST_QUEUE_WRITES": 387,
+                "DATA_TRANSFER_INTERNAL_GBYTES": 0.10143043473362923,
+                "DATA_TRANSFER_EXTERNAL_GBYTES": 0.004184164106845856,
+                "PROXY_RESIDENTIAL_TRANSFER_GBYTES": 0,
+                "PROXY_SERPS": 0
+              },
+              "usageTotalUsd": 0.19079035455805068,
+              "usageUsd": {
+                "ACTOR_COMPUTE_UNITS": 0.17260300000000003,
+                "DATASET_READS": 0,
+                "DATASET_WRITES": 0.0005600000000000001,
+                "KEY_VALUE_STORE_READS": 0.000025,
+                "KEY_VALUE_STORE_WRITES": 0.0027500000000000003,
+                "KEY_VALUE_STORE_LISTS": 0,
+                "REQUEST_QUEUE_READS": 0.001204,
+                "REQUEST_QUEUE_WRITES": 0.00774,
+                "DATA_TRANSFER_INTERNAL_GBYTES": 0.005071521736681461,
+                "DATA_TRANSFER_EXTERNAL_GBYTES": 0.0008368328213691712,
+                "PROXY_RESIDENTIAL_TRANSFER_GBYTES": 0,
+                "PROXY_SERPS": 0
+              }
+            }
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Edit Fields": [
+      {
+        "json": {
+          "adLastShown": "08-12-2023",
+          "adScreenshot": "https://tpc.googlesyndication.com/archive/simgad/1417279058636640443?f=.png",
+          "adTextContent": "Sponsored·\nFirst Page Digital™\nwww.firstpagedigital.sg/best_seo_agency/services\n100% Guaranteed SEO Results - SEO Agency in Singapore\nChoose our SEO agency as your eCommerce SEO guide & we’ll deliver results within 90 days. Partner with APAC's highest rated SEO agency. Guaranteed traffic to grow your...\n100% off 2 Months Free SEO",
+          "adCopy": "100% Guaranteed SEO Results - SEO Agency in Singapore\nChoose our SEO agency as your eCommerce SEO guide & we’ll deliver results within 90 days. Partner with APAC's highest rated SEO agency. Guaranteed traffic to grow your...\n100% off 2 Months Free SEO"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "adLastShown": "08-12-2023",
+          "adScreenshot": "https://tpc.googlesyndication.com/archive/simgad/1417279058636640443?f=.png",
+          "adTextContent": "Sponsored\nFirst Page Digital™\nwww.firstpagedigital.sg/best_seo_agency/services\nFirst Page Digital™ Singapore - 100% Guaranteed SEO Results\nChoose our SEO agency as your eCommerce SEO guide & we’ll deliver results within 90 days. Partner with APAC's highest rated SEO agency. Guaranteed...\nView 3 prices from SGD 0.00\nGet Free SEO Audit\nSGD 0.00\nGet the report in minutes\nFree Competitor Audit\nSGD 0.00\nGet the report in minutes\nFree Google Ads Audit\nSGD 0.00\nGet the report in minutes",
+          "adCopy": "First Page Digital™ Singapore - 100% Guaranteed SEO Results\nChoose our SEO agency as your eCommerce SEO guide & we’ll deliver results within 90 days. Partner with APAC's highest rated SEO agency. Guaranteed...\nView 3 prices from SGD 0.00\nGet Free SEO Audit\nSGD 0.00\nGet the report in minutes\nFree Competitor Audit\nSGD 0.00\nGet the report in minutes\nFree Google Ads Audit\nSGD 0.00\nGet the report in minutes"
+        },
+        "pairedItem": {
+          "item": 1
+        }
+      },
+      {
+        "json": {
+          "adLastShown": "08-12-2023",
+          "adScreenshot": "https://tpc.googlesyndication.com/archive/simgad/1417279058636640443?f=.png",
+          "adTextContent": "Sponsored\nfirstpagedigital.sg\nwww.firstpagedigital.sg/\nHow to Get More Followers on Instagram - First Page SG\nPartner with top SEO agency that has the best world talents & industry experience",
+          "adCopy": "How to Get More Followers on Instagram - First Page SG\nPartner with top SEO agency that has the best world talents & industry experience"
+        },
+        "pairedItem": {
+          "item": 2
+        }
+      },
+      {
+        "json": {
+          "adLastShown": "08-12-2023",
+          "adScreenshot": "https://tpc.googlesyndication.com/archive/simgad/1417279058636640443?f=.png",
+          "adTextContent": "Sponsored\nFirst Page Digital™\nwww.firstpagedigital.sg/\nFirst Page Digital Singapore\nWe get your brand to the top of every key decision-maker's feed on LinkedIn.",
+          "adCopy": "First Page Digital Singapore\nWe get your brand to the top of every key decision-maker's feed on LinkedIn."
+        },
+        "pairedItem": {
+          "item": 3
+        }
+      },
+      {
+        "json": {
+          "adLastShown": "08-12-2023",
+          "adScreenshot": "https://tpc.googlesyndication.com/archive/simgad/1417279058636640443?f=.png",
+          "adTextContent": "Sponsored\nFirst Page Digital™\nwww.firstpagedigital.sg/\nPage 1 Or Pay Nothing\nRank on page 1 or pay nothing! Dominate your industry with a proven SEO formula.",
+          "adCopy": "Page 1 Or Pay Nothing\nRank on page 1 or pay nothing! Dominate your industry with a proven SEO formula."
+        },
+        "pairedItem": {
+          "item": 4
+        }
+      },
+      {
+        "json": {
+          "adLastShown": "08-12-2023",
+          "adScreenshot": "https://tpc.googlesyndication.com/archive/simgad/1417279058636640443?f=.png",
+          "adTextContent": "Sponsored·\nfirstpagedigital.sg\n/form\nGet quote | AI In Your Pocket: ChatGPT App Now Available On The App Store\nUnderstand the future of mobile AI with this newest app available in your pocket Choose our SEO agency as your eCommerce SEO guide ...\nFree SEO Audit\nAbout Us",
+          "adCopy": "Get quote | AI In Your Pocket: ChatGPT App Now Available On The App Store\nUnderstand the future of mobile AI with this newest app available in your pocket Choose our SEO agency as your eCommerce SEO guide ...\nFree SEO Audit\nAbout Us"
+        },
+        "pairedItem": {
+          "item": 5
+        }
+      },
+      {
+        "json": {
+          "adLastShown": "08-12-2023",
+          "adScreenshot": "https://tpc.googlesyndication.com/archive/simgad/1417279058636640443?f=.png",
+          "adTextContent": "Sponsored·\nfirstpagedigital.sg\n/form\nGet quote | First Page Digital\nWhat is ChatGPT 4 And Is It Available In Singapore? - First Page SG Choose our SEO agency as your eCommerce SEO guide & we’ll deliver results within 90 days. Free 2 Months SEO Service. #1 Digital Agency in SG. Free Audit in 3 Minutes. Full Suite Digital Agency.\nFree SEO Audit\nAbout Us\nOur Client Reviews\nFree Session",
+          "adCopy": "Get quote | First Page Digital\nWhat is ChatGPT 4 And Is It Available In Singapore? - First Page SG Choose our SEO agency as your eCommerce SEO guide & we’ll deliver results within 90 days. Free 2 Months SEO Service. #1 Digital Agency in SG. Free Audit in 3 Minutes. Full Suite Digital Agency.\nFree SEO Audit\nAbout Us\nOur Client Reviews\nFree Session"
+        },
+        "pairedItem": {
+          "item": 6
+        }
+      },
+      {
+        "json": {
+          "adLastShown": "08-12-2023",
+          "adScreenshot": "https://tpc.googlesyndication.com/archive/simgad/1417279058636640443?f=.png",
+          "adTextContent": "Sponsored·\nfirstpagedigital.sg\n/form\nGet quote | First Page Digital - 100% Guaranteed SEO Results\nPartner with APAC's highest rated SEO agency. Guaranteed traffic to grow your revenue.\nFree SEO Audit\nOur Client Reviews\nAbout Us\nFree Session",
+          "adCopy": "Get quote | First Page Digital - 100% Guaranteed SEO Results\nPartner with APAC's highest rated SEO agency. Guaranteed traffic to grow your revenue.\nFree SEO Audit\nOur Client Reviews\nAbout Us\nFree Session"
+        },
+        "pairedItem": {
+          "item": 7
+        }
+      },
+      {
+        "json": {
+          "adLastShown": "08-12-2023",
+          "adScreenshot": "https://tpc.googlesyndication.com/archive/simgad/1417279058636640443?f=.png",
+          "adTextContent": "Sponsored·\nFirst Page Digital™\nwww.firstpagedigital.sg/best_seo_agency/in_singapore\nPage 1 in 90 Days or Pay $0 - Talk to the #1 In SEO\nChoose our SEO agency as your eCommerce SEO guide & we’ll deliver results within 90 days. Partner with APAC's highest rated SEO...\n100% off 2 Months Free SEO\nFree Competitor Audit\nGet 2 Months Free SEO\nFree SEO Audit\nFree Google Ads Audit",
+          "adCopy": "Page 1 in 90 Days or Pay $0 - Talk to the #1 In SEO\nChoose our SEO agency as your eCommerce SEO guide & we’ll deliver results within 90 days. Partner with APAC's highest rated SEO...\n100% off 2 Months Free SEO\nFree Competitor Audit\nGet 2 Months Free SEO\nFree SEO Audit\nFree Google Ads Audit"
+        },
+        "pairedItem": {
+          "item": 8
+        }
+      },
+      {
+        "json": {
+          "adLastShown": "08-12-2023",
+          "adScreenshot": "https://tpc.googlesyndication.com/archive/simgad/1417279058636640443?f=.png",
+          "adTextContent": "Sponsored·\nFirst Page Digital™\noffer.firstpagedigital.sg/seo/agency\nGet 2 Months Free SEO - Insanely Good SEO Services\nChoose our SEO agency as your eCommerce SEO guide & we’ll deliver results within 90 days. Partner with APAC's highest rated SEO agency. Guaranteed traffic to grow your...",
+          "adCopy": "Get 2 Months Free SEO - Insanely Good SEO Services\nChoose our SEO agency as your eCommerce SEO guide & we’ll deliver results within 90 days. Partner with APAC's highest rated SEO agency. Guaranteed traffic to grow your..."
+        },
+        "pairedItem": {
+          "item": 9
+        }
+      }
+    ]
+  },
+  "versionId": "229c52cd-5d38-4bd5-930e-9599f0b67fb2",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2023-12-09T15:51:27.097Z",
+      "createdAt": "2023-12-09T15:51:27.097Z",
+      "role": "workflow:owner",
+      "workflowId": "5Sn2mv7anZreaJjC",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
