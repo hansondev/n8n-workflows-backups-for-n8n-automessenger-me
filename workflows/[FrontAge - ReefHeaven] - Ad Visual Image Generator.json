@@ -1,0 +1,1043 @@
+{
+  "updatedAt": "2025-09-05T07:12:36.000Z",
+  "createdAt": "2025-09-04T16:21:24.685Z",
+  "id": "kzfuA1vnWBrtW392",
+  "name": "[FrontAge - ReefHeaven] - Ad Visual Image Generator",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "generate-ad-image-prompt",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -128,
+        16
+      ],
+      "id": "5a023ac7-ca64-478e-95fa-09b385cd1dfd",
+      "name": "Webhook",
+      "webhookId": "85282595-2cb6-47b5-8c54-0fb46f829f1f"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "bca50311-8f69-463e-b34c-c10c8d64816b",
+              "leftValue": "={{ $json.query.actionType }}",
+              "rightValue": "pickFBPagePostImages",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        80,
+        16
+      ],
+      "id": "521ba78a-eb07-4a1a-98ba-0fcb76c27a38",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        16,
+        240
+      ],
+      "id": "bd7acf65-3c3a-473c-af8a-f04bb5d7a0bf",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "m6f2rfg4z0p7vsx",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        336,
+        0
+      ],
+      "id": "d8ecab5d-06ac-4c84-882e-c5e7c235823c",
+      "name": "Get many rows",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "74495f96-a39d-40a0-80a6-1dea7d7f9f30",
+              "name": "fbPageUrl",
+              "value": "={{ $json[\"Social Media Profiles\"].Facebook }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        544,
+        0
+      ],
+      "id": "58ff4664-6ea9-483e-819d-5142c7b0ece8",
+      "name": "Extract Facebook Page Url"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1328,
+        288
+      ],
+      "id": "34ec745f-0210-4257-a782-a722282e1507",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to scrape and extract all Facebook page post image urls before analyze and select the suitable images to align with the generated full ad copy to the tool, `image_url_analyzer`.",
+        "workflowId": {
+          "__rl": true,
+          "value": "oEcY1iujdXvI0lAm",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - [FBPage: ReefHeaven] - APIFY FB Post Images Scraper"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "fbPageUrl": "={{ $('Extract Facebook Page Url').item.json.fbPageUrl }}"
+          },
+          "matchingColumns": [
+            "fbPageUrl"
+          ],
+          "schema": [
+            {
+              "id": "fbPageUrl",
+              "displayName": "fbPageUrl",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        784,
+        176
+      ],
+      "id": "1267c22d-b8e2-413c-95f7-7f14828c9b3a",
+      "name": "fb_page_post_Image_url_scraper"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to analyze all the images that had been scraped and extracted from the Facebook page by using the `fb_page_post_image_url_scraper`. Make sure that this tool only execute after `fb_page_post_image_url_scraper` had been executed and done the process.",
+        "workflowId": {
+          "__rl": true,
+          "value": "A7X4Z4pJEYKY4bfu",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - [FBPage: ReefHeaven]  - Post Image Analyzer"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "imageUrls": "={{ $fromAI(\"imageUrls\", \"The array of image urls that had been scraped and extracted\",\"json\") }}"
+          },
+          "matchingColumns": [
+            "imageUrls"
+          ],
+          "schema": [
+            {
+              "id": "imageUrls",
+              "displayName": "imageUrls",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        928,
+        224
+      ],
+      "id": "0a632b9a-70fe-4176-b3c4-89b4aef4de41",
+      "name": "image_url_analyzer"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Facebook Page Url: {{ $json.fbPageUrl }}\nFull Ad Copy: {{ $('Webhook').item.json.body.data.rows[0][\"Full Ad Copy\"] }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a expert in social media posts scraping who are able to to scrape multiple social media posts data.\n\n# Task\n- You are tasked to scrape the Facebook page post images from the specific provided Facebook page url  and extract the suitable scraped post images based on the provided full ad copy generated.\n- You are allow to extract and select the most relevant 3 to 6 post image urls and analyze the image url to obtain the descriptive details of the selected images.\n\n# Tools\n- `fb_page_post_image_url_scraper`: Call this tool to scrape and extract all Facebook page post image urls before analyze and select the suitable images to align with the generated full ad copy to the tool, `image_url_analyzer`.\n- `image_url_analyzer`: Call this tool to analyze all the images that had been scraped and extracted from the Facebook page by using the `fb_page_post_image_url_scraper`. Make sure that this tool only execute after `fb_page_post_image_url_scraper` had been executed and done the process.\n\n# Output\nThe output should be generated in JSON data structured format that must be align with the following example JSON data structure or schema as below:\n\n## Example of JSON Structured Output\n```\njson: [\n {\n  \"imageUrl\": \"The selected image url 1 after analyzed by the `image_url_analyzer` tool.\",\n  \"imageDescriptive\": \"The illustration details and description of image based on the selected image url 1.\"\n },\n {\n  \"imageUrl\": \"The selected image url 2 after analyzed by the `image_url_analyzer` tool.\",\n  \"imageDescriptive\": \"The illustration details and description of image based on the selected image url 2.\"\n },\n {\n  \"imageUrl\": \"The selected image url 3 after analyzed by the `image_url_analyzer` tool.\",\n  \"imageDescriptive\": \"The illustration details and description of image based on the selected image url 3.\"\n }\n]\n```"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        816,
+        0
+      ],
+      "id": "d483581b-0fcb-4d28-87ce-971b7501d1ab",
+      "name": "FB Post Image Selector For Ad Image Base",
+      "executeOnce": false,
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[\n {\n  \"imageUrl\": \"The selected image url 1 after analyzed by the `image_url_analyzer` tool.\",\n  \"imageDescriptive\": \"The illustration details and description of image based on the selected image url 1.\"\n },\n {\n  \"imageUrl\": \"The selected image url 2 after analyzed by the `image_url_analyzer` tool.\",\n  \"imageDescriptive\": \"The illustration details and description of image based on the selected image url 2.\"\n },\n {\n  \"imageUrl\": \"The selected image url 3 after analyzed by the `image_url_analyzer` tool.\",\n  \"imageDescriptive\": \"The illustration details and description of image based on the selected image url 3.\"\n }\n]"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1072,
+        208
+      ],
+      "id": "92d3e055-649f-40a8-bbb2-cadf3451a6c8",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "mqh3k4nsrobmpjf",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Webhook').item.json.body.data.rows[0].Id }}"
+            },
+            {
+              "fieldName": "Selected FB Posts Image",
+              "fieldValue": "={{ $json.output }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1168,
+        0
+      ],
+      "id": "8a185418-914e-4099-8e76-f0c39a8ff7bc",
+      "name": "Update Selected FB Posts Image Field",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "text": "=You are an expert AI creative analyst. Your purpose is to analyze an input image and deconstruct its visual and thematic elements into a clear, structured report. Your output must be only the plain text report as described below. Do not include any conversational filler or explanatory text.\n\nBased on the user's provided image, generate a report with the following structure and headings:\n\nDescription\nWrite a comprehensive, single-paragraph description of the entire image. Capture the subject, setting, style, and overall feeling of the scene.\n\nImage Illustration Analysis\n\nCore Subject: Identify the main person, object, or focus based on the selected images.\n\nSetting: Describe the background and environment of the subject based on the selected images.\n\nStyle: Describe the styles had been applied based on the selected images.\n\nMedium: Specify the artistic medium (e.g., Commercial product photography, 3D render, oil painting, analog film photo) from the selected images.\n\nLighting: Describe the quality and source of the light (e.g., golden hour, studio lighting, neon glow) from the selected images.\n\nMood: Describe the overall feeling or atmosphere (e.g., serene, energetic, futuristic, nostalgic) from the selected images.\n\nComposition: Describe the framing and camera angle (e.g., centered, eye-level, low-angle, top-down) from the selected images.\n\nColor Palette: List the dominant colors and overall color scheme from the selected images.\n\nText Overlay\nList and describe each distinct piece of text found from the selected images. If there is no text, simply write \"None.\"\n\nText 1\n\nText: Identify the exact text.\n\nFont: Describe the font style.\n\nEffect: Describe any visual effects on the font. If none, write \"None.\"\n\nColor: Identify the color of the text.\n\nPlacement: Describe where the text is located (e.g., center, bottom-left).\n\n(Repeat the \"Text #\" section for every additional piece of text in the image.)",
+        "imageUrls": "={{ $jmespath($json['Selected FB Posts Image'], \"[*].imageUrl\").join(\",\") }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        1392,
+        0
+      ],
+      "id": "c264eb83-4926-4139-8f9b-e6d5aaedfa89",
+      "name": "Get Original Image Prompt",
+      "retryOnFail": true,
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.content.parts[0].text }}",
+        "attributes": {
+          "attributes": [
+            {
+              "name": "core_subject",
+              "description": "The main or core subject in the image illustrated"
+            },
+            {
+              "name": "setting",
+              "description": "The overall setting that had been display inside the selected images"
+            },
+            {
+              "name": "style",
+              "description": "Describe the styles had been applied based on the selected images."
+            },
+            {
+              "name": "medium",
+              "description": "The type of the medium used in the selected images"
+            },
+            {
+              "name": "lighting",
+              "description": "The lighting elements had been used or applied in the selected images"
+            },
+            {
+              "name": "mood",
+              "description": "The mood feel had been analysed from the selected images"
+            },
+            {
+              "name": "composition",
+              "description": "The overall elements or compositions that had been captured from the selected images"
+            },
+            {
+              "name": "color_palette",
+              "description": "List the dominant colors and overall color scheme from the selected images."
+            },
+            {
+              "name": "text_overlay",
+              "description": "Any text overlay had been detected or displayed in the selected images"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        1568,
+        0
+      ],
+      "id": "947410b4-7912-4018-852d-806e07e728ab",
+      "name": "Information Extractor",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "mqh3k4nsrobmpjf",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Webhook').item.json.body.data.rows[0].Id }}"
+            },
+            {
+              "fieldName": "Core Subject",
+              "fieldValue": "={{ $json.output.core_subject }}"
+            },
+            {
+              "fieldName": "Setting",
+              "fieldValue": "={{ $json.output.setting }}"
+            },
+            {
+              "fieldName": "Style",
+              "fieldValue": "={{ $json.output.style }}"
+            },
+            {
+              "fieldName": "Medium",
+              "fieldValue": "={{ $json.output.medium }}"
+            },
+            {
+              "fieldName": "Lighting",
+              "fieldValue": "={{ $json.output.lighting }}"
+            },
+            {
+              "fieldName": "Mood",
+              "fieldValue": "={{ $json.output.mood }}"
+            },
+            {
+              "fieldName": "Composition",
+              "fieldValue": "={{ $json.output.composition }}"
+            },
+            {
+              "fieldName": "Color Palette",
+              "fieldValue": "={{ $json.output.color_palette }}"
+            },
+            {
+              "fieldName": "Text Overlay",
+              "fieldValue": "={{ $json.output.text_overlay }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1952,
+        0
+      ],
+      "id": "14cfc93a-1cfa-496e-8d42-590076b684f8",
+      "name": "Update a row",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        2080,
+        192
+      ],
+      "id": "e1036abf-0e87-497a-94c3-63ba01f162ad",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Prompt guidelines for the edited image:\n\nCore Subject: {{ $json['Core Subject'] }}\nSetting: {{ $json.Setting }}\nComposition: {{ $json.Composition }}\nLighting: {{ $json.Lighting }}\nStyle: {{ $json.Style }}\nMedium: {{ $json.Medium }}\nMood: {{ $json.Mood }}\nColor Palette: {{ $json['Color Palette'] }}\nText Overlay: {{ $json['Text Overlay'] }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=Your goal is to create a prompt for an AI image editor. You will be given the Original Image prompt in your system prompt. The user will then provide you with prompt guidelines for the image edit they want to create.\n\nThese guidelines will include the Core Subject, Composition, Medium, Lighting, Style, Mood, Color Palette, Setting, and Text Overlay. Some of these may be the same as the original image (no changes request) and some more be different.\n\nTake the edit guidelines, and create an image edit prompt that follows the same style as the original image prompt\n\nYour entire output must ONLY be the new prompt for the image edit. Do not include any introductory text or closing remarks\n\nOriginal Image prompt:{{ $('Get Original Image Prompt').item.json.content.parts[0].text }}\n\n"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        2208,
+        0
+      ],
+      "id": "2130d294-4867-4846-b30c-c90bd80ae205",
+      "name": "Nano Edit Prompt",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "mqh3k4nsrobmpjf",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Update a row').item.json.Id }}"
+            },
+            {
+              "fieldName": "Full Image Prompt",
+              "fieldValue": "={{ $json.text }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        2560,
+        0
+      ],
+      "id": "5a936895-3735-4b93-90de-6980bf4b68c0",
+      "name": "Update a row1",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"google/gemini-2.5-flash-image-preview\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": {{ JSON.stringify(\n            'Original Image Prompt: ' +\n            $('Get Original Image Prompt').item.json.content.parts[0].text + \"\\n\\n\" +\n            ' Requested Edit Prompt: ' + $('Update a row1').item.json['Full Image Prompt'] + \"\\n\\n\" +\n            'Headline Overlay: '+ $json.output.ad_headline + \"\\n\\n\" + 'Subheadline Overlay: ' + $json.output.ad_subheading + \"\\n\\n\" + 'Call-to-action Overlay: '+ $json.output['ad_call-to-action']) }}\n        },\n        {\n          \"type\": \"image_urls\",\n          \"image_urls\": {\n            \"urls\": {{ JSON.stringify($jmespath($('Update Selected FB Posts Image Field').item.json['Selected FB Posts Image'],\"[*].imageUrl\")) }}\n          }\n        }\n      ]\n    }\n  ]\n}\n",
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 5000
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3504,
+        0
+      ],
+      "id": "04190d6a-f49b-4be0-b332-1ba956ea6554",
+      "name": "Nano B",
+      "alwaysOutputData": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "sUAQFeOYksssVhyr",
+          "name": "UploadPost API Header Auth (info.hansondev@gmail.com)"
+        },
+        "httpBearerAuth": {
+          "id": "SSZgwUMN9E9ra5E4",
+          "name": "OpenRouterAPI_HeaderAuth(n8n.automessenger.me)"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7026c1c7-b1e4-4ef2-86f1-911684134f2c",
+              "name": "data",
+              "value": "={{ $json.choices[0].message.images[0].image_url.url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3712,
+        -96
+      ],
+      "id": "ce16693f-86ad-4cd5-9b13-a4fa1a5807ef",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data",
+        "options": {
+          "mimeType": "={{ $json.mineType }}"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        4192,
+        -96
+      ],
+      "id": "7b012be6-eed6-4b5e-a89b-6c406077f48d",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a69db7b8-b8f5-4aec-acc7-5436eb44629c",
+              "name": "data",
+              "value": "={{ $json.data.split(\",\")[1] }}",
+              "type": "string"
+            },
+            {
+              "id": "93d1ffd7-b8e2-40b1-9320-5c6a9b6b3e0e",
+              "name": "mineType",
+              "value": "={{ $json.data.split(\",\")[0].replace(\"data:\",\"\").replace(\";base64\",\"\") }}",
+              "type": "string"
+            },
+            {
+              "id": "9be5b58f-997c-4350-aeee-bab0295fc9f5",
+              "name": "fileName",
+              "value": "={{ $now.format('yyyy-MM-dd') }}-ReefHeaven-FBAdImage-",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3920,
+        -96
+      ],
+      "id": "46ef0187-b401-4d15-b8ee-d8cc36e7c92e",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "mqh3k4nsrobmpjf",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Update a row1').item.json.Id }}"
+            },
+            {
+              "fieldName": "Image Generated Output",
+              "binaryData": true,
+              "binaryProperty": "data"
+            },
+            {
+              "fieldName": "Status",
+              "fieldValue": "Completed"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        4400,
+        -96
+      ],
+      "id": "f043df4d-51b1-4a38-b7b5-b7c394a54c76",
+      "name": "Update a row2",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "mqh3k4nsrobmpjf",
+        "id": "={{ $json.Id }}"
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        2832,
+        0
+      ],
+      "id": "3c0f1dea-4cdf-424c-9752-eb7aa4cd1b10",
+      "name": "Get a row",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "text": "={{ $json['_nc_m2m_Ad Creative Gen_Ad Copy Generats'][0]['Ad Copy Generator']['Ad Copy Structure'] }}",
+        "attributes": {
+          "attributes": [
+            {
+              "name": "ad_headline",
+              "description": "Extract only the headline text where it started from `Headline Section:`"
+            },
+            {
+              "name": "ad_subheading",
+              "description": "Extract only the subheading text where it started from `Call-to-action:` and only in one sentence"
+            },
+            {
+              "name": "ad_call-to-action",
+              "description": "Extract only the subheading text where it started from `Call-to-action:`. Make sure is short, actionable and convincible message such as \"Shop Now\", \"Don't Wait, Act Now\" ect."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        3040,
+        0
+      ],
+      "id": "011065c9-c88f-4e01-ba81-80a3785e9d4c",
+      "name": "Information Extractor1",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2912,
+        192
+      ],
+      "id": "81ed0c9f-8f6f-48db-9e44-28d852ef9079",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Get many rows",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows": {
+      "main": [
+        [
+          {
+            "node": "Extract Facebook Page Url",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Facebook Page Url": {
+      "main": [
+        [
+          {
+            "node": "FB Post Image Selector For Ad Image Base",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "FB Post Image Selector For Ad Image Base",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Information Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "fb_page_post_Image_url_scraper": {
+      "ai_tool": [
+        [
+          {
+            "node": "FB Post Image Selector For Ad Image Base",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "image_url_analyzer": {
+      "ai_tool": [
+        [
+          {
+            "node": "FB Post Image Selector For Ad Image Base",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "FB Post Image Selector For Ad Image Base",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FB Post Image Selector For Ad Image Base": {
+      "main": [
+        [
+          {
+            "node": "Update Selected FB Posts Image Field",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Selected FB Posts Image Field": {
+      "main": [
+        [
+          {
+            "node": "Get Original Image Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Original Image Prompt": {
+      "main": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Information Extractor": {
+      "main": [
+        [
+          {
+            "node": "Update a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Nano Edit Prompt",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a row": {
+      "main": [
+        [
+          {
+            "node": "Nano Edit Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nano Edit Prompt": {
+      "main": [
+        [
+          {
+            "node": "Update a row1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a row1": {
+      "main": [
+        [
+          {
+            "node": "Get a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nano B": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Update a row2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a row": {
+      "main": [
+        [
+          {
+            "node": "Information Extractor1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Information Extractor1": {
+      "main": [
+        [
+          {
+            "node": "Nano B",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Information Extractor1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "577883a4-d688-454b-92b5-d32b9751a99b",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-09-04T16:21:24.703Z",
+      "createdAt": "2025-09-04T16:21:24.703Z",
+      "role": "workflow:owner",
+      "workflowId": "kzfuA1vnWBrtW392",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
