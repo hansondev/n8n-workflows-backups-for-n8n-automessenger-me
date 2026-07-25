@@ -1,0 +1,2638 @@
+{
+  "updatedAt": "2024-11-19T09:10:09.000Z",
+  "createdAt": "2024-11-19T03:30:52.536Z",
+  "id": "Hxc8bds6HzZqz2pR",
+  "name": "CTN_MediaAds-Nov24-AdCash_CampaignReports",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "c254fdff-5f09-4982-b4be-8ab3d8b5e541",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        280,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "afd57dcb-87dc-45ff-909d-fb3a7c768619",
+              "name": "username",
+              "value": "marketing@citinow.com",
+              "type": "string"
+            },
+            {
+              "id": "f33352ad-8604-487c-a6a5-8cbb317c5b73",
+              "name": "password",
+              "value": "*9009*CitiNow",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b07d15de-b4d2-4d2e-b3e3-e42395dcb233",
+      "name": "Set Username & Password",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        500,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.myadcash.com/api/v1/auth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Cache-Control",
+              "value": "no-cache"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "username",
+              "value": "={{ $json.username }}"
+            },
+            {
+              "name": "password",
+              "value": "={{ $json.password }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "ee726244-7bc4-432f-a152-ed3be41bf1cd",
+      "name": "GET Authentication Token",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        740,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "374f42b8-de0c-46c2-964b-775d805413a0",
+              "name": "startDate",
+              "value": "2024-11-01",
+              "type": "string"
+            },
+            {
+              "id": "129ce2bd-bc9d-41ef-b1d8-28d30d974b68",
+              "name": "endDate",
+              "value": "2024-11-19",
+              "type": "string"
+            },
+            {
+              "id": "4ebedb5c-61bf-4472-8bcc-4815c4ebea36",
+              "name": "advertiserId",
+              "value": "284758",
+              "type": "string"
+            },
+            {
+              "id": "f2bddf76-3f51-4224-b9e7-adece05dee06",
+              "name": "groupBy",
+              "value": "campaignname,campaignid,country,packname,devicetype",
+              "type": "string"
+            },
+            {
+              "id": "ed56f038-18bb-477a-8bf5-707f07e66db7",
+              "name": "country",
+              "value": "HK,MY,SG",
+              "type": "string"
+            },
+            {
+              "id": "c667709a-6fe7-4e0a-bf0f-d8f5a393ac01",
+              "name": "granularity",
+              "value": "all",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "293a061d-c2e3-4a6b-8195-9fd6c4491b99",
+      "name": "SET Report Require Parameters",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        960,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.myadcash.com/api/v1/advertiser-report",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "start_date",
+              "value": "={{ $json.startDate }}"
+            },
+            {
+              "name": "end_date",
+              "value": "={{ $json.endDate }}"
+            },
+            {
+              "name": "advertiser_id",
+              "value": "={{ $json.advertiserId }}"
+            },
+            {
+              "name": "group_by",
+              "value": "={{ $json.groupBy }}"
+            },
+            {
+              "name": "country",
+              "value": "={{ $json.country }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('GET Authentication Token').item.json.token }}"
+            },
+            {
+              "name": "Cache-Control",
+              "value": "no-cache"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7b397dab-95f0-46f0-bd53-5aecc8a70e1c",
+      "name": "GET Full Active Campaign Reports",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1180,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6f6efe2a-db0a-40fb-965f-dd0fc1fb65ab",
+              "name": "campaign_name",
+              "value": "={{ $json.campaignname }}",
+              "type": "string"
+            },
+            {
+              "id": "8c872b48-4cb3-4057-82fb-2faeafb6b54d",
+              "name": "impressions",
+              "value": "={{ $json.impressions }}",
+              "type": "number"
+            },
+            {
+              "id": "907f54ab-ed4e-4843-8d5c-51f2c14dc433",
+              "name": "clicks",
+              "value": "={{ $json.clicks }}",
+              "type": "number"
+            },
+            {
+              "id": "96e44214-ea96-4917-bc15-5068b4e51236",
+              "name": "ad_spend",
+              "value": "={{ $json.spending.round(2) }}",
+              "type": "number"
+            },
+            {
+              "id": "28fd8dd2-756d-49ee-8f97-7aa0b6070ec4",
+              "name": "country",
+              "value": "={{ $json.country }}",
+              "type": "string"
+            },
+            {
+              "id": "c4c93a5a-f2d5-4c37-aa43-30c9e168be07",
+              "name": "device_type",
+              "value": "={{ $json.devicetype }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "57b9d6a1-4a60-4e74-a0c8-60180ea1f188",
+      "name": "Extract Important Report Fields & Values",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1400,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ab1c5b88-a26a-4dd1-9209-8bc8a9b8e9a3",
+              "leftValue": "={{ $('Switch Reports By Country').item.json.device_type }}",
+              "rightValue": "Desktop",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "4891e26c-6432-4091-8a7a-f556b6d49063",
+      "name": "isDesktop",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2100,
+        -220
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "20756d86-e89f-4127-b5e8-ed92c75d1722",
+              "name": "campaignName",
+              "value": "={{ $json['Campaign Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "6c2102ec-1876-431a-90d7-0ddaad795221",
+              "name": "impressions",
+              "value": "={{ $json.Impressions }}",
+              "type": "number"
+            },
+            {
+              "id": "95adcf78-62cd-4762-9e1c-3b86c28d2e88",
+              "name": "clicks",
+              "value": "={{ $json.Clicks }}",
+              "type": "number"
+            },
+            {
+              "id": "0ca1241d-b77b-41e3-a775-1884f240f257",
+              "name": "adSpend",
+              "value": "={{ $json['Ad Spend (US$)'] }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "706370e5-ddff-4d88-b315-e82daa87786c",
+      "name": "Mobile/Tablet Filtered Reports",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2380,
+        -180
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "20756d86-e89f-4127-b5e8-ed92c75d1722",
+              "name": "campaignName",
+              "value": "={{ $json.campaign_name }}",
+              "type": "string"
+            },
+            {
+              "id": "6c2102ec-1876-431a-90d7-0ddaad795221",
+              "name": "impressions",
+              "value": "={{ $json.impressions }}",
+              "type": "number"
+            },
+            {
+              "id": "95adcf78-62cd-4762-9e1c-3b86c28d2e88",
+              "name": "clicks",
+              "value": "={{ $json.clicks }}",
+              "type": "number"
+            },
+            {
+              "id": "0ca1241d-b77b-41e3-a775-1884f240f257",
+              "name": "adSpend",
+              "value": "={{ $json.ad_spend }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9faf1a41-06a6-4c32-bc82-bdc0c068ee08",
+      "name": "Desktop Filtered Reports",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2340,
+        -380
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.country }}",
+                    "rightValue": "HK",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Hong Kong"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "88b0a490-d976-4cda-8532-ae6db1a0d2fe",
+                    "leftValue": "={{ $json.country }}",
+                    "rightValue": "MY",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Malaysia"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "02bd3a79-271b-4230-85db-36f5a1a40b2b",
+                    "leftValue": "={{ $json.country }}",
+                    "rightValue": "SG",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Singapore"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f35ecc67-1b0d-48a9-aec7-2972204b4768",
+      "name": "Switch Reports By Country",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1620,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1iAq9DyL5PVMKdpTSbGqnGAgCM0_O-_qKPmvr2SAdkVM",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "All Devices",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iAq9DyL5PVMKdpTSbGqnGAgCM0_O-_qKPmvr2SAdkVM/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Campaign Name": "={{ $json.campaign_name }}",
+            "Impressions": "={{ $json.impressions }}",
+            "Clicks": "={{ $json.clicks }}",
+            "Ad Spend (US$)": "={{ $json.ad_spend }}",
+            "Device Type": "={{ $json.device_type }}"
+          },
+          "matchingColumns": [
+            "Campaign Name"
+          ],
+          "schema": [
+            {
+              "id": "Campaign Name",
+              "displayName": "Campaign Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Impressions",
+              "displayName": "Impressions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Clicks",
+              "displayName": "Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CTR",
+              "displayName": "CTR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CPM",
+              "displayName": "CPM",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CPC",
+              "displayName": "CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Spend (US$)",
+              "displayName": "Ad Spend (US$)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Device Type",
+              "displayName": "Device Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "723a2561-540b-4751-bff8-e4611474df67",
+      "name": "Update All Devices Sheet Fields",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1880,
+        -100
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "OXDxWGfDEtymBBHC",
+          "name": "GSheet - marketing@citinow.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1iAq9DyL5PVMKdpTSbGqnGAgCM0_O-_qKPmvr2SAdkVM",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 167788390,
+          "mode": "list",
+          "cachedResultName": "Desktop",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iAq9DyL5PVMKdpTSbGqnGAgCM0_O-_qKPmvr2SAdkVM/edit#gid=167788390"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Campaign Name": "={{ $json.campaignName }}",
+            "Impressions": "={{ $json.impressions }}",
+            "Clicks": "={{ $json.clicks }}",
+            "Ad Spend (US$)": "={{ $json.adSpend }}"
+          },
+          "matchingColumns": [
+            "Campaign Name"
+          ],
+          "schema": [
+            {
+              "id": "Campaign Name",
+              "displayName": "Campaign Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Impressions",
+              "displayName": "Impressions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Clicks",
+              "displayName": "Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CTR",
+              "displayName": "CTR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CPM",
+              "displayName": "CPM",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CPC",
+              "displayName": "CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Spend (US$)",
+              "displayName": "Ad Spend (US$)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "deb1bab9-e2a1-421d-afbf-d78f785468e5",
+      "name": "Update Desktop Devices Sheet Fields",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2600,
+        -480
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "OXDxWGfDEtymBBHC",
+          "name": "GSheet - marketing@citinow.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1iAq9DyL5PVMKdpTSbGqnGAgCM0_O-_qKPmvr2SAdkVM",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 660633968,
+          "mode": "list",
+          "cachedResultName": "Mobile/Tablet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iAq9DyL5PVMKdpTSbGqnGAgCM0_O-_qKPmvr2SAdkVM/edit#gid=660633968"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Campaign Name": "={{ $json.campaignName }}",
+            "Impressions": "={{ $json.impressions }}",
+            "Clicks": "={{ $json.clicks }}",
+            "Ad Spend (US$)": "={{ $json.adSpend }}"
+          },
+          "matchingColumns": [
+            "Campaign Name"
+          ],
+          "schema": [
+            {
+              "id": "Campaign Name",
+              "displayName": "Campaign Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Impressions",
+              "displayName": "Impressions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Clicks",
+              "displayName": "Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CTR",
+              "displayName": "CTR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CPM",
+              "displayName": "CPM",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CPC",
+              "displayName": "CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Spend (US$)",
+              "displayName": "Ad Spend (US$)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "234acb47-5ab3-4518-8306-e43aeae7a1d1",
+      "name": "Update Mobile Devices Sheet Fields",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2660,
+        -300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "OXDxWGfDEtymBBHC",
+          "name": "GSheet - marketing@citinow.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ab1c5b88-a26a-4dd1-9209-8bc8a9b8e9a3",
+              "leftValue": "={{ $('Switch Reports By Country').item.json.device_type }}",
+              "rightValue": "Desktop",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "7caff644-eb92-45d5-b0e4-f73b24bd1777",
+      "name": "isDesktop1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2260,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "20756d86-e89f-4127-b5e8-ed92c75d1722",
+              "name": "campaignName",
+              "value": "={{ $json['Campaign Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "6c2102ec-1876-431a-90d7-0ddaad795221",
+              "name": "impressions",
+              "value": "={{ $json.Impressions }}",
+              "type": "number"
+            },
+            {
+              "id": "95adcf78-62cd-4762-9e1c-3b86c28d2e88",
+              "name": "clicks",
+              "value": "={{ $json.Clicks }}",
+              "type": "number"
+            },
+            {
+              "id": "0ca1241d-b77b-41e3-a775-1884f240f257",
+              "name": "adSpend",
+              "value": "={{ $json['Ad Spend (US$)'] }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d38ece6a-f35b-4a4c-9068-288967a3e75d",
+      "name": "Mobile/Tablet Filtered Reports1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2540,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "20756d86-e89f-4127-b5e8-ed92c75d1722",
+              "name": "campaignName",
+              "value": "={{ $json['Campaign Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "6c2102ec-1876-431a-90d7-0ddaad795221",
+              "name": "impressions",
+              "value": "={{ $json.Impressions }}",
+              "type": "number"
+            },
+            {
+              "id": "95adcf78-62cd-4762-9e1c-3b86c28d2e88",
+              "name": "clicks",
+              "value": "={{ $json.Clicks }}",
+              "type": "number"
+            },
+            {
+              "id": "0ca1241d-b77b-41e3-a775-1884f240f257",
+              "name": "adSpend",
+              "value": "={{ $json['Ad Spend (US$)'] }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2916ec95-621f-46e1-801b-3c93e5983d16",
+      "name": "Desktop Filtered Reports1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2480,
+        -20
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1-lgZVDrTcMhG2T4m6zt3elBcoGDiREjrUo87F-Ike34",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "All Devices",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-lgZVDrTcMhG2T4m6zt3elBcoGDiREjrUo87F-Ike34/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Campaign Name": "={{ $json.campaign_name }}",
+            "Impressions": "={{ $json.impressions }}",
+            "Clicks": "={{ $json.clicks }}",
+            "Ad Spend (US$)": "={{ $json.ad_spend }}",
+            "Device Type": "={{ $json.device_type }}"
+          },
+          "matchingColumns": [
+            "Campaign Name"
+          ],
+          "schema": [
+            {
+              "id": "Campaign Name",
+              "displayName": "Campaign Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Impressions",
+              "displayName": "Impressions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Clicks",
+              "displayName": "Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CTR",
+              "displayName": "CTR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CPM",
+              "displayName": "CPM",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CPC",
+              "displayName": "CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Spend (US$)",
+              "displayName": "Ad Spend (US$)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Device Type",
+              "displayName": "Device Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3ea51967-6641-4cee-a77b-bb85a1623149",
+      "name": "Update All Devices Sheet Fields1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2040,
+        240
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "OXDxWGfDEtymBBHC",
+          "name": "GSheet - marketing@citinow.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1-lgZVDrTcMhG2T4m6zt3elBcoGDiREjrUo87F-Ike34",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 167788390,
+          "mode": "list",
+          "cachedResultName": "Desktop",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-lgZVDrTcMhG2T4m6zt3elBcoGDiREjrUo87F-Ike34/edit#gid=167788390"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Campaign Name": "={{ $json.campaignName }}",
+            "Impressions": "={{ $json.impressions }}",
+            "Clicks": "={{ $json.clicks }}",
+            "Ad Spend (US$)": "={{ $json.adSpend }}"
+          },
+          "matchingColumns": [
+            "Campaign Name"
+          ],
+          "schema": [
+            {
+              "id": "Campaign Name",
+              "displayName": "Campaign Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Impressions",
+              "displayName": "Impressions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Clicks",
+              "displayName": "Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CTR",
+              "displayName": "CTR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CPM",
+              "displayName": "CPM",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CPC",
+              "displayName": "CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Spend (US$)",
+              "displayName": "Ad Spend (US$)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7010b80c-9bf8-41c9-9184-94ad19f7312d",
+      "name": "Update Desktop Devices Sheet Fields1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2760,
+        -120
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "OXDxWGfDEtymBBHC",
+          "name": "GSheet - marketing@citinow.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1-lgZVDrTcMhG2T4m6zt3elBcoGDiREjrUo87F-Ike34",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 660633968,
+          "mode": "list",
+          "cachedResultName": "Mobile/Tablet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-lgZVDrTcMhG2T4m6zt3elBcoGDiREjrUo87F-Ike34/edit#gid=660633968"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Campaign Name": "={{ $json.campaignName }}",
+            "Impressions": "={{ $json.impressions }}",
+            "Clicks": "={{ $json.clicks }}",
+            "Ad Spend (US$)": "={{ $json.adSpend }}"
+          },
+          "matchingColumns": [
+            "Campaign Name"
+          ],
+          "schema": [
+            {
+              "id": "Campaign Name",
+              "displayName": "Campaign Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Impressions",
+              "displayName": "Impressions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Clicks",
+              "displayName": "Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CTR",
+              "displayName": "CTR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CPM",
+              "displayName": "CPM",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CPC",
+              "displayName": "CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Spend (US$)",
+              "displayName": "Ad Spend (US$)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2059fdb9-c87a-47cb-82e9-e93c5c2d058b",
+      "name": "Update Mobile Devices Sheet Fields1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2780,
+        120
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "OXDxWGfDEtymBBHC",
+          "name": "GSheet - marketing@citinow.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1-lgZVDrTcMhG2T4m6zt3elBcoGDiREjrUo87F-Ike34",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 167788390,
+          "mode": "list",
+          "cachedResultName": "Desktop",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1-lgZVDrTcMhG2T4m6zt3elBcoGDiREjrUo87F-Ike34/edit#gid=167788390"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Campaign Name": "={{ $json.campaignName }}",
+            "Impressions": "={{ $json.impressions }}",
+            "Clicks": "={{ $json.clicks }}",
+            "Ad Spend (US$)": "={{ $json.adSpend }}"
+          },
+          "matchingColumns": [
+            "Campaign Name"
+          ],
+          "schema": [
+            {
+              "id": "Campaign Name",
+              "displayName": "Campaign Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Impressions",
+              "displayName": "Impressions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Clicks",
+              "displayName": "Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CTR",
+              "displayName": "CTR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CPM",
+              "displayName": "CPM",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CPC",
+              "displayName": "CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Spend (US$)",
+              "displayName": "Ad Spend (US$)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "39b45c14-86f4-40a0-a956-aacb0c1b18ef",
+      "name": "Update Desktop Devices Sheet Fields2",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2740,
+        400
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "OXDxWGfDEtymBBHC",
+          "name": "GSheet - marketing@citinow.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1JDrmyQ-Vo9K3M5vqEmxmG__aqCcxYZnH_CoG5ViLzYw",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 660633968,
+          "mode": "list",
+          "cachedResultName": "Mobile/Tablet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JDrmyQ-Vo9K3M5vqEmxmG__aqCcxYZnH_CoG5ViLzYw/edit#gid=660633968"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Campaign Name": "={{ $json.campaignName }}",
+            "Impressions": "={{ $json.impressions }}",
+            "Clicks": "={{ $json.clicks }}",
+            "Ad Spend (US$)": "={{ $json.adSpend }}"
+          },
+          "matchingColumns": [
+            "Campaign Name"
+          ],
+          "schema": [
+            {
+              "id": "Campaign Name",
+              "displayName": "Campaign Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Impressions",
+              "displayName": "Impressions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Clicks",
+              "displayName": "Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CTR",
+              "displayName": "CTR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CPM",
+              "displayName": "CPM",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CPC",
+              "displayName": "CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Spend (US$)",
+              "displayName": "Ad Spend (US$)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "32570d63-7397-48d5-a89c-db38fb01f089",
+      "name": "Update Mobile Devices Sheet Fields2",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2760,
+        660
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "OXDxWGfDEtymBBHC",
+          "name": "GSheet - marketing@citinow.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "20756d86-e89f-4127-b5e8-ed92c75d1722",
+              "name": "campaignName",
+              "value": "={{ $json['Campaign Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "6c2102ec-1876-431a-90d7-0ddaad795221",
+              "name": "impressions",
+              "value": "={{ $json.Impressions }}",
+              "type": "number"
+            },
+            {
+              "id": "95adcf78-62cd-4762-9e1c-3b86c28d2e88",
+              "name": "clicks",
+              "value": "={{ $json.Clicks }}",
+              "type": "number"
+            },
+            {
+              "id": "0ca1241d-b77b-41e3-a775-1884f240f257",
+              "name": "adSpend",
+              "value": "={{ $json['Ad Spend (US$)'] }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "456948d2-20f7-4039-921e-28a583956071",
+      "name": "Desktop Filtered Reports2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2520,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "20756d86-e89f-4127-b5e8-ed92c75d1722",
+              "name": "campaignName",
+              "value": "={{ $json['Campaign Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "6c2102ec-1876-431a-90d7-0ddaad795221",
+              "name": "impressions",
+              "value": "={{ $json.Impressions }}",
+              "type": "number"
+            },
+            {
+              "id": "95adcf78-62cd-4762-9e1c-3b86c28d2e88",
+              "name": "clicks",
+              "value": "={{ $json.Clicks }}",
+              "type": "number"
+            },
+            {
+              "id": "0ca1241d-b77b-41e3-a775-1884f240f257",
+              "name": "adSpend",
+              "value": "={{ $json['Ad Spend (US$)'] }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b9416048-7141-4685-ad9c-f3bd4bd1bc3b",
+      "name": "Mobile/Tablet Filtered Reports2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2500,
+        680
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ab1c5b88-a26a-4dd1-9209-8bc8a9b8e9a3",
+              "leftValue": "={{ $('Switch Reports By Country').item.json.device_type }}",
+              "rightValue": "Desktop",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "ccc3fa9b-47a8-48a4-8fd0-f3a3d4c17595",
+      "name": "isDesktop2",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2180,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1JDrmyQ-Vo9K3M5vqEmxmG__aqCcxYZnH_CoG5ViLzYw",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "All Devices",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JDrmyQ-Vo9K3M5vqEmxmG__aqCcxYZnH_CoG5ViLzYw/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Campaign Name": "={{ $json.campaign_name }}",
+            "Impressions": "={{ $json.impressions }}",
+            "Clicks": "={{ $json.clicks }}",
+            "Ad Spend (US$)": "={{ $json.ad_spend }}",
+            "Device Type": "={{ $json.device_type }}"
+          },
+          "matchingColumns": [
+            "Campaign Name"
+          ],
+          "schema": [
+            {
+              "id": "Campaign Name",
+              "displayName": "Campaign Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Impressions",
+              "displayName": "Impressions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Clicks",
+              "displayName": "Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CTR",
+              "displayName": "CTR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CPM",
+              "displayName": "CPM",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CPC",
+              "displayName": "CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Spend (US$)",
+              "displayName": "Ad Spend (US$)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Device Type",
+              "displayName": "Device Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "cc807311-e383-4a24-a71d-69fe8530fefe",
+      "name": "Update All Devices Sheet Fields2",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1920,
+        460
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "OXDxWGfDEtymBBHC",
+          "name": "GSheet - marketing@citinow.com"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Set Username & Password",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Username & Password": {
+      "main": [
+        [
+          {
+            "node": "GET Authentication Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Authentication Token": {
+      "main": [
+        [
+          {
+            "node": "SET Report Require Parameters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SET Report Require Parameters": {
+      "main": [
+        [
+          {
+            "node": "GET Full Active Campaign Reports",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Full Active Campaign Reports": {
+      "main": [
+        [
+          {
+            "node": "Extract Important Report Fields & Values",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Important Report Fields & Values": {
+      "main": [
+        [
+          {
+            "node": "Switch Reports By Country",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "isDesktop": {
+      "main": [
+        [
+          {
+            "node": "Desktop Filtered Reports",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mobile/Tablet Filtered Reports",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Reports By Country": {
+      "main": [
+        [
+          {
+            "node": "Update All Devices Sheet Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update All Devices Sheet Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update All Devices Sheet Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update All Devices Sheet Fields": {
+      "main": [
+        [
+          {
+            "node": "isDesktop",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Desktop Filtered Reports": {
+      "main": [
+        [
+          {
+            "node": "Update Desktop Devices Sheet Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mobile/Tablet Filtered Reports": {
+      "main": [
+        [
+          {
+            "node": "Update Mobile Devices Sheet Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "isDesktop1": {
+      "main": [
+        [
+          {
+            "node": "Desktop Filtered Reports1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mobile/Tablet Filtered Reports1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mobile/Tablet Filtered Reports1": {
+      "main": [
+        [
+          {
+            "node": "Update Mobile Devices Sheet Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Desktop Filtered Reports1": {
+      "main": [
+        [
+          {
+            "node": "Update Desktop Devices Sheet Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update All Devices Sheet Fields1": {
+      "main": [
+        [
+          {
+            "node": "isDesktop1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Desktop Filtered Reports2": {
+      "main": [
+        [
+          {
+            "node": "Update Desktop Devices Sheet Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mobile/Tablet Filtered Reports2": {
+      "main": [
+        [
+          {
+            "node": "Update Mobile Devices Sheet Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "isDesktop2": {
+      "main": [
+        [
+          {
+            "node": "Desktop Filtered Reports2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mobile/Tablet Filtered Reports2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update All Devices Sheet Fields2": {
+      "main": [
+        [
+          {
+            "node": "isDesktop2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Extract Important Report Fields & Values": [
+      {
+        "json": {
+          "campaign_name": "Nov24-HK$200+0.4%Bonus-CTNMain-Native-HK-V1",
+          "impressions": 241,
+          "clicks": 0,
+          "ad_spend": 0,
+          "country": "HK",
+          "device_type": "Desktop"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-HK$200+0.4%Bonus-CTNMain-Native-HK-V1",
+          "impressions": 610,
+          "clicks": 1,
+          "ad_spend": 0.03,
+          "country": "HK",
+          "device_type": "Mobile Phone"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-HK$200+0.4%Bonus-CTNMain-Native-HK-V1",
+          "impressions": 128,
+          "clicks": 0,
+          "ad_spend": 0,
+          "country": "HK",
+          "device_type": "Tablet"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300% Slots_Fishing-CTNMain-Native-HK-V1",
+          "impressions": 242,
+          "clicks": 0,
+          "ad_spend": 0,
+          "country": "HK",
+          "device_type": "Desktop"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300% Slots_Fishing-CTNMain-Native-HK-V1",
+          "impressions": 619,
+          "clicks": 0,
+          "ad_spend": 0,
+          "country": "HK",
+          "device_type": "Mobile Phone"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300% Slots_Fishing-CTNMain-Native-HK-V1",
+          "impressions": 128,
+          "clicks": 0,
+          "ad_spend": 0,
+          "country": "HK",
+          "device_type": "Tablet"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-HK$200+0.4%Bonus-CTNMain-Interstitial-DESK",
+          "impressions": 7141,
+          "clicks": 64,
+          "ad_spend": 3.44,
+          "country": "HK",
+          "device_type": "Desktop"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-HK200+0.4%Bonus-CTNPromo-Interstitial-HK-MOB",
+          "impressions": 6488,
+          "clicks": 151,
+          "ad_spend": 11.98,
+          "country": "HK",
+          "device_type": "Mobile Phone"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-HK200+0.4%Bonus-CTNPromo-Interstitial-HK-MOB",
+          "impressions": 650,
+          "clicks": 8,
+          "ad_spend": 0.8,
+          "country": "HK",
+          "device_type": "Tablet"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-HK200+0.4%Bonus-CTNPromo-Interstitial-HK-MOB",
+          "impressions": 1,
+          "clicks": 0,
+          "ad_spend": 0,
+          "country": "MY",
+          "device_type": "Desktop"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300%SlotFishing-CTNMain-Interstitial-HK-DESK",
+          "impressions": 1152,
+          "clicks": 13,
+          "ad_spend": 0.52,
+          "country": "HK",
+          "device_type": "Desktop"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300%SlotFishing-CTNPromo-Interstitial-HK-MOB",
+          "impressions": 5984,
+          "clicks": 182,
+          "ad_spend": 10.24,
+          "country": "HK",
+          "device_type": "Mobile Phone"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-RM100+0.4%Bonus-CTNMain-SC-Inter-MY- DESK1",
+          "impressions": 5992,
+          "clicks": 51,
+          "ad_spend": 3.42,
+          "country": "MY",
+          "device_type": "Desktop"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300% Slots_Fishing-CTNMain-SC-Inter-MY-DESK1",
+          "impressions": 3695,
+          "clicks": 31,
+          "ad_spend": 1.89,
+          "country": "MY",
+          "device_type": "Desktop"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-RM100+0.4%Bonus-CTNMain- EN-Inter-MY-DESK1",
+          "impressions": 113,
+          "clicks": 0,
+          "ad_spend": 0,
+          "country": "MY",
+          "device_type": "Desktop"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300% Slots_Fishing-CTNMain-EN-Inter-MY-DESK1",
+          "impressions": 132,
+          "clicks": 0,
+          "ad_spend": 0,
+          "country": "MY",
+          "device_type": "Desktop"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-RM100+0.4%Bonus-CTNPromo- EN-Inter-MY-MOB1",
+          "impressions": 41796,
+          "clicks": 984,
+          "ad_spend": 65.43,
+          "country": "MY",
+          "device_type": "Mobile Phone"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-RM100+0.4%Bonus-CTNPromo- EN-Inter-MY-MOB1",
+          "impressions": 122,
+          "clicks": 1,
+          "ad_spend": 0.2,
+          "country": "MY",
+          "device_type": "Tablet"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-RM100+0.4%Bonus-CTNPromo- EN-Inter-MY-MOB1",
+          "impressions": 5,
+          "clicks": 0,
+          "ad_spend": 0,
+          "country": "MY",
+          "device_type": "Desktop"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300% Slots_Fishing-CTNPromo-EN-Inter-MY-MOB1",
+          "impressions": 10429,
+          "clicks": 248,
+          "ad_spend": 12.4,
+          "country": "MY",
+          "device_type": "Mobile Phone"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-HK$200+0.4%Bonus-CTNMain-Inpage-HK-DESK",
+          "impressions": 22404,
+          "clicks": 517,
+          "ad_spend": 20.68,
+          "country": "HK",
+          "device_type": "Desktop"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300%Slots_Fishing-CTNMain-Inpage-HK-DESK",
+          "impressions": 27399,
+          "clicks": 631,
+          "ad_spend": 25.2,
+          "country": "HK",
+          "device_type": "Desktop"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-HK$200+0.4%Bonus-CTNMain-Inpage-HK-MOB",
+          "impressions": 2,
+          "clicks": 0,
+          "ad_spend": 0,
+          "country": "HK",
+          "device_type": "Tablet"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-HK$200+0.4%Bonus-CTNMain-Inpage-HK-MOB",
+          "impressions": 21051,
+          "clicks": 1933,
+          "ad_spend": 77.32,
+          "country": "HK",
+          "device_type": "Mobile Phone"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-HK$200+0.4%Bonus-CTNMain-Inpage-HK-MOB",
+          "impressions": 664,
+          "clicks": 74,
+          "ad_spend": 2.96,
+          "country": "HK",
+          "device_type": "Tablet"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-HK$200+0.4%Bonus-CTNMain-Inpage-HK-MOB",
+          "impressions": 5,
+          "clicks": 0,
+          "ad_spend": 0,
+          "country": "MY",
+          "device_type": "Desktop"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300%Slots_Fishing-CTNMain-Inpage-HK-MOB",
+          "impressions": 23920,
+          "clicks": 1966,
+          "ad_spend": 78.64,
+          "country": "HK",
+          "device_type": "Mobile Phone"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300%Slots_Fishing-CTNMain-Inpage-HK-MOB",
+          "impressions": 667,
+          "clicks": 55,
+          "ad_spend": 2.2,
+          "country": "HK",
+          "device_type": "Tablet"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300%Slots_Fishing-CTNMain-Inpage-HK-MOB",
+          "impressions": 3,
+          "clicks": 0,
+          "ad_spend": 0,
+          "country": "MY",
+          "device_type": "Desktop"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300% SlotsFishing-CTNMain-EN-Inter-MY-DESK2",
+          "impressions": 3047,
+          "clicks": 25,
+          "ad_spend": 1.42,
+          "country": "MY",
+          "device_type": "Desktop"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300% SlotsFishing-CTNMain-EN-Inter-MY-DESK2",
+          "impressions": 1,
+          "clicks": 0,
+          "ad_spend": 0,
+          "country": "MY",
+          "device_type": "Desktop"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-RM100+0.4%Bonus-CTNMain- EN-Inter-MY-DESK2",
+          "impressions": 9089,
+          "clicks": 119,
+          "ad_spend": 6.01,
+          "country": "MY",
+          "device_type": "Desktop"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-RM100+0.4%Bonus-CTNMain- EN-Inter-MY-DESK2",
+          "impressions": 4,
+          "clicks": 0,
+          "ad_spend": 0,
+          "country": "MY",
+          "device_type": "Desktop"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-HK$200+0.4%Bonus-CTNMain-Interstitial-DESK2",
+          "impressions": 10897,
+          "clicks": 126,
+          "ad_spend": 12.66,
+          "country": "HK",
+          "device_type": "Desktop"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-HK$200+0.4%Bonus-CTNMain-Interstitial-DESK2",
+          "impressions": 2,
+          "clicks": 0,
+          "ad_spend": 0,
+          "country": "MY",
+          "device_type": "Desktop"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300%Slots_Fishing-CTNMain-Inter-HK-DESK2",
+          "impressions": 2113,
+          "clicks": 14,
+          "ad_spend": 2.02,
+          "country": "HK",
+          "device_type": "Desktop"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300%Slots_Fishing-CTNMain-Inter-HK-DESK2",
+          "impressions": 3,
+          "clicks": 0,
+          "ad_spend": 0,
+          "country": "MY",
+          "device_type": "Desktop"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-RM100+0.4%Bonus-CTNPromo- SC-Inter-MY-MOB2",
+          "impressions": 40270,
+          "clicks": 957,
+          "ad_spend": 46.1,
+          "country": "MY",
+          "device_type": "Mobile Phone"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-RM100+0.4%Bonus-CTNPromo- SC-Inter-MY-MOB2",
+          "impressions": 1749,
+          "clicks": 26,
+          "ad_spend": 1.76,
+          "country": "MY",
+          "device_type": "Tablet"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-HK$200+0.4%Bonus-CTNPromo-Interstitial-MOB2",
+          "impressions": 12789,
+          "clicks": 463,
+          "ad_spend": 15.31,
+          "country": "HK",
+          "device_type": "Mobile Phone"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-HK$200+0.4%Bonus-CTNPromo-Interstitial-MOB2",
+          "impressions": 1260,
+          "clicks": 10,
+          "ad_spend": 1.36,
+          "country": "HK",
+          "device_type": "Tablet"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300%SlotsFishing-CTNPromo-Inter-HK-MOB2",
+          "impressions": 823,
+          "clicks": 12,
+          "ad_spend": 0.84,
+          "country": "HK",
+          "device_type": "Mobile Phone"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300%SlotsFishing-CTNPromo-Inter-HK-MOB2",
+          "impressions": 73,
+          "clicks": 1,
+          "ad_spend": 0.06,
+          "country": "HK",
+          "device_type": "Tablet"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300% Slots_Fishing-CTNPromo-SC-Inter-MY-MOB2",
+          "impressions": 20343,
+          "clicks": 539,
+          "ad_spend": 18.66,
+          "country": "MY",
+          "device_type": "Mobile Phone"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300% Slots_Fishing-CTNPromo-SC-Inter-MY-MOB2",
+          "impressions": 858,
+          "clicks": 9,
+          "ad_spend": 0.68,
+          "country": "MY",
+          "device_type": "Tablet"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300% Slots_Fishing-CTNPromo-EN-Inter-MY-MOB2",
+          "impressions": 4855,
+          "clicks": 87,
+          "ad_spend": 3.16,
+          "country": "MY",
+          "device_type": "Mobile Phone"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300% Slots_Fishing-CTNPromo-EN-Inter-MY-MOB2",
+          "impressions": 282,
+          "clicks": 2,
+          "ad_spend": 0.19,
+          "country": "MY",
+          "device_type": "Tablet"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-RM100+0.4%Bonus-CTNPromo- EN-Inter-MY-MOB2",
+          "impressions": 15552,
+          "clicks": 376,
+          "ad_spend": 14.69,
+          "country": "MY",
+          "device_type": "Mobile Phone"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-RM100+0.4%Bonus-CTNPromo- EN-Inter-MY-MOB2",
+          "impressions": 811,
+          "clicks": 14,
+          "ad_spend": 0.74,
+          "country": "MY",
+          "device_type": "Tablet"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-SGD50+0.4%Bonus-CTNPromo- SC-Inter-SG-MOB1",
+          "impressions": 6185,
+          "clicks": 223,
+          "ad_spend": 4.62,
+          "country": "SG",
+          "device_type": "Mobile Phone"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-SGD50+0.4%Bonus-CTNPromo- SC-Inter-SG-MOB1",
+          "impressions": 249,
+          "clicks": 1,
+          "ad_spend": 0.17,
+          "country": "SG",
+          "device_type": "Tablet"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300% Slots_Fishing-CTNPromo-SC-Inter-SG-MOB1",
+          "impressions": 3453,
+          "clicks": 108,
+          "ad_spend": 2.18,
+          "country": "SG",
+          "device_type": "Mobile Phone"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300% Slots_Fishing-CTNPromo-SC-Inter-SG-MOB1",
+          "impressions": 138,
+          "clicks": 0,
+          "ad_spend": 0.08,
+          "country": "SG",
+          "device_type": "Tablet"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-SGD50+0.4%Bonus-CTNPromo- EN-Inter-SG-MOB1",
+          "impressions": 14569,
+          "clicks": 407,
+          "ad_spend": 17.45,
+          "country": "SG",
+          "device_type": "Mobile Phone"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-SGD50+0.4%Bonus-CTNPromo- EN-Inter-SG-MOB1",
+          "impressions": 704,
+          "clicks": 7,
+          "ad_spend": 0.8,
+          "country": "SG",
+          "device_type": "Tablet"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300% Slots_Fishing-CTNPromo-EN-Inter-SG-MOB1",
+          "impressions": 8592,
+          "clicks": 292,
+          "ad_spend": 18.41,
+          "country": "SG",
+          "device_type": "Mobile Phone"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300% Slots_Fishing-CTNPromo-EN-Inter-SG-MOB1",
+          "impressions": 379,
+          "clicks": 6,
+          "ad_spend": 1.31,
+          "country": "SG",
+          "device_type": "Tablet"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300%SlotsFishing-CTNPromo-Inter-HK-MOB3",
+          "impressions": 1867,
+          "clicks": 33,
+          "ad_spend": 6.6,
+          "country": "HK",
+          "device_type": "Mobile Phone"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300%SlotsFishing-CTNPromo-Inter-HK-MOB3",
+          "impressions": 163,
+          "clicks": 4,
+          "ad_spend": 0.8,
+          "country": "HK",
+          "device_type": "Tablet"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-HK$200+0.4%Bonus-CTNPromo-Inter-HK-MOB3",
+          "impressions": 363,
+          "clicks": 22,
+          "ad_spend": 8.8,
+          "country": "HK",
+          "device_type": "Mobile Phone"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-HK$200+0.4%Bonus-CTNPromo-Inter-HK-MOB3",
+          "impressions": 34,
+          "clicks": 0,
+          "ad_spend": 0,
+          "country": "HK",
+          "device_type": "Tablet"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300% Slots_Fishing-CTNPromo-EN-Inter-MY-MOB1",
+          "impressions": 2505,
+          "clicks": 52,
+          "ad_spend": 5.2,
+          "country": "MY",
+          "device_type": "Mobile Phone"
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "Nov24-300% Slots_Fishing-CTNPromo-EN-Inter-MY-MOB1",
+          "impressions": 257,
+          "clicks": 5,
+          "ad_spend": 0.5,
+          "country": "MY",
+          "device_type": "Tablet"
+        }
+      }
+    ]
+  },
+  "versionId": "5fb74a84-dfa9-41ee-9e6c-f1a403a6b1a0",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-11-19T03:30:52.610Z",
+      "createdAt": "2024-11-19T03:30:52.610Z",
+      "role": "workflow:owner",
+      "workflowId": "Hxc8bds6HzZqz2pR",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
