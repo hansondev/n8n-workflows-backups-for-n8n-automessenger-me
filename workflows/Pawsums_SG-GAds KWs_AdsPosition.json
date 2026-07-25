@@ -1,0 +1,556 @@
+{
+  "updatedAt": "2024-05-03T09:42:56.000Z",
+  "createdAt": "2024-04-26T07:18:12.692Z",
+  "id": "XRePAIgoplHYXp8E",
+  "name": "Pawsums_SG-GAds KWs_AdsPosition",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "06e8868b-902f-409c-95dd-49988f7e67de",
+      "name": "When clicking \"Test workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        820,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "12HaZsiAPasv_8AYE4GpjAniPE-Ij3QmV5mkadYN9Vtc",
+          "mode": "list",
+          "cachedResultName": "May24 - Pawsums SG - GAds Campaign Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/12HaZsiAPasv_8AYE4GpjAniPE-Ij3QmV5mkadYN9Vtc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1253977793,
+          "mode": "list",
+          "cachedResultName": "Keywords Complied",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/12HaZsiAPasv_8AYE4GpjAniPE-Ij3QmV5mkadYN9Vtc/edit#gid=1253977793"
+        },
+        "combineFilters": "OR",
+        "options": {}
+      },
+      "id": "8d8878e0-d324-4a88-b53a-1a35c1f6538b",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.3,
+      "position": [
+        1160,
+        320
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "321aeda7-c3b1-408d-9414-d195d7986f25",
+              "name": "keywords",
+              "value": "={{ $json.keywords }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2d704c68-8366-4ef7-a8cf-1c19d3690c74",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1560,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.apilayer.com/google_search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $json.keywords }}"
+            },
+            {
+              "name": "country",
+              "value": "sg"
+            },
+            {
+              "name": "lang",
+              "value": "en"
+            },
+            {
+              "name": "mobile",
+              "value": "true"
+            },
+            {
+              "name": "location",
+              "value": "Singapore"
+            },
+            {
+              "name": "gl",
+              "value": "sg"
+            },
+            {
+              "name": "flatten_results",
+              "value": "false"
+            },
+            {
+              "name": "page",
+              "value": "1"
+            },
+            {
+              "name": "include_html",
+              "value": "false"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "yAQ0vh5n4Qe2PQ3JKPBXAaL3OMBmehzz"
+            }
+          ]
+        },
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 2000
+            }
+          }
+        }
+      },
+      "id": "73e3c56e-cb74-4a8a-af5a-083a8864ee5e",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2580,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "12HaZsiAPasv_8AYE4GpjAniPE-Ij3QmV5mkadYN9Vtc",
+          "mode": "list",
+          "cachedResultName": "May24 - Pawsums SG - GAds Campaign Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/12HaZsiAPasv_8AYE4GpjAniPE-Ij3QmV5mkadYN9Vtc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 292519273,
+          "mode": "list",
+          "cachedResultName": "KeywordPlanned_AdRanking_Details",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11Dn7al2sX_2OW3yq9orIQ7WVzGm8ypsskzfFebEPikM/edit#gid=292519273"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Keywords": "={{ $json.keyword }}",
+            "Top Ads 1": "={{ $json.top_ads_rank_1 }}",
+            "Top Ads 2": "={{ $json.top_ads_rank_2 }}",
+            "Top Ads 3": "={{ $json.top_ads_rank_3 }}",
+            "Top Ads 4": "={{ $json.top_ads_rank_4 }}",
+            "Bottom Ads 1": "={{ $json.bottom_ads_rank_1 }}",
+            "Bottom Ads 2": "={{ $json.bottom_ads_rank_2 }}",
+            "Bottom Ads 3": "={{ $json.bottom_ads_rank_3 }}",
+            "Bottom Ads 4": "={{ $json.bottom_ads_rank_4 }}"
+          },
+          "matchingColumns": [
+            "Keywords"
+          ],
+          "schema": [
+            {
+              "id": "Keywords",
+              "displayName": "Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Top Ads 1",
+              "displayName": "Top Ads 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Top Ads 2",
+              "displayName": "Top Ads 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Top Ads 3",
+              "displayName": "Top Ads 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Top Ads 4",
+              "displayName": "Top Ads 4",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Bottom Ads 1",
+              "displayName": "Bottom Ads 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Bottom Ads 2",
+              "displayName": "Bottom Ads 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Bottom Ads 3",
+              "displayName": "Bottom Ads 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Bottom Ads 4",
+              "displayName": "Bottom Ads 4",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "76375191-b6aa-414f-8b68-638ed9628457",
+      "name": "Google Sheets1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.3,
+      "position": [
+        3620,
+        100
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "2ae1a573-2c1a-449c-9dc2-3c0e691c53d3",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1900,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 2
+      },
+      "id": "c2171408-d567-4491-9299-e8fdbd16a081",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2280,
+        140
+      ],
+      "webhookId": "5b11a55b-62df-4b58-8ebc-2bf8c49da22f"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "420a86b0-a046-4785-a462-48b59fc4140f",
+              "name": "keyword",
+              "value": "={{ $('Wait').item.json.keywords }}",
+              "type": "string"
+            },
+            {
+              "id": "64cb489c-e4d8-4014-8a8c-1c679b19465c",
+              "name": "top_ads_rank_1",
+              "value": "=1. Headline: {{ $json.top_ads[0].display_link }}\n2. Description: {{ $json.top_ads[0].description }}\n3. Link: {{ $json.top_ads[0].link }}\n4. Extensions:\n  a. Extension Headline 1: {{ $json[\"top_ads\"][0][\"extensions\"][0][\"text\"] }}\n  b. Extension Headline 2: {{ $json[\"top_ads\"][0][\"extensions\"][1][\"text\"] }}\n  c. Extension Headline 3: {{ $json[\"top_ads\"][0][\"extensions\"][2][\"text\"] }} \n  b. Extension Headline 4: {{ $json[\"top_ads\"][0][\"extensions\"][3][\"text\"] }} ",
+              "type": "string"
+            },
+            {
+              "id": "ac966f76-3a1c-4dd4-80cc-f6a1f67f6073",
+              "name": "top_ads_rank_2",
+              "value": "=1. Headline: {{ $json.top_ads[1].display_link }}\n2. Description: {{ $json.top_ads[1].description }}\n3. Link: {{ $json.top_ads[1].link }}\n4. Extensions:\n  a. Extension Headline 1: {{ $json[\"top_ads\"][1][\"extensions\"][0][\"text\"] }}\n  b. Extension Headline 2: {{ $json[\"top_ads\"][1][\"extensions\"][1][\"text\"] }}\n  c. Extension Headline 3: {{ $json[\"top_ads\"][1][\"extensions\"][2][\"text\"] }} \n  b. Extension Headline 4: {{ $json[\"top_ads\"][1][\"extensions\"][3][\"text\"] }} ",
+              "type": "string"
+            },
+            {
+              "id": "00f69aa7-7710-4e3c-a7d0-e9f442bf89a8",
+              "name": "top_ads_rank_3",
+              "value": "=1. Headline: {{ $json.top_ads[2].display_link }}\n2. Description: {{ $json.top_ads[2].description }}\n3. Link: {{ $json.top_ads[2].link }}\n4. Extensions:\n  a. Extension Headline 1: {{ $json[\"top_ads\"][2][\"extensions\"][0][\"text\"] }}\n  b. Extension Headline 2: {{ $json[\"top_ads\"][2][\"extensions\"][1][\"text\"] }}\n  c. Extension Headline 3: {{ $json[\"top_ads\"][2][\"extensions\"][2][\"text\"] }} \n  b. Extension Headline 4: {{ $json[\"top_ads\"][2][\"extensions\"][3][\"text\"] }} ",
+              "type": "string"
+            },
+            {
+              "id": "756da2ba-586d-4b30-bf41-8c1493333cfb",
+              "name": "top_ads_rank_4",
+              "value": "=1. Headline: {{ $json.top_ads[3].display_link }}\n2. Description: {{ $json.top_ads[3].description }}\n3. Link: {{ $json.top_ads[3].link }}\n4. Extensions:\n  a. Extension Headline 1: {{ $json[\"top_ads\"][3][\"extensions\"][0][\"text\"] }}\n  b. Extension Headline 2: {{ $json[\"top_ads\"][3][\"extensions\"][1][\"text\"] }}\n  c. Extension Headline 3: {{ $json[\"top_ads\"][3][\"extensions\"][2][\"text\"] }} \n  b. Extension Headline 4: {{ $json[\"top_ads\"][3][\"extensions\"][3][\"text\"] }} ",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {
+          "ignoreConversionErrors": true
+        }
+      },
+      "id": "9890b3a7-006d-43b7-b095-6cef17a3cccf",
+      "name": "Top Ads",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        2940,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "420a86b0-a046-4785-a462-48b59fc4140f",
+              "name": "keyword",
+              "value": "={{ $('Wait').item.json.keywords }}",
+              "type": "string"
+            },
+            {
+              "id": "64cb489c-e4d8-4014-8a8c-1c679b19465c",
+              "name": "bottom_ads_rank_1",
+              "value": "=1. Headline: {{ $json.bottom_ads[0].display_link }}\n2. Description: {{ $json.bottom_ads[0].description }}\n3. Link: {{ $json.bottom_ads[0].link }}\n4. Extensions:\n  a. Extension Headline 1: {{ $json[\"bottom_ads\"][0][\"extensions\"][0][\"text\"] }}\n  b. Extension Headline 2: {{ $json[\"bottom_ads\"][0][\"extensions\"][1][\"text\"] }}\n  c. Extension Headline 3: {{ $json[\"bottom_ads\"][0][\"extensions\"][2][\"text\"] }} \n  b. Extension Headline 4: {{ $json[\"bottom_ads\"][0][\"extensions\"][3][\"text\"] }} ",
+              "type": "string"
+            },
+            {
+              "id": "ac966f76-3a1c-4dd4-80cc-f6a1f67f6073",
+              "name": "bottom_ads_rank_2",
+              "value": "=1. Headline: {{ $json.bottom_ads[1].display_link }}\n2. Description: {{ $json.bottom_ads[1].description }}\n3. Link: {{ $json.bottom_ads[1].link }}\n4. Extensions:\n  a. Extension Headline 1: {{ $json[\"bottom_ads\"][1][\"extensions\"][0][\"text\"] }}\n  b. Extension Headline 2: {{ $json[\"bottom_ads\"][1][\"extensions\"][1][\"text\"] }}\n  c. Extension Headline 3: {{ $json[\"bottom_ads\"][1][\"extensions\"][2][\"text\"] }} \n  b. Extension Headline 4: {{ $json[\"bottom_ads\"][1][\"extensions\"][3][\"text\"] }} ",
+              "type": "string"
+            },
+            {
+              "id": "00f69aa7-7710-4e3c-a7d0-e9f442bf89a8",
+              "name": "=bottom_ads_rank_3",
+              "value": "=1. Headline: {{ $json.bottom_ads[2].display_link }}\n2. Description: {{ $json.bottom_ads[2].description }}\n3. Link: {{ $json.bottom_ads[2].link }}\n4. Extensions:\n  a. Extension Headline 1: {{ $json[\"bottom_ads\"][2][\"extensions\"][0][\"text\"] }}\n  b. Extension Headline 2: {{ $json[\"bottom_ads\"][2][\"extensions\"][1][\"text\"] }}\n  c. Extension Headline 3: {{ $json[\"bottom_ads\"][2][\"extensions\"][2][\"text\"] }} \n  b. Extension Headline 4: {{ $json[\"bottom_ads\"][2][\"extensions\"][3][\"text\"] }} ",
+              "type": "string"
+            },
+            {
+              "id": "756da2ba-586d-4b30-bf41-8c1493333cfb",
+              "name": "bottom_ads_rank_4",
+              "value": "=1. Headline: {{ $json.bottom_ads[3].display_link }}\n2. Description: {{ $json.bottom_ads[3].description }}\n3. Link: {{ $json.bottom_ads[3].link }}\n4. Extensions:\n  a. Extension Headline 1: {{ $json[\"bottom_ads\"][2][\"extensions\"][0][\"text\"] }}\n  b. Extension Headline 2: {{ $json[\"bottom_ads\"][2][\"extensions\"][1][\"text\"] }}\n  c. Extension Headline 3: {{ $json[\"bottom_ads\"][2][\"extensions\"][2][\"text\"] }} \n  b. Extension Headline 4: {{ $json[\"bottom_ads\"][2][\"extensions\"][3][\"text\"] }} ",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {
+          "ignoreConversionErrors": true
+        }
+      },
+      "id": "062e3b6e-1c17-4f44-8191-5b5f6375775f",
+      "name": "Bottom Ads",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        2940,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combinationMode": "mergeByPosition",
+        "options": {}
+      },
+      "id": "ec0ea320-511e-4e70-adc3-6d5b1ee7e21c",
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [
+        3340,
+        140
+      ]
+    }
+  ],
+  "connections": {
+    "When clicking \"Test workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Top Ads",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Bottom Ads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Top Ads": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Bottom Ads": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "fc02dc89-64a7-41b1-98e8-8d4c6632fa23",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-04-26T07:18:12.714Z",
+      "createdAt": "2024-04-26T07:18:12.714Z",
+      "role": "workflow:owner",
+      "workflowId": "XRePAIgoplHYXp8E",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
