@@ -1,0 +1,4436 @@
+{
+  "updatedAt": "2024-01-02T14:49:28.000Z",
+  "createdAt": "2024-01-02T02:48:24.934Z",
+  "id": "knbXEmh2WmVNDqSo",
+  "name": "FlutterFlowTutorial-RapidAPI City ID & Hotel Name Added To Firebase Documents",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "034fee52-397b-4bc2-af53-1798ce6c7170",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        820,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "projectId": "={{ $json.firebaseProjectName }}",
+        "collection": "={{ $json.firebaseCollectionName }}",
+        "limit": 10,
+        "simple": false
+      },
+      "id": "32584a45-9c49-4828-9c3a-3f18b3f7456f",
+      "name": "Google Cloud Firestore",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        1340,
+        300
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "firebaseProjectName",
+              "stringValue": "fftutorial-hotelbookingapp"
+            },
+            {
+              "name": "firebaseCollectionName",
+              "stringValue": "Cities"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "55e1445b-88c8-4a9c-9b5d-6247696a66eb",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1040,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "cityName",
+              "stringValue": "={{ $json.fields.City.stringValue }}"
+            },
+            {
+              "name": "documentID",
+              "type": "numberValue",
+              "numberValue": "={{ $json.id }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "206c4230-d5e7-44d9-a8df-c08db9fdc31f",
+      "name": "Edit Fields1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1580,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "concatenateItems",
+        "aggregate": "aggregateAllItemData",
+        "include": "specifiedFields",
+        "fieldsToInclude": "cityName,documentID",
+        "options": {}
+      },
+      "id": "90ab1e1a-7bb2-4b15-bc53-0dc064582d47",
+      "name": "Item Lists",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3.1,
+      "position": [
+        1880,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://hotels4.p.rapidapi.com/locations/v3/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $json.city1 }}"
+            },
+            {
+              "name": "locale",
+              "value": "en_US"
+            },
+            {
+              "name": "langid",
+              "value": "1033"
+            },
+            {
+              "name": "siteid",
+              "value": "300000001"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-RapidAPI-Host",
+              "value": "hotels4.p.rapidapi.com"
+            },
+            {
+              "name": "X-RapidAPI-Key",
+              "value": "bba2d43494msheb61c0112305090p16270bjsna70952eefac2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fb652ed9-f503-4974-9924-78e4df5be58e",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2620,
+        -780
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://hotels4.p.rapidapi.com/locations/v3/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $json.city2 }}"
+            },
+            {
+              "name": "locale",
+              "value": "en_US"
+            },
+            {
+              "name": "langid",
+              "value": "1033"
+            },
+            {
+              "name": "siteid",
+              "value": "300000001"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-RapidAPI-Host",
+              "value": "hotels4.p.rapidapi.com"
+            },
+            {
+              "name": "X-RapidAPI-Key",
+              "value": "bba2d43494msheb61c0112305090p16270bjsna70952eefac2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2859a285-e830-421b-ae4a-7a805c2b3e3f",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2800,
+        -480
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 2,
+        "unit": "seconds"
+      },
+      "id": "58ab1b0f-fd20-4728-bd5c-45431d51cdfd",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        2540,
+        -360
+      ],
+      "webhookId": "4157f01a-77c7-4c28-9514-756c4041c8f8"
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "city2",
+              "stringValue": "={{ $json.data[1].cityName }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "88e3f575-62ba-40fb-ad4f-61aa5f6d76d1",
+      "name": "city2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2320,
+        -360
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "city1",
+              "stringValue": "={{ $json.data[0].cityName }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "0bcf35dd-2479-4eaf-9f8c-86915c2417d9",
+      "name": "city1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2260,
+        -620
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://hotels4.p.rapidapi.com/locations/v3/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $json.city3 }}"
+            },
+            {
+              "name": "locale",
+              "value": "en_US"
+            },
+            {
+              "name": "langid",
+              "value": "1033"
+            },
+            {
+              "name": "siteid",
+              "value": "300000001"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-RapidAPI-Host",
+              "value": "hotels4.p.rapidapi.com"
+            },
+            {
+              "name": "X-RapidAPI-Key",
+              "value": "bba2d43494msheb61c0112305090p16270bjsna70952eefac2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b4aa5b90-b1ff-4802-a2cd-2a18ac33faba",
+      "name": "HTTP Request2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2820,
+        -180
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 2,
+        "unit": "seconds"
+      },
+      "id": "fb91cd78-95be-47ea-9b4f-3e629817f069",
+      "name": "Wait1",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        2560,
+        -140
+      ],
+      "webhookId": "4157f01a-77c7-4c28-9514-756c4041c8f8"
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "city3",
+              "stringValue": "={{ $json.data[2].cityName }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "faa9551b-c7a4-444c-8302-ab263a3cac3f",
+      "name": "city3",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2340,
+        -140
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://hotels4.p.rapidapi.com/locations/v3/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $json.city4 }}"
+            },
+            {
+              "name": "locale",
+              "value": "en_US"
+            },
+            {
+              "name": "langid",
+              "value": "1033"
+            },
+            {
+              "name": "siteid",
+              "value": "300000001"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-RapidAPI-Host",
+              "value": "hotels4.p.rapidapi.com"
+            },
+            {
+              "name": "X-RapidAPI-Key",
+              "value": "bba2d43494msheb61c0112305090p16270bjsna70952eefac2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e3cd6859-735d-419f-9d56-8b87c50d2bf9",
+      "name": "HTTP Request3",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2880,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 2,
+        "unit": "seconds"
+      },
+      "id": "e2b60c22-5583-495e-9a1f-15b0c0dab44d",
+      "name": "Wait2",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        2660,
+        140
+      ],
+      "webhookId": "4157f01a-77c7-4c28-9514-756c4041c8f8"
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "city4",
+              "stringValue": "={{ $json.data[3].cityName }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "1671be99-5e89-422e-a790-79c1d6246bfa",
+      "name": "city4",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2320,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://hotels4.p.rapidapi.com/locations/v3/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $json.city5 }}"
+            },
+            {
+              "name": "locale",
+              "value": "en_US"
+            },
+            {
+              "name": "langid",
+              "value": "1033"
+            },
+            {
+              "name": "siteid",
+              "value": "300000001"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-RapidAPI-Host",
+              "value": "hotels4.p.rapidapi.com"
+            },
+            {
+              "name": "X-RapidAPI-Key",
+              "value": "bba2d43494msheb61c0112305090p16270bjsna70952eefac2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "49f856e4-71a8-40d3-abaa-4662ad1bca76",
+      "name": "HTTP Request4",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        3040,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 2,
+        "unit": "seconds"
+      },
+      "id": "116fce75-1e81-4639-b6a2-6007f1368b54",
+      "name": "Wait3",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        2700,
+        300
+      ],
+      "webhookId": "4157f01a-77c7-4c28-9514-756c4041c8f8"
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "City",
+              "stringValue": "={{ $json.sr[0].regionNames.shortName }}"
+            },
+            {
+              "name": "cityID",
+              "stringValue": "={{ $json.sr[5].cityId }}"
+            },
+            {
+              "name": "hotelName",
+              "stringValue": "={{ $json.sr[5].regionNames.primaryDisplayName }}"
+            },
+            {
+              "name": "_id",
+              "type": "numberValue",
+              "numberValue": "={{ $('Item Lists').item.json.data[0].documentID }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "566f163c-5149-4298-a99f-2ebed9f69ab4",
+      "name": "Set City ID & Hotel Name",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2900,
+        -820
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "city5",
+              "stringValue": "={{ $json.data[4].cityName }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "dc8b5a55-4a09-4266-91c1-d4491ee41e75",
+      "name": "city5",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2360,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "projectId": "={{ $('Edit Fields').item.json.firebaseProjectName }}",
+        "collection": "={{ $('Edit Fields').item.json.firebaseCollectionName }}",
+        "updateKey": "_id",
+        "columns": "cityID,hotelName"
+      },
+      "id": "703b19b6-d58d-4dee-a43e-fa01c62195f8",
+      "name": "Google Cloud Firestore1",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        4320,
+        -1140
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $('Item Lists').item.json.data[0].documentID }}",
+              "value2": "={{ $json._id }}"
+            }
+          ]
+        }
+      },
+      "id": "fd985531-8038-424c-9e56-0d48286d0d31",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 1,
+      "position": [
+        3120,
+        -820
+      ]
+    },
+    {
+      "parameters": {
+        "projectId": "={{ $('Edit Fields').item.json.firebaseProjectName }}",
+        "collection": "={{ $('Edit Fields').item.json.firebaseCollectionName }}",
+        "documentId": "={{ $json._id }}",
+        "simple": false
+      },
+      "id": "cc85ec27-e3df-4c55-83a3-290989ba4a51",
+      "name": "Google Cloud Firestore2",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        3380,
+        -880
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Country & City List RapidAPI Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1110509167,
+          "mode": "list",
+          "cachedResultName": "City",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit#gid=1110509167"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "City": "={{ $json.found.fields.City.stringValue }}",
+            "CountryDocRef": "={{ $json.found.fields.CountryDocRef.referenceValue }}"
+          },
+          "matchingColumns": [
+            "City"
+          ],
+          "schema": [
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "CountryDocRef",
+              "displayName": "CountryDocRef",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f3777d46-1225-4c09-80c8-17bd3daade60",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        3660,
+        -920
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Country & City List RapidAPI Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1110509167,
+          "mode": "list",
+          "cachedResultName": "City",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit#gid=1110509167"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "City",
+              "lookupValue": "={{ $('Filter').item.json.City }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "09d12424-d2ea-4c0c-a279-5f79754c3149",
+      "name": "Google Sheets1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        3900,
+        -960
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "_id",
+              "type": "numberValue",
+              "numberValue": "={{ $json.row_number }}"
+            },
+            {
+              "name": "cityID",
+              "type": "numberValue",
+              "numberValue": "={{ $('Filter').item.json.cityID }}"
+            },
+            {
+              "name": "hotelName",
+              "stringValue": "={{ $('Filter').item.json.hotelName }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "5af46039-d431-42dc-bb49-80f863ed331a",
+      "name": "Edit Fields2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        4120,
+        -1020
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "City",
+              "stringValue": "={{ $json.sr[0].regionNames.shortName }}"
+            },
+            {
+              "name": "cityID",
+              "type": "numberValue",
+              "numberValue": "={{ $json.sr[3].cityId }}"
+            },
+            {
+              "name": "hotelName",
+              "stringValue": "={{ $json.sr[4].regionNames.primaryDisplayName }}"
+            },
+            {
+              "name": "_id",
+              "type": "numberValue",
+              "numberValue": "={{ $('Item Lists').item.json.data[1].documentID }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "cc1d743e-b219-4ceb-aea6-98062f558304",
+      "name": "Set City ID & Hotel Name1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        3020,
+        -500
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "projectId": "={{ $('Edit Fields').item.json.firebaseProjectName }}",
+        "collection": "={{ $('Edit Fields').item.json.firebaseCollectionName }}",
+        "updateKey": "_id",
+        "columns": "cityID,hotelName"
+      },
+      "id": "2481a736-081a-4518-b3fc-76ddc02adf7b",
+      "name": "Google Cloud Firestore3",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        4520,
+        -900
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $('Item Lists').item.json.data[1].documentID }}",
+              "value2": "={{ $json._id }}"
+            }
+          ]
+        }
+      },
+      "id": "f7f7a6c3-835a-46c4-843a-0e9c5515b1bc",
+      "name": "Filter1",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 1,
+      "position": [
+        3220,
+        -500
+      ]
+    },
+    {
+      "parameters": {
+        "projectId": "={{ $('Edit Fields').item.json.firebaseProjectName }}",
+        "collection": "={{ $('Edit Fields').item.json.firebaseCollectionName }}",
+        "documentId": "={{ $json._id }}",
+        "simple": false
+      },
+      "id": "7b175ae3-c88f-4995-ac58-51d6edd951a1",
+      "name": "Google Cloud Firestore4",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        3480,
+        -560
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Country & City List RapidAPI Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1110509167,
+          "mode": "list",
+          "cachedResultName": "City",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit#gid=1110509167"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "City": "={{ $json.found.fields.City.stringValue }}",
+            "CountryDocRef": "={{ $json.found.fields.CountryDocRef.referenceValue }}"
+          },
+          "matchingColumns": [
+            "City"
+          ],
+          "schema": [
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "CountryDocRef",
+              "displayName": "CountryDocRef",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5c17d5a7-04af-4992-ba26-46accbe4af39",
+      "name": "Google Sheets2",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        3780,
+        -580
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Country & City List RapidAPI Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1110509167,
+          "mode": "list",
+          "cachedResultName": "City",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit#gid=1110509167"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "City",
+              "lookupValue": "={{ $('Filter1').item.json.City }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c81ffdf2-ae7b-4f13-b3fa-1696b6d29a04",
+      "name": "Google Sheets3",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        4000,
+        -640
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "_id",
+              "type": "numberValue",
+              "numberValue": "={{ $json.row_number }}"
+            },
+            {
+              "name": "cityID",
+              "type": "numberValue",
+              "numberValue": "={{ $('Filter1').item.json.cityID }}"
+            },
+            {
+              "name": "hotelName",
+              "stringValue": "={{ $('Filter1').item.json.hotelName }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "88a725fd-2aba-4126-bab6-530bd35aeef4",
+      "name": "Edit Fields3",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        4240,
+        -800
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "projectId": "={{ $('Edit Fields').item.json.firebaseProjectName }}",
+        "collection": "={{ $('Edit Fields').item.json.firebaseCollectionName }}",
+        "updateKey": "_id",
+        "columns": "cityID,hotelName"
+      },
+      "id": "c1a0a5c6-7f49-4209-868f-da8eecb28a9c",
+      "name": "Google Cloud Firestore5",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        4600,
+        -640
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "_id",
+              "type": "numberValue",
+              "numberValue": "={{ $json.row_number }}"
+            },
+            {
+              "name": "cityID",
+              "type": "numberValue",
+              "numberValue": "={{ $('Filter2').item.json.cityID }}"
+            },
+            {
+              "name": "hotelName",
+              "stringValue": "={{ $('Filter2').item.json.hotelName }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "cc5a3636-a260-481e-8b14-d80243d03b6e",
+      "name": "Edit Fields4",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        4320,
+        -540
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Country & City List RapidAPI Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1110509167,
+          "mode": "list",
+          "cachedResultName": "City",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit#gid=1110509167"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "City",
+              "lookupValue": "={{ $('Filter2').item.json.City }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2647213d-ce12-439c-ba5f-e5204634ed86",
+      "name": "Google Sheets4",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        4080,
+        -380
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Country & City List RapidAPI Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1110509167,
+          "mode": "list",
+          "cachedResultName": "City",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit#gid=1110509167"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "City": "={{ $json.found.fields.City.stringValue }}",
+            "CountryDocRef": "={{ $json.found.fields.CountryDocRef.referenceValue }}"
+          },
+          "matchingColumns": [
+            "City"
+          ],
+          "schema": [
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "CountryDocRef",
+              "displayName": "CountryDocRef",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a7668639-ba53-4964-a649-ae5e21dce9e5",
+      "name": "Google Sheets5",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        3820,
+        -340
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "projectId": "={{ $('Edit Fields').item.json.firebaseProjectName }}",
+        "collection": "={{ $('Edit Fields').item.json.firebaseCollectionName }}",
+        "documentId": "={{ $json._id }}",
+        "simple": false
+      },
+      "id": "ab27a18f-8556-4036-a861-1b8124daf574",
+      "name": "Google Cloud Firestore6",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        3560,
+        -300
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $('Item Lists').item.json.data[2].documentID }}",
+              "value2": "={{ $json._id }}"
+            }
+          ]
+        }
+      },
+      "id": "1214b51c-f9d4-42d5-a8b1-9477eeb40296",
+      "name": "Filter2",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 1,
+      "position": [
+        3300,
+        -240
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "City",
+              "stringValue": "={{ $json.sr[1].regionNames.primaryDisplayName }}"
+            },
+            {
+              "name": "cityID",
+              "type": "numberValue",
+              "numberValue": "={{ $json.sr[3].cityId }}"
+            },
+            {
+              "name": "hotelName",
+              "stringValue": "={{ $json.sr[8].regionNames.primaryDisplayName }}"
+            },
+            {
+              "name": "_id",
+              "type": "numberValue",
+              "numberValue": "={{ $('Item Lists').item.json.data[2].documentID }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "08accfde-657a-424f-8c25-8d4104c8acc5",
+      "name": "Set City ID & Hotel Name2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        3100,
+        -240
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $('Item Lists').item.json.data[3].documentID }}",
+              "value2": "={{ $json._id }}"
+            }
+          ]
+        }
+      },
+      "id": "c6efa5dc-edbb-430f-9158-fbc374fc56dc",
+      "name": "Filter3",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 1,
+      "position": [
+        3400,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "City",
+              "stringValue": "={{ $json.sr[0].regionNames.primaryDisplayName }}"
+            },
+            {
+              "name": "cityID",
+              "type": "numberValue",
+              "numberValue": "={{ $json.sr[3].cityId }}"
+            },
+            {
+              "name": "hotelName",
+              "stringValue": "={{ $json.sr[3].regionNames.primaryDisplayName }}"
+            },
+            {
+              "name": "_id",
+              "type": "numberValue",
+              "numberValue": "={{ $('Item Lists').item.json.data[3].documentID }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "e61d9567-5352-4306-9f49-31cd0f7504e2",
+      "name": "Set City ID & Hotel Name3",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        3160,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "projectId": "={{ $('Edit Fields').item.json.firebaseProjectName }}",
+        "collection": "={{ $('Edit Fields').item.json.firebaseCollectionName }}",
+        "documentId": "={{ $json._id }}",
+        "simple": false
+      },
+      "id": "a8f47d82-0afa-4d9f-a247-66d6b969b393",
+      "name": "Google Cloud Firestore7",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        3660,
+        -20
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Country & City List RapidAPI Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1110509167,
+          "mode": "list",
+          "cachedResultName": "City",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit#gid=1110509167"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "City": "={{ $json.found.fields.City.stringValue }}",
+            "CountryDocRef": "={{ $json.found.fields.CountryDocRef.referenceValue }}"
+          },
+          "matchingColumns": [
+            "City"
+          ],
+          "schema": [
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "CountryDocRef",
+              "displayName": "CountryDocRef",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0e4613da-1d6a-4b4b-85b6-5027c750aee6",
+      "name": "Google Sheets6",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        3920,
+        -60
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Country & City List RapidAPI Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1110509167,
+          "mode": "list",
+          "cachedResultName": "City",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit#gid=1110509167"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "City",
+              "lookupValue": "={{ $('Filter3').item.json.City }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "17461bcc-094a-4f81-a9bb-a2af98cfb9e2",
+      "name": "Google Sheets7",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        4180,
+        -100
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "projectId": "={{ $('Edit Fields').item.json.firebaseProjectName }}",
+        "collection": "={{ $('Edit Fields').item.json.firebaseCollectionName }}",
+        "updateKey": "_id",
+        "columns": "cityID,hotelName"
+      },
+      "id": "dd21f983-df1f-4847-9bc0-949be542af8e",
+      "name": "Google Cloud Firestore8",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        4700,
+        -360
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "_id",
+              "type": "numberValue",
+              "numberValue": "={{ $json.row_number }}"
+            },
+            {
+              "name": "cityID",
+              "type": "numberValue",
+              "numberValue": "={{ $('Filter3').item.json.cityID }}"
+            },
+            {
+              "name": "hotelName",
+              "stringValue": "={{ $('Filter3').item.json.hotelName }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "4a64c10c-f981-4c35-86fe-a0f0a7922362",
+      "name": "Edit Fields5",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        4420,
+        -260
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $('Item Lists').item.json.data[4].documentID }}",
+              "value2": "={{ $json._id }}"
+            }
+          ]
+        }
+      },
+      "id": "21209c85-1a0f-4094-9bf0-489436f7f5af",
+      "name": "Filter4",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 1,
+      "position": [
+        3560,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "City",
+              "stringValue": "={{ $json.sr[0].regionNames.primaryDisplayName }}"
+            },
+            {
+              "name": "cityID",
+              "type": "numberValue",
+              "numberValue": "={{ $json.sr[2].cityId }}"
+            },
+            {
+              "name": "hotelName",
+              "stringValue": "={{ $json.sr[2].regionNames.primaryDisplayName }}"
+            },
+            {
+              "name": "_id",
+              "type": "numberValue",
+              "numberValue": "={{ $('Item Lists').item.json.data[4].documentID }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "1916480a-30e5-4a9b-be8a-49598b3b1db4",
+      "name": "Set City ID & Hotel Name4",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        3300,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "projectId": "={{ $('Edit Fields').item.json.firebaseProjectName }}",
+        "collection": "={{ $('Edit Fields').item.json.firebaseCollectionName }}",
+        "documentId": "={{ $json._id }}",
+        "simple": false
+      },
+      "id": "d77b59c1-2073-4bd6-9c41-2e322e2a7502",
+      "name": "Google Cloud Firestore9",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        3820,
+        200
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Country & City List RapidAPI Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1110509167,
+          "mode": "list",
+          "cachedResultName": "City",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit#gid=1110509167"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "City": "={{ $json.found.fields.City.stringValue }}",
+            "CountryDocRef": "={{ $json.found.fields.CountryDocRef.referenceValue }}"
+          },
+          "matchingColumns": [
+            "City"
+          ],
+          "schema": [
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "CountryDocRef",
+              "displayName": "CountryDocRef",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6de9efb4-fb25-4a59-a24c-020ec28f20a2",
+      "name": "Google Sheets8",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        4080,
+        160
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Country & City List RapidAPI Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1110509167,
+          "mode": "list",
+          "cachedResultName": "City",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit#gid=1110509167"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "City",
+              "lookupValue": "={{ $('Filter4').item.json.City }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b8cfcf47-eeda-445a-9acd-bf5bc887e1a6",
+      "name": "Google Sheets9",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        4340,
+        120
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "_id",
+              "type": "numberValue",
+              "numberValue": "={{ $json.row_number }}"
+            },
+            {
+              "name": "cityID",
+              "type": "numberValue",
+              "numberValue": "={{ $('Filter4').item.json.cityID }}"
+            },
+            {
+              "name": "hotelName",
+              "stringValue": "={{ $('Filter4').item.json.hotelName }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "c86ab0ff-1dcf-45dc-b5c0-bdb3ebd02ac9",
+      "name": "Edit Fields6",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        4580,
+        -40
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "projectId": "={{ $('Edit Fields').item.json.firebaseProjectName }}",
+        "collection": "={{ $('Edit Fields').item.json.firebaseCollectionName }}",
+        "updateKey": "_id",
+        "columns": "cityID,hotelName"
+      },
+      "id": "d7f39d63-4585-4b97-ae21-2970d2c36555",
+      "name": "Google Cloud Firestore10",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        4860,
+        -140
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 2,
+        "unit": "seconds"
+      },
+      "id": "42abbbb7-ab8a-4284-a138-d6223d29984a",
+      "name": "Wait4",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        2720,
+        580
+      ],
+      "webhookId": "4157f01a-77c7-4c28-9514-756c4041c8f8"
+    },
+    {
+      "parameters": {
+        "url": "https://hotels4.p.rapidapi.com/locations/v3/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $json.city6 }}"
+            },
+            {
+              "name": "locale",
+              "value": "en_US"
+            },
+            {
+              "name": "langid",
+              "value": "1033"
+            },
+            {
+              "name": "siteid",
+              "value": "300000001"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-RapidAPI-Host",
+              "value": "hotels4.p.rapidapi.com"
+            },
+            {
+              "name": "X-RapidAPI-Key",
+              "value": "bba2d43494msheb61c0112305090p16270bjsna70952eefac2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "258e8776-9daf-4e49-9b39-814d2de69b12",
+      "name": "HTTP Request5",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        3060,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "City",
+              "stringValue": "={{ $json.sr[0].regionNames.primaryDisplayName }}"
+            },
+            {
+              "name": "cityID",
+              "type": "numberValue",
+              "numberValue": "={{ $json.sr[6].cityId }}"
+            },
+            {
+              "name": "hotelName",
+              "stringValue": "={{ $json.sr[6].regionNames.primaryDisplayName }}"
+            },
+            {
+              "name": "_id",
+              "type": "numberValue",
+              "numberValue": "={{ $('Item Lists').item.json.data[5].documentID }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "182cdd83-c543-4fce-9a98-ff77d6fb275f",
+      "name": "Set City ID & Hotel Name5",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        3320,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $('Item Lists').item.json.data[5].documentID }}",
+              "value2": "={{ $json._id }}"
+            }
+          ]
+        }
+      },
+      "id": "dffcfd95-1e47-4571-a794-3ef3ed6247d1",
+      "name": "Filter5",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 1,
+      "position": [
+        3580,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "projectId": "={{ $('Edit Fields').item.json.firebaseProjectName }}",
+        "collection": "={{ $('Edit Fields').item.json.firebaseCollectionName }}",
+        "documentId": "={{ $json._id }}",
+        "simple": false
+      },
+      "id": "3d63a47b-d8e5-4560-8134-dbe98e4da869",
+      "name": "Google Cloud Firestore11",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        3840,
+        480
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Country & City List RapidAPI Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1110509167,
+          "mode": "list",
+          "cachedResultName": "City",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit#gid=1110509167"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "City": "={{ $json.found.fields.City.stringValue }}",
+            "CountryDocRef": "={{ $json.found.fields.CountryDocRef.referenceValue }}"
+          },
+          "matchingColumns": [
+            "City"
+          ],
+          "schema": [
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "CountryDocRef",
+              "displayName": "CountryDocRef",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "bf8180ba-8d50-4d6d-ae53-0ea1ada22b62",
+      "name": "Google Sheets10",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        4100,
+        440
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Country & City List RapidAPI Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1110509167,
+          "mode": "list",
+          "cachedResultName": "City",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit#gid=1110509167"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "City",
+              "lookupValue": "={{ $('Filter5').item.json.City }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e4c5b69d-8e87-4478-9669-b6ba853f9cad",
+      "name": "Google Sheets11",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        4360,
+        400
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "_id",
+              "type": "numberValue",
+              "numberValue": "={{ $json.row_number }}"
+            },
+            {
+              "name": "cityID",
+              "type": "numberValue",
+              "numberValue": "={{ $('Filter5').item.json.cityID }}"
+            },
+            {
+              "name": "hotelName",
+              "stringValue": "={{ $('Filter5').item.json.hotelName }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "07d1ae4a-826c-4046-bc4e-899c2c521640",
+      "name": "Edit Fields7",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        4600,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "projectId": "={{ $('Edit Fields').item.json.firebaseProjectName }}",
+        "collection": "={{ $('Edit Fields').item.json.firebaseCollectionName }}",
+        "updateKey": "_id",
+        "columns": "cityID,hotelName"
+      },
+      "id": "748f5c62-b779-4f45-81ef-ac77498c7f24",
+      "name": "Google Cloud Firestore12",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        4880,
+        140
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "city6",
+              "stringValue": "={{ $json.data[5].cityName }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "3655d8a6-08ba-4b55-8f58-0ac2ae7c7d2b",
+      "name": "city6",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2380,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 2,
+        "unit": "seconds"
+      },
+      "id": "96df3ace-99b4-4a64-9cc4-0dc8ac09c260",
+      "name": "Wait5",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        2720,
+        820
+      ],
+      "webhookId": "4157f01a-77c7-4c28-9514-756c4041c8f8"
+    },
+    {
+      "parameters": {
+        "url": "https://hotels4.p.rapidapi.com/locations/v3/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $json.city7 }}"
+            },
+            {
+              "name": "locale",
+              "value": "en_US"
+            },
+            {
+              "name": "langid",
+              "value": "1033"
+            },
+            {
+              "name": "siteid",
+              "value": "300000001"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-RapidAPI-Host",
+              "value": "hotels4.p.rapidapi.com"
+            },
+            {
+              "name": "X-RapidAPI-Key",
+              "value": "bba2d43494msheb61c0112305090p16270bjsna70952eefac2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "54c1aa77-16d1-4804-afff-38929faed9bf",
+      "name": "HTTP Request6",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        3060,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "City",
+              "stringValue": "={{ $json.sr[0].regionNames.primaryDisplayName }}"
+            },
+            {
+              "name": "cityID",
+              "type": "numberValue",
+              "numberValue": "={{ $json.sr[5].cityId }}"
+            },
+            {
+              "name": "hotelName",
+              "stringValue": "={{ $json.sr[5].regionNames.primaryDisplayName }}"
+            },
+            {
+              "name": "_id",
+              "type": "numberValue",
+              "numberValue": "={{ $('Item Lists').item.json.data[6].documentID }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "20c77223-76cf-404b-92e5-18d7ebb11579",
+      "name": "Set City ID & Hotel Name6",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        3320,
+        760
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $('Item Lists').item.json.data[6].documentID }}",
+              "value2": "={{ $json._id }}"
+            }
+          ]
+        }
+      },
+      "id": "ce6b695d-d881-4272-8352-44d7b87cd9cb",
+      "name": "Filter6",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 1,
+      "position": [
+        3580,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "projectId": "={{ $('Edit Fields').item.json.firebaseProjectName }}",
+        "collection": "={{ $('Edit Fields').item.json.firebaseCollectionName }}",
+        "documentId": "={{ $json._id }}",
+        "simple": false
+      },
+      "id": "3434873e-d316-48ea-bef4-6e7dd0a065bd",
+      "name": "Google Cloud Firestore13",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        3840,
+        720
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Country & City List RapidAPI Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1110509167,
+          "mode": "list",
+          "cachedResultName": "City",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit#gid=1110509167"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "City": "={{ $json.found.fields.City.stringValue }}",
+            "CountryDocRef": "={{ $json.found.fields.CountryDocRef.referenceValue }}"
+          },
+          "matchingColumns": [
+            "City"
+          ],
+          "schema": [
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "CountryDocRef",
+              "displayName": "CountryDocRef",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "910bcaf1-9490-4aa8-b9db-aad0eff232a1",
+      "name": "Google Sheets12",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        4100,
+        680
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Country & City List RapidAPI Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1110509167,
+          "mode": "list",
+          "cachedResultName": "City",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit#gid=1110509167"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "City",
+              "lookupValue": "={{ $('Filter6').item.json.City }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9b641200-cd5f-441a-b353-1cdeddad91ea",
+      "name": "Google Sheets13",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        4360,
+        640
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "_id",
+              "type": "numberValue",
+              "numberValue": "={{ $json.row_number }}"
+            },
+            {
+              "name": "cityID",
+              "type": "numberValue",
+              "numberValue": "={{ $('Filter6').item.json.cityID }}"
+            },
+            {
+              "name": "hotelName",
+              "stringValue": "={{ $('Filter6').item.json.hotelName }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "c003d058-fec9-4e56-ac35-05e199f29848",
+      "name": "Edit Fields8",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        4600,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "projectId": "={{ $('Edit Fields').item.json.firebaseProjectName }}",
+        "collection": "={{ $('Edit Fields').item.json.firebaseCollectionName }}",
+        "updateKey": "_id",
+        "columns": "cityID,hotelName"
+      },
+      "id": "c9f1b64c-49c0-40bb-92e6-936191246095",
+      "name": "Google Cloud Firestore14",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        4880,
+        380
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "city7",
+              "stringValue": "={{ $json.data[6].cityName }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "9501b6e4-2106-42b4-aa2b-6580912009cd",
+      "name": "city7",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2380,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 2,
+        "unit": "seconds"
+      },
+      "id": "bd3ebb75-d20f-4f81-9855-325b76e677a0",
+      "name": "Wait6",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        2720,
+        1080
+      ],
+      "webhookId": "4157f01a-77c7-4c28-9514-756c4041c8f8"
+    },
+    {
+      "parameters": {
+        "url": "https://hotels4.p.rapidapi.com/locations/v3/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $json.city8 }}"
+            },
+            {
+              "name": "locale",
+              "value": "en_US"
+            },
+            {
+              "name": "langid",
+              "value": "1033"
+            },
+            {
+              "name": "siteid",
+              "value": "300000001"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-RapidAPI-Host",
+              "value": "hotels4.p.rapidapi.com"
+            },
+            {
+              "name": "X-RapidAPI-Key",
+              "value": "bba2d43494msheb61c0112305090p16270bjsna70952eefac2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8657edb9-bb53-415a-bf0a-eac364c59d1a",
+      "name": "HTTP Request7",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        3060,
+        1040
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "City",
+              "stringValue": "={{ $json.sr[0].regionNames.primaryDisplayName }}"
+            },
+            {
+              "name": "cityID",
+              "type": "numberValue",
+              "numberValue": "={{ $json.sr[5].cityId }}"
+            },
+            {
+              "name": "hotelName",
+              "stringValue": "={{ $json.sr[1].regionNames.primaryDisplayName }}"
+            },
+            {
+              "name": "_id",
+              "type": "numberValue",
+              "numberValue": "={{ $('Item Lists').item.json.data[7].documentID }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "239cb545-767d-4240-b6bb-56658303d94a",
+      "name": "Set City ID & Hotel Name7",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        3320,
+        1020
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $('Item Lists').item.json.data[7].documentID }}",
+              "value2": "={{ $json._id }}"
+            }
+          ]
+        }
+      },
+      "id": "8cc964f3-d3dd-47db-8693-b956789e09dd",
+      "name": "Filter7",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 1,
+      "position": [
+        3580,
+        1040
+      ]
+    },
+    {
+      "parameters": {
+        "projectId": "={{ $('Edit Fields').item.json.firebaseProjectName }}",
+        "collection": "={{ $('Edit Fields').item.json.firebaseCollectionName }}",
+        "documentId": "={{ $json._id }}",
+        "simple": false
+      },
+      "id": "40efa701-3c8a-4bb1-a32c-e8571c808622",
+      "name": "Google Cloud Firestore15",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        3840,
+        980
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Country & City List RapidAPI Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1110509167,
+          "mode": "list",
+          "cachedResultName": "City",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit#gid=1110509167"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "City": "={{ $json.found.fields.City.stringValue }}",
+            "CountryDocRef": "={{ $json.found.fields.CountryDocRef.referenceValue }}"
+          },
+          "matchingColumns": [
+            "City"
+          ],
+          "schema": [
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "CountryDocRef",
+              "displayName": "CountryDocRef",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "cab64422-6646-4a21-8e60-379d9c8e6198",
+      "name": "Google Sheets14",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        4100,
+        940
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Country & City List RapidAPI Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1110509167,
+          "mode": "list",
+          "cachedResultName": "City",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit#gid=1110509167"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "City",
+              "lookupValue": "={{ $('Filter7').item.json.City }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a1819521-039f-46ae-b671-0588aa3a84bc",
+      "name": "Google Sheets15",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        4360,
+        900
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "_id",
+              "type": "numberValue",
+              "numberValue": "={{ $json.row_number }}"
+            },
+            {
+              "name": "cityID",
+              "type": "numberValue",
+              "numberValue": "={{ $('Filter7').item.json.cityID }}"
+            },
+            {
+              "name": "hotelName",
+              "stringValue": "={{ $('Filter7').item.json.hotelName }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "948b3647-1778-4aea-b3d1-013c553240cf",
+      "name": "Edit Fields9",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        4600,
+        740
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "projectId": "={{ $('Edit Fields').item.json.firebaseProjectName }}",
+        "collection": "={{ $('Edit Fields').item.json.firebaseCollectionName }}",
+        "updateKey": "_id",
+        "columns": "cityID,hotelName"
+      },
+      "id": "a6dd86f1-82c6-4ce3-9107-3f58492bf730",
+      "name": "Google Cloud Firestore16",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        4880,
+        640
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "city8",
+              "stringValue": "={{ $json.data[7].cityName }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "bfc0d3b3-3284-4df0-84af-36167b18aa44",
+      "name": "city8",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2380,
+        1040
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 2,
+        "unit": "seconds"
+      },
+      "id": "1384dc2c-e304-4bfc-a9f2-11ebbc98649c",
+      "name": "Wait7",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        2740,
+        1340
+      ],
+      "webhookId": "4157f01a-77c7-4c28-9514-756c4041c8f8"
+    },
+    {
+      "parameters": {
+        "url": "https://hotels4.p.rapidapi.com/locations/v3/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $json.city9 }}"
+            },
+            {
+              "name": "locale",
+              "value": "en_US"
+            },
+            {
+              "name": "langid",
+              "value": "1033"
+            },
+            {
+              "name": "siteid",
+              "value": "300000001"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-RapidAPI-Host",
+              "value": "hotels4.p.rapidapi.com"
+            },
+            {
+              "name": "X-RapidAPI-Key",
+              "value": "bba2d43494msheb61c0112305090p16270bjsna70952eefac2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "98c9ce8f-c113-46fa-bb50-a912f0fe665d",
+      "name": "HTTP Request8",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        3080,
+        1300
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "City",
+              "stringValue": "={{ $json.sr[0].regionNames.primaryDisplayName }}"
+            },
+            {
+              "name": "cityID",
+              "type": "numberValue",
+              "numberValue": "={{ $json.sr[6].cityId }}"
+            },
+            {
+              "name": "hotelName",
+              "stringValue": "={{ $json.sr[6].regionNames.primaryDisplayName }}"
+            },
+            {
+              "name": "_id",
+              "type": "numberValue",
+              "numberValue": "={{ $('Item Lists').item.json.data[8].documentID }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "a56bb3c7-532a-4e2d-839d-212300625160",
+      "name": "Set City ID & Hotel Name8",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        3340,
+        1280
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $('Item Lists').item.json.data[8].documentID }}",
+              "value2": "={{ $json._id }}"
+            }
+          ]
+        }
+      },
+      "id": "a06a5230-a62b-463a-8d10-223e9c58e37d",
+      "name": "Filter8",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 1,
+      "position": [
+        3600,
+        1300
+      ]
+    },
+    {
+      "parameters": {
+        "projectId": "={{ $('Edit Fields').item.json.firebaseProjectName }}",
+        "collection": "={{ $('Edit Fields').item.json.firebaseCollectionName }}",
+        "documentId": "={{ $json._id }}",
+        "simple": false
+      },
+      "id": "f92e0597-aa3c-486b-bc5e-82a59d019626",
+      "name": "Google Cloud Firestore17",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        3860,
+        1240
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Country & City List RapidAPI Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1110509167,
+          "mode": "list",
+          "cachedResultName": "City",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit#gid=1110509167"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "City": "={{ $json.found.fields.City.stringValue }}",
+            "CountryDocRef": "={{ $json.found.fields.CountryDocRef.referenceValue }}"
+          },
+          "matchingColumns": [
+            "City"
+          ],
+          "schema": [
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "CountryDocRef",
+              "displayName": "CountryDocRef",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a2d65c9b-774c-4c38-9236-5d4d16f02739",
+      "name": "Google Sheets16",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        4120,
+        1200
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Country & City List RapidAPI Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1110509167,
+          "mode": "list",
+          "cachedResultName": "City",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit#gid=1110509167"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "City",
+              "lookupValue": "={{ $('Filter8').item.json.City }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c29c0d68-bb73-477f-bba7-236ebbfa381a",
+      "name": "Google Sheets17",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        4380,
+        1160
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "_id",
+              "type": "numberValue",
+              "numberValue": "={{ $json.row_number }}"
+            },
+            {
+              "name": "cityID",
+              "type": "numberValue",
+              "numberValue": "={{ $('Filter8').item.json.cityID }}"
+            },
+            {
+              "name": "hotelName",
+              "stringValue": "={{ $('Filter8').item.json.hotelName }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "a5aeab8b-24e1-4e18-9591-0658ae9b334f",
+      "name": "Edit Fields10",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        4620,
+        1000
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "projectId": "={{ $('Edit Fields').item.json.firebaseProjectName }}",
+        "collection": "={{ $('Edit Fields').item.json.firebaseCollectionName }}",
+        "updateKey": "_id",
+        "columns": "cityID,hotelName"
+      },
+      "id": "2e3de23c-9872-4c95-88bf-abf6eb3ffba8",
+      "name": "Google Cloud Firestore18",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        4900,
+        900
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "city9",
+              "stringValue": "={{ $json.data[8].cityName }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "785d1aa9-df95-4ba7-9189-d7ffa00c2e4e",
+      "name": "city9",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2400,
+        1300
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 2,
+        "unit": "seconds"
+      },
+      "id": "2e5e9b38-adb1-41a9-a2fd-3c3bc5a7e47f",
+      "name": "Wait8",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        2700,
+        1640
+      ],
+      "webhookId": "4157f01a-77c7-4c28-9514-756c4041c8f8"
+    },
+    {
+      "parameters": {
+        "url": "https://hotels4.p.rapidapi.com/locations/v3/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $json.city10 }}"
+            },
+            {
+              "name": "locale",
+              "value": "en_US"
+            },
+            {
+              "name": "langid",
+              "value": "1033"
+            },
+            {
+              "name": "siteid",
+              "value": "300000001"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-RapidAPI-Host",
+              "value": "hotels4.p.rapidapi.com"
+            },
+            {
+              "name": "X-RapidAPI-Key",
+              "value": "bba2d43494msheb61c0112305090p16270bjsna70952eefac2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "68281bc4-a5cb-4678-a4bd-07094c004afb",
+      "name": "HTTP Request9",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        3040,
+        1600
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "City",
+              "stringValue": "={{ $json.sr[0].regionNames.primaryDisplayName }}"
+            },
+            {
+              "name": "cityID",
+              "type": "numberValue",
+              "numberValue": "={{ $json.sr[2].cityId }}"
+            },
+            {
+              "name": "hotelName",
+              "stringValue": "={{ $json.sr[2].regionNames.primaryDisplayName }}"
+            },
+            {
+              "name": "_id",
+              "type": "numberValue",
+              "numberValue": "={{ $('Item Lists').item.json.data[9].documentID }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "623c82ed-1038-4d93-8097-e8b048ce7246",
+      "name": "Set City ID & Hotel Name9",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        3300,
+        1580
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $('Item Lists').item.json.data[9].documentID }}",
+              "value2": "={{ $json._id }}"
+            }
+          ]
+        }
+      },
+      "id": "374a1a36-7068-498c-a62e-421bba11828d",
+      "name": "Filter9",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 1,
+      "position": [
+        3560,
+        1600
+      ]
+    },
+    {
+      "parameters": {
+        "projectId": "={{ $('Edit Fields').item.json.firebaseProjectName }}",
+        "collection": "={{ $('Edit Fields').item.json.firebaseCollectionName }}",
+        "documentId": "={{ $json._id }}",
+        "simple": false
+      },
+      "id": "3805015a-6cb0-4714-a966-55bb328e6aea",
+      "name": "Google Cloud Firestore19",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        3820,
+        1540
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Country & City List RapidAPI Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1110509167,
+          "mode": "list",
+          "cachedResultName": "City",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit#gid=1110509167"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "City": "={{ $json.found.fields.City.stringValue }}",
+            "CountryDocRef": "={{ $json.found.fields.CountryDocRef.referenceValue }}"
+          },
+          "matchingColumns": [
+            "City"
+          ],
+          "schema": [
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "CountryDocRef",
+              "displayName": "CountryDocRef",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "88ea215e-14b8-44b9-a8ac-9dec60bbfec2",
+      "name": "Google Sheets18",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        4080,
+        1500
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Country & City List RapidAPI Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1110509167,
+          "mode": "list",
+          "cachedResultName": "City",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit#gid=1110509167"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "City",
+              "lookupValue": "={{ $('Filter9').item.json.City }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0b9ab69d-5c14-484a-b601-f4ea42f17860",
+      "name": "Google Sheets19",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        4340,
+        1460
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "_id",
+              "type": "numberValue",
+              "numberValue": "={{ $json.row_number }}"
+            },
+            {
+              "name": "cityID",
+              "type": "numberValue",
+              "numberValue": "={{ $('Filter9').item.json.cityID }}"
+            },
+            {
+              "name": "hotelName",
+              "stringValue": "={{ $('Filter9').item.json.hotelName }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "415aff5e-2cff-4ac4-bdce-b8bc09b86fe3",
+      "name": "Edit Fields11",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        4580,
+        1300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "projectId": "={{ $('Edit Fields').item.json.firebaseProjectName }}",
+        "collection": "={{ $('Edit Fields').item.json.firebaseCollectionName }}",
+        "updateKey": "_id",
+        "columns": "cityID,hotelName"
+      },
+      "id": "04a61e5c-37fb-4705-a3de-148e68a4041c",
+      "name": "Google Cloud Firestore20",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        4860,
+        1200
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "city10",
+              "stringValue": "={{ $json.data[9].cityName }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "54ab1774-724b-4f2b-93df-cbe694e0ce80",
+      "name": "city10",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2360,
+        1600
+      ]
+    }
+  ],
+  "connections": {
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Cloud Firestore": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Item Lists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists": {
+      "main": [
+        [
+          {
+            "node": "city1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "city2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "city3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "city4",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "city5",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "city6",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "city7",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "city8",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "city9",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "city10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "city2": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "city1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "city3": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "city4": {
+      "main": [
+        [
+          {
+            "node": "Wait2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait3": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Set City ID & Hotel Name",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Set City ID & Hotel Name1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "Set City ID & Hotel Name2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "Set City ID & Hotel Name3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request4": {
+      "main": [
+        [
+          {
+            "node": "Set City ID & Hotel Name4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "city5": {
+      "main": [
+        [
+          {
+            "node": "Wait3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set City ID & Hotel Name": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Cloud Firestore2": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set City ID & Hotel Name1": {
+      "main": [
+        [
+          {
+            "node": "Filter1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter1": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Cloud Firestore4": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets2": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets4": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets5": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Cloud Firestore6": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter2": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set City ID & Hotel Name2": {
+      "main": [
+        [
+          {
+            "node": "Filter2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter3": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set City ID & Hotel Name3": {
+      "main": [
+        [
+          {
+            "node": "Filter3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Cloud Firestore7": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets6": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets7": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields5": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter4": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set City ID & Hotel Name4": {
+      "main": [
+        [
+          {
+            "node": "Filter4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Cloud Firestore9": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets8": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets9": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields6": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait4": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request5": {
+      "main": [
+        [
+          {
+            "node": "Set City ID & Hotel Name5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set City ID & Hotel Name5": {
+      "main": [
+        [
+          {
+            "node": "Filter5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter5": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Cloud Firestore11": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets10": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets11": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields7": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "city6": {
+      "main": [
+        [
+          {
+            "node": "Wait4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait5": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request6": {
+      "main": [
+        [
+          {
+            "node": "Set City ID & Hotel Name6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set City ID & Hotel Name6": {
+      "main": [
+        [
+          {
+            "node": "Filter6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter6": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore13",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Cloud Firestore13": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets12": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets13",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets13": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields8": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore14",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "city7": {
+      "main": [
+        [
+          {
+            "node": "Wait5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait6": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request7": {
+      "main": [
+        [
+          {
+            "node": "Set City ID & Hotel Name7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set City ID & Hotel Name7": {
+      "main": [
+        [
+          {
+            "node": "Filter7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter7": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Cloud Firestore15": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets14",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets14": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets15": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields9": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore16",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "city8": {
+      "main": [
+        [
+          {
+            "node": "Wait6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait7": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request8": {
+      "main": [
+        [
+          {
+            "node": "Set City ID & Hotel Name8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set City ID & Hotel Name8": {
+      "main": [
+        [
+          {
+            "node": "Filter8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter8": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore17",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Cloud Firestore17": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets16",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets16": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets17",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets17": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields10": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore18",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "city9": {
+      "main": [
+        [
+          {
+            "node": "Wait7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait8": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request9": {
+      "main": [
+        [
+          {
+            "node": "Set City ID & Hotel Name9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set City ID & Hotel Name9": {
+      "main": [
+        [
+          {
+            "node": "Filter9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter9": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore19",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Cloud Firestore19": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets18",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets18": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets19",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets19": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields11": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore20",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "city10": {
+      "main": [
+        [
+          {
+            "node": "Wait8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "03139601-4cb2-4cac-806b-77b853c5b93d",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-01-02T02:48:24.945Z",
+      "createdAt": "2024-01-02T02:48:24.945Z",
+      "role": "workflow:owner",
+      "workflowId": "knbXEmh2WmVNDqSo",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
