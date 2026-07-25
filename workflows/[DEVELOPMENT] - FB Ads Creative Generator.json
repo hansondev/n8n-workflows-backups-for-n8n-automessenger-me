@@ -1,0 +1,1349 @@
+{
+  "updatedAt": "2025-09-13T03:14:37.000Z",
+  "createdAt": "2025-09-13T03:14:31.365Z",
+  "id": "ATbNwsH8cgfUWUib",
+  "name": "[DEVELOPMENT] - FB Ads Creative Generator",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "fb-ad-visual-generator",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1680,
+        240
+      ],
+      "id": "23c4182d-c587-44d8-bec9-f3b4a8251fc6",
+      "name": "Generate FB Ads Single Image",
+      "webhookId": "d8518a50-b86b-4b05-918d-1a909ff07ad9"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.data.rows[0]['Visual Type'][0] }}",
+                    "rightValue": "Image",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "90e80aeb-e6d2-4bf7-81fa-da4fbc17b182"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "FB Ads Single Image"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "85266bd1-c2f9-4e77-948b-603842cb4e12",
+                    "leftValue": "={{ $json.body.data.rows[0]['Visual Type'][0] }}",
+                    "rightValue": "Animated GIF",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "FB Ads Animated GIF"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -1472,
+        240
+      ],
+      "id": "f5e35828-afe4-454e-9d73-76d059188f6f",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "projectId": "prj6uve5wvj1snq",
+        "table": "mjwyvsqunuvm919",
+        "id": "={{ $json.body.data.rows[0].Id }}"
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -1152,
+        64
+      ],
+      "id": "56250464-0c57-49e8-b67f-e2f2dc395708",
+      "name": "Get a row"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e4b5d86d-44eb-4c52-9394-25f4c28f35c8",
+              "name": "id",
+              "value": "={{ $json.Id }}",
+              "type": "string"
+            },
+            {
+              "id": "68dd6542-f37d-4934-bab5-01fafe075278",
+              "name": "focusProduct",
+              "value": "={{ $json['Focus Product'][0] }}",
+              "type": "string"
+            },
+            {
+              "id": "bef5faab-6671-464a-937c-85f3082d7289",
+              "name": "visualType",
+              "value": "={{ $json['Visual Type'][0] }}",
+              "type": "string"
+            },
+            {
+              "id": "5f0fbe4a-6335-4d04-9c68-4363b68f2afa",
+              "name": "visuaFormat",
+              "value": "={{ $json['Visual Format'].toLowerCase() }}",
+              "type": "string"
+            },
+            {
+              "id": "568ab3b2-48e9-409b-b154-7e23b8573fe4",
+              "name": "visualSize",
+              "value": "={{ $json['Visual Size'] }}",
+              "type": "string"
+            },
+            {
+              "id": "597f23f7-0d17-40b6-9724-de0bd8d30ac3",
+              "name": "productImages",
+              "value": "=[ \"https://nocodb-1.moreenga.com/{{ $json['Product Image'][0].path }}\", \"https://nocodb-1.moreenga.com/{{ $json['Product Image'][1].path }}\"]",
+              "type": "array"
+            },
+            {
+              "id": "5e56e6d5-fb0f-4fba-8e06-37eaf0dc63c8",
+              "name": "visualContentBrief",
+              "value": "={{ $json['Single Image Visual Content Brief'][0] }}",
+              "type": "string"
+            },
+            {
+              "id": "21e5824f-8211-45d1-99e3-e80b289e7aa1",
+              "name": "visualTextOverlay",
+              "value": "={{ $json['Single Image Text Overlay'][0] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -928,
+        64
+      ],
+      "id": "a2dcce7e-6b2d-4ec1-aa63-88917842359a",
+      "name": "Extract Only Important Fields For Single Image Generator"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"google/gemini-2.5-flash-image-preview\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"text\",\n          \"text\": {{ JSON.stringify($json.text) }}\n        },\n        {\n          \"type\": \"image_urls\",\n          \"image_urls\": {\n            \"urls\": {{ JSON.stringify($('Extract Only Important Fields For Single Image Generator').item.json.productImages[0]) }}\n          }\n        }\n      ]\n    }\n  ]\n}\n",
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 10000
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        160,
+        64
+      ],
+      "id": "c1b91656-fed8-4efd-8edc-d14de534e03c",
+      "name": "Nano B",
+      "alwaysOutputData": false,
+      "retryOnFail": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7026c1c7-b1e4-4ef2-86f1-911684134f2c",
+              "name": "data",
+              "value": "={{ $json.choices[0].message.images[0].image_url.url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        400,
+        48
+      ],
+      "id": "f2964479-2513-4ae7-b787-4bfb6f9ed22c",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data",
+        "options": {
+          "fileName": "={{ $json.fileName }}",
+          "mimeType": "={{ $json.mineType }}"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        880,
+        48
+      ],
+      "id": "37a1a0a5-3353-432c-be94-93e333412c9a",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a69db7b8-b8f5-4aec-acc7-5436eb44629c",
+              "name": "data",
+              "value": "={{ $json.data.split(\",\")[1] }}",
+              "type": "string"
+            },
+            {
+              "id": "93d1ffd7-b8e2-40b1-9320-5c6a9b6b3e0e",
+              "name": "mineType",
+              "value": "={{ $json.data.split(\",\")[0].replace(\"data:\",\"\").replace(\";base64\",\"\") }}",
+              "type": "string"
+            },
+            {
+              "id": "9be5b58f-997c-4350-aeee-bab0295fc9f5",
+              "name": "fileName",
+              "value": "={{ $now.format('yyyy-MM-dd') }}-FBAdImage-{{ $('Extract Only Important Fields For Single Image Generator').item.json.focusProduct }}-{{ $('Get a row').item.json.Version[0] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        608,
+        48
+      ],
+      "id": "ef0a722c-fc4c-4ae0-a38d-b079b810e7db",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "projectId": "prj6uve5wvj1snq",
+        "table": "mjwyvsqunuvm919",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Extract Only Important Fields For Single Image Generator').item.json.id }}"
+            },
+            {
+              "fieldName": "Ad Image Generated",
+              "binaryData": true,
+              "binaryProperty": "data"
+            },
+            {
+              "fieldName": "Status",
+              "fieldValue": "Completed"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1088,
+        48
+      ],
+      "id": "2469b923-6d40-4894-8109-3e066d9e03f4",
+      "name": "Update a row2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -144,
+        272
+      ],
+      "id": "a614d973-cb74-43f8-b433-886893129b96",
+      "name": "Google Gemini Chat Model"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Generate a proper sructure of image prompt guidelines before generate a Facebook Ads Single Image:\n**Visual Content Brief**\n{{ $('Extract Only Important Fields For Single Image Generator').item.json.visualContentBrief }}\n\n**Visual Text Overlay**\n{{ $('Extract Only Important Fields For Single Image Generator').item.json.visualTextOverlay }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=Your goal is to create a prompt for an AI image editor. You will be given the Original Image prompt in your system prompt. The user will then provide you with prompt guidelines for the image edit they want to create.\n\nThese guidelines will include the Core Subject, Composition, Medium, Lighting, Style, Mood, Color Palette, Setting, and Text Overlay. Some of these may be the same as the original image (no changes request) and some more be different.\n\nTake the edit guidelines, and create an image edit prompt that follows the same style as the original image prompt\n\nYour entire output must ONLY be the new prompt for the image edit. Do not include any introductory text or closing remarks\n\nOriginal Image prompt:{{ $('Get Original Image Prompt').item.json.content.parts[0].text }}\n\n"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        -320,
+        64
+      ],
+      "id": "45072209-902a-4401-8da1-0ee5090882c5",
+      "name": "Create Image Prompt",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "text": "=You are an expert AI creative analyst. Your purpose is to analyze an input image and deconstruct its visual and thematic elements into a clear, structured report. Your output must be only the plain text report as described below. Do not include any conversational filler or explanatory text.\n\nBased on the user's provided image, generate a report with the following structure and headings:\n\nDescription\nWrite a comprehensive, single-paragraph description of the entire image. Capture the subject, setting, style, and overall feeling of the scene.\n\nImage Illustration Analysis\n\nCore Subject: Identify the main person, object, or focus based on the selected images.\n\nSetting: Describe the background and environment of the subject based on the selected images.\n\nStyle: Describe the styles had been applied based on the selected images.\n\nMedium: Specify the artistic medium (e.g., Commercial product photography, 3D render, oil painting, analog film photo) from the selected images.\n\nLighting: Describe the quality and source of the light (e.g., golden hour, studio lighting, neon glow) from the selected images.\n\nMood: Describe the overall feeling or atmosphere (e.g., serene, energetic, futuristic, nostalgic) from the selected images.\n\nComposition: Describe the framing and camera angle (e.g., centered, eye-level, low-angle, top-down) from the selected images.\n\nColor Palette: List the dominant colors and overall color scheme from the selected images.\n\nText Overlay\nList and describe each distinct piece of text found from the selected images. If there is no text, simply write \"None.\"\n\nText 1\n\nText: Identify the exact text.\n\nFont: Describe the font style.\n\nEffect: Describe any visual effects on the font. If none, write \"None.\"\n\nColor: Identify the color of the text.\n\nPlacement: Describe where the text is located (e.g., center, bottom-left).\n\n(Repeat the \"Text #\" section for every additional piece of text in the image.)",
+        "imageUrls": "={{ $json.productImages[1] }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        -656,
+        64
+      ],
+      "id": "85a74ad9-0adf-492b-bacf-b97541948b32",
+      "name": "Get Original Image Prompt",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.kie.ai/api/v1/veo/generate",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"prompt\": {{ JSON.stringify($json.candidates[0].content.parts[0].text) }},\n  \"imageUrls\": [\n    {{ JSON.stringify($('Get URL + Prompt').item.json['Nano Image'][0].url) }}\n  ],\n  \"model\": \"veo3_fast\",\n  \"callbackUrl\": {{ JSON.stringify($execution.resumeUrl) }},\n  \"aspectRatio\": \"16:9\",\n  \"seeds\": 12345,\n  \"enableFallback\": false\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        192,
+        560
+      ],
+      "id": "722c9325-801e-4e8f-85c9-6ed30bb0cd5d",
+      "name": "Create Veo 3 Video Kie.AI"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "text": "=User's prompt: {{ $json.text }}\n\nYou are an expert AI assistant named \"AI Animation Director.\" Your purpose is to function as a creative partner to a user. You will receive two inputs: 1) a source image and 2) the user's initial creative prompt for animating that image. Your job is to analyze both inputs in tandem, harmonize the user's ideas with the visual content of the image, and then elevate the concept into a masterfully detailed, cinematic, and effective prompt for an advanced image-to-video generation model.\n\n## Core Process\n\nYour process is to synthesize, refine, and enhance. When you receive the user's prompt and the image, you will follow this chain of thought:\n\nDual Input Analysis: Concurrently analyze the two data points:\n\nThe User's Prompt: Deconstruct the user's text. Identify keywords, desired actions (e.g., \"wind blowing,\" \"car driving\"), mood (e.g., \"peaceful,\" \"epic,\" \"melancholy\"), and any specified stylistic elements (e.g., \"like a Ghibli movie,\" \"hyperrealistic\").\n\nThe Source Image: Meticulously analyze the image's content. Identify the primary subject, secondary elements, environment, lighting, composition, and overall atmosphere. Look for visual details that can be used to bring the user's prompt to life.\n\nHarmonize & Synthesize: Your primary goal is to honor and build upon the user's creative intent.\n\nFind the direct connections between the prompt and the image. If the user asks for \"wind blowing,\" identify hair, clothing, trees, or grass in the image that can plausibly move.\n\nTranslate abstract user ideas into concrete visual actions. If the user says \"make it feel nostalgic,\" you should suggest animations like dust motes floating in a sunbeam, a subtle film grain effect, or a slow zoom that focuses on a thoughtful expression.\n\nCreative Elaboration & Problem-Solving:\n\nEnhance, Don't Replace: Use the user's prompt as the core foundation. Your role is to add layers of professional, cinematic detail. Suggest specific camera movements, atmospheric effects, and subtle secondary animations that support the user's main idea.\n\nHandle Contradictions: If the user's prompt requests something not explicitly in the image (e.g., \"add rain\" to a sunny photo), creatively bridge the gap. Your prompt could describe the sky darkening, clouds rolling in, and the first few drops beginning to fall, making the request a plausible event within the scene.\n\nStructure the Final Prompt: Assemble all the synthesized and enhanced ideas into a clear, structured, and evocative prompt, using the format below.\n\n## Output Format\n\nYour final output must be ONLY the optimized prompt, formatted clearly for the downstream image-to-video model. Structure your response using the following template. If a section is not relevant to the user's request, omit it.\n\n**Primary Subject Animation:**\n[Detailed description of the main subject's movement, directly based on and expanding the user's prompt.]\n\n**Environmental & Background Animation:**\n[Description of movement in the background that supports the main action and mood.]\n\n**Atmospheric Effects:**\n[Description of weather, light, or VFX that enhance the user's desired atmosphere.]\n\n**Camera Movement:**\n[Specific instructions for the virtual camera that add dynamism and focus to the user's concept.]\n\n**Overall Style:**\n[A brief summary of the final video's aesthetic, incorporating and refining the user's stylistic notes.]\n## Example Interaction\n\nUser Provides:\n\nImage: A close-up, black-and-white photo of an elderly man with deep wrinkles, looking thoughtfully out of a window.\n\nUser Prompt: \"I want to show him remembering a happy memory.\"\n\nYour Optimized Output (What you will generate):\n\n**Primary Subject Animation:**\nThe man's eyes, which are focused on something outside the window, slowly soften their gaze as if looking inward. The corners of his mouth curl into a very faint, subtle smile. He takes a slow, peaceful breath.\n\n**Environmental & Background Animation:**\nOutside the window, the scene remains out of focus, with dust motes dancing lazily in the slivers of sunlight. The light streaming through the window gradually grows warmer in color temperature, shifting from neutral white to a soft golden hue.\n\n**Atmospheric Effects:**\nA very subtle rack focus effect occurs, softening the background even further and pulling sharp focus to the man's eyes. Introduce a faint, almost imperceptible film grain to enhance the feeling of memory and nostalgia.\n\n**Camera Movement:**\nAn extremely slow, almost imperceptible dolly zoom, pushing in on the man's face over the duration of the clip to heighten the sense of intimacy with his thoughts.\n\n**Overall Style:**\nIntrospective, nostalgic, and poignant. Black and white with a subtle warming effect. Highly realistic, 8K,\n\nOUTPUT INSTRUCTIONS\n\nENSURE YOUR OUTPUT IS SIMPLY ONE, LONG CONTINUOUS STRING. NO NEW LINES. NO NEW LINES.",
+        "imageUrls": "={{ $('Extract Only Important Fields For GIF Generator').item.json.productImages[1] }}",
+        "simplify": false,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        560
+      ],
+      "id": "16b8a64f-442b-4281-bb5e-269192170921",
+      "name": "Prompt Optimizer",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.body.data.info.resultUrls[0] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        704,
+        544
+      ],
+      "id": "2e1b95d6-5e05-4dbc-9152-e9649755af00",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "resume": "webhook",
+        "httpMethod": "POST",
+        "limitWaitTime": true,
+        "resumeAmount": 3,
+        "resumeUnit": "minutes",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        368,
+        544
+      ],
+      "id": "24904712-77a8-4391-b931-120e13e75417",
+      "name": "Wait",
+      "webhookId": "8c730ed2-5b32-4ce6-9c6a-078db92a0cb4"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "projectId": "prj6uve5wvj1snq",
+        "table": "mjwyvsqunuvm919",
+        "id": "={{ $json.body.data.rows[0].Id }}"
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -1184,
+        560
+      ],
+      "id": "89fc366a-4a66-41e4-b935-95d8f6a4a93e",
+      "name": "Get a row1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e4b5d86d-44eb-4c52-9394-25f4c28f35c8",
+              "name": "id",
+              "value": "={{ $json.Id }}",
+              "type": "string"
+            },
+            {
+              "id": "68dd6542-f37d-4934-bab5-01fafe075278",
+              "name": "focusProduct",
+              "value": "={{ $json['Focus Product'][0] }}",
+              "type": "string"
+            },
+            {
+              "id": "bef5faab-6671-464a-937c-85f3082d7289",
+              "name": "visualType",
+              "value": "={{ $json['Visual Type'][0] }}",
+              "type": "string"
+            },
+            {
+              "id": "5f0fbe4a-6335-4d04-9c68-4363b68f2afa",
+              "name": "visuaFormat",
+              "value": "={{ $json['Visual Format'].toLowerCase() }}",
+              "type": "string"
+            },
+            {
+              "id": "568ab3b2-48e9-409b-b154-7e23b8573fe4",
+              "name": "visualSize",
+              "value": "={{ $json['Visual Size'] }}",
+              "type": "string"
+            },
+            {
+              "id": "597f23f7-0d17-40b6-9724-de0bd8d30ac3",
+              "name": "productImages",
+              "value": "=[ \"https://nocodb-1.moreenga.com/{{ $json['Product Image'][0].path }}\", \"https://nocodb-1.moreenga.com/{{ $json['Product Image'][1].path }}\"]",
+              "type": "array"
+            },
+            {
+              "id": "771103cd-b17a-4e84-a7dc-13b07c08a290",
+              "name": "gifContentBrief",
+              "value": "={{ $json['GIF Content Brief (JSON Structure)'][0] }}",
+              "type": "array"
+            },
+            {
+              "id": "462acc2e-87a4-4f5b-956b-a7ac05ca40ac",
+              "name": "gifTextOverlay",
+              "value": "={{ $json['GIF Content Brief (JSON Structure)'][0] }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -976,
+        560
+      ],
+      "id": "55c0f05a-3c59-41d1-8c2c-86eafa0c82e1",
+      "name": "Extract Only Important Fields For GIF Generator"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -304,
+        752
+      ],
+      "id": "1b382bf0-5408-4223-a13e-c988f0a76891",
+      "name": "Google Gemini Chat Model1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Generate a proper sructure of GIF generator prompt guidelines before generate a Facebook Ads Animated GIF:\n**GIF Content Brief**\n{{ JSON.stringify($('Split Out').item.json.gifContentBrief) }}\n\n**GIF Text Content Overlay**\n{{ JSON.stringify($('Split Out').item.json.gifTextOverlay) }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=Your goal is to create a prompt for an AI image editor. You will be given the Original Image prompt in your system prompt. The user will then provide you with prompt guidelines for the image edit they want to create.\n\nThese guidelines will include the Core Subject, Composition, Medium, Lighting, Style, Mood, Color Palette, Setting, and Text Overlay. Some of these may be the same as the original image (no changes request) and some more be different.\n\nTake the edit guidelines, and create an image edit prompt that follows the same style as the original image prompt\n\nYour entire output must ONLY be the new prompt for the image edit. Do not include any introductory text or closing remarks\n\nOriginal Image prompt:{{ $('Get Original Image Prompt1').item.json.content.parts[0].text }}\n\n"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        -336,
+        560
+      ],
+      "id": "ef966f34-ca42-40b9-a315-72c1d8025bab",
+      "name": "Create Image Prompt2",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "text": "=You are an expert AI creative analyst. Your purpose is to analyze an input image and deconstruct its visual and thematic elements into a clear, structured report. Your output must be only the plain text report as described below. Do not include any conversational filler or explanatory text.\n\nBased on the user's provided image, generate a report with the following structure and headings:\n\nDescription\nWrite a comprehensive, single-paragraph description of the entire image. Capture the subject, setting, style, and overall feeling of the scene.\n\nImage Illustration Analysis\n\nCore Subject: Identify the main person, object, or focus based on the selected images.\n\nSetting: Describe the background and environment of the subject based on the selected images.\n\nStyle: Describe the styles had been applied based on the selected images.\n\nMedium: Specify the artistic medium (e.g., Commercial product photography, 3D render, oil painting, analog film photo) from the selected images.\n\nLighting: Describe the quality and source of the light (e.g., golden hour, studio lighting, neon glow) from the selected images.\n\nMood: Describe the overall feeling or atmosphere (e.g., serene, energetic, futuristic, nostalgic) from the selected images.\n\nComposition: Describe the framing and camera angle (e.g., centered, eye-level, low-angle, top-down) from the selected images.\n\nColor Palette: List the dominant colors and overall color scheme from the selected images.\n\nText Overlay\nList and describe each distinct piece of text found from the selected images. If there is no text, simply write \"None.\"\n\nText 1\n\nText: Identify the exact text.\n\nFont: Describe the font style.\n\nEffect: Describe any visual effects on the font. If none, write \"None.\"\n\nColor: Identify the color of the text.\n\nPlacement: Describe where the text is located (e.g., center, bottom-left).\n\n(Repeat the \"Text #\" section for every additional piece of text in the image.)",
+        "imageUrls": "={{ $json.productImages[1] }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        -544,
+        560
+      ],
+      "id": "58d13d8c-10ad-40df-a599-4732efdd16d0",
+      "name": "Get Original Image Prompt1",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "gifContentBrief, gifTextOverlay",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -768,
+        560
+      ],
+      "id": "fd204475-da4e-47e8-850d-62df552228d4",
+      "name": "Split Out"
+    }
+  ],
+  "connections": {
+    "Generate FB Ads Single Image": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Get a row",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get a row1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a row": {
+      "main": [
+        [
+          {
+            "node": "Extract Only Important Fields For Single Image Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Only Important Fields For Single Image Generator": {
+      "main": [
+        [
+          {
+            "node": "Get Original Image Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Nano B": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Update a row2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Create Image Prompt",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Image Prompt": {
+      "main": [
+        [
+          {
+            "node": "Nano B",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Original Image Prompt": {
+      "main": [
+        [
+          {
+            "node": "Create Image Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Veo 3 Video Kie.AI": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prompt Optimizer": {
+      "main": [
+        [
+          {
+            "node": "Create Veo 3 Video Kie.AI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a row1": {
+      "main": [
+        [
+          {
+            "node": "Extract Only Important Fields For GIF Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Only Important Fields For GIF Generator": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Create Image Prompt2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Image Prompt2": {
+      "main": [
+        [
+          {
+            "node": "Prompt Optimizer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Original Image Prompt1": {
+      "main": [
+        [
+          {
+            "node": "Create Image Prompt2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Get Original Image Prompt1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Generate FB Ads Single Image": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n-1.moreenga.com",
+            "user-agent": "axios/1.11.0",
+            "content-length": "33407",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "10.0.1.1",
+            "x-forwarded-host": "n8n-1.moreenga.com",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "f8d9bf99e89f",
+            "x-real-ip": "10.0.1.1"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "type": "records.manual.trigger",
+            "id": "fa533ee4-1430-408b-b39d-e812d1ddc3d3",
+            "version": "v3",
+            "data": {
+              "table_id": "mjwyvsqunuvm919",
+              "table_name": "FB Ads Visual Generator",
+              "rows": [
+                {
+                  "Id": 7,
+                  "CreatedAt": "2025-09-12 14:56:32+00:00",
+                  "UpdatedAt": "2025-09-12 15:13:01+00:00",
+                  "Date Created": "2025-09-12",
+                  "Ad Visual Content Brief Generators": 1,
+                  "Ad Visual Text Overlay Generators": 1,
+                  "Product Image": [
+                    {
+                      "id": "atjnafp9iyrkq2lu",
+                      "path": "download/noco/prj6uve5wvj1snq/mjwyvsqunuvm919/c6yfytqcd35tabn/MY-Moringa Elixir Box-1_n6ZXo.png",
+                      "title": "MY-Moringa Elixir Box-1.png",
+                      "mimetype": "image/png",
+                      "size": 4159092,
+                      "width": 6000,
+                      "height": 4000,
+                      "thumbnails": {
+                        "tiny": {
+                          "signedPath": "dltemp/5ZFY-G1fKqGNWpjM/1757697600000/thumbnails/noco/prj6uve5wvj1snq/mjwyvsqunuvm919/c6yfytqcd35tabn/MY-Moringa Elixir Box-1_n6ZXo.png/tiny.jpg"
+                        },
+                        "small": {
+                          "signedPath": "dltemp/MSXByJ_iylZ9zg1s/1757697600000/thumbnails/noco/prj6uve5wvj1snq/mjwyvsqunuvm919/c6yfytqcd35tabn/MY-Moringa Elixir Box-1_n6ZXo.png/small.jpg"
+                        },
+                        "card_cover": {
+                          "signedPath": "dltemp/opRntizhp78jDJg_/1757697600000/thumbnails/noco/prj6uve5wvj1snq/mjwyvsqunuvm919/c6yfytqcd35tabn/MY-Moringa Elixir Box-1_n6ZXo.png/card_cover.jpg"
+                        }
+                      },
+                      "signedPath": "dltemp/UDdnfDFgz0JvVMiN/1757697600000/noco/prj6uve5wvj1snq/mjwyvsqunuvm919/c6yfytqcd35tabn/MY-Moringa Elixir Box-1_n6ZXo.png"
+                    },
+                    {
+                      "id": "atsr9ieqohkp7m5k",
+                      "path": "download/noco/prj6uve5wvj1snq/mjwyvsqunuvm919/c6yfytqcd35tabn/MoringaElixirBox_transparenBkg_lXhdS.png",
+                      "title": "MoringaElixirBox_transparenBkg.png",
+                      "mimetype": "image/png",
+                      "size": 726270,
+                      "width": 1000,
+                      "height": 1000,
+                      "thumbnails": {
+                        "tiny": {
+                          "signedPath": "dltemp/Y1q3bXmNIldvClVh/1757697600000/thumbnails/noco/prj6uve5wvj1snq/mjwyvsqunuvm919/c6yfytqcd35tabn/MoringaElixirBox_transparenBkg_lXhdS.png/tiny.jpg"
+                        },
+                        "small": {
+                          "signedPath": "dltemp/kFONlVHykWUkQ49S/1757697600000/thumbnails/noco/prj6uve5wvj1snq/mjwyvsqunuvm919/c6yfytqcd35tabn/MoringaElixirBox_transparenBkg_lXhdS.png/small.jpg"
+                        },
+                        "card_cover": {
+                          "signedPath": "dltemp/Z23hPxzkjLzwqxzM/1757697600000/thumbnails/noco/prj6uve5wvj1snq/mjwyvsqunuvm919/c6yfytqcd35tabn/MoringaElixirBox_transparenBkg_lXhdS.png/card_cover.jpg"
+                        }
+                      },
+                      "signedPath": "dltemp/ie4yxO06Hy4YNSLY/1757697600000/noco/prj6uve5wvj1snq/mjwyvsqunuvm919/c6yfytqcd35tabn/MoringaElixirBox_transparenBkg_lXhdS.png"
+                    }
+                  ],
+                  "Ad Image Generated": null,
+                  "Visual Size": "1080 x 1080px",
+                  "Visual Format": "MP4",
+                  "Generate FB Ads Visual": {
+                    "type": "webhook",
+                    "label": "Generate FB Ads Visual",
+                    "fk_webhook_id": "hkkc2u94821od5ay"
+                  },
+                  "Status": "Pending",
+                  "Single Image Text Overlay": [
+                    null
+                  ],
+                  "Visual Type": [
+                    "Animated GIF"
+                  ],
+                  "Single Image Visual Content Brief": [
+                    null
+                  ],
+                  "GIF Content Brief Image 1": [
+                    "**Image Index**: 1\n**Image Title**: Hero Product Vitality Shot\n**Image Content Brief**:  \n 1. **Core Subject**: Central high-resolution bottle of Moringa Elixir surrounded by fresh Moringa leaves, Sea Buckthorn berries and Acai clusters (floating/partially submerged) to visually communicate ingredients and potency.\n 2. **Background**: Deep charcoal-to-deep-teal subtle gradient (#333333 → #002222) with a very faint botanical texture to imply nature without clutter.\n 3. **Style**: Premium minimal + botanical photography trend: clean negative space, large product hero, modern serif-like headline (Montserrat) and simple body copy (Lato). Use flat, elegant graphics for small badges (\"75 plants\", \"20 fruits & veg\").\n 4. **Medium**: High-res studio photograph of the bottle composited with macro photos of ingredients; light vector callouts and icons for ingredient badges.\n 5. **Lighthing**: Soft directional rim and top-key lighting to create a glossy, premium sheen on the bottle; subtle backlight to make leaves and berries pop (soft halo).\n 6. **Mood**: Trustworthy, energizing, premium — health-focused but aspirational (active aging).\n 7. **Composition**: Centered vertical hero bottle with ingredient cluster layered in foreground and slightly off-center; headline in upper third with CTA badge bottom-right. Leave safe negative space for legible copy on mobile.\n 8. **Color Pallete**: Primary: #002222 (accent teal), #333333 (dark), #ffffff (light). Accents: Sea-buckthorn orange (#FF8C00), natural greens (#4CAF50) and warm gold (#E6C24A) for badges. Text: white or off-white on dark background; dark charcoal for light backgrounds."
+                  ],
+                  "GIF Content Brief Image 2": [
+                    "**Image Index**: 2 \n**Image Title**: Active Aging Lifestyle Portrait \n**Image Content Brief**:  \n 1. **Core Subject**: Authentic lifestyle portrait of a vibrant person in their sixties (gardening, walking, laughing with family) holding a single serving cup or bottle of Moringa Elixir — product appears natural in life.  \n 2. **Background**: Warm, shallow-depth garden or home terrace scene with bokeh; sunlight/golden hour tones to create warmth and approachability.  \n 3. **Style**: Candid lifestyle photography following current 'real, unretouched' trend for health brands; film-like color grade with slight grain for nostalgia and trust. \n 4. **Medium**: Natural photographic portrait (environmental) with a small inset product shot or floating product badge for clarity in ad formats. \n 5. **Lighthing**: Golden hour warm key light, soft fill; gentle rim to separate subject from background. \n 6. **Mood**: Relatable, aspirational, hopeful — shows longevity and active living rather than youth fetishizing. \n 7. **Composition**: Rule of thirds: subject on left or right with negative space for headline and CTA; overlay headline using Montserrat Bold; body in Lato regular. CTA button prominent bottom corner. \n 8. **Color Pallete**: Warm earth tones (muted ochres, soft greens), brand teal for subtle accents (#002222), sea-buckthorn orange (#FF8C00) for CTA. Text: high-contrast white on darker overlays or dark text on light backgrounds."
+                  ],
+                  "GIF Content Brief Image 3": [
+                    "**Image Index**: 3  \n**Image Title**: Ingredient Mosaic — Science Meets Nature \n**Image Content Brief**: \n 1. **Core Subject**: Data-rich mosaic illustrating the 75 plant minerals and 20 fruits & vegetables — small botanical icons/photographs arranged around a central 'cell-energy' icon and a product thumbnail. \n 2. **Background**: Clean off-white or very light textured paper to convey scientific clarity and naturalness. \n 3. **Style**: Modern infographic/flat-illustration trend: friendly vector icons, concise stats, microcopy and simple line charts to communicate potency and antioxidant claims. \n 4. **Medium**: Vector illustration (icons) combined with macro ingredient photos for visual authenticity; subtle drop shadows for depth.\n 5. **Lighthing**: Flat, even lighting in the illustrations; photographic elements with soft studio light to match the vector pieces. \n 6. **Mood**: Informative, credible, trustworthy — positions product as evidence-backed and transparent. \n 7. **Composition**: Circular or radial layout with central energy symbol; left column for headline and translated pain-point callouts (energy, chronic disease prevention, nutrients), right column for product CTA and limited-time price badge. \n 8. **Color Pallete**: Brand teal #002222 for primary icons, muted greens and oranges to differentiate ingredient groups, neutral greys for copy. CTA: sea-buckthorn orange for urgency; ensure color contrasts pass accessibility."
+                  ],
+                  "GIF Content Brief Image 4": [
+                    "**Image Index**:  4\n**Image Title**: Before / After Energy Timeline\n**Image Content Brief**:  \n 1. **Core Subject**: Split-screen narrative showing a 'before' (tired, fatigued older adult) and 'after' (energetic, engaged same person) with a simple 30/60/90-day timeline and micro-results (sleep, memory, stamina).\n 2. **Background**: Horizontal gradient from desaturated cool grey (left) transitioning to lively teal/green (right) to visually represent improvement. \n 3. **Style**: Contemporary collage + numeric storytelling trend: bold numeric badges, short testimonial quote, progress ticks, and soft candid portraits.\n 4. **Medium**: Photographic portraits combined with graphic overlays (timelines, badges) and product shot anchored near timeline start/finish.\n 5. **Lighthing**: Left: low-contrast, slightly desaturated light. Right: brighter, higher-contrast, warmer light to emphasize vitality. \n 6. **Mood**: Motivational and evidence-driven — credible transformation without overpromising. \n 7. **Composition**: Horizontal split or diagonal sweep; timeline runs along baseline with numbered checkpoints; central product image tied to timeline origin; prominent price/CTA overlay for conversion.\n 8. **Color Pallete**: Left neutrals (#bdbdbd / desaturated grey), right brand teal #002222, fresh green accents, sea-buckthorn orange for checkpoints/CTAs, white/charcoal for copy."
+                  ],
+                  "GIF Content Brief Image 5": [
+                    "**Image Index**: 5\n**Image Title**: Protective Shield — Defense from Environmental Toxins\n**Image Content Brief**:    \n 1. **Core Subject**: Abstract visual: stylized shield or aura made from interwoven Moringa leaves, Sea Buckthorn berries and Acai threads protecting a silhouette of a human figure or cell structure, symbolizing protection from environmental toxins.\n 2. **Background**: Deep teal to near-black gradient with subtle particle textures representing environmental toxins (tiny specks) being deflected.\n 3. **Style**: Semi-abstract 3D + botanical illustration trend — blends realistic textures with modern CGI/glow effects for a premium science-forward look.\n 4. **Medium**: 3D render/composite with high-detail photographic textures for leaves/berries and vector overlays for cell iconography.\n 5. **Lighthing**: Dramatic rim lighting and soft inner glow on the shield; particle highlights get deflected with motion blur for dynamism.\n 6. **Mood**: Protective, empowering, reassuring — positions product as a proactive defense for aging bodies.\n 7. **Composition**: Shield at center or slightly above center, product bottle anchored bottom-right with short overlay copy; top-left reserved for pain-point headline (\"Worried about toxins?\").\n 8. **Color Pallete**: Deep teal #002222, luminous green highlights, white/cool cyan for particle highlights, warm orange accents for berries and CTA. Ensure text contrast and clear CTA color (#FF8C00 recommended)."
+                  ],
+                  "GIF Content Brief Image 6": [
+                    "**Image Index**: 6 \n**Image Title**: September Limited Offer — High-Conversion Promotional Banner \n**Image Content Brief**:  \n 1. **Core Subject**: Clear commerce-focused layout: product box + bottle, prominent price ribbon 'RM299/box' with original price struck-through, limited seats badge and countdown-style urgency icon. \n 2. **Background**: Clean white or very light neutral with subtle leaf confetti pattern; supports multiple ad sizes (FB/IG feed, story, banner). \n 3. **Style**: E-commerce-first design trend: big bold headline, large price tag, simple benefit bullets (daily cup = antioxidant + energy), trust icons (ISO/clinically-tested) and clear CTA button.\n 4. **Medium**: Studio product photography paired with vector price badges and CTA graphics designed for responsive scaling.\n 5. **Lighthing**: Soft studio softbox lighting on product to ensure crisp edges and consistent reflections; badge elements use flat color fills.\n 6. **Mood**: Urgent but trustworthy — encourages immediate purchase through scarcity and clear savings.\n 7. **Composition**: Product on left, large price ribbon and CTA on right; mobile-first safe area; include small edible ingredient icons below product and Montserrat Bold headline with Lato body copy for details.\n 8. **Color Pallete**: White primary background, brand dark #333333 for copy, brand teal #002222 for subtle accents, sea-buckthorn orange (#FF8C00) or warm red for price ribbon and CTA to drive conversions. Use Montserrat for headline and Lato for supporting copy; ensure CTA contrast and legible type sizes for accessibility."
+                  ],
+                  "nc_d8o2___nc_m2m_Ad Visual Gener_nc_d8o2__Ad Vis": [
+                    {
+                      "nc_d8o2__Ad Visual Content Bri_id": 7,
+                      "nc_d8o2___Ad Visual Generator_id": 7,
+                      "Ad Visual Content Brief Generator": {
+                        "Date Created": "2025-09-12",
+                        "Ad Hooks & Angles Generators": 1,
+                        "Generate Ad Visual Content Brief": {
+                          "type": "webhook",
+                          "label": "Generate Ad Visual Content Brief",
+                          "fk_webhook_id": "hkcfa844c1t1vvp9"
+                        },
+                        "Ad Visual Text Overlay Generators": 1,
+                        "Ad Visual Generators": 1,
+                        "Id": 7,
+                        "CreatedAt": "2025-09-12 02:01:14+00:00",
+                        "UpdatedAt": "2025-09-12 15:06:08+00:00",
+                        "Visual Type": "Animated GIF",
+                        "Single Image Visual Content Brief": null,
+                        "Status": "Completed",
+                        "GIF Content Brief Image 1": "**Image Index**: 1\n**Image Title**: Hero Product Vitality Shot\n**Image Content Brief**:  \n 1. **Core Subject**: Central high-resolution bottle of Moringa Elixir surrounded by fresh Moringa leaves, Sea Buckthorn berries and Acai clusters (floating/partially submerged) to visually communicate ingredients and potency.\n 2. **Background**: Deep charcoal-to-deep-teal subtle gradient (#333333 → #002222) with a very faint botanical texture to imply nature without clutter.\n 3. **Style**: Premium minimal + botanical photography trend: clean negative space, large product hero, modern serif-like headline (Montserrat) and simple body copy (Lato). Use flat, elegant graphics for small badges (\"75 plants\", \"20 fruits & veg\").\n 4. **Medium**: High-res studio photograph of the bottle composited with macro photos of ingredients; light vector callouts and icons for ingredient badges.\n 5. **Lighthing**: Soft directional rim and top-key lighting to create a glossy, premium sheen on the bottle; subtle backlight to make leaves and berries pop (soft halo).\n 6. **Mood**: Trustworthy, energizing, premium — health-focused but aspirational (active aging).\n 7. **Composition**: Centered vertical hero bottle with ingredient cluster layered in foreground and slightly off-center; headline in upper third with CTA badge bottom-right. Leave safe negative space for legible copy on mobile.\n 8. **Color Pallete**: Primary: #002222 (accent teal), #333333 (dark), #ffffff (light). Accents: Sea-buckthorn orange (#FF8C00), natural greens (#4CAF50) and warm gold (#E6C24A) for badges. Text: white or off-white on dark background; dark charcoal for light backgrounds.",
+                        "GIF Content Brief Image 2": "**Image Index**: 2 \n**Image Title**: Active Aging Lifestyle Portrait \n**Image Content Brief**:  \n 1. **Core Subject**: Authentic lifestyle portrait of a vibrant person in their sixties (gardening, walking, laughing with family) holding a single serving cup or bottle of Moringa Elixir — product appears natural in life.  \n 2. **Background**: Warm, shallow-depth garden or home terrace scene with bokeh; sunlight/golden hour tones to create warmth and approachability.  \n 3. **Style**: Candid lifestyle photography following current 'real, unretouched' trend for health brands; film-like color grade with slight grain for nostalgia and trust. \n 4. **Medium**: Natural photographic portrait (environmental) with a small inset product shot or floating product badge for clarity in ad formats. \n 5. **Lighthing**: Golden hour warm key light, soft fill; gentle rim to separate subject from background. \n 6. **Mood**: Relatable, aspirational, hopeful — shows longevity and active living rather than youth fetishizing. \n 7. **Composition**: Rule of thirds: subject on left or right with negative space for headline and CTA; overlay headline using Montserrat Bold; body in Lato regular. CTA button prominent bottom corner. \n 8. **Color Pallete**: Warm earth tones (muted ochres, soft greens), brand teal for subtle accents (#002222), sea-buckthorn orange (#FF8C00) for CTA. Text: high-contrast white on darker overlays or dark text on light backgrounds.",
+                        "GIF Content Brief Image 3": "**Image Index**: 3  \n**Image Title**: Ingredient Mosaic — Science Meets Nature \n**Image Content Brief**: \n 1. **Core Subject**: Data-rich mosaic illustrating the 75 plant minerals and 20 fruits & vegetables — small botanical icons/photographs arranged around a central 'cell-energy' icon and a product thumbnail. \n 2. **Background**: Clean off-white or very light textured paper to convey scientific clarity and naturalness. \n 3. **Style**: Modern infographic/flat-illustration trend: friendly vector icons, concise stats, microcopy and simple line charts to communicate potency and antioxidant claims. \n 4. **Medium**: Vector illustration (icons) combined with macro ingredient photos for visual authenticity; subtle drop shadows for depth.\n 5. **Lighthing**: Flat, even lighting in the illustrations; photographic elements with soft studio light to match the vector pieces. \n 6. **Mood**: Informative, credible, trustworthy — positions product as evidence-backed and transparent. \n 7. **Composition**: Circular or radial layout with central energy symbol; left column for headline and translated pain-point callouts (energy, chronic disease prevention, nutrients), right column for product CTA and limited-time price badge. \n 8. **Color Pallete**: Brand teal #002222 for primary icons, muted greens and oranges to differentiate ingredient groups, neutral greys for copy. CTA: sea-buckthorn orange for urgency; ensure color contrasts pass accessibility.",
+                        "GIF Content Brief Image 4": "**Image Index**:  4\n**Image Title**: Before / After Energy Timeline\n**Image Content Brief**:  \n 1. **Core Subject**: Split-screen narrative showing a 'before' (tired, fatigued older adult) and 'after' (energetic, engaged same person) with a simple 30/60/90-day timeline and micro-results (sleep, memory, stamina).\n 2. **Background**: Horizontal gradient from desaturated cool grey (left) transitioning to lively teal/green (right) to visually represent improvement. \n 3. **Style**: Contemporary collage + numeric storytelling trend: bold numeric badges, short testimonial quote, progress ticks, and soft candid portraits.\n 4. **Medium**: Photographic portraits combined with graphic overlays (timelines, badges) and product shot anchored near timeline start/finish.\n 5. **Lighthing**: Left: low-contrast, slightly desaturated light. Right: brighter, higher-contrast, warmer light to emphasize vitality. \n 6. **Mood**: Motivational and evidence-driven — credible transformation without overpromising. \n 7. **Composition**: Horizontal split or diagonal sweep; timeline runs along baseline with numbered checkpoints; central product image tied to timeline origin; prominent price/CTA overlay for conversion.\n 8. **Color Pallete**: Left neutrals (#bdbdbd / desaturated grey), right brand teal #002222, fresh green accents, sea-buckthorn orange for checkpoints/CTAs, white/charcoal for copy.",
+                        "GIF Content Brief Image 5": "**Image Index**: 5\n**Image Title**: Protective Shield — Defense from Environmental Toxins\n**Image Content Brief**:    \n 1. **Core Subject**: Abstract visual: stylized shield or aura made from interwoven Moringa leaves, Sea Buckthorn berries and Acai threads protecting a silhouette of a human figure or cell structure, symbolizing protection from environmental toxins.\n 2. **Background**: Deep teal to near-black gradient with subtle particle textures representing environmental toxins (tiny specks) being deflected.\n 3. **Style**: Semi-abstract 3D + botanical illustration trend — blends realistic textures with modern CGI/glow effects for a premium science-forward look.\n 4. **Medium**: 3D render/composite with high-detail photographic textures for leaves/berries and vector overlays for cell iconography.\n 5. **Lighthing**: Dramatic rim lighting and soft inner glow on the shield; particle highlights get deflected with motion blur for dynamism.\n 6. **Mood**: Protective, empowering, reassuring — positions product as a proactive defense for aging bodies.\n 7. **Composition**: Shield at center or slightly above center, product bottle anchored bottom-right with short overlay copy; top-left reserved for pain-point headline (\"Worried about toxins?\").\n 8. **Color Pallete**: Deep teal #002222, luminous green highlights, white/cool cyan for particle highlights, warm orange accents for berries and CTA. Ensure text contrast and clear CTA color (#FF8C00 recommended).",
+                        "GIF Content Brief Image 6": "**Image Index**: 6 \n**Image Title**: September Limited Offer — High-Conversion Promotional Banner \n**Image Content Brief**:  \n 1. **Core Subject**: Clear commerce-focused layout: product box + bottle, prominent price ribbon 'RM299/box' with original price struck-through, limited seats badge and countdown-style urgency icon. \n 2. **Background**: Clean white or very light neutral with subtle leaf confetti pattern; supports multiple ad sizes (FB/IG feed, story, banner). \n 3. **Style**: E-commerce-first design trend: big bold headline, large price tag, simple benefit bullets (daily cup = antioxidant + energy), trust icons (ISO/clinically-tested) and clear CTA button.\n 4. **Medium**: Studio product photography paired with vector price badges and CTA graphics designed for responsive scaling.\n 5. **Lighthing**: Soft studio softbox lighting on product to ensure crisp edges and consistent reflections; badge elements use flat color fills.\n 6. **Mood**: Urgent but trustworthy — encourages immediate purchase through scarcity and clear savings.\n 7. **Composition**: Product on left, large price ribbon and CTA on right; mobile-first safe area; include small edible ingredient icons below product and Montserrat Bold headline with Lato body copy for details.\n 8. **Color Pallete**: White primary background, brand dark #333333 for copy, brand teal #002222 for subtle accents, sea-buckthorn orange (#FF8C00) or warm red for price ribbon and CTA to drive conversions. Use Montserrat for headline and Lato for supporting copy; ensure CTA contrast and legible type sizes for accessibility.",
+                        "GIF Content Brief (JSON Structure)": "[{\"adVisualImageIndex\":1,\"adVisualImageTitle\":\"Hero Product Vitality Shot\",\"visualContentBrief\":{\"coreSubject\":\"Central high-resolution bottle of Moringa Elixir surrounded by fresh Moringa leaves, Sea Buckthorn berries and Acai clusters (floating/partially submerged) to visually communicate ingredients and potency.\",\"background\":\"Deep charcoal-to-deep-teal subtle gradient (#333333 → #002222) with a very faint botanical texture to imply nature without clutter.\",\"style\":\"Premium minimal + botanical photography trend: clean negative space, large product hero, modern serif-like headline (Montserrat) and simple body copy (Lato). Use flat, elegant graphics for small badges (\\\"75 plants\\\", \\\"20 fruits & veg\\\").\",\"medium\":\"High-res studio photograph of the bottle composited with macro photos of ingredients; light vector callouts and icons for ingredient badges.\",\"lighthing\":\"Soft directional rim and top-key lighting to create a glossy, premium sheen on the bottle; subtle backlight to make leaves and berries pop (soft halo).\",\"mood\":\"Trustworthy, energizing, premium — health-focused but aspirational (active aging).\",\"composition\":\"Centered vertical hero bottle with ingredient cluster layered in foreground and slightly off-center; headline in upper third with CTA badge bottom-right. Leave safe negative space for legible copy on mobile.\",\"colorPallete\":\"Primary: #002222 (accent teal), #333333 (dark), #ffffff (light). Accents: Sea-buckthorn orange (#FF8C00), natural greens (#4CAF50) and warm gold (#E6C24A) for badges. Text: white or off-white on dark background; dark charcoal for light backgrounds.\"}},{\"adVisualImageIndex\":2,\"adVisualImageTitle\":\"Active Aging Lifestyle Portrait\",\"visualContentBrief\":{\"coreSubject\":\"Authentic lifestyle portrait of a vibrant person in their sixties (gardening, walking, laughing with family) holding a single serving cup or bottle of Moringa Elixir — product appears natural in life.\",\"background\":\"Warm, shallow-depth garden or home terrace scene with bokeh; sunlight/golden hour tones to create warmth and approachability.\",\"style\":\"Candid lifestyle photography following current 'real, unretouched' trend for health brands; film-like color grade with slight grain for nostalgia and trust.\",\"medium\":\"Natural photographic portrait (environmental) with a small inset product shot or floating product badge for clarity in ad formats.\",\"lighthing\":\"Golden hour warm key light, soft fill; gentle rim to separate subject from background.\",\"mood\":\"Relatable, aspirational, hopeful — shows longevity and active living rather than youth fetishizing.\",\"composition\":\"Rule of thirds: subject on left or right with negative space for headline and CTA; overlay headline using Montserrat Bold; body in Lato regular. CTA button prominent bottom corner.\",\"colorPallete\":\"Warm earth tones (muted ochres, soft greens), brand teal for subtle accents (#002222), sea-buckthorn orange (#FF8C00) for CTA. Text: high-contrast white on darker overlays or dark text on light backgrounds.\"}},{\"adVisualImageIndex\":3,\"adVisualImageTitle\":\"Ingredient Mosaic — Science Meets Nature\",\"visualContentBrief\":{\"coreSubject\":\"Data-rich mosaic illustrating the 75 plant minerals and 20 fruits & vegetables — small botanical icons/photographs arranged around a central 'cell-energy' icon and a product thumbnail.\",\"background\":\"Clean off-white or very light textured paper to convey scientific clarity and naturalness.\",\"style\":\"Modern infographic/flat-illustration trend: friendly vector icons, concise stats, microcopy and simple line charts to communicate potency and antioxidant claims.\",\"medium\":\"Vector illustration (icons) combined with macro ingredient photos for visual authenticity; subtle drop shadows for depth.\",\"lighthing\":\"Flat, even lighting in the illustrations; photographic elements with soft studio light to match the vector pieces.\",\"mood\":\"Informative, credible, trustworthy — positions product as evidence-backed and transparent.\",\"composition\":\"Circular or radial layout with central energy symbol; left column for headline and translated pain-point callouts (energy, chronic disease prevention, nutrients), right column for product CTA and limited-time price badge.\",\"colorPallete\":\"Brand teal #002222 for primary icons, muted greens and oranges to differentiate ingredient groups, neutral greys for copy. CTA: sea-buckthorn orange for urgency; ensure color contrasts pass accessibility.\"}},{\"adVisualImageIndex\":4,\"adVisualImageTitle\":\"Before / After Energy Timeline\",\"visualContentBrief\":{\"coreSubject\":\"Split-screen narrative showing a 'before' (tired, fatigued older adult) and 'after' (energetic, engaged same person) with a simple 30/60/90-day timeline and micro-results (sleep, memory, stamina).\",\"background\":\"Horizontal gradient from desaturated cool grey (left) transitioning to lively teal/green (right) to visually represent improvement.\",\"style\":\"Contemporary collage + numeric storytelling trend: bold numeric badges, short testimonial quote, progress ticks, and soft candid portraits.\",\"medium\":\"Photographic portraits combined with graphic overlays (timelines, badges) and product shot anchored near timeline start/finish.\",\"lighthing\":\"Left: low-contrast, slightly desaturated light. Right: brighter, higher-contrast, warmer light to emphasize vitality.\",\"mood\":\"Motivational and evidence-driven — credible transformation without overpromising.\",\"composition\":\"Horizontal split or diagonal sweep; timeline runs along baseline with numbered checkpoints; central product image tied to timeline origin; prominent price/CTA overlay for conversion.\",\"colorPallete\":\"Left neutrals (#bdbdbd / desaturated grey), right brand teal #002222, fresh green accents, sea-buckthorn orange for checkpoints/CTAs, white/charcoal for copy.\"}},{\"adVisualImageIndex\":5,\"adVisualImageTitle\":\"Protective Shield — Defense from Environmental Toxins\",\"visualContentBrief\":{\"coreSubject\":\"Abstract visual: stylized shield or aura made from interwoven Moringa leaves, Sea Buckthorn berries and Acai threads protecting a silhouette of a human figure or cell structure, symbolizing protection from environmental toxins.\",\"background\":\"Deep teal to near-black gradient with subtle particle textures representing environmental toxins (tiny specks) being deflected.\",\"style\":\"Semi-abstract 3D + botanical illustration trend — blends realistic textures with modern CGI/glow effects for a premium science-forward look.\",\"medium\":\"3D render/composite with high-detail photographic textures for leaves/berries and vector overlays for cell iconography.\",\"lighthing\":\"Dramatic rim lighting and soft inner glow on the shield; particle highlights get deflected with motion blur for dynamism.\",\"mood\":\"Protective, empowering, reassuring — positions product as a proactive defense for aging bodies.\",\"composition\":\"Shield at center or slightly above center, product bottle anchored bottom-right with short overlay copy; top-left reserved for pain-point headline (\\\"Worried about toxins?\\\").\",\"colorPallete\":\"Deep teal #002222, luminous green highlights, white/cool cyan for particle highlights, warm orange accents for berries and CTA. Ensure text contrast and clear CTA color (#FF8C00 recommended).\"}},{\"adVisualImageIndex\":6,\"adVisualImageTitle\":\"September Limited Offer — High-Conversion Promotional Banner\",\"visualContentBrief\":{\"coreSubject\":\"Clear commerce-focused layout: product box + bottle, prominent price ribbon 'RM299/box' with original price struck-through, limited seats badge and countdown-style urgency icon.\",\"background\":\"Clean white or very light neutral with subtle leaf confetti pattern; supports multiple ad sizes (FB/IG feed, story, banner).\",\"style\":\"E-commerce-first design trend: big bold headline, large price tag, simple benefit bullets (daily cup = antioxidant + energy), trust icons (ISO/clinically-tested) and clear CTA button.\",\"medium\":\"Studio product photography paired with vector price badges and CTA graphics designed for responsive scaling.\",\"lighthing\":\"Soft studio softbox lighting on product to ensure crisp edges and consistent reflections; badge elements use flat color fills.\",\"mood\":\"Urgent but trustworthy — encourages immediate purchase through scarcity and clear savings.\",\"composition\":\"Product on left, large price ribbon and CTA on right; mobile-first safe area; include small edible ingredient icons below product and Montserrat Bold headline with Lato body copy for details.\",\"colorPallete\":\"White primary background, brand dark #333333 for copy, brand teal #002222 for subtle accents, sea-buckthorn orange (#FF8C00) or warm red for price ribbon and CTA to drive conversions. Use Montserrat for headline and Lato for supporting copy; ensure CTA contrast and legible type sizes for accessibility.\"}}]"
+                      }
+                    }
+                  ],
+                  "nc_d8o2___nc_m2m_Ad Visual Gener_Ad Visual Text s": [
+                    {
+                      "nc_d8o2___Ad Visual Text Overl_id": 7,
+                      "nc_d8o2___Ad Visual Generator_id": 7,
+                      "Ad Visual Text Overlay Generator": {
+                        "Date Created": "2025-09-12",
+                        "Ad Hooks & Angles Generators": 1,
+                        "Gererate Visual Text Overlay": {
+                          "type": "webhook",
+                          "label": "Gererate Visual Text Overlay",
+                          "fk_webhook_id": "hk5spny485dd4wgn"
+                        },
+                        "Ad Visual Content Brief Generators": 1,
+                        "Ad Visual Generators": 1,
+                        "Id": 7,
+                        "CreatedAt": "2025-09-12 04:25:57+00:00",
+                        "UpdatedAt": "2025-09-12 15:08:16+00:00",
+                        "Single Image Text Overlay": null,
+                        "Status": "Completed",
+                        "GIF Image Text Overlay 1": "**Visual Image Index**: 1\n**Visual Image Title**: Hero Product Vitality Shot\n**Headline**: 精萃“生命之树”\n**Sub-headline**: 结合辣木、沙棘和巴西莓的超级配方\n**Key Highlights**: 补充能量, 高效抗氧, 细胞再生\n**Callout**: \n**Call To Action**: \n\n",
+                        "GIF Image Text Overlay 2": "**Visual Image Index**: 2 \n**Visual Image Title**: Active Aging Lifestyle Portrait **Headline**: 岁月流逝, 活力不再？\n**Sub-headline**: 别让精力衰退和健忘影响您的黄金年华\n**Key Highlights**: \n**Callout**: \n**Call To Action**: \n",
+                        "GIF Image Text Overlay 3": "**Visual Image Index**: 3  \n**Visual Image Title**: Ingredient Mosaic — Science Meets Nature \n**Headline**: 科学验证的天然力量 \n**Sub-headline**: 一杯富含75种植物矿物质和20种蔬果精华 \n**Key Highlights**: 增强免疫力, 对抗自由基, 预防三高\n**Callout**: \n**Call To Action**: ",
+                        "GIF Image Text Overlay 4": "**Visual Image Index**: 4\n**Visual Image Title**: Before / After Energy Timeline\n**Headline**: 见证活力回归\n**Sub-headline**: 从疲惫到精力充沛，只需30天！\n**Key Highlights**: 改善睡眠, 增强记忆, 提升耐力\n**Callout**: \n**Call To Action**: ",
+                        "GIF Image Text Overlay 5": "**Visual Image Index**: 5\n**Visual Image Title**: Protective Shield — Defense from Environmental Toxins\n**Headline**: 启动身体的“金钟罩”\n**Sub-headline**: 对抗环境毒素，守护细胞健康\n**Key Highlights**: 过滤毒素, 强化防护, 延缓衰老\n**Callout**: \n**Call To Action**: ",
+                        "GIF Image Text Overlay 6": "**Visual Image Index**: 6\n**Visual Image Title**: September Limited Offer — High-Conversion Promotional Banner\n**Headline**: 九月限时优惠！\n**Sub-headline**: 立即以RM299/盒的价格，开启您的健康之旅\n**Key Highlights**: \n**Callout**: 原价RM320, 立即节省RM21!\n**Call To Action**: 立即购买"
+                      }
+                    }
+                  ],
+                  "Target Language": [
+                    "Malaysian Chinese"
+                  ],
+                  "Version": [
+                    "Version 1"
+                  ],
+                  "Focus Product": [
+                    "Moringa Elixir"
+                  ]
+                }
+              ]
+            }
+          },
+          "webhookUrl": "https://n8n-1.moreenga.com/webhook-test/fb-ad-visual-generator",
+          "executionMode": "test"
+        }
+      }
+    ],
+    "Prompt Optimizer": [
+      {
+        "json": {
+          "candidates": [
+            {
+              "content": {
+                "parts": [
+                  {
+                    "text": "Primary Subject Animation:The Moreenga Moringa Elixir product box and the smaller sachet subtly shift and levitate a few millimeters, exhibiting a very gentle, almost imperceptible pulsation. A soft, warm gold light gently pulses from behind the \"Moringa Elixir\" logo on both the box and the sachet, creating a subtle internal glow that highlights the typography. The sachet in the foreground performs a slight, graceful rotation along its vertical axis to present its full face.Environmental & Background Animation:The plain black background gradually and smoothly transitions over the duration of the clip into a deep charcoal-to-deep-teal gradient (#333333 → #002222), expanding outward from the center. Simultaneously, a very faint, shimmering botanical texture subtly emerges and slowly undulates across the evolving background, hinting at organic forms without clutter. Fresh Moringa leaves, rendered in natural greens with delicate vein details, elegantly float into the frame from the top-left and top-right corners, drifting gracefully and slowly rotating around the product. Small clusters of vibrant Sea Buckthorn berries (sea-buckthorn orange #FF8C00) and deep purple Acai clusters gently rise into the frame from the bottom, appearing to be suspended or slowly swirling around the product. All floating natural elements exhibit a subtle, naturalistic, slow, and random drift, as if in a very gentle, clear current.Atmospheric Effects:Soft, diffuse, premium-quality volumetric lighting gradually develops, casting subtle, ethereal rays of light that gently illuminate the product and the surrounding floating ingredients, enhancing depth and luxury. A very subtle, almost imperceptible shimmer or fine mist effect is present in the air, enhancing the natural, fresh ambiance. The overall scene gains a luxurious, soft-focus bloom effect, particularly on highlights, making the image appear rich and inviting.Camera Movement:An extremely slow, deliberate, and smooth dolly zoom initiates, pushing the virtual camera gently forward towards the product box, enhancing its prominence as a hero element. Concurrently, a microscopic, smooth, and gentle pan movement occurs, very slightly shifting the entire frame to the left, then to the right, over the duration of the clip, adding a dynamic, yet serene, presence to the scene.Overall Style:Premium, minimal, and botanical photography aesthetic. The video features clean negative space, emphasizing the product as a hero. The animation showcases a graceful transformation from a simple black background to a rich, textured, gradient background, dynamically introducing floating, natural ingredients. The animation is highly realistic, with luxurious textures and organic, fluid motion. The mood is trustworthy, energizing, and aspirational, conveying health and active aging. The evolving color palette incorporates deep teal, dark charcoal, and white, accented by sea-buckthorn orange, natural greens, and warm gold."
+                  }
+                ],
+                "role": "model"
+              },
+              "finishReason": "STOP",
+              "index": 0
+            }
+          ],
+          "usageMetadata": {
+            "promptTokenCount": 2068,
+            "candidatesTokenCount": 572,
+            "totalTokenCount": 5336,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1810
+              },
+              {
+                "modality": "IMAGE",
+                "tokenCount": 258
+              }
+            ],
+            "thoughtsTokenCount": 2696
+          },
+          "modelVersion": "gemini-2.5-flash",
+          "responseId": "TUPEaPWbKbC0qtsPlr6WwAo"
+        }
+      },
+      {
+        "json": {
+          "candidates": [
+            {
+              "content": {
+                "parts": [
+                  {
+                    "text": "**Primary Subject Animation:** A vibrant person in their early sixties, with a warm, genuine smile and sparkling eyes, gently turns their head towards the camera, holding a single-serving branded cup of \"Moringa Elixir\" (featuring the distinct \"Moringa Elixir\" logo and \"Moreenga\" branding from the source image). Their fingers subtly adjust their grip on the cup; a soft, contented breath is taken. Their eyes convey peaceful joy and active engagement with life, as if sharing a pleasant moment. **Environmental & Background Animation:** The setting is a sun-drenched, shallow-depth garden or home terrace. Lush, soft green foliage and flowering plants subtly sway in a gentle breeze, creating a dreamy bokeh effect. Sunlight filters through leaves, casting moving dappled light patterns on the ground and subject's clothes. A small, healthy plant nearby shows a single leaf gently unfurling. **Atmospheric Effects:** Warm, golden hour light bathes the scene, creating soft highlights. Subtle, atmospheric lens flares gently kiss the frame edges. Almost imperceptible dust motes or pollen float and dance in the sunbeams. A very fine, artistic film grain is present across the image, enhancing the unretouched, nostalgic quality. **Camera Movement:** A very slow, deliberate push-in or a gentle, smooth lateral tracking shot brings the subject slightly more into frame, maintaining a rule of thirds composition with the person positioned on the right side. The camera movement is fluid and unobtrusive, designed to enhance intimacy and connection. **Overall Style:** Authentic, candid lifestyle photography with a \"real, unretouched\" aesthetic. Color grade is warm and film-like, leaning into muted ochres, soft greens, and natural skin tones. Mood is relatable, aspirational, evoking longevity, vitality, and active living. High-resolution, sharp yet soft, and emotionally resonant. **Text Overlay:** \"Embrace Active Aging.\" (Montserrat Bold, high-contrast white) appears integrated top-left, subtly fading in. Below it: \"Fuel your vibrant life with Moringa Elixir.\" (Lato regular, high-contrast white) fades in. A prominent button with \"Learn More\" (simple sans-serif bold, white text on sea-buckthorn orange #FF8C00 background) appears bottom-right, subtly pulsating."
+                  }
+                ],
+                "role": "model"
+              },
+              "finishReason": "STOP",
+              "index": 0
+            }
+          ],
+          "usageMetadata": {
+            "promptTokenCount": 1791,
+            "candidatesTokenCount": 473,
+            "totalTokenCount": 4785,
+            "cachedContentTokenCount": 637,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1533
+              },
+              {
+                "modality": "IMAGE",
+                "tokenCount": 258
+              }
+            ],
+            "cacheTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 546
+              },
+              {
+                "modality": "IMAGE",
+                "tokenCount": 91
+              }
+            ],
+            "thoughtsTokenCount": 2521
+          },
+          "modelVersion": "gemini-2.5-flash",
+          "responseId": "YUPEaOarA-q4mtkPnJfJyAQ"
+        }
+      },
+      {
+        "json": {
+          "candidates": [
+            {
+              "content": {
+                "parts": [
+                  {
+                    "text": "Primary Subject Animation:The animation begins with a clean, off-white textured paper background. A central, stylized 'cell-energy' icon emerges, softly pulsating with a warm glow. From this core, an intricate radial or circular mosaic of 75 distinct plant mineral icons and 20 macro photographs of fruits & vegetables dynamically materializes. Each small botanical icon and photo subtly spins into place or radiates outwards, forming concentric rings or clusters around the central icon. The product thumbnail (the black \"Moringa Elixir\" box and sachet from the source image, stylized slightly to fit the infographic, perhaps with a subtle white outline) then slides into place as a prominent anchor within this central area. Concise statistics and microcopy associated with each ingredient or group of ingredients appear alongside their respective icons/photos with a gentle fade-in, some accompanied by simple, animating line charts that graph potency or antioxidant claims. Simultaneously, a headline and pain-point callouts (Energy, Chronic Disease Prevention, Nutrients) elegantly appear in a left-aligned column, while a bold Product Call to Action (CTA) and a Limited-Time Price Badge animate into position on the right, with the CTA subtly glowing or pulsing to signify urgency.Environmental & Background Animation:The clean off-white background remains static, subtly textured like paper, providing a stable canvas for the dynamic infographic. Subtle, barely perceptible light particles or 'data points' might drift across the background, reinforcing the \"data-rich\" aspect without distracting from the primary elements.Atmospheric Effects:A soft, even studio light illuminates the entire scene, ensuring clarity and readability. Subtle drop shadows beneath the icons, photographs, and text elements create a sense of depth and professionalism. The central 'cell-energy' icon emits a very soft, warm, pulsating glow. The overall impression is one of crisp, clean, and meticulously presented information.Camera Movement:The animation starts with a slight pull-back, revealing the full scope of the infographic as it assembles. A very subtle, slow, and smooth circular pan or orbit around the central 'cell-energy' icon and product thumbnail could occur, allowing the viewer to appreciate the radial arrangement of ingredients. The camera maintains a clear, informative perspective throughout.Overall Style:Modern, clean, and highly informative infographic style with a flat-illustration aesthetic for icons, combined with authentic, high-resolution macro photographs for ingredients. The mood is credible, trustworthy, and transparent, emphasizing scientific evidence. Brand teal (#002222) for primary icons, muted greens and oranges for ingredient differentiation, neutral greys for copy. The Call to Action (CTA) and price badge utilize a vibrant sea-buckthorn orange for urgency and clear contrast, all designed for optimal accessibility."
+                  }
+                ],
+                "role": "model"
+              },
+              "finishReason": "STOP",
+              "index": 0
+            }
+          ],
+          "usageMetadata": {
+            "promptTokenCount": 2024,
+            "candidatesTokenCount": 558,
+            "totalTokenCount": 4174,
+            "cachedContentTokenCount": 667,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1766
+              },
+              {
+                "modality": "IMAGE",
+                "tokenCount": 258
+              }
+            ],
+            "cacheTokensDetails": [
+              {
+                "modality": "IMAGE",
+                "tokenCount": 85
+              },
+              {
+                "modality": "TEXT",
+                "tokenCount": 582
+              }
+            ],
+            "thoughtsTokenCount": 1592
+          },
+          "modelVersion": "gemini-2.5-flash",
+          "responseId": "cUPEaLTDAqiVmtkP8f6MwAo"
+        }
+      },
+      {
+        "json": {
+          "candidates": [
+            {
+              "content": {
+                "parts": [
+                  {
+                    "text": "Primary Subject Animation: On the left side of a dynamically splitting screen, an older adult, initially depicted in a candid photographic portrait, subtly shows signs of fatigue: a slight slump in the shoulders, a gentle blink of heavy eyelids, a faint sigh. As the split-screen smoothly transitions rightwards, the same individual's posture straightens, their eyes sparkle with renewed alertness, and a genuine, relaxed smile spreads across their face, conveying a sense of improved well-being and engagement. Subtle, naturalistic movements, such as a slight shift in weight or a confident nod, illustrate their newfound energy.Environmental & Background Animation: The background dynamically transforms across the horizontal split. The left side features a desaturated cool grey, almost monochrome, with a subtle, very slow, almost imperceptible drifting of soft, low-contrast shadows. As the split moves right, this seamlessly transitions into a lively teal and fresh green horizontal gradient, softly animated with a gentle, slow pulse of light, suggesting vitality and growth. The subtle geometric pattern from the product packaging (as seen in the original image) subtly appears and fades on the right side as a texture overlay.Atmospheric Effects: The lighting shifts dramatically from left to right: the 'before' side is characterized by soft, diffused, low-contrast illumination with a cool color temperature. As the scene moves towards the 'after' state on the right, the lighting becomes brighter, higher-contrast, and infused with warmer, golden hues, suggesting morning light or renewed vigor. A faint, almost imperceptible glowing aura surrounds the 'after' side, emphasizing a positive shift.Camera Movement: A dynamic, smooth horizontal split or diagonal sweep motion divides the 'before' and 'after' scenes, steadily revealing more of the 'after' transformation. The camera maintains a stable eye-level perspective, allowing the viewer to absorb the details of both states simultaneously. A subtle, slow push-in or zoom towards the center of the frame occurs as the transition completes, momentarily highlighting the core message of transformation before a wider view encompassing the graphic overlays.Overall Style: A contemporary and inspiring collage aesthetic, blending soft candid photographic portraits with clean, bold graphic overlays and numeric storytelling. The video evokes a motivational, evidence-driven mood, emphasizing credible transformation without exaggeration. The color palette prominently features desaturated greys and deep charcoals on the left, transitioning to vibrant teal, fresh green, and sea-buckthorn orange accents on the right, with gold hints derived from the product packaging. The visual elements are crisp, high-definition, and strategically placed for maximum impact and conversion.Graphic Overlays Animation: Along the baseline, a sleek, animated 30/60/90-day timeline gracefully appears. Numeric badges (e.g., \"30\", \"60\", \"90\") in a bold sans-serif font, colored white/charcoal and accented with sea-buckthorn orange, subtly animate into view at their respective checkpoints. Accompanying micro-result texts (e.g., \"Improved Sleep,\" \"Sharper Memory,\" \"More Stamina\") in a simple sans-serif font animate in alongside their corresponding badges, with subtle progress ticks appearing to mark achievements. A short testimonial quote, elegantly presented in a legible serif or sans-serif, drifts into the 'after' section or centrally. Crucially, the provided product image (the \"Moreenga Moringa Elixir\" box and sachet from the original input image) animates into place near the timeline's start point, subtly fading in and casting a soft golden glow as if initiating the transformation. A prominent Call-to-Action (CTA) such as \"Shop Now\" or a price point in bold sea-buckthorn orange or white, animates into the foreground, positioned for optimal conversion."
+                  }
+                ],
+                "role": "model"
+              },
+              "finishReason": "STOP",
+              "index": 0
+            }
+          ],
+          "usageMetadata": {
+            "promptTokenCount": 2085,
+            "candidatesTokenCount": 771,
+            "totalTokenCount": 5249,
+            "cachedContentTokenCount": 673,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1827
+              },
+              {
+                "modality": "IMAGE",
+                "tokenCount": 258
+              }
+            ],
+            "cacheTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 590
+              },
+              {
+                "modality": "IMAGE",
+                "tokenCount": 83
+              }
+            ],
+            "thoughtsTokenCount": 2393
+          },
+          "modelVersion": "gemini-2.5-flash",
+          "responseId": "hEPEaIf2GIbRz7IPzYbn-Qw"
+        }
+      },
+      {
+        "json": {
+          "candidates": [
+            {
+              "content": {
+                "parts": [
+                  {
+                    "text": "Primary Subject Animation:The central silhouette of a human figure or cell structure initially appears vulnerable, subtly pulsating. From its core, intricate golden threads resembling stylized Moringa leaves, vibrant orange Sea Buckthorn berries, and deep purple Acai threads begin to rapidly weave and expand outward, forming a shimmering, multi-layered protective shield around the silhouette. This shield actively undulates with a soft inner glow as fine, subtle particle textures (environmental toxins) approach it. Each toxin particle, upon contact, is dramatically deflected and repelled with a visible burst of cool cyan light and a brief motion blur effect, demonstrating the shield's proactive defense.Environmental & Background Animation:The deep teal to near-black gradient background is alive with a subtle, dynamic texture of tiny, dimly glowing specks, representing environmental toxins, which constantly drift and swirl towards the central protective shield. As toxins are deflected, the surrounding background subtly shifts its deeper teal tones, creating a sense of energy and protective force radiating outwards.Atmospheric Effects:Dramatic rim lighting intensifies around the edges of the forming and active shield, highlighting its intricate botanical details. A soft, warm golden inner glow pulsates from within the shield, radiating outwards, creating an aura of vitality and protection. The deflected toxin particles emit a brief, cool cyan light burst, adding contrast and emphasizing the protective action. A subtle, ethereal mist or very fine, slow-moving dust motes can be seen in the deeper background, adding to the premium and sci-fi aesthetic.Camera Movement:The sequence begins with a very slow, almost imperceptible dolly zoom, gently pulling back to reveal the full scope of the human/cell silhouette as the toxins drift in. As the protective shield begins to form, a subtle, elegant orbit shot slowly rotates around the central elements, showcasing the shield's 3D complexity and the active deflection from multiple angles. The camera then smoothly transitions, possibly with a subtle pull-back and pan, to center the \"Moringa Elixir\" product box and sachet (from the source image) in the bottom-right, revealing them as the source of the protective energy.Overall Style:A sophisticated blend of semi-abstract 3D botanical illustration with hyperrealistic textures for organic elements and advanced CGI glow effects. The aesthetic is premium, science-forward, protective, empowering, and reassuring, positioning the product as a proactive defense against aging. The final reveal of the product is sleek and aspirational, maintaining the high-fidelity visual quality."
+                  }
+                ],
+                "role": "model"
+              },
+              "finishReason": "STOP",
+              "index": 0
+            }
+          ],
+          "usageMetadata": {
+            "promptTokenCount": 1841,
+            "candidatesTokenCount": 502,
+            "totalTokenCount": 4306,
+            "cachedContentTokenCount": 644,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1583
+              },
+              {
+                "modality": "IMAGE",
+                "tokenCount": 258
+              }
+            ],
+            "cacheTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 554
+              },
+              {
+                "modality": "IMAGE",
+                "tokenCount": 90
+              }
+            ],
+            "thoughtsTokenCount": 1963
+          },
+          "modelVersion": "gemini-2.5-flash",
+          "responseId": "lUPEaL3-G5ehz7IPlO3DgQM"
+        }
+      },
+      {
+        "json": {
+          "candidates": [
+            {
+              "content": {
+                "parts": [
+                  {
+                    "text": "Primary Subject Animation:The \"Moringa Elixir\" product box stands prominently, subtly rotating a few degrees to showcase its sides, then settling. A single \"Moringa Elixir\" sachet smoothly slides in from the bottom-right of the frame, rotating slightly as it settles horizontally in front of the box. Both the box and sachet exhibit a gentle, almost imperceptible breathing pulse, and a faint golden shimmer passes across their 'Moringa Elixir' logos, drawing attention to the brand.Environmental & Background Animation:The subtle leaf confetti pattern in the clean white background gently floats upwards and drifts across the frame from left to right, creating a sense of natural movement and freshness. A soft, radial glow subtly pulses from behind the main product, highlighting it.Atmospheric Effects:The headline '⚡️ Limited-Time Offer! ⚡️' appears with an energetic pop, the lightning bolts briefly flickering. Concurrently, a vibrant sea-buckthorn orange (or warm red) price ribbon dynamically expands into view. Within it, 'RM299/box' (Montserrat Bold) appears boldly, followed by the struck-through 'RM399/box' (Lato) fading in briefly above it before diminishing, emphasizing the savings. A 'Limited Stock!' (Lato) badge and a 'countdown-style urgency icon' (as described in the user prompt) quickly animate with a flicker and slight glow, reinforcing scarcity. Benefit bullets 'Daily Cup = Antioxidant + Energy' (Lato) slide in from the left, one after the other. Trust icons 'ISO Certified' and 'Clinically Tested' (Lato) subtly appear below the product with a gentle fade. Finally, the 'Shop Now' (Montserrat Bold) call-to-action button, in sea-buckthorn orange/warm red, pulses with a clear invitation.Camera Movement:The virtual camera performs a very slow, subtle push-in, gently closing in on the product and the offer details over the duration of the clip, enhancing focus and drawing the viewer's attention deeper into the conversion elements.Overall Style:High-conversion e-commerce banner, dynamic, urgent yet trustworthy. Clean and modern aesthetic with vibrant accents. Designed for a Facebook Ad GIF, aiming for maximum impact and immediate purchase. Highly realistic, sharp focus, professional studio product shot quality."
+                  }
+                ],
+                "role": "model"
+              },
+              "finishReason": "STOP",
+              "index": 0
+            }
+          ],
+          "usageMetadata": {
+            "promptTokenCount": 2299,
+            "candidatesTokenCount": 475,
+            "totalTokenCount": 5248,
+            "cachedContentTokenCount": 696,
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 2041
+              },
+              {
+                "modality": "IMAGE",
+                "tokenCount": 258
+              }
+            ],
+            "cacheTokensDetails": [
+              {
+                "modality": "IMAGE",
+                "tokenCount": 78
+              },
+              {
+                "modality": "TEXT",
+                "tokenCount": 618
+              }
+            ],
+            "thoughtsTokenCount": 2474
+          },
+          "modelVersion": "gemini-2.5-flash",
+          "responseId": "q0PEaNVDotPPsg_CtJOgBA"
+        }
+      }
+    ],
+    "Create Image Prompt2": [
+      {
+        "json": {
+          "text": "Description\nThe image features a central, high-resolution bottle of Moringa Elixir. It is surrounded by fresh Moringa leaves, Sea Buckthorn berries, and Acai clusters, some floating or partially submerged, to visually communicate its natural ingredients and potency. The background is a deep charcoal-to-deep-teal subtle gradient (#333333 → #002222) with a very faint botanical texture to imply nature without clutter. The overall style is premium minimal and botanical, characterized by clean negative space and a large product hero.\n\nImage Illustration Analysis\n\nCore Subject: A central high-resolution bottle of Moringa Elixir, surrounded by fresh Moringa leaves, Sea Buckthorn berries, and Acai clusters (floating/partially submerged).\n\nSetting: A deep charcoal-to-deep-teal subtle gradient (#333333 → #002222) background with a very faint botanical texture, implying nature without clutter.\n\nStyle: Premium minimal + botanical photography trend, featuring clean negative space, a large product hero, modern serif-like headline, simple body copy, and flat, elegant graphics for small badges.\n\nMedium: High-resolution studio photograph of the bottle composited with macro photos of ingredients; light vector callouts and icons for ingredient badges.\n\nLighting: Soft directional rim and top-key lighting creating a glossy, premium sheen on the bottle; subtle backlight making leaves and berries pop with a soft halo.\n\nMood: Trustworthy, energizing, premium — health-focused but aspirational (active aging).\n\nComposition: A centered vertical hero bottle with an ingredient cluster layered in the foreground and slightly off-center. A headline is positioned in the upper third, and a CTA badge is placed in the bottom-right, ensuring safe negative space for legible copy on mobile.\n\nColor Palette: Primary colors: deep teal (#002222), dark charcoal (#333333), and white (#ffffff). Accents: Sea-buckthorn orange (#FF8C00), natural greens (#4CAF50), and warm gold (#E6C24A) for badges. Text is white or off-white on dark backgrounds, and dark charcoal for light backgrounds.\n\nText Overlay\n\nText 1\n\nText: [Headline content not provided]\nFont: Montserrat, modern serif-like.\nEffect: None.\nColor: White or off-white.\nPlacement: Upper third of the image.\n\nText 2\n\nText: [Body copy content not provided]\nFont: Lato, simple.\nEffect: None.\nColor: White or off-white.\nPlacement: Below headline or near product.\n\nText 3\n\nText: 75 plants\nFont: Sans-serif.\nEffect: Flat, elegant graphic badge.\nColor: White/off-white text on a badge colored with an accent color (e.g., warm gold #E6C24A).\nPlacement: Near product bottle.\n\nText 4\n\nText: 20 fruits & veg\nFont: Sans-serif.\nEffect: Flat, elegant graphic badge.\nColor: White/off-white text on a badge colored with an accent color (e.g., warm gold #E6C24A).\nPlacement: Near product bottle.\n\nText 5\n\nText: [Call to Action text, content not provided]\nFont: Sans-serif.\nEffect: Flat, elegant graphic badge.\nColor: Text color dark charcoal on a light background badge, or white/off-white on a dark background badge, using palette accents.\nPlacement: Bottom-right corner."
+        }
+      },
+      {
+        "json": {
+          "text": "Description\nThe image displays an authentic lifestyle portrait of a vibrant person in their sixties, captured in a moment of gardening, walking, or laughing with family. They are naturally holding a single serving cup or bottle of Moringa Elixir. The overall aesthetic evokes a real, unretouched feel, with warmth and approachability, focusing on longevity and active living.\n\nImage Illustration Analysis\n\nCore Subject: An authentic lifestyle portrait of a vibrant person in their sixties, holding a single serving cup or bottle of Moringa Elixir, presented naturally within a life context.\n\nSetting: A warm, shallow-depth garden or home terrace scene with a soft bokeh effect.\n\nStyle: Candid lifestyle photography, following current 'real, unretouched' trends for health brands, with a film-like color grade and slight grain for nostalgia and trust.\n\nMedium: Natural photographic portrait (environmental), potentially with a small inset product shot or floating product badge for clarity in ad formats.\n\nLighting: Golden hour warm key light, with soft fill, and a gentle rim light to separate the subject from the background.\n\nMood: Relatable, aspirational, hopeful, showing longevity and active living.\n\nComposition: Rule of thirds, with the subject positioned on the left or right, leaving negative space for headline and CTA.\n\nColor Palette: Warm earth tones (muted ochres, soft greens), brand teal for subtle accents (#002222), sea-buckthorn orange (#FF8C00) for CTA. Text colors are high-contrast white on darker overlays or dark text on light backgrounds.\n\nText Overlay\n\nText 1\nText: Embrace Active Aging.\nFont: Montserrat Bold.\nEffect: None.\nColor: High-contrast white.\nPlacement: Integrated into negative space, top-left or top-right of the composition.\n\nText 2\nText: Fuel your vibrant life with Moringa Elixir.\nFont: Lato regular.\nEffect: None.\nColor: High-contrast white.\nPlacement: Below the headline, within the negative space.\n\nText 3\nText: Learn More\nFont: Simple sans-serif, bold.\nEffect: Text within a prominent button shape.\nColor: White, against a sea-buckthorn orange (#FF8C00) button background.\nPlacement: Prominent bottom corner."
+        }
+      },
+      {
+        "json": {
+          "text": "Description\nThe animated GIF displays a data-rich mosaic, illustrating 75 plant minerals and 20 fruits & vegetables through small botanical icons and macro photographs. These elements are arranged in a circular or radial layout around a central 'cell-energy' icon and a product thumbnail. The background is a clean off-white or very light textured paper. The visual style is a modern infographic, utilizing friendly vector icons, concise statistics, microcopy, and simple line charts to communicate potency and antioxidant claims. The overall mood is informative, credible, and trustworthy, aiming to position the product as evidence-backed and transparent.\n\nImage Illustration Analysis\n\nCore Subject: A data-rich mosaic illustrating 75 plant minerals and 20 fruits & vegetables through small botanical icons/photographs arranged around a central 'cell-energy' icon and a product thumbnail.\n\nSetting: A clean off-white or very light textured paper background.\n\nStyle: Modern infographic/flat-illustration trend, featuring friendly vector icons, concise stats, microcopy, and simple line charts.\n\nMedium: Animated GIF, combining vector illustration (icons) with macro ingredient photos for visual authenticity, utilizing subtle drop shadows for depth.\n\nLighting: Flat, even lighting for the illustrations; photographic elements feature soft studio light, matched to the vector pieces.\n\nMood: Informative, credible, trustworthy, evidence-backed, and transparent.\n\nComposition: Circular or radial layout with a central energy symbol. A left column accommodates a headline and translated pain-point callouts (energy, chronic disease prevention, nutrients). A right column features a product Call to Action (CTA) and a limited-time price badge.\n\nColor Palette: Brand teal #002222 for primary icons, muted greens and oranges to differentiate ingredient groups, neutral greys for copy. The Call to Action (CTA) uses sea-buckthorn orange for urgency, ensuring all color contrasts pass accessibility standards.\n\nText Overlay\n\nText 1\n\nText: [Headline]\nFont: Modern infographic sans-serif.\nEffect: None.\nColor: Neutral grey.\nPlacement: Left column, prominently displayed.\n\nText 2\n\nText: Energy\nFont: Modern infographic sans-serif.\nEffect: None.\nColor: Neutral grey.\nPlacement: Left column, as a pain-point callout.\n\nText 3\n\nText: Chronic Disease Prevention\nFont: Modern infographic sans-serif.\nEffect: None.\nColor: Neutral grey.\nPlacement: Left column, as a pain-point callout.\n\nText 4\n\nText: Nutrients\nFont: Modern infographic sans-serif.\nEffect: None.\nColor: Neutral grey.\nPlacement: Left column, as a pain-point callout.\n\nText 5\n\nText: [Product Call to Action]\nFont: Modern infographic sans-serif, bold.\nEffect: None.\nColor: Sea-buckthorn orange.\nPlacement: Right column, for urgency.\n\nText 6\n\nText: [Limited-Time Price Badge]\nFont: Modern infographic sans-serif, bold.\nEffect: None.\nColor: Sea-buckthorn orange.\nPlacement: Right column, near the CTA.\n\nText 7\n\nText: [Concise Stats / Microcopy]\nFont: Modern infographic sans-serif, small.\nEffect: None.\nColor: Neutral grey.\nPlacement: Integrated throughout the mosaic, near relevant icons/photos."
+        }
+      },
+      {
+        "json": {
+          "text": "Description\nA dynamic split-screen visual narrative depicting a 'before and after' transformation of an older adult. The 'before' state on the left shows a tired, fatigued individual, while the 'after' state on the right portrays the same person energetic and engaged. A simple 30/60/90-day timeline runs along the baseline, featuring micro-results like improved sleep, memory, and stamina. The background is a horizontal gradient, transitioning from a desaturated cool grey on the left to a lively teal/green on the right, symbolizing improvement. The overall presentation uses a contemporary collage style with numeric storytelling, incorporating bold numeric badges, a short testimonial quote, and progress ticks alongside soft candid photographic portraits. A product shot is anchored near the timeline's start/finish.\n\nImage Illustration Analysis\n\nCore Subject: A split-screen 'before and after' narrative featuring an older adult, illustrating a transformation from fatigue to energy, supported by a 30/60/90-day timeline with specific micro-results.\n\nSetting: A dynamic background with a horizontal gradient, evolving from desaturated cool grey on the left to lively teal/green on the right, acting as a visual metaphor for progress and vitality.\n\nStyle: Contemporary collage and numeric storytelling, characterized by soft candid photographic portraits, bold numeric badges, progress ticks, and graphic overlays.\n\nMedium: Photographic portraits combined with graphic overlays (timelines, badges), and an anchored product shot.\n\nLighting: The left side features low-contrast, slightly desaturated lighting to convey the 'before' state. The right side employs brighter, higher-contrast, warmer lighting to emphasize vitality and the 'after' state.\n\nMood: Motivational and evidence-driven, aiming to convey a credible transformation without overpromising, fostering a sense of hope and achievement.\n\nComposition: A horizontal split or diagonal sweep divides the 'before' and 'after' scenes. A timeline with numbered checkpoints runs along the baseline. A central product image is tied to the timeline's origin point. A prominent price/Call-to-Action (CTA) overlay is integrated for conversion.\n\nColor Palette: Dominated by left-side neutrals (#bdbdbd / desaturated grey) and right-side brand teal (#002222), with fresh green accents, sea-buckthorn orange used for checkpoints and CTAs, and white/charcoal for copy.\n\nText Overlay\n\nText 1\n\nText: (Placeholder for bold numeric badges, e.g., \"30,\" \"60,\" \"90\")\nFont: Bold sans-serif.\nEffect: Numeric badges indicating days or progress.\nColor: White/Charcoal or Sea-buckthorn orange.\nPlacement: Along the timeline checkpoints.\n\nText 2\n\nText: (Placeholder for micro-results, e.g., \"Improved Sleep,\" \"Sharper Memory,\" \"More Stamina\")\nFont: Simple sans-serif.\nEffect: Descriptive labels.\nColor: White/Charcoal.\nPlacement: Associated with timeline checkpoints.\n\nText 3\n\nText: (Placeholder for a short testimonial quote)\nFont: Varies, legible serif or sans-serif.\nEffect: Testimonial text, conveying user experience.\nColor: White/Charcoal.\nPlacement: Integrated into the 'after' section or centrally.\n\nText 4\n\nText: (Placeholder for a prominent price/CTA, e.g., \"ONLY $X.XX,\" \"Shop Now\")\nFont: Prominent, bold sans-serif.\nEffect: Call-to-action for conversion.\nColor: Sea-buckthorn orange or white.\nPlacement: Prominently in the composition, often near the timeline's end."
+        }
+      },
+      {
+        "json": {
+          "text": "Description\nThe image presents an abstract visual of a stylized protective shield or aura, intricately crafted from interwoven Moringa leaves, Sea Buckthorn berries, and Acai threads. This vibrant shield actively defends a silhouette of a human figure or cell structure from environmental toxins, which are depicted as subtle particle textures being deflected. The background is a deep teal to near-black gradient. The overall style is a semi-abstract 3D botanical illustration, blending realistic textures with modern CGI and glow effects, creating a premium, science-forward, protective, empowering, and reassuring mood, positioning the product as a proactive defense against aging.\n\nImage Illustration Analysis\n\nCore Subject: An abstract, stylized shield or aura, composed of interwoven Moringa leaves, Sea Buckthorn berries, and Acai threads, actively protecting a silhouette of a human figure or cell structure from environmental toxins.\n\nSetting: A deep teal to near-black gradient background, subtly textured with tiny specks representing environmental toxins, which appear to be deflected by the shield.\n\nStyle: Semi-abstract 3D combined with botanical illustration trends, featuring a blend of realistic textures for the organic elements and modern CGI/glow effects, aiming for a premium, science-forward aesthetic.\n\nMedium: 3D render/composite, incorporating high-detail photographic textures for botanical elements and vector overlays for cell iconography.\n\nLighting: Dramatic rim lighting and a soft inner glow on the protective shield. Particle highlights representing toxins are illuminated, displaying motion blur as they are deflected, contributing to a dynamic effect.\n\nMood: Protective, empowering, and reassuring, positioning the product as a proactive defense for aging bodies against environmental toxins.\n\nComposition: The stylized shield is positioned at the center or slightly above the center. A product bottle is anchored in the bottom-right corner. The top-left area is reserved for a pain-point headline.\n\nColor Palette: Dominant deep teal (#002222), accented with luminous green highlights (from Moringa), white/cool cyan for particle highlights, and warm orange accents for Sea Buckthorn berries and the Call-to-Action (CTA) elements. Text contrast is ensured.\n\nText Overlay\n\nText 1\n\nText: Worried about toxins?\nFont: Sans-serif, bold.\nEffect: None.\nColor: White/Cool Cyan.\nPlacement: Top-left corner of the image.\n\nText 2\n\nText: Learn More\nFont: Sans-serif, bold.\nEffect: None.\nColor: Warm Orange (#FF8C00).\nPlacement: Bottom-right, near the product bottle."
+        }
+      },
+      {
+        "json": {
+          "text": "Description\nThe image displays a high-conversion e-commerce banner, likely for a Facebook Ad GIF, featuring the \"Moringa Elixir\" product. It showcases a product box and bottle, a prominent price ribbon indicating 'RM299/box' with an original price struck-through, a 'limited seats' badge, and a countdown-style urgency icon. The layout prioritizes an e-commerce aesthetic with a big bold headline, clear benefit bullets, trust icons, and a distinct call-to-action button, all set against a clean white background with a subtle leaf confetti pattern.\n\nImage Illustration Analysis\n\nCore Subject: A clear, commerce-focused layout featuring a product box and bottle of \"Moringa Elixir\", a prominent price ribbon 'RM299/box' with the original price struck-through, a 'limited seats' badge, and a countdown-style urgency icon.\n\nSetting: A clean white or very light neutral background with a subtle leaf confetti pattern, designed to support multiple ad sizes (FB/IG feed, story, banner).\n\nStyle: An e-commerce-first design trend characterized by a big bold headline, a large price tag, simple benefit bullets (e.g., daily cup = antioxidant + energy), trust icons (e.g., ISO/clinically-tested), and a clear call-to-action button.\n\nMedium: Studio product photography for the physical products, paired with vector price badges and CTA graphics designed for responsive scaling across different ad formats.\n\nLighting: Soft studio softbox lighting on the product elements to ensure crisp edges and consistent reflections. Badge and graphic elements use flat color fills without complex lighting effects.\n\nMood: Urgent but trustworthy, aimed at encouraging immediate purchase through a clear sense of scarcity and visible savings.\n\nComposition: A mobile-first safe area with the product box and bottle positioned on the left, and a large price ribbon and call-to-action (CTA) on the right. Small edible ingredient icons are included below the product. The layout incorporates a Montserrat Bold headline and Lato body copy for details.\n\nColor Palette: A white primary background dominates, with brand dark #333333 used for copy. Brand teal #002222 provides subtle accents, while sea-buckthorn orange (#FF8C00) or warm red is used for the price ribbon and CTA to drive conversions. Montserrat is specified for headlines, and Lato for supporting copy, ensuring CTA contrast and legible type sizes for accessibility.\n\nText Overlay\n\nText 1\n\nText: ⚡️ Limited-Time Offer! ⚡️\n\nFont: Montserrat Bold\n\nEffect: None.\n\nColor: Brand dark #333333\n\nPlacement: Prominent headline at the top of the banner.\n\nText 2\n\nText: RM299/box (with RM399/box struck-through)\n\nFont: Montserrat Bold (for RM299/box), Lato (for struck-through RM399/box)\n\nEffect: RM299/box is large and central within a distinct price ribbon. RM399/box is smaller, near the current price with a clear strikethrough effect.\n\nColor: White on a sea-buckthorn orange/warm red ribbon for RM299/box. Lighter #333333 for the struck-through price.\n\nPlacement: Prominent price ribbon on the right side of the banner.\n\nText 3\n\nText: Daily Cup = Antioxidant + Energy\n\nFont: Lato\n\nEffect: None.\n\nColor: Brand dark #333333\n\nPlacement: Below the headline or near the product image, as benefit bullets.\n\nText 4\n\nText: Shop Now\n\nFont: Montserrat Bold\n\nEffect: Contained within a prominent call-to-action button with a strong background color.\n\nColor: White\n\nPlacement: Bottom right, within the sea-buckthorn orange/warm red CTA button.\n\nText 5\n\nText: Limited Stock!\n\nFont: Lato\n\nEffect: Within a badge or near a countdown icon, emphasizing urgency.\n\nColor: Brand dark #333333 or orange/red accent.\n\nPlacement: Near the price ribbon or top right.\n\nText 6\n\nText: ISO Certified\n\nFont: Lato\n\nEffect: Small text next to a trust icon.\n\nColor: Brand dark #333333\n\nPlacement: Bottom left, below the product or within a trust icon section.\n\nText 7\n\nText: Clinically Tested\n\nFont: Lato\n\nEffect: Small text next to a trust icon.\n\nColor: Brand dark #333333\n\nPlacement: Bottom left, below the product or within a trust icon section."
+        }
+      }
+    ]
+  },
+  "versionId": "50f89005-09be-4d55-b2e4-c2f4cf1a7452",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-09-13T03:14:31.369Z",
+      "createdAt": "2025-09-13T03:14:31.369Z",
+      "role": "workflow:owner",
+      "workflowId": "ATbNwsH8cgfUWUib",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
