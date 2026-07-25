@@ -1,0 +1,3224 @@
+{
+  "updatedAt": "2023-11-06T04:34:40.162Z",
+  "createdAt": "2023-11-06T04:34:40.162Z",
+  "id": "JDFADh6ExkMTJdDN",
+  "name": "ACCSS-Craftcare(Arch Angel)_Monthly Compiled Report Sheet For Client (Nov23 Updates)",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "months",
+              "triggerAtHour": 10
+            }
+          ]
+        }
+      },
+      "id": "9cad4055-bf2d-485c-9f14-ac86c6a5d5af",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        160,
+        -560
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "SearchCampaignSpreadsheetID",
+              "stringValue": "1ScPaOFpw5Mtu8C773hifiABkbk-Dw4qTTzRvNRq_Hu8"
+            },
+            {
+              "name": "LastMonthSheetName",
+              "stringValue": "Oct23"
+            },
+            {
+              "name": "SearchCampaignSheetID",
+              "stringValue": "943482815"
+            },
+            {}
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "bfea6387-af5f-43ea-b043-90cf4b2eb82a",
+      "name": "Set Search Campaign Spreadsheet Details",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        460,
+        -620
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $json.SearchCampaignSpreadsheetID }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ $json.SearchCampaignSheetID }}",
+          "mode": "id"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRange",
+              "firstDataRow": 6
+            }
+          },
+          "outputFormatting": {
+            "values": {
+              "general": "FORMATTED_VALUE",
+              "date": "FORMATTED_STRING"
+            }
+          },
+          "returnAllMatches": "returnFirstMatch"
+        }
+      },
+      "id": "4408160e-cdcc-4a29-90da-e998753cc647",
+      "name": "Read ALL Rows From Search Campaign Spreadsheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [
+        700,
+        -620
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "TargetLastRow",
+              "stringValue": "={{ $json.row_number }}"
+            },
+            {
+              "name": "ImpressionsColumn",
+              "stringValue": "=C"
+            },
+            {
+              "name": "ClicksColumn",
+              "stringValue": "D"
+            },
+            {
+              "name": "CPCColumn",
+              "stringValue": "E"
+            },
+            {
+              "name": "CTRColumn",
+              "stringValue": "F"
+            },
+            {
+              "name": "CostColumn",
+              "stringValue": "G"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "b31c6653-29ed-4bb0-84a5-e73b92558117",
+      "name": "Set Target Column Fields For Search Campaign",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1020,
+        -680
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "LastRowRange",
+              "stringValue": "={{ $json.ImpressionsColumn }}{{ $json.TargetLastRow }}:{{ $json.CostColumn }}{{ $json.TargetLastRow }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "734b2f0d-e04b-458c-ae23-7cd513d82eee",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1280,
+        -680
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://sheets.googleapis.com/v4/spreadsheets/{{ $('Set Search Campaign Spreadsheet Details').item.json.SearchCampaignSpreadsheetID }}/values/{{ $('Set Search Campaign Spreadsheet Details').item.json.LastMonthSheetName }}!R6C3:R6C7 ",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleSheetsOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "valueRenderOption",
+              "value": "FORMATTED_VALUE"
+            },
+            {
+              "name": "majorDimension",
+              "value": "ROWS"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d87c22f7-8deb-493a-a037-7566572b62f9",
+      "name": "GET Formatted Values From Last Row",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1560,
+        -720
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://sheets.googleapis.com/v4/spreadsheets/{{ $json.CompiledReportSpreadsheedID }}/values/{{ $json.SummaryTabSheetName }}!F11:J11",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleSheetsOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "valueInputOption",
+              "value": "RAW"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "range",
+              "value": "={{ $json.SummaryTabSheetName }}!F11:J11"
+            },
+            {
+              "name": "values",
+              "value": "={{ [[$('Assign The Formatted Values To Each Column Fields').item.json.TotalImpressions,$('Assign The Formatted Values To Each Column Fields').item.json.TotalClicks,$('Assign The Formatted Values To Each Column Fields').item.json.AvgCPC,$('Assign The Formatted Values To Each Column Fields').item.json.AvgCTR,$('Assign The Formatted Values To Each Column Fields').item.json.TotalCost ]] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3e5f54d3-fc6d-41c6-abc4-6b9f04fd3a75",
+      "name": "PUT GAds API Request For Media Cost Value",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2300,
+        -760
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "TotalImpressions",
+              "stringValue": "={{ $json.values[0][0] }}"
+            },
+            {
+              "name": "TotalClicks",
+              "stringValue": "={{ $json.values[0][1] }}"
+            },
+            {
+              "name": "AvgCPC",
+              "stringValue": "={{ $json.values[0][2] }}"
+            },
+            {
+              "name": "AvgCTR",
+              "stringValue": "={{ $json.values[0][3] }}"
+            },
+            {
+              "name": "TotalCost",
+              "stringValue": "={{ $json.values[0][4] }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "df8c160a-fd91-4f52-9b25-d73ca22cdf42",
+      "name": "Assign The Formatted Values To Each Column Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1820,
+        -740
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "CompiledReportSpreadsheedID",
+              "stringValue": "1AnKPoMFFkJVYBv4qZPwfsgueqC8j-fJRVaC5yZzVel0"
+            },
+            {
+              "name": "SummaryTabSheetName",
+              "stringValue": "Summary"
+            },
+            {
+              "name": "SummaryTabSheetID",
+              "stringValue": "824572499"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "b85f6a8a-3a41-45a4-a493-7653ee4c1143",
+      "name": "Edit Fields1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2060,
+        -740
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Search Campaign-Summary Tab\n**Monthly Search Campaign Level Report Spreadsheet URL:** https://docs.google.com/spreadsheets/d/1ScPaOFpw5Mtu8C773hifiABkbk-Dw4qTTzRvNRq_Hu8/edit#gid=943482815\n**Monthly Compiled All Campaign Report URL:** https://docs.google.com/spreadsheets/d/1AnKPoMFFkJVYBv4qZPwfsgueqC8j-fJRVaC5yZzVel0/edit#gid=824572499",
+        "height": 445,
+        "width": 2455
+      },
+      "id": "f0cae5a0-f042-4e39-b95c-51a3520b0716",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        40,
+        -820
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "months",
+              "triggerAtHour": 10
+            }
+          ]
+        }
+      },
+      "id": "5576013b-f5fa-4958-b953-6d2c00205bef",
+      "name": "Schedule Trigger1",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        160,
+        -20
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "SearchCampaignSpreadsheetID",
+              "stringValue": "1ScPaOFpw5Mtu8C773hifiABkbk-Dw4qTTzRvNRq_Hu8"
+            },
+            {
+              "name": "LastMonthSheetName",
+              "stringValue": "Oct23"
+            },
+            {
+              "name": "SearchCampaignSheetID",
+              "stringValue": "943482815"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "eca2636f-6c15-4a65-bc80-beb115322119",
+      "name": "Set Search Campaign Spreadsheet Details1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        460,
+        -80
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $json.SearchCampaignSpreadsheetID }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ $json.SearchCampaignSheetID }}",
+          "mode": "id"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRange",
+              "firstDataRow": 6
+            }
+          },
+          "outputFormatting": {
+            "values": {
+              "general": "FORMATTED_VALUE",
+              "date": "SERIAL_NUMBER"
+            }
+          }
+        }
+      },
+      "id": "362d8dcd-cc2b-4ef3-a392-c02aa87aa0e4",
+      "name": "Read ALL Rows From Search Campaign Spreadsheet1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [
+        700,
+        -80
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://sheets.googleapis.com/v4/spreadsheets/{{ $('Set Search Campaign Spreadsheet Details1').item.json.SearchCampaignSpreadsheetID }}/values/{{ $('Set Search Campaign Spreadsheet Details1').item.json.LastMonthSheetName }}!R{{ $json.TargetLastRow }}C{{ $json.ImpressionsColNumber }}:R{{ $json.TargetLastRow }}C{{ $json.ConvColNumber }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleSheetsOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "valueRenderOption",
+              "value": "FORMATTED_VALUE"
+            },
+            {
+              "name": "majorDimension",
+              "value": "ROWS"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "52bf7731-828f-4604-abf8-3e0af0e9e797",
+      "name": "GET Formatted Values From Last Row1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1300,
+        -80
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://sheets.googleapis.com/v4/spreadsheets/{{ $('Set Compiled Report Sheet Tab-Search').item.json.CompiledReportSpreadsheedID }}/values/{{ $('Set Compiled Report Sheet Tab-Search').item.json.SheetName }}!{{ $json.ImpressionColumn }}{{ $json.rowNumber }}:{{ $json.CostColumn }}{{ $json.rowNumber }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleSheetsOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "valueInputOption",
+              "value": "RAW"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "range",
+              "value": "={{ $('Set Compiled Report Sheet Tab-Search').item.json.SheetName }}!{{ $json.ImpressionColumn }}{{ $json.rowNumber }}:{{ $json.CostColumn }}{{ $json.rowNumber }}"
+            },
+            {
+              "name": "values",
+              "value": "={{ [[$('Assign The Formatted Values To Each Column Fields1').item.json.TotalImpressions,$('Assign The Formatted Values To Each Column Fields1').item.json.TotalClicks,$('Assign The Formatted Values To Each Column Fields1').item.json.AvgCPC,$('Assign The Formatted Values To Each Column Fields1').item.json.AvgCTR,$('Assign The Formatted Values To Each Column Fields1').item.json.TotalConversion,$('Assign The Formatted Values To Each Column Fields1').item.json.TotalCost ]] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "22e286fe-4c17-4f83-a03e-2b18db0e64c2",
+      "name": "PUT GAds API Request For Media Cost Value1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2360,
+        -160
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "TotalImpressions",
+              "stringValue": "={{ $json.values[0][0] }}"
+            },
+            {
+              "name": "TotalClicks",
+              "stringValue": "={{ $json.values[0][1] }}"
+            },
+            {
+              "name": "AvgCPC",
+              "stringValue": "={{ $json.values[0][2] }}"
+            },
+            {
+              "name": "AvgCTR",
+              "stringValue": "={{ $json.values[0][3] }}"
+            },
+            {
+              "name": "TotalCost",
+              "stringValue": "={{ $json.values[0][4] }}"
+            },
+            {
+              "name": "TotalConversion",
+              "stringValue": "={{ $json.values[0][5] }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {
+          "dotNotation": true
+        }
+      },
+      "id": "52314f9e-708d-4de2-95cd-6236500667b3",
+      "name": "Assign The Formatted Values To Each Column Fields1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1580,
+        -100
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Search Campaign-Search Tab (Monthly Performance)\n**Monthly Search Campaign Report Spreadsheet URL:** https://docs.google.com/spreadsheets/d/1ScPaOFpw5Mtu8C773hifiABkbk-Dw4qTTzRvNRq_Hu8/edit#gid=943482815\n**Monthly Compiled All Campaign Report URL:** https://docs.google.com/spreadsheets/d/1AnKPoMFFkJVYBv4qZPwfsgueqC8j-fJRVaC5yZzVel0/edit#gid=824572499",
+        "height": 445,
+        "width": 2519.340909090909
+      },
+      "id": "d1e77c6f-d006-47b8-8339-a094db6b200c",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        120,
+        -220
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "CompiledReportSpreadsheedID",
+              "stringValue": "1AnKPoMFFkJVYBv4qZPwfsgueqC8j-fJRVaC5yZzVel0"
+            },
+            {
+              "name": "SheetName",
+              "stringValue": "Search"
+            },
+            {
+              "name": "SummaryTabSheetID",
+              "stringValue": "1448206660"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "fa35c98c-4ffe-4f56-9c73-1e918dd3e2f2",
+      "name": "Set Compiled Report Sheet Tab-Search",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1820,
+        -60
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "TargetLastRow",
+              "stringValue": "={{ $json.row_number }}"
+            },
+            {
+              "name": "ImpressionsColNumber",
+              "stringValue": "=3"
+            },
+            {
+              "name": "ClicksColNumber",
+              "stringValue": "4"
+            },
+            {
+              "name": "CPCColNumber",
+              "stringValue": "5"
+            },
+            {
+              "name": "CTRColNumber",
+              "stringValue": "6"
+            },
+            {
+              "name": "CostColNumber",
+              "stringValue": "7"
+            },
+            {
+              "name": "ConvColNumber",
+              "stringValue": "8"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "aa5ba3c2-aa5b-4fc1-bbac-0cb895ec45e3",
+      "name": "Set Target Column Number For Search Campaign",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        980,
+        -80
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "rowNumber",
+              "stringValue": "4"
+            },
+            {
+              "name": "ImpressionColumn",
+              "stringValue": "B"
+            },
+            {
+              "name": "ClicksColumn",
+              "stringValue": "C"
+            },
+            {
+              "name": "CPCColumn",
+              "stringValue": "D"
+            },
+            {
+              "name": "CTRColumn",
+              "stringValue": "E"
+            },
+            {
+              "name": "ConversionColumn",
+              "stringValue": "F"
+            },
+            {
+              "name": "CostColumn",
+              "stringValue": "G"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "cc1cf993-094f-465b-b8e5-026c91b93e2d",
+      "name": "Set Monthly Performance Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2080,
+        -120
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "months",
+              "triggerAtHour": 10
+            }
+          ]
+        }
+      },
+      "id": "757a0603-481b-40b5-a81e-9c9ccf77397c",
+      "name": "Schedule Trigger2",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        140,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $json.SearchCampaignSpreadsheetID }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ $json.SearchCampaignSheetID }}",
+          "mode": "id"
+        },
+        "options": {
+          "outputFormatting": {
+            "values": {
+              "general": "FORMATTED_VALUE",
+              "date": "SERIAL_NUMBER"
+            }
+          }
+        }
+      },
+      "id": "2896fc25-f930-4ca7-ad66-ad9eae585e9f",
+      "name": "Read ALL Rows From Search Campaign Spreadsheet2",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [
+        620,
+        520
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://sheets.googleapis.com/v4/spreadsheets/{{ $('Set Weekly Search Campaign Spreadsheet Details').item.json.SearchCampaignSpreadsheetID }}/values/{{ $('Set Weekly Search Campaign Spreadsheet Details').item.json.LastMonthSheetName }}!R{{ $json.StartingRow }}C{{ $json.StartingColumn }}:R{{ $json.EndingRow }}C{{ $json.EndingColumn }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleSheetsOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "valueRenderOption",
+              "value": "FORMATTED_VALUE"
+            },
+            {
+              "name": "majorDimension",
+              "value": "ROWS"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "26a7ac77-d952-4ebd-9791-361fb1f6eed0",
+      "name": "GET Formatted Values From Last Row2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1760,
+        520
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://sheets.googleapis.com/v4/spreadsheets/{{ $('Set Compiled Report Sheet Tab-Search1').item.json.CompiledReportSpreadsheedID }}/values/{{ $('Set Compiled Report Sheet Tab-Search1').item.json.SheetName }}!{{ $json.WeekColumn }}{{ $json.StartRowNumber }}:{{ $json.CostColumn }}{{ $json.LastRowNumber }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleSheetsOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "valueInputOption",
+              "value": "RAW"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "range",
+              "value": "={{ $('Set Compiled Report Sheet Tab-Search1').item.json.SheetName }}!{{ $json.WeekColumn }}{{ $json.StartRowNumber }}:{{ $json.CostColumn }}{{ $json.LastRowNumber }}"
+            },
+            {
+              "name": "values",
+              "value": "={{ [[$('Item Lists3').item.json.Week[0].replace(/\\\"/g, \"\\\\\\\"\"),$('Item Lists3').item.json.Impressions[0].replace(/\\'/g, \"\\\\\\'\"),$('Item Lists3').item.json.Clicks[0].replace(/\\'/g, \"\\\\\\'\"),$('Item Lists3').item.json.AvgCPC[0].replace(/\\'/g, \"\\\\\\'\"),$('Item Lists3').item.json.CTR[0].replace(/\\'/g, \"\\\\\\'\"),$('Item Lists3').item.json.Conversion[0].replace(/\\'/g, \"\\\\\\'\"),$('Item Lists3').item.json.Cost[0].replace(/\\'/g, \"\\\\\\'\")],[$('Item Lists3').item.json.Week[1].replace(/\\'/g, \"\\\\\\'\"),$('Item Lists3').item.json.Impressions[1].replace(/\\'/g, \"\\\\\\'\"),$('Item Lists3').item.json.Clicks[1].replace(/\\'/g, \"\\\\\\'\"),$('Item Lists3').item.json.AvgCPC[1].replace(/\\'/g, \"\\\\\\'\"),$('Item Lists3').item.json.CTR[1].replace(/\\'/g, \"\\\\\\'\"),$('Item Lists3').item.json.Conversion[1].replace(/\\'/g, \"\\\\\\'\"),$('Item Lists3').item.json.Cost[1].replace(/\\'/g, \"\\\\\\'\")],[$('Item Lists3').item.json.Week[2].replace(/\\'/g, \"\\\\\\'\"),$('Item Lists3').item.json.Impressions[2].replace(/\\'/g, \"\\\\\\'\"),$('Item Lists3').item.json.Clicks[2].replace(/\\'/g, \"\\\\\\'\"),$('Item Lists3').item.json.AvgCPC[2].replace(/\\'/g, \"\\\\\\'\"),$('Item Lists3').item.json.CTR[2].replace(/\\'/g, \"\\\\\\'\"),$('Item Lists3').item.json.Conversion[2].replace(/\\'/g, \"\\\\\\'\"),$('Item Lists3').item.json.Cost[2].replace(/\\'/g, \"\\\\\\'\")],[$('Item Lists3').item.json.Week[3].replace(/\\'/g, \"\\\\\\'\"),$('Item Lists3').item.json.Impressions[3].replace(/\\'/g, \"\\\\\\'\"),$('Item Lists3').item.json.Clicks[3].replace(/\\'/g, \"\\\\\\'\"),$('Item Lists3').item.json.AvgCPC[3].replace(/\\'/g, \"\\\\\\'\"),$('Item Lists3').item.json.CTR[3].replace(/\\'/g, \"\\\\\\'\"),$('Item Lists3').item.json.Conversion[3].replace(/\\'/g, \"\\\\\\'\"),$('Item Lists3').item.json.Cost[3].replace(/\\'/g, \"\\\\\\'\")],[$('Item Lists3').item.json.Week[4].replace(/\\'/g, \"\\\\\\'\"),$('Item Lists3').item.json.Impressions[4].replace(/\\'/g, \"\\\\\\'\"),$('Item Lists3').item.json.Clicks[4].replace(/\\'/g, \"\\\\\\'\"),$('Item Lists3').item.json.AvgCPC[4].replace(/\\'/g, \"\\\\\\'\"),$('Item Lists3').item.json.CTR[4].replace(/\\'/g, \"\\\\\\'\"),$('Item Lists3').item.json.Conversion[4],$('Item Lists3').item.json.Cost[4].replace(/\\'/g, \"\\\\\\'\")]] }}"
+            },
+            {
+              "name": "majorDimension",
+              "value": "ROWS"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ee256923-2711-46da-809d-0f206e0c300a",
+      "name": "PUT GAds API Request For Media Cost Value2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        4180,
+        520
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "Week",
+              "stringValue": "={{ $json.row[0] }}"
+            },
+            {
+              "name": "Impressions",
+              "stringValue": "={{ $json.row[2] }}"
+            },
+            {
+              "name": "Clicks",
+              "stringValue": "={{ $json.row[3] }}"
+            },
+            {
+              "name": "AvgCPC",
+              "stringValue": "={{ $json.row[4] }}"
+            },
+            {
+              "name": "CTR",
+              "stringValue": "={{ $json.row[6] }}"
+            },
+            {
+              "name": "Conversion",
+              "stringValue": "={{ $json.row[8] }}"
+            },
+            {
+              "name": "Cost",
+              "stringValue": "={{ $json.row[7] }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {
+          "dotNotation": false
+        }
+      },
+      "id": "d833f33f-7721-422a-8822-3c959268a5d6",
+      "name": "Assign The Formatted Values To Each Column Fields2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2540,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Search Campaign-Search Tab (Weekly Performance)\n**Monthly Weekly Base Campaign Report Spreadsheet URL:** https://docs.google.com/spreadsheets/d/1dE24YitqpHA-1RMlHMx2Wgo54-o0D1eiHR9Ln6ibnYs/edit#gid=0\n**Monthly Compiled All Campaign Report URL:** https://docs.google.com/spreadsheets/d/1AnKPoMFFkJVYBv4qZPwfsgueqC8j-fJRVaC5yZzVel0/edit#gid=824572499",
+        "height": 439.86024404086265,
+        "width": 4319.977272727272
+      },
+      "id": "233c9466-d550-45a9-ba05-9c8809d61230",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        100,
+        345.13975595913735
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "CompiledReportSpreadsheedID",
+              "stringValue": "1AnKPoMFFkJVYBv4qZPwfsgueqC8j-fJRVaC5yZzVel0"
+            },
+            {
+              "name": "SheetName",
+              "stringValue": "Search"
+            },
+            {
+              "name": "TabSheetID",
+              "stringValue": "1448206660"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "539743fd-357c-4bbc-9cd3-192409ff825e",
+      "name": "Set Compiled Report Sheet Tab-Search1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        3020,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "SearchCampaignSpreadsheetID",
+              "stringValue": "1dE24YitqpHA-1RMlHMx2Wgo54-o0D1eiHR9Ln6ibnYs"
+            },
+            {
+              "name": "LastMonthSheetName",
+              "stringValue": "Oct23"
+            },
+            {
+              "name": "SearchCampaignSheetID",
+              "stringValue": "0"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "90d12c33-65a3-4a25-842f-5f21873903ce",
+      "name": "Set Weekly Search Campaign Spreadsheet Details",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        400,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "RowNumber",
+              "stringValue": "={{ $json.row_number }}"
+            },
+            {
+              "name": "Week",
+              "stringValue": "={{ $json.Week }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "776aab06-0cb6-4e58-886b-069dba9e6766",
+      "name": "Extract Row Number Had Read",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        840,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "concatenateItems",
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "RowNumber"
+            },
+            {
+              "fieldToAggregate": "Week"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0b15de3a-bec2-43a5-9354-e1d434b1aec7",
+      "name": "Turn Row Number Into List",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        1060,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "Week1",
+              "stringValue": "={{ $json.Week[1] }}"
+            },
+            {
+              "name": "Week2",
+              "stringValue": "={{ $json.Week[2] }}"
+            },
+            {
+              "name": "Week3",
+              "stringValue": "={{ $json.Week[4] }}"
+            },
+            {
+              "name": "Week4",
+              "stringValue": "={{ $json.Week[5] }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "c69774ad-ba23-4bd9-9953-ba66d873ec7b",
+      "name": "Select The Row Within The Month",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1300,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "StartingRow",
+              "stringValue": "={{ $('Turn Row Number Into List').item.json.RowNumber[1] }}"
+            },
+            {
+              "name": "EndingRow",
+              "stringValue": "={{ $('Turn Row Number Into List').item.json.RowNumber[5] }}"
+            },
+            {
+              "name": "StartingColumn",
+              "stringValue": "1"
+            },
+            {
+              "name": "EndingColumn",
+              "stringValue": "9"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "d53b8183-1295-4f9f-b131-7e7586eb4948",
+      "name": "Set Target Row & Column Number To Get Weekly Campaign Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1540,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "concatenateItems",
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "values[0]"
+            },
+            {
+              "fieldToAggregate": "values[1]"
+            },
+            {
+              "fieldToAggregate": "values[2]"
+            },
+            {
+              "fieldToAggregate": "values[3]"
+            },
+            {
+              "fieldToAggregate": "values[4]"
+            }
+          ]
+        },
+        "options": {
+          "mergeLists": true
+        }
+      },
+      "id": "1d37e5eb-7639-484f-a82e-cfe494e75034",
+      "name": "Item Lists",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        1980,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "values",
+        "include": "allOtherFields",
+        "options": {
+          "destinationFieldName": "row"
+        }
+      },
+      "id": "3d093f97-9411-4e6d-977c-97682cb82d34",
+      "name": "Item Lists1",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        2200,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $json.CompiledReportSpreadsheedID }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ $json.TabSheetID }}",
+          "mode": "id"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRange",
+              "firstDataRow": 10
+            }
+          },
+          "outputFormatting": {
+            "values": {
+              "general": "FORMATTED_VALUE",
+              "date": "SERIAL_NUMBER"
+            }
+          },
+          "returnAllMatches": "returnFirstMatch"
+        }
+      },
+      "id": "194b4a3f-3934-49f6-807f-bd3506d46632",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [
+        3360,
+        500
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "concatenateItems",
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "row_number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "42674a84-82cf-4e80-9749-3f4ed251dfcb",
+      "name": "Item Lists2",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        3640,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "StartRowNumber",
+              "stringValue": "={{ $json.row_number[0] }}"
+            },
+            {
+              "name": "LastRowNumber",
+              "stringValue": "={{ $json.row_number[4] }}"
+            },
+            {
+              "name": "WeekColumn",
+              "stringValue": "A"
+            },
+            {
+              "name": "ImpressionsColumn",
+              "stringValue": "B"
+            },
+            {
+              "name": "ClicksColumn",
+              "stringValue": "C"
+            },
+            {
+              "name": "CPCColumn",
+              "stringValue": "D"
+            },
+            {
+              "name": "CTRColumn",
+              "stringValue": "E"
+            },
+            {
+              "name": "ConversionColumn",
+              "stringValue": "F"
+            },
+            {
+              "name": "CostColumn",
+              "stringValue": "G"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "420971b9-a0c6-4443-8629-ed9dde9b61e0",
+      "name": "Set Weekly Performance Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        3900,
+        540
+      ],
+      "notesInFlow": true,
+      "notes": "This node need to be adjust or edit regular"
+    },
+    {
+      "parameters": {
+        "operation": "concatenateItems",
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "Week"
+            },
+            {
+              "fieldToAggregate": "Impressions"
+            },
+            {
+              "fieldToAggregate": "Clicks"
+            },
+            {
+              "fieldToAggregate": "AvgCPC"
+            },
+            {
+              "fieldToAggregate": "CTR"
+            },
+            {
+              "fieldToAggregate": "Conversion"
+            },
+            {
+              "fieldToAggregate": "Cost"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6503cf5c-1fdd-4d77-b981-7c4f5e914563",
+      "name": "Item Lists3",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        2760,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "months",
+              "triggerAtHour": 10
+            }
+          ]
+        }
+      },
+      "id": "1259b719-854f-462d-b7ba-4a81a5fecfba",
+      "name": "Schedule Trigger3",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        100,
+        1240
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $json.SearchCampaignSpreadsheetID }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ $json.SearchCampaignSheetID }}",
+          "mode": "id"
+        },
+        "options": {
+          "outputFormatting": {
+            "values": {
+              "general": "FORMATTED_VALUE",
+              "date": "SERIAL_NUMBER"
+            }
+          }
+        }
+      },
+      "id": "1f5cdedb-845e-4082-82d8-91406e00c7c6",
+      "name": "Read ALL Rows From Search Campaign Spreadsheet3",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [
+        580,
+        1220
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://sheets.googleapis.com/v4/spreadsheets/{{ $('Set Weekly Search Campaign Spreadsheet Details1').item.json.SearchCampaignSpreadsheetID }}/values/{{ $('Set Weekly Search Campaign Spreadsheet Details1').item.json.LastMonthSheetName }}!R{{ $json.StartingRow }}C{{ $json.StartingColumn }}:R{{ $json.EndingRow }}C{{ $json.EndingColumn }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleSheetsOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "valueRenderOption",
+              "value": "FORMATTED_VALUE"
+            },
+            {
+              "name": "majorDimension",
+              "value": "ROWS"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "dbec6dc5-f093-49d7-897b-e305345f23cd",
+      "name": "GET Formatted Values From Last Row3",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1660,
+        1220
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://sheets.googleapis.com/v4/spreadsheets/{{ $('Set Compiled Report Sheet Tab-Search2').item.json.CompiledReportSpreadsheedID }}/values/{{ $('Set Compiled Report Sheet Tab-Search2').item.json.SheetName }}!{{ $json.CampaignNameColumn }}{{ $json.StartRowNumber }}:{{ $json.CostColumn }}{{ $json.LastRowNumber }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleSheetsOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "valueInputOption",
+              "value": "RAW"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "range",
+              "value": "={{ $('Set Compiled Report Sheet Tab-Search2').item.json.SheetName }}!{{ $json.CampaignNameColumn }}{{ $json.StartRowNumber }}:{{ $json.CostColumn }}{{ $json.LastRowNumber }}"
+            },
+            {
+              "name": "values",
+              "value": "={{ [[$('Item Lists7').item.json[\"CampaignName\"][0],$('Item Lists7').item.json[\"Impressions\"][0],$('Item Lists7').item.json[\"Clicks\"][0],$('Item Lists7').item.json[\"AvgCPC\"][0],$('Item Lists7').item.json[\"CTR\"][0],$('Item Lists7').item.json[\"Conversion\"][0],$('Item Lists7').item.json[\"Cost\"][0] ],[$('Item Lists7').item.json[\"CampaignName\"][1],$('Item Lists7').item.json[\"Impressions\"][1],$('Item Lists7').item.json[\"Clicks\"][1],$('Item Lists7').item.json[\"AvgCPC\"][1],$('Item Lists7').item.json[\"CTR\"][1],$('Item Lists7').item.json[\"Conversion\"][1],$('Item Lists7').item.json[\"Cost\"][1] ],[ $('Item Lists7').item.json[\"CampaignName\"][2],$('Item Lists7').item.json[\"Impressions\"][2],$('Item Lists7').item.json[\"Clicks\"][2],$('Item Lists7').item.json[\"AvgCPC\"][2],$('Item Lists7').item.json[\"CTR\"][2],$('Item Lists7').item.json[\"Conversion\"][2],$('Item Lists7').item.json[\"Cost\"][2]],[ $('Item Lists7').item.json[\"CampaignName\"][3],$('Item Lists7').item.json[\"Impressions\"][3],$('Item Lists7').item.json[\"Clicks\"][3],$('Item Lists7').item.json[\"AvgCPC\"][3],$('Item Lists7').item.json[\"CTR\"][3],$('Item Lists7').item.json[\"Conversion\"][3],$('Item Lists7').item.json[\"Cost\"][3] ],[ $('Item Lists7').item.json[\"CampaignName\"][4],$('Item Lists7').item.json[\"Impressions\"][4],$('Item Lists7').item.json[\"Clicks\"][4],$('Item Lists7').item.json[\"AvgCPC\"][4],$('Item Lists7').item.json[\"CTR\"][4],$('Item Lists7').item.json[\"Conversion\"][4],$('Item Lists7').item.json[\"Cost\"][4] ] ] }}"
+            },
+            {
+              "name": "majorDimension",
+              "value": "ROWS"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "36044823-e036-4c6c-933b-f76cac266918",
+      "name": "PUT GAds API Request For Media Cost Value3",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        4140,
+        1220
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "CampaignName",
+              "stringValue": "={{ $json.row[0] }}"
+            },
+            {
+              "name": "Impressions",
+              "stringValue": "={{ $json.row[2] }}"
+            },
+            {
+              "name": "Clicks",
+              "stringValue": "={{ $json.row[3] }}"
+            },
+            {
+              "name": "AvgCPC",
+              "stringValue": "={{ $json.row[4] }}"
+            },
+            {
+              "name": "CTR",
+              "stringValue": "={{ $json.row[6] }}"
+            },
+            {
+              "name": "Conversion",
+              "stringValue": "={{ $json.row[7] }}"
+            },
+            {
+              "name": "Cost",
+              "stringValue": "={{ $json.row[6] }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {
+          "dotNotation": false
+        }
+      },
+      "id": "867be8ac-2643-4635-adba-7360940dbe15",
+      "name": "Assign The Formatted Values To Each Column Fields3",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2500,
+        1220
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Search Campaign-Search Tab (Campaign Performance)\n**Monthly Search Campaign Report Spreadsheet URL:** https://docs.google.com/spreadsheets/d/1ScPaOFpw5Mtu8C773hifiABkbk-Dw4qTTzRvNRq_Hu8/edit#gid=943482815\n**Monthly Compiled All Campaign Report URL:** https://docs.google.com/spreadsheets/d/1AnKPoMFFkJVYBv4qZPwfsgueqC8j-fJRVaC5yZzVel0/edit#gid=824572499",
+        "height": 522.5,
+        "width": 4319.977272727272
+      },
+      "id": "cb4117dc-bc8a-457f-864f-e300fbc40002",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        80,
+        1020
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "CompiledReportSpreadsheedID",
+              "stringValue": "1AnKPoMFFkJVYBv4qZPwfsgueqC8j-fJRVaC5yZzVel0"
+            },
+            {
+              "name": "SheetName",
+              "stringValue": "Search"
+            },
+            {
+              "name": "TabSheetID",
+              "stringValue": "1448206660"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "aed4a880-82a6-4034-97bf-62aaea8f33d0",
+      "name": "Set Compiled Report Sheet Tab-Search2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2980,
+        1220
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "SearchCampaignSpreadsheetID",
+              "stringValue": "1ScPaOFpw5Mtu8C773hifiABkbk-Dw4qTTzRvNRq_Hu8"
+            },
+            {
+              "name": "LastMonthSheetName",
+              "stringValue": "Oct23"
+            },
+            {
+              "name": "SearchCampaignSheetID",
+              "stringValue": "943482815"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "72c2bfd8-20c6-4d66-b3f3-6c34ca332b9d",
+      "name": "Set Weekly Search Campaign Spreadsheet Details1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        360,
+        1200
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "RowNumber",
+              "stringValue": "={{ $json.row_number }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "0b445a5d-c11b-4f5f-80ea-ea8b2ce3796f",
+      "name": "Extract Row Number Had Read1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        800,
+        1160
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "concatenateItems",
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "RowNumber"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "72cde12e-2ce2-4a06-be7d-d55f2524b43c",
+      "name": "Turn Row Number Into List1",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        1020,
+        1240
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "StartingRow",
+              "stringValue": "={{ $('Turn Row Number Into List1').item.json.RowNumber.first() }}"
+            },
+            {
+              "name": "EndingRow",
+              "stringValue": "={{ $('Turn Row Number Into List1').item.json.RowNumber.last() }}"
+            },
+            {
+              "name": "StartingColumn",
+              "stringValue": "1"
+            },
+            {
+              "name": "EndingColumn",
+              "stringValue": "8"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "998dc90c-6645-463a-bc62-b27d4a00b7bf",
+      "name": "Set Target Row & Column Number To Get Weekly Campaign Data1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1340,
+        1220
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "concatenateItems",
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "values[0]"
+            },
+            {
+              "fieldToAggregate": "values[1]"
+            },
+            {
+              "fieldToAggregate": "values[2]"
+            },
+            {
+              "fieldToAggregate": "values[3]"
+            },
+            {
+              "fieldToAggregate": "values[4]"
+            }
+          ]
+        },
+        "options": {
+          "mergeLists": true
+        }
+      },
+      "id": "28785387-1324-4735-9a1a-b9782576f57c",
+      "name": "Item Lists4",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        1940,
+        1220
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "values",
+        "include": "allOtherFields",
+        "options": {
+          "destinationFieldName": "row"
+        }
+      },
+      "id": "4ae6b10e-da2a-4844-9996-4c1e4f007dc3",
+      "name": "Item Lists5",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        2160,
+        1220
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $json.CompiledReportSpreadsheedID }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ $json.TabSheetID }}",
+          "mode": "id"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRange",
+              "headerRow": 19,
+              "firstDataRow": 20
+            }
+          },
+          "outputFormatting": {
+            "values": {
+              "general": "FORMATTED_VALUE",
+              "date": "SERIAL_NUMBER"
+            }
+          },
+          "returnAllMatches": "returnFirstMatch"
+        }
+      },
+      "id": "5d9e0cf3-80da-46ed-9ea4-3132921842a3",
+      "name": "Google Sheets1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [
+        3320,
+        1200
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "concatenateItems",
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "row_number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "63d83800-beb0-46b1-8bb9-8f8190c7f5a4",
+      "name": "Item Lists6",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        3600,
+        1220
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "StartRowNumber",
+              "stringValue": "={{ $json.row_number.first() }}"
+            },
+            {
+              "name": "LastRowNumber",
+              "stringValue": "={{ $json.row_number[4] }}"
+            },
+            {
+              "name": "CampaignNameColumn",
+              "stringValue": "A"
+            },
+            {
+              "name": "ImpressionsColumn",
+              "stringValue": "B"
+            },
+            {
+              "name": "ClicksColumn",
+              "stringValue": "C"
+            },
+            {
+              "name": "CPCColumn",
+              "stringValue": "D"
+            },
+            {
+              "name": "CTRColumn",
+              "stringValue": "E"
+            },
+            {
+              "name": "ConversionColumn",
+              "stringValue": "F"
+            },
+            {
+              "name": "CostColumn",
+              "stringValue": "G"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "f30512f3-4a1f-4dbf-beb5-b833879bf71c",
+      "name": "Set Weekly Performance Fields1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        3860,
+        1240
+      ],
+      "notesInFlow": true,
+      "notes": "This node need to be adjust or edit regular"
+    },
+    {
+      "parameters": {
+        "operation": "concatenateItems",
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "CampaignName"
+            },
+            {
+              "fieldToAggregate": "Impressions"
+            },
+            {
+              "fieldToAggregate": "Clicks"
+            },
+            {
+              "fieldToAggregate": "AvgCPC"
+            },
+            {
+              "fieldToAggregate": "CTR"
+            },
+            {
+              "fieldToAggregate": "Conversion"
+            },
+            {
+              "fieldToAggregate": "Cost"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "529ce532-c669-4765-b90b-eb2be58487e0",
+      "name": "Item Lists7",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        2720,
+        1220
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "months",
+              "triggerAtHour": 10
+            }
+          ]
+        }
+      },
+      "id": "2ad5ee19-4ff9-4914-b0b6-d424f8bced5f",
+      "name": "Schedule Trigger4",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        120,
+        2100
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $json.SearchCampaignSpreadsheetID }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ $json.SearchCampaignSheetID }}",
+          "mode": "id"
+        },
+        "options": {
+          "outputFormatting": {
+            "values": {
+              "general": "FORMATTED_VALUE",
+              "date": "SERIAL_NUMBER"
+            }
+          }
+        }
+      },
+      "id": "35b4c05c-ffae-4af1-b5e3-d6ffe4407894",
+      "name": "Read ALL Rows From Search Campaign Spreadsheet4",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [
+        600,
+        2080
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://sheets.googleapis.com/v4/spreadsheets/{{ $('Set Weekly Search Campaign Spreadsheet Details2').item.json.SearchCampaignSpreadsheetID }}/values/{{ $('Set Weekly Search Campaign Spreadsheet Details2').item.json.LastMonthSheetName }}!R{{ $json.StartingRow }}C{{ $json.StartingColumn }}:R{{ $json.EndingRow }}C{{ $json.EndingColumn }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleSheetsOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "valueRenderOption",
+              "value": "FORMATTED_VALUE"
+            },
+            {
+              "name": "majorDimension",
+              "value": "ROWS"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "da8add26-87ba-4a4e-a99f-575a6ca626d2",
+      "name": "GET Formatted Values From Last Row4",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1680,
+        2080
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://sheets.googleapis.com/v4/spreadsheets/{{ $('Set Compiled Report Sheet Tab-Search3').item.json.CompiledReportSpreadsheedID }}/values/{{ $('Set Compiled Report Sheet Tab-Search3').item.json.SheetName }}!{{ $json.CampaignNameColumn }}{{ $json.StartRowNumber }}:{{ $json.CostColumn }}{{ $json.LastRowNumber }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleSheetsOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "valueInputOption",
+              "value": "RAW"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "range",
+              "value": "={{ $('Set Compiled Report Sheet Tab-Search3').item.json.SheetName }}!{{ $json.CampaignNameColumn }}{{ $json.StartRowNumber }}:{{ $json.CostColumn }}{{ $json.LastRowNumber }}"
+            },
+            {
+              "name": "values",
+              "value": "={{ [[$('Item Lists11').item.json[\"CampaignName\"][0],$('Item Lists11').item.json[\"Impressions\"][0],$('Item Lists11').item.json[\"Clicks\"][0],$('Item Lists11').item.json[\"AvgCPC\"][0],$('Item Lists11').item.json[\"CTR\"][0],$('Item Lists11').item.json[\"Conversion\"][0],$('Item Lists11').item.json[\"Cost\"][0] ],[$('Item Lists11').item.json[\"CampaignName\"][1],$('Item Lists11').item.json[\"Impressions\"][1],$('Item Lists11').item.json[\"Clicks\"][1],$('Item Lists11').item.json[\"AvgCPC\"][1],$('Item Lists11').item.json[\"CTR\"][1],$('Item Lists11').item.json[\"Conversion\"][1],$('Item Lists11').item.json[\"Cost\"][1] ],[ $('Item Lists11').item.json[\"CampaignName\"][2],$('Item Lists11').item.json[\"Impressions\"][2],$('Item Lists11').item.json[\"Clicks\"][2],$('Item Lists11').item.json[\"AvgCPC\"][2],$('Item Lists11').item.json[\"CTR\"][2],$('Item Lists11').item.json[\"Conversion\"][2],$('Item Lists11').item.json[\"Cost\"][2]],[ $('Item Lists11').item.json[\"CampaignName\"][3],$('Item Lists11').item.json[\"Impressions\"][3],$('Item Lists11').item.json[\"Clicks\"][3],$('Item Lists11').item.json[\"AvgCPC\"][3],$('Item Lists11').item.json[\"CTR\"][3],$('Item Lists11').item.json[\"Conversion\"][3],$('Item Lists11').item.json[\"Cost\"][3] ],[ $('Item Lists11').item.json[\"CampaignName\"][4],$('Item Lists11').item.json[\"Impressions\"][4],$('Item Lists11').item.json[\"Clicks\"][4],$('Item Lists11').item.json[\"AvgCPC\"][4],$('Item Lists11').item.json[\"CTR\"][4],$('Item Lists11').item.json[\"Conversion\"][4],$('Item Lists11').item.json[\"Cost\"][4] ] ] }}"
+            },
+            {
+              "name": "majorDimension",
+              "value": "ROWS"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e083a7a0-d19a-496e-bf78-67540c6ccccc",
+      "name": "PUT GAds API Request For Media Cost Value4",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        4160,
+        2080
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "CampaignName",
+              "stringValue": "={{ $json.row[0] }}"
+            },
+            {
+              "name": "Impressions",
+              "stringValue": "={{ $json.row[2] }}"
+            },
+            {
+              "name": "Clicks",
+              "stringValue": "={{ $json.row[3] }}"
+            },
+            {
+              "name": "AvgCPC",
+              "stringValue": "={{ $json.row[4] }}"
+            },
+            {
+              "name": "CTR",
+              "stringValue": "={{ $json.row[6] }}"
+            },
+            {
+              "name": "Conversion",
+              "stringValue": "={{ $json.row[7] }}"
+            },
+            {
+              "name": "Cost",
+              "stringValue": "={{ $json.row[6] }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {
+          "dotNotation": false
+        }
+      },
+      "id": "cb48545c-990a-4171-82e3-2a21a6828bf3",
+      "name": "Assign The Formatted Values To Each Column Fields4",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2520,
+        2080
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Search Campaign-Search Tab (Campaign Performance)\n**Monthly Search Campaign Report Spreadsheet URL:** https://docs.google.com/spreadsheets/d/1ScPaOFpw5Mtu8C773hifiABkbk-Dw4qTTzRvNRq_Hu8/edit#gid=943482815\n**Monthly Compiled All Campaign Report URL:** https://docs.google.com/spreadsheets/d/1AnKPoMFFkJVYBv4qZPwfsgueqC8j-fJRVaC5yZzVel0/edit#gid=824572499",
+        "height": 522.5,
+        "width": 4319.977272727272
+      },
+      "id": "7eaf8afa-9418-4597-975f-1962cd81cae1",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        100,
+        1880
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "CompiledReportSpreadsheedID",
+              "stringValue": "1AnKPoMFFkJVYBv4qZPwfsgueqC8j-fJRVaC5yZzVel0"
+            },
+            {
+              "name": "SheetName",
+              "stringValue": "Search"
+            },
+            {
+              "name": "TabSheetID",
+              "stringValue": "1448206660"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "f6275c7f-b40a-4951-ab16-685792bab624",
+      "name": "Set Compiled Report Sheet Tab-Search3",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        3000,
+        2080
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "SearchCampaignSpreadsheetID",
+              "stringValue": "1ScPaOFpw5Mtu8C773hifiABkbk-Dw4qTTzRvNRq_Hu8"
+            },
+            {
+              "name": "LastMonthSheetName",
+              "stringValue": "Oct23"
+            },
+            {
+              "name": "SearchCampaignSheetID",
+              "stringValue": "943482815"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "08eaa2f5-5688-44c2-a10d-281193d480bb",
+      "name": "Set Weekly Search Campaign Spreadsheet Details2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        380,
+        2060
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "RowNumber",
+              "stringValue": "={{ $json.row_number }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "64d9c351-4866-4d81-8106-e0079857b506",
+      "name": "Extract Row Number Had Read2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        820,
+        2020
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "concatenateItems",
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "RowNumber"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "414aa866-cc82-420d-8d51-4f9f195e83fb",
+      "name": "Turn Row Number Into List2",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        1040,
+        2100
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "StartingRow",
+              "stringValue": "={{ $('Turn Row Number Into List2').item.json.RowNumber.first() }}"
+            },
+            {
+              "name": "EndingRow",
+              "stringValue": "={{ $('Turn Row Number Into List2').item.json.RowNumber.last() }}"
+            },
+            {
+              "name": "StartingColumn",
+              "stringValue": "1"
+            },
+            {
+              "name": "EndingColumn",
+              "stringValue": "8"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "f3db818f-83a3-4d87-9359-ad36f9162687",
+      "name": "Set Target Row & Column Number To Get Weekly Campaign Data2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1360,
+        2080
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "concatenateItems",
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "values[0]"
+            },
+            {
+              "fieldToAggregate": "values[1]"
+            },
+            {
+              "fieldToAggregate": "values[2]"
+            },
+            {
+              "fieldToAggregate": "values[3]"
+            },
+            {
+              "fieldToAggregate": "values[4]"
+            }
+          ]
+        },
+        "options": {
+          "mergeLists": true
+        }
+      },
+      "id": "a4f34e93-17d0-4ddb-b881-795e9be54162",
+      "name": "Item Lists8",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        1960,
+        2080
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "values",
+        "include": "allOtherFields",
+        "options": {
+          "destinationFieldName": "row"
+        }
+      },
+      "id": "80448aa1-de8b-4c8f-b753-b058759adc90",
+      "name": "Item Lists9",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        2180,
+        2080
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $json.CompiledReportSpreadsheedID }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ $json.TabSheetID }}",
+          "mode": "id"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRange",
+              "headerRow": 19,
+              "firstDataRow": 20
+            }
+          },
+          "outputFormatting": {
+            "values": {
+              "general": "FORMATTED_VALUE",
+              "date": "SERIAL_NUMBER"
+            }
+          },
+          "returnAllMatches": "returnFirstMatch"
+        }
+      },
+      "id": "b2353148-fc51-4082-9471-6be51740c4c3",
+      "name": "Google Sheets2",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [
+        3340,
+        2060
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "concatenateItems",
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "row_number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "28ca9776-e9e6-420b-b0c6-978f35d44ac8",
+      "name": "Item Lists10",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        3620,
+        2080
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "StartRowNumber",
+              "stringValue": "={{ $json.row_number.first() }}"
+            },
+            {
+              "name": "LastRowNumber",
+              "stringValue": "={{ $json.row_number[4] }}"
+            },
+            {
+              "name": "CampaignNameColumn",
+              "stringValue": "A"
+            },
+            {
+              "name": "ImpressionsColumn",
+              "stringValue": "B"
+            },
+            {
+              "name": "ClicksColumn",
+              "stringValue": "C"
+            },
+            {
+              "name": "CPCColumn",
+              "stringValue": "D"
+            },
+            {
+              "name": "CTRColumn",
+              "stringValue": "E"
+            },
+            {
+              "name": "ConversionColumn",
+              "stringValue": "F"
+            },
+            {
+              "name": "CostColumn",
+              "stringValue": "G"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "b00d2886-55ab-4fd1-a743-84dd106790c7",
+      "name": "Set Weekly Performance Fields2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        3880,
+        2100
+      ],
+      "notesInFlow": true,
+      "notes": "This node need to be adjust or edit regular"
+    },
+    {
+      "parameters": {
+        "operation": "concatenateItems",
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "CampaignName"
+            },
+            {
+              "fieldToAggregate": "Impressions"
+            },
+            {
+              "fieldToAggregate": "Clicks"
+            },
+            {
+              "fieldToAggregate": "AvgCPC"
+            },
+            {
+              "fieldToAggregate": "CTR"
+            },
+            {
+              "fieldToAggregate": "Conversion"
+            },
+            {
+              "fieldToAggregate": "Cost"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ea9e582a-b523-4432-992f-354962b43335",
+      "name": "Item Lists11",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        2740,
+        2080
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Set Search Campaign Spreadsheet Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Search Campaign Spreadsheet Details": {
+      "main": [
+        [
+          {
+            "node": "Read ALL Rows From Search Campaign Spreadsheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read ALL Rows From Search Campaign Spreadsheet": {
+      "main": [
+        [
+          {
+            "node": "Set Target Column Fields For Search Campaign",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Target Column Fields For Search Campaign": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "GET Formatted Values From Last Row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Formatted Values From Last Row": {
+      "main": [
+        [
+          {
+            "node": "Assign The Formatted Values To Each Column Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assign The Formatted Values To Each Column Fields": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "PUT GAds API Request For Media Cost Value",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Set Search Campaign Spreadsheet Details1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Search Campaign Spreadsheet Details1": {
+      "main": [
+        [
+          {
+            "node": "Read ALL Rows From Search Campaign Spreadsheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read ALL Rows From Search Campaign Spreadsheet1": {
+      "main": [
+        [
+          {
+            "node": "Set Target Column Number For Search Campaign",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Formatted Values From Last Row1": {
+      "main": [
+        [
+          {
+            "node": "Assign The Formatted Values To Each Column Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assign The Formatted Values To Each Column Fields1": {
+      "main": [
+        [
+          {
+            "node": "Set Compiled Report Sheet Tab-Search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Compiled Report Sheet Tab-Search": {
+      "main": [
+        [
+          {
+            "node": "Set Monthly Performance Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Target Column Number For Search Campaign": {
+      "main": [
+        [
+          {
+            "node": "GET Formatted Values From Last Row1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Monthly Performance Fields": {
+      "main": [
+        [
+          {
+            "node": "PUT GAds API Request For Media Cost Value1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger2": {
+      "main": [
+        [
+          {
+            "node": "Set Weekly Search Campaign Spreadsheet Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read ALL Rows From Search Campaign Spreadsheet2": {
+      "main": [
+        [
+          {
+            "node": "Extract Row Number Had Read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Formatted Values From Last Row2": {
+      "main": [
+        [
+          {
+            "node": "Item Lists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assign The Formatted Values To Each Column Fields2": {
+      "main": [
+        [
+          {
+            "node": "Item Lists3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Compiled Report Sheet Tab-Search1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Weekly Search Campaign Spreadsheet Details": {
+      "main": [
+        [
+          {
+            "node": "Read ALL Rows From Search Campaign Spreadsheet2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Row Number Had Read": {
+      "main": [
+        [
+          {
+            "node": "Turn Row Number Into List",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Turn Row Number Into List": {
+      "main": [
+        [
+          {
+            "node": "Select The Row Within The Month",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Select The Row Within The Month": {
+      "main": [
+        [
+          {
+            "node": "Set Target Row & Column Number To Get Weekly Campaign Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Target Row & Column Number To Get Weekly Campaign Data": {
+      "main": [
+        [
+          {
+            "node": "GET Formatted Values From Last Row2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists": {
+      "main": [
+        [
+          {
+            "node": "Item Lists1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists1": {
+      "main": [
+        [
+          {
+            "node": "Assign The Formatted Values To Each Column Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Item Lists2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists2": {
+      "main": [
+        [
+          {
+            "node": "Set Weekly Performance Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Weekly Performance Fields": {
+      "main": [
+        [
+          {
+            "node": "PUT GAds API Request For Media Cost Value2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists3": {
+      "main": [
+        [
+          {
+            "node": "Set Compiled Report Sheet Tab-Search1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger3": {
+      "main": [
+        [
+          {
+            "node": "Set Weekly Search Campaign Spreadsheet Details1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read ALL Rows From Search Campaign Spreadsheet3": {
+      "main": [
+        [
+          {
+            "node": "Extract Row Number Had Read1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Formatted Values From Last Row3": {
+      "main": [
+        [
+          {
+            "node": "Item Lists4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assign The Formatted Values To Each Column Fields3": {
+      "main": [
+        [
+          {
+            "node": "Item Lists7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Compiled Report Sheet Tab-Search2": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Weekly Search Campaign Spreadsheet Details1": {
+      "main": [
+        [
+          {
+            "node": "Read ALL Rows From Search Campaign Spreadsheet3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Row Number Had Read1": {
+      "main": [
+        [
+          {
+            "node": "Turn Row Number Into List1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Turn Row Number Into List1": {
+      "main": [
+        [
+          {
+            "node": "Set Target Row & Column Number To Get Weekly Campaign Data1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Target Row & Column Number To Get Weekly Campaign Data1": {
+      "main": [
+        [
+          {
+            "node": "GET Formatted Values From Last Row3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists4": {
+      "main": [
+        [
+          {
+            "node": "Item Lists5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists5": {
+      "main": [
+        [
+          {
+            "node": "Assign The Formatted Values To Each Column Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "Item Lists6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists6": {
+      "main": [
+        [
+          {
+            "node": "Set Weekly Performance Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Weekly Performance Fields1": {
+      "main": [
+        [
+          {
+            "node": "PUT GAds API Request For Media Cost Value3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists7": {
+      "main": [
+        [
+          {
+            "node": "Set Compiled Report Sheet Tab-Search2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger4": {
+      "main": [
+        [
+          {
+            "node": "Set Weekly Search Campaign Spreadsheet Details2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read ALL Rows From Search Campaign Spreadsheet4": {
+      "main": [
+        [
+          {
+            "node": "Extract Row Number Had Read2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Formatted Values From Last Row4": {
+      "main": [
+        [
+          {
+            "node": "Item Lists8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assign The Formatted Values To Each Column Fields4": {
+      "main": [
+        [
+          {
+            "node": "Item Lists11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Compiled Report Sheet Tab-Search3": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Weekly Search Campaign Spreadsheet Details2": {
+      "main": [
+        [
+          {
+            "node": "Read ALL Rows From Search Campaign Spreadsheet4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Row Number Had Read2": {
+      "main": [
+        [
+          {
+            "node": "Turn Row Number Into List2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Turn Row Number Into List2": {
+      "main": [
+        [
+          {
+            "node": "Set Target Row & Column Number To Get Weekly Campaign Data2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Target Row & Column Number To Get Weekly Campaign Data2": {
+      "main": [
+        [
+          {
+            "node": "GET Formatted Values From Last Row4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists8": {
+      "main": [
+        [
+          {
+            "node": "Item Lists9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists9": {
+      "main": [
+        [
+          {
+            "node": "Assign The Formatted Values To Each Column Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets2": {
+      "main": [
+        [
+          {
+            "node": "Item Lists10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists10": {
+      "main": [
+        [
+          {
+            "node": "Set Weekly Performance Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Weekly Performance Fields2": {
+      "main": [
+        [
+          {
+            "node": "PUT GAds API Request For Media Cost Value4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists11": {
+      "main": [
+        [
+          {
+            "node": "Set Compiled Report Sheet Tab-Search3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "GET Formatted Values From Last Row2": [
+      {
+        "json": {
+          "range": "'Oct23'!A3:I7",
+          "majorDimension": "ROWS",
+          "values": [
+            [
+              "2023-10-02",
+              "2023-10-01",
+              "3019",
+              "217",
+              "0.7996313364",
+              "57.47598543",
+              "0.07187810533",
+              "173.52",
+              "10"
+            ],
+            [
+              "2023-10-09",
+              "2023-10-01",
+              "3341",
+              "228",
+              "0.8170175439",
+              "55.75576175",
+              "0.06824304101",
+              "186.28",
+              "15"
+            ],
+            [
+              "2023-10-16",
+              "2023-10-01",
+              "3106",
+              "216",
+              "0.8044907407",
+              "55.94655505",
+              "0.06954282035",
+              "173.77",
+              "33"
+            ],
+            [
+              "2023-10-23",
+              "2023-10-01",
+              "8342",
+              "517",
+              "1.108687358",
+              "68.71150372",
+              "0.06197554543",
+              "573.191364",
+              "46"
+            ],
+            [
+              "2023-10-30",
+              "2023-10-01",
+              "3693",
+              "214",
+              "1.314385121",
+              "76.16529001",
+              "0.05794746818",
+              "281.278416",
+              "36"
+            ]
+          ]
+        }
+      }
+    ],
+    "Item Lists1": [
+      {
+        "json": {
+          "row": [
+            "2023-10-02",
+            "2023-10-01",
+            "3019",
+            "217",
+            "0.7996313364",
+            "57.47598543",
+            "0.07187810533",
+            "173.52",
+            "10"
+          ]
+        }
+      },
+      {
+        "json": {
+          "row": [
+            "2023-10-09",
+            "2023-10-01",
+            "3341",
+            "228",
+            "0.8170175439",
+            "55.75576175",
+            "0.06824304101",
+            "186.28",
+            "15"
+          ]
+        }
+      },
+      {
+        "json": {
+          "row": [
+            "2023-10-16",
+            "2023-10-01",
+            "3106",
+            "216",
+            "0.8044907407",
+            "55.94655505",
+            "0.06954282035",
+            "173.77",
+            "33"
+          ]
+        }
+      },
+      {
+        "json": {
+          "row": [
+            "2023-10-23",
+            "2023-10-01",
+            "8342",
+            "517",
+            "1.108687358",
+            "68.71150372",
+            "0.06197554543",
+            "573.191364",
+            "46"
+          ]
+        }
+      },
+      {
+        "json": {
+          "row": [
+            "2023-10-30",
+            "2023-10-01",
+            "3693",
+            "214",
+            "1.314385121",
+            "76.16529001",
+            "0.05794746818",
+            "281.278416",
+            "36"
+          ]
+        }
+      }
+    ]
+  },
+  "versionId": "ac860ec2-03f1-4af5-8b88-c38d5487b923",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2023-11-06T04:34:40.170Z",
+      "createdAt": "2023-11-06T04:34:40.170Z",
+      "role": "workflow:owner",
+      "workflowId": "JDFADh6ExkMTJdDN",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
