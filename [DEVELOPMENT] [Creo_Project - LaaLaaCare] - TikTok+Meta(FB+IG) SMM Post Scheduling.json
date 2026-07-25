@@ -1,0 +1,2052 @@
+{
+  "updatedAt": "2025-07-19T09:00:39.000Z",
+  "createdAt": "2025-06-12T03:13:18.726Z",
+  "id": "CcZxe0PKTgUdZlmy",
+  "name": "[DEVELOPMENT] [Creo_Project - LaaLaaCare] - TikTok+Meta(FB+IG) SMM Post Scheduling",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "hour": 12
+            }
+          ]
+        },
+        "triggerOn": "specificFile",
+        "fileToWatch": {
+          "__rl": true,
+          "value": "1gdcMOeLJnPqVm6Zm7vGytXrhSQb4DaTSZ1iwTbt35DI",
+          "mode": "list",
+          "cachedResultName": "LaaLaa Social Media Scedule",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gdcMOeLJnPqVm6Zm7vGytXrhSQb4DaTSZ1iwTbt35DI/edit?usp=drivesdk"
+        }
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        -656,
+        -528
+      ],
+      "id": "bde33948-4dd8-4068-a759-b5cc3dd1fa02",
+      "name": "Google Drive Trigger",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f432050f-ee9f-4b14-8890-a19bcf85e9dd",
+              "leftValue": "={{ $('Search files and folders').item.json.mimeType }}",
+              "rightValue": "application/vnd.google-apps.spreadsheet",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "eb037a43-d4c6-4afa-b439-97bada7b0097",
+              "leftValue": "={{ $('Search files and folders').item.json.name }}",
+              "rightValue": "LaaLaa Social Media Scedule",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        112,
+        -528
+      ],
+      "id": "c63fd7eb-d8c1-4f0b-899f-adcd959e1bea",
+      "name": "Execute True If Is Spreadsheet Type"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        0,
+        -256
+      ],
+      "id": "a5e00286-87fb-4ea1-8f72-c6e93e811173",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3f65b6c6-0313-4935-a2d7-a82d34cd81ce",
+              "name": "row_num",
+              "value": "={{ $json.row_number }}",
+              "type": "string"
+            },
+            {
+              "id": "76fa58de-f554-4353-9080-eac129bf1bda",
+              "name": "tiktokFullCaption",
+              "value": "={{ $json[\"TikTok Caption\"] }}\n",
+              "type": "string"
+            },
+            {
+              "id": "cfea11fe-f43b-4702-9c2f-25ea22c47528",
+              "name": "visualFileID",
+              "value": "={{ $json['Visual Link'].replaceAll(\"https://drive.google.com/file/d/\",\"\").replaceAll(\"/view?usp=sharing\",\"\").replaceAll(\"/view?usp=drive_link\",\"\").replaceAll(\"\\n\",\"\") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        848,
+        32
+      ],
+      "id": "924ac32f-d4c0-4e2a-be15-9c677a45d623",
+      "name": "Extract Only Visual File ID"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "={{ $binary.data.fileName.replaceAll(\" \", \"_\") }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        1440,
+        32
+      ],
+      "id": "edbe6d74-fb52-474d-b1ee-149381f73931",
+      "name": "Read/Write Files from Disk"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.upload-post.com/api/upload",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "title",
+              "value": "={{ $json.tiktokFullCaption }}"
+            },
+            {
+              "name": "platform[]",
+              "value": "tiktok"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "video",
+              "inputDataFieldName": "data"
+            },
+            {
+              "name": "user",
+              "value": "creo-laalaacare"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "09bf38ff-cc24-457c-a229-f04ded7acf5c",
+      "name": "Upload Video and Description to Tiktok",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        1728,
+        32
+      ],
+      "notesInFlow": true,
+      "typeVersion": 4.2,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "sUAQFeOYksssVhyr",
+          "name": "UploadPost API Header Auth (info.hansondev@gmail.com)"
+        }
+      },
+      "notes": "Generate in upload-post.com the token and add to the credentials in the header-> Authorization: Apikey (token here)"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.upload-post.com/api/upload",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "description",
+              "value": "={{ $json.metaFullCaption }}"
+            },
+            {
+              "name": "platform[]",
+              "value": "facebook"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "video",
+              "inputDataFieldName": "data"
+            },
+            {
+              "name": "user",
+              "value": "creo-laalaacare"
+            },
+            {
+              "name": "facebook_page_id",
+              "value": "609729932215797"
+            },
+            {
+              "name": "title",
+              "value": "={{ $json.fileName }}"
+            },
+            {
+              "name": "video_state",
+              "value": "PUBLISHED"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3da465b6-f329-4bef-a816-ecb4bf3d11ab",
+      "name": "Upload Video and Description to Facebook Page",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        1872,
+        432
+      ],
+      "notesInFlow": true,
+      "typeVersion": 4.2,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "sUAQFeOYksssVhyr",
+          "name": "UploadPost API Header Auth (info.hansondev@gmail.com)"
+        }
+      },
+      "notes": "Generate in upload-post.com the token and add to the credentials in the header-> Authorization: Apikey (token here)"
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $json.timestamp }}",
+        "format": "custom",
+        "customFormat": "ccc, dd LLL",
+        "outputFieldName": "scheduleDate",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        0,
+        48
+      ],
+      "id": "5f500e13-9b6b-441a-9b3f-219c065e67a2",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1BQgJ9AFGSf3zdBZOCh39amxSh6elFae5QmaFEe4cBJs",
+          "mode": "list",
+          "cachedResultName": "LaaLaa SocialMediaScheduling - For Hanson SM Scheduling App",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BQgJ9AFGSf3zdBZOCh39amxSh6elFae5QmaFEe4cBJs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "TikTok",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BQgJ9AFGSf3zdBZOCh39amxSh6elFae5QmaFEe4cBJs/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        336,
+        32
+      ],
+      "id": "1b2fd2ea-a88a-4d21-bf75-9419b245311b",
+      "name": "Read TikTok Posts Sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1BQgJ9AFGSf3zdBZOCh39amxSh6elFae5QmaFEe4cBJs",
+          "mode": "list",
+          "cachedResultName": "LaaLaa SocialMediaScheduling - For Hanson SM Scheduling App",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BQgJ9AFGSf3zdBZOCh39amxSh6elFae5QmaFEe4cBJs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 321313742,
+          "mode": "list",
+          "cachedResultName": "Meta",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BQgJ9AFGSf3zdBZOCh39amxSh6elFae5QmaFEe4cBJs/edit#gid=321313742"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        432,
+        432
+      ],
+      "id": "08ef4e80-a14c-4610-9444-02e9b8d0acd1",
+      "name": "Read Meta Posts Sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f0d2e3b9-eded-4412-9e29-a0b7e110745c",
+              "leftValue": "={{ $json[\"Date Publish\"] }}",
+              "rightValue": "={{ $('Date & Time').item.json.scheduleDate }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        592,
+        32
+      ],
+      "id": "37c283aa-cea2-4f69-a45e-688b6791a1a6",
+      "name": "Filter TikTok Schedule Date"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f0d2e3b9-eded-4412-9e29-a0b7e110745c",
+              "leftValue": "={{ $json[\"Date Publish\"] }}",
+              "rightValue": "={{ $('Date & Time').first().json.scheduleDate }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        688,
+        432
+      ],
+      "id": "7c33c257-ad86-44b7-9abf-6bb5104bbc97",
+      "name": "Filter Meta Schedule Date"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.visualFileID }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1072,
+        32
+      ],
+      "id": "ce5a083c-d153-4acd-8463-d3873394bd5c",
+      "name": "Download TikTok Visual From Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.visualFileID }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1200,
+        432
+      ],
+      "id": "41805937-89ba-4442-a297-36341e15bcc8",
+      "name": "Download Meta Visual From Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1BQgJ9AFGSf3zdBZOCh39amxSh6elFae5QmaFEe4cBJs",
+          "mode": "list",
+          "cachedResultName": "LaaLaa SocialMediaScheduling - For Hanson SM Scheduling App",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BQgJ9AFGSf3zdBZOCh39amxSh6elFae5QmaFEe4cBJs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "TikTok",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BQgJ9AFGSf3zdBZOCh39amxSh6elFae5QmaFEe4cBJs/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $('Extract Only Visual File ID').first().json.row_num }}",
+            "Schedule Status": "Scheduled",
+            "Post Link": "={{ $json.results.tiktok.url }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "TikTok Caption",
+              "displayName": "TikTok Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Visual",
+              "displayName": "Visual",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Hashtag",
+              "displayName": "Hashtag",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Schedule Status",
+              "displayName": "Schedule Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Post Link",
+              "displayName": "Post Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2000,
+        32
+      ],
+      "id": "ee2c3d40-8024-48d0-bf8b-389d0e8f36f9",
+      "name": "Update Tiktok Schedule Status To Scheduled",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1BQgJ9AFGSf3zdBZOCh39amxSh6elFae5QmaFEe4cBJs",
+          "mode": "list",
+          "cachedResultName": "LaaLaa SocialMediaScheduling - For Hanson SM Scheduling App",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BQgJ9AFGSf3zdBZOCh39amxSh6elFae5QmaFEe4cBJs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 321313742,
+          "mode": "list",
+          "cachedResultName": "Meta",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BQgJ9AFGSf3zdBZOCh39amxSh6elFae5QmaFEe4cBJs/edit#gid=321313742"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $('Extract Only Meta Visual File ID').first().json.row_num }}",
+            "Schedule Status": "Scheduled",
+            "Post Link": "={{ $json.results.facebook.url }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Date Publish",
+              "displayName": "Date Publish",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Meta Caption",
+              "displayName": "Meta Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Visual Link",
+              "displayName": "Visual Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Schedule Status",
+              "displayName": "Schedule Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Post Link",
+              "displayName": "Post Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2192,
+        432
+      ],
+      "id": "a9ee7f7e-beaf-4b6f-8d1d-53be1e772d99",
+      "name": "Update Meta Schedule Status To Scheduled",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 16 * * *"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -416,
+        48
+      ],
+      "id": "13111293-bafa-453f-abb4-0d056221db1d",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b741d731-f2cf-484f-b5ce-8c1e39e9d0b7",
+              "name": "datePosting",
+              "value": "={{ $json['Posting Date'] }}",
+              "type": "string"
+            },
+            {
+              "id": "32adc551-4b66-4985-a312-e367e8e59381",
+              "name": "metaPostText",
+              "value": "={{ $json['IG, FB\\nCaption'] }}",
+              "type": "string"
+            },
+            {
+              "id": "6f3ca2b5-c61a-4432-b78d-59e3e73a82fb",
+              "name": "visualUpload",
+              "value": "={{ $json.Visual }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1200,
+        -704
+      ],
+      "id": "8a17d696-cabd-448b-93d8-df250f7ef807",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b741d731-f2cf-484f-b5ce-8c1e39e9d0b7",
+              "name": "datePosting",
+              "value": "={{ $json['Posting Date'] }}",
+              "type": "string"
+            },
+            {
+              "id": "97a44560-bf0c-424c-a91c-edd679d40635",
+              "name": "tiktokPostText",
+              "value": "={{ $json['TikTok\\nCaption'] }}",
+              "type": "string"
+            },
+            {
+              "id": "6c5f7ea8-5f72-4e18-8e1a-1d8a5a6c1542",
+              "name": "visualUpload",
+              "value": "={{ $json.Visual }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1184,
+        -336
+      ],
+      "id": "ede90963-0b28-45e8-8e7d-26722038a1ad",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {
+          "responseFormat": "json_object"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1504,
+        -480
+      ],
+      "id": "45a43a15-e1f7-448e-8b08-46cebd3688c0",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {
+          "responseFormat": "json_object"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1584,
+        -160
+      ],
+      "id": "c9cbdb81-3004-4804-b1ca-8a2779f2eaab",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "text": "=Visual Upload Details: {{ $json.visualUpload }}",
+        "schemaType": "fromJson",
+        "jsonSchemaExample": "{\n\t\"metaPlatformType\": \"IG,FB\",\n\t\"visualDownloadLink\": \"https://drive.google.com/file/d/1no0yVnja3E8lrd0oK3PFRdvH4_wKcDBW/view?usp=sharing\"\n}",
+        "options": {
+          "systemPromptTemplate": "=<Role>\nYou are an expert of data extraction.\n</Role>\n<Task>\nYou are tasked to extract Meta platform types(FB & IG) visual download link based on the user provided text data and transform it into key-value pair JSON object structure.\n</Task>\n<Context>\nYou will providing the following information from user as below:\n- Visual Upload Details\n</Context>\n<Output>\nThe output should be in JSON format without any other extra  explanation and non-relevant information.\n</Output>"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        1408,
+        -704
+      ],
+      "id": "68c4c75c-f8f2-4a8c-a61c-aac46c89f588",
+      "name": "Meta(IG,FB) Visual Link Extractor"
+    },
+    {
+      "parameters": {
+        "text": "=Visual Upload Details: {{ $json.visualUpload }}",
+        "schemaType": "fromJson",
+        "jsonSchemaExample": "{\n\t\"platformType\": \"TikTok\",\n\t\"visualDownloadLink\": \"https://drive.google.com/file/d/1no0yVnja3E8lrd0oK3PFRdvH4_wKcDBW/view?usp=sharing\"\n}",
+        "options": {
+          "systemPromptTemplate": "=<Role>\nYou are an expert of data extraction.\n</Role>\n<Task>\nYou are tasked to extract TikTok platform type visual download link based on the user provided text data and transform it into key-value pair JSON object structure.\n</Task>\n<Context>\nYou will providing the following information from user as below:\n- Visual Upload Details\n</Context>\n<Output>\nThe output should be in JSON format without any other extra  explanation and non-relevant information.\n</Output>"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        1472,
+        -336
+      ],
+      "id": "28ddd0f9-fb43-4fd1-b195-509d6793b5e6",
+      "name": "TikTok Visual Link Extractor"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1BQgJ9AFGSf3zdBZOCh39amxSh6elFae5QmaFEe4cBJs",
+          "mode": "list",
+          "cachedResultName": "LaaLaa SocialMediaScheduling - For Hanson SM Scheduling App",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BQgJ9AFGSf3zdBZOCh39amxSh6elFae5QmaFEe4cBJs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 321313742,
+          "mode": "list",
+          "cachedResultName": "Meta",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BQgJ9AFGSf3zdBZOCh39amxSh6elFae5QmaFEe4cBJs/edit#gid=321313742"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Meta Caption": "={{ $json.postCaption }}",
+            "Date Publish": "={{ $json.dateSchedulling }}",
+            "Visual Link": "={{ $json.visualDownloadLink }}"
+          },
+          "matchingColumns": [
+            "Date Publish"
+          ],
+          "schema": [
+            {
+              "id": "Date Publish",
+              "displayName": "Date Publish",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Meta Caption",
+              "displayName": "Meta Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Visual Link",
+              "displayName": "Visual Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Schedule Status",
+              "displayName": "Schedule Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Post Link",
+              "displayName": "Post Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2320,
+        -704
+      ],
+      "id": "8e34a9fe-3c15-4bcf-a8cf-f6eb79820b49",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b5649f0d-63d8-4e36-879f-463d44535680",
+              "name": "dateSchedulling",
+              "value": "={{ $('Edit Fields').item.json.datePosting }}",
+              "type": "string"
+            },
+            {
+              "id": "b846063b-0fdc-40c9-a969-3c926f6dbbb1",
+              "name": "postCaption",
+              "value": "={{ $('Edit Fields').item.json.metaPostText }}",
+              "type": "string"
+            },
+            {
+              "id": "4764045d-635a-4071-910a-5fcf4528c18c",
+              "name": "visualDownloadLink",
+              "value": "={{ $json[\"IG,FB\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2048,
+        -704
+      ],
+      "id": "d961fac0-0d37-49c5-9d6d-f4654bb6b19e",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process each item in the input array\nreturn items.map(item => {\n  // Extract values from the current item\n  const platform = item.json.output.metaPlatformType;\n  const link = item.json.output.visualDownloadLink;\n  \n  // Create new object with dynamic key based on platform\n  return {\n    json: {\n      [platform]: link\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        -704
+      ],
+      "id": "06b3ef62-e898-4f22-957f-1c58fec98a9e",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1BQgJ9AFGSf3zdBZOCh39amxSh6elFae5QmaFEe4cBJs",
+          "mode": "list",
+          "cachedResultName": "LaaLaa SocialMediaScheduling - For Hanson SM Scheduling App",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BQgJ9AFGSf3zdBZOCh39amxSh6elFae5QmaFEe4cBJs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "TikTok",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BQgJ9AFGSf3zdBZOCh39amxSh6elFae5QmaFEe4cBJs/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date Publish": "={{ $json.dateSchedulling }}",
+            "TikTok Caption": "={{ $json.postCaption }}",
+            "Visual Link": "={{ $json.visualDownloadLink }}"
+          },
+          "matchingColumns": [
+            "Date Publish"
+          ],
+          "schema": [
+            {
+              "id": "Date Publish",
+              "displayName": "Date Publish",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "TikTok Caption",
+              "displayName": "TikTok Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Visual Link",
+              "displayName": "Visual Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Schedule Status",
+              "displayName": "Schedule Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Post Link",
+              "displayName": "Post Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2384,
+        -336
+      ],
+      "id": "ebc5ecfe-81b1-4663-991b-f2418e519c61",
+      "name": "Google Sheets2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b5649f0d-63d8-4e36-879f-463d44535680",
+              "name": "dateSchedulling",
+              "value": "={{ $('Edit Fields1').item.json.datePosting }}",
+              "type": "string"
+            },
+            {
+              "id": "b846063b-0fdc-40c9-a969-3c926f6dbbb1",
+              "name": "postCaption",
+              "value": "={{ $('Edit Fields1').item.json.tiktokPostText }}",
+              "type": "string"
+            },
+            {
+              "id": "4764045d-635a-4071-910a-5fcf4528c18c",
+              "name": "visualDownloadLink",
+              "value": "={{ $json[\"TikTok\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2112,
+        -336
+      ],
+      "id": "d929c9c4-114f-4bc2-88fa-2e3bab33f64e",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process each item in the input array\nreturn items.map(item => {\n  // Extract values from the current item\n  const platform = item.json.output.platformType;\n  const link = item.json.output.visualDownloadLink;\n  \n  // Create new object with dynamic key based on platform\n  return {\n    json: {\n      [platform]: link\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1824,
+        -336
+      ],
+      "id": "128d9004-aa7d-4747-b1c7-b12ca86f61c5",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3bd4c88c-17e9-4829-bf1f-8e472c6e2319",
+              "name": "row_num",
+              "value": "={{ $json.row_number }}",
+              "type": "string"
+            },
+            {
+              "id": "76fa58de-f554-4353-9080-eac129bf1bda",
+              "name": "metaFullCaption",
+              "value": "={{ $json[\"Meta Caption\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "cfea11fe-f43b-4702-9c2f-25ea22c47528",
+              "name": "visualFileID",
+              "value": "={{ $json['Visual Link'].replaceAll(\"https://drive.google.com/file/d/\",\"\").replaceAll(\"/view?usp=sharing\",\"\").replaceAll(\"/view?usp=drive_link\",\"\").replaceAll(\"\\n\",\"\") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        944,
+        432
+      ],
+      "id": "d3babc47-0c3b-4032-8b7a-4e7d613c08f3",
+      "name": "Extract Only Meta Visual File ID"
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $json.currentDate }}",
+        "format": "custom",
+        "customFormat": "LLLL",
+        "outputFieldName": "currentMonth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        624,
+        -544
+      ],
+      "id": "6c720067-a406-4dda-9767-4a25b4e4252e",
+      "name": "Current Month"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        352,
+        -544
+      ],
+      "id": "26775e79-d96a-4205-af2f-a73d4f1701e1",
+      "name": "Get Today Timestamp"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "LaaLaa Social Media Scedule",
+        "filter": {
+          "driveId": {
+            "mode": "list",
+            "value": "My Drive"
+          },
+          "whatToSearch": "files"
+        },
+        "options": {
+          "fields": [
+            "name",
+            "mimeType",
+            "id"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -448,
+        -528
+      ],
+      "id": "6e7abadd-94ae-43b6-ba63-c8b1e1c7debe",
+      "name": "Search files and folders",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "fe87c4e1-5f6e-4f7a-8b0b-dcf62cff90c8",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "LaaLaa Social Media Scedule",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -224,
+        -528
+      ],
+      "id": "9516c6fa-b068-48b7-a678-4e4b82d8214d",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $('Filter').first().json.id }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ $json.currentMonth.toUpperCase() }}",
+          "mode": "name"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRange",
+              "headerRow": 2,
+              "firstDataRow": 3
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        912,
+        -544
+      ],
+      "id": "60a42d53-bca3-496f-9fa9-a02700333069",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "addToDate",
+        "magnitude": "={{ $json.timestamp }}",
+        "duration": 1,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        -336,
+        -208
+      ],
+      "id": "4db0a3ce-ac45-4c85-af9c-e01566adf642",
+      "name": "Date & Time1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "url": "https://postiz.automessenger.me/api/public/v1/integrations",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -32,
+        688
+      ],
+      "id": "8cf7ce24-9a28-411f-a5da-32bb24bcb6a0",
+      "name": "HTTP Request2",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "DzijKDzGmSsenvJe",
+          "name": "HeaderAuth-Postiz.automessenger.me"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -336,
+        688
+      ],
+      "id": "734d2381-fd58-478f-b63d-b6a76516fd0f",
+      "name": "When clicking ‘Execute workflow’",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a88024b2-7c97-41f0-a578-eb6af7aa8976",
+              "name": "integrationId",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "82524d0f-1660-4f44-aaeb-ede051934e48",
+              "name": "integrationName",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "a84ac06e-260d-45c9-99a3-8f236d4c6acd",
+              "name": "platformName",
+              "value": "={{ $json.identifier }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        176,
+        688
+      ],
+      "id": "b25c7116-9729-48b8-bb96-31da61185e0a",
+      "name": "Edit Fields4",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://postiz.automessenger.me/public/v1/posts",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"type\": \"now\",\n  \"date\": {{ JSON.stringify($now.toUTC()) }},\n  \"tags\": [\n    \"selfcare\"\n  ],\n  \"posts\": [\n    {\n      \"integration\": {\n        \"id\": \"cmcokkg6u0003qr9kq1oqijsr\"\n      },\n      \"value\": [\n        {\n          \"content\": \"Who said liners are just for periods? 👀\\nI use my Probiotic Panty Liner daily — like a lil tune-up for my ✨you-know-what✨\\n\\nProbiotic = fresh, comfy, balanced.\\nAnd yup, she’s the first in Malaysia 💅🇲🇾\\n\\nAll-day freedom? Secured 💖\\n\\n#FreshGirlEra #LaaLaaCareForYou #CheerUpBestie #BestieAlways #IYKYK #FIRMagic #ProbioticBesties #laalaaprobioticspad #FeminineCareMY #StayFreshStayConfident #NoMoreGatal #SanitaryPadMalaysia #PHBalanceMatters  #ProbioticSanitaryPad #PeriodFreedom #PeriodCare #LaaLaaLaunch #ShopeeMallMY #TikTokShopMY #MyMercato #ColdStorageMY\",\n          \"image\": [\n            {\n              \"id\": \"creo_project-laalaa_care_media_upload/July 10 - Eng.mp4/1752055979967970\",\n              \"path\": \"https://storage.googleapis.com/download/storage/v1/b/creo_project-laalaa_care_media_upload/o/July%2010%20-%20Eng.mp4?generation=1752055979967970&alt=media\"\n            }\n          ]\n        }\n      ]\n    }\n  ]",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        512,
+        944
+      ],
+      "id": "e3461604-fb2d-418b-9b87-74b4a8159476",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "DzijKDzGmSsenvJe",
+          "name": "HeaderAuth-Postiz.automessenger.me"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "={{ $binary.data.fileName.replaceAll(\" \", \"_\") }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        1584,
+        432
+      ],
+      "id": "7229972e-c9fc-4b4e-a493-8517dc7cb843",
+      "name": "Read/Write Files from Disk1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.upload-post.com/api/upload",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "description",
+              "value": "={{ $json.metaFullCaption }}"
+            },
+            {
+              "name": "platform[]",
+              "value": "instagram"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "video",
+              "inputDataFieldName": "data"
+            },
+            {
+              "name": "user",
+              "value": "hansontan"
+            },
+            {
+              "name": "title",
+              "value": "={{ $json.fileName }}"
+            },
+            {
+              "name": "media_type",
+              "value": "REELS"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ec9efd10-4756-4a92-a3c4-54f88af5df7f",
+      "name": "Upload Video and Description Instagram Account",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        2048,
+        800
+      ],
+      "notesInFlow": true,
+      "typeVersion": 4.2,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "sUAQFeOYksssVhyr",
+          "name": "UploadPost API Header Auth (info.hansondev@gmail.com)"
+        }
+      },
+      "disabled": true,
+      "notes": "Generate in upload-post.com the token and add to the credentials in the header-> Authorization: Apikey (token here)"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1BQgJ9AFGSf3zdBZOCh39amxSh6elFae5QmaFEe4cBJs",
+          "mode": "list",
+          "cachedResultName": "LaaLaa SocialMediaScheduling - For Hanson SM Scheduling App",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BQgJ9AFGSf3zdBZOCh39amxSh6elFae5QmaFEe4cBJs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 321313742,
+          "mode": "list",
+          "cachedResultName": "Meta",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BQgJ9AFGSf3zdBZOCh39amxSh6elFae5QmaFEe4cBJs/edit#gid=321313742"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $('Extract Only Meta Visual File ID').first().json.row_num }}",
+            "Schedule Status": "Scheduled"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Meta Caption",
+              "displayName": "Meta Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Visual",
+              "displayName": "Visual",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Hashtag",
+              "displayName": "Hashtag",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Schedule Status",
+              "displayName": "Schedule Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2368,
+        800
+      ],
+      "id": "df9c3b36-8b94-40bd-8b5c-16fa15f5aaab",
+      "name": "Update Meta Schedule Status To Scheduled1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      },
+      "disabled": true
+    }
+  ],
+  "connections": {
+    "Google Drive Trigger": {
+      "main": [
+        [
+          {
+            "node": "Search files and folders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute True If Is Spreadsheet Type": {
+      "main": [
+        [
+          {
+            "node": "Get Today Timestamp",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Only Visual File ID": {
+      "main": [
+        [
+          {
+            "node": "Download TikTok Visual From Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk": {
+      "main": [
+        [
+          {
+            "node": "Upload Video and Description to Tiktok",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Read TikTok Posts Sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Read Meta Posts Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read TikTok Posts Sheet": {
+      "main": [
+        [
+          {
+            "node": "Filter TikTok Schedule Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Video and Description to Tiktok": {
+      "main": [
+        [
+          {
+            "node": "Update Tiktok Schedule Status To Scheduled",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Video and Description to Facebook Page": {
+      "main": [
+        [
+          {
+            "node": "Update Meta Schedule Status To Scheduled",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Meta Posts Sheet": {
+      "main": [
+        [
+          {
+            "node": "Filter Meta Schedule Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter TikTok Schedule Date": {
+      "main": [
+        [
+          {
+            "node": "Extract Only Visual File ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Meta Schedule Date": {
+      "main": [
+        [
+          {
+            "node": "Extract Only Meta Visual File ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download TikTok Visual From Drive": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Meta Visual From Drive": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Meta(IG,FB) Visual Link Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Meta(IG,FB) Visual Link Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "TikTok Visual Link Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "TikTok Visual Link Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Meta(IG,FB) Visual Link Extractor": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "TikTok Visual Link Extractor": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Only Meta Visual File ID": {
+      "main": [
+        [
+          {
+            "node": "Download Meta Visual From Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Current Month": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Today Timestamp": {
+      "main": [
+        [
+          {
+            "node": "Current Month",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search files and folders": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Execute True If Is Spreadsheet Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time1": {
+      "main": [
+        []
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        []
+      ]
+    },
+    "Read/Write Files from Disk1": {
+      "main": [
+        [
+          {
+            "node": "Upload Video and Description to Facebook Page",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Video and Description Instagram Account": {
+      "main": [
+        [
+          {
+            "node": "Update Meta Schedule Status To Scheduled1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    },
+    "node:Google Drive Trigger": {
+      "lastTimeChecked": "2025-07-19T04:00:56Z"
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "5979cde5-d0ad-4c84-bb16-12548137dcd4",
+  "triggerCount": 2,
+  "shared": [
+    {
+      "updatedAt": "2025-06-12T03:13:18.731Z",
+      "createdAt": "2025-06-12T03:13:18.731Z",
+      "role": "workflow:owner",
+      "workflowId": "CcZxe0PKTgUdZlmy",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
