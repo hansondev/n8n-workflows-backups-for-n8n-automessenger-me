@@ -1,0 +1,323 @@
+{
+  "updatedAt": "2025-05-21T15:30:51.000Z",
+  "createdAt": "2025-05-07T06:58:42.198Z",
+  "id": "vKdFY5vzvwLseTlw",
+  "name": "[2025_DEVELOPMENT] - FBMessenger_Auto_Responder_V1",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "multipleMethods": true,
+        "path": "fb-messenger-autoresponder-v1",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -160,
+        20
+      ],
+      "id": "ced36681-439c-45ce-93fc-2cb9c9e8c94e",
+      "name": "Webhook",
+      "webhookId": "7f32a14c-f927-4061-8c43-5a67020eb4d0"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "0051f5fc-0b07-45e8-b750-c102be05e125",
+              "leftValue": "={{ $json.query['hub.mode'] }}",
+              "rightValue": "subscribe",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "bc477965-a4cd-4281-814f-be4c66c555a7",
+              "leftValue": "={{ $json.query['hub.verify_token'] }}",
+              "rightValue": "n8n-fb-messenger-autoresponder-v1",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        220,
+        -220
+      ],
+      "id": "1c5e2f07-7946-47a1-8bc5-b86a928b0b0e",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.query['hub.challenge'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.2,
+      "position": [
+        440,
+        -320
+      ],
+      "id": "5c9fc44c-76d4-487c-8fc6-8728500dbefd",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "respondWith": "noData",
+        "options": {
+          "responseCode": 403
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.2,
+      "position": [
+        460,
+        -140
+      ],
+      "id": "ec25ae3c-c349-4948-8b44-f0f8e8a76748",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "content": "## For Webhook FB App Verification\n**Devlopment Mode**",
+        "height": 420,
+        "width": 560
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        100,
+        -420
+      ],
+      "typeVersion": 1,
+      "id": "1cebd0c6-45f3-4656-a356-2a6b1b7cac6d",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.entry[0].messaging[0].message.text }}",
+        "options": {
+          "systemMessage": "You are a helpful assistant.When starting a chat with user, make sure that start the conversation with \"Hello..How can I help you?\""
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        260,
+        120
+      ],
+      "id": "f191c85d-b10e-40ae-8486-b357f1ebb7f2",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        160,
+        340
+      ],
+      "id": "fa8256e1-60ad-4d66-89d5-352e27e978c1",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Webhook').item.json.body.entry[0].messaging[0].sender.id }}",
+        "contextWindowLength": 50
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        360,
+        340
+      ],
+      "id": "f0a91a0b-e08b-43c3-addb-70eb9b5bfc8e",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "respondWith": "noData",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.2,
+      "position": [
+        660,
+        120
+      ],
+      "id": "23b3fda7-8a04-40d6-a60b-f01d405fb591",
+      "name": "Send Success Status To FB"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v22.0/{{ $('Webhook').item.json.body.entry[0].messaging[0].recipient.id }}/messages",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "access_token",
+              "value": "EAAswZAYOhYT4BO5EWtpsruqSIqfy16G2FMpbnGQn9ORSuxvBa2hfsS5YefXkwhyMM3U3zl7ZAFPloGAaSfgYJSO4BkAiU4zoadLuIzan9rw5CxZBLZATzwGxiZAI3ZCufx88AlSKsg0sIPL4T5bJCJyHZAnFOMz7bk2LFuAyNggUtZBHhZBU06CIzConRFYFh5y5W3wZDZD"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"recipient\":{\n  \"id\":\"{{ $('Webhook').item.json.body.entry[0].messaging[0].sender.id }}\"\n  },\n  \"messaging_type\":\n  \"RESPONSE\",\n  \"message\":{\n    \"text\":{{ JSON.stringify($json.output) }}\n  }\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        880,
+        120
+      ],
+      "id": "337aae87-e9c3-43b3-937e-dda12c546d20",
+      "name": "HTTP Request"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send Success Status To FB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Success Status To FB": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "eb364b93-181b-4a0f-8f79-758b66281bb1",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2025-05-07T06:58:42.215Z",
+      "createdAt": "2025-05-07T06:58:42.215Z",
+      "role": "workflow:owner",
+      "workflowId": "vKdFY5vzvwLseTlw",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
