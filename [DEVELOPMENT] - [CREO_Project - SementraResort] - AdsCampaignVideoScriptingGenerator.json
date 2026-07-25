@@ -1,0 +1,4427 @@
+{
+  "updatedAt": "2025-08-08T03:58:33.000Z",
+  "createdAt": "2025-07-09T15:32:13.642Z",
+  "id": "Js5j8DecHTm2UEmJ",
+  "name": "[DEVELOPMENT] - [CREO_Project - SementraResort] - AdsCampaignVideoScriptingGenerator",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        32,
+        960
+      ],
+      "id": "7990b3f4-8d7f-475d-ab86-c0e397a897c5",
+      "name": "Send a text message",
+      "webhookId": "492ea336-351a-4be9-bb0c-0aeabc03e8fe",
+      "credentials": {
+        "telegramApi": {
+          "id": "weFUOOteJXAEQvYx",
+          "name": "TG(creo_client-SementraResort)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}",
+        "options": {
+          "systemMessage": "# Role\nYou a social media and ads campaign specialist who know how to "
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -416,
+        960
+      ],
+      "id": "85aee20d-f005-4370-8fdf-683bbbf99dbf",
+      "name": "AI Agent",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -800,
+        960
+      ],
+      "id": "818fbc7f-c95d-4496-8f12-6989ec83dce2",
+      "name": "Telegram Trigger",
+      "webhookId": "dcc9eb3d-c997-48fb-a08b-74507a67d88a",
+      "credentials": {
+        "telegramApi": {
+          "id": "weFUOOteJXAEQvYx",
+          "name": "TG(creo_client-SementraResort)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.modelSelector",
+      "typeVersion": 1,
+      "position": [
+        -608,
+        1152
+      ],
+      "id": "7f5e7cc7-b926-4fe5-9775-bf1c290a29a2",
+      "name": "Model Selector",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        -704,
+        1312
+      ],
+      "id": "f33c123b-4080-4b66-a782-4dad3aaa5688",
+      "name": "DeepSeek Chat Model",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "8Hvjw0JNKmbO191K",
+          "name": "DeepSeekAPI - info.hansondev@gmail.com"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -464,
+        1312
+      ],
+      "id": "8f048b3f-8c10-4579-995d-d4f18df1ade1",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "creo-sementra-adcampaing-vsl-gen",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -2016,
+        -416
+      ],
+      "id": "0862cd4a-f1c8-4eb3-8d11-e400aa4af226",
+      "name": "Webhook",
+      "webhookId": "b4956976-e25a-4059-9927-d85ff8f2a4cb"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.query.action }}",
+                    "rightValue": "generateAngles",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "bb5b6fd5-ef22-451b-a23d-258044aafcca"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Generate Angles"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "ac785a02-782f-4af2-af20-bb23cf885a71",
+                    "leftValue": "={{ $json.query.action }}",
+                    "rightValue": "generateScript",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Generate Script"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "0ab60fd9-c2a2-4e7d-81dc-07737b2f95dc",
+                    "leftValue": "={{ $json.query.action }}",
+                    "rightValue": "feedbackIteration",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Feedback Iteration"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -1744,
+        -448
+      ],
+      "id": "319e06b8-9f12-4fc8-86c3-65d8368a8ee9",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.perplexity.ai/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"sonar-reasoning\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You're an Internet researcher, who loves giving detailed research for the marketing team.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": {{ JSON.stringify($json.userprompt) }}\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        912,
+        -1456
+      ],
+      "id": "0e3b804d-8b24-4ac0-8d07-88a28a53f364",
+      "name": "Product Overview & Customer Research",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "xDN6CEw0Md0tKRx5",
+          "name": "PerplexityAI Header Auth(boonhong.tan0309@gmail.com)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9cb2899d-6988-4c9b-b966-2da679725175",
+              "name": "ScriptIdea",
+              "value": "={{ $json.output }}",
+              "type": "array"
+            },
+            {
+              "id": "bbb3d4d9-766f-4afe-aeff-c1b4b9650bbc",
+              "name": "rowId",
+              "value": "={{ $('Switch').first().json.body.data.rows.map(item => item.Id) }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {
+          "ignoreConversionErrors": true
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        272,
+        -848
+      ],
+      "id": "c8d8a225-56d6-44a3-80bd-871ad582c098",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "ScriptIdea",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        480,
+        -848
+      ],
+      "id": "8095f1d1-d5b5-4fd9-99d4-6837792ed4c8",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"name\": \"video_script_array_schema\",\n  \"schema\": {\n    \"type\": \"object\",\n    \"properties\": {\n      \"video_scripts\": {\n        \"type\": \"array\",\n        \"description\": \"An array of video scripts.\",\n        \"items\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"AngleHeadline\": {\n              \"type\": \"string\",\n              \"description\": \"String mostly 1 liner the headline\"\n            },\n            \"ConceptSummary\": {\n              \"type\": \"string\",\n              \"description\": \"String, expressive and articulate\"\n            },\n            \"VSLStructure\": {\n              \"type\": \"string\",\n              \"description\": \"String, markdown if required descriptive\"\n            },\n            \"VideoSuggestion\": {\n              \"type\": \"string\",\n              \"description\": \"Provide potential visual themes, scenes, or references (briefly)\"\n            },\n            \"EmotionalTriggers\": {\n              \"type\": \"string\",\n              \"description\": \"String, descriptive can be in markdown format\"\n            },\n            \"DirectResponseTechniques\": {\n              \"type\": \"string\",\n              \"description\": \"String, descriptive\"\n            },\n            \"CognitiveBiasesLeveraged\": {\n              \"type\": \"string\",\n              \"description\": \"String, descriptive explanation of the cognitive biases utilized\"\n            }\n          },\n          \"required\": [\n            \"AngleHeadline\",\n            \"ConceptSummary\",\n            \"VSLStructure\",\n            \"VideoSuggestion\",\n            \"EmotionalTriggers\",\n            \"DirectResponseTechniques\",\n            \"CognitiveBiasesLeveraged\"\n          ],\n          \"additionalProperties\": false\n        }\n      }\n    },\n    \"required\": [\n      \"video_scripts\"\n    ],\n    \"additionalProperties\": false\n  },\n  \"strict\": true\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        64,
+        -704
+      ],
+      "id": "4fdf8bad-a74c-460b-9e71-60f16f06bf77",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "content": "## Scripting/Idea Generation/Feedback System",
+        "height": 1260,
+        "width": 3220,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2256,
+        -1088
+      ],
+      "typeVersion": 1,
+      "id": "510f5802-4432-4110-9205-f305f563445a",
+      "name": "Sticky Note3",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro-preview-05-06",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -880,
+        -288
+      ],
+      "id": "871d282c-b330-489a-9333-160cb7c70d15",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Core Service: {{ $json['Core Services'] }}\n-----\nBusiness Overview: {{ $json['Business Overview'] }}\n----\nTarget Audience: {{ $json['Target Audience'] }}\n-----\nTheme Campaign: {{ $json['Theme Campaign'] }}\n\n----\nHere are the angles you've already created that works use them as inspiration, and give the output by analysing what angles work and then output in structured JSON:\n{{ $json['Angle Headline'] }}\n==========\n\nUsing all this data give me 5-8 ideas in specified schema. DON'T GIVE ANY PREFIX OR SUFFIX JUST ARRAY OF 5-8 OBJECTS WITH SPECIFIC KEYS, DON'T WRAP THE OUTPUT IN ``` or ANYTHING PURE CODE",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=You are a world-class advertising copywriter specializing exclusively in crafting high-performing Video Sales Letter (VSL) scripts designed for impactful, direct-response digital marketing. Your sole mission is turning ordinary products into irresistible offers through story-driven psychological persuasion, emotional resonance, and highly compelling, click-inducing angles aimed at maximizing conversions.\n\nYour deep expertise involves understanding human psychology, consumer fears, desires, skepticism, biases, and emotions intimately. You masterfully apply frameworks proven to convert, such as Problem-Agitate-Solution (PAS), Before-After-Bridge (BAB), Story-Based Selling, Contrarian Myth-Busting, Fear-of-Missing-Out (FOMO), and powerful social proof or credibility elements. You're particularly skillful at navigating delicate, sensitive, or even darker psychological territories ethically but persuasively—boldly leveraging audience desires, anxieties, insecurities, and subconscious motivators to immediately grab attention, build trust, drive deep desire, and compel instant action.\n\nWhen provided with details about a business overview and core service, your task is to generate a collection of at least 5 (and up to 8) distinctively original, high-quality, and conversion-driven VSL concept angles. Each VSL Angle must include:\n\n> AngleHeadline:\nAn eye-catching, curiosity-inducing hook that feels impossible to scroll past.\n\n> ConceptSummary:\nClearly outline the overarching creative strategy, psychological lever, and key selling point behind this angle. Explain exactly why it taps into the viewer’s core emotions, desires, or fears to drive urgency, curiosity, and ultimately conversions.\n\n> VSLStructure:\nBriefly describe how the VSL should unfold, including attention-grabbing hook/lead, clear framing of the customer's specific struggles, agitation methods (stories, statistics, hidden truths, or common myths), credible authority demonstrations or convincing proof-based narratives, seamless introduction of the solution, and strong, actionable calls-to-action.\n\n> VideoSuggestion:\nProvide potential visual themes, scenes, or references (briefly) that could support the narrative and enhance the emotional effectiveness of the message. Describe elements like settings, characters, storytelling visuals, social proof placement, or demonstrations that can visually strengthen psychological persuasion points.\n\n> EmotionalTriggers:\nBriefly list explicitly the psychological levers, emotional triggers (e.g., fear, hope, envy, social status, anxiety relief), in pointers and brief description.\n\n> CognitiveBiasesLeveraged\nBriefly list explicitly the cognitive biases (authority bias, scarcity principle, loss aversion, confirmation bias, social proof, sunk-cost fallacy), and subconscious motivators you will leverage for impeccable persuasive impact.\n\n\n> DirectResponseTechniques:\nClearly explain how proven direct-response strategies (urgency, scarcity, risk reversals, powerful guarantees, instant benefits, exclusivity, etc.) are woven into the VSL angle to drive immediate viewer action and conversions.\n\nThe output format is exactly (keys) like this:\n[{\n\"AngleHeadline\": \"String mostly 1 liner the headline\",\n\"ConceptSummary\": \"String, expressive and articulate\",\n\"VSLStructure\": \"String, markdown if required descriptive\",\n\"VideoSuggestion\" \"String, Provide potential visual themes, scenes, or references (briefly)\",\n\"EmotionalTriggers\": \"String, descriptive can be in markdown format\",\nCognitiveBiasesLeveraged: \"String, descriptive explanation of the cognitive biases utilized\",\n\"DirectResponseTechniques\": \"String, descriptive\"\n}]\n\n\nYou are free and encouraged to creatively explore emotionally powerful, bold, and daring messaging angles, while ensuring the concepts are tasteful and ethically defensible. Assume prospects will see these VSLs as social media ads, so each idea must be instantly engaging, appealing, easy to comprehend, credibility-boosting, and highly compelling within the first seconds of viewing.\n\nWhen the user provides a product name and details, you must respond with your output formatted as an easily readable JSON array. Each unique sales angle should be structured as a self-contained JSON object that precisely follows the schema described above.\n\nYour outputs should empower advertisers to immediately recognize why each concept stands to significantly outperform conventional scripts in terms of engagement, emotional connection, memorability, and most importantly—conversion rates."
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        -576,
+        -848
+      ],
+      "id": "1fe27d27-2be6-4bd0-8bc3-8ad46d13bc06",
+      "name": "Generate Angles"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "projectId": "p10a0rnrjbi0lnc",
+        "table": "mjzjb1ak3ow3hyl",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $json.body.data.rows[0].Id }}"
+            },
+            {
+              "fieldName": "Status",
+              "fieldValue": "Generating Product Details"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        192,
+        -1456
+      ],
+      "id": "b9ef4ab3-4282-41fb-bc3e-3e08cbe02c22",
+      "name": "Change Status -> Generating Product Details",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "XjTJ7uur5CdKXuo3",
+          "name": "NocoDB(https://nocodb-2.automessenger.me)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "projectId": "p10a0rnrjbi0lnc",
+        "table": "mjzjb1ak3ow3hyl",
+        "id": "={{ $json.Id }}"
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        432,
+        -1456
+      ],
+      "id": "fd7c6985-0f72-4c7c-bd49-d57c153eae3c",
+      "name": "Get Updated Record",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "XjTJ7uur5CdKXuo3",
+          "name": "NocoDB(https://nocodb-2.automessenger.me)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "64113609-6adf-4693-8d51-ede088d97d38",
+              "name": "userprompt",
+              "value": "=Research about the Customer Profile in very detailed manner for the product, what exactly are the products & the description the core people who need the product. Unique insights &\n\nProduct Name: {{ $json['Product Name'] }}\n\nProduct Description: {{ $json['Product Notes'] }}\n\nAlso go into rabbithole and absolutely understand the what and who they are selling to, get details on the product the ingredients, and everything along with their brand narrative, what they are and what they are not. Be specific about the details.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        672,
+        -1456
+      ],
+      "id": "fc003f1e-1f6a-46af-940b-71dde8820b4f",
+      "name": "Set User Prompt For Product Research",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mbg7q65k301zd62",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $json.body.data.rows[0].Id }}"
+            },
+            {
+              "fieldName": "Status",
+              "fieldValue": "Generating Angles"
+            },
+            {
+              "fieldName": "1️⃣ Generate Product Details",
+              "fieldValue": "={{ true }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -1120,
+        -848
+      ],
+      "id": "0943a158-7386-403b-a501-2b778ed594ba",
+      "name": "Change Status -> Generating Product Details1",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mbg7q65k301zd62",
+        "id": "={{ $json.Id }}"
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -864,
+        -848
+      ],
+      "id": "dc613c89-2c74-49bb-bbc6-ffc0bfe2ef57",
+      "name": "Get Updated Record1",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text }}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "Parse the output line by like exactly like the previous system gave it to you but in JSON format."
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        -176,
+        -848
+      ],
+      "id": "1ea2e822-d5a3-48cc-805e-5ccf3246ca79",
+      "name": "JSON Structure Parsing"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "create",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mbg7q65k301zd62",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Current Month",
+              "fieldValue": "={{ $now.format('yyyy-MM').toDateTime() }}"
+            },
+            {
+              "fieldName": "Ad Angle Headline",
+              "fieldValue": "={{ $json.AngleHeadline }}"
+            },
+            {
+              "fieldName": "Theme Campaign",
+              "fieldValue": "={{ $('Get Updated Record1').item.json[\"Theme Campaign\"] }}"
+            },
+            {
+              "fieldName": "Concept Summary",
+              "fieldValue": "={{ $json.ConceptSummary }}"
+            },
+            {
+              "fieldName": "VSL Structure",
+              "fieldValue": "={{ $json.VSLStructure }}"
+            },
+            {
+              "fieldName": "Video Suggestion",
+              "fieldValue": "={{ $json.VideoSuggestion }}"
+            },
+            {
+              "fieldName": "Emotional Triggers",
+              "fieldValue": "={{ $json.EmotionalTriggers }}"
+            },
+            {
+              "fieldName": "Cognitive Biases Leveraged",
+              "fieldValue": "={{ $json.CognitiveBiasesLeveraged }}"
+            },
+            {
+              "fieldName": "Direct Response Techniques",
+              "fieldValue": "={{ $json.DirectResponseTechniques }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        704,
+        -848
+      ],
+      "id": "6df5c78f-5f90-4dff-beb6-4d8d19702f9a",
+      "name": "Create Ad Angles",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "projectId": "p10a0rnrjbi0lnc",
+        "table": "mjzjb1ak3ow3hyl",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Get Updated Record').item.json.Id }}"
+            },
+            {
+              "fieldName": "Status",
+              "fieldValue": "Product Details Generated"
+            },
+            {
+              "fieldName": "Product Details",
+              "fieldValue": "={{ $json.choices[0].message.content }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1152,
+        -1456
+      ],
+      "id": "954837b8-2a5e-424c-ae18-5f83b141f484",
+      "name": "Update Status -> Product Details Generated",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "XjTJ7uur5CdKXuo3",
+          "name": "NocoDB(https://nocodb-2.automessenger.me)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "projectId": "p10a0rnrjbi0lnc",
+        "table": "m79azvio2edioyo",
+        "id": "={{ $json.body.data.rows[0].Id }}"
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -944,
+        -96
+      ],
+      "id": "4025c2a0-fea1-49f1-96fc-8cad27f17bb8",
+      "name": "Get Record When \"Generate Script\" Checked1",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "XjTJ7uur5CdKXuo3",
+          "name": "NocoDB(https://nocodb-2.automessenger.me)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "projectId": "p10a0rnrjbi0lnc",
+        "table": "m79azvio2edioyo",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Get Record When \"Generate Script\" Checked1').first().json.Id }}"
+            },
+            {
+              "fieldName": "Script",
+              "fieldValue": "={{ $json.text }}"
+            },
+            {
+              "fieldName": "Status",
+              "fieldValue": "Script Generated"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -160,
+        -96
+      ],
+      "id": "5b4a8c5f-26cb-4906-9739-96b140e18a1d",
+      "name": "NocoDB2",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "XjTJ7uur5CdKXuo3",
+          "name": "NocoDB(https://nocodb-2.automessenger.me)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro-preview-05-06",
+        "options": {
+          "maxOutputTokens": 65536
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -688,
+        -688
+      ],
+      "id": "ef15cb36-ea1f-46df-b9f7-b70dc71be8a0",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formTitle": "Creo Client - Readycare Signature Business Overview Research",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Brand Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Sementra Resort & Hot Spring Gopeng"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Brand Website",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "https://sementra.my/"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Social Media Platforms",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Facebook"
+                  },
+                  {
+                    "option": "Instagram"
+                  },
+                  {
+                    "option": "TikTok"
+                  }
+                ]
+              },
+              "multiselect": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -1984,
+        -3040
+      ],
+      "id": "5a8cf7fc-bef4-4c90-aba9-1282b2d0551f",
+      "name": "On form submission",
+      "webhookId": "81f1be26-ddb1-47c7-90e9-30ff8d771b76"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mwuvr0499tujdsi",
+        "options": {
+          "viewId": "vwud0s2j1qb856ep"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -1696,
+        -3040
+      ],
+      "id": "5319dcd0-7939-42e3-b5ed-d1e55ad9c81b",
+      "name": "Get many rows",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Brand Name: {{ $json['Brand Name'] }}\nBusiness Location: {{ $json['Business Location'] }}\nBrand Website: {{ $json['Brand Website'] }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a web research specialist who familiarized on scraping the web content from the user search query and summarizing what the company, brand and products details.  \n\n# Task\n- You are tasked to come out a simple but comprehensive details of client's business research overview based on user provided information such as client's brand name, client official business website url and client's business location.\n- The tasks to be fulfill including generating for business overview, core service and target audience.\n\n# Tool\nIn order able to scrape the web content based on user provided brand website url to generate the require output such as the business overview, core service and target audience. You are require to use the following tool:\n- `**ai_web_research_tool**` : Call this tool to get the search query through the ai search engine, gather the sources and results such as the business overview, core service and target audience. as the output.\n\n# User Context\nYou are require to input the provided user context as reference in order to come out the right output. The user context information will be provided by the user as such:\n- Brand Name\n- Business Location\n- Brand Website\n\n# Output\nThe output should be in structured JSON format where the output had been generated will be allocate based on the require JSON structure or schema without any task explaination and other unnecessary details.\n\n## Example of JSON structure\n```\njson: {\n \"businessOverview\": \"Sementra Hot Spring Nature Resort, located in Gopeng, Malaysia, is an idyllic location that combines the tranquility of nature with modern amenities. Situated in Kampung Ulu Geroh, near the historical Muzium Gopeng, the resort is easily accessible and offers a peaceful retreat from urban life.\\n\\n**Overview of Accommodations and Amenities:**\\n- The resort features 24 elegantly designed chalets, each equipped with air conditioning, private bathrooms, and balconies that offer scenic views of the surrounding lush landscape. Guests can expect a comfortable stay with modern facilities including Wi-Fi and housekeeping services.\\n- A highlight of the resort is its hot spring pool, which utilizes natural hot springs, providing a unique relaxation experience. Additionally, there is a natural swimming pool with minimally treated water.\\n- Outdoor enthusiasts can partake in various activities such as river rafting, hiking, and exploring the nearby rainforest, which is home to beautiful butterfly species including the Rajah Brooke butterfly.\\n\\n**Dining and Guest Experience:**\\n- Sementra offers a halal breakfast and other dining options allowing guests to enjoy meals in a picturesque setting. The resort has received positive reviews for its customer service and the quality of its facilities, making it a popular choice for travelers looking to unwind and connect with nature.\\n\\n**Conclusion:**\\nSementra Hot Spring Nature Resort is more than just a place to stay; it provides an immersive experience that combines adventure, relaxation, and the beauty of Malaysia's natural landscapes, making it a highly recommended destination for those visiting Gopeng.\",\n  \"coreService\": \"- Eco-green with natural environment based resort providing with hot spring and outdoor activities and facilities.\\n- Malaysia local eco-tourism based hospitality service provider.\\n - For outdoor enthusiasts can take part in various activities such as river rafting, hiking, and exploring the nearby rainforest.\",\n  \"targetAudience\": \"- For local people who loves natural scenery living experience.\\n- For families who like to weekend short trip or long school holidays out from the cities crowd for experiencing natural of relaxation.\\n- For outdoor enthusiasts can take part in various activities such as river rafting, hiking, and exploring the nearby rainforest.\"\n}\n\n```"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -1376,
+        -3040
+      ],
+      "id": "b0d60b7e-9b53-4fbf-a6f4-d2a01bdf3eee",
+      "name": "Brand Research Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        -1776,
+        -2816
+      ],
+      "id": "0b2264b1-427a-4228-9465-2921dc29a200",
+      "name": "DeepSeek Chat Model1",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "8Hvjw0JNKmbO191K",
+          "name": "DeepSeekAPI - info.hansondev@gmail.com"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n \"businessOverview\": \"Sementra Hot Spring Nature Resort, located in Gopeng, Malaysia, is an idyllic location that combines the tranquility of nature with modern amenities. Situated in Kampung Ulu Geroh, near the historical Muzium Gopeng, the resort is easily accessible and offers a peaceful retreat from urban life.\\n\\n**Overview of Accommodations and Amenities:**\\n- The resort features 24 elegantly designed chalets, each equipped with air conditioning, private bathrooms, and balconies that offer scenic views of the surrounding lush landscape. Guests can expect a comfortable stay with modern facilities including Wi-Fi and housekeeping services.\\n- A highlight of the resort is its hot spring pool, which utilizes natural hot springs, providing a unique relaxation experience. Additionally, there is a natural swimming pool with minimally treated water.\\n- Outdoor enthusiasts can partake in various activities such as river rafting, hiking, and exploring the nearby rainforest, which is home to beautiful butterfly species including the Rajah Brooke butterfly.\\n\\n**Dining and Guest Experience:**\\n- Sementra offers a halal breakfast and other dining options allowing guests to enjoy meals in a picturesque setting. The resort has received positive reviews for its customer service and the quality of its facilities, making it a popular choice for travelers looking to unwind and connect with nature.\\n\\n**Conclusion:**\\nSementra Hot Spring Nature Resort is more than just a place to stay; it provides an immersive experience that combines adventure, relaxation, and the beauty of Malaysia's natural landscapes, making it a highly recommended destination for those visiting Gopeng.\",\n  \"coreService\": \"- Eco-green with natural environment based resort providing with hot spring and outdoor activities and facilities.\\n- Malaysia local eco-tourism based hospitality service provider.\\n - For outdoor enthusiasts can take part in various activities such as river rafting, hiking, and exploring the nearby rainforest.\",\n  \"targetAudience\": \"- For local people who loves natural scenery living experience.\\n- For families who like to weekend short trip or long school holidays out from the cities crowd for experiencing natural of relaxation.\\n- For outdoor enthusiasts can take part in various activities such as river rafting, hiking, and exploring the nearby rainforest.\"\n}",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -1168,
+        -2880
+      ],
+      "id": "5ed8e14e-19dd-4e6b-8eac-da5304ee92b0",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -1008,
+        -2736
+      ],
+      "id": "3633bf0e-3226-4328-bc75-219d65765950",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to get the search query through the ai search engine, gather the sources and results such as the business overview, core service and target audience. as the output.",
+        "workflowId": {
+          "__rl": true,
+          "value": "Ek66VfFhjAWBSb3v",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Tavily AI Research Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -1296,
+        -2816
+      ],
+      "id": "ee0ab2e5-2b3f-4173-80f3-475bae5b1577",
+      "name": "ai_web_research_tool"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1520,
+        -2880
+      ],
+      "id": "1ea1d421-0865-4b8a-ada9-ee4dc33d3339",
+      "name": "Google Gemini Chat Model3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mwuvr0499tujdsi",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Business Overview",
+              "fieldValue": "={{ $json.output.businessOverview }}"
+            },
+            {
+              "fieldName": "Core Services",
+              "fieldValue": "={{ $json.output.coreService }}"
+            },
+            {
+              "fieldName": "Target Audience",
+              "fieldValue": "={{ $json.output.targetAudience }}"
+            },
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Get many rows').item.json.Id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -1024,
+        -3040
+      ],
+      "id": "f7bcdc58-d92e-4f26-89a8-d555c20961f4",
+      "name": "Update a row",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Scanning For Client's Business Overview Research",
+        "height": 500,
+        "width": 1200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2016,
+        -3120
+      ],
+      "typeVersion": 1,
+      "id": "c857c517-b030-4aa0-8a7b-39d4f0783d4f",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "nocodb-sementra-competitor-research-done",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -2160,
+        -1856
+      ],
+      "id": "97faddfb-42c5-4d7b-a889-4ca796a1c549",
+      "name": "Webhook1",
+      "webhookId": "cb9099cd-963b-44c2-9e54-78698fc663b9"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2e6aeb19-de6f-431b-914d-a6c09669b308",
+              "name": "brandName",
+              "value": "={{ $json['Brand Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "2e30cd8f-5b91-4fe6-882a-326d9d64efb4",
+              "name": "socialMediaAccounts",
+              "value": "={{ $json['Social Media Used'].split(\",\") }}",
+              "type": "array"
+            },
+            {
+              "id": "c136d6d7-03c1-4c6c-a885-b4d38cb2ccbe",
+              "name": "socialMediaProfiles",
+              "value": "={{ $json['Social Media Profiles'] }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1728,
+        -1856
+      ],
+      "id": "41936591-cf1a-4444-acb2-cc128ca8db93",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -544,
+        -1584
+      ],
+      "id": "d998fe91-c413-45ec-84eb-0c1b930369cd",
+      "name": "OpenAI Chat Model4",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "nocodb-sementra-biz-research-done",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -608,
+        -3184
+      ],
+      "id": "098a9ea3-a4bd-49f0-903b-687bea12da5b",
+      "name": "Webhook2",
+      "webhookId": "cb9099cd-963b-44c2-9e54-78698fc663b9"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mwuvr0499tujdsi",
+        "options": {
+          "viewId": "vwud0s2j1qb856ep"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -384,
+        -3184
+      ],
+      "id": "1feab0a6-839a-4271-8a60-0b4726dfacb1",
+      "name": "Get Business Research Overview Info1",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[\n  {\n   \"competitorName\": \"The A competitor's brand name\",\n   \"competitorWebsite\": \"The A competitor's brand website\",\n   \"competitorSocialMediaPlatforms\": [\"Facebook\", \"Instagram\", \"TikTok\", \"Youtube\"],\n   \"competitorSocialMediaProfiles\": [\n      {\n      \"Facebook\": \"https://facebook.com/competitor-a-page\",\n      \"Instagram\": \"https://instagram.com/competitor-a-username\",\n      \"TikTok\": \"https://tiktok.com/@competitor-a-username\",\n      \"Youtube\": \"https://youtube.com/@competitor-a-username\"\n     }\n    ]\n  },\n  {\n   \"competitorName\": \"The B competitor's brand name\",\n   \"competitorWebsite\": \"The B competitor's brand website\",\n   \"competitorSocialMediaPlatforms\": [\"Facebook\", \"Instagram\", \"TikTok\", \"Youtube\"],\n   \"competitorSocialMediaProfiles\": [\n      {\n      \"Facebook\": \"https://facebook.com/competitor-b-page\",\n      \"Instagram\": \"https://instagram.com/competitor-b-username\",\n      \"TikTok\": \"https://tiktok.com/@competitor-b-username\",\n      \"Youtube\": \"https://youtube.com/@competitor-b-username\"\n     }\n    ]   \n  },\n  {\n   \"competitorName\": \"The C competitor's brand name\",\n   \"competitorWebsite\": \"The C competitor's brand website\",\n   \"competitorSocialMediaPlatforms\": [\"Facebook\", \"Instagram\", \"TikTok\", \"Youtube\"],\n   \"competitorSocialMediaProfiles\": [\n      {\n      \"Facebook\": \"https://facebook.com/competitor-c-page\",\n      \"Instagram\": \"https://instagram.com/competitor-c-username\",\n      \"TikTok\": \"https://tiktok.com/@competitor-c-username\",\n      \"Youtube\": \"https://youtube.com/@competitor-c-username\"\n     }\n    ]\n  }\n]",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        320,
+        -3008
+      ],
+      "id": "f4d1b829-58f1-4ad5-b1f4-1267d6364a58",
+      "name": "Structured Output Parser2"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        64,
+        -3008
+      ],
+      "id": "b086debf-6eb6-40f6-8a24-99d06fb8914d",
+      "name": "Google Gemini Chat Model4",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        464,
+        -2880
+      ],
+      "id": "8246fea1-12a3-495d-bc82-dd4a541d87bd",
+      "name": "OpenAI Chat Model5",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Client Brand Name: {{ $('Get Business Research Overview Info1').item.json[\"Brand Name\"] }}\nClient Core Service: \n{{ $('Get Business Research Overview Info1').item.json[\"Core Services\"] }}\nClient Target Audience: \n{{ $('Get Business Research Overview Info1').item.json[\"Target Audience\"] }}\nTarget Location: {{ $('Get Business Research Overview Info1').item.json[\"Business Location\"].split(\", \").last() }}\nTotal Competitors To Search: 20",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a market research and analysis specialist who are able to analyze the current market competition based on various industries and geolocation.\n\n# Task\n- You are tasked to do an insightful competitor research and analysis for my client,  {{ $('Get Business Research Overview Info1').item.json['Brand Name'] }} before strategize on crafting the ad creative and ad content for upcoming ads campaign.\n- The competitor research and analysis details can be include such as competitor's brand name, competitor's brand website, competitor's social media platforms and competitor's social media profiles.\n\n# User Context\nYou are require to follow the provided user input as context and references for you to generate the right output and avoid any hallucination or any misinformation occurred. The user context will be providing such as:\n- Client Brand Name\n- Client Brand Website\n- Client Core Services\n- Client Target Audience\n- Total Competitors To Search\n\n# Tools To Use\nYou are require to use the following tools in order to accomplish the requesting task and generate the right outputs are listed as below:\n- `competitor_searches`: Call this tool to search and query my client's closest or high relevancies competitors based on the current target country,{{ $('Get Business Research Overview Info1').item.json['Business Location'].split(\",\").last() }}. The list of search results details must be include competitor's brand name, competitor's brand website, competitor's social media platforms and competitor's social media profiles.\n\n# Output\nThe output generated must be in structured JSON data format without any explanation and unneccessary information. Only come out the output that what had been require above and following the example of JSON structure output or schema as refenrence below.\n\n## Example of JSON Output\n```\njson: [\n  {\n   \"competitorName\": \"The A competitor's brand name\",\n   \"competitorWebsite\": \"The A competitor's brand website\",\n   \"competitorSocialMediaPlatforms\": [\"Facebook\", \"Instagram\", \"TikTok\", \"Youtube\"],\n   \"competitorSocialMediaProfiles\": [\n      {\n      \"Facebook\": \"https://facebook.com/competitor-a-page\",\n      \"Instagram\": \"https://instagram.com/competitor-a-username\",\n      \"TikTok\": \"https://tiktok.com/@competitor-a-username\",\n      \"Youtube\": \"https://youtube.com/@competitor-a-username\"\n     }\n    ]\n  },\n  {\n   \"competitorName\": \"The B competitor's brand name\",\n   \"competitorWebsite\": \"The B competitor's brand website\",\n   \"competitorSocialMediaPlatforms\": [\"Facebook\", \"Instagram\", \"TikTok\", \"Youtube\"],\n   \"competitorSocialMediaProfiles\": [\n      {\n      \"Facebook\": \"https://facebook.com/competitor-b-page\",\n      \"Instagram\": \"https://instagram.com/competitor-b-username\",\n      \"TikTok\": \"https://tiktok.com/@competitor-b-username\",\n      \"Youtube\": \"https://youtube.com/@competitor-b-username\"\n     }\n    ]   \n  },\n  {\n   \"competitorName\": \"The C competitor's brand name\",\n   \"competitorWebsite\": \"The C competitor's brand website\",\n   \"competitorSocialMediaPlatforms\": [\"Facebook\", \"Instagram\", \"TikTok\", \"Youtube\"],\n   \"competitorSocialMediaProfiles\": [\n      {\n      \"Facebook\": \"https://facebook.com/competitor-c-page\",\n      \"Instagram\": \"https://instagram.com/competitor-c-username\",\n      \"TikTok\": \"https://tiktok.com/@competitor-c-username\",\n      \"Youtube\": \"https://youtube.com/@competitor-c-username\"\n     }\n    ]\n  }\n...\n]\n\n```"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        160,
+        -3184
+      ],
+      "id": "78edbcd1-65aa-4ab4-9ce3-979709f4cae4",
+      "name": "Competitor Listing & Research"
+    },
+    {
+      "parameters": {
+        "description": " Call this tool to search and query my client's closest or high relevancies competitors based on the current target country. The list of search results details must be include competitor's brand name and competitor's brand website.",
+        "workflowId": {
+          "__rl": true,
+          "value": "mZZk8EvMFKEc8UHd",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - APIFY Google Map Scraper + Social Media Profile Extractor"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "=Top 10 {{ $('Industry Type Segementation').item.json.output.industryType }} in {{ $('Get Business Research Overview Info1').item.json[\"Business Location\"].split(\", \").last() }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        224,
+        -2976
+      ],
+      "id": "66643a21-54ec-4f19-b03b-216ea449a186",
+      "name": "competitor_searches"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        528,
+        -3184
+      ],
+      "id": "f0bd7c44-f575-4dd9-8ab0-9d04f262ade2",
+      "name": "Split Out2"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "create",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mwuvr0499tujdsi",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Brand Name",
+              "fieldValue": "={{ $json.competitorName }}"
+            },
+            {
+              "fieldName": "Brand Website",
+              "fieldValue": "={{ $json.competitorWebsite }}"
+            },
+            {
+              "fieldName": "Is Competitors",
+              "fieldValue": "={{ true }}"
+            },
+            {
+              "fieldName": "Social Media Used",
+              "fieldValue": "={{ $json.competitorSocialMediaPlatforms }}"
+            },
+            {
+              "fieldName": "Social Media Profiles",
+              "fieldValue": "={{ JSON.stringify($json.competitorSocialMediaProfiles[0]) }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -320,
+        -2816
+      ],
+      "id": "c64437cc-2106-489a-b024-782497cf4862",
+      "name": "Create a row",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        -2656
+      ],
+      "id": "24adff27-8a9b-4727-8637-094a916838b2",
+      "name": "Google Gemini Chat Model5",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"brandName\": \"The listed competitor's brand name\",\n  \"businessOverview\": \"The listed competitor's business overview\",\n  \"businessLocation\": \"The listed competitor's business operate location\",\n  \"coreServices\": \"The listed competitor's core services provided\",\n  \"targetAudience\": \"The listed competitor's target audience\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        192,
+        -2640
+      ],
+      "id": "53297bf4-cc08-4abe-a31a-f1af8c316134",
+      "name": "Structured Output Parser3"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to crawl the listed competitor's brand website to scrape and return the raw webpage content as context in order to complete the task requested.",
+        "workflowId": {
+          "__rl": true,
+          "value": "QeHEewsZGYiAUIfz",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Crawl4AI Single Webpage Crawler"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "url": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('url', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "url"
+          ],
+          "schema": [
+            {
+              "id": "url",
+              "displayName": "url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -128,
+        -2624
+      ],
+      "id": "43ceea38-1505-4b37-8c81-e02a74e00ce4",
+      "name": "webpage_crawler"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Competitor Brand Name: {{ $json['Brand Name'] }}\nCompetitor Brand Website: {{ $json['Brand Website'] }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a market research and analysis specialist who are able to analyze the current market competition based on various industries and geolocation.\n\n# Task\n- You are tasked to do an insightful competitor research and analysis before strategize on crafting the ad creative and ad content for upcoming ads campaign.\n- You are require to generate the rest of the competitor details such as business overview, business location, core services and target audience.\n\n# User Context\nYou are require to follow the provided user input as context and references for you to generate the right output and avoid any hallucination or any misinformation occurred. The user context will be providing such as:\n- Competitor Brand Name\n- Competitor Brand Website\n\n# Tools To Use\nYou are require to use the following tools in order to accomplish the requesting task and generate the right outputs are listed as below:\n- `webpage_crawler`: Call this tool to crawl the listed competitor's brand website to scrape and return the raw webpage content as context in order to complete the task requested.\n- `competitor_info_searcher`: Call this tool to query the competitor's require information such as business overview, business location, core services and target audience based on the listed competitor brand name.\n\n# Output\nThe output generated must be in structured JSON data format without any explanation and unneccessary information. Only come out the output that what had been require above and following the example of JSON structure output or schema as refenrence below.\n\n## Example of JSON Output\n```\njson: {\n  \"brandName\": \"The listed competitor's brand name\",\n  \"businessOverview\": \"The listed competitor's business overview\",\n  \"businessLocation\": \"The listed competitor's business operate location\",\n  \"coreServices\": \"The listed competitor's core services provided\",\n  \"targetAudience\": \"The listed competitor's target audience\"\n}\n```"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -96,
+        -2816
+      ],
+      "id": "38eb6c0e-0255-49fe-bb26-57f0ce13a449",
+      "name": "Competitor Business Info Research"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to query the competitor's require information such as business overview, business location, core services and target audience based on the listed competitor brand name.",
+        "workflowId": {
+          "__rl": true,
+          "value": "Ek66VfFhjAWBSb3v",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Tavily AI Research Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        48,
+        -2624
+      ],
+      "id": "82c9cfb0-7ff2-4c18-b6bb-3e8e95ed55f7",
+      "name": "competitor_info_searcher"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7af83065-a5f9-4bf4-b2bd-4fc171a74895",
+              "name": "brandName",
+              "value": "={{ $json.output.brandName }}",
+              "type": "string"
+            },
+            {
+              "id": "751ef3a5-0fb6-4340-ac6d-7bcf0599ea7e",
+              "name": "businessOverview",
+              "value": "={{ $json.output.businessOverview }}",
+              "type": "string"
+            },
+            {
+              "id": "44d7ca3e-fc7e-4200-a455-359038963960",
+              "name": "businessLocation",
+              "value": "={{ $json.output.businessLocation }}",
+              "type": "string"
+            },
+            {
+              "id": "06ae8713-99ff-4918-864e-12d494eb6d6f",
+              "name": "coreServices",
+              "value": "={{ $json.output.coreServices }}",
+              "type": "string"
+            },
+            {
+              "id": "4a04632f-b5e5-4a22-8f0c-0572ad957edf",
+              "name": "targetAudience",
+              "value": "={{ $json.output.targetAudience }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        240,
+        -2816
+      ],
+      "id": "32784aa7-748f-4998-895f-000b3146685f",
+      "name": "Edit Fields8"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mwuvr0499tujdsi",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Create a row').item.json.Id }}"
+            },
+            {
+              "fieldName": "Brand Name",
+              "fieldValue": "={{ $json.brandName }}"
+            },
+            {
+              "fieldName": "Business Overview",
+              "fieldValue": "={{ $json.businessOverview }}"
+            },
+            {
+              "fieldName": "Business Location",
+              "fieldValue": "={{ $json.businessLocation }}"
+            },
+            {
+              "fieldName": "Core Services",
+              "fieldValue": "={{ $json.coreServices }}"
+            },
+            {
+              "fieldName": "Target Audience",
+              "fieldValue": "={{ $json.targetAudience }}"
+            },
+            {
+              "fieldName": "Competitor Analysis Status",
+              "fieldValue": "Completed"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        592,
+        -2816
+      ],
+      "id": "b395ef76-7f5d-4689-8e51-b1e2dc1fcbd1",
+      "name": "Update Competitor Biz Info",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7af83065-a5f9-4bf4-b2bd-4fc171a74895",
+              "name": "brandName",
+              "value": "={{ $json.output.brandName }}",
+              "type": "string"
+            },
+            {
+              "id": "751ef3a5-0fb6-4340-ac6d-7bcf0599ea7e",
+              "name": "socialMediaPlatforms",
+              "value": "={{ $json.output.socialMediaPlatforms }}",
+              "type": "array"
+            },
+            {
+              "id": "4a04632f-b5e5-4a22-8f0c-0572ad957edf",
+              "name": "socialMediaProfiles",
+              "value": "={{ $json.output.socialMediaProfiles[0] }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1488,
+        -2880
+      ],
+      "id": "66308c75-22f7-4cdc-8cd1-021593f9f015",
+      "name": "Edit Fields9",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mwuvr0499tujdsi",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Create a row').item.json.Id }}"
+            },
+            {
+              "fieldName": "Brand Name",
+              "fieldValue": "={{ $json.brandName }}"
+            },
+            {
+              "fieldName": "Social Media Used",
+              "fieldValue": "={{ $json.socialMediaPlatforms.join() }}"
+            },
+            {
+              "fieldName": "Social Media Profiles",
+              "fieldValue": "={{ $json.socialMediaProfiles }}"
+            },
+            {
+              "fieldName": "Competitor Analysis Status",
+              "fieldValue": "Completed"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1712,
+        -2880
+      ],
+      "id": "69e5181e-1c5e-4c2f-8ef2-6b5302c0e430",
+      "name": "Update Competitor Biz Info1",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Competitor Brand Name: {{ $json['Brand Name'] }}\nCompetitor Brand Website: {{ $json['Brand Website'] }}\nCompetitor Brand Website Domain Name: {{ $json['Brand Website'].extractDomain() }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a market research and analysis specialist who are able to analyze the current market competition based on various industries and geolocation.\n\n# Task\n- You are tasked to do an insightful competitor research and analysis before strategize on crafting the ad creative and ad content for upcoming ads campaign.\n- You are require to find the listed competitor social media profiles that available in their brand website such as Facebook, Instagram, TikTok and Youtube.\n\n# User Context\nYou are require to follow the provided user input as context and references for you to generate the right output and avoid any hallucination or any misinformation occurred. The user context will be providing such as:\n- Competitor Brand Name\n- Competitor Brand Website\n- Competitor Brand Website Domain Name\n\n# Tools To Use\nYou are require to use the following tools in order to accomplish the requesting task and generate the right outputs are listed as below:\n- `external_link_scraper`: Call this tool to scrape the listed competitor's brand websites and return only the list of external links as context in order to find and identify the social media profile links such as Facebook, Instagram, LinkedIn, Youtube etc in the raw web content.\n- `social_media_profile_query`: Call this tool to query the competitor's require information such as Facebook page link, Instagram link, TikTok link, or Youtube channel link or whatever social media profiles link available and relevant to the search results based on the listed competitor brand name.\n\n# Output\nThe output generated must be in structured JSON data format without any explanation and unneccessary information. Only come out the output that what had been require above and following the example of JSON structure output or schema as refenrence below.\n\n## Example of JSON Output\n```\njson: {\n  \"brandName\": \"The listed competitor's brand name\",\n  \"socialMediaPlatforms\": [\"Facebook\", \"Instagram\", \"TikTok\"],\n  \"socialMediaProfiles\": [\n    {\n    \"Facebook\": \"https://facebook.com/competitor-a-page\",\n    \"Instagram\": \"https://instagram.com/competitor-a-username\",\n    \"TikTok\": \"https://tiktok.com/competitor-a-username\"\n   }\n  ]\n}\n```"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        1104,
+        -2880
+      ],
+      "id": "0f25ecc2-e3e7-424f-8ee1-e8c4cba28d30",
+      "name": "Competitor Social Media Profiles Finder",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to query the competitor's require information such as Facebook page link, Instagram link, TikTok link, or Youtube channel link or whatever social media profiles link available and relevant to the search results based on the listed competitor brand name.",
+        "workflowId": {
+          "__rl": true,
+          "value": "Ek66VfFhjAWBSb3v",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Tavily AI Research Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "=Social media profiles for {{ $('Create a row').item.json['Brand Name'] }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1312,
+        -2656
+      ],
+      "id": "cd8633ef-d176-44ec-8b7e-51137df4ace0",
+      "name": "social_media_profile_query",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {
+          "responseFormat": "json_object"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        992,
+        -2688
+      ],
+      "id": "06cb01e9-56d0-4e5e-8229-b94c795011da",
+      "name": "OpenAI Chat Model7",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to scrape the listed competitor's brand websites and return only the list of external links as context in order to find and identify the social media profile links such as Facebook, Instagram, LinkedIn, Youtube etc in the raw web content.",
+        "workflowId": {
+          "__rl": true,
+          "value": "mPq1V6Xf1rpAbueq",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Crawl4AI- External Links - Single Webpage Crawler"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "url": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('url', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "url"
+          ],
+          "schema": [
+            {
+              "id": "url",
+              "displayName": "url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1088,
+        -2656
+      ],
+      "id": "46c87419-ad5f-460d-8e2e-2cfc4644ce2e",
+      "name": "external_link_scraper",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"brandName\": \"The listed competitor's brand name\",\n  \"socialMediaPlatforms\": [\"Facebook\", \"Instagram\", \"TikTok\"],\n  \"socialMediaProfiles\": [\n    {\n    \"Facebook\": \"https://facebook.com/competitor-a-page\",\n    \"Instagram\": \"https://instagram.com/competitor-a-username\",\n    \"TikTok\": \"https://tiktok.com/competitor-a-username\"\n   }\n  ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1440,
+        -2704
+      ],
+      "id": "e42ecaf2-2cb5-4623-a03e-10c0d11e6e64",
+      "name": "Structured Output Parser4",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## 2. Competitor Research & Analysis",
+        "height": 760,
+        "width": 1640
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -800,
+        -3248
+      ],
+      "typeVersion": 1,
+      "id": "562b7857-5fbe-408e-998c-8aef4f9bf3f3",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mwuvr0499tujdsi",
+        "options": {
+          "viewId": "vwucsx2ysds1bj0v",
+          "fields": []
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -1936,
+        -1856
+      ],
+      "id": "d5f68d9f-2f7e-4c56-bb74-8be97290c76d",
+      "name": "Get Competitor Research Overview Info",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "socialMediaAccounts",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -864,
+        -1744
+      ],
+      "id": "daf383f4-244f-4414-9fab-514b6034a2d4",
+      "name": "Split Out1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -1088,
+        -1760
+      ],
+      "id": "11e3e9bb-2921-424c-9ab7-1bff0e223560",
+      "name": "Loop Over Items",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -208,
+        -2976
+      ],
+      "id": "33e2dfc5-a35f-497c-90e3-4bef2d568306",
+      "name": "OpenAI Chat Model6",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "text": "={{ $json[\"Business Overview\"] }}",
+        "attributes": {
+          "attributes": [
+            {
+              "name": "industryType",
+              "description": "Categorize the suitable resort type based on the provided user input"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        -160,
+        -3184
+      ],
+      "id": "f8f1c101-d805-4b43-b1e5-44148e85354f",
+      "name": "Industry Type Segementation"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "7667fd90-1bc5-4ae0-8846-31a56fdb6c90",
+              "leftValue": "={{ $json.competitorSocialMediaProfiles[0] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -496,
+        -2816
+      ],
+      "id": "ad3ac0af-f8ea-4f10-a784-62d66515e87f",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "0cc8cf2f-52c0-4d69-8d92-2898c1229796",
+              "leftValue": "={{ $json.socialMediaAccounts }}",
+              "rightValue": "Facebook",
+              "operator": {
+                "type": "array",
+                "operation": "contains",
+                "rightType": "any"
+              }
+            },
+            {
+              "id": "aeb3afc5-eb9c-42a6-b2e8-4a1971fa0bcc",
+              "leftValue": "={{ $json.socialMediaAccounts }}",
+              "rightValue": "Instagram",
+              "operator": {
+                "type": "array",
+                "operation": "contains",
+                "rightType": "any"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -1408,
+        -2064
+      ],
+      "id": "d79da224-2a3f-4397-8150-ca335dace2e9",
+      "name": "Filter Competitor Have FB & IG Profiles"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "0cc8cf2f-52c0-4d69-8d92-2898c1229796",
+              "leftValue": "={{ $json.socialMediaAccounts }}",
+              "rightValue": "TikTok",
+              "operator": {
+                "type": "array",
+                "operation": "contains",
+                "rightType": "any"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -1344,
+        -1760
+      ],
+      "id": "fd384570-bf30-4814-8ece-18d27236f8ae",
+      "name": "Filter Competitor Have TikTok Profiles",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "0cc8cf2f-52c0-4d69-8d92-2898c1229796",
+              "leftValue": "={{ $json.socialMediaAccounts }}",
+              "rightValue": "Youtube",
+              "operator": {
+                "type": "array",
+                "operation": "contains",
+                "rightType": "any"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -1344,
+        -1536
+      ],
+      "id": "0f669b8b-7522-4d25-8a71-a60cb3b0fe35",
+      "name": "Filter Competitor Have Youtube Profiles",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6996f7e4-d925-46f6-97c1-3e0feda8e4a9",
+              "leftValue": "={{ $json.socialMediaAccounts }}",
+              "rightValue": "TikTok",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -656,
+        -1744
+      ],
+      "id": "5b257d24-4a47-4095-a157-54827146c043",
+      "name": "Filter1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6b5de945-3af3-485a-83ad-413d6bab9706",
+              "name": "ttProfileUrl",
+              "value": "={{ $json.output.ttProfileUrl }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -48,
+        -1744
+      ],
+      "id": "7321f623-fe06-40d0-8b71-3d7b578ddce2",
+      "name": "Extract ONLY TikTok Profile Url",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "socialMediaAccounts",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -960,
+        -2064
+      ],
+      "id": "0eade25d-20f0-4542-b16e-f3365a7f8810",
+      "name": "Split Out4"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -1168,
+        -2080
+      ],
+      "id": "bf38f155-a653-4ac4-9d75-462456bc4628",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6996f7e4-d925-46f6-97c1-3e0feda8e4a9",
+              "leftValue": "={{ $json.socialMediaAccounts }}",
+              "rightValue": "Facebook",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -736,
+        -2064
+      ],
+      "id": "2968ed7e-52da-4f5c-adb8-ed8ffd9d2eda",
+      "name": "Filter2"
+    },
+    {
+      "parameters": {
+        "text": "=- Extract only the Social Media Url that matched the selected social media platform name: {{ $json.socialMediaAccounts }}\n- Social Media Profiles Urls: {{ $json.socialMediaProfiles.TikTok }}",
+        "attributes": {
+          "attributes": [
+            {
+              "name": "ttProfileUrl",
+              "description": "Extract only TikTok Profile URL"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        -416,
+        -1744
+      ],
+      "id": "2aca5f9c-e88d-480e-b5ec-3d9aa8ec96f9",
+      "name": "GET TikTok Account URL",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "802e0033-677a-4c26-8294-2a4ea20de99b",
+              "leftValue": "={{ $json.searchResultsCount }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "b0c4e203-aff8-43a6-83df-7397a40fcf2d",
+              "leftValue": "={{ $json.results }}",
+              "rightValue": "=",
+              "operator": {
+                "type": "array",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        48,
+        -2064
+      ],
+      "id": "c09c00c0-aae3-4491-9ac6-d7af964feea4",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "create",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mmpbtjle14fdtfq",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Competitor Name",
+              "fieldValue": "={{ $json.brandName }}"
+            },
+            {
+              "fieldName": "Ad Platform",
+              "fieldValue": "Meta Ads (FB & IG)"
+            },
+            {
+              "fieldName": "Meta Ads Text Post",
+              "fieldValue": "={{ $json.textPost }}"
+            },
+            {
+              "fieldName": "Meta Ads Title Post",
+              "fieldValue": "={{ $json.titlePost }}"
+            },
+            {
+              "fieldName": "Meta Ads Video URL",
+              "fieldValue": "={{ $json.videoUrl }}"
+            },
+            {
+              "fieldName": "Meta Ads Video Preview URL",
+              "fieldValue": "={{ $json.videoPreviewLink }}"
+            },
+            {
+              "fieldName": "Destination URL",
+              "fieldValue": "={{ $json.destinationUrl }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -656,
+        -2288
+      ],
+      "id": "436caa6b-b6b2-46f9-9ac7-719c8ff8f66a",
+      "name": "Create Record For Competitor FB Ads Library",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "maxItems": 10
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        480,
+        -2080
+      ],
+      "id": "f91d667d-c6b9-42cd-93ad-9960f08f3093",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "78fe163a-62d8-4d97-b9f8-70aa937fb0d4",
+              "name": "adArchiveId",
+              "value": "={{ $json.ad_archive_id }}",
+              "type": "string"
+            },
+            {
+              "id": "19b3d5ae-028f-4040-a3ee-94f49f9ae7c2",
+              "name": "textPostArray",
+              "value": "={{ $jmespath($json.snapshot.cards,\"[*].body\") }}",
+              "type": "array"
+            },
+            {
+              "id": "f743818d-0527-4de1-9ca1-c41dae2644aa",
+              "name": "titlePostArray",
+              "value": "={{ $jmespath($json.snapshot.cards,\"[*].title\") }}",
+              "type": "array"
+            },
+            {
+              "id": "644d9b4e-6b50-4c44-a933-65e2e5a4515b",
+              "name": "videoUrlArray",
+              "value": "={{ $jmespath($json.snapshot.cards,\"[*].video_hd_url\") }}",
+              "type": "array"
+            },
+            {
+              "id": "a0725947-9049-442e-bdd7-b0972d0f638a",
+              "name": "videoPreviewUrlArray",
+              "value": "={{ $jmespath($json.snapshot.cards,\"[*].video_preview_image_url\") }}",
+              "type": "array"
+            },
+            {
+              "id": "e7454b63-5367-43bc-99ee-23966b318cff",
+              "name": "destinationUrlArray",
+              "value": "={{ $jmespath($json.snapshot.cards,\"[*].link_url\") }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        704,
+        -2080
+      ],
+      "id": "e7b96f99-a195-4266-9974-b2d14b5caea8",
+      "name": "Extrall Important Info In Array Based on Ad Id"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "715d806e-7a6b-427c-8682-9ee18e5849a7",
+              "name": "brandName",
+              "value": "={{ $('Extract ONLY FB Page Url').item.json.brandName }}",
+              "type": "string"
+            },
+            {
+              "id": "75e8c6ad-b993-4d9c-ad37-30d161c8190b",
+              "name": "textPost",
+              "value": "={{ $json.textPostArray.first() }}",
+              "type": "string"
+            },
+            {
+              "id": "1e6fa65a-8924-44ee-8d7e-c98338d4e430",
+              "name": "titlePost",
+              "value": "={{ $json.titlePostArray.first() }}",
+              "type": "string"
+            },
+            {
+              "id": "92ac1319-b00f-41f3-b80e-1e2165382a06",
+              "name": "videoUrl",
+              "value": "={{ $json.videoUrlArray.first() }}",
+              "type": "string"
+            },
+            {
+              "id": "d16ba6de-3d46-46f4-9a3e-09e52a47dfc7",
+              "name": "videoPreviewLink",
+              "value": "={{ $json.videoPreviewUrlArray.first() }}",
+              "type": "string"
+            },
+            {
+              "id": "f0a7193f-6b09-4ca9-82b5-566de0cf22ae",
+              "name": "destinationUrl",
+              "value": "={{ $json.destinationUrlArray.first() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        928,
+        -2080
+      ],
+      "id": "4ec56070-d10f-4c1f-ba45-39b0ff4e3ec0",
+      "name": "Cleaned List Extraction"
+    },
+    {
+      "parameters": {
+        "url": "https://api.scrapecreators.com/v1/facebook/adLibrary/company/ads",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "companyName",
+              "value": "={{ $json.brandName }}"
+            },
+            {
+              "name": "country",
+              "value": "={{ $json.country }}"
+            },
+            {
+              "name": "status",
+              "value": "={{ $json.status }}"
+            },
+            {
+              "name": "media_type",
+              "value": "={{ $json.media_type }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -224,
+        -2064
+      ],
+      "id": "5bf73e52-7391-418b-a127-23b4a1249bac",
+      "name": "HTTP Request2",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "lbYsJmB8D8TVGbFL",
+          "name": "HeaderAuth(scrapecreators.com_acc-boonhong.tan0309@gmail.com)"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "results",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        272,
+        -2080
+      ],
+      "id": "868fb874-20a0-41ad-911a-c1b65a427794",
+      "name": "Split Out5"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e7435c81-bded-4f98-b256-7286ad78823e",
+              "name": "brandName",
+              "value": "={{ $json.brandName }}",
+              "type": "string"
+            },
+            {
+              "id": "6b5de945-3af3-485a-83ad-413d6bab9706",
+              "name": "fbPageUrl",
+              "value": "={{ $json.socialMediaProfiles.Facebook }}",
+              "type": "string"
+            },
+            {
+              "id": "4f4b5ac2-caed-4bb5-8e3a-adc7f1618bd7",
+              "name": "country",
+              "value": "MY",
+              "type": "string"
+            },
+            {
+              "id": "332d31e6-fa64-46fe-8c41-40169f148da0",
+              "name": "status",
+              "value": "ALL",
+              "type": "string"
+            },
+            {
+              "id": "77c660d9-8040-4958-8cfc-f3ed2b19a3da",
+              "name": "media_type",
+              "value": "VIDEO",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -480,
+        -2064
+      ],
+      "id": "75d8ed9f-aba0-4ad4-abe5-e5e8277b027d",
+      "name": "Extract ONLY FB Page Url"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        -320,
+        -704
+      ],
+      "id": "d058bc47-0c50-450f-a20c-00869229f0d0",
+      "name": "DeepSeek Chat Model2",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "8Hvjw0JNKmbO191K",
+          "name": "DeepSeekAPI - info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mbg7q65k301zd62",
+        "id": "={{ $('Get Updated Record1').item.json.Id }}"
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        288,
+        -576
+      ],
+      "id": "9e1ce2cf-b6a4-4c45-9898-81373c863901",
+      "name": "Get Initial View Selected Row",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mbg7q65k301zd62",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $json.Id }}"
+            },
+            {
+              "fieldName": "Status",
+              "fieldValue": "Angles Generated"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        528,
+        -576
+      ],
+      "id": "e42a22b4-9322-4c0e-8d69-a567a17b4be1",
+      "name": "Update Status -> AnglesGenerated in Initial View",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mbg7q65k301zd62",
+        "options": {
+          "viewId": "vwhbve6tpqeurkxu",
+          "fields": [],
+          "where": "(Status,eq,Generating Scripts)"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -1104,
+        -448
+      ],
+      "id": "a82187b3-7248-4b00-9a78-b056fd99d6b1",
+      "name": "Get Record When \"Generating Scripts\" Status Changed",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## FB Ads Library Scarper\n",
+        "height": 1220,
+        "width": 3620,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2240,
+        -2400
+      ],
+      "typeVersion": 1,
+      "id": "311054d3-754d-4fde-b934-15d6078d3bac",
+      "name": "Sticky Note2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mbg7q65k301zd62",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Get Record When \"Generating Scripts\" Status Changed').item.json.Id }}"
+            },
+            {
+              "fieldName": "Script",
+              "fieldValue": "={{ $json.text }}"
+            },
+            {
+              "fieldName": "Status",
+              "fieldValue": "Scripts Generated"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -384,
+        -448
+      ],
+      "id": "fc556683-476c-4c36-832b-cab83104b80f",
+      "name": "Update a row1",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro-preview-05-06",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -688,
+        80
+      ],
+      "id": "1a2d9b42-5563-4db1-a1b2-f27cdd9c7979",
+      "name": "Google Gemini Chat Model6",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Angle Headline: {{ $json[\"Ad Angle Headline\"] }}\n-----\nConcept Summary: {{ $json['Concept Summary'] }}\n-----\nVSL Structure Overview: {{ $json['VSL Structure'] }}\n-----\nVideo Suggestion: {{ $json['Video Suggestion'] }}\n-----\nEmotional Triggers: {{ $json['Emotional Triggers'] }}\n----\nCognitive Bias: {{ $json['Cognitive Biases Leveraged'] }}\n----\nDirect Response Techniques: {{ $json['Direct Response Techniques'] }}\n----\nTime: {{ $now.format('HH:mm:ss') }}\n\n----\nAbout the Core Service: {{ $json['Overview Services'] }}\n\n----\nGive me a script considering from all of the above information.",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=You are an elite video sales letter (VSL) scriptwriter, specially trained and highly experienced in crafting psychologically persuasive, direct-response marketing content optimized specifically for social media (particularly Facebook advertising). Your scripts blend proven storytelling formulas, emotional intensity, persuasive psychological triggers, and seamless conversational delivery to instantly captivate the audience, hold sustained attention, and compel immediate action and conversions.\n\nYou will receive clearly structured information from a provided VSL creative brief, specifically containing these key elements:\n\n- **Idea (Angle Headline):** The central \"big idea\" or winning angle for your script.\n- **Description:** A Markdown-formatted detailed breakdown of the angle, including potential visual hooks, emotional cues, persuasive messaging strategies, and explicit psychological techniques to employ.\n- **Audience & Psychological Insight:** Data and guidance about the ideal audience profile, core emotions, desires, fears, or objections to leverage within the script for maximum conversion power.\n\nYour job is to use this information to produce a complete and polished VSL script following this exact format and clearly labeled structure:\n\n### VSL Script Required Structure:\n\n**1. HOOK (0-10 seconds):**\n\n- Craft an instantly gripping, scroll-stopping opening sentence.  \n- Use powerful psychological triggers: provocative questions, shocking statistics, curiosity-building statements, contrarian claims, empathy-driven problems, or impactful visual concepts directly relevant to your viewer’s deepest desires or fears.\n- Set an emotional tone immediately, speaking directly to the viewer from the first second.\n\n**2. LEAD / PROBLEM AGITATION (10-30 seconds):**\n\n- Smoothly transition from your hook into clearly defining and magnifying the viewer’s core problem or pain points—make sure these feel personal, specific, relatable, emotionally charged, and urgent.\n- Skillfully amplify the viewer’s emotional discomfort, vividly painting the negative consequences or future scenarios of ignoring this problem.\n- Subtly hint towards a revolutionary or intriguing solution without revealing your product explicitly yet, building curiosity.\n\n**3. BODY / SOLUTION PRESENTATION (30 seconds–2 minutes):**\n\n- Gracefully and believably introduce your product without blatant, immediate promotion. Frame it as the unique and perfect solution effortlessly connected to the viewer’s exact struggles, fears, and desires previously outlined.\n- Clearly explain the unique mechanism or features of the product in conversational, easy-to-understand language without jargon.\n- Clearly establish credibility: Incorporate persuasive social proof (realistic testimonials, short stories, transformational \"before-and-afters\"), simple readable statistics, scientific backing, or authoritative figures as proof of results. Always maintain believable language and avoid exaggerated claims.\n- Address and devastate potential common viewer objections clearly but conversationally, embedding reassurance, empathy and building trust.\n- Emphasize clearly how your product uniquely and importantly differs from competitor options, emphasizing meaningful emotional and logical advantages in the viewer’s specific context.\n\n**4. CALL-TO-ACTION (15–30 seconds):**\n\n- Provide a crystal-clear, powerfully persuasive directive (“Click below,” “Claim your discount today,” etc.).\n- Clearly articulate your risk removal (guarantee or refund policy) and urgency/scarcity messaging (limited availability, limited time offer, exclusive discounts, etc.) to maximize likelihood of immediate action.\n- Remind viewers specifically and vividly about the primary transformation or benefit they'll obtain by responding immediately, triggering emotional and logical motivators simultaneously.\n- Use explicit action-oriented, imperative language: “Click,” “Claim,” “Start,” “Secure,” “Order,” etc.\n\n### Essential Script Requirements & Instructions:\n\n- **Emotional Persuasion:** The script must clearly demonstrate mastery of persuasive techniques grounded in deep emotional and psychological understanding. You should leverage consumer fears, hopes, insecurities, aspirations, biases (loss aversion, scarcity, urgency, authority, social proof) and subconscious drivers explicitly outlined in your provided brief description.\n- **Conversational Tone & Flow:** Maintain an intimate, conversational, easy-to-understand, engaging, and friendly style of communication. Speak directly to viewers, always directly addressing “you,” as if having an intimate, honest conversation with a close trusted friend.\n- **Concise & Focused:** Every single sentence or phrase must be meaningful, driving interest or persuasion forward. Avoid fluff and vague language.\n- **Visual & Narrative Awareness:** Explicitly consider moments where visuals or storytelling elements (which the video creator may show on screen) would strongly amplify the message. Employ vivid verbal imagery and emotional appeals even though visuals aren't explicitly your responsibility.\n- **Facebook Ad Context:** Ensure your approach respects the context of Facebook ads—captivating immediately, holding short attention spans, emotionally charged, and clearly and urgently actionable.\n- **Ethical Persuasion:** Your persuasive and psychological techniques, however bold, must remain ethically responsible, tastefully executed, and plausible in their claims—avoiding unrealistic hype, false promises, or misleading assertions. Conversion rates come from trust and authenticity.\n\nYour final deliverable should explicitly label each structural component (HOOK, LEAD, BODY, CTA) clearly. You should construct the script in Markdown formatting for clarity and readability. Your response should start immediately with the script with NO intro statement. \n\nBy executing these explicit detailed guidelines, your produced scripts should consistently maximize viewer engagement, create intense emotional resonance, immediately remove common objections or hesitations, trigger powerful subconscious motivators, ethically persuade prospects, and drive immediate, measurable increases in direct-response sales conversions."
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        -816,
+        -448
+      ],
+      "id": "6f35c311-593c-4ae3-99ea-6bce2831405e",
+      "name": "Video Script Generator"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Feedbacks:\n{{ $json.Feedback }}\n\n=====\n\nScript:\n{{ $json.Script }}\n\n\n====\nSome Context:\n{{ $json.ConceptSummary }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=You are an expert Video Sales Letter (VSL) scriptwriter specializing in creating highly converting VSL ads. Your task is to rewrite an existing VSL script based on the feedback provided. You will be given:\n\n1. **Original Script:** The current version of the VSL script.\n2. **Feedback:** Specific instructions, suggestions, or criticisms on how the script should be improved.\n3. **Additional Context:** Relevant details about the product, target audience, tone, or objectives that will help you better implement the feedback.\n\nUse the feedback and additional context to enhance the original script, ensuring it is engaging, persuasive, and optimized for high conversion rates. Your rewrite should clearly address each feedback point provided, improving clarity, impact, emotional resonance, and overall effectiveness."
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        -576,
+        -96
+      ],
+      "id": "1f3f6c8e-0ef3-479f-96d3-0211edcc6d3a",
+      "name": "Video Script Refinement"
+    }
+  ],
+  "connections": {
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Model Selector": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Model Selector",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Model Selector",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Change Status -> Generating Product Details1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Record When \"Generating Scripts\" Status Changed",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Record When \"Generate Script\" Checked1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Product Overview & Customer Research": {
+      "main": [
+        [
+          {
+            "node": "Update Status -> Product Details Generated",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Initial View Selected Row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Create Ad Angles",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "JSON Structure Parsing",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Video Script Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Angles": {
+      "main": [
+        [
+          {
+            "node": "JSON Structure Parsing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Change Status -> Generating Product Details": {
+      "main": [
+        [
+          {
+            "node": "Get Updated Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Updated Record": {
+      "main": [
+        [
+          {
+            "node": "Set User Prompt For Product Research",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set User Prompt For Product Research": {
+      "main": [
+        [
+          {
+            "node": "Product Overview & Customer Research",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Change Status -> Generating Product Details1": {
+      "main": [
+        [
+          {
+            "node": "Get Updated Record1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Updated Record1": {
+      "main": [
+        [
+          {
+            "node": "Generate Angles",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON Structure Parsing": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Record When \"Generate Script\" Checked1": {
+      "main": [
+        [
+          {
+            "node": "Video Script Refinement",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Generate Angles",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Get many rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows": {
+      "main": [
+        [
+          {
+            "node": "Brand Research Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model1": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Brand Research Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_web_research_tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Brand Research Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Brand Research Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brand Research Agent": {
+      "main": [
+        [
+          {
+            "node": "Update a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Get Competitor Research Overview Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Filter Competitor Have FB & IG Profiles",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "GET TikTok Account URL",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook2": {
+      "main": [
+        [
+          {
+            "node": "Get Business Research Overview Info1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Business Research Overview Info1": {
+      "main": [
+        [
+          {
+            "node": "Industry Type Segementation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser2": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Competitor Listing & Research",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Competitor Listing & Research",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "competitor_searches": {
+      "ai_tool": [
+        [
+          {
+            "node": "Competitor Listing & Research",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Competitor Listing & Research": {
+      "main": [
+        [
+          {
+            "node": "Split Out2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out2": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a row": {
+      "main": [
+        [
+          {
+            "node": "Competitor Business Info Research",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Competitor Business Info Research",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser3": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Competitor Business Info Research",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "webpage_crawler": {
+      "ai_tool": [
+        [
+          {
+            "node": "Competitor Business Info Research",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "competitor_info_searcher": {
+      "ai_tool": [
+        [
+          {
+            "node": "Competitor Business Info Research",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Competitor Business Info Research": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields8": {
+      "main": [
+        [
+          {
+            "node": "Update Competitor Biz Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields9": {
+      "main": [
+        [
+          {
+            "node": "Update Competitor Biz Info1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Competitor Social Media Profiles Finder": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "social_media_profile_query": {
+      "ai_tool": [
+        [
+          {
+            "node": "Competitor Social Media Profiles Finder",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model7": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Competitor Social Media Profiles Finder",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "external_link_scraper": {
+      "ai_tool": [
+        [
+          {
+            "node": "Competitor Social Media Profiles Finder",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser4": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Competitor Social Media Profiles Finder",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Competitor Research Overview Info": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Filter1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model6": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Industry Type Segementation",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Industry Type Segementation": {
+      "main": [
+        [
+          {
+            "node": "Competitor Listing & Research",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Create a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Competitor Have Youtube Profiles": {
+      "main": [
+        []
+      ]
+    },
+    "Filter1": {
+      "main": [
+        [
+          {
+            "node": "GET TikTok Account URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract ONLY TikTok Profile Url": {
+      "main": [
+        []
+      ]
+    },
+    "Split Out4": {
+      "main": [
+        [
+          {
+            "node": "Filter2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [
+          {
+            "node": "Create Record For Competitor FB Ads Library",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Split Out4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter2": {
+      "main": [
+        [
+          {
+            "node": "Extract ONLY FB Page Url",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Competitor Have FB & IG Profiles": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Competitor Have TikTok Profiles": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET TikTok Account URL": {
+      "main": [
+        [
+          {
+            "node": "Extract ONLY TikTok Profile Url",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Split Out5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Extrall Important Info In Array Based on Ad Id",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extrall Important Info In Array Based on Ad Id": {
+      "main": [
+        [
+          {
+            "node": "Cleaned List Extraction",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out5": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cleaned List Extraction": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract ONLY FB Page Url": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "JSON Structure Parsing",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Initial View Selected Row": {
+      "main": [
+        [
+          {
+            "node": "Update Status -> AnglesGenerated in Initial View",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Record When \"Generating Scripts\" Status Changed": {
+      "main": [
+        [
+          {
+            "node": "Video Script Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model6": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Video Script Refinement",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Video Script Generator": {
+      "main": [
+        [
+          {
+            "node": "Update a row1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Video Script Refinement": {
+      "main": [
+        [
+          {
+            "node": "NocoDB2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Product Overview & Customer Research": [
+      {
+        "json": {
+          "id": "3c493acd-9e15-4507-acaa-5ba52ff52991",
+          "model": "sonar-reasoning",
+          "created": 1749874763,
+          "usage": {
+            "prompt_tokens": 319,
+            "completion_tokens": 1809,
+            "total_tokens": 2128,
+            "search_context_size": "low"
+          },
+          "citations": [
+            "https://www.polarismarketresearch.com/industry-analysis/fruit-and-vegetable-wash-market",
+            "https://www.grandviewresearch.com/industry-analysis/fruit-vegetable-wash-market-report",
+            "https://datahorizzonresearch.com/fruit-and-vegetable-cleaner-market-3618",
+            "https://www.globalgrowthinsights.com/market-reports/produce-wash-market-100432",
+            "https://www.360iresearch.com/library/intelligence/fruit-vegetable-wash"
+          ],
+          "search_results": [
+            {
+              "title": "Fruit and Vegetable Wash Market Covers Analysis Report, 2024-2032",
+              "url": "https://www.polarismarketresearch.com/industry-analysis/fruit-and-vegetable-wash-market",
+              "date": null
+            },
+            {
+              "title": "Fruit & Vegetable Wash Market Size & Share Report, 2030",
+              "url": "https://www.grandviewresearch.com/industry-analysis/fruit-vegetable-wash-market-report",
+              "date": null
+            },
+            {
+              "title": "Fruit And Vegetable Cleaner Market Size, Share & Forecast 2033",
+              "url": "https://datahorizzonresearch.com/fruit-and-vegetable-cleaner-market-3618",
+              "date": "2024-09-06"
+            },
+            {
+              "title": "Produce Wash Market Size | Research Report and Industry Analysis",
+              "url": "https://www.globalgrowthinsights.com/market-reports/produce-wash-market-100432",
+              "date": null
+            },
+            {
+              "title": "Fruit & Vegetable Wash Market Size & Share 2025-2030",
+              "url": "https://www.360iresearch.com/library/intelligence/fruit-vegetable-wash",
+              "date": null
+            }
+          ],
+          "object": "chat.completion",
+          "choices": [
+            {
+              "index": 0,
+              "finish_reason": "stop",
+              "message": {
+                "role": "assistant",
+                "content": "<think>\nOkay, let's tackle this query step by step. First, I need to understand exactly what the user is asking for. They want a detailed customer profile for their product, the Biobased Veggie Wash, including who the core customers are, the product details, and unique insights. They also want the analysis to go deep, exploring all aspects of the product, ingredients, brand narrative, and even potential customers.\n\nStarting with the product description. The Biobased Veggie Wash uses food-grade baking soda and a food-grade disinfectant to remove 99% of bacteria, pesticides, waxes, and chemicals. It's vegan, residue-free, and rinses off easily. The key ingredients are listed, and there are variations in product sizes and subscription models. The user provided specific pricing and subscription options. \n\nNext, the target audience. From the search results, the main regions are North America and Asia-Pacific. In North America, there's high consumer awareness about food safety, with concerns over pesticide residues. The 2023 EWG report mentioned that 75% of U.S. produce has residues, which aligns with the product's benefits. These consumers might be health-conscious individuals, organic food buyers, and parents who prioritize their children's health.\n\nIn Asia-Pacific, urbanization and disposable income growth drive demand. Here, the target could be middle-class urban families, health-conscious millennials, and households adopting hygiene practices post-COVID. The search results mention government encouragement for hygiene, which could include this product.\n\nLooking at demographics, primary customers are likely women aged 25-45, responsible for household grocery shopping and meal prep. They value convenience and safety. Secondary demographics include eco-conscious individuals, organic shoppers, and commercial outfits like restaurants or hotels needing bulk solutions.\n\nPsychographics are crucial. These customers prioritize health, safety, environmental impact, and convenience. They're educated, willing to pay a premium, and engage with brands that share their values. The brand narrative should emphasize natural ingredients, effectiveness, safety, and eco-friendliness. They are not targeting budget-conscious consumers or those indifferent to food safety.\n\nProduct differentiation points: natural ingredients, food-grade components, residue-free rinse, subscription model. Competitors might be synthetic-based or less effective in residue removal. The brand's USP is the biobased, safe, and effective solution.\n\nUnique insights from the search results: The post-COVID hygiene focus, especially in Asia, e-commerce growth (like Nykaa's entry in India), and the trend towards organic produce. Also, regulatory environments in North America supporting demand. The subscription model taps into recurring revenue and customer loyalty.\n\nIngredients breakdown: Using plant-based surfactants and natural preservatives differentiates from conventional cleaners. Baking soda is a common household item, enhancing trust. The food-grade disinfectant addresses the 99% bacteria claim.\n\nBrand narrative: The product is positioned as a trusted, science-backed solution for health-conscious households. It's not just a cleaner but a protector against hidden contaminants. Emphasize empowerment through informed choices, aligning with the brand's commitment to natural, safe products.\n\nPotential markets beyond households include commercial kitchens and institutions. Partnerships with organic producers or eco-retailers could expand reach. Also, addressing concerns about synthetic chemicals aligns with global trends towards sustainability.\n\nIn summary, the customer profile is health-focused, environmentally aware individuals and households in urban areas, particularly in North America and Asia-Pacific. They seek effectiveness and safety, are willing to pay more, and value convenience through subscription services. The product meets their needs with natural ingredients and a proven efficacy, positioning itself as a premium solution in a growing market.\n</think>\n\n## Customer Profile Analysis for Biobased Veggie Wash  \n\n### **Core Target Audience**  \n1. **Primary Customers**  \n   - **Health-Conscious Households**: Families prioritizing food safety, particularly parents/caregivers conscious of pesticide/chemical residues[1][2].  \n   - **Eco-Consumer**: Individuals avoiding synthetic chemicals, aligning with trends toward plant-based, biodegradable products[1][3].  \n   - **Urban Professionals**: Busy individuals valuing convenience and time-saving hygiene solutions (e.g., subscription models)[2][3].  \n\n2. **Secondary Markets**  \n   - **Commercial Food Providers**: Restaurants, cafés, and hotels requiring bulk produce cleaning solutions to meet hygiene standards[3][4].  \n   - **Organic Food Shops**: Retailers catering to eco-aware consumers looking for complementary products[4].  \n\n---\n\n### **Product Deep Dive**  \n**Product Name**: Biobased Veggie Wash  \n**Key Benefits**:  \n- **Pathogen Elimination**: Removes 99% of bacteria, pesticides, waxes, and chemicals using food-grade disinfectant and baking soda[1][2].  \n- **Natural Formulation**: Plant-based surfactants, glycerin, and citric acid ensure residue-free rinsing, addressing concerns about synthetic chemicals[2][3].  \n- **Subscription Flexibility**: RM11.90 for 500ml bottle, with 10% auto-renewal discount (every 2/4/6 weeks)[*User Input*].  \n\n**Ingredients Breakdown**  \n| Component          | Purpose                          | Safety/Regulatory Status          |  \n|---------------------|---------------------------------|------------------------------------|  \n| **Plant-Based Surfactant** | Detergent/emulsifier         | Biodegradable, non-toxic         |  \n| **Food-Grade Disinfectant** | Antimicrobial agent          | FDA/EU-compliant for food contact|  \n| **Baking Soda**      | Neutralizes odors/remove residue| Household-safe, non-irritating   |  \n| **Citric Acid**      | Stabilizes pH, prevents spoilage| Natural preservative              |  \n\n**Cautions**:  \n- Avoid eye contact; rinse thoroughly if exposed[4].  \n- External use only; not for consumption[4].  \n\n---\n\n### **Brand Narrative**  \n**\"What We Are\"**  \n- **Science-Driven Protectant**: Combines natural ingredients with proven efficacy (e.g., EWG data on pesticide residues highlights product necessity)[1][2].  \n- **Empowerment Tool**: Enabling informed choices about food safety, aligning with post-COVID hygiene trends[2][5].  \n- **Eco-Conscious Ally**: Aligns with global demand for sustainable, biodegradable cleaners[3][4].  \n\n**\"What We Are Not\"**  \n- **Synthetic Potion**: Avoids harsh chemicals (e.g., chlorine, artificial fragrances) linked to health/environmental risks[3][5].  \n- **One-Time Solution**: Targets recurring users via subscription models, fostering loyalty[2][3].  \n- **Luxury Niche**: Positioned as an accessible premium product, not a high-end specialty item.  \n\n---\n\n### **Psychographic Insights**  \n| Trait                | Behavioral Drivers                          | Pain Points Addressed               |  \n|----------------------|--------------------------------------------|--------------------------------------|  \n| **Health Prioritization** | Willing to pay premium for safety       | Pesticide residues, bacterial contamination |  \n| **Environmental Awareness** | Seeks biodegradable solutions          | Synthetic chemical pollution       |  \n| **Time Sensitivity**    | Values convenience (e.g., quick rinse)  | Limited prep time                    |  \n\n**Unique Buying Triggers**:  \n- **Risk Aversion**: Driven by FDA/EWG reports on pesticide prevalence[1][4].  \n- **Lifestyle Integration**: Subscription models cater to urban professionals’ routine needs[3][5].  \n- **Vegan/Clean Label Demand**: Aligns with plant-based surfactants and eco-preservatives[2][3].  \n\n---\n\n### **Competitive Differentiation**  \n1. **Natural Efficacy**: Combines food-grade acids/baking soda for residue-free cleaning vs. synthetic competitors[2][4].  \n2. **Transparency**: Full ingredient disclosure (e.g., avoids \"proprietary blends\") builds trust[3][5].  \n3. **Hybrid Convenience**: Subscriptions bridge the gap between e-commerce convenience and retail accessibility[2][5].  \n\n---\n\n### **Expansion Opportunities**  \n- **Commercial Partnerships**: Co-branding with organic farms or wellness retailers (e.g., Nykaa’s veggie wash launch)[2].  \n- **Regional Tailoring**: Asia-Pacific markets could emphasize post-harvest disinfection for tropical produce[1][4].  \n- **Educational Content**: Tutorials demonstrating residue removal vs. plain water to reinforce efficacy[1][2].  \n\nBy anchoring in these insights, Biobased Veggie Wash positions itself as a necessity for health-oriented consumers, leveraging both science-backed performance and alignment with global sustainability trends."
+              },
+              "delta": {
+                "role": "assistant",
+                "content": ""
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "Brand Research Agent": [
+      {
+        "json": {
+          "output": {
+            "businessOverview": "Sementra Hot Spring Nature Resort, located in the heart of Gopeng's natural landscape in Perak, Malaysia, is a sanctuary designed to blend modern comfort with the tranquility of the environment. The resort operates on a philosophy of living in harmony with nature, utilizing eco-friendly architecture. It offers a range of accommodations, including elegantly designed chalets like the Larva, Puupa, and Mekar, which provide scenic views of the surrounding lake and forest. Each chalet is equipped with modern amenities such as air conditioning, private bathrooms, and balconies. The key highlight of the resort is its natural hot spring pool and a unique waterfall swimming pool. Positioned as a serene escape, Sementra provides a peaceful retreat from the hustle and bustle of city life, allowing guests to reconnect with nature.",
+            "coreService": "- Eco-tourism focused hospitality providing accommodation in a natural setting.\n- Offers various chalet types (Larva, Puupa, Mekar) with amenities like private balconies and breakfast.\n- Key facilities include a natural hot spring, a waterfall swimming pool, and a nature garden.\n- Provides recreational activities such as walking tours, pool table, and ping-pong.\n- The resort's location in Gopeng facilitates access to adventure sports like water rafting and caving.\n- Offers dining services, including halal breakfast and dinner with local cuisine.\n- Provides meeting and banquet facilities for events.",
+            "targetAudience": "- Nature lovers and individuals seeking a peaceful retreat from urban life to relax and rejuvenate.\n- Families looking for a nature-based getaway that is popular for family stays and offers a safe environment for children.\n- Couples seeking a romantic and serene destination for a private getaway.\n- Adventure enthusiasts and outdoor lovers interested in exploring the surrounding area's activities, such as hiking, water rafting, and caving."
+          }
+        }
+      }
+    ],
+    "Webhook2": [
+      {
+        "json": {
+          "headers": {
+            "x-forwarded-host": "n8n.automessenger.me",
+            "x-forwarded-server": "n8n.automessenger.me",
+            "x-real-ip": "52.15.226.51",
+            "x-forwarded-for": "52.15.226.51",
+            "x-forwarded-proto": "https",
+            "host": "n8n.automessenger.me",
+            "connection": "Upgrade",
+            "content-length": "629",
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "user-agent": "axios/1.10.0",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "sentry-trace": "9019ef557e50437e929388f026587042-8790358475b557ef",
+            "baggage": "sentry-environment=production,sentry-release=0.111.4,sentry-public_key=545692f1a4c6783d1ebb54fa5c095dc8,sentry-trace_id=9019ef557e50437e929388f026587042,sentry-org_id=4505953073889280"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "type": "records.after.insert",
+            "id": "1d8085c3-7c6e-427c-a0e0-cdd3e22b016c",
+            "version": "v3",
+            "data": {
+              "table_id": "mwuvr0499tujdsi",
+              "table_name": "Ads Campaign VSL Generator",
+              "rows": [
+                {
+                  "Id": 1,
+                  "CreatedAt": "2025-07-10T04:46:07.632Z",
+                  "UpdatedAt": "2025-07-10T04:46:07.632Z",
+                  "Brand Name": "Sample Text",
+                  "Current Month": "2025-07-10T04:46:07.632Z",
+                  "Business Overview": "Sample Long text",
+                  "Brand Website": "https://nocodb.com",
+                  "Core Services": "Sample Long text",
+                  "Business Location": "Sample Text",
+                  "Target Audience": "Sample Long text",
+                  "Social Media Used": "Facebook",
+                  "Social Media Profiles": "Sample Long text",
+                  "Business Research Status": "Pending"
+                }
+              ]
+            }
+          },
+          "webhookUrl": "https://n8n.automessenger.me/webhook-test/nocodb-sementra-biz-research-done",
+          "executionMode": "test"
+        }
+      }
+    ],
+    "Competitor Social Media Profiles Finder": [
+      {
+        "json": {
+          "output": {
+            "brandName": "The Banjaran Hotsprings Retreat",
+            "socialMediaPlatforms": [
+              "Facebook",
+              "Instagram",
+              "YouTube"
+            ],
+            "socialMediaProfiles": [
+              {
+                "Facebook": "https://www.facebook.com/banjaranhotsprings/",
+                "Instagram": "https://www.instagram.com/thebanjaranhotsprings",
+                "TikTok": ""
+              }
+            ]
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "brandName": "Beacon Resort",
+            "socialMediaPlatforms": [
+              "Facebook",
+              "Instagram",
+              "YouTube",
+              "TikTok"
+            ],
+            "socialMediaProfiles": [
+              {
+                "Facebook": "https://www.facebook.com/beacon.resort.my",
+                "Instagram": "https://www.instagram.com/beacon.resort.my/",
+                "TikTok": "https://www.tiktok.com/@beacon.resort?lang=en"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "brandName": "ēRYAbySURIA Hot Spring Bentong",
+            "socialMediaPlatforms": [
+              "Facebook",
+              "Twitter",
+              "YouTube",
+              "Instagram"
+            ],
+            "socialMediaProfiles": [
+              {
+                "Facebook": "https://www.facebook.com/ERYAbySuria/",
+                "Instagram": "https://www.instagram.com/eryabysuria/",
+                "TikTok": ""
+              }
+            ]
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "brandName": "Pusat Rekreasi Air Panas Ulu Legong",
+            "socialMediaPlatforms": [
+              "Facebook",
+              "Instagram"
+            ],
+            "socialMediaProfiles": [
+              {
+                "Facebook": "https://www.facebook.com/banjaranhotsprings/",
+                "Instagram": "https://www.instagram.com/thebanjaranhotsprings/",
+                "TikTok": ""
+              }
+            ]
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "brandName": "Felda Residence Hot Springs",
+            "socialMediaPlatforms": [
+              "Facebook",
+              "Instagram"
+            ],
+            "socialMediaProfiles": [
+              {
+                "Facebook": "https://www.facebook.com/banjaranhotsprings/",
+                "Instagram": "https://www.instagram.com/thebanjaranhotsprings/?hl=en",
+                "TikTok": ""
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "Webhook1": [
+      {
+        "json": {
+          "headers": {
+            "x-forwarded-host": "n8n.automessenger.me",
+            "x-forwarded-server": "n8n.automessenger.me",
+            "x-real-ip": "52.15.226.51",
+            "x-forwarded-for": "52.15.226.51",
+            "x-forwarded-proto": "https",
+            "host": "n8n.automessenger.me",
+            "connection": "Upgrade",
+            "content-length": "777",
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "user-agent": "axios/1.10.0",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "sentry-trace": "97b05e1a194a425881594e7af81b90bf-b4cf939d7df8be09",
+            "baggage": "sentry-environment=production,sentry-release=0.111.4,sentry-public_key=545692f1a4c6783d1ebb54fa5c095dc8,sentry-trace_id=97b05e1a194a425881594e7af81b90bf,sentry-org_id=4505953073889280"
+          },
+          "params": {},
+          "query": {
+            "competitor_research_done": "true"
+          },
+          "body": {
+            "type": "records.after.insert",
+            "id": "248e7f18-4695-4764-acb0-fb656aeeefc0",
+            "user": {
+              "id": "usmz7yrmj417ni7a",
+              "email": "boonhong.tan0309@gmail.com",
+              "display_name": "Boon Hong Tan"
+            },
+            "version": "v3",
+            "data": {
+              "table_id": "mwuvr0499tujdsi",
+              "table_name": "Ads Campaign VSL Generator",
+              "rows": [
+                {
+                  "Id": 1,
+                  "CreatedAt": "2025-07-10T16:42:52.580Z",
+                  "UpdatedAt": "2025-07-10T16:42:52.580Z",
+                  "Brand Name": "Sample Text",
+                  "Current Month": "2025-07-10T16:42:52.581Z",
+                  "Business Overview": "Sample Long text",
+                  "Brand Website": "https://nocodb.com",
+                  "Core Services": "Sample Long text",
+                  "Business Location": "Sample Text",
+                  "Target Audience": "Sample Long text",
+                  "Social Media Used": "Facebook",
+                  "Social Media Profiles": "{}",
+                  "Business Research Status": "Pending",
+                  "Is Competitors": true,
+                  "Competitor Analysis Status": "Pending"
+                }
+              ]
+            }
+          },
+          "webhookUrl": "https://n8n.automessenger.me/webhook-test/nocodb-sementra-competitor-research-done",
+          "executionMode": "test"
+        }
+      }
+    ],
+    "Competitor Listing & Research": [
+      {
+        "json": {
+          "output": [
+            {
+              "competitorName": "Libiki Bamboo Resort",
+              "competitorWebsite": "https://www.facebook.com/LibikiBambooResort/",
+              "competitorSocialMediaPlatforms": [
+                "Facebook"
+              ],
+              "competitorSocialMediaProfiles": [
+                {
+                  "Facebook": "https://www.facebook.com/LibikiBambooResort/",
+                  "Instagram": "",
+                  "TikTok": "",
+                  "Youtube": ""
+                }
+              ]
+            },
+            {
+              "competitorName": "Bilut Hills Eco Resort",
+              "competitorWebsite": "http://biluthills.com/",
+              "competitorSocialMediaPlatforms": [
+                "Facebook"
+              ],
+              "competitorSocialMediaProfiles": [
+                {
+                  "Facebook": "https://www.facebook.com/Bilut-hills-1933665503579407/",
+                  "Instagram": "",
+                  "TikTok": "",
+                  "Youtube": ""
+                }
+              ]
+            },
+            {
+              "competitorName": "Gibbon Retreat Bentong",
+              "competitorWebsite": "https://www.gibbonretreat.com/",
+              "competitorSocialMediaPlatforms": [
+                "Facebook",
+                "Instagram"
+              ],
+              "competitorSocialMediaProfiles": [
+                {
+                  "Facebook": "https://www.facebook.com/GRBentong",
+                  "Instagram": "https://www.instagram.com/gibbon.retreat/",
+                  "TikTok": "",
+                  "Youtube": ""
+                }
+              ]
+            },
+            {
+              "competitorName": "The Taaras Beach & Spa Resort",
+              "competitorWebsite": "https://www.thetaaras.com/",
+              "competitorSocialMediaPlatforms": [
+                "Facebook",
+                "Instagram",
+                "TikTok",
+                "Youtube"
+              ],
+              "competitorSocialMediaProfiles": [
+                {
+                  "Facebook": "https://www.facebook.com/thetaarasmalaysia",
+                  "Instagram": "https://www.instagram.com/thetaarasmalaysia/",
+                  "TikTok": "https://www.tiktok.com/@thetaaras",
+                  "Youtube": "https://www.youtube.com/channel/UC599DkxvwDOfvh39RnqSUWw"
+                }
+              ]
+            },
+            {
+              "competitorName": "Mangala Estate Boutique Resort",
+              "competitorWebsite": "https://www.frankyhotels.com/Kuantan/Mangala/index.aspx",
+              "competitorSocialMediaPlatforms": [
+                "Facebook",
+                "Instagram",
+                "TikTok",
+                "Youtube"
+              ],
+              "competitorSocialMediaProfiles": [
+                {
+                  "Facebook": "https://www.facebook.com/mangalaestatebr",
+                  "Instagram": "https://www.instagram.com/mangalaestatebr",
+                  "TikTok": "https://www.tiktok.com/@mangalaestate",
+                  "Youtube": "https://www.youtube.com/@mangalaestate"
+                }
+              ]
+            },
+            {
+              "competitorName": "Japamala Resort",
+              "competitorWebsite": "https://www.samadhiretreats.com/japamala-resort-tioman-island?catagoryId=17",
+              "competitorSocialMediaPlatforms": [
+                "Facebook",
+                "Instagram",
+                "TikTok",
+                "Youtube"
+              ],
+              "competitorSocialMediaProfiles": [
+                {
+                  "Facebook": "",
+                  "Instagram": "",
+                  "TikTok": "",
+                  "Youtube": ""
+                }
+              ]
+            },
+            {
+              "competitorName": "Berjaya Langkawi Resort",
+              "competitorWebsite": "https://www.berjayahotel.com/langkawi",
+              "competitorSocialMediaPlatforms": [
+                "Facebook",
+                "Instagram",
+                "TikTok",
+                "Youtube"
+              ],
+              "competitorSocialMediaProfiles": [
+                {
+                  "Facebook": "https://www.facebook.com/blrlgk",
+                  "Instagram": "https://www.instagram.com/berjayalangkawiresort",
+                  "TikTok": "https://www.tiktok.com/@berjayalangkawiresort",
+                  "Youtube": "https://www.youtube.com/watch?v=wsfmAp0lyQY"
+                }
+              ]
+            },
+            {
+              "competitorName": "Shangri-La's Rasa Sayang Resort & Spa",
+              "competitorWebsite": "http://www.shangri-la.com/penang/rasasayangresort",
+              "competitorSocialMediaPlatforms": [
+                "Facebook",
+                "Instagram"
+              ],
+              "competitorSocialMediaProfiles": [
+                {
+                  "Facebook": "https://www.facebook.com/shangrila",
+                  "Instagram": "https://www.instagram.com/shangrilahotels/",
+                  "TikTok": "",
+                  "Youtube": ""
+                }
+              ]
+            },
+            {
+              "competitorName": "Alunan Resort All Inclusive",
+              "competitorWebsite": "http://www.alunanresort.com/",
+              "competitorSocialMediaPlatforms": [
+                "Facebook",
+                "Instagram",
+                "TikTok",
+                "Youtube"
+              ],
+              "competitorSocialMediaProfiles": [
+                {
+                  "Facebook": "https://www.facebook.com/alunanresort",
+                  "Instagram": "https://www.instagram.com/alunanresort/",
+                  "TikTok": "",
+                  "Youtube": "https://www.youtube.com/channel/UCYcm8kyFYi3F1X_eJNPvY4Q"
+                }
+              ]
+            },
+            {
+              "competitorName": "Belum Rainforest Resort",
+              "competitorWebsite": "http://www.belumrainforestresort.com/",
+              "competitorSocialMediaPlatforms": [
+                "Facebook",
+                "Instagram",
+                "TikTok",
+                "Youtube"
+              ],
+              "competitorSocialMediaProfiles": [
+                {
+                  "Facebook": "https://www.facebook.com/BelumRainforestResortOfficial/",
+                  "Instagram": "https://www.instagram.com/belumrainforestresort/?hl=en",
+                  "TikTok": "https://www.tiktok.com/@brr33200?_t=8nIcE3ZJpEe&_r=1",
+                  "Youtube": "https://www.youtube.com/channel/UCF67HO8EFnUYZJmvpu0tV1Q"
+                }
+              ]
+            },
+            {
+              "competitorName": "The Banjaran Hotsprings Retreat",
+              "competitorWebsite": "https://www.sunwayhotels.com/the-banjaran",
+              "competitorSocialMediaPlatforms": [
+                "Facebook",
+                "Instagram",
+                "TikTok",
+                "Youtube"
+              ],
+              "competitorSocialMediaProfiles": [
+                {
+                  "Facebook": "https://www.facebook.com/pg/banjaranhotsprings/",
+                  "Instagram": "https://www.instagram.com/thebanjaranhotsprings",
+                  "TikTok": "",
+                  "Youtube": "https://www.youtube.com/@thebanjaranhotspringsretre229"
+                }
+              ]
+            },
+            {
+              "competitorName": "The Datai Langkawi",
+              "competitorWebsite": "https://www.thedatai.com/?utm_source=google&utm_medium=organic&utm_campaign=google_local_the_datai_langkawi",
+              "competitorSocialMediaPlatforms": [
+                "Facebook",
+                "Instagram",
+                "TikTok",
+                "Youtube"
+              ],
+              "competitorSocialMediaProfiles": [
+                {
+                  "Facebook": "https://www.facebook.com/thedatailangkawi/",
+                  "Instagram": "https://www.instagram.com/thedatailangkawi/",
+                  "TikTok": "",
+                  "Youtube": ""
+                }
+              ]
+            },
+            {
+              "competitorName": "Shangri-La Rasa Ria, Kota Kinabalu",
+              "competitorWebsite": "https://www.shangri-la.com/en/kotakinabalu/rasariaresort/",
+              "competitorSocialMediaPlatforms": [
+                "Facebook",
+                "Instagram"
+              ],
+              "competitorSocialMediaProfiles": [
+                {
+                  "Facebook": "https://www.facebook.com/shangrila",
+                  "Instagram": "https://www.instagram.com/shangrilahotels/",
+                  "TikTok": "",
+                  "Youtube": ""
+                }
+              ]
+            },
+            {
+              "competitorName": "Pangkor Laut Resort",
+              "competitorWebsite": "https://www.pangkorlautresort.com/?utm_source=google&utm_medium=organic&utm_campaign=gmb",
+              "competitorSocialMediaPlatforms": [
+                "Facebook",
+                "Instagram",
+                "TikTok",
+                "Youtube"
+              ],
+              "competitorSocialMediaProfiles": [
+                {
+                  "Facebook": "https://www.facebook.com/ytlhotels",
+                  "Instagram": "https://instagram.com/ytlhotels/",
+                  "TikTok": "",
+                  "Youtube": "https://www.youtube.com/user/ytlhotels"
+                }
+              ]
+            },
+            {
+              "competitorName": "Cameron Highlands Resort",
+              "competitorWebsite": "https://www.cameronhighlandsresort.com/?utm_source=google&utm_medium=organic&utm_campaign=gmb",
+              "competitorSocialMediaPlatforms": [
+                "Facebook",
+                "Instagram",
+                "Youtube"
+              ],
+              "competitorSocialMediaProfiles": [
+                {
+                  "Facebook": "https://www.facebook.com/ytlhotels",
+                  "Instagram": "https://instagram.com/ytlhotels/",
+                  "TikTok": "",
+                  "Youtube": "https://www.youtube.com/user/ytlhotels"
+                }
+              ]
+            },
+            {
+              "competitorName": "Mutiara Taman Negara",
+              "competitorWebsite": "http://www.mutiaratamannegara.com/",
+              "competitorSocialMediaPlatforms": [
+                "Facebook",
+                "Instagram",
+                "Youtube"
+              ],
+              "competitorSocialMediaProfiles": [
+                {
+                  "Facebook": "https://www.facebook.com/MutiaraTamanNegaraResort/",
+                  "Instagram": "https://www.instagram.com/mutiaratamannegararesort/?hl=en",
+                  "TikTok": "",
+                  "Youtube": "https://www.youtube.com/@mutiaratamannegararesort7146"
+                }
+              ]
+            },
+            {
+              "competitorName": "Tanjong Jara Resort",
+              "competitorWebsite": "https://www.tanjongjararesort.com/?utm_source=google&utm_medium=organic&utm_campaign=gmb",
+              "competitorSocialMediaPlatforms": [
+                "Facebook",
+                "Instagram",
+                "Youtube"
+              ],
+              "competitorSocialMediaProfiles": [
+                {
+                  "Facebook": "https://www.facebook.com/ytlhotels",
+                  "Instagram": "https://instagram.com/ytlhotels/",
+                  "TikTok": "",
+                  "Youtube": "https://www.youtube.com/user/ytlhotels"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "Competitor Business Info Research": [
+      {
+        "json": {
+          "output": {
+            "brandName": "Libiki Bamboo Resort",
+            "businessOverview": "Libiki Bamboo Resort is an eco-tourism holiday and recreational resort that offers a nature-immersive vacation experience. Established in 2017, the resort is characterized by its unique bamboo architecture, lush green surroundings, and river access, providing a tranquil and family-friendly atmosphere.",
+            "businessLocation": "Toluok Mongag, Jalan Kampung Bijuray Mongag, 94000 Bau, Sarawak, Malaysia",
+            "coreServices": "Eco-tourism accommodations, river activities (swimming, water recreation), BBQ facilities with halal dining options, team building programs, ATV rides, and access to nearby natural attractions.",
+            "targetAudience": "The resort targets families with children, nature enthusiasts, adventure travelers, corporate groups seeking team-building venues, and tourists interested in exploring the natural and cultural attractions of Sarawak."
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "brandName": "Bilut Hills Eco Resort",
+            "businessOverview": "Bilut Hills Eco Resort is a homestay and eco-resort located in Bentong, Pahang, Malaysia. It is situated in a natural setting surrounded by fruit and vegetable orchards, with a particular focus on durians. The resort provides a tranquil retreat with views of grasslands, hills, and forests, offering guests a chance to relax, enjoy nature, watch sunrises and sunsets, and experience the local agriculture.",
+            "businessLocation": "Lot 1229, Jalan Bilut Hills, Felda Lurah Bilut, 28800 Bentong, Pahang, Malaysia",
+            "coreServices": "The resort offers a range of services including accommodation in 33 rooms of various types such as Glass Suites, Presidential Domes, and Kampong Houses. Dining services include breakfast and barbecue or steamboat dinners made with fresh, locally-sourced ingredients. Recreational facilities feature indoor entertainment like a KTV lounge and meeting rooms, and outdoor activities such as ATV off-roading and archery. A key offering is the agritourism experience, which includes a family vegetable garden where guests can engage in farming activities.",
+            "targetAudience": "The resort targets families looking for nature-oriented holiday camps, couples seeking a short getaway from their daily routines, and groups interested in adventure activities. It also appeals to tourists interested in agritourism, particularly durian enthusiasts who visit during the durian season to enjoy the orchard setting."
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "brandName": "Gibbon Retreat Bentong",
+            "businessOverview": "Gibbon Retreat Bentong is an eco-tourism destination offering a tranquil jungle retreat experience in Bentong, Malaysia. It is set within a century-old forest reserve and features unique treetop chalets and villa huts. The retreat's mission is to protect threatened Dipterocarp tree species while providing a nature-enriched experience for guests to escape the chaos of city life. The property is pet-friendly, allowing guests to bring their pets for a unique 'wild therapy' experience.",
+            "businessLocation": "Lot 17799, Sungei Semantut, Bentong, 28700, Pahang, Malaysia",
+            "coreServices": "The core service is accommodation in unique, nature-immersed chalets and villa huts. These include various types like Treetop, Bentong View, Rock Shadow, Rockpool, and Riverview chalets, each offering a distinct experience (e.g., best for wildlife spotting, sunrise views, or forest bathing). They also offer activities like hiking, exploring waterfalls, and relaxing in natural rock pools. The retreat is also a pet-friendly destination, which is a key part of its offering.",
+            "targetAudience": "The target audience includes nature lovers, couples, families, and pet owners seeking a quiet and peaceful getaway from the city. They are looking for a unique, rustic, and immersive nature experience rather than a luxurious one. The retreat is also suitable for those looking for a digital detox, although some cellular data is available. They attract people from nearby cities like Kuala Lumpur looking for a short retreat to 're-balance, re-charge, and re-connect' with nature and themselves."
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "brandName": "The Taaras Beach & Spa Resort",
+            "businessOverview": "The Taaras Beach & Spa Resort is a luxury oceanfront resort on Redang Island, Malaysia, offering a 'contemporary barefoot luxury experience' with warm Asian hospitality. It features 184 stylish suites and rooms, plus a five-bedroom private villa, all designed with traditional Malay architecture and modern comforts. The resort's ethos is centered around providing a natural, yet stylish and private, getaway.",
+            "businessLocation": "Redang Island, PO Box 126, Main Post Office, 20928 Kuala Terengganu, Terengganu, Malaysia.",
+            "coreServices": "The resort offers a comprehensive range of services including luxury accommodation, multiple dining experiences (Asian, Western, private dinners), a full-service spa, and numerous recreational activities. Key activities include diving at a PADI 5 Star Dive Resort, snorkeling, yacht charters, turtle watching (SEATRU Turtle Lab), and various water sports. They also provide direct flight packages, an airport lounge, and facilities for meetings and events.",
+            "targetAudience": "The resort targets affluent travelers, including couples seeking romantic getaways (honeymoons, weddings), families looking for luxury vacations with kid-friendly activities, and diving enthusiasts drawn to the rich marine life of the protected marine park. It also caters to corporate retreats and those seeking exclusive, private experiences with offerings like their private villa and yacht charters."
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "brandName": "Mangala Estate Boutique Resort",
+            "businessOverview": "Mangala Estate Boutique Resort is a 5-star eco-luxury resort built on land that was once used for tin mining. The resort has a strong focus on sustainability and has transformed the barren land into a lush, thriving oasis with a rich ecosystem. It is a member of the Small Luxury Hotels of the World.",
+            "businessLocation": "Mangala Estate Boutique Resort is located at Lebuh Persiaran Tun Khalil Yaakob, 26300 Kuantan, Pahang Darul Makmur, Malaysia. It is approximately 2.5 hours' drive from Kuala Lumpur and 30 minutes from Sultan Haji Ahmad Shah Airport (KUA).",
+            "coreServices": "The resort offers a range of services including luxury villa accommodations (some with private pools), a spa (Mangala Spa), The Lakeside Restaurant and Bar, an outdoor swimming pool, and various recreational activities such as kayaking, cycling, and nature walks. They also cater to events and offer meeting facilities.",
+            "targetAudience": "The resort targets nature lovers, couples seeking a romantic getaway, families, and travelers looking for a tranquil and luxurious retreat. It is also suitable for those interested in eco-tourism and sustainable travel. The proximity to Kuala Lumpur makes it a popular choice for weekend escapes for city dwellers."
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "brandName": "Japamala Resort",
+            "businessOverview": "Japamala Resort by Samadhi is an eco-luxury boutique resort on Tioman Island, Malaysia. An exclusive resort with 13-16 private villas designed in traditional Malay style, it is surrounded by lush tropical rainforest with beachfront access. The resort aims to provide a luxurious and immersive experience in nature, away from city life.",
+            "businessLocation": "Kampung Lanting, Tioman Island, Pahang, Malaysia",
+            "coreServices": "Japamala Resort offers luxury accommodation in private villas, spa and wellness treatments, private beach access, two outdoor swimming pools, and three dining establishments. They also provide various activities such as rainforest trekking, boating, adventure diving, and island-hopping excursions. Complimentary breakfast and sundown snacks are included.",
+            "targetAudience": "The primary target audience is couples seeking a quiet, romantic getaway and adults looking for an exclusive and secluded luxury retreat. The resort has an age restriction, allowing only guests aged 12 and above, positioning itself as an ideal destination for honeymooners and discerning travelers seeking privacy and tranquility."
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "brandName": "Berjaya Langkawi Resort",
+            "businessOverview": "Berjaya Langkawi Resort is a five-star beachfront resort located in Burau Bay, Langkawi. Nestled within a lush tropical rainforest and fronting the Andaman Sea, it is the largest resort on the island. The resort offers a unique blend of nature and luxury, providing a serene escape with a wide range of recreational activities and facilities. It is a premier destination for leisure, romance, and business events.",
+            "businessLocation": "Karong Berkunci 200, Burau Bay, 07000 Langkawi, Kedah, Malaysia",
+            "coreServices": "The resort's core services include a variety of accommodation types such as chalets and suites over the water, multiple dining outlets offering local and international cuisine, extensive meeting and event facilities including the island's largest ballroom, romantic wedding and honeymoon packages, and a range of recreational experiences like spa treatments, nature walks, and sea sports.",
+            "targetAudience": "The target audience for Berjaya Langkawi Resort includes leisure travelers such as couples and families seeking a luxury vacation, honeymooners looking for romantic getaways, nature enthusiasts interested in the rainforest and marine environment, and corporate clients in need of a venue for meetings, incentives, conferences, and exhibitions (MICE)."
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "brandName": "Shangri-La's Rasa Sayang Resort & Spa",
+            "businessOverview": "Shangri-La's Rasa Sayang Resort & Spa is a 5-star luxury beachfront resort located on Batu Feringgi Beach in Penang, Malaysia. Part of the prestigious Shangri-La Group, the resort has been in operation since 1973 and was last renovated in 2006. It features 303 guest rooms in a traditional Minangkabau style, divided between two wings—the Rasa Wing and the Garden Wing—and is surrounded by 15 acres of tropical gardens. The resort blends modern amenities with traditional Malaysian architecture, aiming to provide a premium destination experience with exceptional Asian hospitality.",
+            "businessLocation": "Batu Feringgi Beach, Penang, Malaysia",
+            "coreServices": "The resort offers luxury accommodations with sea and garden views, multiple dining options including the Feringgi Grill for gourmet dining, the Spice Market Café for casual meals, and the Pinang Restaurant & Bar. Additional services include Chi, The Spa, which offers rejuvenating treatments, lagoon-style swimming pools, and extensive facilities for business meetings and events.",
+            "targetAudience": "The resort targets high-income travelers, including affluent tourists seeking luxury beach holidays and business travelers. It caters to guests with a higher disposable income who are looking for luxurious accommodations and personalized service."
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "brandName": "Alunan Resort All Inclusive",
+            "businessOverview": "Alunan Resort All Inclusive is a contemporary, eco-friendly resort located on a quiet stretch of Petani Beach, Pulau Perhentian Kecil, Malaysia. The resort is known for its unique all-inclusive concept, which emphasizes sustainability and marine conservation through its Coral Adoption program. Built on a hillside, it features modern suites and villas, each with a private rooftop balcony offering panoramic sea views. Due to its terrain, the resort has many stairs and may not be suitable for senior citizens or young children.",
+            "businessLocation": "Petani Beach, Pulau Perhentian Kecil, Terengganu, Malaysia.",
+            "coreServices": "The resort's core services revolve around its all-inclusive packages, which include accommodation, unlimited meals and drinks (including alcoholic beverages), scheduled snorkeling excursions, sunset cruises, and non-motorized water sports like kayaking and paddleboarding. Guests also receive spa vouchers and return boat transfers from the mainland. Optional add-ons include private dining, spa treatments, and chartered boat tours.",
+            "targetAudience": "The target audience consists of eco-conscious travelers, couples, and families (likely with older children, given the resort's physical layout) who are looking for a unique and sustainable luxury vacation. They are interested in nature, marine life, and relaxation in a serene, crowd-free environment and are willing to pay for an all-inclusive experience that combines comfort with environmental responsibility."
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "brandName": "Belum Rainforest Resort",
+            "businessOverview": "Belum Rainforest Resort is a premier eco-tourism destination in Malaysia, situated on Pulau Banding within the ancient Belum-Temengor Rainforest. It offers a unique retreat that combines the tranquility of nature with modern comforts, emphasizing sustainable and responsible tourism practices to conserve the surrounding ecosystem. The resort provides guests with an immersive experience in one of the world's oldest rainforests.",
+            "businessLocation": "Pulau Banding, 33200 Gerik, Perak, Malaysia",
+            "coreServices": "The resort's core services include a variety of eco-friendly accommodations such as villas, chalets, and a houseboat. It features dining establishments like the Hornbill and Sidai restaurants, which serve local and Western cuisine. Key facilities include a 25-meter infinity pool with views of Lake Temengor, a rooftop viewing deck, and the Karas multi-purpose hall for corporate events. The resort specializes in guided nature excursions, jungle trekking, wildlife observation, and other outdoor adventure activities that allow guests to explore the rich biodiversity of the rainforest.",
+            "targetAudience": "The target audience comprises nature enthusiasts, eco-conscious travelers, and adventure seekers who are keen to experience an ancient rainforest. It also caters to vacationers, families, and couples looking for a serene and relaxing getaway. Additionally, the resort targets corporate groups and organizations in search of unique locations for meetings, team-building events, and retreats."
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "brandName": "The Banjaran Hotsprings Retreat",
+            "businessOverview": "The Banjaran Hotsprings Retreat is a luxury 5-star wellness and spa resort in Ipoh, Malaysia. Nestled in a 22.7-acre valley surrounded by ancient limestone hills, it is Malaysia's first luxury natural hot springs wellness retreat. It offers a secluded sanctuary with 44 private villas, focusing on bespoke holistic experiences for relaxation and rejuvenation.",
+            "businessLocation": "No. 1, Persiaran Lagun Sunway 3, Sunway City Ipoh, 31150 Ipoh, Perak, Malaysia.",
+            "coreServices": "The retreat's core services include luxury villa accommodations with private pools and geothermal whirlpools, a comprehensive Spa and Wellness Centre offering holistic treatments, unique natural features like geothermal hot springs and meditation caves, and fine dining experiences, notably at Jeff's Cellar, a restaurant set within a limestone cave. They also cater to corporate retreats and weddings.",
+            "targetAudience": "The primary target audience consists of affluent adults, particularly couples and individuals seeking a luxurious, tranquil, and romantic getaway. The retreat is exclusive to guests aged 12 and above, positioning itself as a serene destination for wellness, relaxation, honeymoons, and special celebrations."
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "brandName": "The Datai Langkawi",
+            "businessOverview": "The Datai Langkawi is a 5-star luxury resort that opened in 1993, seamlessly integrated into a 10-million-year-old rainforest. It is renowned for its commitment to sustainability, nature, and wellness, operating under 'The Datai Pledge' to protect the surrounding environment. The resort offers a tranquil and romantic hideaway, blending eco-conscious luxury with traditional Malaysian design elements. It is managed by Themed Attractions Resorts and Hotels Sdn. Bhd., a company under Khazanah Nasional Berhad, Malaysia's sovereign wealth fund.",
+            "businessLocation": "The Datai Langkawi is located on the northwestern tip of Langkawi, Malaysia, nestled in a 10-million-year-old rainforest overlooking Datai Bay and the Andaman Sea. It is a 40-minute drive from Langkawi International Airport.",
+            "coreServices": "The resort's core services include luxury accommodations (121 rooms, suites, and villas across Canopy, Rainforest, and Beach collections), diverse fine dining experiences (including The Gulai House for Malaysian cuisine and The Pavilion for Thai), an award-winning spa with treatments inspired by Malay traditions, and a wide range of nature-based and recreational experiences. These include activities led by naturalists at the dedicated Nature Centre, access to the 18-hole championship Els Club Teluk Datai golf course, watersports, cooking classes, and wellness activities.",
+            "targetAudience": "The Datai Langkawi targets affluent travelers, including couples and families, who are seeking a serene, luxurious, and private escape. Its primary audience values nature, sustainability, and unique, immersive experiences. The resort appeals to eco-conscious tourists, wellness seekers, and those looking for a tranquil retreat with high-end service and amenities."
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "brandName": "Shangri-La Rasa Ria, Kota Kinabalu",
+            "businessOverview": "Shangri-La Rasa Ria, Kota Kinabalu is an enchanting tropical resort situated on a 400-acre property where a pristine beach meets a lush tropical forest. Located on Pantai Dalit Beach in Tuaran, Sabah, Malaysia, the resort features 494 elegantly appointed guest rooms and suites across two distinct wings: the Garden Wing and the Ocean Wing. It is a comprehensive hospitality destination focused on luxury travel, family vacations, MICE events, and eco-tourism, with a strong commitment to sustainability and community engagement. The resort boasts a 64-acre Rasa Ria Nature Reserve, an 18-hole championship golf course, and a wide array of recreational activities.",
+            "businessLocation": "The resort is located at Pantai Dalit, PO Box 600, Tuaran, Kota Kinabalu, Sabah, 89208, Malaysia. It is nestled in a tranquil and somewhat isolated location approximately 45 minutes from Kota Kinabalu International Airport, offering a serene escape from the city.",
+            "coreServices": "Core services include luxury accommodations with options for garden, rainforest, or sea views; some with private lanais or oversized outdoor bathtubs. The resort offers extensive dining with six unique restaurants and four bars/lounges catering to various culinary tastes. Recreational facilities are a key offering, featuring an 18-hole championship golf course (Dalit Bay Golf & Country Club), The Spa for wellness treatments, multiple swimming pools, a wide range of water sports, and over 60 immersive activities. The on-site Rasa Ria Reserve provides unique nature-based experiences like guided walks and wildlife observation. Additionally, the resort provides comprehensive services for families, including a kids' club and family-friendly rooms, as well as extensive venues and packages for meetings, corporate events, and weddings.",
+            "targetAudience": "The target audience for Shangri-La Rasa Ria, Kota Kinabalu is diverse, primarily attracting luxury leisure travelers, including families and couples. Families are catered to with dedicated family rooms, a kids' club, and numerous child-friendly activities. Couples and honeymooners are drawn to the romantic setting, luxurious Ocean Wing suites, and destination wedding offerings. The resort also targets nature enthusiasts and eco-tourists with its 64-acre Rasa Ria Reserve and commitment to sustainability. Furthermore, with its extensive meeting and event spaces, it is a key destination for the MICE (Meetings, Incentives, Conferences, and Exhibitions) market, attracting corporate groups and business travelers."
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "brandName": "Pangkor Laut Resort",
+            "businessOverview": "Pangkor Laut Resort is a luxury 5-star resort situated on a privately-owned 300-acre island off the west coast of Malaysia. It operates under a unique 'One Island, One Resort' concept, meaning the resort is the sole entity on the island. The property features 140 villas and eight estates integrated into a two-million-year-old rainforest, offering a blend of luxury and nature. The resort is famous for its world-class service, pristine beaches like Emerald Bay, and has received numerous accolades, including being voted 'Number One in the World' by Condé Nast Traveller.",
+            "businessLocation": "Pangkor Laut Island, 32200 Lumut, Perak, Malaysia",
+            "coreServices": "The resort offers a range of high-end services including: luxury accommodations in various settings (Sea Villas, Hill Villas, Garden Villas, Spa Villas), multiple fine dining restaurants and bars (e.g., Fisherman's Cove, Uncle Lim's Kitchen), an award-winning Spa Village with treatments based on regional healing traditions, recreational activities such as jungle trekking, water sports, and tennis, as well as facilities for events, weddings, and corporate meetings.",
+            "targetAudience": "The primary target audience consists of affluent leisure travelers, including couples and honeymooners seeking romantic and secluded getaways. It also caters to wellness enthusiasts drawn to the renowned Spa Village, international tourists looking for exclusive private island experiences, and high-end corporate clients for meetings and retreats. The resort also accommodates families with specific amenities like children's pools and babysitting services."
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "brandName": "Cameron Highlands Resort",
+            "businessOverview": "Cameron Highlands Resort is a 5-star luxury hotel in Cameron Highlands, Pahang, Malaysia, situated 1,500 meters above sea level. Managed by YTL Hotels, the resort features a colonial heritage design, reminiscent of the British colonial era, with architectural elements like tall French doors, timber-beamed ceilings, and plantation shutters. It offers a blend of traditional English charm and Asian hospitality.",
+            "businessLocation": "By The Golf Course, 39000 Tanah Rata, Cameron Highlands, Pahang, Malaysia.",
+            "coreServices": "The resort's core services include luxury accommodation in rooms and suites, multiple dining experiences (including the Jim Thompson Tea Room), wellness and spa treatments at the Spa Village, and curated experiences like the Signature Picnic at a nearby tea plantation. It also provides facilities for events and weddings.",
+            "targetAudience": "The resort targets affluent domestic and international travelers seeking luxury, romance, and nostalgia. This includes tourists interested in heritage and colonial architecture, nature and wellness retreats, agro-tourism (tea plantations, strawberry farms), and unique cultural experiences."
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "brandName": "Mutiara Taman Negara",
+            "businessOverview": "Mutiara Taman Negara is a Malaysian-style eco-resort operating as a 3-star hotel located in Taman Negara National Park. It's the only resort located within the national park boundary, offering a unique jungle experience with comfortable accommodations. The resort is situated on 15 acres of jungle sanctuary, overlooking the Tembeling and Tahan rivers.",
+            "businessLocation": "Kuala Tahan, Jerantut, Pahang, Malaysia (within Taman Negara National Park)",
+            "coreServices": "Eco-tourism and adventure activities, including jungle trekking, canopy walks, mountain climbing, caving expeditions, river cruises, and cultural visits to local 'Orang Asli' communities. They also offer accommodation in chalets and bungalows, dining, and meeting facilities.",
+            "targetAudience": "Eco-conscious travelers, adventure enthusiasts, families, and business groups seeking a unique natural setting for meetings and events. They cater to both domestic (Malaysia & Singapore) and international tourists."
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "brandName": "Tanjong Jara Resort",
+            "businessOverview": "Tanjong Jara Resort is a luxury beach resort on the East Coast of Peninsular Malaysia, operated by YTL Luxury Resort. It embodies the concept of 'Sucimurni,' emphasizing purity of spirit, health, and well-being, all steeped in traditional Malay culture. The resort's architecture is inspired by 17th-century Malay palaces and has received the prestigious Aga Khan Award for Architecture, offering a unique sanctuary of traditional luxury.",
+            "businessLocation": "Batu 8, Off Jalan Dungun, 23000 Dungun, Terengganu, Malaysia",
+            "coreServices": "The resort provides a range of high-end services including luxury accommodations in various room types, multiple dining options like the Nelayan restaurant specializing in seafood and Malaysian cuisine, and the Spa Village Tanjong Jara for wellness and spa treatments. It also offers a variety of recreational activities such as a seasonal PADI dive center for snorkeling and diving, turtle watching, eco-river cruises, jungle trekking, and bicycle tours that showcase local culture and nature.",
+            "targetAudience": "The target audience includes luxury travelers, couples, and families seeking authentic cultural experiences and high-quality beach holidays. It also caters to diving and snorkeling enthusiasts, wellness seekers, and guests interested in resorts with strong cultural ties to the local community, particularly domestic tourists from the west coast of Peninsular Malaysia."
+          }
+        }
+      }
+    ]
+  },
+  "versionId": "900db955-a91e-44ff-a10f-f9fbdd77a6eb",
+  "triggerCount": 4,
+  "shared": [
+    {
+      "updatedAt": "2025-07-09T15:32:13.645Z",
+      "createdAt": "2025-07-09T15:32:13.645Z",
+      "role": "workflow:owner",
+      "workflowId": "Js5j8DecHTm2UEmJ",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
