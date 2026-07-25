@@ -1,0 +1,1032 @@
+{
+  "updatedAt": "2025-02-19T11:44:27.000Z",
+  "createdAt": "2025-01-11T11:42:39.596Z",
+  "id": "4jqeoKnVSdk8qUxH",
+  "name": "Kaya Marketing Agency Assessment - GAds Keyword To Bid Segmentation",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1jhLpB5tERLLwAnxx4YJ472AYQ8Tu-m96YVgo-keenys",
+          "mode": "list",
+          "cachedResultName": "Merge GAds Keyword Research Raw Data Sync",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jhLpB5tERLLwAnxx4YJ472AYQ8Tu-m96YVgo-keenys/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 356756218,
+          "mode": "list",
+          "cachedResultName": "KW Filtered Results",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jhLpB5tERLLwAnxx4YJ472AYQ8Tu-m96YVgo-keenys/edit#gid=356756218"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        300,
+        0
+      ],
+      "id": "60d8b235-4484-4a5b-bc1e-c395c85ce42e",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        700,
+        0
+      ],
+      "id": "30d9d31f-07c5-49e7-8a74-ca5dd1ca32fa",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d0145558-016d-40ae-a987-663904683f0c",
+              "name": "keywords",
+              "value": "={{ $json['Related Keywords'] }}",
+              "type": "string"
+            },
+            {
+              "id": "1ca96d0d-375f-4627-917a-980a0358e257",
+              "name": "competiton_index",
+              "value": "={{ $json['Competition Index'] }}",
+              "type": "number"
+            },
+            {
+              "id": "a3f65327-9102-4839-bdce-52777550b5b2",
+              "name": "competition_range",
+              "value": "={{ $json['Competition Range'] }}",
+              "type": "string"
+            },
+            {
+              "id": "b3b2e6bd-845b-4896-bcd1-27d8a4f80936",
+              "name": "avg_search_vol",
+              "value": "={{ $json['Avg Search Vol'] }}",
+              "type": "number"
+            },
+            {
+              "id": "ed103a40-4ed3-44c0-bbb6-82cba08f0f49",
+              "name": "lowest_cpc",
+              "value": "={{ $json['Lowest CPC'] }}",
+              "type": "number"
+            },
+            {
+              "id": "8e66c210-c922-47b7-ad59-7a8aba11ceae",
+              "name": "highest_cpc",
+              "value": "={{ $json['Highest CPC'] }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        460,
+        0
+      ],
+      "id": "1fd38094-05cf-4012-aa72-91add3ac7e55",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Use this keyword research data to segment keyword data in JSON format:\n{{ JSON.stringify($json.data) }}\n\nUse this adgroup name in JSON array to segment the list of keywords:\n{{ $('On form submission').first().json['AdGroup Segment'] }}\nInstructions:\n- Place the list of adgroup name in JSON array field called `adgroup_segments`\n- Place the adgroup name inside the JSON array `adgroup name` field as object field called `keyword`\n- Place the keyword inside the JSON array `adgroup_segments` field as object field called `keyword`\n- Place the competition index inside the JSON array `adgroup_segments` field as object field called `competition_index`\n- Place the competition range inside the JSON array `adgroup_segments` field as object field called `competition_range`\n- Place the average monthly volume inside the JSON array `adgroup_segments` field as object field called `avg_monthly_vol`\n- Place the highest cpc inside the JSON array `adgroup_segments` field as object field called `highest_cpc`\n- Place the lowest cpc inside the JSON array `adgroup_segments` field as object field called `lowest_cpc`\n- Make sure that all the object fields are wrapped by `adgroup_segments` JSON array field",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a digital ads campaign specialist. \n# Task\nYour task now is to analyze the JSON array of nested object raw keyword research data and segment those list of keyword data based on specific adgroup name where the adgroup names are provided by the user.\n# Output\nThe output must follow the structured output in unified JSON format."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        1200,
+        60
+      ],
+      "id": "fc530383-e9c4-44f6-b5a8-626830b13f3e",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "formTitle": "GAds Keyword Segmentation",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "AdGroup Segment",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Accounting Integration"
+                  },
+                  {
+                    "option": "HR Integration"
+                  },
+                  {
+                    "option": "CRM Integration"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        80
+      ],
+      "id": "251f9857-2e2c-479d-8365-398ba7161d12",
+      "name": "On form submission",
+      "webhookId": "ed6ab5c4-4240-43cf-bfff-3f5dde0f1d21"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"final_output\":{\n      \"adgroup_segments\":{\n        \"type\": \"array\",\n        \"items\": {\n          \"adgroup_name\":{\n            \"type\": \"string\"\n          },\n          \"keyword\": {\n            \"type\": \"string\"\n          },\n          \"competiton_index\": {\n            \"type\": \"string\"\n          },\n          \"competiton_range\": {\n            \"type\": \"string\"\n          },\n          \"avg_monthly_vol\": {\n            \"type\": \"string\"\n          },\n          \"lowest_cpc\": {\n            \"type\": \"string\"\n          },\n          \"highest_cpc\": {\n            \"type\": \"string\"\n          }                              \n        }\n      }\n    }\n  }\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1500,
+        260
+      ],
+      "id": "ed6a9d57-9862-4202-81c5-c8f261314cfc",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "10vTK8JalWdyaIEbq2GV557R7wfYS_o__TedjvyRxQVw",
+          "mode": "list",
+          "cachedResultName": "Merge GAds - Keyword Segmentation Based On AdGroups",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10vTK8JalWdyaIEbq2GV557R7wfYS_o__TedjvyRxQVw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1277112787,
+          "mode": "list",
+          "cachedResultName": "AdGroup Categories",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10vTK8JalWdyaIEbq2GV557R7wfYS_o__TedjvyRxQVw/edit#gid=1277112787"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "detectAutomatically"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        300,
+        220
+      ],
+      "id": "238b8c78-0f04-41e3-bd0d-10bfd8353a18",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3aaeb19f-eeed-4c98-b75f-f958a8cbf0d5",
+              "name": "adgroup_selections",
+              "value": "={{ $json['Adgroup Name'] }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        740,
+        220
+      ],
+      "id": "0fffcd38-99a0-45fb-a662-866252333acf",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "Adgroup Name"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        520,
+        220
+      ],
+      "id": "d79b6581-ef57-4582-81e5-1f149fa9f018",
+      "name": "Aggregate1"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        940,
+        60
+      ],
+      "id": "e5c96bc0-2605-4db9-83a0-20855ff44c04",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "model": "mistral-large-latest",
+        "options": {
+          "temperature": 0
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatMistralCloud",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        260
+      ],
+      "id": "bd9db7d1-4ec8-456d-abc8-fa36fb4b7074",
+      "name": "Mistral Cloud Chat Model",
+      "credentials": {
+        "mistralCloudApi": {
+          "id": "HTGhjHe66NSADUMS",
+          "name": "Mistral Cloud account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "84b62827-a95d-4a32-884c-90ee420d045d",
+              "name": "adgroup_name",
+              "value": "={{ $json.keyword }}",
+              "type": "string"
+            },
+            {
+              "id": "e096c27e-e2c7-497b-a0df-8d106206d311",
+              "name": "keyword",
+              "value": "={{ $json.adgroup_segments.keyword }}",
+              "type": "string"
+            },
+            {
+              "id": "3683b4fb-30ec-4697-922d-3d97a60e9cd2",
+              "name": "competition_index",
+              "value": "={{ $json.adgroup_segments.competition_index }}",
+              "type": "number"
+            },
+            {
+              "id": "596dde17-f760-4c10-9f49-3502097158a8",
+              "name": "competition_range",
+              "value": "={{ $json.adgroup_segments.competition_range }}",
+              "type": "string"
+            },
+            {
+              "id": "418841a7-4cb3-4606-a3cd-26a11f8b16f7",
+              "name": "avg_monthly_vol",
+              "value": "={{ $json.adgroup_segments.avg_monthly_vol }}",
+              "type": "number"
+            },
+            {
+              "id": "1728303a-9b9a-4c12-b160-5863ff26bd65",
+              "name": "lowest_cpc",
+              "value": "={{ $json.adgroup_segments.lowest_cpc }}",
+              "type": "number"
+            },
+            {
+              "id": "952188ef-b5f7-4e6a-be18-0aa13cd4a641",
+              "name": "highest_cpc",
+              "value": "={{ $json.adgroup_segments.highest_cpc }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2120,
+        60
+      ],
+      "id": "bb1c38d8-7b43-48b8-bc92-db93bbbf1e0d",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output.final_output.adgroup_segments",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1620,
+        60
+      ],
+      "id": "46ad5af3-26de-47a5-95fc-c08e4d6c7ccf",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "AG - Accounting Integration",
+                    "rightValue": "={{ $json.adgroup_name }}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "AG - Accounting Integration"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "5a758a1d-4c61-43bc-9b92-3d26008962e0",
+                    "leftValue": "AG  - HR Integration",
+                    "rightValue": "={{ $json.adgroup_name }}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "AG  - HR Integration"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "a3835a99-34b4-4e08-81e3-6856b461bcaa",
+                    "leftValue": "AG - CRM Integration",
+                    "rightValue": "={{ $json.adgroup_name }}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "AG - CRM Integration"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        2340,
+        60
+      ],
+      "id": "d006e222-e12a-4a49-9f48-11e666fd6879",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "10vTK8JalWdyaIEbq2GV557R7wfYS_o__TedjvyRxQVw",
+          "mode": "list",
+          "cachedResultName": "Merge GAds - Keyword Segmentation Based On AdGroups",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10vTK8JalWdyaIEbq2GV557R7wfYS_o__TedjvyRxQVw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "AG - Accounting Integration",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10vTK8JalWdyaIEbq2GV557R7wfYS_o__TedjvyRxQVw/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "AdGroup Name ": "=AG - {{ $json.adgroup_name }}",
+            "Keywords": "={{ $json.keyword }}",
+            "Competition Index": "={{ $json.competition_index }}",
+            "Competition Range": "={{ $json.competition_range }}",
+            "Avg Search Vol": "={{ $json.avg_monthly_vol }}",
+            "Lowest CPC": "={{ $json.lowest_cpc }}",
+            "Highest CPC": "={{ $json.highest_cpc }}"
+          },
+          "matchingColumns": [
+            "AdGroup Name "
+          ],
+          "schema": [
+            {
+              "id": "AdGroup Name ",
+              "displayName": "AdGroup Name ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Keywords",
+              "displayName": "Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Competition Index",
+              "displayName": "Competition Index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Competition Range",
+              "displayName": "Competition Range",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Avg Search Vol",
+              "displayName": "Avg Search Vol",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Lowest CPC",
+              "displayName": "Lowest CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Highest CPC",
+              "displayName": "Highest CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2760,
+        -140
+      ],
+      "id": "ab2e705c-3b83-43d2-880a-5711f2d671f1",
+      "name": "Google Sheets2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "10vTK8JalWdyaIEbq2GV557R7wfYS_o__TedjvyRxQVw",
+          "mode": "list",
+          "cachedResultName": "Merge GAds - Keyword Segmentation Based On AdGroups",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10vTK8JalWdyaIEbq2GV557R7wfYS_o__TedjvyRxQVw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 708793820,
+          "mode": "list",
+          "cachedResultName": "AG  - HR Integration",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10vTK8JalWdyaIEbq2GV557R7wfYS_o__TedjvyRxQVw/edit#gid=708793820"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "AdGroup Name ": "=AG - {{ $json.adgroup_name }}",
+            "Keywords": "={{ $json.keyword }}",
+            "Competition Index": "={{ $json.competition_index }}",
+            "Competition Range": "={{ $json.competition_range }}",
+            "Avg Search Vol": "={{ $json.avg_monthly_vol }}",
+            "Lowest CPC": "={{ $json.lowest_cpc }}",
+            "Highest CPC": "={{ $json.highest_cpc }}"
+          },
+          "matchingColumns": [
+            "AdGroup Name "
+          ],
+          "schema": [
+            {
+              "id": "AdGroup Name ",
+              "displayName": "AdGroup Name ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Keywords",
+              "displayName": "Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Competition Index",
+              "displayName": "Competition Index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Competition Range",
+              "displayName": "Competition Range",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Avg Search Vol",
+              "displayName": "Avg Search Vol",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Lowest CPC",
+              "displayName": "Lowest CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Highest CPC",
+              "displayName": "Highest CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2780,
+        40
+      ],
+      "id": "fca5c9d9-d3a4-424d-a636-6c5cc4bc0618",
+      "name": "Google Sheets3",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "10vTK8JalWdyaIEbq2GV557R7wfYS_o__TedjvyRxQVw",
+          "mode": "list",
+          "cachedResultName": "Merge GAds - Keyword Segmentation Based On AdGroups",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10vTK8JalWdyaIEbq2GV557R7wfYS_o__TedjvyRxQVw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1726916982,
+          "mode": "list",
+          "cachedResultName": "AG - CRM Integration",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10vTK8JalWdyaIEbq2GV557R7wfYS_o__TedjvyRxQVw/edit#gid=1726916982"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "AdGroup Name ": "=AG - {{ $json.adgroup_name }}",
+            "Keywords": "={{ $json.keyword }}",
+            "Competition Index": "={{ $json.competition_index }}",
+            "Competition Range": "={{ $json.competition_range }}",
+            "Avg Search Vol": "={{ $json.avg_monthly_vol }}",
+            "Lowest CPC": "={{ $json.lowest_cpc }}",
+            "Highest CPC": "={{ $json.highest_cpc }}"
+          },
+          "matchingColumns": [
+            "AdGroup Name "
+          ],
+          "schema": [
+            {
+              "id": "AdGroup Name ",
+              "displayName": "AdGroup Name ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Keywords",
+              "displayName": "Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Competition Index",
+              "displayName": "Competition Index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Competition Range",
+              "displayName": "Competition Range",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Avg Search Vol",
+              "displayName": "Avg Search Vol",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Lowest CPC",
+              "displayName": "Lowest CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Highest CPC",
+              "displayName": "Highest CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2780,
+        240
+      ],
+      "id": "c094d969-171b-4c87-a7c1-a52b2f2a5d59",
+      "name": "Google Sheets4",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "adgroup_segments",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1840,
+        60
+      ],
+      "id": "aac28846-fcd8-4680-9900-4ba5db00ff42",
+      "name": "Split Out1"
+    }
+  ],
+  "connections": {
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mistral Cloud Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Sheets3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Sheets4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "On form submission": [
+      {
+        "json": {
+          "AdGroup Segment": "HR Integration",
+          "submittedAt": "2025-01-12T00:53:32.772+08:00",
+          "formMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "aa813a8b-3448-48a0-ada1-8782e1237cc5",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-01-11T11:42:39.609Z",
+      "createdAt": "2025-01-11T11:42:39.609Z",
+      "role": "workflow:owner",
+      "workflowId": "4jqeoKnVSdk8qUxH",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
