@@ -1,0 +1,3039 @@
+{
+  "updatedAt": "2023-12-12T02:55:50.000Z",
+  "createdAt": "2023-12-08T07:51:07.490Z",
+  "id": "Z8F6XZLHcdyPML1o",
+  "name": "APIFY-Spyfu-MediaOne Marketing(Run Succeed Triggerred)",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.datasetID }}/items?token={{ $json.APItoken }}&format=json&clean=false",
+        "options": {}
+      },
+      "id": "d9cbe4be-d571-420e-b74f-fefa0af2f2c8",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1400,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "spyfu-mediaone-most-successful-kws",
+        "options": {}
+      },
+      "id": "c380b5bf-3990-454a-8c7b-9d00ae7cc7f4",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        840,
+        320
+      ],
+      "webhookId": "ab61bb00-a90b-40b5-910a-70f5ec253336"
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "APItoken",
+              "stringValue": "RMcnCuQuPp4AAsEwZjt5FNDF4"
+            },
+            {
+              "name": "datasetID",
+              "stringValue": "={{ $json.body.resource.defaultDatasetId }}"
+            },
+            {
+              "name": "actorRunID",
+              "stringValue": "={{ $json.body.eventData.actorRunId }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "a773044f-a721-4458-a27e-ed4321449598",
+      "name": "Set Datadset HTTP Request Variable",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1120,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "keyword",
+              "stringValue": "={{ $('HTTP Request').item.json.keyword }}"
+            },
+            {
+              "name": "searchVolume",
+              "stringValue": "={{ $('HTTP Request').item.json.searchVolume }}"
+            },
+            {
+              "name": "rankingDifficulty",
+              "stringValue": "={{ $('HTTP Request').item.json.rankingDifficulty }}"
+            },
+            {
+              "name": "totalMonthlyClicks",
+              "stringValue": "={{ $('HTTP Request').item.json.totalMonthlyClicks }}"
+            },
+            {
+              "name": "costPerClick",
+              "stringValue": "={{ $('HTTP Request').item.json.broadCostPerClick }}"
+            },
+            {
+              "name": "adCompetitorsSnapshot1",
+              "stringValue": "=1. {{ $json[\"serpAdvertisers\"][0][\"domains\"][0] }}\n2. {{ $json[\"serpAdvertisers\"][0][\"domains\"][1] }}\n3. {{ $json[\"serpAdvertisers\"][0][\"domains\"][2] }}\n4. {{ $json[\"serpAdvertisers\"][0][\"domains\"][3] }}\n5. {{ $json[\"serpAdvertisers\"][0][\"domains\"][4] }}"
+            },
+            {
+              "name": "adCompetitorsSnapshot2",
+              "stringValue": "=1. {{ $json[\"serpAdvertisers\"][1][\"domains\"][0] }}\n2. {{ $json[\"serpAdvertisers\"][1][\"domains\"][1] }}\n3. {{ $json[\"serpAdvertisers\"][1][\"domains\"][2] }}\n4. {{ $json[\"serpAdvertisers\"][1][\"domains\"][3] }}\n5. {{ $json[\"serpAdvertisers\"][1][\"domains\"][4] }}"
+            },
+            {
+              "name": "adCompetitorsSnapshot3",
+              "stringValue": "=1. {{ $json[\"serpAdvertisers\"][8][\"domains\"][0] }}\n2. {{ $json[\"serpAdvertisers\"][8][\"domains\"][1] }}\n3. {{ $json[\"serpAdvertisers\"][8][\"domains\"][2] }}\n4. {{ $json[\"serpAdvertisers\"][8][\"domains\"][3] }}\n5. {{ $json[\"serpAdvertisers\"][8][\"domains\"][4] }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "7775c28e-011d-4a4e-ab4d-4df4b358e0ba",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1740,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1n5HLr_G_P_LHsey1zc9T_C_h4dQu42w6V8tiKr4dkh0",
+          "mode": "list",
+          "cachedResultName": "SpyFu_API-MediaOne-PPC Ads Analysis (9Dec23 Updates)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1n5HLr_G_P_LHsey1zc9T_C_h4dQu42w6V8tiKr4dkh0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Most Successful KWs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1n5HLr_G_P_LHsey1zc9T_C_h4dQu42w6V8tiKr4dkh0/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Keyword": "={{ $json.keyword }}",
+            "Search Volume": "={{ $json.searchVolume }}",
+            "Ranking Difficulty": "={{ $json.rankingDifficulty }}",
+            "Avg. Monthly Clicks": "={{ $json.totalMonthlyClicks }}",
+            "Avg. CPC": "={{ $json.costPerClick }}",
+            "Ad Competitor Record 1": "={{ $json.adCompetitorsSnapshot1 }}",
+            "Ad Competitor Record 2": "={{ $json.adCompetitorsSnapshot2 }}",
+            "Ad Competitor Record 3": "={{ $json.adCompetitorsSnapshot3 }}"
+          },
+          "matchingColumns": [
+            "Keyword"
+          ],
+          "schema": [
+            {
+              "id": "Keyword",
+              "displayName": "Keyword",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Search Volume",
+              "displayName": "Search Volume",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ranking Difficulty",
+              "displayName": "Ranking Difficulty",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Avg. Monthly Clicks",
+              "displayName": "Avg. Monthly Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Avg. CPC",
+              "displayName": "Avg. CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Competitor Record 1",
+              "displayName": "Ad Competitor Record 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Competitor Record 2",
+              "displayName": "Ad Competitor Record 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Competitor Record 3",
+              "displayName": "Ad Competitor Record 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "78a903dc-264f-49af-8bfb-6602146bd6b2",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        2160,
+        100
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.datasetID }}/items?token={{ $json.APItoken }}&format=json&clean=false",
+        "options": {}
+      },
+      "id": "5024e0be-2051-4cc0-9205-bfe05d08fb38",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1420,
+        -380
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "spyfu-mediaone-mkt-top-ads",
+        "options": {}
+      },
+      "id": "28c81eb1-c51b-4b42-860c-c073c0a22624",
+      "name": "Webhook1",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        860,
+        -260
+      ],
+      "webhookId": "ab61bb00-a90b-40b5-910a-70f5ec253336"
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "APItoken",
+              "stringValue": "RMcnCuQuPp4AAsEwZjt5FNDF4"
+            },
+            {
+              "name": "datasetID",
+              "stringValue": "={{ $json.body.resource.defaultDatasetId }}"
+            },
+            {
+              "name": "actorRunID",
+              "stringValue": "={{ $json.body.eventData.actorRunId }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "b1fe051e-6a49-4c98-b236-d34c733145a2",
+      "name": "Set Datadset HTTP Request Variable1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1140,
+        -300
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "averageAdPosition",
+              "type": "numberValue",
+              "numberValue": "={{ $json.averagePosition }}"
+            },
+            {
+              "name": "averageAdCount",
+              "type": "numberValue",
+              "numberValue": "={{ $json.averageAdCount }}"
+            },
+            {
+              "name": "adBodyContent",
+              "stringValue": "={{ $json.body }}"
+            },
+            {
+              "name": "fullURL",
+              "stringValue": "={{ $json.fullUrl }}"
+            },
+            {
+              "name": "leaderboardCount",
+              "type": "numberValue",
+              "numberValue": "={{ $json.leaderboardCount }}"
+            },
+            {
+              "name": "percentageLeaderboard",
+              "type": "numberValue",
+              "numberValue": "={{ $json.percentageLeaderboard }}"
+            },
+            {
+              "name": "percentageAdServed",
+              "type": "numberValue",
+              "numberValue": "={{ $json.percentageAdsServed }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "2db3c1c5-89cc-4437-b875-b46ab043fc28",
+      "name": "Edit Fields1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1760,
+        -360
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1n5HLr_G_P_LHsey1zc9T_C_h4dQu42w6V8tiKr4dkh0",
+          "mode": "list",
+          "cachedResultName": "SpyFu_API-MediaOne-PPC Ads Analysis (9Dec23 Updates)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1n5HLr_G_P_LHsey1zc9T_C_h4dQu42w6V8tiKr4dkh0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1998703856,
+          "mode": "list",
+          "cachedResultName": "Top Ads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1n5HLr_G_P_LHsey1zc9T_C_h4dQu42w6V8tiKr4dkh0/edit#gid=1998703856"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Avg Ad Position": "={{ $json.averageAdPosition }}",
+            "Avg Ad Count": "={{ $json.averageAdCount }}",
+            "Ad Body Content": "={{ $json.adBodyContent }}",
+            "Full URL": "={{ $json.fullURL }}",
+            "Leaderboard Count": "={{ $json.leaderboardCount }}",
+            "% Leaderboard": "={{ $json.percentageLeaderboard }}",
+            "% Ad Served": "={{ $json.percentageAdServed }}"
+          },
+          "matchingColumns": [
+            "Avg Ad Position"
+          ],
+          "schema": [
+            {
+              "id": "Avg Ad Position",
+              "displayName": "Avg Ad Position",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Avg Ad Count",
+              "displayName": "Avg Ad Count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ad Body Content",
+              "displayName": "Ad Body Content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Full URL",
+              "displayName": "Full URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Leaderboard Count",
+              "displayName": "Leaderboard Count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "% Leaderboard",
+              "displayName": "% Leaderboard",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "% Ad Served",
+              "displayName": "% Ad Served",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ]
+        },
+        "options": {
+          "cellFormat": "USER_ENTERED"
+        }
+      },
+      "id": "f416d3a6-14eb-4732-829e-4203ea1dcf30",
+      "name": "Google Sheets1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        2180,
+        -400
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Parameter: Get Most Successful Keywords \n",
+        "height": 409.9719873238856,
+        "width": 1758.4468591695604
+      },
+      "id": "b1ffc00b-12d1-460a-bc96-27975b2740cc",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        700,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "content": "# Parameter: Get Top Ads\n",
+        "height": 409.9719873238856,
+        "width": 1758.4468591695604
+      },
+      "id": "9372d5e6-b02a-4242-ab51-b2443482a18b",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        700,
+        -480
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.datasetID }}/items?token={{ $json.APItoken }}&format=json&clean=false",
+        "options": {}
+      },
+      "id": "14be826b-86a3-4e3d-bb1d-abe4826e73a8",
+      "name": "HTTP Request2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1420,
+        -1000
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "spyfu-mediaone-mkt-top-competitors",
+        "options": {}
+      },
+      "id": "c355f7ef-6b9f-4530-97d6-338728f6cc56",
+      "name": "Webhook2",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        860,
+        -880
+      ],
+      "webhookId": "ab61bb00-a90b-40b5-910a-70f5ec253336"
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "APItoken",
+              "stringValue": "RMcnCuQuPp4AAsEwZjt5FNDF4"
+            },
+            {
+              "name": "datasetID",
+              "stringValue": "={{ $json.body.resource.defaultDatasetId }}"
+            },
+            {
+              "name": "actorRunID",
+              "stringValue": "={{ $json.body.eventData.actorRunId }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "85f615a6-0067-4db1-9714-424b7dbcddd7",
+      "name": "Set Datadset HTTP Request Variable2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1140,
+        -920
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "domain",
+              "stringValue": "={{ $json.domain }}"
+            },
+            {
+              "name": "rank",
+              "type": "numberValue",
+              "numberValue": "={{ $json.rank }}"
+            },
+            {
+              "name": "serpType",
+              "stringValue": "={{ $json.type }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "dd6b9a75-c1e6-4044-82ae-3df35578893c",
+      "name": "Edit Fields2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1940,
+        -1040
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1n5HLr_G_P_LHsey1zc9T_C_h4dQu42w6V8tiKr4dkh0",
+          "mode": "list",
+          "cachedResultName": "SpyFu_API-MediaOne-PPC Ads Analysis (9Dec23 Updates)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1n5HLr_G_P_LHsey1zc9T_C_h4dQu42w6V8tiKr4dkh0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1228306826,
+          "mode": "list",
+          "cachedResultName": "Top Competitors",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1n5HLr_G_P_LHsey1zc9T_C_h4dQu42w6V8tiKr4dkh0/edit#gid=1228306826"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Domain Name": "={{ $json.domain }}",
+            "Ranking": "=={{ $json.rank }}*100%",
+            "SERP Type": "={{ $json.serpType }}"
+          },
+          "matchingColumns": [
+            "Domain Name"
+          ],
+          "schema": [
+            {
+              "id": "Domain Name",
+              "displayName": "Domain Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ranking",
+              "displayName": "Ranking",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "SERP Type",
+              "displayName": "SERP Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {
+          "cellFormat": "USER_ENTERED"
+        }
+      },
+      "id": "dd0a34e8-cfd6-4023-aab5-24dcd66fbd81",
+      "name": "Google Sheets2",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        2280,
+        -900
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Parameter: Get Top Ad Competitors\n",
+        "height": 409.9719873238856,
+        "width": 1758.4468591695604
+      },
+      "id": "076bb922-71bb-4803-ae35-7e050dbc697f",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        700,
+        -1100
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.type }}",
+              "value2": "paid"
+            }
+          ]
+        }
+      },
+      "id": "aa0c204a-0570-4e05-ad1b-67e7f6a188e9",
+      "name": "Filter1",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 1,
+      "position": [
+        1660,
+        -960
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.datasetID }}/items?token={{ $json.APItoken }}&format=json&clean=false",
+        "options": {}
+      },
+      "id": "7a5a1055-2ac4-4017-b19f-1ae655217450",
+      "name": "HTTP Request3",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1400,
+        800
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "spyfu-mediaone-most-valuable-kws",
+        "options": {}
+      },
+      "id": "0703f10f-6b09-4d7e-b576-63db3661c109",
+      "name": "Webhook3",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        840,
+        920
+      ],
+      "webhookId": "ab61bb00-a90b-40b5-910a-70f5ec253336"
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "APItoken",
+              "stringValue": "RMcnCuQuPp4AAsEwZjt5FNDF4"
+            },
+            {
+              "name": "datasetID",
+              "stringValue": "={{ $json.body.resource.defaultDatasetId }}"
+            },
+            {
+              "name": "actorRunID",
+              "stringValue": "={{ $json.body.eventData.actorRunId }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "8b4f409e-e219-4f35-8388-ec18b935e876",
+      "name": "Set Datadset HTTP Request Variable3",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1120,
+        880
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "keyword",
+              "stringValue": "={{ $('HTTP Request3').item.json.keyword }}"
+            },
+            {
+              "name": "topRankedURL",
+              "stringValue": "={{ $json.topRankedUrl }}"
+            },
+            {
+              "name": "rank",
+              "type": "numberValue",
+              "numberValue": "={{ $json.rank }}"
+            },
+            {
+              "name": "rankChange",
+              "type": "numberValue",
+              "numberValue": "={{ $json.rankChange }}"
+            },
+            {
+              "name": "serarchVolume",
+              "type": "numberValue",
+              "numberValue": "={{ $json.searchVolume }}"
+            },
+            {
+              "name": "rankingDifficulty",
+              "type": "numberValue",
+              "numberValue": "={{ $json.rankingDifficulty }}"
+            },
+            {
+              "name": "avgCPC",
+              "type": "numberValue",
+              "numberValue": "={{ $json.broadCostPerClick }}"
+            },
+            {
+              "name": "totalMonthlyClicks",
+              "type": "numberValue",
+              "numberValue": "={{ $json.totalMonthlyClicks }}"
+            },
+            {
+              "name": "percentagePaidClicks",
+              "type": "numberValue",
+              "numberValue": "={{ $json.percentPaidClicks }}"
+            },
+            {
+              "name": "paidCompetitors",
+              "type": "numberValue",
+              "numberValue": "={{ $json.paidCompetitors }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "e3f5bcd6-a007-4b28-8010-57c62c8814cd",
+      "name": "Edit Fields3",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1740,
+        820
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1n5HLr_G_P_LHsey1zc9T_C_h4dQu42w6V8tiKr4dkh0",
+          "mode": "list",
+          "cachedResultName": "SpyFu_API-MediaOne-PPC Ads Analysis (9Dec23 Updates)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1n5HLr_G_P_LHsey1zc9T_C_h4dQu42w6V8tiKr4dkh0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 532149713,
+          "mode": "list",
+          "cachedResultName": "Most Valuable KWs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1n5HLr_G_P_LHsey1zc9T_C_h4dQu42w6V8tiKr4dkh0/edit#gid=532149713"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Keywords": "={{ $json.keyword }}",
+            "Top Ranked URL": "={{ $json.topRankedURL }}",
+            "Current SERP Rank": "={{ $json.rank }}",
+            "SERP Rank Changes": "={{ $json.rankChange }}",
+            "Search Volume": "={{ $json.serarchVolume }}",
+            "Ranking Difficulty": "={{ $json.rankingDifficulty }}",
+            "Avg. CPC": "={{ $json.avgCPC }}",
+            "Total Monthly Clicks": "={{ $json.totalMonthlyClicks }}",
+            "% Paid Clicks": "={{ $json.percentagePaidClicks }}",
+            "Paid Competitors": "={{ $json.paidCompetitors }}"
+          },
+          "matchingColumns": [
+            "Keywords"
+          ],
+          "schema": [
+            {
+              "id": "Keywords",
+              "displayName": "Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Top Ranked URL",
+              "displayName": "Top Ranked URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Current SERP Rank",
+              "displayName": "Current SERP Rank",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "SERP Rank Changes",
+              "displayName": "SERP Rank Changes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Search Volume",
+              "displayName": "Search Volume",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ranking Difficulty",
+              "displayName": "Ranking Difficulty",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Avg. CPC",
+              "displayName": "Avg. CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total Monthly Clicks",
+              "displayName": "Total Monthly Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "% Paid Clicks",
+              "displayName": "% Paid Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Paid Competitors",
+              "displayName": "Paid Competitors",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {
+          "cellFormat": "USER_ENTERED"
+        }
+      },
+      "id": "6f243d4d-f7aa-4253-ac61-3fb6c1176f38",
+      "name": "Google Sheets3",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        2160,
+        700
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Parameter: Get Most Valuable Keywords \n",
+        "height": 409.9719873238856,
+        "width": 1758.4468591695604
+      },
+      "id": "38138b69-9384-43f8-a5f4-20be6441e433",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        700,
+        660
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.datasetID }}/items?token={{ $json.APItoken }}&format=json&clean=false",
+        "options": {}
+      },
+      "id": "acdccb3c-93a9-4793-b4c0-961c1e15dc2f",
+      "name": "HTTP Request4",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1400,
+        1400
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "spyfu-mediaone-domain-stats",
+        "options": {}
+      },
+      "id": "c273867a-769a-46aa-9a0b-217da1bf71e9",
+      "name": "Webhook4",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        840,
+        1520
+      ],
+      "webhookId": "ab61bb00-a90b-40b5-910a-70f5ec253336"
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "APItoken",
+              "stringValue": "RMcnCuQuPp4AAsEwZjt5FNDF4"
+            },
+            {
+              "name": "datasetID",
+              "stringValue": "={{ $json.body.resource.defaultDatasetId }}"
+            },
+            {
+              "name": "actorRunID",
+              "stringValue": "={{ $json.body.eventData.actorRunId }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "2aeb2994-15cd-4c10-933b-411c40c68154",
+      "name": "Set Datadset HTTP Request Variable4",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1120,
+        1480
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "year",
+              "type": "numberValue",
+              "numberValue": "={{ $json.searchDate.year }}"
+            },
+            {
+              "name": "monthOfTheYear",
+              "type": "numberValue",
+              "numberValue": "={{ $json.searchDate.month }}"
+            },
+            {
+              "name": "monthlyPaidClicks",
+              "type": "numberValue",
+              "numberValue": "={{ $json.monthlyPaidClicks }}"
+            },
+            {
+              "name": "monthlyBudget",
+              "type": "numberValue",
+              "numberValue": "={{ $json.monthlyBudget }}"
+            },
+            {
+              "name": "totalAdsPurchased",
+              "type": "numberValue",
+              "numberValue": "={{ $json.totalAdsPurchased }}"
+            },
+            {
+              "name": "strength",
+              "type": "numberValue",
+              "numberValue": "={{ $json.strength }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "8c1ce232-9d10-41e7-9875-82ef2169a48b",
+      "name": "Edit Fields4",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1720,
+        1360
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1n5HLr_G_P_LHsey1zc9T_C_h4dQu42w6V8tiKr4dkh0",
+          "mode": "list",
+          "cachedResultName": "SpyFu_API-MediaOne-PPC Ads Analysis (9Dec23 Updates)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1n5HLr_G_P_LHsey1zc9T_C_h4dQu42w6V8tiKr4dkh0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1396817426,
+          "mode": "list",
+          "cachedResultName": "Domain Stats",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1n5HLr_G_P_LHsey1zc9T_C_h4dQu42w6V8tiKr4dkh0/edit#gid=1396817426"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Year": "={{ $json.year }}",
+            "Month Of Year": "={{ $json.monthOfTheYear }}",
+            "Monthly Paid Clicks": "={{ $json.monthlyPaidClicks }}",
+            "Monthly Budget": "={{ $json.monthlyBudget }}",
+            "Total Ads Purchased": "={{ $json.totalAdsPurchased }}",
+            "Strength": "={{ $json.strength }}"
+          },
+          "matchingColumns": [
+            "Year"
+          ],
+          "schema": [
+            {
+              "id": "Year",
+              "displayName": "Year",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Month Of Year",
+              "displayName": "Month Of Year",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Monthly Paid Clicks",
+              "displayName": "Monthly Paid Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Monthly Budget",
+              "displayName": "Monthly Budget",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total Ads Purchased",
+              "displayName": "Total Ads Purchased",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Strength",
+              "displayName": "Strength",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0934b25c-2b73-4778-b6a7-c3cf70e4e86b",
+      "name": "Google Sheets4",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        2200,
+        1360
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Parameter: Get Domain Stats\n",
+        "height": 409.9719873238856,
+        "width": 1758.4468591695604
+      },
+      "id": "fc3fd1d1-8714-4d1e-a096-e0f9596434ae",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        700,
+        1260
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.year }}",
+              "operation": "equal",
+              "value2": 2023
+            }
+          ]
+        }
+      },
+      "id": "92b51e25-c26e-4da2-b54a-3934169fc703",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 1,
+      "position": [
+        1940,
+        1360
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Set Datadset HTTP Request Variable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Datadset HTTP Request Variable": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Set Datadset HTTP Request Variable1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Datadset HTTP Request Variable1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "Filter1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook2": {
+      "main": [
+        [
+          {
+            "node": "Set Datadset HTTP Request Variable2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Datadset HTTP Request Variable2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook3": {
+      "main": [
+        [
+          {
+            "node": "Set Datadset HTTP Request Variable3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Datadset HTTP Request Variable3": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request4": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook4": {
+      "main": [
+        [
+          {
+            "node": "Set Datadset HTTP Request Variable4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Datadset HTTP Request Variable4": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "HTTP Request": [
+      {
+        "json": {
+          "topLevel": null,
+          "secondLevel": null,
+          "thirdLevel": null,
+          "fourthLevel": null,
+          "fifthLevel": null,
+          "termId": "40242770",
+          "keyword": "digital marketing as a service",
+          "searchVolume": 32,
+          "rankingDifficulty": 6,
+          "totalMonthlyClicks": 16,
+          "percentMobileSearches": null,
+          "percentDesktopSearches": null,
+          "percentSearchesNotClicked": null,
+          "percentPaidClicks": null,
+          "percentOrganicClicks": null,
+          "broadCostPerClick": 9.67,
+          "phraseCostPerClick": null,
+          "exactCostPerClick": 9.67,
+          "broadMonthlyClicks": 0,
+          "phraseMonthlyClicks": null,
+          "exactMonthlyClicks": 0,
+          "broadMonthlyCost": 0,
+          "phraseMonthlyCost": null,
+          "exactMonthlyCost": 0,
+          "paidCompetitors": 24,
+          "rankingHomepages": 3,
+          "serpFeaturesCsv": null,
+          "serpFirstResult": "wipro.com",
+          "isQuestion": false,
+          "isNotSafeForWork": false,
+          "adPosition": null,
+          "serpAdvertisers": [
+            {
+              "snapshot": 1,
+              "domains": [
+                "stackadapt.com",
+                "onlinemarketinggurus.sg",
+                "beyondclicks.com.sg",
+                "bestdigitalmarketing.sg",
+                "mediaonemarketing.com.sg"
+              ]
+            },
+            {
+              "snapshot": 2,
+              "domains": [
+                "beyondclicks.com.sg",
+                "facebook.com",
+                "splunk.com",
+                "imda.gov.sg",
+                "firstpagedigital.sg",
+                "decoris.io",
+                "prophet.com"
+              ]
+            },
+            {
+              "snapshot": 3,
+              "domains": []
+            },
+            {
+              "snapshot": 4,
+              "domains": [
+                "visibiliti.com.sg"
+              ]
+            },
+            {
+              "snapshot": 5,
+              "domains": []
+            },
+            {
+              "snapshot": 6,
+              "domains": []
+            },
+            {
+              "snapshot": 7,
+              "domains": []
+            },
+            {
+              "snapshot": 8,
+              "domains": []
+            },
+            {
+              "snapshot": 9,
+              "domains": [
+                "adriel.com",
+                "emailprofits.co",
+                "dotdigital.com",
+                "badenbower.com"
+              ]
+            },
+            {
+              "snapshot": 10,
+              "domains": []
+            },
+            {
+              "snapshot": 11,
+              "domains": [
+                "verzdesign.com",
+                "visibiliti.com.sg",
+                "activamedia.com.sg",
+                "kontent.ai"
+              ]
+            },
+            {
+              "snapshot": 12,
+              "domains": []
+            },
+            {
+              "snapshot": 13,
+              "domains": [
+                "visibiliti.com.sg",
+                "the-outsiders.co",
+                "growthops.asia",
+                "bcbureau.com.au",
+                "asiapacdigital.com"
+              ]
+            },
+            {
+              "snapshot": 14,
+              "domains": [
+                "hpe.com"
+              ]
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "topLevel": null,
+          "secondLevel": null,
+          "thirdLevel": null,
+          "fourthLevel": null,
+          "fifthLevel": null,
+          "termId": "40242799",
+          "keyword": "display ads on google",
+          "searchVolume": 32,
+          "rankingDifficulty": 11,
+          "totalMonthlyClicks": 0,
+          "percentMobileSearches": null,
+          "percentDesktopSearches": null,
+          "percentSearchesNotClicked": null,
+          "percentPaidClicks": null,
+          "percentOrganicClicks": null,
+          "broadCostPerClick": null,
+          "phraseCostPerClick": null,
+          "exactCostPerClick": null,
+          "broadMonthlyClicks": null,
+          "phraseMonthlyClicks": null,
+          "exactMonthlyClicks": null,
+          "broadMonthlyCost": null,
+          "phraseMonthlyCost": null,
+          "exactMonthlyCost": null,
+          "paidCompetitors": 6,
+          "rankingHomepages": 1,
+          "serpFeaturesCsv": null,
+          "serpFirstResult": "google.com",
+          "isQuestion": false,
+          "isNotSafeForWork": false,
+          "adPosition": null,
+          "serpAdvertisers": [
+            {
+              "snapshot": 1,
+              "domains": [
+                "bestdigitalmarketing.sg",
+                "mediaonemarketing.com.sg",
+                "trafficstars.com",
+                "stackadapt.com"
+              ]
+            },
+            {
+              "snapshot": 2,
+              "domains": [
+                "kwikeditsg.com"
+              ]
+            },
+            {
+              "snapshot": 3,
+              "domains": []
+            },
+            {
+              "snapshot": 4,
+              "domains": []
+            },
+            {
+              "snapshot": 5,
+              "domains": []
+            },
+            {
+              "snapshot": 6,
+              "domains": []
+            },
+            {
+              "snapshot": 7,
+              "domains": []
+            },
+            {
+              "snapshot": 8,
+              "domains": []
+            },
+            {
+              "snapshot": 9,
+              "domains": [
+                "google.com"
+              ]
+            },
+            {
+              "snapshot": 10,
+              "domains": []
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "topLevel": null,
+          "secondLevel": null,
+          "thirdLevel": null,
+          "fourthLevel": null,
+          "fifthLevel": null,
+          "termId": "4575301679746926709",
+          "keyword": "singtel psg grant",
+          "searchVolume": null,
+          "rankingDifficulty": null,
+          "totalMonthlyClicks": null,
+          "percentMobileSearches": null,
+          "percentDesktopSearches": null,
+          "percentSearchesNotClicked": null,
+          "percentPaidClicks": null,
+          "percentOrganicClicks": null,
+          "broadCostPerClick": null,
+          "phraseCostPerClick": null,
+          "exactCostPerClick": null,
+          "broadMonthlyClicks": null,
+          "phraseMonthlyClicks": null,
+          "exactMonthlyClicks": null,
+          "broadMonthlyCost": null,
+          "phraseMonthlyCost": null,
+          "exactMonthlyCost": null,
+          "paidCompetitors": 12,
+          "rankingHomepages": 4,
+          "serpFeaturesCsv": null,
+          "serpFirstResult": "singtel.com",
+          "isQuestion": false,
+          "isNotSafeForWork": false,
+          "adPosition": null,
+          "serpAdvertisers": [
+            {
+              "snapshot": 1,
+              "domains": [
+                "singtel.com",
+                "mediaonemarketing.com.sg",
+                "abssasia.com",
+                "form.gov.sg"
+              ]
+            },
+            {
+              "snapshot": 2,
+              "domains": [
+                "singtel.com",
+                "netsuite.com",
+                "digitalsolutions.com.sg",
+                "enterprisesg.gov.sg"
+              ]
+            },
+            {
+              "snapshot": 3,
+              "domains": [
+                "singtel.com"
+              ]
+            },
+            {
+              "snapshot": 4,
+              "domains": [
+                "singtel.com",
+                "wlp.com.sg",
+                "verzdesign.com",
+                "enterprisesg.gov.sg"
+              ]
+            },
+            {
+              "snapshot": 5,
+              "domains": [
+                "singtel.com",
+                "dbs.com.sg",
+                "shopwebly.com"
+              ]
+            },
+            {
+              "snapshot": 6,
+              "domains": [
+                "singtel.com"
+              ]
+            },
+            {
+              "snapshot": 7,
+              "domains": []
+            },
+            {
+              "snapshot": 8,
+              "domains": [
+                "singtel.com"
+              ]
+            },
+            {
+              "snapshot": 9,
+              "domains": [
+                "singtel.com",
+                "wlp.com.sg",
+                "verzdesign.com",
+                "enterprisesg.gov.sg"
+              ]
+            },
+            {
+              "snapshot": 10,
+              "domains": [
+                "singtel.com",
+                "wlp.com.sg",
+                "sleek.com",
+                "enterprisesg.gov.sg"
+              ]
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "topLevel": null,
+          "secondLevel": null,
+          "thirdLevel": null,
+          "fourthLevel": null,
+          "fifthLevel": null,
+          "termId": "40078507",
+          "keyword": "social media marketing singapore",
+          "searchVolume": null,
+          "rankingDifficulty": 6,
+          "totalMonthlyClicks": null,
+          "percentMobileSearches": null,
+          "percentDesktopSearches": null,
+          "percentSearchesNotClicked": null,
+          "percentPaidClicks": null,
+          "percentOrganicClicks": null,
+          "broadCostPerClick": null,
+          "phraseCostPerClick": null,
+          "exactCostPerClick": null,
+          "broadMonthlyClicks": null,
+          "phraseMonthlyClicks": null,
+          "exactMonthlyClicks": null,
+          "broadMonthlyCost": null,
+          "phraseMonthlyCost": null,
+          "exactMonthlyCost": null,
+          "paidCompetitors": 19,
+          "rankingHomepages": 7,
+          "serpFeaturesCsv": null,
+          "serpFirstResult": "ninjapromo.io",
+          "isQuestion": false,
+          "isNotSafeForWork": false,
+          "adPosition": null,
+          "serpAdvertisers": [
+            {
+              "snapshot": 1,
+              "domains": [
+                "pixelmechanics.com.sg"
+              ]
+            },
+            {
+              "snapshot": 2,
+              "domains": [
+                "imperialleisure.com"
+              ]
+            },
+            {
+              "snapshot": 3,
+              "domains": [
+                "mustardseedigital.com"
+              ]
+            },
+            {
+              "snapshot": 4,
+              "domains": [
+                "wearemills.com",
+                "apecsolutions.com",
+                "stackadapt.com"
+              ]
+            },
+            {
+              "snapshot": 5,
+              "domains": [
+                "activamedia.com.sg",
+                "x10.media",
+                "clickrmedia.com"
+              ]
+            },
+            {
+              "snapshot": 6,
+              "domains": []
+            },
+            {
+              "snapshot": 7,
+              "domains": [
+                "x10.media",
+                "mediatropy.com",
+                "asiapacdigital.com"
+              ]
+            },
+            {
+              "snapshot": 8,
+              "domains": []
+            },
+            {
+              "snapshot": 9,
+              "domains": [
+                "mediaonemarketing.com.sg",
+                "dragonflystudio.sg",
+                "oom.com.sg",
+                "one9ninety.com",
+                "x10.media",
+                "truescope.com",
+                "facebook.com"
+              ]
+            },
+            {
+              "snapshot": 10,
+              "domains": []
+            },
+            {
+              "snapshot": 11,
+              "domains": []
+            },
+            {
+              "snapshot": 12,
+              "domains": []
+            },
+            {
+              "snapshot": 13,
+              "domains": []
+            },
+            {
+              "snapshot": 14,
+              "domains": [
+                "activamedia.com.sg",
+                "oom.com.sg",
+                "dexel.sg",
+                "one9ninety.com",
+                "salesforce.com"
+              ]
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "topLevel": null,
+          "secondLevel": null,
+          "thirdLevel": null,
+          "fourthLevel": null,
+          "fifthLevel": null,
+          "termId": "-5159559719",
+          "keyword": "web designing singapore",
+          "searchVolume": null,
+          "rankingDifficulty": 13,
+          "totalMonthlyClicks": null,
+          "percentMobileSearches": null,
+          "percentDesktopSearches": null,
+          "percentSearchesNotClicked": null,
+          "percentPaidClicks": null,
+          "percentOrganicClicks": null,
+          "broadCostPerClick": null,
+          "phraseCostPerClick": null,
+          "exactCostPerClick": null,
+          "broadMonthlyClicks": null,
+          "phraseMonthlyClicks": null,
+          "exactMonthlyClicks": null,
+          "broadMonthlyCost": null,
+          "phraseMonthlyCost": null,
+          "exactMonthlyCost": null,
+          "paidCompetitors": 15,
+          "rankingHomepages": 30,
+          "serpFeaturesCsv": null,
+          "serpFirstResult": "verzdesign.com",
+          "isQuestion": false,
+          "isNotSafeForWork": false,
+          "adPosition": null,
+          "serpAdvertisers": [
+            {
+              "snapshot": 1,
+              "domains": [
+                "swiftdev.sg"
+              ]
+            },
+            {
+              "snapshot": 2,
+              "domains": [
+                "corsivalab.com",
+                "jin-design.com",
+                "mediaonemarketing.com.sg",
+                "singaporebestwebdesign.com",
+                "dotyeti.com"
+              ]
+            },
+            {
+              "snapshot": 3,
+              "domains": [
+                "huntersdigital.com",
+                "lemonade-it.com",
+                "singsys.com"
+              ]
+            },
+            {
+              "snapshot": 4,
+              "domains": [
+                "onextech.com.sg",
+                "corsivalab.com",
+                "singsys.com"
+              ]
+            },
+            {
+              "snapshot": 5,
+              "domains": [
+                "devhaus.com.sg",
+                "oom.com.sg",
+                "sgwebsitedesign.com.sg",
+                "onextech.com.sg",
+                "jin-design.com",
+                "orfeostory.com",
+                "verzdesign.com"
+              ]
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Filter1": [
+      {
+        "json": {
+          "domain": "mustardseedigital.com",
+          "commonTerms": 15,
+          "rank": 0.019183382,
+          "type": "paid"
+        },
+        "pairedItem": {
+          "item": 5
+        }
+      },
+      {
+        "json": {
+          "domain": "firstpagedigital.sg",
+          "commonTerms": 19,
+          "rank": 0.0076484974,
+          "type": "paid"
+        },
+        "pairedItem": {
+          "item": 6
+        }
+      },
+      {
+        "json": {
+          "domain": "bestdigitalmarketing.sg",
+          "commonTerms": 12,
+          "rank": 0.00657326,
+          "type": "paid"
+        },
+        "pairedItem": {
+          "item": 7
+        }
+      },
+      {
+        "json": {
+          "domain": "asiapacdigital.com",
+          "commonTerms": 13,
+          "rank": 0.006535072,
+          "type": "paid"
+        },
+        "pairedItem": {
+          "item": 8
+        }
+      },
+      {
+        "json": {
+          "domain": "clickrmedia.com",
+          "commonTerms": 10,
+          "rank": 0.005300293,
+          "type": "paid"
+        },
+        "pairedItem": {
+          "item": 9
+        }
+      }
+    ],
+    "HTTP Request2": [
+      {
+        "json": {
+          "domain": "funempire.com",
+          "commonTerms": 5714,
+          "rank": 0.028249778,
+          "type": "organic"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "domain": "bestinsingapore.co",
+          "commonTerms": 4735,
+          "rank": 0.025298674,
+          "type": "organic"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "domain": "finestservices.com.sg",
+          "commonTerms": 4990,
+          "rank": 0.022565002,
+          "type": "organic"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "domain": "sbo.sg",
+          "commonTerms": 2973,
+          "rank": 0.013941162,
+          "type": "organic"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "domain": "bestinsingapore.com",
+          "commonTerms": 3108,
+          "rank": 0.011287777,
+          "type": "organic"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "domain": "mustardseedigital.com",
+          "commonTerms": 15,
+          "rank": 0.019183382,
+          "type": "paid"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "domain": "firstpagedigital.sg",
+          "commonTerms": 19,
+          "rank": 0.0076484974,
+          "type": "paid"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "domain": "bestdigitalmarketing.sg",
+          "commonTerms": 12,
+          "rank": 0.00657326,
+          "type": "paid"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "domain": "asiapacdigital.com",
+          "commonTerms": 13,
+          "rank": 0.006535072,
+          "type": "paid"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "domain": "clickrmedia.com",
+          "commonTerms": 10,
+          "rank": 0.005300293,
+          "type": "paid"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Webhook2": [
+      {
+        "json": {
+          "headers": {
+            "x-forwarded-host": "n8n.automessenger.me",
+            "x-forwarded-server": "n8n.automessenger.me",
+            "x-real-ip": "3.89.193.82",
+            "x-forwarded-for": "3.89.193.82",
+            "x-forwarded-proto": "https",
+            "host": "n8n.automessenger.me",
+            "connection": "Upgrade",
+            "content-length": "2143",
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "x-apify-webhook": "yo",
+            "x-apify-webhook-dispatch-id": "XTzSvN7IiaiDNFw32",
+            "x-apify-request-origin": "WEBHOOK",
+            "x-apify-workflow-key": "j3bdld7vnwcy",
+            "user-agent": "axios/0.27.2"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "userId": "MgfRjc3oxA7ihmNAP",
+            "createdAt": "2023-12-10T15:31:42.559Z",
+            "eventType": "ACTOR.RUN.SUCCEEDED",
+            "eventData": {
+              "actorId": "ZE0kOBoNTtd4UvMGo",
+              "actorTaskId": "wR3IxA87JFUOU3XP2",
+              "actorRunId": "CZayiiKG3O7T0hXO0"
+            },
+            "resource": {
+              "id": "CZayiiKG3O7T0hXO0",
+              "actId": "ZE0kOBoNTtd4UvMGo",
+              "userId": "MgfRjc3oxA7ihmNAP",
+              "actorTaskId": "wR3IxA87JFUOU3XP2",
+              "startedAt": "2023-12-10T15:31:31.426Z",
+              "finishedAt": "2023-12-10T15:31:36.343Z",
+              "status": "SUCCEEDED",
+              "meta": {
+                "origin": "WEB",
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+              },
+              "stats": {
+                "inputBodyLen": 126,
+                "rebootCount": 0,
+                "restartCount": 0,
+                "durationMillis": 4750,
+                "resurrectCount": 0,
+                "runTimeSecs": 4.75,
+                "metamorph": 0,
+                "computeUnits": 0.0003298611111111111,
+                "memAvgBytes": 1333216.229116945,
+                "memMaxBytes": 89608192,
+                "memCurrentBytes": 89608192,
+                "cpuAvgUsage": -0.15995309430229365,
+                "cpuMaxUsage": 89.36046201688139,
+                "cpuCurrentUsage": 89.36046201688139,
+                "netRxBytes": 1506,
+                "netTxBytes": 1212
+              },
+              "options": {
+                "build": "latest",
+                "memoryMbytes": 256,
+                "timeoutSecs": 360,
+                "diskMbytes": 512
+              },
+              "buildId": "fim0aFDkobQoqNVwe",
+              "exitCode": 0,
+              "defaultKeyValueStoreId": "8f8d4ybCM0LoNFcF0",
+              "defaultDatasetId": "9KmXplaUriIzwtzdU",
+              "defaultRequestQueueId": "uqqEHDcHq1Mhlu0Kl",
+              "buildNumber": "1.7.13",
+              "containerUrl": "https://h5fvn3gvayeg.runs.apify.net",
+              "usage": {
+                "ACTOR_COMPUTE_UNITS": 0.0003298611111111111,
+                "DATASET_READS": 0,
+                "DATASET_WRITES": 10,
+                "KEY_VALUE_STORE_READS": 1,
+                "KEY_VALUE_STORE_WRITES": 1,
+                "KEY_VALUE_STORE_LISTS": 0,
+                "REQUEST_QUEUE_READS": 0,
+                "REQUEST_QUEUE_WRITES": 0,
+                "DATA_TRANSFER_INTERNAL_GBYTES": 0.0000011213123798370361,
+                "DATA_TRANSFER_EXTERNAL_GBYTES": 8.400529623031616e-7,
+                "PROXY_RESIDENTIAL_TRANSFER_GBYTES": 0,
+                "PROXY_SERPS": 0
+              },
+              "usageTotalUsd": 0.00023716852065589695,
+              "usageUsd": {
+                "ACTOR_COMPUTE_UNITS": 0.00013194444444444446,
+                "DATASET_READS": 0,
+                "DATASET_WRITES": 0.00005,
+                "KEY_VALUE_STORE_READS": 0.000005,
+                "KEY_VALUE_STORE_WRITES": 0.00005,
+                "KEY_VALUE_STORE_LISTS": 0,
+                "REQUEST_QUEUE_READS": 0,
+                "REQUEST_QUEUE_WRITES": 0,
+                "DATA_TRANSFER_INTERNAL_GBYTES": 5.606561899185181e-8,
+                "DATA_TRANSFER_EXTERNAL_GBYTES": 1.6801059246063233e-7,
+                "PROXY_RESIDENTIAL_TRANSFER_GBYTES": 0,
+                "PROXY_SERPS": 0
+              }
+            }
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Webhook1": [
+      {
+        "json": {
+          "headers": {
+            "x-forwarded-host": "n8n.automessenger.me",
+            "x-forwarded-server": "n8n.automessenger.me",
+            "x-real-ip": "3.234.240.52",
+            "x-forwarded-for": "3.234.240.52",
+            "x-forwarded-proto": "https",
+            "host": "n8n.automessenger.me",
+            "connection": "Upgrade",
+            "content-length": "2034",
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "x-apify-webhook": "yo",
+            "x-apify-webhook-dispatch-id": "fcPLO9IIceD2ZR2Ss",
+            "x-apify-request-origin": "WEBHOOK",
+            "x-apify-workflow-key": "qdjyfvu0josk",
+            "user-agent": "axios/0.27.2"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "userId": "MgfRjc3oxA7ihmNAP",
+            "createdAt": "2023-12-10T15:55:13.188Z",
+            "eventType": "ACTOR.RUN.SUCCEEDED",
+            "eventData": {
+              "actorId": "ZE0kOBoNTtd4UvMGo",
+              "actorTaskId": "iFa6DDExR10PFJFZV",
+              "actorRunId": "YCvW5rqvWW4mMxpKu"
+            },
+            "resource": {
+              "id": "YCvW5rqvWW4mMxpKu",
+              "actId": "ZE0kOBoNTtd4UvMGo",
+              "userId": "MgfRjc3oxA7ihmNAP",
+              "actorTaskId": "iFa6DDExR10PFJFZV",
+              "startedAt": "2023-12-10T15:55:00.502Z",
+              "finishedAt": "2023-12-10T15:55:07.037Z",
+              "status": "SUCCEEDED",
+              "meta": {
+                "origin": "WEB",
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+              },
+              "stats": {
+                "inputBodyLen": 126,
+                "rebootCount": 0,
+                "restartCount": 0,
+                "durationMillis": 6423,
+                "resurrectCount": 0,
+                "runTimeSecs": 6.423,
+                "metamorph": 0,
+                "computeUnits": 0.0004460416666666667,
+                "memAvgBytes": 823296,
+                "memMaxBytes": 823296,
+                "memCurrentBytes": 823296,
+                "cpuAvgUsage": 0,
+                "cpuMaxUsage": 0,
+                "cpuCurrentUsage": 0,
+                "netRxBytes": 132,
+                "netTxBytes": 0
+              },
+              "options": {
+                "build": "latest",
+                "memoryMbytes": 256,
+                "timeoutSecs": 360,
+                "diskMbytes": 512
+              },
+              "buildId": "fim0aFDkobQoqNVwe",
+              "exitCode": 0,
+              "defaultKeyValueStoreId": "gsbSfsINW1QAS4XVo",
+              "defaultDatasetId": "hawWoQO5LVtoLyAVx",
+              "defaultRequestQueueId": "fNds97up2gPmfJn2J",
+              "buildNumber": "1.7.13",
+              "containerUrl": "https://xv7motadiepi.runs.apify.net",
+              "usage": {
+                "ACTOR_COMPUTE_UNITS": 0.0004460416666666667,
+                "DATASET_READS": 0,
+                "DATASET_WRITES": 1,
+                "KEY_VALUE_STORE_READS": 1,
+                "KEY_VALUE_STORE_WRITES": 1,
+                "KEY_VALUE_STORE_LISTS": 0,
+                "REQUEST_QUEUE_READS": 0,
+                "REQUEST_QUEUE_WRITES": 0,
+                "DATA_TRANSFER_INTERNAL_GBYTES": 0.000004027970135211945,
+                "DATA_TRANSFER_EXTERNAL_GBYTES": 0,
+                "PROXY_RESIDENTIAL_TRANSFER_GBYTES": 0,
+                "PROXY_SERPS": 0
+              },
+              "usageTotalUsd": 0.0002386180651734273,
+              "usageUsd": {
+                "ACTOR_COMPUTE_UNITS": 0.00017841666666666668,
+                "DATASET_READS": 0,
+                "DATASET_WRITES": 0.000005,
+                "KEY_VALUE_STORE_READS": 0.000005,
+                "KEY_VALUE_STORE_WRITES": 0.00005,
+                "KEY_VALUE_STORE_LISTS": 0,
+                "REQUEST_QUEUE_READS": 0,
+                "REQUEST_QUEUE_WRITES": 0,
+                "DATA_TRANSFER_INTERNAL_GBYTES": 2.0139850676059723e-7,
+                "DATA_TRANSFER_EXTERNAL_GBYTES": 0,
+                "PROXY_RESIDENTIAL_TRANSFER_GBYTES": 0,
+                "PROXY_SERPS": 0
+              }
+            }
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "HTTP Request1": [
+      {
+        "json": {
+          "adId": -942473618,
+          "averagePosition": 1,
+          "averageAdCount": 4,
+          "body": "We Understand Your Brand. We Understand Your Audience. We Understand Your Media. Trust Us! You Can Either Trial & Error Which May Cost You Time & Money Or Leave It To Experts...",
+          "extendedBody": "",
+          "title": "MediaOne Social Media Agency - Trusted By SMEs & MNCs Alike",
+          "fullUrl": "http://mediaonemarketing.com.sg/",
+          "leaderboardCount": 0,
+          "percentageLeaderboard": 0,
+          "percentageAdsServed": 1
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Webhook3": [
+      {
+        "json": {
+          "headers": {
+            "x-forwarded-host": "n8n.automessenger.me",
+            "x-forwarded-server": "n8n.automessenger.me",
+            "x-real-ip": "3.234.240.52",
+            "x-forwarded-for": "3.234.240.52",
+            "x-forwarded-proto": "https",
+            "host": "n8n.automessenger.me",
+            "connection": "Upgrade",
+            "content-length": "2105",
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "x-apify-webhook": "yo",
+            "x-apify-webhook-dispatch-id": "5wjsuLftjo3zI2JKD",
+            "x-apify-request-origin": "WEBHOOK",
+            "x-apify-workflow-key": "4uc0svljnp20",
+            "user-agent": "axios/0.27.2"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "userId": "MgfRjc3oxA7ihmNAP",
+            "createdAt": "2023-12-10T16:16:26.447Z",
+            "eventType": "ACTOR.RUN.SUCCEEDED",
+            "eventData": {
+              "actorId": "ZE0kOBoNTtd4UvMGo",
+              "actorTaskId": "qmRZbg1kz8RwdwrKr",
+              "actorRunId": "kW3164MuWYQSqeWXs"
+            },
+            "resource": {
+              "id": "kW3164MuWYQSqeWXs",
+              "actId": "ZE0kOBoNTtd4UvMGo",
+              "userId": "MgfRjc3oxA7ihmNAP",
+              "actorTaskId": "qmRZbg1kz8RwdwrKr",
+              "startedAt": "2023-12-10T16:16:14.138Z",
+              "finishedAt": "2023-12-10T16:16:20.248Z",
+              "status": "SUCCEEDED",
+              "meta": {
+                "origin": "WEB",
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+              },
+              "stats": {
+                "inputBodyLen": 126,
+                "rebootCount": 0,
+                "restartCount": 0,
+                "durationMillis": 5864,
+                "resurrectCount": 0,
+                "runTimeSecs": 5.864,
+                "metamorph": 0,
+                "computeUnits": 0.00040722222222222223,
+                "memAvgBytes": 24002643.3007695,
+                "memMaxBytes": 89591808,
+                "memCurrentBytes": 89591808,
+                "cpuAvgUsage": 3.4337590845554047,
+                "cpuMaxUsage": 105.25817724701444,
+                "cpuCurrentUsage": 15.817582145071295,
+                "netRxBytes": 3146,
+                "netTxBytes": 1694
+              },
+              "options": {
+                "build": "latest",
+                "memoryMbytes": 256,
+                "timeoutSecs": 360,
+                "diskMbytes": 512
+              },
+              "buildId": "fim0aFDkobQoqNVwe",
+              "exitCode": 0,
+              "defaultKeyValueStoreId": "ogdiknffMsfX3vOJG",
+              "defaultDatasetId": "IN1ItnbegSHd28GBX",
+              "defaultRequestQueueId": "Kdl6amSusi2LIb6WC",
+              "buildNumber": "1.7.13",
+              "containerUrl": "https://jk4fpiaza1wa.runs.apify.net",
+              "usage": {
+                "ACTOR_COMPUTE_UNITS": 0.00040722222222222223,
+                "DATASET_READS": 0,
+                "DATASET_WRITES": 5,
+                "KEY_VALUE_STORE_READS": 1,
+                "KEY_VALUE_STORE_WRITES": 1,
+                "KEY_VALUE_STORE_LISTS": 0,
+                "REQUEST_QUEUE_READS": 0,
+                "REQUEST_QUEUE_WRITES": 0,
+                "DATA_TRANSFER_INTERNAL_GBYTES": 0.000004420056939125061,
+                "DATA_TRANSFER_EXTERNAL_GBYTES": 0,
+                "PROXY_RESIDENTIAL_TRANSFER_GBYTES": 0,
+                "PROXY_SERPS": 0
+              },
+              "usageTotalUsd": 0.00024310989173584517,
+              "usageUsd": {
+                "ACTOR_COMPUTE_UNITS": 0.0001628888888888889,
+                "DATASET_READS": 0,
+                "DATASET_WRITES": 0.000025,
+                "KEY_VALUE_STORE_READS": 0.000005,
+                "KEY_VALUE_STORE_WRITES": 0.00005,
+                "KEY_VALUE_STORE_LISTS": 0,
+                "REQUEST_QUEUE_READS": 0,
+                "REQUEST_QUEUE_WRITES": 0,
+                "DATA_TRANSFER_INTERNAL_GBYTES": 2.2100284695625306e-7,
+                "DATA_TRANSFER_EXTERNAL_GBYTES": 0,
+                "PROXY_RESIDENTIAL_TRANSFER_GBYTES": 0,
+                "PROXY_SERPS": 0
+              }
+            }
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "HTTP Request3": [
+      {
+        "json": {
+          "topLevel": null,
+          "secondLevel": null,
+          "thirdLevel": null,
+          "fourthLevel": null,
+          "fifthLevel": null,
+          "keyword": "intern sg",
+          "termId": "3090468050325739421",
+          "domainId": "-1831159665288826862",
+          "urlId": "7949956443512828370",
+          "topRankedUrl": "https://mediaonemarketing.com.sg/internsg-review-new-star-job-portal/",
+          "rank": 6,
+          "rankChange": 3,
+          "searchVolume": 1000,
+          "rankingDifficulty": 23,
+          "broadCostPerClick": null,
+          "phraseCostPerClick": null,
+          "exactCostPerClick": null,
+          "seoClicks": 28,
+          "seoClicksChange": 8,
+          "totalMonthlyClicks": 44,
+          "percentMobileSearches": null,
+          "percentDesktopSearches": null,
+          "percentNotClicked": null,
+          "percentPaidClicks": null,
+          "percentOrganicClicks": null,
+          "broadMonthlyCost": null,
+          "phraseMonthlyCost": null,
+          "exactMonthlyCost": null,
+          "paidCompetitors": 3,
+          "rankingHomepages": 1,
+          "yourRank": null,
+          "yourRankChange": null,
+          "yourUrl": ""
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "topLevel": null,
+          "secondLevel": null,
+          "thirdLevel": null,
+          "fourthLevel": null,
+          "fifthLevel": null,
+          "keyword": "my careers future",
+          "termId": "2588930417011497694",
+          "domainId": "-1831159665288826862",
+          "urlId": "-3938067151056434614",
+          "topRankedUrl": "https://mediaonemarketing.com.sg/all-you-need-know-mycareersfuture-sg/",
+          "rank": 12,
+          "rankChange": 6,
+          "searchVolume": 2000,
+          "rankingDifficulty": 17,
+          "broadCostPerClick": 0.39,
+          "phraseCostPerClick": null,
+          "exactCostPerClick": 0.39,
+          "seoClicks": 28,
+          "seoClicksChange": 8,
+          "totalMonthlyClicks": null,
+          "percentMobileSearches": null,
+          "percentDesktopSearches": null,
+          "percentNotClicked": null,
+          "percentPaidClicks": null,
+          "percentOrganicClicks": null,
+          "broadMonthlyCost": 1411.71,
+          "phraseMonthlyCost": null,
+          "exactMonthlyCost": 1411.71,
+          "paidCompetitors": 2,
+          "rankingHomepages": 15,
+          "yourRank": null,
+          "yourRankChange": null,
+          "yourUrl": ""
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "topLevel": null,
+          "secondLevel": null,
+          "thirdLevel": null,
+          "fourthLevel": null,
+          "fifthLevel": null,
+          "keyword": "mycareerfuture",
+          "termId": "-276552696",
+          "domainId": "-1831159665288826862",
+          "urlId": "-3938067151056434614",
+          "topRankedUrl": "https://mediaonemarketing.com.sg/all-you-need-know-mycareersfuture-sg/",
+          "rank": 8,
+          "rankChange": 3,
+          "searchVolume": 1100,
+          "rankingDifficulty": 9,
+          "broadCostPerClick": null,
+          "phraseCostPerClick": null,
+          "exactCostPerClick": null,
+          "seoClicks": 24,
+          "seoClicksChange": 6,
+          "totalMonthlyClicks": 44,
+          "percentMobileSearches": null,
+          "percentDesktopSearches": null,
+          "percentNotClicked": null,
+          "percentPaidClicks": null,
+          "percentOrganicClicks": null,
+          "broadMonthlyCost": null,
+          "phraseMonthlyCost": null,
+          "exactMonthlyCost": null,
+          "paidCompetitors": 1,
+          "rankingHomepages": 5,
+          "yourRank": null,
+          "yourRankChange": null,
+          "yourUrl": ""
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "topLevel": null,
+          "secondLevel": null,
+          "thirdLevel": null,
+          "fourthLevel": null,
+          "fifthLevel": null,
+          "keyword": "western food near me",
+          "termId": "-80883155",
+          "domainId": "-1831159665288826862",
+          "urlId": "-577844178487703075",
+          "topRankedUrl": "https://mediaonemarketing.com.sg/top-western-food-restaurants-singapore/",
+          "rank": 44,
+          "rankChange": -9,
+          "searchVolume": 4200,
+          "rankingDifficulty": 13,
+          "broadCostPerClick": 0.24,
+          "phraseCostPerClick": null,
+          "exactCostPerClick": 0.24,
+          "seoClicks": 18,
+          "seoClicksChange": -4,
+          "totalMonthlyClicks": 55,
+          "percentMobileSearches": null,
+          "percentDesktopSearches": null,
+          "percentNotClicked": null,
+          "percentPaidClicks": null,
+          "percentOrganicClicks": null,
+          "broadMonthlyCost": 0,
+          "phraseMonthlyCost": null,
+          "exactMonthlyCost": 0,
+          "paidCompetitors": 0,
+          "rankingHomepages": 16,
+          "yourRank": null,
+          "yourRankChange": null,
+          "yourUrl": ""
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "topLevel": null,
+          "secondLevel": null,
+          "thirdLevel": null,
+          "fourthLevel": null,
+          "fifthLevel": null,
+          "keyword": "pharmacy near me",
+          "termId": "32899203",
+          "domainId": "-1831159665288826862",
+          "urlId": "4127472626208631224",
+          "topRankedUrl": "https://mediaonemarketing.com.sg/top-pharmacists-in-singapore/",
+          "rank": 88,
+          "rankChange": 4,
+          "searchVolume": 7700,
+          "rankingDifficulty": 6,
+          "broadCostPerClick": 0.63,
+          "phraseCostPerClick": null,
+          "exactCostPerClick": 0.63,
+          "seoClicks": 16,
+          "seoClicksChange": 0,
+          "totalMonthlyClicks": 222000,
+          "percentMobileSearches": 0.870009536357386,
+          "percentDesktopSearches": 0.129990463642614,
+          "percentNotClicked": 0.743367310055664,
+          "percentPaidClicks": 0.0925352112545725,
+          "percentOrganicClicks": 0.907464788604582,
+          "broadMonthlyCost": 6.5,
+          "phraseMonthlyCost": null,
+          "exactMonthlyCost": 6.5,
+          "paidCompetitors": 0,
+          "rankingHomepages": 21,
+          "yourRank": null,
+          "yourRankChange": null,
+          "yourUrl": ""
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Webhook4": [
+      {
+        "json": {
+          "headers": {
+            "x-forwarded-host": "n8n.automessenger.me",
+            "x-forwarded-server": "n8n.automessenger.me",
+            "x-real-ip": "3.81.215.151",
+            "x-forwarded-for": "3.81.215.151",
+            "x-forwarded-proto": "https",
+            "host": "n8n.automessenger.me",
+            "connection": "Upgrade",
+            "content-length": "2161",
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "x-apify-webhook": "yo",
+            "x-apify-webhook-dispatch-id": "v2py8769T7r1fpW21",
+            "x-apify-request-origin": "WEBHOOK",
+            "x-apify-workflow-key": "mfa64auloihl",
+            "user-agent": "axios/0.27.2"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "userId": "MgfRjc3oxA7ihmNAP",
+            "createdAt": "2023-12-11T01:17:38.455Z",
+            "eventType": "ACTOR.RUN.SUCCEEDED",
+            "eventData": {
+              "actorId": "ZE0kOBoNTtd4UvMGo",
+              "actorTaskId": "WXOlPQQepIrGQsJaq",
+              "actorRunId": "ubhJghJWfTM32wmaQ"
+            },
+            "resource": {
+              "id": "ubhJghJWfTM32wmaQ",
+              "actId": "ZE0kOBoNTtd4UvMGo",
+              "userId": "MgfRjc3oxA7ihmNAP",
+              "actorTaskId": "WXOlPQQepIrGQsJaq",
+              "startedAt": "2023-12-11T01:17:26.908Z",
+              "finishedAt": "2023-12-11T01:17:32.066Z",
+              "status": "SUCCEEDED",
+              "meta": {
+                "origin": "WEB",
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+              },
+              "stats": {
+                "inputBodyLen": 126,
+                "rebootCount": 0,
+                "restartCount": 0,
+                "durationMillis": 5030,
+                "resurrectCount": 0,
+                "runTimeSecs": 5.03,
+                "metamorph": 0,
+                "computeUnits": 0.00034930555555555556,
+                "memAvgBytes": 31242279.64002565,
+                "memMaxBytes": 94334976,
+                "memCurrentBytes": 94334976,
+                "cpuAvgUsage": 4.5284434451563405,
+                "cpuMaxUsage": 77.1092202121023,
+                "cpuCurrentUsage": 38.231654861558276,
+                "netRxBytes": 9134,
+                "netTxBytes": 3310
+              },
+              "options": {
+                "build": "latest",
+                "memoryMbytes": 256,
+                "timeoutSecs": 360,
+                "diskMbytes": 512
+              },
+              "buildId": "fim0aFDkobQoqNVwe",
+              "exitCode": 0,
+              "defaultKeyValueStoreId": "XZO5I5ZPVdtzOybPL",
+              "defaultDatasetId": "lHmmqgytIAlioPmyP",
+              "defaultRequestQueueId": "TV5Zgw1PsOr8JRf5M",
+              "buildNumber": "1.7.13",
+              "containerUrl": "https://zsybmct0scr8.runs.apify.net",
+              "usage": {
+                "ACTOR_COMPUTE_UNITS": 0.00034930555555555556,
+                "DATASET_READS": 0,
+                "DATASET_WRITES": 33,
+                "KEY_VALUE_STORE_READS": 1,
+                "KEY_VALUE_STORE_WRITES": 1,
+                "KEY_VALUE_STORE_LISTS": 0,
+                "REQUEST_QUEUE_READS": 0,
+                "REQUEST_QUEUE_WRITES": 0,
+                "DATA_TRANSFER_INTERNAL_GBYTES": 0.000002562999725341797,
+                "DATA_TRANSFER_EXTERNAL_GBYTES": 0.0000025276094675064087,
+                "PROXY_RESIDENTIAL_TRANSFER_GBYTES": 0,
+                "PROXY_SERPS": 0
+              },
+              "usageTotalUsd": 0.00036035589410199066,
+              "usageUsd": {
+                "ACTOR_COMPUTE_UNITS": 0.00013972222222222223,
+                "DATASET_READS": 0,
+                "DATASET_WRITES": 0.00016500000000000003,
+                "KEY_VALUE_STORE_READS": 0.000005,
+                "KEY_VALUE_STORE_WRITES": 0.00005,
+                "KEY_VALUE_STORE_LISTS": 0,
+                "REQUEST_QUEUE_READS": 0,
+                "REQUEST_QUEUE_WRITES": 0,
+                "DATA_TRANSFER_INTERNAL_GBYTES": 1.2814998626708984e-7,
+                "DATA_TRANSFER_EXTERNAL_GBYTES": 5.055218935012818e-7,
+                "PROXY_RESIDENTIAL_TRANSFER_GBYTES": 0,
+                "PROXY_SERPS": 0
+              }
+            }
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Filter": [
+      {
+        "json": {
+          "year": 2023,
+          "monthOfTheYear": 1,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 19420,
+          "totalAdsPurchased": 51,
+          "strength": 41
+        },
+        "pairedItem": {
+          "item": 22
+        }
+      },
+      {
+        "json": {
+          "year": 2023,
+          "monthOfTheYear": 2,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 19760,
+          "totalAdsPurchased": 53,
+          "strength": 29
+        },
+        "pairedItem": {
+          "item": 23
+        }
+      },
+      {
+        "json": {
+          "year": 2023,
+          "monthOfTheYear": 3,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 19630,
+          "totalAdsPurchased": 53,
+          "strength": 39
+        },
+        "pairedItem": {
+          "item": 24
+        }
+      },
+      {
+        "json": {
+          "year": 2023,
+          "monthOfTheYear": 4,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 21650,
+          "totalAdsPurchased": 54,
+          "strength": 29
+        },
+        "pairedItem": {
+          "item": 25
+        }
+      },
+      {
+        "json": {
+          "year": 2023,
+          "monthOfTheYear": 5,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 21870,
+          "totalAdsPurchased": 60,
+          "strength": 29
+        },
+        "pairedItem": {
+          "item": 26
+        }
+      },
+      {
+        "json": {
+          "year": 2023,
+          "monthOfTheYear": 6,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 24470,
+          "totalAdsPurchased": 62,
+          "strength": 37
+        },
+        "pairedItem": {
+          "item": 27
+        }
+      },
+      {
+        "json": {
+          "year": 2023,
+          "monthOfTheYear": 7,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 30490,
+          "totalAdsPurchased": 64,
+          "strength": 30
+        },
+        "pairedItem": {
+          "item": 28
+        }
+      },
+      {
+        "json": {
+          "year": 2023,
+          "monthOfTheYear": 8,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 28280,
+          "totalAdsPurchased": 64,
+          "strength": 41
+        },
+        "pairedItem": {
+          "item": 29
+        }
+      },
+      {
+        "json": {
+          "year": 2023,
+          "monthOfTheYear": 9,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 20310,
+          "totalAdsPurchased": 67,
+          "strength": 31
+        },
+        "pairedItem": {
+          "item": 30
+        }
+      },
+      {
+        "json": {
+          "year": 2023,
+          "monthOfTheYear": 10,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 14880,
+          "totalAdsPurchased": 71,
+          "strength": 42
+        },
+        "pairedItem": {
+          "item": 31
+        }
+      },
+      {
+        "json": {
+          "year": 2023,
+          "monthOfTheYear": 11,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 20410,
+          "totalAdsPurchased": 79,
+          "strength": 32
+        },
+        "pairedItem": {
+          "item": 32
+        }
+      }
+    ]
+  },
+  "versionId": "acd87d07-60f2-4bcc-9304-c5041cff105b",
+  "triggerCount": 5,
+  "shared": [
+    {
+      "updatedAt": "2023-12-08T07:51:07.505Z",
+      "createdAt": "2023-12-08T07:51:07.505Z",
+      "role": "workflow:owner",
+      "workflowId": "Z8F6XZLHcdyPML1o",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
