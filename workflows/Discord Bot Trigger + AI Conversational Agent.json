@@ -1,0 +1,172 @@
+{
+  "updatedAt": "2024-03-16T08:37:58.000Z",
+  "createdAt": "2024-03-11T09:31:29.460Z",
+  "id": "jpwv0nxrXRgtSkvV",
+  "name": "Discord Bot Trigger + AI Conversational Agent",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "model": "gpt-3.5-turbo-16k",
+        "options": {
+          "temperature": 0.6
+        }
+      },
+      "id": "effc5b1e-a892-43bb-a986-cd0b7bdbf11d",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        960,
+        460
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAi account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "chatHistory",
+        "contextWindowLength": 10
+      },
+      "id": "5aa2e203-13ea-4e2a-b0fe-e03eb3826c1c",
+      "name": "Window Buffer Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.2,
+      "position": [
+        1160,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "pattern": "regex",
+        "value": ".*",
+        "botMention": true
+      },
+      "id": "88637dac-15d7-442c-b4b5-12049dd6cd08",
+      "name": "Discord Trigger1",
+      "type": "@jjuanrivvera99/n8n-nodes-discord.@jjuanrivvera99/n8n-nodes-discord.discordTrigger",
+      "typeVersion": 1,
+      "position": [
+        680,
+        240
+      ],
+      "webhookId": "e601127d-325a-4467-a412-cd994cdcb228",
+      "credentials": {
+        "discordApi": {
+          "id": "gm41ErCatChpn1kA",
+          "name": "Discord App Acc-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "triggerChannel": true,
+        "content": "={{ $json.output }}"
+      },
+      "id": "2e38af51-65f3-48bc-b8e5-05a7dcaf8ccd",
+      "name": "Discord Send",
+      "type": "@jjuanrivvera99/n8n-nodes-discord.@jjuanrivvera99/n8n-nodes-discord.discord",
+      "typeVersion": 1,
+      "position": [
+        1540,
+        240
+      ],
+      "credentials": {
+        "discordApi": {
+          "id": "gm41ErCatChpn1kA",
+          "name": "Discord App Acc-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{$json.content}}",
+        "options": {
+          "maxIterations": 100
+        }
+      },
+      "id": "b1da3f19-22d1-4144-b8df-fe385c882108",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.5,
+      "position": [
+        1000,
+        200
+      ]
+    }
+  ],
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Discord Trigger1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Discord Send",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "cc40ee3b-4267-4b1a-8f07-675b55612eb0",
+  "triggerCount": 2,
+  "shared": [
+    {
+      "updatedAt": "2024-03-11T09:31:29.482Z",
+      "createdAt": "2024-03-11T09:31:29.482Z",
+      "role": "workflow:owner",
+      "workflowId": "jpwv0nxrXRgtSkvV",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
