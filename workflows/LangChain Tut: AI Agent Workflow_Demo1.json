@@ -1,0 +1,124 @@
+{
+  "updatedAt": "2024-02-17T09:36:40.000Z",
+  "createdAt": "2024-02-09T04:33:10.922Z",
+  "id": "gtgH9hFZZWs6mfI4",
+  "name": "LangChain Tut: AI Agent Workflow_Demo1",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "776a8f1a-c86e-4d38-b79b-4421871fc49a",
+      "name": "Chat Trigger",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1,
+      "position": [
+        700,
+        240
+      ],
+      "webhookId": "6fbe9da1-984c-49e1-a760-187acbeee198"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "bbe10e2b-f18e-4fa8-853c-8c36db931649",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        920,
+        460
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAi account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "CurrencyExchangeTool",
+        "description": "For Currency Exchange Rate Based On USD",
+        "workflowId": "pdqG5aBKlZtC44HO"
+      },
+      "id": "17e7fc70-463b-49bf-bd04-28633168bfe9",
+      "name": "Custom n8n Workflow Tool",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "f758504f-8e40-4d75-aabb-50de97df8246",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.2,
+      "position": [
+        920,
+        240
+      ]
+    }
+  ],
+  "connections": {
+    "Chat Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Custom n8n Workflow Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "5925640b-829e-4c6d-ba6c-c909bcc5cbd8",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-02-09T04:33:10.942Z",
+      "createdAt": "2024-02-09T04:33:10.942Z",
+      "role": "workflow:owner",
+      "workflowId": "gtgH9hFZZWs6mfI4",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
