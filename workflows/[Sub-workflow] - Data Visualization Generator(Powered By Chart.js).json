@@ -1,0 +1,197 @@
+{
+  "updatedAt": "2025-05-24T03:09:19.000Z",
+  "createdAt": "2025-05-24T03:06:29.577Z",
+  "id": "mSr7MTrHqKEprKlm",
+  "name": "[Sub-workflow] - Data Visualization Generator(Powered By Chart.js)",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "description"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -500,
+        -200
+      ],
+      "id": "a824eb14-06e3-4ac5-bd84-01e992d0e5ae",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Data Input: {{ $json.description }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=<task>\nYou are tasked to generate well-labelled with valid dimensions and metrics in Chart.js which is a JavaScript charting library to configure the objects based on the user request. The configuration should be immediate applicable in Chat.js environment to create the visualizations.\n</task>\n<input_definition>\n1. You will process the user requests based on the user request to define the desired visualization. The request may includes:\n- Chart Type: The chart type can be bars, line, pie, scatter, radar, bubble, dougnut, etc.\n- Dataset: The provided dataset can be in various formats including CSV, JSON, or list. Extract the dataset when necessary and get clarification if there's ambigous format.\n- Labels: The label can be define such as axis titles, data point labels, or legends. Prompt the user for clarification if the axis titles or units are missing.\n- Styling Options: \n    -- For styling or customization requests can be define including, size, color, font, gridlines, legends, etc.\n    -- Tooltips: Especially for animations, and plugins that recommended to use\n    -- The default styling should be apply if there's no specific styling define\n- Chart-specific Feature: The available requesting option such as:\n    -- Logarithms scales\n    -- Custom tooltips\n    -- Responsive design\n- Natural Langauge Description: Handle loosely structured or unstructured user inputs and transform them into valid Chart.js configuration\n</input_definition>\n<axis_information>\nEnsure that all axis are define in clarify and completeness of axis-related details:\n  - Axis Titles: Example: \"Month\" for x-axis, \"Sales (USD)\" for y-axis.\n  - Units: If applicable, specify the units like \"USD\", \"%\", \"EUR\", etc.\n  - Data Type: Indicates whether the axis data is categorical, numerical, or time-series.\n  - Formatting: Including date formats, number formats, or currenct symbols where relevant.\n</axis_information>\n<output>\nGenerate a well-structure JSON object that:\n  - Is formatted for immediate use in Chart.js\n  - Must be includes axis labels, data, titles and styling under the options.scales property\n  - Adhere to Chart.js best practices for clarify and readbility.\n</output>\n<example_input>\n\"Create a bar chart showing monthly sales for the first quarter of 2024. In January 2024 had generated $10,0000 sales, following month,Febuary is $13,000, and March is $15,000. Use blue color for bar. The chart title should be like this `Q1 Sales in 2024`. The x-axis represent the `Month` and the y-axis represent `Sales (in USD)`\"\"\n```\n{\n  type: 'bar',\n  data: data,\n  options: {\n    plugins: {\n      title: {\n        display: true,\n        text: 'Chart.js Bar Chart - Stacked'\n      },\n    },\n    responsive: true,\n    interaction: {\n      intersect: false,\n    },\n    scales: {\n      x: {\n        stacked: true,\n      },\n      y: {\n        stacked: true\n      }\n    }\n  }\n}\n```\n</example_input>\n",
+          "returnIntermediateSteps": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -280,
+        -200
+      ],
+      "id": "d90f30da-4840-4853-8b4a-b5d45a58bb50",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "content": "# Data Visualization Agent",
+        "height": 440,
+        "width": 1060
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -640,
+        -280
+      ],
+      "typeVersion": 1,
+      "id": "79a84411-d600-4c16-af73-bc4edae470e9",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n    \"name\": \"chart_configuration\",\n    \"description\": \"Configuration schema for Chart.js charts\",\n    \"strict\": true,\n    \"schema\": {\n  \"type\": \"object\",\n  \"properties\": {\n    \"type\": {\n      \"type\": \"string\",\n      \"enum\": [\"bar\", \"line\", \"radar\", \"pie\", \"doughnut\", \"polarArea\", \"bubble\", \"scatter\", \"area\"]\n    },\n    \"data\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"labels\": {\n          \"type\": \"array\",\n          \"items\": {\n            \"type\": \"string\"\n          }\n        },\n        \"datasets\": {\n          \"type\": \"array\",\n          \"items\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"label\": {\n                \"type\": [\"string\", \"null\"]\n              },\n              \"data\": {\n                \"type\": \"array\",\n                \"items\": {\n                  \"type\": \"number\"\n                }\n              },\n              \"backgroundColor\": {\n                \"type\": [\"array\", \"null\"],\n                \"items\": {\n                  \"type\": \"string\"\n                }\n              },\n              \"borderColor\": {\n                \"type\": [\"array\", \"null\"],\n                \"items\": {\n                  \"type\": \"string\"\n                }\n              },\n              \"borderWidth\": {\n                \"type\": [\"number\", \"null\"]\n              }\n            },\n            \"required\": [\"data\", \"label\", \"backgroundColor\", \"borderColor\", \"borderWidth\"],\n            \"additionalProperties\": false\n          }\n        }\n      },\n      \"required\": [\"labels\", \"datasets\"],\n      \"additionalProperties\": false\n    },\n    \"options\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"scales\": {\n          \"type\": [\"object\", \"null\"],\n          \"properties\": {\n            \"yAxes\": {\n              \"type\": \"array\",\n              \"items\": {\n                \"type\": [\"object\", \"null\"],\n                \"properties\": {\n                  \"ticks\": {\n                    \"type\": [\"object\", \"null\"],\n                    \"properties\": {\n                      \"max\": {\n                        \"type\": [\"number\", \"null\"]\n                      },\n                      \"min\": {\n                        \"type\": [\"number\", \"null\"]\n                      },\n                      \"stepSize\": {\n                        \"type\": [\"number\", \"null\"]\n                      },\n                      \"beginAtZero\": {\n                        \"type\": [\"boolean\", \"null\"]\n                      }\n                    },\n                    \"required\": [\"max\", \"min\", \"stepSize\", \"beginAtZero\"],\n                    \"additionalProperties\": false\n                  },\n                  \"stacked\": {\n                    \"type\": [\"boolean\", \"null\"]\n                  }\n                },\n                \"required\": [\"ticks\", \"stacked\"],\n                \"additionalProperties\": false\n              }},\n              \"xAxes\": {\n                \"type\": [\"object\", \"null\"],\n                \"properties\": {\n                  \"stacked\": {\n                    \"type\": [\"boolean\", \"null\"]\n                  }\n                },\n                \"required\": [\"stacked\"],\n                \"additionalProperties\": false\n              }\n          },\n          \"required\": [\"yAxes\", \"xAxes\"],\n          \"additionalProperties\": false\n        },\n        \"plugins\": {\n          \"type\": [\"object\", \"null\"],\n          \"properties\": {\n            \"title\": {\n              \"type\": [\"object\", \"null\"],\n              \"properties\": {\n                \"display\": {\n                  \"type\": [\"boolean\", \"null\"]\n                },\n                \"text\": {\n                  \"type\": [\"string\", \"null\"]\n                }\n              },\n              \"required\": [\"display\", \"text\"],\n              \"additionalProperties\": false\n            },\n            \"legend\": {\n              \"type\": [\"object\", \"null\"],\n              \"properties\": {\n                \"display\": {\n                  \"type\": [\"boolean\", \"null\"]\n                },\n                \"position\": {\n                  \"type\": [\"string\", \"null\"],\n                  \"enum\": [\"top\", \"left\", \"bottom\", \"right\", null]\n                }\n              },\n              \"required\": [\"display\", \"position\"],\n              \"additionalProperties\": false\n            }\n          },\n          \"required\": [\"title\", \"legend\"],\n          \"additionalProperties\": false\n        }\n      },\n      \"required\": [\"scales\", \"plugins\"],\n      \"additionalProperties\": false\n    }\n  },\n  \"required\": [\"type\", \"data\", \"options\"],\n  \"additionalProperties\": false\n}\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        -100,
+        20
+      ],
+      "id": "6e22969f-f863-4619-a276-d047176f76c2",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e9ec302d-5ea0-41e4-9ae2-fb40303f888c",
+              "name": "response",
+              "value": "={{ \"https://quickchart.io/chart?width=600&c=\"+ encodeURIComponent(JSON.stringify($json.output)) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        80,
+        -200
+      ],
+      "id": "6e3cf159-e6d2-448d-9344-c877063355f0",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -380,
+        20
+      ],
+      "id": "fe6ec3c0-2e21-4cfc-9ffe-4a21d87b10f4",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "eedc470c-0f93-444c-aef9-c9497a3304e7",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-05-24T03:06:29.584Z",
+      "createdAt": "2025-05-24T03:06:29.584Z",
+      "role": "workflow:owner",
+      "workflowId": "mSr7MTrHqKEprKlm",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2025-05-24T03:06:26.142Z",
+      "createdAt": "2025-05-24T03:06:26.142Z",
+      "id": "UbQAe5ZRJLHQv73d",
+      "name": "Sub-workflow"
+    }
+  ]
+}
