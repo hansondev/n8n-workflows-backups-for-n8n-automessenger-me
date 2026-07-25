@@ -1,0 +1,445 @@
+{
+  "updatedAt": "2024-10-11T08:55:47.000Z",
+  "createdAt": "2024-10-11T08:32:20.253Z",
+  "id": "Yat7wUTfkdDOOYYG",
+  "name": "DM Interview Assignment_CIPC: CIPC Web Content Scraped + Upsert Zep Vector Store",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "ec6e1467-9efe-41b8-844f-bbe66b92f0fb",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        120,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://charteredcertifications.com/learning/courses/certified-environmental-impact-assessment-manager-ceia-1",
+        "options": {}
+      },
+      "id": "dcabc449-611d-4912-be6f-144c215153fa",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        340,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "html": "={{ $json.data }}"
+      },
+      "id": "5e78bd8c-8333-4f1c-9e49-df3bc653747f",
+      "name": "WebpageContentExtractor",
+      "type": "n8n-nodes-webpage-content-extractor.WebpageContentExtractor",
+      "typeVersion": 1,
+      "position": [
+        540,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4ddbec46-7d2d-468f-bb33-fca3eb22d452",
+              "name": "web_content",
+              "value": "={{ $json.textContent.trim().replaceAll(\"\\n                      \", \"\") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2a16f067-f336-4ab0-8560-fd799bd5c063",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        760,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "model": "text-embedding-3-large",
+        "options": {}
+      },
+      "id": "42201818-bc08-4fbf-988c-f560db052485",
+      "name": "Embeddings OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1,
+      "position": [
+        880,
+        200
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "a085d425-7d30-4498-9545-de640cfb13db",
+      "name": "Default Data Loader",
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1,
+      "position": [
+        1080,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "chunkSize": 2000,
+        "options": {}
+      },
+      "id": "e28c1c8c-70f3-4338-9047-43ffa4953ccc",
+      "name": "Recursive Character Text Splitter",
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        1020,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "collectionName": "dminterviewacipc20241011",
+        "options": {
+          "embeddingDimensions": 1536,
+          "isAutoEmbedded": false
+        }
+      },
+      "id": "64f61626-ec71-4a20-8915-e9a67c344aba",
+      "name": "Zep Vector Store",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreZep",
+      "typeVersion": 1,
+      "position": [
+        980,
+        40
+      ],
+      "credentials": {
+        "zepApi": {
+          "id": "zCsbfnAJO9E7Q6b9",
+          "name": "Zep API Key-zep.automessenger.me"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "WebpageContentExtractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WebpageContentExtractor": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Zep Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Zep Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Zep Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "WebpageContentExtractor": [
+      {
+        "json": {
+          "excerpt": "Certified Environmental Impact Assessment Manager (CEIA™)",
+          "siteName": null,
+          "length": 21691,
+          "textContent": "\n        \n                    \n                        \n                                                                    \n                                \n                                Certified Environmental Impact Assessment Manager (CEIA™)\n                            \n                        \n\n                        Environmental Impact Assessments are the most effective ways to help companies reduce the risk of environmental damage and mitigate any adverse impacts on human health before any new developments. Today, EIAs are required by law in over 100 countries, including every country in North, Central and South America to ensure the sustainability of a project and its impact on the environment before it can be carried out. Additionally, global development banks, such as World Bank and the Inter-American Development Bank, are now requiring EIAs as a pre-condition before financing any large-scale projects.\n\nThis certified program will walk you through every major aspect of conducting an in-depth EIA from impact identification to public involvement, environmental prediction, monitoring and quality control. You learn how to develop comprehensive quantitative and qualitative methodologies required for an effective EIA report and be exposed to international legal frameworks and environmental compliance required in every major jurisdiction (including EU, UK, US, ANZ and APAC). You will also learn how to incorporate EIA into your organization’s risk assessment and design an effective Environment Management Plan that can help your organization to offset or reduce any adverse environmental impacts to your initiatives. Finally, you will grasp the key skills required to conduct a proper Environmental Monitoring and Auditing and integrate them to create high quality EIA reports to your stakeholders.   \n\nBy the end of the program and upon passing the Chartered exam, you will have earned the Certified Environmental Impact Assessment Manager (CEIA™) designation which you can use to demonstrate your professional credentials and expertise in developing and evaluating an effective EIA. \n\n\n\n\n\n                        \n                            \n\n                            \n                            \n                                4.6 (936 Professional Learners)\n                                1\n                            1 Chartered Institute of Professional Certifications' reviews and ratings are a comprehensive collection of participants feedback we have gathered over the last decade. To view authentic and personal testimonials that are handwritten by our participants, please download our participants' written reviews here.\n                                                    \n                    \n\n                    \n                                                                            This program will entitle you:\n                                                                                                                \n                                            Download Brochure\n                                        \n                                                                                                                \n                    \n                Register Now\n    \n\tAttain your Certified Environmental Impact Assessment Manager (CEIA™)  designation that you can use across your professional credentials (including LinkedIn and CV)\n\tOver 57 lectures, 10 Modules and 3 days of powerful course content on Environmental Impact Assessment (EIA)\n\t5 powerful global case studies and best practices relating to Environmental Impact Assessment.\n\tFull lifetime access\n\tFor inquiries, chat with our Program Advisers at [email protected] or call us at\n\t\n\t\tSingapore and Asia Pacific: +65 6716 9980\n\t\tAustralia and New Zealand: +61 3 9909 7310\n\t\tUK, Europe and Middle East: +44 (020) 335 57898\n\t\tUSA: +1 888 745 8875\n\t\n\t\n\n                                                                        7 days money back guarantee\n                                \n                \n\n                    \n                \n        \n        \n            \n                Accreditations\n            \n\n                    \n    \n\n                \n                            \n\nThis Certified Environmental Impact Assessment Manager (CEIA™) program is a mark of distinction that signifies a fully qualified Environmental Impact Assessment professional with compliance and sustainability expertise and skill sets. It is accredited by the Chartered Institute of Professional Certifications, which maintains the governing standards for all members. The CEIA™ charter is a trademarked charter available only to professionals who have completed and passed this program. The certification is governed and maintained by Chartered Institute of Professional Certifications with over 90,000 members around the world. It is also endorsed by prominent associations and organizations worldwide.\n\nThe content of this program has been fully certified and accredited by CPD as conforming to Continuing Professional Principles.\n                        \n            \n        \n                    \n                                    \n        \n        \n            \n                What Can You Expect From This Certified Program\n            \n\n                    \n    \n\n                    \n                                According to the United Nations Organization (UN), 70% of environmental disasters are caused by poor environmental safeguards, making it essential that organizations put in collective effort to ensure their environmental initiatives will reduce any impacts to the environment. To help companies reduce the risk of environmental damage and mitigate any adverse impacts on human health, Environmental Impact Assessments (EIA) are required to minimize negative impact and foster positive sustainability footprint.\n\nThe Certified Environmental Impact Assessment Manager (CEIA™) program is designed to equip you with a comprehensive overview of designing and implementing an effective Environmental Impact Assessment (EIA) process for your organization. You will be introduced to every major aspect of conducting an in-depth EIA starting from impact identification to public involvement, environmental prediction, monitoring and eventually quality control. You will gain a clear understanding on both qualitative and quantitative methodologies, tools and techniques required for developing an EIA that is compliant with global environmental framework and environmental laws in major jurisdictions. By incorporating EIA into your organization’s risk assessment and monitoring measures, you will also be able to design an effective Environment Management Plan (EMP) that can help to offset or reduce any adverse environmental impacts to your initiatives. In addition, you will be able to complete the EIA cycle by conducting a proper Environmental Auditing (EA) to ensure all environmental aspects have been assessed before you can create an optimal and quality EIA reports to your stakeholders.\n\nBy the end of the program and upon passing the Chartered exam, you will have earned the Certified Environmental Impact Assessment Manager (CEIA™) designation which you can use to demonstrate your professional credentials and track record in developing environmental impact assessment.\n\nGlobally demanded and recognized, this designation is an industry-recognized trademarked charter developed by the Chartered Institute of Professional Certifications and has lifelong validity. It’s also fully accredited by CIPD (Chartered Institute of Personnel and Development), with 160,000 membership organizations worldwide.\n                            \n                \n                                    \n        \n        \n            \n                Key Skills You Will Gain\n            \n\n                    \n    \n\n                    \n                                \n                                                                            Impact Assessment\n                                                                            EIA Report Preparation\n                                                                            Environmental Risk Mitigation\n                                                                            EIA Assessment\n                                                                            Conducting EIA Review\n                                                                            Impact Evaluation Process\n                                                                            Environmental Risk Assessment\n                                                                            Environmental Planning\n                                                                            EIA Analysis\n                                                                            EIA Tools\n                                                                            Environmental Management Systems\n                                                                            Environmental Policy\n                                                                            Stakeholder Engagement\n                                                                            Environment Management Plans (EMP)\n                                                                            Environmental Impacts Prediction\n                                                                            Environmental Impacts Forecast\n                                                                            Strategic Decision Making\n                                                                            International Environmental Compliance\n                                                                            Environmental Risk Assessment\n                                                                            Environmental Performance Measurement\n                                                                            EIA Quality Review\n                                                                            Environmental Auditing\n                                                                            EIA Monitoring Measures\n                                                                            Circular Business Model\n                                                                    \n                            \n                            \n        \n        \n                            \n        \n        \n            \n                Your Faculty Director\n            \n\n                    \n    \n\n                \n                        \n                        \n                        \n                            Marina Mattera\n                            Adjunct Professor and Sustainability Expert\n                            \n                                Marina Mattera is an influential sustainability, innovation, and circular economy advocate. She was a former consultant and project manager for the World Bank where she managed all areas of development from policy and provides strategic advice to the identification, preparation, appraisal, and supervision of sustainability projects. As a sustainability expert, Marina was also accredited by the Spanish Ministry of Education as a University Professor for Public and Private Universities where she specializes in Sustainable Development and Social Impact Evaluation, bringing real-world examples into her courses so that students develop a clearer understanding of the topic.\n\nMarina is also a visiting scholar at the Institute for Corporate Responsibility in Washington DC where she designs and analyzes certification for the World Cocoa Foundation that includes sustainably-sourced cocoa, taking into account both EIA (environmental impact assessment) and social impact. Marina’s niche expertise in sustainability has led her to be a regular speaker at international conferences and academia around the sustainable development, social and environmental impact evaluation, and corporate social responsibility field.\n                            \n                        \n                    \n            \n                            \n        \n        \n            \n                Certified Environmental Impact Assessment Manager (CEIA™) Program Agenda\n            \n\n                    \n    \n            \n                            \n        \n        \n            \n                Chartered Exam\n            \n\n                    \n    \n\n                \n                            At the end of the program, there will be a Chartered exam comprised of 50 multiple choice questions. Upon passing the exam, you will be accredited with your Certified Environmental Impact Assessment Manager (CEIA™) designation.\n\n\n\t98% of students who have taken this exam have passed the exam successfully. Almost all professionals who have taken our courses have passed this exam and attain their Certified Environmental Impact Assessment Manager (CEIA™) designation\n\tThe exam has 50 multiple choice questions and you need to answer 25 out of 50 questions correctly to pass the exam\n\tYou can re-take the exam online as many times as you want, with no additional charges for retaking of exams\n\tThe program cost already includes the exam fees, so there are no additional charges for taking the exam\n\n\nIf you have challenges passing the exam, you can secure assistance from our team and faculty leader to help you pass the exam.\n                        \n            \n                            \n        \n        \n            \n                Certified Environmental Impact Assessment Manager (CEIA™) Designation\n            \n\n                    \n    \n\n                \n                            After completing the program and passing the Chartered exam, you will be awarded the Certified Environmental Impact Assessment Manager (CEIA™) designation that can be used in your resume, CV and other professional credentials. This designation is a global trademark and industry-recognized with lifelong validity.\n\nGlobally demanded and recognized, this designation will help you distinguish your sanctions compliance skillsets and demonstrate that you have attained expertise in effective Environmental Impact Assessment.\n\n\n                        \n                    \n\n                    \n                                    \n        \n        \n            \n                Pricing\n            \n\n                    \n    \n\n\n                \n                    On Demand Learning\n\n                    \n                        \n                            EUR 490\n\n                                                            \n                                \n\tLifetime access to high-quality self-paced eLearning content curated by industry experts\n\t24x7 learner assistance and support\n\tAttain your Certified Environmental Impact Assessment Manager (CEIA™) designation that you can use across your professional credentials\n\tDemonstrate your professional expertise in Environmental Impact Assessment\n\tOver 10 hours of professional Environmental Impact Assessment learning\n\t5 powerful global case studies and best practices on conducting Environmental Impact Assessment.\n\tFull lifetime access\n\n                                                    \n\n                                                    \n                    \n                Register Now\n    \n                                            \n                \n\n                \n                    Corporate Training\n\n                    \n                        \n                            Customized To Your Needs\n\n                                                            \n                                \n\tIf you have more than 30 participants from your organizations, you can contact us to host a program customized to your training needs through a blended learning or physical classroom model\n\tBy customizing your program, the faculty leader can tailor the content that is specific to your needs\n\tPrior to the commencement of the bespoke program, we will schedule conference calls to identify your training needs and map out the sessions most relevant to your organization\n\n                                                    \n\n                        \n    Contact Us\n\n\n                    \n                \n            \n                \n                                    \n        \n        \n            \n                Download Brochure\n            \n\n                    \n    \n\n                    \n                                You can download our program brochure below. If you have any inquiries on this program, please contact our Program Advisor at [email protected] or call us at:\n\n\n\tSingapore and Asia Pacific: +65 6716 9980\n\tAustralia and New Zealand: +61 3 9909 7310\n\tUK, Europe and Middle East: +44 (020) 335 57898\n\tUSA: +1 888 745 8875\n\n\n                                                                    \n                                        \n                                            \n                                        \n                                        \n                                            Download Brochure\n                                        \n                                    \n                                                            \n                \n                                    \n        \n        \n            \n                100% Money Back Guarantee\n            \n\n                    \n    \n\n                    \n                            We value the trust of our customers immensely. But, if you feel that this Certified Environmental Impact Assessment Manager (CEIA™)  does not meet your expectations, we offer a 7-day money-back guarantee. Just send us a refund request via email within 7 days of purchase and we will refund 100% of your payment, no questions asked!\n                        \n                            \n        \n                    \n    \n        \n        \n            \n                Certified Environmental Impact Assessment Manager (CEIA™) Reviews and Testimonials\n            \n\n                    \n    \n\n    \n            \n                                            \n                            \n                            The faculty presented was very descriptive and insightful on the development of EIA from a company standpoint. The frameworks presented in this program are consistent with today's legalities of environmental and sustainable goals.\n                        \n                                            \n                            \n                            The course helped in gaining knowledge of important aspects of the environment.\n                        \n                                            \n                            \n                            There was a lot of information in just a few days, but the instructor explained everything very well. I completed the course feeling confident in my next steps.\n                        \n                                            \n                            \n                            The company was doing well. They are very knowledgeable in this field.\n                        \n                                            \n                            \n                            I am so pleased to join this CEIA course where I gained knowledge and information and met with participants from other countries. It is really a value-added experience to enhance and extend my capability and expertise in my industry involvement in my country.\n                        \n                                            \n                            \n                            This was a very useful course. I have learned a lot from this course which was beyond my expectations. I was very impressed by the depth of knowledge of the course leader Marina in the subject matter. The program was very organized, time-bound, and interactive. I learned how EIA addresses ESG and also the Circular Economy and Sustainable Development Goals (SDGs), the two hot topics nowadays. I think the knowledge gained from this course will help my career immensely. I strongly recommend others (EIA practitioners, Sustainability Experts, and Circularists) to undertake the course.\n                        \n                                    \n\n            Chartered Institute of Professional Certifications' reviews and ratings are a comprehensive collection of participants feedback we have gathered over the last decade. To view authentic and personal testimonials that are handwritten by our participants, please download our participants' written reviews here.\n        \n\n        \n                    \n                \n        \n        \n            \n                Convincing Your Boss To Attend This Program\n            \n\n                    \n    \n\n                \n                            Securing approval from your boss to attend this program can be difficult if you don’t know what to say. So we’ve prepared a template for you! All you need to do is to download this template, copy and paste in email and send it to your boss!\n\n                                                            \n                                    \n                                        Download the Template Here\n                                    \n                                \n                                                    \n            \n        \n                \n\n        \n                \n                    Certified Environmental Impact Assessment Manager (CEIA™)\n                \n                \n                4.6 (936 ratings)\n            \n\n        \n    ",
+          "title": "Certified Environmental Impact Assessment Manager (CEIA™)",
+          "language": "en",
+          "byline": null,
+          "publishedTime": null
+        }
+      }
+    ],
+    "Edit Fields": [
+      {
+        "json": {
+          "web_content": "Certified Environmental Impact Assessment Manager (CEIA™)        \n  Environmental Impact Assessments are the most effective ways to help companies reduce the risk of environmental damage and mitigate any adverse impacts on human health before any new developments. Today, EIAs are required by law in over 100 countries, including every country in North, Central and South America to ensure the sustainability of a project and its impact on the environment before it can be carried out. Additionally, global development banks, such as World Bank and the Inter-American Development Bank, are now requiring EIAs as a pre-condition before financing any large-scale projects.\n\nThis certified program will walk you through every major aspect of conducting an in-depth EIA from impact identification to public involvement, environmental prediction, monitoring and quality control. You learn how to develop comprehensive quantitative and qualitative methodologies required for an effective EIA report and be exposed to international legal frameworks and environmental compliance required in every major jurisdiction (including EU, UK, US, ANZ and APAC). You will also learn how to incorporate EIA into your organization’s risk assessment and design an effective Environment Management Plan that can help your organization to offset or reduce any adverse environmental impacts to your initiatives. Finally, you will grasp the key skills required to conduct a proper Environmental Monitoring and Auditing and integrate them to create high quality EIA reports to your stakeholders.   \n\nBy the end of the program and upon passing the Chartered exam, you will have earned the Certified Environmental Impact Assessment Manager (CEIA™) designation which you can use to demonstrate your professional credentials and expertise in developing and evaluating an effective EIA. \n\n\n\n\n        \n                      4.6 (936 Professional Learners)          1      1 Chartered Institute of Professional Certifications' reviews and ratings are a comprehensive collection of participants feedback we have gathered over the last decade. To view authentic and personal testimonials that are handwritten by our participants, please download our participants' written reviews here.                              \n                    \n\n                                                                          This program will entitle you:                                                                                                                Download Brochure                                                                                                            \n                    \n                Register Now\n    \n\tAttain your Certified Environmental Impact Assessment Manager (CEIA™)  designation that you can use across your professional credentials (including LinkedIn and CV)\n\tOver 57 lectures, 10 Modules and 3 days of powerful course content on Environmental Impact Assessment (EIA)\n\t5 powerful global case studies and best practices relating to Environmental Impact Assessment.\n\tFull lifetime access\n\tFor inquiries, chat with our Program Advisers at [email protected] or call us at\n\t\n\t\tSingapore and Asia Pacific: +65 6716 9980\n\t\tAustralia and New Zealand: +61 3 9909 7310\n\t\tUK, Europe and Middle East: +44 (020) 335 57898\n\t\tUSA: +1 888 745 8875\n\t\n\t\n                                                  7 days money back guarantee          \n                \n\n                    \n                \n        \n        \n            \n                Accreditations\n            \n\n                    \n    \n\n                      \n\nThis Certified Environmental Impact Assessment Manager (CEIA™) program is a mark of distinction that signifies a fully qualified Environmental Impact Assessment professional with compliance and sustainability expertise and skill sets. It is accredited by the Chartered Institute of Professional Certifications, which maintains the governing standards for all members. The CEIA™ charter is a trademarked charter available only to professionals who have completed and passed this program. The certification is governed and maintained by Chartered Institute of Professional Certifications with over 90,000 members around the world. It is also endorsed by prominent associations and organizations worldwide.\n\nThe content of this program has been fully certified and accredited by CPD as conforming to Continuing Professional Principles.  \n            \n        \n                                  \n        \n        \n            \n                What Can You Expect From This Certified Program\n            \n\n                    \n    \n\n                              According to the United Nations Organization (UN), 70% of environmental disasters are caused by poor environmental safeguards, making it essential that organizations put in collective effort to ensure their environmental initiatives will reduce any impacts to the environment. To help companies reduce the risk of environmental damage and mitigate any adverse impacts on human health, Environmental Impact Assessments (EIA) are required to minimize negative impact and foster positive sustainability footprint.\n\nThe Certified Environmental Impact Assessment Manager (CEIA™) program is designed to equip you with a comprehensive overview of designing and implementing an effective Environmental Impact Assessment (EIA) process for your organization. You will be introduced to every major aspect of conducting an in-depth EIA starting from impact identification to public involvement, environmental prediction, monitoring and eventually quality control. You will gain a clear understanding on both qualitative and quantitative methodologies, tools and techniques required for developing an EIA that is compliant with global environmental framework and environmental laws in major jurisdictions. By incorporating EIA into your organization’s risk assessment and monitoring measures, you will also be able to design an effective Environment Management Plan (EMP) that can help to offset or reduce any adverse environmental impacts to your initiatives. In addition, you will be able to complete the EIA cycle by conducting a proper Environmental Auditing (EA) to ensure all environmental aspects have been assessed before you can create an optimal and quality EIA reports to your stakeholders.\n\nBy the end of the program and upon passing the Chartered exam, you will have earned the Certified Environmental Impact Assessment Manager (CEIA™) designation which you can use to demonstrate your professional credentials and track record in developing environmental impact assessment.\n\nGlobally demanded and recognized, this designation is an industry-recognized trademarked charter developed by the Chartered Institute of Professional Certifications and has lifelong validity. It’s also fully accredited by CIPD (Chartered Institute of Personnel and Development), with 160,000 membership organizations worldwide.      \n                              \n        \n        \n            \n                Key Skills You Will Gain\n            \n\n                    \n    \n\n                                                                                    Impact Assessment                                                      EIA Report Preparation                                                      Environmental Risk Mitigation                                                      EIA Assessment                                                      Conducting EIA Review                                                      Impact Evaluation Process                                                      Environmental Risk Assessment                                                      Environmental Planning                                                      EIA Analysis                                                      EIA Tools                                                      Environmental Management Systems                                                      Environmental Policy                                                      Stakeholder Engagement                                                      Environment Management Plans (EMP)                                                      Environmental Impacts Prediction                                                      Environmental Impacts Forecast                                                      Strategic Decision Making                                                      International Environmental Compliance                                                      Environmental Risk Assessment                                                      Environmental Performance Measurement                                                      EIA Quality Review                                                      Environmental Auditing                                                      EIA Monitoring Measures                                                      Circular Business Model                                                          \n        \n              \n        \n        \n            \n                Your Faculty Director\n            \n\n                    \n    \n\n                            Marina Mattera      Adjunct Professor and Sustainability Expert                Marina Mattera is an influential sustainability, innovation, and circular economy advocate. She was a former consultant and project manager for the World Bank where she managed all areas of development from policy and provides strategic advice to the identification, preparation, appraisal, and supervision of sustainability projects. As a sustainability expert, Marina was also accredited by the Spanish Ministry of Education as a University Professor for Public and Private Universities where she specializes in Sustainable Development and Social Impact Evaluation, bringing real-world examples into her courses so that students develop a clearer understanding of the topic.\n\nMarina is also a visiting scholar at the Institute for Corporate Responsibility in Washington DC where she designs and analyzes certification for the World Cocoa Foundation that includes sustainably-sourced cocoa, taking into account both EIA (environmental impact assessment) and social impact. Marina’s niche expertise in sustainability has led her to be a regular speaker at international conferences and academia around the sustainable development, social and environmental impact evaluation, and corporate social responsibility field.        \n                    \n                  \n        \n        \n            \n                Certified Environmental Impact Assessment Manager (CEIA™) Program Agenda\n            \n\n                    \n    \n                  \n        \n        \n            \n                Chartered Exam\n            \n\n                    \n    \n\n                      At the end of the program, there will be a Chartered exam comprised of 50 multiple choice questions. Upon passing the exam, you will be accredited with your Certified Environmental Impact Assessment Manager (CEIA™) designation.\n\n\n\t98% of students who have taken this exam have passed the exam successfully. Almost all professionals who have taken our courses have passed this exam and attain their Certified Environmental Impact Assessment Manager (CEIA™) designation\n\tThe exam has 50 multiple choice questions and you need to answer 25 out of 50 questions correctly to pass the exam\n\tYou can re-take the exam online as many times as you want, with no additional charges for retaking of exams\n\tThe program cost already includes the exam fees, so there are no additional charges for taking the exam\n\n\nIf you have challenges passing the exam, you can secure assistance from our team and faculty leader to help you pass the exam.  \n                  \n        \n        \n            \n                Certified Environmental Impact Assessment Manager (CEIA™) Designation\n            \n\n                    \n    \n\n                      After completing the program and passing the Chartered exam, you will be awarded the Certified Environmental Impact Assessment Manager (CEIA™) designation that can be used in your resume, CV and other professional credentials. This designation is a global trademark and industry-recognized with lifelong validity.\n\nGlobally demanded and recognized, this designation will help you distinguish your sanctions compliance skillsets and demonstrate that you have attained expertise in effective Environmental Impact Assessment.\n\n  \n                    \n\n                                  \n        \n        \n            \n                Pricing\n            \n\n                    \n    \n\n\n                \n                    On Demand Learning\n\n                            EUR 490\n                                                \n\tLifetime access to high-quality self-paced eLearning content curated by industry experts\n\t24x7 learner assistance and support\n\tAttain your Certified Environmental Impact Assessment Manager (CEIA™) designation that you can use across your professional credentials\n\tDemonstrate your professional expertise in Environmental Impact Assessment\n\tOver 10 hours of professional Environmental Impact Assessment learning\n\t5 powerful global case studies and best practices on conducting Environmental Impact Assessment.\n\tFull lifetime access\n                              \n                              \n                    \n                Register Now\n                          \n                \n\n                \n                    Corporate Training\n\n                            Customized To Your Needs\n                                                \n\tIf you have more than 30 participants from your organizations, you can contact us to host a program customized to your training needs through a blended learning or physical classroom model\n\tBy customizing your program, the faculty leader can tailor the content that is specific to your needs\n\tPrior to the commencement of the bespoke program, we will schedule conference calls to identify your training needs and map out the sessions most relevant to your organization\n                              \n  \n    Contact Us\n\n\n                    \n                \n            \n                              \n        \n        \n            \n                Download Brochure\n            \n\n                    \n    \n\n                              You can download our program brochure below. If you have any inquiries on this program, please contact our Program Advisor at [email protected] or call us at:\n\n\n\tSingapore and Asia Pacific: +65 6716 9980\n\tAustralia and New Zealand: +61 3 9909 7310\n\tUK, Europe and Middle East: +44 (020) 335 57898\n\tUSA: +1 888 745 8875\n\n                                                                                                                                                Download Brochure                                                                      \n                              \n        \n        \n            \n                100% Money Back Guarantee\n            \n\n                    \n    \n\n                          We value the trust of our customers immensely. But, if you feel that this Certified Environmental Impact Assessment Manager (CEIA™)  does not meet your expectations, we offer a 7-day money-back guarantee. Just send us a refund request via email within 7 days of purchase and we will refund 100% of your payment, no questions asked!        \n        \n                    \n    \n        \n        \n            \n                Certified Environmental Impact Assessment Manager (CEIA™) Reviews and Testimonials\n            \n\n                    \n    \n\n    \n                                              The faculty presented was very descriptive and insightful on the development of EIA from a company standpoint. The frameworks presented in this program are consistent with today's legalities of environmental and sustainable goals.                                    The course helped in gaining knowledge of important aspects of the environment.                                    There was a lot of information in just a few days, but the instructor explained everything very well. I completed the course feeling confident in my next steps.                                    The company was doing well. They are very knowledgeable in this field.                                    I am so pleased to join this CEIA course where I gained knowledge and information and met with participants from other countries. It is really a value-added experience to enhance and extend my capability and expertise in my industry involvement in my country.                                    This was a very useful course. I have learned a lot from this course which was beyond my expectations. I was very impressed by the depth of knowledge of the course leader Marina in the subject matter. The program was very organized, time-bound, and interactive. I learned how EIA addresses ESG and also the Circular Economy and Sustainable Development Goals (SDGs), the two hot topics nowadays. I think the knowledge gained from this course will help my career immensely. I strongly recommend others (EIA practitioners, Sustainability Experts, and Circularists) to undertake the course.                \n\n            Chartered Institute of Professional Certifications' reviews and ratings are a comprehensive collection of participants feedback we have gathered over the last decade. To view authentic and personal testimonials that are handwritten by our participants, please download our participants' written reviews here.\n        \n\n        \n                    \n                \n        \n        \n            \n                Convincing Your Boss To Attend This Program\n            \n\n                    \n    \n\n                      Securing approval from your boss to attend this program can be difficult if you don’t know what to say. So we’ve prepared a template for you! All you need to do is to download this template, copy and paste in email and send it to your boss!\n                                                                      Download the Template Here                                                      \n            \n        \n                \n\n        \n                \n                    Certified Environmental Impact Assessment Manager (CEIA™)\n                \n                \n                4.6 (936 ratings)"
+        }
+      }
+    ],
+    "Zep Vector Store": [
+      {
+        "json": {
+          "metadata": {
+            "source": "blob",
+            "blobType": "application/json",
+            "loc": {
+              "lines": {
+                "from": 1,
+                "to": 6
+              }
+            }
+          },
+          "pageContent": "Certified Environmental Impact Assessment Manager (CEIA™)        \n  Environmental Impact Assessments are the most effective ways to help companies reduce the risk of environmental damage and mitigate any adverse impacts on human health before any new developments. Today, EIAs are required by law in over 100 countries, including every country in North, Central and South America to ensure the sustainability of a project and its impact on the environment before it can be carried out. Additionally, global development banks, such as World Bank and the Inter-American Development Bank, are now requiring EIAs as a pre-condition before financing any large-scale projects.\n\nThis certified program will walk you through every major aspect of conducting an in-depth EIA from impact identification to public involvement, environmental prediction, monitoring and quality control. You learn how to develop comprehensive quantitative and qualitative methodologies required for an effective EIA report and be exposed to international legal frameworks and environmental compliance required in every major jurisdiction (including EU, UK, US, ANZ and APAC). You will also learn how to incorporate EIA into your organization’s risk assessment and design an effective Environment Management Plan that can help your organization to offset or reduce any adverse environmental impacts to your initiatives. Finally, you will grasp the key skills required to conduct a proper Environmental Monitoring and Auditing and integrate them to create high quality EIA reports to your stakeholders.   \n\nBy the end of the program and upon passing the Chartered exam, you will have earned the Certified Environmental Impact Assessment Manager (CEIA™) designation which you can use to demonstrate your professional credentials and expertise in developing and evaluating an effective EIA."
+        }
+      },
+      {
+        "json": {
+          "metadata": {
+            "source": "blob",
+            "blobType": "application/json",
+            "loc": {
+              "lines": {
+                "from": 12,
+                "to": 39
+              }
+            }
+          },
+          "pageContent": "4.6 (936 Professional Learners)          1      1 Chartered Institute of Professional Certifications' reviews and ratings are a comprehensive collection of participants feedback we have gathered over the last decade. To view authentic and personal testimonials that are handwritten by our participants, please download our participants' written reviews here.                              \n                    \n\n                                                                          This program will entitle you:                                                                                                                Download Brochure                                                                                                            \n                    \n                Register Now\n    \n\tAttain your Certified Environmental Impact Assessment Manager (CEIA™)  designation that you can use across your professional credentials (including LinkedIn and CV)\n\tOver 57 lectures, 10 Modules and 3 days of powerful course content on Environmental Impact Assessment (EIA)\n\t5 powerful global case studies and best practices relating to Environmental Impact Assessment.\n\tFull lifetime access\n\tFor inquiries, chat with our Program Advisers at [email protected] or call us at\n\t\n\t\tSingapore and Asia Pacific: +65 6716 9980\n\t\tAustralia and New Zealand: +61 3 9909 7310\n\t\tUK, Europe and Middle East: +44 (020) 335 57898\n\t\tUSA: +1 888 745 8875\n\t\n\t\n                                                  7 days money back guarantee          \n                \n\n                    \n                \n        \n        \n            \n                Accreditations"
+        }
+      },
+      {
+        "json": {
+          "metadata": {
+            "source": "blob",
+            "blobType": "application/json",
+            "loc": {
+              "lines": {
+                "from": 47,
+                "to": 62
+              }
+            }
+          },
+          "pageContent": "This Certified Environmental Impact Assessment Manager (CEIA™) program is a mark of distinction that signifies a fully qualified Environmental Impact Assessment professional with compliance and sustainability expertise and skill sets. It is accredited by the Chartered Institute of Professional Certifications, which maintains the governing standards for all members. The CEIA™ charter is a trademarked charter available only to professionals who have completed and passed this program. The certification is governed and maintained by Chartered Institute of Professional Certifications with over 90,000 members around the world. It is also endorsed by prominent associations and organizations worldwide.\n\nThe content of this program has been fully certified and accredited by CPD as conforming to Continuing Professional Principles.  \n            \n        \n                                  \n        \n        \n            \n                What Can You Expect From This Certified Program\n            \n\n                    \n    \n\n                              According to the United Nations Organization (UN), 70% of environmental disasters are caused by poor environmental safeguards, making it essential that organizations put in collective effort to ensure their environmental initiatives will reduce any impacts to the environment. To help companies reduce the risk of environmental damage and mitigate any adverse impacts on human health, Environmental Impact Assessments (EIA) are required to minimize negative impact and foster positive sustainability footprint."
+        }
+      },
+      {
+        "json": {
+          "metadata": {
+            "source": "blob",
+            "blobType": "application/json",
+            "loc": {
+              "lines": {
+                "from": 64,
+                "to": 73
+              }
+            }
+          },
+          "pageContent": "The Certified Environmental Impact Assessment Manager (CEIA™) program is designed to equip you with a comprehensive overview of designing and implementing an effective Environmental Impact Assessment (EIA) process for your organization. You will be introduced to every major aspect of conducting an in-depth EIA starting from impact identification to public involvement, environmental prediction, monitoring and eventually quality control. You will gain a clear understanding on both qualitative and quantitative methodologies, tools and techniques required for developing an EIA that is compliant with global environmental framework and environmental laws in major jurisdictions. By incorporating EIA into your organization’s risk assessment and monitoring measures, you will also be able to design an effective Environment Management Plan (EMP) that can help to offset or reduce any adverse environmental impacts to your initiatives. In addition, you will be able to complete the EIA cycle by conducting a proper Environmental Auditing (EA) to ensure all environmental aspects have been assessed before you can create an optimal and quality EIA reports to your stakeholders.\n\nBy the end of the program and upon passing the Chartered exam, you will have earned the Certified Environmental Impact Assessment Manager (CEIA™) designation which you can use to demonstrate your professional credentials and track record in developing environmental impact assessment.\n\nGlobally demanded and recognized, this designation is an industry-recognized trademarked charter developed by the Chartered Institute of Professional Certifications and has lifelong validity. It’s also fully accredited by CIPD (Chartered Institute of Personnel and Development), with 160,000 membership organizations worldwide.      \n                              \n        \n        \n            \n                Key Skills You Will Gain"
+        }
+      },
+      {
+        "json": {
+          "metadata": {
+            "source": "blob",
+            "blobType": "application/json",
+            "loc": {
+              "lines": {
+                "from": 79,
+                "to": 79
+              }
+            }
+          },
+          "pageContent": "Impact Assessment                                                      EIA Report Preparation                                                      Environmental Risk Mitigation                                                      EIA Assessment                                                      Conducting EIA Review                                                      Impact Evaluation Process                                                      Environmental Risk Assessment                                                      Environmental Planning                                                      EIA Analysis                                                      EIA Tools                                                      Environmental Management Systems                                                      Environmental Policy                                                      Stakeholder Engagement                                                      Environment Management Plans (EMP)                                                      Environmental Impacts Prediction                                                      Environmental Impacts Forecast                                                      Strategic Decision Making                                                      International Environmental Compliance                                                      Environmental Risk Assessment                                                      Environmental Performance Measurement                                                      EIA Quality Review                                                      Environmental Auditing                                                      EIA Monitoring Measures                                                      Circular Business Model"
+        }
+      },
+      {
+        "json": {
+          "metadata": {
+            "source": "blob",
+            "blobType": "application/json",
+            "loc": {
+              "lines": {
+                "from": 85,
+                "to": 85
+              }
+            }
+          },
+          "pageContent": "Your Faculty Director"
+        }
+      },
+      {
+        "json": {
+          "metadata": {
+            "source": "blob",
+            "blobType": "application/json",
+            "loc": {
+              "lines": {
+                "from": 91,
+                "to": 114
+              }
+            }
+          },
+          "pageContent": "Marina Mattera      Adjunct Professor and Sustainability Expert                Marina Mattera is an influential sustainability, innovation, and circular economy advocate. She was a former consultant and project manager for the World Bank where she managed all areas of development from policy and provides strategic advice to the identification, preparation, appraisal, and supervision of sustainability projects. As a sustainability expert, Marina was also accredited by the Spanish Ministry of Education as a University Professor for Public and Private Universities where she specializes in Sustainable Development and Social Impact Evaluation, bringing real-world examples into her courses so that students develop a clearer understanding of the topic.\n\nMarina is also a visiting scholar at the Institute for Corporate Responsibility in Washington DC where she designs and analyzes certification for the World Cocoa Foundation that includes sustainably-sourced cocoa, taking into account both EIA (environmental impact assessment) and social impact. Marina’s niche expertise in sustainability has led her to be a regular speaker at international conferences and academia around the sustainable development, social and environmental impact evaluation, and corporate social responsibility field.        \n                    \n                  \n        \n        \n            \n                Certified Environmental Impact Assessment Manager (CEIA™) Program Agenda\n            \n\n                    \n    \n                  \n        \n        \n            \n                Chartered Exam\n            \n\n                    \n    \n\n                      At the end of the program, there will be a Chartered exam comprised of 50 multiple choice questions. Upon passing the exam, you will be accredited with your Certified Environmental Impact Assessment Manager (CEIA™) designation."
+        }
+      },
+      {
+        "json": {
+          "metadata": {
+            "source": "blob",
+            "blobType": "application/json",
+            "loc": {
+              "lines": {
+                "from": 117,
+                "to": 153
+              }
+            }
+          },
+          "pageContent": "98% of students who have taken this exam have passed the exam successfully. Almost all professionals who have taken our courses have passed this exam and attain their Certified Environmental Impact Assessment Manager (CEIA™) designation\n\tThe exam has 50 multiple choice questions and you need to answer 25 out of 50 questions correctly to pass the exam\n\tYou can re-take the exam online as many times as you want, with no additional charges for retaking of exams\n\tThe program cost already includes the exam fees, so there are no additional charges for taking the exam\n\n\nIf you have challenges passing the exam, you can secure assistance from our team and faculty leader to help you pass the exam.  \n                  \n        \n        \n            \n                Certified Environmental Impact Assessment Manager (CEIA™) Designation\n            \n\n                    \n    \n\n                      After completing the program and passing the Chartered exam, you will be awarded the Certified Environmental Impact Assessment Manager (CEIA™) designation that can be used in your resume, CV and other professional credentials. This designation is a global trademark and industry-recognized with lifelong validity.\n\nGlobally demanded and recognized, this designation will help you distinguish your sanctions compliance skillsets and demonstrate that you have attained expertise in effective Environmental Impact Assessment.\n\n  \n                    \n\n                                  \n        \n        \n            \n                Pricing\n            \n\n                    \n    \n\n\n                \n                    On Demand Learning"
+        }
+      },
+      {
+        "json": {
+          "metadata": {
+            "source": "blob",
+            "blobType": "application/json",
+            "loc": {
+              "lines": {
+                "from": 155,
+                "to": 203
+              }
+            }
+          },
+          "pageContent": "EUR 490\n                                                \n\tLifetime access to high-quality self-paced eLearning content curated by industry experts\n\t24x7 learner assistance and support\n\tAttain your Certified Environmental Impact Assessment Manager (CEIA™) designation that you can use across your professional credentials\n\tDemonstrate your professional expertise in Environmental Impact Assessment\n\tOver 10 hours of professional Environmental Impact Assessment learning\n\t5 powerful global case studies and best practices on conducting Environmental Impact Assessment.\n\tFull lifetime access\n                              \n                              \n                    \n                Register Now\n                          \n                \n\n                \n                    Corporate Training\n\n                            Customized To Your Needs\n                                                \n\tIf you have more than 30 participants from your organizations, you can contact us to host a program customized to your training needs through a blended learning or physical classroom model\n\tBy customizing your program, the faculty leader can tailor the content that is specific to your needs\n\tPrior to the commencement of the bespoke program, we will schedule conference calls to identify your training needs and map out the sessions most relevant to your organization\n                              \n  \n    Contact Us\n\n\n                    \n                \n            \n                              \n        \n        \n            \n                Download Brochure\n            \n\n                    \n    \n\n                              You can download our program brochure below. If you have any inquiries on this program, please contact our Program Advisor at [email protected] or call us at:\n\n\n\tSingapore and Asia Pacific: +65 6716 9980\n\tAustralia and New Zealand: +61 3 9909 7310\n\tUK, Europe and Middle East: +44 (020) 335 57898\n\tUSA: +1 888 745 8875"
+        }
+      },
+      {
+        "json": {
+          "metadata": {
+            "source": "blob",
+            "blobType": "application/json",
+            "loc": {
+              "lines": {
+                "from": 205,
+                "to": 223
+              }
+            }
+          },
+          "pageContent": "Download Brochure                                                                      \n                              \n        \n        \n            \n                100% Money Back Guarantee\n            \n\n                    \n    \n\n                          We value the trust of our customers immensely. But, if you feel that this Certified Environmental Impact Assessment Manager (CEIA™)  does not meet your expectations, we offer a 7-day money-back guarantee. Just send us a refund request via email within 7 days of purchase and we will refund 100% of your payment, no questions asked!        \n        \n                    \n    \n        \n        \n            \n                Certified Environmental Impact Assessment Manager (CEIA™) Reviews and Testimonials"
+        }
+      },
+      {
+        "json": {
+          "metadata": {
+            "source": "blob",
+            "blobType": "application/json",
+            "loc": {
+              "lines": {
+                "from": 230,
+                "to": 232
+              }
+            }
+          },
+          "pageContent": "The faculty presented was very descriptive and insightful on the development of EIA from a company standpoint. The frameworks presented in this program are consistent with today's legalities of environmental and sustainable goals.                                    The course helped in gaining knowledge of important aspects of the environment.                                    There was a lot of information in just a few days, but the instructor explained everything very well. I completed the course feeling confident in my next steps.                                    The company was doing well. They are very knowledgeable in this field.                                    I am so pleased to join this CEIA course where I gained knowledge and information and met with participants from other countries. It is really a value-added experience to enhance and extend my capability and expertise in my industry involvement in my country.                                    This was a very useful course. I have learned a lot from this course which was beyond my expectations. I was very impressed by the depth of knowledge of the course leader Marina in the subject matter. The program was very organized, time-bound, and interactive. I learned how EIA addresses ESG and also the Circular Economy and Sustainable Development Goals (SDGs), the two hot topics nowadays. I think the knowledge gained from this course will help my career immensely. I strongly recommend others (EIA practitioners, Sustainability Experts, and Circularists) to undertake the course.                \n\n            Chartered Institute of Professional Certifications' reviews and ratings are a comprehensive collection of participants feedback we have gathered over the last decade. To view authentic and personal testimonials that are handwritten by our participants, please download our participants' written reviews here."
+        }
+      },
+      {
+        "json": {
+          "metadata": {
+            "source": "blob",
+            "blobType": "application/json",
+            "loc": {
+              "lines": {
+                "from": 241,
+                "to": 258
+              }
+            }
+          },
+          "pageContent": "Convincing Your Boss To Attend This Program\n            \n\n                    \n    \n\n                      Securing approval from your boss to attend this program can be difficult if you don’t know what to say. So we’ve prepared a template for you! All you need to do is to download this template, copy and paste in email and send it to your boss!\n                                                                      Download the Template Here                                                      \n            \n        \n                \n\n        \n                \n                    Certified Environmental Impact Assessment Manager (CEIA™)\n                \n                \n                4.6 (936 ratings)"
+        }
+      }
+    ]
+  },
+  "versionId": "aa41dea8-79d9-45c4-94c7-c546e0662e57",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-10-11T08:32:20.262Z",
+      "createdAt": "2024-10-11T08:32:20.262Z",
+      "role": "workflow:owner",
+      "workflowId": "Yat7wUTfkdDOOYYG",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
