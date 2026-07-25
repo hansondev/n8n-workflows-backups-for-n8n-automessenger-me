@@ -1,0 +1,172 @@
+{
+  "updatedAt": "2024-06-24T06:08:28.000Z",
+  "createdAt": "2024-06-23T15:53:43.323Z",
+  "id": "oibHGVueaBKJpeJ4",
+  "name": "My workflow 5",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "da23be8c-2b61-49ee-a4a7-39c88765b7b4",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.manualChatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        720,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "hasOutputParser": true,
+        "options": {
+          "returnIntermediateSteps": false
+        }
+      },
+      "id": "837bc7d0-2ca1-4cdb-b54d-2f9063e8ad9c",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        940,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "033a7156-de1d-4a5d-be46-646655247da6",
+      "name": "Groq Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        820,
+        500
+      ],
+      "credentials": {
+        "groqApi": {
+          "id": "F134g0wbTJINAdJh",
+          "name": "Groq account- info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "0e4dd268-9768-4d9e-89a7-0bd001912af8",
+      "name": "Zep",
+      "type": "@n8n/n8n-nodes-langchain.memoryZep",
+      "typeVersion": 1.2,
+      "position": [
+        1040,
+        580
+      ],
+      "credentials": {
+        "zepApi": {
+          "id": "zCsbfnAJO9E7Q6b9",
+          "name": "Zep API Key-zep.automessenger.me"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "e8b446be-dfbf-4b12-b716-f43cf8d585c4",
+      "name": "Custom n8n Workflow Tool",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 1.1,
+      "position": [
+        1140,
+        500
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "64fa81b2-08b6-42b3-92a1-761c7fc18419",
+      "name": "Structured Output Parser",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1340,
+        500
+      ]
+    }
+  ],
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Zep": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Custom n8n Workflow Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "8d790c1d-014d-4582-9c2f-ff39421ee0a3",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-06-23T15:53:43.514Z",
+      "createdAt": "2024-06-23T15:53:43.514Z",
+      "role": "workflow:owner",
+      "workflowId": "oibHGVueaBKJpeJ4",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
