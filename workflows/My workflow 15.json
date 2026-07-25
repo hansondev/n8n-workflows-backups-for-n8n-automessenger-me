@@ -1,0 +1,141 @@
+{
+  "updatedAt": "2025-06-13T15:02:23.000Z",
+  "createdAt": "2025-06-13T14:40:47.891Z",
+  "id": "MTr1BnKdavrQU9y5",
+  "name": "My workflow 15",
+  "active": false,
+  "isArchived": true,
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Mistral OCR File Content Extraction Demo",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "fileUpload",
+              "fieldType": "file"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "8da9a473-c603-41ee-b02f-63d0c0dba9aa",
+      "name": "On form submission",
+      "webhookId": "3716d4b5-8669-4742-bc2c-0b042af0977c"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.mistral.ai/v1/ocr",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"mistral-ocr-latest\",\n  \"document\": {\n    \"type\": \"document_url\",\n    \"document_url\": \"\"\n  },\n  \"include_image_base64\": true\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "ocr_output.json"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        720,
+        0
+      ],
+      "id": "e5b7535f-985d-4d54-9b75-175ccfccd72e",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "JRoMy8xqqGtlyHst",
+          "name": "MistralAPI Header Auth(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "binaryPropertyName": "fileUpload",
+        "options": {
+          "keepSource": "json"
+        }
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        300,
+        0
+      ],
+      "id": "3135c79c-536a-48db-8d84-a862a2458d70",
+      "name": "Extract from File"
+    }
+  ],
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "On form submission": [
+      {
+        "json": {
+          "fileUpload": [
+            {
+              "filename": "Roadmap.pptx",
+              "mimetype": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+              "size": 42494
+            }
+          ],
+          "submittedAt": "2025-06-13T22:47:35.245+08:00",
+          "formMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "48cd4acd-d9ea-4cf7-8131-cd165d109822",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-06-13T14:40:47.895Z",
+      "createdAt": "2025-06-13T14:40:47.895Z",
+      "role": "workflow:owner",
+      "workflowId": "MTr1BnKdavrQU9y5",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
