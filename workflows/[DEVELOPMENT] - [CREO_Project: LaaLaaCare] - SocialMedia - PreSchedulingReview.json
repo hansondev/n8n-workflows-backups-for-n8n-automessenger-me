@@ -1,0 +1,3294 @@
+{
+  "updatedAt": "2025-07-17T17:21:58.000Z",
+  "createdAt": "2025-07-08T03:17:27.378Z",
+  "id": "w3MBZtJR3cud4u3d",
+  "name": "[DEVELOPMENT] - [CREO_Project: LaaLaaCare] - SocialMedia - PreSchedulingReview",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f432050f-ee9f-4b14-8890-a19bcf85e9dd",
+              "leftValue": "={{ $('Search files and folders').item.json.mimeType }}",
+              "rightValue": "application/vnd.google-apps.spreadsheet",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "eb037a43-d4c6-4afa-b439-97bada7b0097",
+              "leftValue": "={{ $('Search files and folders').item.json.name }}",
+              "rightValue": "LaaLaa SocialMediaScheduling - For Hanson SM Scheduling App",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -48,
+        -16
+      ],
+      "id": "ab62cdd2-6765-42fa-bca0-02f1ee0c4eb8",
+      "name": "Execute True If Is Spreadsheet Type"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -304,
+        272
+      ],
+      "id": "eafa1e04-8c60-4d19-88c8-b4f04f666c99",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "operation": "addToDate",
+        "magnitude": "={{ $now }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        320,
+        -384
+      ],
+      "id": "e54a50c2-fbfd-41c0-9a2e-790ff198b706",
+      "name": "Get Today Timestamp",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "={{ $json['GDrive Folder Name'] }}",
+        "filter": {
+          "driveId": {
+            "mode": "list",
+            "value": "My Drive"
+          },
+          "folderId": {
+            "__rl": true,
+            "value": "19LWnE2Wy6FL7CY4KL3D_508JhPBA4Kh-",
+            "mode": "list",
+            "cachedResultName": "Social Media Management",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/19LWnE2Wy6FL7CY4KL3D_508JhPBA4Kh-"
+          },
+          "whatToSearch": "files"
+        },
+        "options": {
+          "fields": [
+            "name",
+            "mimeType",
+            "id"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -480,
+        -16
+      ],
+      "id": "c03bafd5-ffd5-4d94-a487-a956cc23d7b9",
+      "name": "Search files and folders",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "fe87c4e1-5f6e-4f7a-8b0b-dcf62cff90c8",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "LaaLaa SocialMediaScheduling - For Hanson SM Scheduling App",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -256,
+        -16
+      ],
+      "id": "2fa10f94-b773-46a8-a7db-23912128046a",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $json.newDate }}",
+        "format": "custom",
+        "customFormat": "ccc, dd LLL",
+        "outputFieldName": "scheduleDate",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        192,
+        272
+      ],
+      "id": "adc3d734-8cb2-40dc-9add-152979332cfc",
+      "name": "Reformat Date To Align Current Sheet"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3f65b6c6-0313-4935-a2d7-a82d34cd81ce",
+              "name": "row_num",
+              "value": "={{ $json.row_number }}",
+              "type": "string"
+            },
+            {
+              "id": "76fa58de-f554-4353-9080-eac129bf1bda",
+              "name": "postFullCaption",
+              "value": "={{ $json[\"TikTok Caption\"] || $json[\"Meta Caption\"] }}\n",
+              "type": "string"
+            },
+            {
+              "id": "cfea11fe-f43b-4702-9c2f-25ea22c47528",
+              "name": "visualFileID",
+              "value": "={{ $json['Visual Link'].replaceAll(\"https://drive.google.com/file/d/\",\"\").replaceAll(\"/view?usp=sharing\",\"\").replaceAll(\"/view?usp=drive_link\",\"\").replaceAll(\"\\n\",\"\") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1024,
+        272
+      ],
+      "id": "a663f20c-9812-42f4-a437-0a2e3766c7a3",
+      "name": "Extract Only Visual File ID"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.visualFileID }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1664,
+        464
+      ],
+      "id": "b3fce577-9934-49aa-a1ce-877fe6882301",
+      "name": "Download TikTok Visual From Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "groups-api",
+        "operation": "fetch-groups",
+        "instanceName": "={{ $json.name }}",
+        "searchMethod": "fetchAll"
+      },
+      "type": "n8n-nodes-evolution-api-en.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        0,
+        480
+      ],
+      "id": "2ed51cba-8aa9-4180-b78a-475ea8454de5",
+      "name": "Fetch groups",
+      "credentials": {
+        "evolutionApi": {
+          "id": "JMgG3LIIVXSmIB0R",
+          "name": "EvolutionAPI(evolution-api-1.automessenger.me)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        320,
+        480
+      ],
+      "id": "5b4beed0-3542-45aa-bf46-fc0512bac6e0",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6bea2b8a-3a0a-4786-8933-02c1e4749beb",
+              "leftValue": "={{ $json.subject }}",
+              "rightValue": "={{ $('GET EvoAPI WA Instance Connection').item.json['WA Group Name'] }}",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        608,
+        480
+      ],
+      "id": "915709ee-5aa2-478c-9b5d-52fa19734253",
+      "name": "Filter1"
+    },
+    {
+      "parameters": {
+        "formTitle": "Input Form For GET  WA Evolution API Instance Connection",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Instance Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "WABusiness-boonhong0309"
+                  },
+                  {
+                    "option": "WACloudNo - ‎15556352505"
+                  },
+                  {
+                    "option": "WA_HansonAutomation"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "GDrive Folder Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "LaaLaa SocialMediaScheduling - For Hanson SM Scheduling App"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Sheet Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "TikTok"
+                  },
+                  {
+                    "option": "Meta"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "WA Group Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "LaaLaa X CREO"
+                  },
+                  {
+                    "option": "EVOLUTION API TEST 1"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {
+          "path": "31120c8b-af8c-4b79-82d9-829daca3fd68"
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -896,
+        208
+      ],
+      "id": "fbb2f9ea-832f-4c15-8d04-f2550276fdc9",
+      "name": "GET EvoAPI WA Instance Connection",
+      "webhookId": "31120c8b-af8c-4b79-82d9-829daca3fd68"
+    },
+    {
+      "parameters": {
+        "url": "https://evolution-api-1.automessenger.me/instance/fetchInstances",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -464,
+        480
+      ],
+      "id": "aebcbb1a-f542-4796-9159-7f0b6b5525c8",
+      "name": "FETCH All Available EVO Instances",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "WYAc2kRLyUqbtHqA",
+          "name": "HeaderAuth(evolution-api-1.automessenger.me)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "3f6c0dbb-3b11-4a1e-a1b6-209a2ae4709b",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "={{ $('GET EvoAPI WA Instance Connection').item.json['Instance Name'] }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -240,
+        480
+      ],
+      "id": "3f35c158-3eca-4358-aa27-1f4442282b38",
+      "name": "GET Only WABusiness-boonhong0309"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "835ac28f-28b2-4aa5-b66f-85ce832e22ad",
+              "name": "groupId",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "ea637044-581e-40b4-ae37-9742260fa530",
+              "name": "groupName",
+              "value": "={{ $json.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "292ee0b0-de49-4fcc-89db-0e2ca9a68dab",
+              "name": "instanceName",
+              "value": "={{ $('GET Only WABusiness-boonhong0309').item.json.name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        912,
+        480
+      ],
+      "id": "95aed9ae-be27-4d77-ad3d-8a207bc1e071",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "resource": "groups-api",
+        "operation": "find-participants",
+        "instanceName": "={{ $json.instanceName }}",
+        "groupJid": "={{ $json.groupId }}"
+      },
+      "type": "n8n-nodes-evolution-api-en.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        2560,
+        672
+      ],
+      "id": "3ccac194-738e-47fb-b609-a5e7683d0a2c",
+      "name": "Find group participants",
+      "credentials": {
+        "evolutionApi": {
+          "id": "JMgG3LIIVXSmIB0R",
+          "name": "EvolutionAPI(evolution-api-1.automessenger.me)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "86723540-e40d-4645-aa9e-a4898b6299f6",
+              "name": "videoFileBase64",
+              "value": "={{ $json.data }}",
+              "type": "string"
+            },
+            {
+              "id": "1fc3b1cf-81e6-4413-8463-6340a5a66b25",
+              "name": "fullCaptionDetails",
+              "value": "=Platform: TT\nLanguage: BM\nPosting: {{ $('GET Sheet Name').item.json['Date Publish'] }}\n\n{{ $('Merge').item.json.postFullCaption }}",
+              "type": "string"
+            },
+            {
+              "id": "8a900740-f683-4b91-9d57-5033f9a5f6bf",
+              "name": "groupId",
+              "value": "={{ $('Merge').item.json.groupId }}",
+              "type": "string"
+            },
+            {
+              "id": "7feeecfa-4d57-4644-8751-c1867d39fd57",
+              "name": "groupName",
+              "value": "={{ $('Merge').item.json.groupName }}",
+              "type": "string"
+            },
+            {
+              "id": "3b7cbb17-32ef-4458-918b-8797ce80274f",
+              "name": "instanceName",
+              "value": "={{ $('Merge').item.json.instanceName }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1744,
+        704
+      ],
+      "id": "04e2feb8-4238-4cc8-ae1e-f168c13dbe28",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "operation": "send-video",
+        "instanceName": "={{ $('Edit Fields1').item.json.instanceName }}",
+        "remoteJid": "={{ $('Edit Fields1').item.json.groupId }}",
+        "media": "={{ $('Create an object').item.json.mediaLink }}",
+        "caption": "=Video Preview: {{ $('Create an object').item.json.mediaLink }}",
+        "options_message": {
+          "delay": 1200
+        }
+      },
+      "type": "n8n-nodes-evolution-api-en.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        2000,
+        704
+      ],
+      "id": "fa6ceae4-c60b-4708-a81d-e56f7382a1ef",
+      "name": "Send video",
+      "credentials": {
+        "evolutionApi": {
+          "id": "JMgG3LIIVXSmIB0R",
+          "name": "EvolutionAPI(evolution-api-1.automessenger.me)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        1136,
+        832
+      ],
+      "id": "fd9df537-34fb-470f-87ce-d5a99a6c1e96",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1376,
+        464
+      ],
+      "id": "b405c87f-a88d-48fd-bfb0-ecfaf43d3453",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "resource": "object",
+        "operation": "create",
+        "bucketName": "creo_project-laalaa_care_media_upload",
+        "objectName": "={{ $('Download TikTok Visual From Drive').item.binary.data.fileName }}",
+        "createData": {},
+        "createQuery": {},
+        "encryptionHeaders": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.googleCloudStorage",
+      "typeVersion": 1,
+      "position": [
+        -384,
+        848
+      ],
+      "id": "a9d51dfe-ae56-4ff2-b955-86722bd65e68",
+      "name": "Create an object",
+      "credentials": {
+        "googleCloudStorageOAuth2Api": {
+          "id": "0gSUGJu5pZnNxI2c",
+          "name": "GCloudStorage(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.freeconvert.com/v1/process/import/googlecloud",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"project_id\": \"am-n8n-automation-407615\",\n  \"bucket\": \"creo_project-laalaa_care_media_upload\",\n  \"client_email\": \"servicekey-n8n-automessenger1@am-n8n-automation-407615.iam.gserviceaccount.com\",\n  \"private_key\": \"-----BEGIN PRIVATE KEY-----\\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCdaeojeR9gDcHs\\n3Y3LZivvJJ+n4SNIdMrfy5ck+836GiuYF4DYNFfUwEGSc1MuwOgs1vHfcIwxjvmi\\n1G32GjED1e81lNmiBQsP8QkFcDApVJ1FJ53deFumozFgJScPxeqsPmXMWp8YRqOq\\nQCWtQEcNH5dOd0hperyj2SDDq7afFAoMlFquy2qs7o8ObjMIj69mysEXNlnavOF6\\nSmz6qwDdzbN6IAGtUU9bqFvbVuIxyETykSg0biQoJXvsZ7jyL1ZEr7ISTOPvrA/W\\npU5fy3F+s1bdlYprR+rRajcuST+CSAXFIxBcqtl4a5c3viuOua6qMTC8i1snIN0Q\\nwneVa1wvAgMBAAECggEARS5PvxBT6DCTqmiCkUJRi7PiUPNCwOzHXozI2/GoiELp\\nJtopf5udgDyQdO8nPzR7tX0v5t29V2h5MQVAYHkJUqC6lSdacHjb8EEkEFZKbFeq\\nGML8/+EOEpHFOPaLEMUQSmvP7HxlUFN3SXMQu/A0acGZC1ykH+tXrYDXA/fa9lU1\\nMr4UtLcCluzoA3WAGBU4HwemtUNp1zk01OFZrdwYxcWRNdcXR6d5hN9Nw0qnlc0i\\n9qNLZ2UQOen+Jfz7l5NRZwd1nVn3OIFGr1OYp6SnkCCRTEsmI1td100mOR0+f3UT\\n3yNTKzZuwbEeYv5o4vDryEPYIoYfiXV20Ob/ZIBSKQKBgQDQn6Wg2NpgJd33TCAz\\nEovFiINwVT30AKGXyqYFDPB1whL0G6m2fGmhMU5r3oZNFQer216d5iBPiJay46xP\\nbwYl7KHeMAGiSmqjDAMiaorSavQYIwEByC5yHPNCFwV5svb5Cbt5dinVO5DWGdBj\\nYbJm7qkyiQmsx0M6yVeFP0M0WQKBgQDBKS0JWcJiewRaut1+W7FL82zo+xWSel4p\\nWtSGlPXqMvJY6Xue/rK9vSB3Nwhdii0p/Jjxv6C4Vkg8PNQf9nDJinkcRBpAS3fD\\n5gvfsiKwVv0rUYOlnMDa71bzeIzHWH7BAyOOnKWytdl8sxq3hVjQOKTIUE+HhzoN\\n9tJshYGjxwKBgAMHzqgffkyXQDovaOhVBKLB8ObY1iWNPMuvrem03mlXgF77Z+O2\\nuvIUfUcj3F+SRqJAdYdlqGJ/YXEHzaD5w+UZIuDPYbaxzgrASeteENYtp44SNBmK\\nhuIxeXckTngOGXhUo9yH0uO+EcSKa3SGHslP/jU1uGZCHr/j3NmaqadBAoGBALSX\\n48R/SC885phRZ26RGdVx1NyKi+O0Rr8RbewZ70U0tsKMIQlJBiJBZc4wBME3w/wi\\nb3huejx+ZvDyyjzL8y1rKspTnduI84OTXHyblrUZz3+lqZi4UtMevEPL7IsgYPni\\nDmdya7UHMjzVU2BL6vpaSy4BcCm9M3kE0D2oIMnXAoGBALBEu7zaLYYuGPUwvRKH\\nuXqDqy4JqB/HcUg/mvRAnL02WDZVl/qTfuS9FC/uN8lVYj1gwmMGw+OG8Js8eMjt\\nR4LKKYmrmZt+F0JCFqQ8x0pQ7aBLnnoOAfL6kcW9zo9LsbJ8PGsW+tzBmcKHBXwx\\nR/Jjd7NF7sS8q5enTMfiCLFL\\n-----END PRIVATE KEY-----\\n\",\n  \"file\": \"{{ $json.name }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -128,
+        848
+      ],
+      "id": "0bba0691-d5d5-45f7-a44f-2da7728c58c2",
+      "name": "FreeConvert - UploadVideo",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "AGkoFirDSFVD8778",
+          "name": "HeaderAuth(freeconvert.com-boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.freeconvert.com/v1/process/compress",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"input\": {{ JSON.stringify($json.id) }},\n  \"input_format\": \"mp4\",\n  \"output_format\": \"mp4\",\n  \"options\": {\n    \"video_codec_compress\": \"libx265\",\n    \"compress_video\": \"by_video_quality\",\n    \"video_compress_crf_x265\": \"28\",\n    \"video_compress_speed\": \"veryfast\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        128,
+        848
+      ],
+      "id": "2c4bfd6f-8533-48b6-a379-b3981cf21ed6",
+      "name": "FreeConvert - CompressedVideo",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "AGkoFirDSFVD8778",
+          "name": "HeaderAuth(freeconvert.com-boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        848,
+        976
+      ],
+      "id": "4566bdd9-eac6-4552-a055-f38076fd3570",
+      "name": "Wait",
+      "webhookId": "6a6e98dc-0c2e-4a60-ab12-7f230cc066d9"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b18bd5e4-55ab-4590-9c77-3c970a05d9f9",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "completed",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        592,
+        848
+      ],
+      "id": "b19d8daf-3f17-4d89-a50e-4174cd796618",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.freeconvert.com/v1/process/tasks/{{ $json.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        336,
+        848
+      ],
+      "id": "1a9d1ba6-3ed6-4280-8508-880110077f4f",
+      "name": "HTTP Request1",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "AGkoFirDSFVD8778",
+          "name": "HeaderAuth(freeconvert.com-boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.result.url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        864,
+        832
+      ],
+      "id": "81e554ba-611e-4cc5-8464-843c30dae250",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $('Filter').first().json.id }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ $('GET EvoAPI WA Instance Connection').item.json['Sheet Name'] }}",
+          "mode": "name"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Date Publish",
+              "lookupValue": "={{ $json.scheduleDate }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        768,
+        272
+      ],
+      "id": "d6ef795a-5b4b-45ab-863a-9c6a4181644f",
+      "name": "GET Sheet Name",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d2cdb6e4-a60b-46d3-9fc1-c6272aaa82a1",
+              "name": "scheduleDate",
+              "value": "={{ $json.scheduleDate }}",
+              "type": "string"
+            },
+            {
+              "id": "30721baf-9cd2-438a-b217-412bff9a6ceb",
+              "name": "sheetName",
+              "value": "={{ $('GET EvoAPI WA Instance Connection').item.json['Sheet Name'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        272
+      ],
+      "id": "c22ff1eb-8386-4933-866d-7f407bd3caf3",
+      "name": "SET Sheet Segmentation Input Details"
+    },
+    {
+      "parameters": {
+        "inputText": "=Platform Name: {{ $('SET Sheet Segmentation Input Details').item.json.sheetName }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "TT",
+              "description": "Short Name For Tiktok Social Media Platform"
+            },
+            {
+              "category": "Meta",
+              "description": "Short Name For Meta Social Media Platform"
+            }
+          ]
+        },
+        "options": {
+          "systemPromptTemplate": "Please classify the text provided by the user into one of the following categories: {categories}, and use the provided formatting instructions below. Don't explain, and only output the json."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        1312,
+        832
+      ],
+      "id": "71fe26fd-ba4e-40dd-891d-677b12d53c60",
+      "name": "Text Classifier"
+    },
+    {
+      "parameters": {
+        "resource": "groups-api",
+        "operation": "find-participants",
+        "instanceName": "={{ $json.instanceName }}",
+        "groupJid": "={{ $json.groupId }}"
+      },
+      "type": "n8n-nodes-evolution-api-en.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        2640,
+        864
+      ],
+      "id": "c095c1e5-e032-4e69-abdd-68180667d05d",
+      "name": "Find group participants1",
+      "credentials": {
+        "evolutionApi": {
+          "id": "JMgG3LIIVXSmIB0R",
+          "name": "EvolutionAPI(evolution-api-1.automessenger.me)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "86723540-e40d-4645-aa9e-a4898b6299f6",
+              "name": "videoFileBase64",
+              "value": "={{ $json.data }}",
+              "type": "string"
+            },
+            {
+              "id": "1fc3b1cf-81e6-4413-8463-6340a5a66b25",
+              "name": "fullCaptionDetails",
+              "value": "=Platform: Meta\nLanguage: ENG\nPosting: {{ $('GET Sheet Name').item.json['Date Publish'] }}\n\n{{ $('Merge').item.json.postFullCaption }}",
+              "type": "string"
+            },
+            {
+              "id": "8a900740-f683-4b91-9d57-5033f9a5f6bf",
+              "name": "groupId",
+              "value": "={{ $('Merge').item.json.groupId }}",
+              "type": "string"
+            },
+            {
+              "id": "7feeecfa-4d57-4644-8751-c1867d39fd57",
+              "name": "groupName",
+              "value": "={{ $('Merge').item.json.groupName }}",
+              "type": "string"
+            },
+            {
+              "id": "3b7cbb17-32ef-4458-918b-8797ce80274f",
+              "name": "instanceName",
+              "value": "={{ $('Merge').item.json.instanceName }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1744,
+        976
+      ],
+      "id": "7f291b92-e944-4178-894f-1bd9777640c2",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "operation": "send-video",
+        "instanceName": "={{ $('Edit Fields').item.json.instanceName }}",
+        "remoteJid": "={{ $('Edit Fields').item.json.groupId }}",
+        "media": "={{ $('Edit Fields2').item.json.videoFileBase64 }}",
+        "caption": "={{ $('Edit Fields2').item.json.fullCaptionDetails }}\nVideo Preview: {{ $('Create an object').item.json.mediaLink }}",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api-en.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        2080,
+        992
+      ],
+      "id": "73820e13-be16-4c8e-b58f-087dcc826220",
+      "name": "Send video1",
+      "credentials": {
+        "evolutionApi": {
+          "id": "JMgG3LIIVXSmIB0R",
+          "name": "EvolutionAPI(evolution-api-1.automessenger.me)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1248,
+        1040
+      ],
+      "id": "9cb77f1e-69fd-4016-a099-c6ee5d6ec263",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "hour": 12
+            }
+          ]
+        },
+        "triggerOn": "specificFile",
+        "fileToWatch": {
+          "__rl": true,
+          "value": "1gdcMOeLJnPqVm6Zm7vGytXrhSQb4DaTSZ1iwTbt35DI",
+          "mode": "list",
+          "cachedResultName": "LaaLaa Social Media Scedule",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gdcMOeLJnPqVm6Zm7vGytXrhSQb4DaTSZ1iwTbt35DI/edit?usp=drivesdk"
+        }
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        -816,
+        1808
+      ],
+      "id": "91214913-1406-4387-98b1-c21f3dbddbd0",
+      "name": "Google Drive Trigger",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "LaaLaa Social Media Scedule",
+        "filter": {
+          "driveId": {
+            "mode": "list",
+            "value": "My Drive"
+          },
+          "whatToSearch": "files"
+        },
+        "options": {
+          "fields": [
+            "name",
+            "mimeType",
+            "id"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -608,
+        1808
+      ],
+      "id": "bf53835a-dad0-4464-9a32-e478dbe55d5e",
+      "name": "Search files and folders1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "fe87c4e1-5f6e-4f7a-8b0b-dcf62cff90c8",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "LaaLaa Social Media Scedule",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -384,
+        1808
+      ],
+      "id": "3f72edff-2ad9-4b95-bf42-b000935b8c65",
+      "name": "Filter2"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {
+          "responseFormat": "json_object"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1520,
+        2304
+      ],
+      "id": "0fb13ec3-8d4f-4ebe-aa8a-6723d3f01a89",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "text": "=Visual Upload Details: {{ $json.visualUpload }}",
+        "schemaType": "fromJson",
+        "jsonSchemaExample": "{\n\t\"metaPlatformType\": \"IG,FB\",\n\t\"visualDownloadLink\": \"https://drive.google.com/file/d/1no0yVnja3E8lrd0oK3PFRdvH4_wKcDBW/view?usp=sharing\"\n}",
+        "options": {
+          "systemPromptTemplate": "=<Role>\nYou are an expert of data extraction.\n</Role>\n<Task>\nYou are tasked to extract Meta platform types(FB & IG) visual download link based on the user provided text data and transform it into key-value pair JSON object structure.\n</Task>\n<Context>\nYou will providing the following information from user as below:\n- Visual Upload Details\n</Context>\n<Output>\nThe output should be in JSON format without any other extra  explanation and non-relevant information.\n</Output>"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        1344,
+        1408
+      ],
+      "id": "ffbddfe8-d192-445b-8f14-b4d00d3e8624",
+      "name": "Meta(IG,FB) Visual Link Extractor"
+    },
+    {
+      "parameters": {
+        "text": "=Visual Upload Details: {{ $json.visualUpload }}",
+        "schemaType": "fromJson",
+        "jsonSchemaExample": "{\n\t\"platformType\": \"TikTok\",\n\t\"visualDownloadLink\": \"https://drive.google.com/file/d/1no0yVnja3E8lrd0oK3PFRdvH4_wKcDBW/view?usp=sharing\"\n}",
+        "options": {
+          "systemPromptTemplate": "=<Role>\nYou are an expert of data extraction.\n</Role>\n<Task>\nYou are tasked to extract TikTok platform type visual download link based on the user provided text data and transform it into key-value pair JSON object structure.\n</Task>\n<Context>\nYou will providing the following information from user as below:\n- Visual Upload Details\n</Context>\n<Output>\nThe output should be in JSON format without any other extra  explanation and non-relevant information.\n</Output>"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        1408,
+        2128
+      ],
+      "id": "5b9509aa-8b9e-48d6-b20b-7253a2d44afd",
+      "name": "TikTok Visual Link Extractor"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process each item in the input array\nreturn items.map(item => {\n  // Extract values from the current item\n  const platform = item.json.output.metaPlatformType;\n  const link = item.json.output.visualDownloadLink;\n  \n  // Create new object with dynamic key based on platform\n  return {\n    json: {\n      [platform]: link\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1680,
+        1408
+      ],
+      "id": "1b3483d3-2a02-403d-9bdc-e1c799f90796",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b5649f0d-63d8-4e36-879f-463d44535680",
+              "name": "dateSchedulling",
+              "value": "={{ $('Edit Fields5').item.json.datePosting }}",
+              "type": "string"
+            },
+            {
+              "id": "b846063b-0fdc-40c9-a969-3c926f6dbbb1",
+              "name": "postCaption",
+              "value": "={{ $('Edit Fields5').item.json.tiktokPostText }}",
+              "type": "string"
+            },
+            {
+              "id": "4764045d-635a-4071-910a-5fcf4528c18c",
+              "name": "visualFileID",
+              "value": "={{ $json[\"TikTok\"].replaceAll(\"https://drive.google.com/file/d/\",\"\").replaceAll(\"/view?usp=sharing\",\"\").replaceAll(\"/view?usp=drive_link\",\"\").replaceAll(\"\\n\",\"\") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2160,
+        2128
+      ],
+      "id": "4704bded-3377-40c8-86c1-96af11735a71",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process each item in the input array\nreturn items.map(item => {\n  // Extract values from the current item\n  const platform = item.json.output.platformType;\n  const link = item.json.output.visualDownloadLink;\n  \n  // Create new object with dynamic key based on platform\n  return {\n    json: {\n      [platform]: link\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        2128
+      ],
+      "id": "cee175ee-84fc-48fd-8459-975445558bc7",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $json.currentDate }}",
+        "format": "custom",
+        "customFormat": "LLLL",
+        "outputFieldName": "currentMonth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        272,
+        1792
+      ],
+      "id": "bc24f1c5-56e6-45e0-a677-5b954575af5b",
+      "name": "Current Month"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $('Filter2').item.json.id }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ $('Current Month').item.json.currentMonth.toUpperCase() }}",
+          "mode": "name"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRange",
+              "headerRow": 2,
+              "firstDataRow": 3
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        624,
+        1792
+      ],
+      "id": "9d351ff8-855f-4e0f-8e73-d26ceaf3f6a2",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f432050f-ee9f-4b14-8890-a19bcf85e9dd",
+              "leftValue": "={{ $json.mimeType }}",
+              "rightValue": "application/vnd.google-apps.spreadsheet",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "eb037a43-d4c6-4afa-b439-97bada7b0097",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "LaaLaa Social Media Scedule",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -176,
+        1808
+      ],
+      "id": "b1158fbb-de57-4d18-a1b0-259b9670c12b",
+      "name": "Execute True If Is Spreadsheet Type1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -304,
+        2064
+      ],
+      "id": "867d6ffa-2d17-4d3f-b28c-b9314cab032b",
+      "name": "No Operation, do nothing1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b741d731-f2cf-484f-b5ce-8c1e39e9d0b7",
+              "name": "datePosting",
+              "value": "={{ $json['Posting Date'] }}",
+              "type": "string"
+            },
+            {
+              "id": "32adc551-4b66-4985-a312-e367e8e59381",
+              "name": "metaPostText",
+              "value": "={{ $json['IG, FB\\nCaption'] }}",
+              "type": "string"
+            },
+            {
+              "id": "6f3ca2b5-c61a-4432-b78d-59e3e73a82fb",
+              "name": "visualUpload",
+              "value": "={{ $json.Visual }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        1408
+      ],
+      "id": "1b71f0ca-8cb5-4cd2-a33d-d3f0d733a3af",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b741d731-f2cf-484f-b5ce-8c1e39e9d0b7",
+              "name": "datePosting",
+              "value": "={{ $json['Posting Date'] }}",
+              "type": "string"
+            },
+            {
+              "id": "97a44560-bf0c-424c-a91c-edd679d40635",
+              "name": "tiktokPostText",
+              "value": "={{ $json['TikTok\\nCaption'] }}",
+              "type": "string"
+            },
+            {
+              "id": "6c5f7ea8-5f72-4e18-8e1a-1d8a5a6c1542",
+              "name": "visualUpload",
+              "value": "={{ $json.Visual }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        2128
+      ],
+      "id": "03ff00c0-561a-4e6c-a41a-1fda1d9635ec",
+      "name": "Edit Fields5"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {
+          "responseFormat": "json_object"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1472,
+        1584
+      ],
+      "id": "be6459c3-9498-426a-8ebf-bf7fba17142e",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b5649f0d-63d8-4e36-879f-463d44535680",
+              "name": "dateSchedulling",
+              "value": "={{ $('Edit Fields4').item.json.datePosting }}",
+              "type": "string"
+            },
+            {
+              "id": "b846063b-0fdc-40c9-a969-3c926f6dbbb1",
+              "name": "postCaption",
+              "value": "={{ $('Edit Fields4').item.json.metaPostText }}",
+              "type": "string"
+            },
+            {
+              "id": "4764045d-635a-4071-910a-5fcf4528c18c",
+              "name": "visualFileID",
+              "value": "={{ $json[\"IG,FB\"].replaceAll(\"https://drive.google.com/file/d/\",\"\").replaceAll(\"/view?usp=sharing\",\"\").replaceAll(\"/view?usp=drive_link\",\"\").replaceAll(\"\\n\",\"\") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2192,
+        1408
+      ],
+      "id": "65b855e9-bde7-4011-8d2e-27c6542ba409",
+      "name": "Edit Fields6"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        64,
+        1792
+      ],
+      "id": "acae8ee9-6e77-4a73-80b4-242effae5b6c",
+      "name": "Get Today Timestamp1"
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $('Get Today Timestamp1').item.json.currentDate }}",
+        "format": "custom",
+        "customFormat": "ccc, dd LLL",
+        "outputFieldName": "scheduleDate",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        448,
+        1792
+      ],
+      "id": "e6fb3d67-d2a9-4206-b639-d3d3611928be",
+      "name": "Reformat Date To Align The Sheet Date"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.visualFileID }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2384,
+        1408
+      ],
+      "id": "cf810fae-82ca-4b1b-8300-c521215ac4fb",
+      "name": "Download Meta Visual From Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "object",
+        "operation": "create",
+        "bucketName": "creo_project-laalaa_care_media_upload",
+        "objectName": "={{ $binary.data.fileName.replace(\".mp4\",\" - V2\") }}.{{ $binary.data.fileExtension }}",
+        "createData": {},
+        "createQuery": {},
+        "encryptionHeaders": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.googleCloudStorage",
+      "typeVersion": 1,
+      "position": [
+        2592,
+        1408
+      ],
+      "id": "c35d9369-aae8-45e6-bb66-f7db1831ef01",
+      "name": "Create an object1",
+      "credentials": {
+        "googleCloudStorageOAuth2Api": {
+          "id": "JUHSBUeREI2t9mLg",
+          "name": "GCloudStorage(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.freeconvert.com/v1/process/import/googlecloud",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"project_id\": \"am-n8n-automation-407615\",\n  \"bucket\": \"creo_project-laalaa_care_media_upload\",\n  \"client_email\": \"servicekey-n8n-automessenger1@am-n8n-automation-407615.iam.gserviceaccount.com\",\n  \"private_key\": \"-----BEGIN PRIVATE KEY-----\\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCdaeojeR9gDcHs\\n3Y3LZivvJJ+n4SNIdMrfy5ck+836GiuYF4DYNFfUwEGSc1MuwOgs1vHfcIwxjvmi\\n1G32GjED1e81lNmiBQsP8QkFcDApVJ1FJ53deFumozFgJScPxeqsPmXMWp8YRqOq\\nQCWtQEcNH5dOd0hperyj2SDDq7afFAoMlFquy2qs7o8ObjMIj69mysEXNlnavOF6\\nSmz6qwDdzbN6IAGtUU9bqFvbVuIxyETykSg0biQoJXvsZ7jyL1ZEr7ISTOPvrA/W\\npU5fy3F+s1bdlYprR+rRajcuST+CSAXFIxBcqtl4a5c3viuOua6qMTC8i1snIN0Q\\nwneVa1wvAgMBAAECggEARS5PvxBT6DCTqmiCkUJRi7PiUPNCwOzHXozI2/GoiELp\\nJtopf5udgDyQdO8nPzR7tX0v5t29V2h5MQVAYHkJUqC6lSdacHjb8EEkEFZKbFeq\\nGML8/+EOEpHFOPaLEMUQSmvP7HxlUFN3SXMQu/A0acGZC1ykH+tXrYDXA/fa9lU1\\nMr4UtLcCluzoA3WAGBU4HwemtUNp1zk01OFZrdwYxcWRNdcXR6d5hN9Nw0qnlc0i\\n9qNLZ2UQOen+Jfz7l5NRZwd1nVn3OIFGr1OYp6SnkCCRTEsmI1td100mOR0+f3UT\\n3yNTKzZuwbEeYv5o4vDryEPYIoYfiXV20Ob/ZIBSKQKBgQDQn6Wg2NpgJd33TCAz\\nEovFiINwVT30AKGXyqYFDPB1whL0G6m2fGmhMU5r3oZNFQer216d5iBPiJay46xP\\nbwYl7KHeMAGiSmqjDAMiaorSavQYIwEByC5yHPNCFwV5svb5Cbt5dinVO5DWGdBj\\nYbJm7qkyiQmsx0M6yVeFP0M0WQKBgQDBKS0JWcJiewRaut1+W7FL82zo+xWSel4p\\nWtSGlPXqMvJY6Xue/rK9vSB3Nwhdii0p/Jjxv6C4Vkg8PNQf9nDJinkcRBpAS3fD\\n5gvfsiKwVv0rUYOlnMDa71bzeIzHWH7BAyOOnKWytdl8sxq3hVjQOKTIUE+HhzoN\\n9tJshYGjxwKBgAMHzqgffkyXQDovaOhVBKLB8ObY1iWNPMuvrem03mlXgF77Z+O2\\nuvIUfUcj3F+SRqJAdYdlqGJ/YXEHzaD5w+UZIuDPYbaxzgrASeteENYtp44SNBmK\\nhuIxeXckTngOGXhUo9yH0uO+EcSKa3SGHslP/jU1uGZCHr/j3NmaqadBAoGBALSX\\n48R/SC885phRZ26RGdVx1NyKi+O0Rr8RbewZ70U0tsKMIQlJBiJBZc4wBME3w/wi\\nb3huejx+ZvDyyjzL8y1rKspTnduI84OTXHyblrUZz3+lqZi4UtMevEPL7IsgYPni\\nDmdya7UHMjzVU2BL6vpaSy4BcCm9M3kE0D2oIMnXAoGBALBEu7zaLYYuGPUwvRKH\\nuXqDqy4JqB/HcUg/mvRAnL02WDZVl/qTfuS9FC/uN8lVYj1gwmMGw+OG8Js8eMjt\\nR4LKKYmrmZt+F0JCFqQ8x0pQ7aBLnnoOAfL6kcW9zo9LsbJ8PGsW+tzBmcKHBXwx\\nR/Jjd7NF7sS8q5enTMfiCLFL\\n-----END PRIVATE KEY-----\\n\",\n  \"file\": \"{{ $json.name }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1168,
+        1712
+      ],
+      "id": "be1e2ee3-bb1b-4e70-bd3e-82d873807ac6",
+      "name": "FreeConvert - UploadVideo1",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "AGkoFirDSFVD8778",
+          "name": "HeaderAuth(freeconvert.com-boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.freeconvert.com/v1/process/compress",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"input\": {{ JSON.stringify($json.id) }},\n  \"input_format\": \"mp4\",\n  \"output_format\": \"mp4\",\n  \"options\": {\n    \"video_codec_compress\": \"libx265\",\n    \"compress_video\": \"by_video_quality\",\n    \"video_compress_crf_x265\": \"28\",\n    \"video_compress_speed\": \"veryfast\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1424,
+        1712
+      ],
+      "id": "fd877391-71f5-47a7-876d-648188e1ccf9",
+      "name": "FreeConvert - CompressedVideo1",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "AGkoFirDSFVD8778",
+          "name": "HeaderAuth(freeconvert.com-boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2144,
+        1840
+      ],
+      "id": "1e4c0a82-8f84-40f9-8802-9adbf2a563cf",
+      "name": "Wait1",
+      "webhookId": "6a6e98dc-0c2e-4a60-ab12-7f230cc066d9"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b18bd5e4-55ab-4590-9c77-3c970a05d9f9",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "completed",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1888,
+        1712
+      ],
+      "id": "fd919ff1-de52-4715-8f77-cbb466edc695",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.freeconvert.com/v1/process/tasks/{{ $json.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1632,
+        1712
+      ],
+      "id": "4f5ea55e-8a76-4f1e-93c1-678f36e8ba58",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "AGkoFirDSFVD8778",
+          "name": "HeaderAuth(freeconvert.com-boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.result.url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2144,
+        1680
+      ],
+      "id": "6cd4d5d2-af90-44bf-a81f-f2910510cb1c",
+      "name": "HTTP Request3"
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        2352,
+        1680
+      ],
+      "id": "c7b4f9a5-82cd-43fe-8aa6-d7b85d62ca9e",
+      "name": "Extract from File1"
+    },
+    {
+      "parameters": {
+        "url": "https://evolution-api-1.automessenger.me/instance/fetchInstances",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2544,
+        1680
+      ],
+      "id": "08aff4f1-ee3c-4768-b639-5faf88c03c0b",
+      "name": "FETCH All Available EVO Instances1",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "WYAc2kRLyUqbtHqA",
+          "name": "HeaderAuth(evolution-api-1.automessenger.me)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "3f6c0dbb-3b11-4a1e-a1b6-209a2ae4709b",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "=WABusiness-boonhong0309",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        2784,
+        1680
+      ],
+      "id": "8576d327-9a2e-469f-8739-4dd3155d06df",
+      "name": "GET Only WABusiness-boonhong"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "835ac28f-28b2-4aa5-b66f-85ce832e22ad",
+              "name": "groupId",
+              "value": "=120363419190583779@g.us",
+              "type": "string"
+            },
+            {
+              "id": "ea637044-581e-40b4-ae37-9742260fa530",
+              "name": "groupName",
+              "value": "=EVOLUTION API TEST 1",
+              "type": "string"
+            },
+            {
+              "id": "292ee0b0-de49-4fcc-89db-0e2ca9a68dab",
+              "name": "instanceName",
+              "value": "={{ $('GET Only WABusiness-boonhong').item.json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "380a6eeb-e993-461c-939b-70c7beaf2bba",
+              "name": "fullCaptionDetails",
+              "value": "=Platform: Meta \nLanguage: ENG \nPosting:\n{{ $('Edit Fields6').item.json.postCaption }}",
+              "type": "string"
+            },
+            {
+              "id": "5eb12132-46dc-4192-8302-37bd2029785e",
+              "name": "videoFileBase64",
+              "value": "={{ $('Extract from File1').item.json.data }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3024,
+        1680
+      ],
+      "id": "e3b01100-208f-4c6d-a899-363fd7e25f21",
+      "name": "Edit Fields7"
+    },
+    {
+      "parameters": {
+        "resource": "groups-api",
+        "operation": "find-participants",
+        "instanceName": "={{ $json.instanceName }}",
+        "groupJid": "={{ $json.groupId }}"
+      },
+      "type": "n8n-nodes-evolution-api-en.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        3248,
+        1680
+      ],
+      "id": "08cbd915-78b4-426e-adc3-cfbb34120974",
+      "name": "Find group participants2",
+      "credentials": {
+        "evolutionApi": {
+          "id": "JMgG3LIIVXSmIB0R",
+          "name": "EvolutionAPI(evolution-api-1.automessenger.me)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "operation": "send-video",
+        "instanceName": "={{ $('Edit Fields7').item.json.instanceName }}",
+        "remoteJid": "={{ $('Edit Fields7').item.json.groupId }}",
+        "media": "={{ $('Edit Fields7').item.json.videoFileBase64 }}",
+        "caption": "=Meta Post Amendment Done.\nSchedule: {{ $('Edit Fields6').item.json.dateSchedulling }}\n{{ $('Edit Fields7').item.json.fullCaptionDetails }}\nVideo Preview: {{ $('Create an object1').item.json.mediaLink }}",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api-en.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        3520,
+        1680
+      ],
+      "id": "210bc717-ae7d-4549-b2a7-4f4c0d3dd31f",
+      "name": "Send video2",
+      "credentials": {
+        "evolutionApi": {
+          "id": "JMgG3LIIVXSmIB0R",
+          "name": "EvolutionAPI(evolution-api-1.automessenger.me)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f0d2e3b9-eded-4412-9e29-a0b7e110745c",
+              "leftValue": "={{ $('Edit Fields4').item.json.datePosting }}",
+              "rightValue": "={{ $('Reformat Date To Align The Sheet Date').item.json.scheduleDate }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1920,
+        1408
+      ],
+      "id": "a1e27a2d-5e80-4e02-b407-144c843f7ac0",
+      "name": "Filter Meta Schedule Date"
+    },
+    {
+      "parameters": {
+        "resource": "object",
+        "operation": "create",
+        "bucketName": "creo_project-laalaa_care_media_upload",
+        "objectName": "={{ $binary.data.fileName.replace(\".mp4\",\" - V2\") }}.{{ $binary.data.fileExtension }}",
+        "createData": {},
+        "createQuery": {},
+        "encryptionHeaders": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.googleCloudStorage",
+      "typeVersion": 1,
+      "position": [
+        2560,
+        2128
+      ],
+      "id": "5de6a152-e942-4e3d-86f1-89ef419e9498",
+      "name": "Create an object2",
+      "credentials": {
+        "googleCloudStorageOAuth2Api": {
+          "id": "JUHSBUeREI2t9mLg",
+          "name": "GCloudStorage(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.freeconvert.com/v1/process/import/googlecloud",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"project_id\": \"am-n8n-automation-407615\",\n  \"bucket\": \"creo_project-laalaa_care_media_upload\",\n  \"client_email\": \"servicekey-n8n-automessenger1@am-n8n-automation-407615.iam.gserviceaccount.com\",\n  \"private_key\": \"-----BEGIN PRIVATE KEY-----\\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCdaeojeR9gDcHs\\n3Y3LZivvJJ+n4SNIdMrfy5ck+836GiuYF4DYNFfUwEGSc1MuwOgs1vHfcIwxjvmi\\n1G32GjED1e81lNmiBQsP8QkFcDApVJ1FJ53deFumozFgJScPxeqsPmXMWp8YRqOq\\nQCWtQEcNH5dOd0hperyj2SDDq7afFAoMlFquy2qs7o8ObjMIj69mysEXNlnavOF6\\nSmz6qwDdzbN6IAGtUU9bqFvbVuIxyETykSg0biQoJXvsZ7jyL1ZEr7ISTOPvrA/W\\npU5fy3F+s1bdlYprR+rRajcuST+CSAXFIxBcqtl4a5c3viuOua6qMTC8i1snIN0Q\\nwneVa1wvAgMBAAECggEARS5PvxBT6DCTqmiCkUJRi7PiUPNCwOzHXozI2/GoiELp\\nJtopf5udgDyQdO8nPzR7tX0v5t29V2h5MQVAYHkJUqC6lSdacHjb8EEkEFZKbFeq\\nGML8/+EOEpHFOPaLEMUQSmvP7HxlUFN3SXMQu/A0acGZC1ykH+tXrYDXA/fa9lU1\\nMr4UtLcCluzoA3WAGBU4HwemtUNp1zk01OFZrdwYxcWRNdcXR6d5hN9Nw0qnlc0i\\n9qNLZ2UQOen+Jfz7l5NRZwd1nVn3OIFGr1OYp6SnkCCRTEsmI1td100mOR0+f3UT\\n3yNTKzZuwbEeYv5o4vDryEPYIoYfiXV20Ob/ZIBSKQKBgQDQn6Wg2NpgJd33TCAz\\nEovFiINwVT30AKGXyqYFDPB1whL0G6m2fGmhMU5r3oZNFQer216d5iBPiJay46xP\\nbwYl7KHeMAGiSmqjDAMiaorSavQYIwEByC5yHPNCFwV5svb5Cbt5dinVO5DWGdBj\\nYbJm7qkyiQmsx0M6yVeFP0M0WQKBgQDBKS0JWcJiewRaut1+W7FL82zo+xWSel4p\\nWtSGlPXqMvJY6Xue/rK9vSB3Nwhdii0p/Jjxv6C4Vkg8PNQf9nDJinkcRBpAS3fD\\n5gvfsiKwVv0rUYOlnMDa71bzeIzHWH7BAyOOnKWytdl8sxq3hVjQOKTIUE+HhzoN\\n9tJshYGjxwKBgAMHzqgffkyXQDovaOhVBKLB8ObY1iWNPMuvrem03mlXgF77Z+O2\\nuvIUfUcj3F+SRqJAdYdlqGJ/YXEHzaD5w+UZIuDPYbaxzgrASeteENYtp44SNBmK\\nhuIxeXckTngOGXhUo9yH0uO+EcSKa3SGHslP/jU1uGZCHr/j3NmaqadBAoGBALSX\\n48R/SC885phRZ26RGdVx1NyKi+O0Rr8RbewZ70U0tsKMIQlJBiJBZc4wBME3w/wi\\nb3huejx+ZvDyyjzL8y1rKspTnduI84OTXHyblrUZz3+lqZi4UtMevEPL7IsgYPni\\nDmdya7UHMjzVU2BL6vpaSy4BcCm9M3kE0D2oIMnXAoGBALBEu7zaLYYuGPUwvRKH\\nuXqDqy4JqB/HcUg/mvRAnL02WDZVl/qTfuS9FC/uN8lVYj1gwmMGw+OG8Js8eMjt\\nR4LKKYmrmZt+F0JCFqQ8x0pQ7aBLnnoOAfL6kcW9zo9LsbJ8PGsW+tzBmcKHBXwx\\nR/Jjd7NF7sS8q5enTMfiCLFL\\n-----END PRIVATE KEY-----\\n\",\n  \"file\": \"{{ $json.name }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1024,
+        2432
+      ],
+      "id": "013d251b-7277-4b59-8f6c-e3571cc00727",
+      "name": "FreeConvert - UploadVideo2",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "AGkoFirDSFVD8778",
+          "name": "HeaderAuth(freeconvert.com-boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.freeconvert.com/v1/process/compress",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"input\": {{ JSON.stringify($json.id) }},\n  \"input_format\": \"mp4\",\n  \"output_format\": \"mp4\",\n  \"options\": {\n    \"video_codec_compress\": \"libx265\",\n    \"compress_video\": \"by_video_quality\",\n    \"video_compress_crf_x265\": \"28\",\n    \"video_compress_speed\": \"veryfast\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1280,
+        2432
+      ],
+      "id": "0f6d3395-aaa6-47f5-9adb-aa69bb8643d2",
+      "name": "FreeConvert - CompressedVideo2",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "AGkoFirDSFVD8778",
+          "name": "HeaderAuth(freeconvert.com-boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2000,
+        2560
+      ],
+      "id": "1d6d5fc3-f0a9-4a55-ade6-9788df8fce84",
+      "name": "Wait2",
+      "webhookId": "6a6e98dc-0c2e-4a60-ab12-7f230cc066d9"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b18bd5e4-55ab-4590-9c77-3c970a05d9f9",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "completed",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1744,
+        2432
+      ],
+      "id": "be31dd42-1207-458a-bc63-c8a8672200c9",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.freeconvert.com/v1/process/tasks/{{ $json.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1488,
+        2432
+      ],
+      "id": "f5bfeda4-c693-4e55-ac06-ea60b16ea51e",
+      "name": "HTTP Request4",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "AGkoFirDSFVD8778",
+          "name": "HeaderAuth(freeconvert.com-boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.result.url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2000,
+        2400
+      ],
+      "id": "0389995d-d523-4848-8078-dce2085efa51",
+      "name": "HTTP Request5"
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        2208,
+        2400
+      ],
+      "id": "2fee022a-4aef-4554-84b6-4bd31cde02c1",
+      "name": "Extract from File2"
+    },
+    {
+      "parameters": {
+        "url": "https://evolution-api-1.automessenger.me/instance/fetchInstances",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2400,
+        2400
+      ],
+      "id": "fd7a25b3-955a-41b0-9007-54e1aef2a8e2",
+      "name": "FETCH All Available EVO Instances2",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "WYAc2kRLyUqbtHqA",
+          "name": "HeaderAuth(evolution-api-1.automessenger.me)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "3f6c0dbb-3b11-4a1e-a1b6-209a2ae4709b",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "=WABusiness-boonhong0309",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        2640,
+        2400
+      ],
+      "id": "e3d7ddc6-f89f-4071-8c83-3023be665792",
+      "name": "GET Only WABusiness-boonhong1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "835ac28f-28b2-4aa5-b66f-85ce832e22ad",
+              "name": "groupId",
+              "value": "=120363419190583779@g.us",
+              "type": "string"
+            },
+            {
+              "id": "ea637044-581e-40b4-ae37-9742260fa530",
+              "name": "groupName",
+              "value": "=EVOLUTION API TEST 1",
+              "type": "string"
+            },
+            {
+              "id": "292ee0b0-de49-4fcc-89db-0e2ca9a68dab",
+              "name": "instanceName",
+              "value": "={{ $('GET Only WABusiness-boonhong1').item.json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "380a6eeb-e993-461c-939b-70c7beaf2bba",
+              "name": "fullCaptionDetails",
+              "value": "=Platform: TT\nLanguage: BM \nPosting:\n{{ $('Edit Fields3').item.json.postCaption }}",
+              "type": "string"
+            },
+            {
+              "id": "5eb12132-46dc-4192-8302-37bd2029785e",
+              "name": "videoFileBase64",
+              "value": "={{ $('Extract from File2').item.json.data }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2880,
+        2400
+      ],
+      "id": "3d9b6860-6605-4bc6-88fa-6d5003780d72",
+      "name": "Edit Fields8"
+    },
+    {
+      "parameters": {
+        "resource": "groups-api",
+        "operation": "find-participants",
+        "instanceName": "={{ $json.instanceName }}",
+        "groupJid": "={{ $json.groupId }}"
+      },
+      "type": "n8n-nodes-evolution-api-en.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        3104,
+        2400
+      ],
+      "id": "879247e2-5bef-4c64-b3e7-21ec2aabc355",
+      "name": "Find group participants3",
+      "credentials": {
+        "evolutionApi": {
+          "id": "JMgG3LIIVXSmIB0R",
+          "name": "EvolutionAPI(evolution-api-1.automessenger.me)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "operation": "send-video",
+        "instanceName": "={{ $('Edit Fields8').item.json.instanceName }}",
+        "remoteJid": "={{ $('Edit Fields8').item.json.groupId }}",
+        "media": "={{ $('Edit Fields8').item.json.videoFileBase64 }}",
+        "caption": "=TT Post Amendment Done.\nSchedule: {{ $('Edit Fields3').item.json.dateSchedulling }}\n{{ $('Edit Fields8').item.json.fullCaptionDetails }}\nVideo Preview: {{ $('Create an object2').item.json.mediaLink }}",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api-en.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        3392,
+        2400
+      ],
+      "id": "f5a67f21-830f-4402-a276-5a5d414b669f",
+      "name": "Send video3",
+      "credentials": {
+        "evolutionApi": {
+          "id": "JMgG3LIIVXSmIB0R",
+          "name": "EvolutionAPI(evolution-api-1.automessenger.me)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f0d2e3b9-eded-4412-9e29-a0b7e110745c",
+              "leftValue": "={{ $('Edit Fields5').item.json.datePosting }}",
+              "rightValue": "={{ $('Reformat Date To Align The Sheet Date').item.json.scheduleDate }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1968,
+        2128
+      ],
+      "id": "abefb417-0a95-41a7-b5a7-042443ce3486",
+      "name": "Filter TikTok Schedule Date"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.visualFileID }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2368,
+        2128
+      ],
+      "id": "d82f8085-50b7-4178-a2e1-c9bce233cde2",
+      "name": "DownloadTikTok Visual From Drive1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "subtractFromDate",
+        "magnitude": "={{ $now }}",
+        "duration": 1,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        240,
+        -48
+      ],
+      "id": "3c95b66c-ee57-4c2e-9788-ba30bf2c6c7e",
+      "name": "Get 1 Day After Today"
+    },
+    {
+      "parameters": {
+        "resource": "messages-api",
+        "instanceName": "={{ $('Edit Fields1').item.json.instanceName }}",
+        "remoteJid": "={{ $('Edit Fields1').item.json.groupId }}",
+        "messageText": "={{ $('Edit Fields1').item.json.fullCaptionDetails }}",
+        "options_message": {}
+      },
+      "type": "n8n-nodes-evolution-api-en.evolutionApi",
+      "typeVersion": 1,
+      "position": [
+        2256,
+        704
+      ],
+      "id": "2c7b4141-c107-4fd3-848f-5331e2888e44",
+      "name": "Send text",
+      "credentials": {
+        "evolutionApi": {
+          "id": "JMgG3LIIVXSmIB0R",
+          "name": "EvolutionAPI(evolution-api-1.automessenger.me)"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Execute True If Is Spreadsheet Type": {
+      "main": [
+        [
+          {
+            "node": "Get 1 Day After Today",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Today Timestamp": {
+      "main": [
+        []
+      ]
+    },
+    "Search files and folders": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Execute True If Is Spreadsheet Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reformat Date To Align Current Sheet": {
+      "main": [
+        [
+          {
+            "node": "SET Sheet Segmentation Input Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Only Visual File ID": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download TikTok Visual From Drive": {
+      "main": [
+        [
+          {
+            "node": "Create an object",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch groups": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Filter1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET EvoAPI WA Instance Connection": {
+      "main": [
+        [
+          {
+            "node": "FETCH All Available EVO Instances",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Search files and folders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FETCH All Available EVO Instances": {
+      "main": [
+        [
+          {
+            "node": "GET Only WABusiness-boonhong0309",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Only WABusiness-boonhong0309": {
+      "main": [
+        [
+          {
+            "node": "Fetch groups",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Find group participants": {
+      "main": [
+        []
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Send video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Download TikTok Visual From Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an object": {
+      "main": [
+        [
+          {
+            "node": "FreeConvert - UploadVideo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FreeConvert - UploadVideo": {
+      "main": [
+        [
+          {
+            "node": "FreeConvert - CompressedVideo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FreeConvert - CompressedVideo": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Sheet Name": {
+      "main": [
+        [
+          {
+            "node": "Extract Only Visual File ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SET Sheet Segmentation Input Details": {
+      "main": [
+        [
+          {
+            "node": "GET Sheet Name",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text Classifier": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find group participants1": {
+      "main": [
+        []
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Send video1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive Trigger": {
+      "main": [
+        [
+          {
+            "node": "Search files and folders1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search files and folders1": {
+      "main": [
+        [
+          {
+            "node": "Filter2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "TikTok Visual Link Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Meta(IG,FB) Visual Link Extractor": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "TikTok Visual Link Extractor": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Filter Meta Schedule Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Filter TikTok Schedule Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Current Month": {
+      "main": [
+        [
+          {
+            "node": "Reformat Date To Align The Sheet Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Fields5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute True If Is Spreadsheet Type1": {
+      "main": [
+        [
+          {
+            "node": "Get Today Timestamp1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Meta(IG,FB) Visual Link Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields5": {
+      "main": [
+        [
+          {
+            "node": "TikTok Visual Link Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Meta(IG,FB) Visual Link Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Today Timestamp1": {
+      "main": [
+        [
+          {
+            "node": "Current Month",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter2": {
+      "main": [
+        [
+          {
+            "node": "Execute True If Is Spreadsheet Type1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reformat Date To Align The Sheet Date": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Meta Visual From Drive": {
+      "main": [
+        [
+          {
+            "node": "Create an object1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields6": {
+      "main": [
+        [
+          {
+            "node": "Download Meta Visual From Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FreeConvert - UploadVideo1": {
+      "main": [
+        [
+          {
+            "node": "FreeConvert - CompressedVideo1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FreeConvert - CompressedVideo1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an object1": {
+      "main": [
+        [
+          {
+            "node": "FreeConvert - UploadVideo1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "Extract from File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FETCH All Available EVO Instances1": {
+      "main": [
+        [
+          {
+            "node": "GET Only WABusiness-boonhong",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Only WABusiness-boonhong": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File1": {
+      "main": [
+        [
+          {
+            "node": "FETCH All Available EVO Instances1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find group participants2": {
+      "main": [
+        [
+          {
+            "node": "Send video2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields7": {
+      "main": [
+        [
+          {
+            "node": "Find group participants2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Meta Schedule Date": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an object2": {
+      "main": [
+        [
+          {
+            "node": "FreeConvert - UploadVideo2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FreeConvert - UploadVideo2": {
+      "main": [
+        [
+          {
+            "node": "FreeConvert - CompressedVideo2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FreeConvert - CompressedVideo2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request4": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request5": {
+      "main": [
+        [
+          {
+            "node": "Extract from File2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File2": {
+      "main": [
+        [
+          {
+            "node": "FETCH All Available EVO Instances2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FETCH All Available EVO Instances2": {
+      "main": [
+        [
+          {
+            "node": "GET Only WABusiness-boonhong1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Only WABusiness-boonhong1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields8": {
+      "main": [
+        [
+          {
+            "node": "Find group participants3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find group participants3": {
+      "main": [
+        [
+          {
+            "node": "Send video3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "DownloadTikTok Visual From Drive1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter TikTok Schedule Date": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DownloadTikTok Visual From Drive1": {
+      "main": [
+        [
+          {
+            "node": "Create an object2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get 1 Day After Today": {
+      "main": [
+        [
+          {
+            "node": "Reformat Date To Align Current Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send video": {
+      "main": [
+        [
+          {
+            "node": "Send text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "GET EvoAPI WA Instance Connection": [
+      {
+        "json": {
+          "Instance Name": "WA_HansonAutomation",
+          "GDrive Folder Name": "LaaLaa SocialMediaScheduling - For Hanson SM Scheduling App",
+          "Sheet Name": "TikTok",
+          "WA Group Name": "EVOLUTION API TEST 1",
+          "submittedAt": "2025-07-18T01:16:00.846+08:00",
+          "formMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "7d8c1488-da4f-4c21-9000-7c144980fe63",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-07-08T03:17:27.390Z",
+      "createdAt": "2025-07-08T03:17:27.390Z",
+      "role": "workflow:owner",
+      "workflowId": "w3MBZtJR3cud4u3d",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
