@@ -1,0 +1,186 @@
+{
+  "updatedAt": "2025-09-04T17:30:53.000Z",
+  "createdAt": "2025-09-04T17:20:16.700Z",
+  "id": "A7X4Z4pJEYKY4bfu",
+  "name": "[Sub-workflow] - [FBPage: ReefHeaven]  - Post Image Analyzer",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        224,
+        -272
+      ],
+      "id": "4892a1e0-1056-4f5d-9d50-71cb2f0c42f8",
+      "name": "When clicking ‘Execute workflow’",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "imageUrls",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "76b4db1b-e1fb-4fcf-89d2-8cb2011fc603",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.0-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.0-flash"
+        },
+        "text": "Analyse the images and describe the image based on what you had analysed.",
+        "imageUrls": "={{ $json.imageUrls }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "316edffe-68a4-404e-aa05-beac76815199",
+      "name": "Analyze image",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "25a61480-b517-4d61-827e-00e61f40bed6",
+              "name": "imageUrl",
+              "value": "={{ $('Split Out').item.json.imageUrls }}",
+              "type": "string"
+            },
+            {
+              "id": "06d74219-b799-46f8-804e-8a91d779b611",
+              "name": "imageDescriptive",
+              "value": "={{ $json.content.parts[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        0
+      ],
+      "id": "290c4bcc-36a5-405f-b774-4f475309cb4f",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "imageUrls",
+              "type": "array"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -16,
+        0
+      ],
+      "id": "2a0c9b44-da04-477d-975a-e3d2888f835e",
+      "name": "When Executed by Another Workflow"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        []
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Analyze image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze image": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "When clicking ‘Execute workflow’": [
+      {
+        "json": {
+          "imageUrls": [
+            "https://scontent-ord5-2.xx.fbcdn.net/v/t39.30808-6/540484974_1364769212318624_6826951100804763610_n.jpg?stp=dst-jpg_p526x395_tt6&_nc_cat=102&ccb=1-7&_nc_sid=127cfc&_nc_ohc=bW-TUnhyQE8Q7kNvwHOLqRD&_nc_oc=Adl-AxyWsWVn6zpk6I2g2MytWMWsKOW4uceLkzznjqsBSYVHpSESDdMrnPU4hYzcX-M&_nc_zt=23&_nc_ht=scontent-ord5-2.xx&_nc_gid=1KNGFTGXKS3cbFaAPZyfJw&oh=00_AfZ7Nbics4_rIUr1YVHlL_QKCKqh1Tw7AYj7UfnBRw510A&oe=68BF8FDC",
+            "https://scontent-ord5-1.xx.fbcdn.net/v/t39.30808-6/540874279_1364769128985299_3837678626352228055_n.jpg?stp=dst-jpg_p526x395_tt6&_nc_cat=111&ccb=1-7&_nc_sid=127cfc&_nc_ohc=PkTI0QGPPGwQ7kNvwGUeIeZ&_nc_oc=AdnBUPdPCj2WgFQsDzufrc_SkaMl5pywMFrnfDuug4M8mHm8issAJ6scWLp4aoycTiM&_nc_zt=23&_nc_ht=scontent-ord5-1.xx&_nc_gid=1KNGFTGXKS3cbFaAPZyfJw&oh=00_AfaOmAKihreE3CqUDA__7QB2PUdwGyNB9dowoABvWNC2gA&oe=68BF9494",
+            "https://scontent-ord5-3.xx.fbcdn.net/v/t39.30808-6/540681426_1364769145651964_4653836353810196074_n.jpg?stp=dst-jpg_p526x395_tt6&_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=SgyM0ykficUQ7kNvwGYFS6s&_nc_oc=AdldPvf1uk32prIkiuvF_thUj-zqz7zB5lB5bRVdo23pMJNaZrKgJHNO66X0WDPeWgc&_nc_zt=23&_nc_ht=scontent-ord5-3.xx&_nc_gid=1KNGFTGXKS3cbFaAPZyfJw&oh=00_AfZgx34fUaC8YeNgy8r-k7W8OV6VyEcsZi1x_PqRHqx3QQ&oe=68BF9888"
+          ]
+        }
+      }
+    ]
+  },
+  "versionId": "38713f20-a9bd-4fa2-aecf-3f9cb1204716",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-09-04T17:20:16.704Z",
+      "createdAt": "2025-09-04T17:20:16.704Z",
+      "role": "workflow:owner",
+      "workflowId": "A7X4Z4pJEYKY4bfu",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
