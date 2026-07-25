@@ -1,0 +1,841 @@
+{
+  "updatedAt": "2025-06-30T11:01:44.000Z",
+  "createdAt": "2025-06-23T07:54:53.412Z",
+  "id": "MubUiIZ61k7E3sAq",
+  "name": "[DEVELOPMENT] TikTok Business API - Ads Management",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "2d1ad259-9efe-4a14-93e0-ea2579f3beeb",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://business-api.tiktok.com/open_api/v1.3/oauth2/access_token/",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"app_id\": \"{{ $json['app-id'] }}\",\n    \"secret\": \"{{ $json['app-secret'] }}\",\n    \"auth_code\": \"{{ $json['auth-code'] }}\"\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        600,
+        0
+      ],
+      "id": "1ba350fb-0cbc-4ff6-9eb3-d18510f1a0ed",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "aa4a742a-e158-4d65-8974-6ef0ae48ba57",
+              "name": "app-id",
+              "value": "7519031016908914689",
+              "type": "string"
+            },
+            {
+              "id": "9b82eadc-e55b-404c-bb2b-9182e3c8882d",
+              "name": "app-secret",
+              "value": "1e4f6ab148ec4f3ed2d43b28bf14f73b088725d1",
+              "type": "string"
+            },
+            {
+              "id": "7ac9aafe-302f-463a-a2c4-f2a9d239829e",
+              "name": "auth-code",
+              "value": "999db7514d2ed7dcc589ff25f5e4b1c6a9aecdbd",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        280,
+        0
+      ],
+      "id": "342ab987-a8c2-4697-a3ec-b59cd44d1ec2",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "071c4c4a-2b80-4f7c-a754-ecd65e80e126",
+              "leftValue": "={{ $json.data.access_token }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        820,
+        0
+      ],
+      "id": "536d8e18-648a-4dd2-a92c-b1ebb32a6949",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8b2c48e3-0b47-425f-8b08-243b4a7225bc",
+              "name": "businessCenterId",
+              "value": "={{ $json.data.list[0].bc_info.bc_id }}",
+              "type": "string"
+            },
+            {
+              "id": "4291c752-92d4-4983-bcc7-3b72fd714abb",
+              "name": "businessCenterName",
+              "value": "={{ $json.data.list[0].bc_info.name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1420,
+        -380
+      ],
+      "id": "855776c5-89c0-4ea2-99b0-27df0aaade81",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "url": "https://business-api.tiktok.com/open_api/v1.3/bc/get/",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "page",
+              "value": "2"
+            },
+            {
+              "name": "page_size",
+              "value": "10"
+            },
+            {
+              "name": "bc_id",
+              "value": "7501257158626017281"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Access-Token",
+              "value": "={{ $json.data.access_token }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1180,
+        -380
+      ],
+      "id": "4a31bb15-c084-4877-8b14-53cab6d1ab7a",
+      "name": "GET List of Business Center"
+    },
+    {
+      "parameters": {
+        "url": "https://business-api.tiktok.com/open_api/v1.3/oauth2/advertiser/get",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "secret",
+              "value": "={{ $('Edit Fields').first().json['app-secret'] }}"
+            },
+            {
+              "name": "app_id",
+              "value": "={{ $('Edit Fields').first().json['app-id'] }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Access-Token",
+              "value": "={{ $json.data.access_token }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1180,
+        -140
+      ],
+      "id": "9103bbb4-e4ea-4b0e-a117-faa22dfa9646",
+      "name": "GET List of Ad Accounts"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2f99e731-da51-4fbd-95a7-31eaf50c3ec7",
+              "name": "adAccountId",
+              "value": "={{ $json.advertiser_id }}",
+              "type": "string"
+            },
+            {
+              "id": "6aecea83-b078-4eb0-9088-4e7ac6689a82",
+              "name": "adAccountName",
+              "value": "={{ $json.advertiser_name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1600,
+        -140
+      ],
+      "id": "461e43b3-fcbe-499a-9862-f87ec9d71298",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data.list",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1400,
+        -140
+      ],
+      "id": "bd01b2ce-d2fd-49e3-b3fd-357601475305",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "url": "=https://business-api.tiktok.com/open_api/v1.3/campaign/get/?advertiser_id={{ $json.adAccountId }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Access-Token",
+              "value": "={{ $('If').first().json.data.access_token }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1820,
+        -140
+      ],
+      "id": "27d0a5e1-604a-47e1-9a85-ea2cb450d184",
+      "name": "GET All Campaign List For Each Ad Account"
+    },
+    {
+      "parameters": {
+        "url": "=https://business-api.tiktok.com/open_api/v1.3/campaign/get/?advertiser_id={{ $json.adAccountId }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Access-Token",
+              "value": "={{ $('If').first().json.data.access_token }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2140,
+        300
+      ],
+      "id": "656258ff-f254-4428-b85f-5b67077385cf",
+      "name": "GET All Campaign List For Each Ad Account1"
+    },
+    {
+      "parameters": {
+        "url": "https://business-api.tiktok.com/open_api/v1.3/oauth2/advertiser/get",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "secret",
+              "value": "={{ $('Edit Fields').first().json['app-secret'] }}"
+            },
+            {
+              "name": "app_id",
+              "value": "={{ $('Edit Fields').first().json['app-id'] }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Access-Token",
+              "value": "={{ $json.data.access_token }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1180,
+        300
+      ],
+      "id": "c34bc4a1-b996-4b05-bcf9-516af372a346",
+      "name": "GET List of Ad Accounts1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2f99e731-da51-4fbd-95a7-31eaf50c3ec7",
+              "name": "adAccountId",
+              "value": "={{ $json.advertiser_id }}",
+              "type": "string"
+            },
+            {
+              "id": "6aecea83-b078-4eb0-9088-4e7ac6689a82",
+              "name": "adAccountName",
+              "value": "={{ $json.advertiser_name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1920,
+        300
+      ],
+      "id": "0a51b552-e3e0-4879-9ec1-788c4e987028",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data.list",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1400,
+        300
+      ],
+      "id": "59923fb0-ee33-4aa2-a3f6-0bb08e6da2d2",
+      "name": "Split Out1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "d00e10e3-3cec-4a81-8f0d-397e2ef90af6",
+              "leftValue": "={{ $json.advertiser_name }}",
+              "rightValue": "Creo creative0506",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1620,
+        300
+      ],
+      "id": "8eeabec5-2982-42ff-a14b-e5429e90e8a7",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ed0523bc-2b4e-4282-b2cc-f99e396d2e01",
+              "leftValue": "={{ $json.operation_status }}",
+              "rightValue": "ENABLE",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        2600,
+        300
+      ],
+      "id": "321c7e5d-f4ae-4d85-a1d8-ac3725386432",
+      "name": "Filter1"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data.list",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2380,
+        300
+      ],
+      "id": "b53caacd-4bfe-441b-849f-0168625dae5c",
+      "name": "Split Out2"
+    },
+    {
+      "parameters": {
+        "url": "=https://business-api.tiktok.com/open_api/v1.3/adgroup/get/?advertiser_id={{ $json.adAccountId }}&filtering={\"primary_status\":\"STATUS_DELIVERY_OK\"}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Access-Token",
+              "value": "={{ $('If').first().json.data.access_token }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2240,
+        60
+      ],
+      "id": "2b2d1bc8-c196-44f2-ac1d-f4898bb804e9",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data.list",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2520,
+        60
+      ],
+      "id": "6088e6aa-7795-4f82-baa2-e54529f6c043",
+      "name": "Split Out3"
+    },
+    {
+      "parameters": {
+        "url": "https://business-api.tiktok.com/open_api/v1.3/report/integrated/get",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "metrics",
+              "value": "[\"impressions\",\"reach\",\"clicks\",\"cpm\",\"cpc\",\"ctr\"]"
+            },
+            {
+              "name": "end_date",
+              "value": "2025-06-22"
+            },
+            {
+              "name": "start_date",
+              "value": "2025-06-01"
+            },
+            {
+              "name": "advertiser_id",
+              "value": "={{ $('Edit Fields3').first().json.adAccountId }}"
+            },
+            {
+              "name": "service_type",
+              "value": "AUCTION"
+            },
+            {
+              "name": "report_type",
+              "value": "BASIC"
+            },
+            {
+              "name": "dimensions",
+              "value": "[\"campaign_id\"]"
+            },
+            {
+              "name": "data_level",
+              "value": "AUCTION_CAMPAIGN"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Access-Token",
+              "value": "={{ $('If').first().json.data.access_token }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2740,
+        60
+      ],
+      "id": "f2499d5d-07f4-41f1-9f1d-b0c46969a8ca",
+      "name": "HTTP Request2"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "GET List of Business Center",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "GET List of Ad Accounts",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "GET List of Ad Accounts1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET List of Business Center": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET List of Ad Accounts": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "GET All Campaign List For Each Ad Account",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET List of Ad Accounts1": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "GET All Campaign List For Each Ad Account1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET All Campaign List For Each Ad Account1": {
+      "main": [
+        [
+          {
+            "node": "Split Out2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out2": {
+      "main": [
+        [
+          {
+            "node": "Filter1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Split Out3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out3": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "HTTP Request": [
+      {
+        "json": {
+          "code": 0,
+          "message": "OK",
+          "request_id": "20250623101752889B8D4981819616FF12",
+          "data": {
+            "access_token": "d83b2608fbfbbfd5bda12ec8d2d4f9b05e83b277",
+            "advertiser_ids": [
+              "7485928730544619521",
+              "7501275877792219137",
+              "7501287363512303632"
+            ],
+            "scope": [
+              18000000,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              7043626160646947000,
+              7050363942434013000,
+              7263200645266555000,
+              7294180478502830000,
+              7302558519668703000,
+              15000000,
+              10000,
+              7420916749769409000,
+              19000000,
+              12000000,
+              7336834092152914000,
+              16000000,
+              13000000,
+              17000000,
+              14000000
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "versionId": "ba13fd67-b8e4-4eb6-a8f6-7621d07acd87",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-06-23T07:54:53.416Z",
+      "createdAt": "2025-06-23T07:54:53.416Z",
+      "role": "workflow:owner",
+      "workflowId": "MubUiIZ61k7E3sAq",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
