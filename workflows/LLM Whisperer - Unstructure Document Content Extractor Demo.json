@@ -1,0 +1,136 @@
+{
+  "updatedAt": "2025-06-16T03:40:16.000Z",
+  "createdAt": "2025-06-13T16:22:25.288Z",
+  "id": "eeBU0P1V4zhPmPsT",
+  "name": "LLM Whisperer - Unstructure Document Content Extractor Demo",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Mistral OCR File Content Extractor",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "dataUpload",
+              "fieldType": "file"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -160,
+        140
+      ],
+      "id": "0add5a1c-19da-4aac-ab84-0ef7bf2cb981",
+      "name": "On form submission",
+      "webhookId": "72022232-d20a-42fd-800d-6692d5182b32"
+    },
+    {
+      "parameters": {
+        "file_contents": "dataUpload",
+        "file_name": "={{ $json.dataUpload[0].filename }}"
+      },
+      "type": "n8n-nodes-unstract.llmWhisperer",
+      "typeVersion": 1,
+      "position": [
+        60,
+        140
+      ],
+      "id": "f5981f14-db5b-47e9-9d72-279a57fde9e8",
+      "name": "LLMWhisperer",
+      "credentials": {
+        "llmWhispererApi": {
+          "id": "WGrr6eFoflYw22mw",
+          "name": "LLMWhisperer account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f800e9f0-41fc-40d1-b1d2-35d55afcee03",
+              "name": "result_text",
+              "value": "={{ $json.result_text.trim().replaceAll(\"\\n\\n\",\"\").replaceAll(\"   \",\"\") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        280,
+        140
+      ],
+      "id": "7f30cc32-80be-451d-b0a6-ebfe8ad7d45e",
+      "name": "Edit Fields"
+    }
+  ],
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "LLMWhisperer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LLMWhisperer": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "On form submission": [
+      {
+        "json": {
+          "dataUpload": [
+            {
+              "filename": "[May 2025]- KPJ Ipoh Specialist - MetaAds - Monthly Ad Report.pptx",
+              "mimetype": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+              "size": 2436029
+            }
+          ],
+          "submittedAt": "2025-06-14T00:22:38.774+08:00",
+          "formMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "e2e1ef84-2d1e-4ba6-af87-cf98013b95e7",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-06-13T16:22:25.293Z",
+      "createdAt": "2025-06-13T16:22:25.293Z",
+      "role": "workflow:owner",
+      "workflowId": "eeBU0P1V4zhPmPsT",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
