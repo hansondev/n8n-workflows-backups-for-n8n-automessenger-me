@@ -1,0 +1,588 @@
+{
+  "updatedAt": "2024-07-08T16:04:03.000Z",
+  "createdAt": "2024-07-08T14:47:32.905Z",
+  "id": "SECAio2lM3HbKfeV",
+  "name": "AI Automation Use Case: AI Language Translator & Text-to-speech Telegram Bot",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8faddcb5-1c1d-4865-91ba-bc90a5baa1eb",
+              "name": "language_origin",
+              "value": "english",
+              "type": "string"
+            },
+            {
+              "id": "7ac39951-384d-4f79-93d2-f37d01888f65",
+              "name": "language_translated",
+              "value": "japanese",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8e853730-9fc4-4ff6-a44f-6a01898cc697",
+      "name": "Language Settings",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "id": "abd87c52-0ae0-4ecd-8d84-bc4f778f3aa8",
+      "name": "TG Incoming Message",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        840,
+        400
+      ],
+      "webhookId": "4dcfe7fa-ca04-482d-8701-86af1ea4a40b",
+      "credentials": {
+        "telegramApi": {
+          "id": "CMng6gAaMmqZbHLF",
+          "name": "TGBot-access_token-n8n_ai_1_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $('TG Incoming Message').item.json.message.voice.file_id }}"
+      },
+      "id": "dbd05f2d-b819-4232-88ab-4fb454317e80",
+      "name": "Get Audio Message With File ID",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1660,
+        140
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "CMng6gAaMmqZbHLF",
+          "name": "TGBot-access_token-n8n_ai_1_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4-turbo",
+          "mode": "list",
+          "cachedResultName": "gpt-4-turbo"
+        },
+        "options": {
+          "temperature": 0.1
+        },
+        "requestOptions": {}
+      },
+      "id": "e42549a1-5975-4780-8be7-8860f0c2abf6",
+      "name": "OpenAI Model",
+      "type": "@n8n/n8n-nodes-langchain.lmOpenAi",
+      "typeVersion": 1,
+      "position": [
+        2220,
+        260
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAudio",
+        "chatId": "={{ $('TG Incoming Message').item.json.message.chat.id }}",
+        "binaryData": true,
+        "additionalFields": {}
+      },
+      "id": "f560dc0e-821e-4357-9bf1-95e94ccf6817",
+      "name": "TGBot: Send Translated Audio Message",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2960,
+        -120
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "CMng6gAaMmqZbHLF",
+          "name": "TGBot-access_token-n8n_ai_1_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('TG Incoming Message').item.json.message.chat.id }}",
+        "text": "={{ $('Basic LLM Chain: Text Translation').item.json.text }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "4d312f55-4d14-43ff-9752-bc2aa67adb48",
+      "name": "TGBot: Send Translated Text Message",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2960,
+        160
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "CMng6gAaMmqZbHLF",
+          "name": "TGBot-access_token-n8n_ai_1_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Detect the language of the text follows:\n- If it is {{ $('Language Settings').item.json.language_origin }}, translate it to {{ $('Language Settings').item.json.language_translated }}.\n- If it is {{ $('Language Settings').item.json.language_translated }}, translate it to {{ $('Language Settings').item.json.language_origin }}.\n- For the output, just provide the translation without any other explainations and no other details on it.\n\nText: {{ $json.text }}"
+      },
+      "id": "dcff92ef-88ce-4f9e-8781-0e715e9982a8",
+      "name": "Basic LLM Chain: Text Translation",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.4,
+      "position": [
+        2260,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "input": "={{ $json.text }}",
+        "options": {}
+      },
+      "id": "6a27b995-9682-489d-90db-f29fc4a7bb93",
+      "name": "OpenAI: Text-to-speech",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.4,
+      "position": [
+        2640,
+        80
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {
+          "language": "en"
+        }
+      },
+      "id": "0adb3537-0711-40d7-a46f-a3b30b889316",
+      "name": "OpenAI- Transcribe Origin Audio To Text",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.4,
+      "position": [
+        1960,
+        120
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $('TG Incoming Message').item.json.message.photo[1].file_id}}"
+      },
+      "id": "5eadb495-319f-4189-be62-647dc1935590",
+      "name": "Get Media File With File ID",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1700,
+        420
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "CMng6gAaMmqZbHLF",
+          "name": "TGBot-access_token-n8n_ai_1_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('TG Incoming Message').first().json.message.voice.file_id }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEmpty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Voice"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose"
+                },
+                "conditions": [
+                  {
+                    "id": "b20b908e-3508-4d76-9745-93e2bb8e4acf",
+                    "leftValue": "={{ $('TG Incoming Message').item.json.message.photo[1].file_id }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEmpty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Image"
+            }
+          ]
+        },
+        "options": {
+          "looseTypeValidation": true
+        }
+      },
+      "id": "462093da-e67c-4ab3-b4fa-a8075cbff84e",
+      "name": "Identify TG User Message Types",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        1380,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "model": "claude-3-haiku-20240307",
+        "options": {
+          "temperature": 0.1
+        },
+        "requestOptions": {}
+      },
+      "id": "ef9d7cdb-3864-4087-b0ba-f64a75f56da4",
+      "name": "Anthropic Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.1,
+      "position": [
+        1920,
+        680
+      ],
+      "credentials": {
+        "anthropicApi": {
+          "id": "A086ghbh0vMy1zjD",
+          "name": "Anthropic (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Convert the image to text and from the converted text translate into {{ $('Language Settings').item.json.language_translated }} without any image background descriptions and other explainations. Only plain translated text.",
+        "messages": {
+          "messageValues": [
+            {
+              "type": "HumanMessagePromptTemplate",
+              "messageType": "imageBinary"
+            }
+          ]
+        }
+      },
+      "id": "193c80b2-d379-4bd7-8d69-b6ef5ec280e7",
+      "name": "Basic LLM Chain",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.4,
+      "position": [
+        2000,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "input": "={{ $json.text }}",
+        "options": {}
+      },
+      "id": "e2d95ce1-6149-4d19-b188-155cf9c3dc59",
+      "name": "OpenAI: Text-to-speech1",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.4,
+      "position": [
+        2480,
+        460
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAudio",
+        "chatId": "={{ $('TG Incoming Message').item.json.message.chat.id }}",
+        "binaryData": true,
+        "additionalFields": {}
+      },
+      "id": "1fd499da-1682-45b1-9e0f-65987c06e7e8",
+      "name": "TGBot: Send Translated Audio Message1",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2900,
+        380
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "CMng6gAaMmqZbHLF",
+          "name": "TGBot-access_token-n8n_ai_1_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('TG Incoming Message').item.json.message.chat.id }}",
+        "text": "={{ $('Basic LLM Chain').item.json.text }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "id": "0186b2c5-bca7-4e14-aeb2-03b22ac4f648",
+      "name": "TGBot: Send Translated Text Message1",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2900,
+        660
+      ],
+      "credentials": {
+        "telegramApi": {
+          "id": "CMng6gAaMmqZbHLF",
+          "name": "TGBot-access_token-n8n_ai_1_bot"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Language Settings": {
+      "main": [
+        [
+          {
+            "node": "Identify TG User Message Types",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "TG Incoming Message": {
+      "main": [
+        [
+          {
+            "node": "Language Settings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Audio Message With File ID": {
+      "main": [
+        [
+          {
+            "node": "OpenAI- Transcribe Origin Audio To Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain: Text Translation",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain: Text Translation": {
+      "main": [
+        [
+          {
+            "node": "OpenAI: Text-to-speech",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI: Text-to-speech": {
+      "main": [
+        [
+          {
+            "node": "TGBot: Send Translated Audio Message",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "TGBot: Send Translated Text Message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI- Transcribe Origin Audio To Text": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain: Text Translation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Identify TG User Message Types": {
+      "main": [
+        [
+          {
+            "node": "Get Audio Message With File ID",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Media File With File ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Media File With File ID": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "OpenAI: Text-to-speech1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI: Text-to-speech1": {
+      "main": [
+        [
+          {
+            "node": "TGBot: Send Translated Audio Message1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "TGBot: Send Translated Text Message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "f88030c1-f2e7-4aab-a4cf-6fdb3455bc25",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-07-08T14:47:33.001Z",
+      "createdAt": "2024-07-08T14:47:33.001Z",
+      "role": "workflow:owner",
+      "workflowId": "SECAio2lM3HbKfeV",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2024-06-20T14:55:32.293Z",
+      "createdAt": "2024-06-20T14:55:32.293Z",
+      "id": "5gO74HHz9IApTqg6",
+      "name": "Udemy-Derek_Chung"
+    }
+  ]
+}
