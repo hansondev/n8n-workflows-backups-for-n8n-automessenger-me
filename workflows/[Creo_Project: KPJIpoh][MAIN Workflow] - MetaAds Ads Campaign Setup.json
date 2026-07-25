@@ -1,0 +1,3115 @@
+{
+  "updatedAt": "2025-08-08T05:04:52.000Z",
+  "createdAt": "2025-08-01T04:29:02.172Z",
+  "id": "q7MGKLlLOXGXhH5I",
+  "name": "[Creo_Project: KPJIpoh][MAIN Workflow] - MetaAds Ads Campaign Setup",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pnsdsx5i8rktgjf",
+        "table": "mvz46p06j62lgs7",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -592,
+        176
+      ],
+      "id": "52c40401-78aa-489e-8e60-90597b682e5e",
+      "name": "Get many rows",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Company Name: {{ $json['Company Name'] }}\nBusiness Location: {{ $json['Company Location'] }}\nBrand Website: {{ $json['Company Website'] }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a web research specialist who familiarized on scraping the web content from the user search query and summarizing what the company, brand and services details.  \n\n# Task\n- You are tasked to come out a simple but comprehensive details of client's business research overview based on user provided information such as client's brand name, client official business website url and client's business location.\n- The tasks to be fulfill including generating for business overview, core service and target audience.\n\n# Tool\nIn order able to scrape the web content based on user provided brand website url to generate the require output such as the business overview, core service and target audience. You are require to use the following tool:\n- `**ai_web_research_tool**` : Call this tool to get the search query through the ai search engine, gather the sources and results such as the business overview, core services and target audience. as the output.\n\n# User Context\nYou are require to input the provided user context as reference in order to come out the right output. The user context information will be provided by the user as such:\n- Brand Name\n- Business Location\n- Brand Website\n\n# Output\nThe output should be in structured JSON format where the output had been generated will be allocate based on the require JSON structure or schema without any task explaination and other unnecessary details.\n\n## Example of JSON structure\n```\njson: {\n \"businessOverview\": \"ReadyCare Signature is a company based in Ipoh, Perak, Malaysia, specializing in bio-based cleaning solutions with a strong emphasis on environmental sustainability. The company operates primarily from two locations: its main factory at Lot 222429, Hala Industri Bercham 3, Kawasan Industri Ringan Bercham, and a retail outlet at Lot G5, No 39 Ipoh Garden Square, Jalan Sultan Azlan Shah Utara.\\n\\n Under the leadership of Mr. Yeoh Eng Foo, ReadyCare has developed the Signature Selection Biobased Series, which comprises plant-based cleaning products that are dermatologist-tested, vegan, USDA Certified Biobased, and Halal Certified. The focus is on creating effective cleaning solutions that pose minimal risk to families and the environment. Their manufacturing facility employs advanced robotic technology, with about one robot for every five workers, to enhance quality control and precision.\\n\\n ReadyCare Signature stands out for its commitment to sustainability, utilizing solar energy and recyclable materials in its operations. They have also launched initiatives such as Refill Stations for their products, promoting sustainable consumption practices. Their products are marketed as being gentle on the skin and effective without harmful chemicals, suitable for families, including those with babies and pets.\",\n  \"coreProducts\": \"1. Biobased Veggie Wash\\n -The vegan residue free, and easy rinse off formulation dissolves quickly, leaving the fruits and vegetables clean and safe to consume. Main Ingredients: Aqua, Plant Based Surfactant, Glycerine, Baking Soda, Citric Acid, Food additive grade disinfectant, Salt, Food Grade Preservative, Food Additive Grade Disinfectant. Cautions: Store in cool and dry place. Keep out of reach of children. For external use only. In case of contact with eyes, rinse immediately with plenty of water for several minutes and seek medical advice if irritation persists.\\n\\n 2. Biobased Laundry Liquid Detergent\\n -USDA Certified Biobased, food grade baking soda, low pH, no optical brightener, dye, parabens, or perfume, gentle on skin, vegan friendly, low-suds formula.\\n\\n 3.Biobased Dishwashing Liquid: Eucalyptus\\n -USDA Certified Biobased formulation, food grade baking soda, prevents bacterial growth, easy to rinse off, neutral pH, biobased and Vegan formulation, no added petrochemical surfactants, gentle to skin.\",\n  \"targetAudience\": \"- For household who are looking for non-chemical based household cleaning products. \\n- For families who have skin sensitive and allergic concern on heavy and mid chemical-based clearning products.\\n - For parent who have children have skin sensitive and allergic concern on heavy and mid chemical-based clearning products\"\n}\n\n```"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -272,
+        176
+      ],
+      "id": "e210ffd2-1fa6-4cd5-9746-2c352b489b99",
+      "name": "Brand Research Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        112,
+        1616
+      ],
+      "id": "3e88fb52-96b4-49e8-b358-42e2d82e1e0e",
+      "name": "DeepSeek Chat Model1",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "8Hvjw0JNKmbO191K",
+          "name": "DeepSeekAPI - info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n \"businessOverview\": \"ReadyCare Signature is a company based in Ipoh, Perak, Malaysia, specializing in bio-based cleaning solutions with a strong emphasis on environmental sustainability. The company operates primarily from two locations: its main factory at Lot 222429, Hala Industri Bercham 3, Kawasan Industri Ringan Bercham, and a retail outlet at Lot G5, No 39 Ipoh Garden Square, Jalan Sultan Azlan Shah Utara.\\n\\n Under the leadership of Mr. Yeoh Eng Foo, ReadyCare has developed the Signature Selection Biobased Series, which comprises plant-based cleaning products that are dermatologist-tested, vegan, USDA Certified Biobased, and Halal Certified. The focus is on creating effective cleaning solutions that pose minimal risk to families and the environment. Their manufacturing facility employs advanced robotic technology, with about one robot for every five workers, to enhance quality control and precision.\\n\\n ReadyCare Signature stands out for its commitment to sustainability, utilizing solar energy and recyclable materials in its operations. They have also launched initiatives such as Refill Stations for their products, promoting sustainable consumption practices. Their products are marketed as being gentle on the skin and effective without harmful chemicals, suitable for families, including those with babies and pets.\",\n  \"coreProducts\": \"1. Biobased Veggie Wash\\n -The vegan residue free, and easy rinse off formulation dissolves quickly, leaving the fruits and vegetables clean and safe to consume. Main Ingredients: Aqua, Plant Based Surfactant, Glycerine, Baking Soda, Citric Acid, Food additive grade disinfectant, Salt, Food Grade Preservative, Food Additive Grade Disinfectant. Cautions: Store in cool and dry place. Keep out of reach of children. For external use only. In case of contact with eyes, rinse immediately with plenty of water for several minutes and seek medical advice if irritation persists.\\n\\n 2. Biobased Laundry Liquid Detergent\\n -USDA Certified Biobased, food grade baking soda, low pH, no optical brightener, dye, parabens, or perfume, gentle on skin, vegan friendly, low-suds formula.\\n\\n 3.Biobased Dishwashing Liquid: Eucalyptus\\n -USDA Certified Biobased formulation, food grade baking soda, prevents bacterial growth, easy to rinse off, neutral pH, biobased and Vegan formulation, no added petrochemical surfactants, gentle to skin.\",\n  \"targetAudience\": \"- For household who are looking for non-chemical based household cleaning products. \\n- For families who have skin sensitive and allergic concern on heavy and mid chemical-based clearning products.\\n - For parent who have children have skin sensitive and allergic concern on heavy and mid chemical-based clearning products\"\n}",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -48,
+        336
+      ],
+      "id": "be73a9f3-bf8e-4714-9e93-4f9a26129898",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        144,
+        480
+      ],
+      "id": "c5c70456-50a4-4a0c-a766-954806183bcd",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to get the search query through the ai search engine, gather the sources and results such as the business overview, core service and target audience. as the output.",
+        "workflowId": {
+          "__rl": true,
+          "value": "Ek66VfFhjAWBSb3v",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Tavily AI Research Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -208,
+        384
+      ],
+      "id": "fae7820b-269c-4008-b256-f0de87a3559c",
+      "name": "ai_web_research_tool"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -384,
+        336
+      ],
+      "id": "6ccfbeee-a834-4da1-ac8c-3170f17b9698",
+      "name": "Google Gemini Chat Model3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pnsdsx5i8rktgjf",
+        "table": "mvz46p06j62lgs7",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Business Overview",
+              "fieldValue": "={{ $json.output.businessOverview }}"
+            },
+            {
+              "fieldName": "Core Services",
+              "fieldValue": "={{ $json.output.coreProducts }}"
+            },
+            {
+              "fieldName": "Target Audience",
+              "fieldValue": "={{ $json.output.targetAudience }}"
+            },
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Get many rows').item.json.Id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        160,
+        176
+      ],
+      "id": "2fbccfba-d193-4dbb-90ae-480c6e686e56",
+      "name": "Update a row",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formTitle": "Creo Client - Sementra Resort Business Overview Research",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Brand Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Sementra Resort & Hot Spring Gopeng"
+                  },
+                  {
+                    "option": "Readycare Signature"
+                  },
+                  {
+                    "option": "KPJ Ipoh Specialist"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Brand Website",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "https://sementra.my/"
+                  },
+                  {
+                    "option": "https://rcsignature.com.my/"
+                  },
+                  {
+                    "option": "https://www.kpjhealth.com.my/ipoh"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Social Media Platforms",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Facebook"
+                  },
+                  {
+                    "option": "Instagram"
+                  },
+                  {
+                    "option": "TikTok"
+                  }
+                ]
+              },
+              "multiselect": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -832,
+        176
+      ],
+      "id": "805617b0-569c-41a4-90d8-279c552fb06c",
+      "name": "On form submission2",
+      "webhookId": "81f1be26-ddb1-47c7-90e9-30ff8d771b76"
+    },
+    {
+      "parameters": {
+        "content": "## Scanning For Client's Business Overview Research",
+        "height": 500,
+        "width": 1200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -880,
+        96
+      ],
+      "typeVersion": 1,
+      "id": "9c988492-7ed6-4437-beb6-897f9517de7a",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "nocodb-kpjipoh-biz-research-done",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        400,
+        32
+      ],
+      "id": "857450ef-304e-4390-ad20-bad6c846d163",
+      "name": "Webhook2",
+      "webhookId": "cb9099cd-963b-44c2-9e54-78698fc663b9"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pnsdsx5i8rktgjf",
+        "table": "mvz46p06j62lgs7",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        592,
+        32
+      ],
+      "id": "67c0042b-dc0a-44f5-ab12-318b8182c688",
+      "name": "Get Business Research Overview Info1",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "  {\n   \"clientName\": \"The client's brand name\",\n   \"clientWebsite\": \"The client's brand website\",\n   \"clientSocialMediaPlatforms\": [\"Facebook\", \"Instagram\", \"TikTok\", \"Youtube\"],\n   \"clientSocialMediaProfiles\": [\n      {\n      \"Facebook\": \"https://facebook.com/client-page\",\n      \"Instagram\": \"https://instagram.com/client-username\",\n      \"TikTok\": \"https://tiktok.com/@client-username\",\n      \"Youtube\": \"https://youtube.com/@client-username\"\n     }\n    ]\n  }",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1728,
+        224
+      ],
+      "id": "2a4d779d-5ce5-4cb6-8445-3c37f9d33dd8",
+      "name": "Structured Output Parser2"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1328,
+        208
+      ],
+      "id": "dfece749-a1b4-4d2c-877e-30fbe30027c7",
+      "name": "Google Gemini Chat Model4",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1920,
+        336
+      ],
+      "id": "fd1abee0-7aa9-4929-9a05-cf0db65f8c56",
+      "name": "OpenAI Chat Model5",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output.clientSocialMediaProfiles",
+        "options": {
+          "destinationFieldName": "socialMediaProfiles"
+        }
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        544,
+        416
+      ],
+      "id": "cba48a83-c025-480a-af4c-1ff1b7b7e3a2",
+      "name": "Split Out2"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to crawl the listed client's brand website to scrape and return the raw webpage content as context in order to complete the task requested.",
+        "workflowId": {
+          "__rl": true,
+          "value": "QeHEewsZGYiAUIfz",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Crawl4AI Single Webpage Crawler"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "url": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('url', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "url"
+          ],
+          "schema": [
+            {
+              "id": "url",
+              "displayName": "url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1456,
+        224
+      ],
+      "id": "14f03186-fb56-470f-bb54-b274a09c260d",
+      "name": "webpage_crawler"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        688,
+        240
+      ],
+      "id": "e8edfc28-f53f-4036-962f-ab37e5de7262",
+      "name": "OpenAI Chat Model6",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "text": "={{ $json[\"Business Overview\"] }}",
+        "attributes": {
+          "attributes": [
+            {
+              "name": "industryType",
+              "description": "Categorize the suitable resort type based on the provided user input"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        800,
+        32
+      ],
+      "id": "cd477010-e7d0-448b-8419-ef05b6649d28",
+      "name": "Industry Type Segementation"
+    },
+    {
+      "parameters": {
+        "content": "## Client Business Research & Social Media Profiles Finder\n",
+        "height": 760,
+        "width": 1640
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        384,
+        -112
+      ],
+      "typeVersion": 1,
+      "id": "a71b1784-9913-414d-a905-927dfc91fc02",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Client Company Name: {{ $('Get Business Research Overview Info1').item.json['Company Name'] }}\nClient Business Overview: {{ $('Get Business Research Overview Info1').item.json['Business Overview'] }}\nClient Brand Website: {{ $('Get Business Research Overview Info1').item.json['Company Website'] }}\nClient Core Product: \n{{ $('Get Business Research Overview Info1').item.json['Core Products'] }}\nClient Target Audience: \n{{ $('Get Business Research Overview Info1').item.json[\"Target Audience\"] }}\nTarget Location: {{ $('Get Business Research Overview Info1').item.json['Company Location'] }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a market research and analysis specialist who are able to do web scraping based on client name, and client website.\n\n# Task\n- You are tasked to do web scraping to lookout my client's {{ $('Get Business Research Overview Info1').item.json['Brand Name'] }} social media profiles before strategize on crafting the ad creative and ad content for upcoming ads campaign.\n\n# User Context\nYou are require to follow the provided user input as context and references for you to generate the right output and avoid any hallucination or any misinformation occurred. The user context will be providing such as:\n- Client Brand Name\n- Client Business Overview\n- Client Brand Website\n- Client Core Products\n- Client Target Audience\n\n# Tools To Use\nYou are require to use the following tools in order to accomplish the requesting task and generate the right outputs are listed as below:\n- `webpage_crawler`: Call this tool to crawl the listed client's brand website to scrape and return the raw webpage content as context in order to complete the task requested.\n- `client_info_searcher`: Call this tool to query the client's require information such as business overview, business location, core products and target audience based on the listed client brand name.\n\n# Output\nThe output generated must be in structured JSON data format without any explanation and unneccessary information. Only come out the output that what had been require above and following the example of JSON structure output or schema as refenrence below.\n\n## Example of JSON Output\n```\njson:\n  {\n   \"clientName\": \"The client's brand name\",\n   \"clientWebsite\": \"The client's brand website\",\n   \"clientSocialMediaPlatforms\": [\"Facebook\", \"Instagram\", \"TikTok\", \"Youtube\"],\n   \"clientSocialMediaProfiles\": [\n      {\n      \"Facebook\": \"https://facebook.com/client-page\",\n      \"Instagram\": \"https://instagram.com/client-username\",\n      \"TikTok\": \"https://tiktok.com/@client-username\",\n      \"Youtube\": \"https://youtube.com/@client-username\"\n     }\n    ]\n  }\n\n\n\n```"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        32
+      ],
+      "id": "5aae7c6b-064e-4c92-bfa8-3fbd6689c07a",
+      "name": "Brand Social Media Profiles Finder"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to query the client's require information such as business overview, business location, core products and target audience based on the listed client brand name.",
+        "workflowId": {
+          "__rl": true,
+          "value": "Ek66VfFhjAWBSb3v",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Tavily AI Research Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1600,
+        240
+      ],
+      "id": "e85c9458-f7f4-4648-8776-149331e15623",
+      "name": "client_info_searcher"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pnsdsx5i8rktgjf",
+        "table": "mvz46p06j62lgs7",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Get Business Research Overview Info1').item.json.Id }}"
+            },
+            {
+              "fieldName": "Social Media Used",
+              "fieldValue": "={{ $('Brand Social Media Profiles Finder').item.json.output.clientSocialMediaPlatforms }}"
+            },
+            {
+              "fieldName": "Social Media Profiles",
+              "fieldValue": "={{ $json.socialMediaProfiles }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1040,
+        416
+      ],
+      "id": "38bca13a-7b52-48db-982c-dc3f5d882cf7",
+      "name": "Update Social Media Profiles Links",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pnsdsx5i8rktgjf",
+        "table": "mvz46p06j62lgs7",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Get Business Research Overview Info1').item.json.Id }}"
+            },
+            {
+              "fieldName": "Industry Types",
+              "fieldValue": "={{ $json.output.industryType }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1152,
+        32
+      ],
+      "id": "8f9999f3-d37e-4d31-89fb-06c2f568efff",
+      "name": "Update a row1",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "kpj-metaads-ad-hooks-generator-action-btn-trigger",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -768,
+        912
+      ],
+      "id": "2c54f231-3e41-4a6c-8126-ca69dbcd3f99",
+      "name": "Webhook",
+      "webhookId": "2f20cdb3-61ea-42d9-8802-19c63232bcd1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "84cbce38-f15c-42b6-9bae-a0873fee57e1",
+              "leftValue": "={{ $json.query.actionType }}",
+              "rightValue": "generateAdHooks",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -560,
+        912
+      ],
+      "id": "a6e0aae7-e54c-4b34-b04c-7c90acd0433d",
+      "name": "Execute If Action Type=generateAdHooks"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -544,
+        1152
+      ],
+      "id": "798cf01a-fd97-4aca-b8f6-72bc79318176",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f2eda636-d1f0-4214-bbfd-c9bd7cc9fccf",
+              "name": "targetService",
+              "value": "={{ $json['Target Service'] }}",
+              "type": "string"
+            },
+            {
+              "id": "b7956738-9fb6-4c24-8296-0498ca9125ee",
+              "name": "amountAdHooksGenerate",
+              "value": "={{ $json['No of Ad Hooks To Generate'] }}",
+              "type": "string"
+            },
+            {
+              "id": "a1e164dc-8371-49f9-bca0-f58ae4f06ac5",
+              "name": "targetLanguage",
+              "value": "={{ $json['Target Language'] }}",
+              "type": "string"
+            },
+            {
+              "id": "eb96f26e-90b8-48c5-9c38-25c42d9b3e2e",
+              "name": "adImageUrl",
+              "value": "={{ $json['Media Files'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -80,
+        896
+      ],
+      "id": "64beec27-2099-4295-90b5-d839c9ae7710",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pnsdsx5i8rktgjf",
+        "table": "myxfq1voipc9do5",
+        "id": "={{ $json.body.data.rows[0].Id }}"
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -320,
+        896
+      ],
+      "id": "93fcf369-1b29-4173-9bab-ca4e7b76c100",
+      "name": "Get a row",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[\n {\n  \"version\": \"Version 1\",\n  \"adHook\": \"The generated descriptive and detailed ad hook 1\"\n },\n {\n  \"version\": \"Version 2\",\n  \"adHook\": \"The generated descriptive and detailed ad hook 2\"\n },\n {\n  \"version\": \"Version 3\",\n  \"adHook\": \"The generated descriptive and detailed ad hook 3\"\n }\n]"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        864,
+        1120
+      ],
+      "id": "dccfb8f2-213f-4224-8726-beb73956f585",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "name": "web_search",
+        "description": "=Get the in depth information about the user's search query that is relevant to the search query, including web content, and other relevant sources",
+        "workflowId": {
+          "__rl": true,
+          "value": "Ek66VfFhjAWBSb3v",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Tavily AI Research Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        432,
+        1216
+      ],
+      "id": "49635fce-a22f-4456-b252-c6ebc1f32aec",
+      "name": "web_search"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        720,
+        1216
+      ],
+      "id": "7c3ce713-23f1-4a7c-8f2a-5c03c299d712",
+      "name": "Think"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.adcopies.length }}",
+                    "rightValue": 2,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    },
+                    "id": "605a5e72-7c26-403e-83df-ad0419de55b8"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "2 Ad Copies"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "2f46720e-3eb6-41e0-a738-0892a6697cb9",
+                    "leftValue": "={{ $json.adcopies.length }}",
+                    "rightValue": 3,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "3 Ad Copies"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        2176,
+        224
+      ],
+      "id": "ca8fd88c-3179-4b07-b9a3-8a497c35bca3",
+      "name": "Switch",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "66f475b1-e679-48c5-b560-ef00e67f5f79",
+              "name": "adname",
+              "value": "={{ $json.adname }}",
+              "type": "string"
+            },
+            {
+              "id": "5faf9cdb-daff-44dc-8f0e-5739f70e01aa",
+              "name": "angle",
+              "value": "={{ $json.angle }}",
+              "type": "string"
+            },
+            {
+              "id": "5f6c86f4-659e-4dd9-848a-2e0a9d080de2",
+              "name": "targetLanguage",
+              "value": "={{ $json.targetLanguage }}",
+              "type": "string"
+            },
+            {
+              "id": "d8a84a8a-4e5d-4b86-b9d1-a92970a952a1",
+              "name": "copywritingStrategy",
+              "value": "={{ $json.copywritingStrategy }}",
+              "type": "string"
+            },
+            {
+              "id": "de7d8f28-9054-4d8f-a9af-18bc986ae19d",
+              "name": "toneAndVoice",
+              "value": "={{ $json.toneAndVoice }}",
+              "type": "string"
+            },
+            {
+              "id": "6fbea22f-7cf4-4d25-8ff6-980a03391635",
+              "name": "adCopyV1",
+              "value": "={{ $json.adcopies[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "2900006b-211f-43f0-afb9-fb78a265e2d3",
+              "name": "adCopyV2",
+              "value": "={{ $json.adcopies[1] }}",
+              "type": "string"
+            },
+            {
+              "id": "c6aac409-6dee-48d4-8c0e-316acd1ac91b",
+              "name": "adCopyV3",
+              "value": "={{ $json.adcopies[2] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2432,
+        304
+      ],
+      "id": "4dfc9ac5-43bd-4aa8-b16e-783a393b1989",
+      "name": "Edit Fields2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "66f475b1-e679-48c5-b560-ef00e67f5f79",
+              "name": "adname",
+              "value": "={{ $json.adname }}",
+              "type": "string"
+            },
+            {
+              "id": "5faf9cdb-daff-44dc-8f0e-5739f70e01aa",
+              "name": "angle",
+              "value": "={{ $json.angle }}",
+              "type": "string"
+            },
+            {
+              "id": "5f6c86f4-659e-4dd9-848a-2e0a9d080de2",
+              "name": "targetLanguage",
+              "value": "={{ $json.targetLanguage }}",
+              "type": "string"
+            },
+            {
+              "id": "d8a84a8a-4e5d-4b86-b9d1-a92970a952a1",
+              "name": "copywritingStrategy",
+              "value": "={{ $json.copywritingStrategy }}",
+              "type": "string"
+            },
+            {
+              "id": "de7d8f28-9054-4d8f-a9af-18bc986ae19d",
+              "name": "mediaFormat",
+              "value": "={{ $json.mediaFormat }}",
+              "type": "string"
+            },
+            {
+              "id": "6fbea22f-7cf4-4d25-8ff6-980a03391635",
+              "name": "adCopyV1",
+              "value": "={{ $json.adcopies[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "2900006b-211f-43f0-afb9-fb78a265e2d3",
+              "name": "adCopyV2",
+              "value": "={{ $json.adcopies[1] }}",
+              "type": "string"
+            },
+            {
+              "id": "c6aac409-6dee-48d4-8c0e-316acd1ac91b",
+              "name": "adCopyV3",
+              "value": "={{ $json.adcopies[2] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2432,
+        144
+      ],
+      "id": "e8a01461-f250-4e7a-a6c9-174806323ae8",
+      "name": "Edit Fields3",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1SztwrZ68_GWRfjgtrPRWNhEa_z0ZKzo8pEeG1Y1WvZY",
+          "mode": "list",
+          "cachedResultName": "[Apr2025]Creo_KPJIpohSepcialist- MetaAds- LeadGen - Media Plan",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1SztwrZ68_GWRfjgtrPRWNhEa_z0ZKzo8pEeG1Y1WvZY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1342458573,
+          "mode": "list",
+          "cachedResultName": "Ad Copy Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1SztwrZ68_GWRfjgtrPRWNhEa_z0ZKzo8pEeG1Y1WvZY/edit#gid=1342458573"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Ad Name": "={{ $json.adname }}",
+            "Angle": "={{ $json.angle }}",
+            "Target Language": "={{ $json.targetLanguage }}",
+            "Ad Copy V1": "={{ $json.adCopyV1 }}",
+            "Ad Copy V2": "={{ $json.adCopyV2 }}",
+            "Ad Copy V3": "={{ $json.adCopyV3 }}"
+          },
+          "matchingColumns": [
+            "Ad Name"
+          ],
+          "schema": [
+            {
+              "id": "Campaign Name",
+              "displayName": "Campaign Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Adset Name",
+              "displayName": "Adset Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Name",
+              "displayName": "Ad Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Angle",
+              "displayName": "Angle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Media Format",
+              "displayName": "Media Format",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Target Language",
+              "displayName": "Target Language",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Service Provider",
+              "displayName": "Service Provider",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Copywriting Strategy",
+              "displayName": "Copywriting Strategy",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Tones And Voice",
+              "displayName": "Tones And Voice",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Copy Structure",
+              "displayName": "Ad Copy Structure",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "No of Ad Copies",
+              "displayName": "No of Ad Copies",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Copy V1",
+              "displayName": "Ad Copy V1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Copy V2",
+              "displayName": "Ad Copy V2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Copy V3",
+              "displayName": "Ad Copy V3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2656,
+        304
+      ],
+      "id": "68fd26dd-848e-4df9-9b86-d49dd0475c1e",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1801hpV3alskHI_WrtFbMtEnxsnaywegG6fwbGbtrieI",
+          "mode": "list",
+          "cachedResultName": "Creo_BigPos - MetaAds- Media Plan",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1801hpV3alskHI_WrtFbMtEnxsnaywegG6fwbGbtrieI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1342458573,
+          "mode": "list",
+          "cachedResultName": "Ad Copy Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1801hpV3alskHI_WrtFbMtEnxsnaywegG6fwbGbtrieI/edit#gid=1342458573"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Ad Name": "={{ $json.adname }}",
+            "Media Format": "={{ $json.mediaFormat }}",
+            "Target Language": "={{ $json.targetLanguage }}",
+            "Angle": "={{ $json.angle }}",
+            "Copywriting Strategy": "={{ $json.copywritingStrategy }}",
+            "Ad Copy V1": "={{ $json.adCopyV1 }}",
+            "Ad Copy V2": "={{ $json.adCopyV2 }}",
+            "Ad Copy V3": "={{ $json.adCopyV3 }}"
+          },
+          "matchingColumns": [
+            "Ad Name"
+          ],
+          "schema": [
+            {
+              "id": "Campaign Name",
+              "displayName": "Campaign Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Adset Name",
+              "displayName": "Adset Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Name",
+              "displayName": "Ad Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Media Format",
+              "displayName": "Media Format",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Target Language",
+              "displayName": "Target Language",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Angle",
+              "displayName": "Angle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Copywriting Strategy",
+              "displayName": "Copywriting Strategy",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "No of Ad Copies",
+              "displayName": "No of Ad Copies",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Copy V1",
+              "displayName": "Ad Copy V1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Copy V2",
+              "displayName": "Ad Copy V2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Copy V3",
+              "displayName": "Ad Copy V3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2640,
+        144
+      ],
+      "id": "84767174-fba8-4f26-b485-98b14eda6fe7",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fce65f63-6496-49b3-852f-402ccc671cea",
+              "name": "targetService",
+              "value": "={{ $json['Target Service'] }}",
+              "type": "string"
+            },
+            {
+              "id": "3f4c87a6-efeb-4ac4-9a21-7fdaf7dc4602",
+              "name": "version",
+              "value": "={{ $('Get many rows1').item.json.Version }}",
+              "type": "string"
+            },
+            {
+              "id": "152c15f2-3027-46c4-b578-4db12ecfd94c",
+              "name": "adHook",
+              "value": "={{ $json['Ad Hook'] }}",
+              "type": "string"
+            },
+            {
+              "id": "476964cf-338a-418a-9854-da5354715860",
+              "name": "adImageUrl",
+              "value": "={{ $('Edit Fields').item.json.adImageUrl }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -224,
+        1392
+      ],
+      "id": "49b6a27c-dd7f-4ac0-890d-ce0f9f52de4f",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        128,
+        1120
+      ],
+      "id": "31822fd4-12b1-4a38-874e-27f596b1158a",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.adImageUrl.replaceAll(\"https://drive.google.com/file/d/\",\"\").replaceAll(\"/view?usp=sharing\",\"\").replaceAll(\"/view?usp=drive_link\",\"\").replaceAll(\"/view?usp=drivesdk\",\"\",).replaceAll(\"\\n\",\"\") }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        144,
+        896
+      ],
+      "id": "f928ecaa-e59b-47bd-85dd-4530c76790e7",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to extract image text such as headline, sub-headlines, description, call-to-action and other details to analyze what ad image illustrated about the objective of ad campaign.",
+        "workflowId": {
+          "__rl": true,
+          "value": "pVGNeIjhcx8MhvW2",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Google Drive Image-to-Text Converter"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "imageUrl": "={{ $('Edit Fields').item.json.adImageUrl }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "imageUrl",
+              "displayName": "imageUrl",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        560,
+        1200
+      ],
+      "id": "f2cdfc3c-b1f7-4cfb-928a-836befa6a6e9",
+      "name": "ad_image_to_text_converter"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Craft {{ $json.amountAdHooksGenerate }} ad hook versions for the selected {{ $json.targetService }} in {{ $json.targetLanguage.toLowerCase() }}.",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a professional ad copywriter who are knowing how to generate an effective and high conversion ad copies in various industries or niches compatible with also fluent in multiple languages.\n\n# Task\nYou are tasked with crafting multiple versions of ad hooks for the specific ad campaign in Meta Ads based on the user's provided inputs. \n\n# Tools\nYou are required to use the following tools to craft the right and accurate ad copies and avoid any hallucinations:\n- `company_research_fetcher`: Call this tool to fetch and gather all the necessary company information such as company name, company website, company location, industry types, business overeview, core services and target audience.\n- `ai_web_search`: Call this tool to search additional information and knowledge related organization, organization services, industry etc if you are not sure and need more validation more certain queries.\n- `ad_image_to_text_converter`: Call this tool to extract image text such as headline, sub-headlines, description, call-to-action and other details to analyze what ad image illustrated about the objective of ad campaign.\n\n# User Context\nThe user will provide several important inputs to ensure that you are able to generate the right output such as:\n- Target Service\n- Amount Ad Hooks To Generate\n- Target Language\n- Ad Image URL\n\n# Context Definition\n- Target Service: The selected client's service would like to run ad campaign in Meta or TikTok ads campaign.\n- Amount Ad Hooks To Generate: Amount of Ad Hooks want to generate before going to generate the actual ad copies. \n- Target Language: The selected target language would like to generate ad copies to deliver to the right target audience\n- Ad Image URL: The downdable ad image link that showcase or display about the ad campaign or promotion in visual way.\n\n# Output\nThe generated output must be follow the structured JSON format.\n\n## Example JSON Output\n```\njson: [\n {\n  \"version\": \"Version 1\",\n  \"adHook\": \"The generated descriptive and detailed ad hook 1\"\n },\n {\n  \"version\": \"Version 2\",\n  \"adHook\": \"The generated descriptive and detailed ad hook 2\"\n },\n {\n  \"version\": \"Version 3\",\n  \"adHook\": \"The generated descriptive and detailed ad hook 3\"\n }\n]\n```"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        368,
+        896
+      ],
+      "id": "bf0ffde1-de13-40b0-9221-15d9010f737d",
+      "name": "Ad Hook Generator"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to fetch and gather all the necessary company information such as company name, company website, company location, industry types, business overeview, core services and target audience.",
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pnsdsx5i8rktgjf",
+        "table": "mvz46p06j62lgs7",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDbTool",
+      "typeVersion": 3,
+      "position": [
+        288,
+        1184
+      ],
+      "id": "59a14fd7-75cc-445e-be87-e9f6d13f3ab5",
+      "name": "company_research_fetcher",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        816,
+        896
+      ],
+      "id": "a64afb5e-82e9-4e99-8f93-a995a7f90097",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pnsdsx5i8rktgjf",
+        "table": "mqyhdmslzlf5bhj",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $json.Id }}"
+            },
+            {
+              "fieldName": "Target Service",
+              "fieldValue": "={{ $('Get a row').item.json['Target Service'] }}"
+            },
+            {
+              "fieldName": "Version",
+              "fieldValue": "={{ $('Loop Over Items').item.json.version }}"
+            },
+            {
+              "fieldName": "Ad Hook",
+              "fieldValue": "={{ $('Loop Over Items').item.json.adHook }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -128,
+        1568
+      ],
+      "id": "f8a0003b-8a1c-462f-9bf9-17865bd34e74",
+      "name": "Update a row2",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pnsdsx5i8rktgjf",
+        "table": "mqyhdmslzlf5bhj",
+        "options": {
+          "fields": [],
+          "where": "=(Target Service,eq,{{ $('Get a row').item.json['Target Service'] }})~and(Version,eq,{{ $json.version }})"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -336,
+        1568
+      ],
+      "id": "70f7feba-4e5a-404e-9a03-40dbdd771e19",
+      "name": "Get many rows1",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -592,
+        1504
+      ],
+      "id": "a968d67d-0dfb-4df1-b90a-00a19b9b3582",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"version\": \"Version 1\",\n  \"adAngle\": \"The generated descriptive and detailed ad angle 1 based on the selected ad hook 1\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        816,
+        1616
+      ],
+      "id": "f23291a6-e737-44a6-97a4-8abaf516b823",
+      "name": "Structured Output Parser3"
+    },
+    {
+      "parameters": {
+        "name": "web_search",
+        "description": "=Get the in depth information about the user's search query that is relevant to the search query, including web content, and other relevant sources",
+        "workflowId": {
+          "__rl": true,
+          "value": "Ek66VfFhjAWBSb3v",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Tavily AI Research Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        384,
+        1712
+      ],
+      "id": "1e487ebe-8cf9-4fe1-87f8-1db20f5de824",
+      "name": "web_search1"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        672,
+        1712
+      ],
+      "id": "b2a8f11b-61d9-413c-9c37-a6a1661d2c34",
+      "name": "Think1"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        2960,
+        912
+      ],
+      "id": "0caa3075-36d3-42a7-a515-91ce20fc016a",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to extract image text such as headline, sub-headlines, description, call-to-action and other details to analyze what ad image illustrated about the objective of ad campaign.",
+        "workflowId": {
+          "__rl": true,
+          "value": "pVGNeIjhcx8MhvW2",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Google Drive Image-to-Text Converter"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "imageUrl": "={{ $('Edit Fields').item.json.adImageUrl }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "imageUrl",
+              "displayName": "imageUrl",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        512,
+        1696
+      ],
+      "id": "47560d75-17fc-4a8b-8554-a70fc0730be9",
+      "name": "ad_image_to_text_converter1"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to fetch and gather all the necessary company information such as company name, company website, company location, industry types, business overeview, core services and target audience.",
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pnsdsx5i8rktgjf",
+        "table": "mvz46p06j62lgs7",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDbTool",
+      "typeVersion": 3,
+      "position": [
+        240,
+        1680
+      ],
+      "id": "62f1d718-5534-4653-9c15-0dd713346a97",
+      "name": "company_research_fetcher1",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Analyze the selected ad image url, {{ $('Edit Fields').item.json.adImageUrl }} that received from graphic designer and craft ad angle for {{ $json.version }} of the selected {{ $json.targetService }} based on the selected {{ $json.adHook }} in {{ $('Get many rows1').item.json['Target Language'][0].toLowerCase() }}.\n",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a professional ad copywriter who are knowing how to generate an effective and high conversion ad copies in various industries or niches compatible with also fluent in multiple languages.\n\n# Task\nYou are tasked with crafting multiple versions of ad angles for the specific ad campaign in Meta Ads based on the user's provided inputs. \n\n# Tools\nYou are required to use the following tools to craft the right and accurate ad copies and avoid any hallucinations:\n- `company_research_fetcher`: Call this tool to fetch and gather all the necessary company information such as company name, company website, company location, industry types, business overeview, core services and target audience.\n- `ai_web_search`: Call this tool to search additional information and knowledge related organization, organization services, industry etc if you are not sure and need more validation more certain queries.\n- `ad_image_to_text_converter`: Call this tool to extract image text such as headline, sub-headlines, description, call-to-action and other details to analyze what ad image illustrated about the objective of ad campaign.\n\n# User Context\nThe user will provide several important inputs to ensure that you are able to generate the right output such as:\n- Target Service\n- Amount Ad Angle To Generate\n- Target Language\n- Ad Image URL\n\n# Context Definition\n- Target Service: The selected client's service would like to run ad campaign in Meta or TikTok ads campaign.\n- Amount Ad Angle To Generate: Amount of Ad Angle want to generate based on the selected Ad Hook before going to generate the actual ad copies. \n- Target Language: The selected target language would like to generate ad copies to deliver to the right target audience\n- Ad Image URL: The downdable ad image link that showcase or display about the ad campaign or promotion in visual way.\n\n# Output\nThe generated output must be follow the structured JSON format.\n\n## Example JSON Output\n```\njson: [\n {\n  \"version\": \"Version 1\",\n  \"adAngle\": \"The generated descriptive and detailed ad angle 1 based on the selected ad hook 1\"\n }\n]\n```"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        320,
+        1392
+      ],
+      "id": "c80365e1-5a62-46c1-bdef-c4daa0176fec",
+      "name": "Ad Angle Generator"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c7769876-9bcb-4b74-aff7-2f8ae2011095",
+              "name": "version",
+              "value": "={{ $json.output.version }}",
+              "type": "string"
+            },
+            {
+              "id": "fb362974-640f-440f-b155-3c03b8da1155",
+              "name": "adAngle",
+              "value": "={{ $json.output.adAngle }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        832,
+        1392
+      ],
+      "id": "7c189356-227c-45a2-a712-ff289841ca68",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fce65f63-6496-49b3-852f-402ccc671cea",
+              "name": "targetService",
+              "value": "={{ $('Get many rows2').item.json['Target Service'] }}",
+              "type": "string"
+            },
+            {
+              "id": "3f4c87a6-efeb-4ac4-9a21-7fdaf7dc4602",
+              "name": "version",
+              "value": "={{ $('Get many rows2').item.json.Version }}",
+              "type": "string"
+            },
+            {
+              "id": "152c15f2-3027-46c4-b578-4db12ecfd94c",
+              "name": "adHook",
+              "value": "={{ $('Get many rows2').item.json['Ad Hook'] }}",
+              "type": "string"
+            },
+            {
+              "id": "bdde978a-0270-477c-9cdd-b36cbc713604",
+              "name": "adAngle",
+              "value": "={{ $('Update a row3').item.json['Ad Angle'] }}",
+              "type": "string"
+            },
+            {
+              "id": "3cb51df2-8409-44a3-a74b-460eaa98633c",
+              "name": "adCopyStructure",
+              "value": "={{ $('Get many rows2').item.json['Ad Copy Structure'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        448,
+        1936
+      ],
+      "id": "36d58304-3103-413e-ab42-c6f706c5c8fd",
+      "name": "Edit Fields5"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pnsdsx5i8rktgjf",
+        "table": "mqyhdmslzlf5bhj",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $json.Id }}"
+            },
+            {
+              "fieldName": "Version",
+              "fieldValue": "={{ $('Loop Over Items1').item.json.version }}"
+            },
+            {
+              "fieldName": "Ad Angle",
+              "fieldValue": "={{ $('Loop Over Items1').item.json.adAngle }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        544,
+        2112
+      ],
+      "id": "853cac99-6215-4d4f-88b4-16c4b857e1f6",
+      "name": "Update a row3",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pnsdsx5i8rktgjf",
+        "table": "mqyhdmslzlf5bhj",
+        "options": {
+          "fields": [],
+          "where": "=(Target Service,eq,{{ $('Get a row').item.json['Target Service'] }})~and(Version,eq,{{ $json.version }})"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        336,
+        2112
+      ],
+      "id": "45118382-c5fb-4304-9891-f669c72bfa12",
+      "name": "Get many rows2",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        80,
+        2048
+      ],
+      "id": "3a330b78-1121-497e-9b1b-ee2f9dfdee58",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"version\": \"Version 1\",\n  \"adCopy\": \"👁️ Are blurry days holding you back? Struggling with glasses that slip down, contacts that irritate, or simply feeling like you're missing out on life’s vibrant details? 🌈 It doesn’t have to be this way.\\n\\n At KPJ Ipoh Specialist Hospital 🏥, we offer a second chance for your eyes—a safe and trusted LASIK procedure designed just for YOU. 💎 Imagine waking up each morning refreshed ✨—seeing every sunrise clearly without fumbling for glasses or lenses.\\n ✅ Affordable & Accessible – Quality care at prices you can trust \\n ✅ Safe Technology – Advanced equipment handled by experts 👩‍⚕️ \\n ✅ Life-Changing Results – Freedom from eyewear starts now 🎉 \\n\\n 💡 Don’t let poor vision hold you back another day. This is YOUR opportunity to rejuvenate your eyesight—and reclaim all those precious missed moments! Book a consultation today 📆 and take the first step toward freedom. Call us now! 📞\"\n}",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1280,
+        2176
+      ],
+      "id": "a137bdf5-b940-48cd-9c6a-fd5d3759496a",
+      "name": "Structured Output Parser4"
+    },
+    {
+      "parameters": {
+        "name": "web_search",
+        "description": "=Get the in depth information about the user's search query that is relevant to the search query, including web content, and other relevant sources",
+        "workflowId": {
+          "__rl": true,
+          "value": "Ek66VfFhjAWBSb3v",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Tavily AI Research Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        992,
+        2256
+      ],
+      "id": "64341744-a03b-4c0c-a11e-ee5824bb5841",
+      "name": "web_search2"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        1168,
+        2240
+      ],
+      "id": "84077d0c-f3c7-4934-a609-c500363bfb74",
+      "name": "Think2"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to fetch and gather all the necessary company information such as company name, company website, company location, industry types, business overeview, core services and target audience.",
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pnsdsx5i8rktgjf",
+        "table": "mvz46p06j62lgs7",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDbTool",
+      "typeVersion": 3,
+      "position": [
+        848,
+        2224
+      ],
+      "id": "a2606ee5-3c56-4fa5-a9fb-361752a2986a",
+      "name": "company_research_fetcher2",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Craft an ad copy for {{ $json.version }} of the selected {{ $json.targetService }} based on:\n1. Ad Hook: {{ $json.adHook }}\n2. Ad Angle: {{ $json.adAngle }}\n3. Ad Copy Structure: {{ $json.adCopyStructure.replaceAll(\"\\n\\n\",\"\\n\") }}\n4. Target Language: {{ $('Get many rows1').item.json['Target Language'][0] }}.\n",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a professional ad copywriter who are knowing how to generate an effective and high conversion ad copies in various industries or niches compatible with also fluent in multiple languages.\n\n# Task\nYou are tasked with crafting multiple versions of ad copies for the specific ad campaign in Meta Ads based on the user's provided inputs. \n\n# Tools\nYou are required to use the following tools to craft the right and accurate ad copies and avoid any hallucinations:\n- `company_research_fetcher`: Call this tool to fetch and gather all the necessary company information such as company name, company website, company location, industry types, business overeview, core services and target audience.\n- `ai_web_search`: Call this tool to search additional information and knowledge related organization, organization services, industry etc if you are not sure and need more validation more certain queries.\n\n# User Context\nThe user will provide several important inputs to ensure that you are able to generate the right output such as:\n- Target Service\n- Version of Ad Copy\n- Ad Hook\n- Ad Angle\n- Ad Copy Structure\n\n# Context Definition\n- Target Service: The selected client's service would like to run ad campaign in Meta or TikTok ads campaign.\n- Amount Ad Angle To Generate: Amount of Ad Angle want to generate based on the selected Ad Hook before going to generate the actual ad copies. \n- Target Language: The selected target language would like to generate ad copies to deliver to the right target audience\n- Ad Hook: The ad message hook to get the target audience attention and tend to let the audience to hook up and take further action.\n- Ad Angle: The ad angle that reflecting use-cases or hitting pain-points that let the audience to aware their current problem and issue.\n- Ad Copy Structure: The description of ideal ad copy structure that you would like to generate for.\n\n# Output\n- The generated output must be follow the structured JSON format and only wrapped the actual output in the right JSON structure without any additional information and explaination.\n- Don not include the ad copy structure description such as \"Headline\", \"Paragraph 1\", \"Paragraph 2\", \"Paragraph 3\", \"Call-to-action\" etc.\n\n## Example JSON Output\n```\njson: {\n  \"version\": \"Version 1\",\n  \"adCopy\": \"👁️ Are blurry days holding you back? Struggling with glasses that slip down, contacts that irritate, or simply feeling like you're missing out on life’s vibrant details? 🌈 It doesn’t have to be this way.\\n\\n At KPJ Ipoh Specialist Hospital 🏥, we offer a second chance for your eyes—a safe and trusted LASIK procedure designed just for YOU. 💎 Imagine waking up each morning refreshed ✨—seeing every sunrise clearly without fumbling for glasses or lenses.\\n ✅ Affordable & Accessible – Quality care at prices you can trust \\n ✅ Safe Technology – Advanced equipment handled by experts 👩‍⚕️ \\n ✅ Life-Changing Results – Freedom from eyewear starts now 🎉 \\n\\n 💡 Don’t let poor vision hold you back another day. This is YOUR opportunity to rejuvenate your eyesight—and reclaim all those precious missed moments! Book a consultation today 📆 and take the first step toward freedom. Call us now! 📞\"\n}\n```"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        928,
+        1936
+      ],
+      "id": "765d5479-0889-4dd6-80f0-6495a18d4e33",
+      "name": "Meta Ad Angle Generator"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        560,
+        2368
+      ],
+      "id": "507374ba-14b2-4a7e-9d1f-845577de0cd4",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        1216,
+        2384
+      ],
+      "id": "c67a830d-b4c2-43c7-a10b-d7b74dfb4f9a",
+      "name": "DeepSeek Chat Model",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "8Hvjw0JNKmbO191K",
+          "name": "DeepSeekAPI - info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        768,
+        2096
+      ],
+      "id": "74d01969-2421-4c56-a9bd-379f87ba5149",
+      "name": "DeepSeek Chat Model2",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "8Hvjw0JNKmbO191K",
+          "name": "DeepSeekAPI - info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fb4ccd1f-689a-438c-a269-3bd61dd6e8ad",
+              "name": "version",
+              "value": "={{ $json.output.version }}",
+              "type": "string"
+            },
+            {
+              "id": "05b230a7-f73b-420b-9ce5-435562a915ab",
+              "name": "adCopy",
+              "value": "={{ $json.output.adCopy }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1312,
+        1936
+      ],
+      "id": "7f578e39-5460-4c98-9583-025ccdb49f9d",
+      "name": "Edit Fields6"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pnsdsx5i8rktgjf",
+        "table": "mqyhdmslzlf5bhj",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $json.Id }}"
+            },
+            {
+              "fieldName": "Version",
+              "fieldValue": "={{ $('Loop Over Items2').item.json.version }}"
+            },
+            {
+              "fieldName": "Ad Angle",
+              "fieldValue": "={{ $('Loop Over Items2').item.json.adCopy }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        2032,
+        2000
+      ],
+      "id": "ef8d67a7-c668-490c-9e1a-c508f94b7de5",
+      "name": "Update a row4",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pnsdsx5i8rktgjf",
+        "table": "mqyhdmslzlf5bhj",
+        "options": {
+          "fields": [],
+          "where": "=(Target Service,eq,{{ $('Get a row').item.json['Target Service'] }})~and(Version,eq,{{ $json.version }})"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1824,
+        2000
+      ],
+      "id": "55e29d3b-b0a3-46f7-a13f-33bd9261a99a",
+      "name": "Get many rows3",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1568,
+        1936
+      ],
+      "id": "4bbf4c98-c3c5-43f5-a9cb-36e8a096c618",
+      "name": "Loop Over Items2"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pnsdsx5i8rktgjf",
+        "table": "mqyhdmslzlf5bhj",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Status",
+              "fieldValue": "Completed"
+            },
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Update a row4').item.json.Id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1856,
+        1792
+      ],
+      "id": "bc773d2b-73c5-4c85-99dd-8212897bd6a2",
+      "name": "Update a row5",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Get many rows": {
+      "main": [
+        [
+          {
+            "node": "Brand Research Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brand Research Agent": {
+      "main": [
+        [
+          {
+            "node": "Update a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Brand Research Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_web_research_tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Brand Research Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Brand Research Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission2": {
+      "main": [
+        [
+          {
+            "node": "Get many rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook2": {
+      "main": [
+        [
+          {
+            "node": "Get Business Research Overview Info1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Business Research Overview Info1": {
+      "main": [
+        [
+          {
+            "node": "Industry Type Segementation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser2": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Brand Social Media Profiles Finder",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Brand Social Media Profiles Finder",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out2": {
+      "main": [
+        [
+          {
+            "node": "Update Social Media Profiles Links",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "webpage_crawler": {
+      "ai_tool": [
+        [
+          {
+            "node": "Brand Social Media Profiles Finder",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model6": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Industry Type Segementation",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Industry Type Segementation": {
+      "main": [
+        [
+          {
+            "node": "Update a row1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brand Social Media Profiles Finder": {
+      "main": [
+        [
+          {
+            "node": "Split Out2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "client_info_searcher": {
+      "ai_tool": [
+        [
+          {
+            "node": "Brand Social Media Profiles Finder",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a row1": {
+      "main": [
+        [
+          {
+            "node": "Brand Social Media Profiles Finder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Execute If Action Type=generateAdHooks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute If Action Type=generateAdHooks": {
+      "main": [
+        [
+          {
+            "node": "Get a row",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a row": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Ad Hook Generator",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "web_search": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Hook Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Hook Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Ad Angle Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Ad Hook Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Ad Hook Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ad_image_to_text_converter": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Hook Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ad Hook Generator": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "company_research_fetcher": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Hook Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a row2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows1": {
+      "main": [
+        [
+          {
+            "node": "Update a row2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get many rows1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser3": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Ad Angle Generator",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "web_search1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Angle Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Angle Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "ad_image_to_text_converter1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Angle Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "company_research_fetcher1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Angle Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Ad Angle Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ad Angle Generator": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a row3": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows2": {
+      "main": [
+        [
+          {
+            "node": "Update a row3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get many rows2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields5": {
+      "main": [
+        [
+          {
+            "node": "Meta Ad Angle Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser4": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Meta Ad Angle Generator",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "web_search2": {
+      "ai_tool": [
+        [
+          {
+            "node": "Meta Ad Angle Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think2": {
+      "ai_tool": [
+        [
+          {
+            "node": "Meta Ad Angle Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "company_research_fetcher2": {
+      "ai_tool": [
+        [
+          {
+            "node": "Meta Ad Angle Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "DeepSeek Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser4",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Meta Ad Angle Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Meta Ad Angle Generator": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a row4": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows3": {
+      "main": [
+        [
+          {
+            "node": "Update a row4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items2": {
+      "main": [
+        [
+          {
+            "node": "Update a row5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get many rows3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields6": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Social Media Profiles Links": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "On form submission2": [
+      {
+        "json": {
+          "Brand Name": "KPJ Ipoh Specialist",
+          "Brand Website": "https://www.kpjhealth.com.my/ipoh",
+          "Social Media Platforms": [
+            "Facebook",
+            "Instagram",
+            "TikTok"
+          ],
+          "submittedAt": "2025-08-01T12:29:15.555+08:00",
+          "formMode": "test"
+        }
+      }
+    ],
+    "Webhook2": [
+      {
+        "json": {
+          "headers": {
+            "x-forwarded-host": "n8n.automessenger.me",
+            "x-forwarded-server": "n8n.automessenger.me",
+            "x-real-ip": "52.15.226.51",
+            "x-forwarded-for": "52.15.226.51",
+            "x-forwarded-proto": "https",
+            "host": "n8n.automessenger.me",
+            "connection": "Upgrade",
+            "content-length": "621",
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "user-agent": "axios/1.11.0",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "sentry-trace": "1a3f0d05199844829ab894792b5453eb-af6207f39b9e22b9",
+            "baggage": "sentry-environment=production,sentry-release=0.111.4,sentry-public_key=545692f1a4c6783d1ebb54fa5c095dc8,sentry-trace_id=1a3f0d05199844829ab894792b5453eb,sentry-org_id=4505953073889280"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "type": "records.after.insert",
+            "id": "a9c629c2-f1ad-4396-9bda-f5b01d3d882b",
+            "version": "v3",
+            "data": {
+              "table_id": "mvz46p06j62lgs7",
+              "table_name": "Company & Brand Research Information",
+              "rows": [
+                {
+                  "Id": 1,
+                  "CreatedAt": "2025-08-01T05:04:04.583Z",
+                  "UpdatedAt": "2025-08-01T05:04:04.583Z",
+                  "Company Name": "Sample Text",
+                  "Company Website": "https://nocodb.com",
+                  "Company Location": "Sample Text",
+                  "Industry Types": "Sample Long text",
+                  "Business Overview": "Sample Long text",
+                  "Target Audience": "Sample Long text",
+                  "Core Services": "Sample Long text",
+                  "Social Media Used": "Facebook",
+                  "Social Media Profiles": "{}",
+                  "Business Research Status": "Pending"
+                }
+              ]
+            }
+          },
+          "webhookUrl": "https://n8n.automessenger.me/webhook-test/nocodb-kpjipoh-biz-research-done",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "d555180b-5730-4fc3-93fa-b330cbaa5d35",
+  "triggerCount": 3,
+  "shared": [
+    {
+      "updatedAt": "2025-08-01T04:29:02.181Z",
+      "createdAt": "2025-08-01T04:29:02.181Z",
+      "role": "workflow:owner",
+      "workflowId": "q7MGKLlLOXGXhH5I",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
