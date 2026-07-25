@@ -1,0 +1,1370 @@
+{
+  "updatedAt": "2025-06-25T02:35:59.000Z",
+  "createdAt": "2025-05-01T08:37:26.659Z",
+  "id": "p1b730v6mnsGA95H",
+  "name": "ReadyCare Go-to-market (GTM) Planner",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -380,
+        -120
+      ],
+      "id": "6bfc7f35-9e93-4cb4-95d5-61b708286e4b",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8",
+          "mode": "list",
+          "cachedResultName": "ReadyCare- [AI Agent Inputs] - GTM Marketing Plan Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Inputs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8/edit#gid=0"
+        },
+        "options": {
+          "outputFormatting": {
+            "values": {
+              "general": "UNFORMATTED_VALUE",
+              "date": "FORMATTED_STRING"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -160,
+        -120
+      ],
+      "id": "830f5cdb-8b9c-493b-9dd6-d03395b9794f",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -100,
+        80
+      ],
+      "id": "4caeda70-caf5-4179-9089-0c4c6e7aa8e6",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to search for specific company background and brand information, and come out with a detailed summary for each company and brand.",
+        "workflowId": {
+          "__rl": true,
+          "value": "KdAUfF05Oj85t0Vb",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Perplexica AI Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        60,
+        120
+      ],
+      "id": "ad1a87c4-fc68-4be2-918e-deb9f26f5be5",
+      "name": "ai_search_engine"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to crawl the brand's product pages and scrape content to get information about the brand's products or services.",
+        "workflowId": {
+          "__rl": true,
+          "value": "6GmpoovcrJu1Mzsd",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow]  -Crawl4AI Page Sitemap Content Scraper Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "searchUrl": "={{ $('Google Sheets').item.json['Brand Website'] }}"
+          },
+          "matchingColumns": [
+            "searchUrl"
+          ],
+          "schema": [
+            {
+              "id": "searchUrl",
+              "displayName": "searchUrl",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        220,
+        140
+      ],
+      "id": "5ca04f6d-4ac5-4d8e-b17d-ec988c6dbd35",
+      "name": "product_page_content_scraper"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"companyBackground\": \"The detailed of company background.\",\n  \"brandOverview\": \"The brand details overview.\",\n  \"brandProducts\":[\n    {\n      \"productName\": \"The brand's product A name\",\n      \"productDescription\": \"The brand's product A description\"\n    },\n    {\n      \"productName\": \"The brand's product B name\",\n      \"productDescription\": \"The brand's product B description\"\n    },\n    {\n      \"productName\": \"The brand's product C name\",\n      \"productDescription\": \"The brand's product C description\"\n    }\n  ]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        360,
+        100
+      ],
+      "id": "a164b383-2231-4c34-9bef-9a94024d10ef",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0eddcf50-7335-4918-bef8-9758442231b5",
+              "name": "companyBackground",
+              "value": "={{ $json.output.companyBackground }}",
+              "type": "string"
+            },
+            {
+              "id": "3de67e38-dea0-4869-a97f-643c5ae1fcc2",
+              "name": "brandOverview",
+              "value": "={{ $json.output.brandOverview }}",
+              "type": "string"
+            },
+            {
+              "id": "db791188-4c0c-4405-af53-d158b73712f6",
+              "name": "brandProducts",
+              "value": "={{ $json.output.brandProducts.toJsonString().replaceAll(\"[\",\"\").replaceAll('{\"productName\":','- Product Name:').replaceAll('\"productDescription\":','Product Desctiption:').replaceAll('\"},', '\\n\\n').replaceAll('\"}]', \"\") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        420,
+        -120
+      ],
+      "id": "353ac6b7-17f3-4813-acdf-34f7f26c00bf",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=1. Company Name: {{ $json['Campany Name'] }}\n2. Company Located: {{ $json['Company Located'] }}\n3. Company URL: {{ $json['Company URL'] }}\n4. Brand Name: {{ $json['Brand Name'] }}\n5. Brand Website: {{ $json['Brand Website'] }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a professional marketing consultant who helping the clients to launch their digital campaigns for expanding their brand or product exposure, find new market positioning or market penetrations and enhance brand or product value proportion.\n\n# Task\nYou are tasked to do a proper market research and analysis about the client company detailed background and brand's products or services based on the provided information such as company name, company website, company located, brand name, brand website and etc.\n\n# Tools To Use\nYou are require to use tool(s) in order to acquire the right information externally as the source of context to accomplish the requested task:\n- `ai_search_engine`: Call this tool to search for specific company background and brand information, and come out with a detailed summary for each company and brand\n- `product_page_content_scraper`: Call this tool to crawl the brand's product pages and scrape content to get information about the brand's products or services\n\n# Output\nThe output must be in the structured JSON format based on the example JSON output and JSON schema\n\n## Example of JSON Output\noutput: {\n  \"companyBackground\": \"The detailed of company background.\",\n  \"brandOverview\": \"The brand details overview.\",\n  \"brandProducts\":[\n    {\n      \"productName\": \"The brand's product A name\",\n      \"productDescription\": \"The brand's product A description\"\n    },\n    {\n      \"productName\": \"The brand's product B name\",\n      \"productDescription\": \"The brand's product B description\"\n    },\n    {\n      \"productName\": \"The brand's product C name\",\n      \"productDescription\": \"The brand's product C description\"\n    }\n    ...\n  ]\n}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        60,
+        -120
+      ],
+      "id": "4384cc26-2d65-4788-ab04-574e6e2d3810",
+      "name": "Company & Brand Background Search Agent"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8",
+          "mode": "list",
+          "cachedResultName": "ReadyCare- [AI Agent Inputs] - GTM Marketing Plan Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Inputs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Campany Name": "={{ $('Google Sheets').item.json['Campany Name'] }}",
+            "Company Background": "={{ $json.companyBackground }}",
+            "Brand Overview": "={{ $json.brandOverview }}",
+            "Brand Products/Services": "={{ $json.brandProducts }}"
+          },
+          "matchingColumns": [
+            "Campany Name"
+          ],
+          "schema": [
+            {
+              "id": "Campany Name",
+              "displayName": "Campany Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Company Located",
+              "displayName": "Company Located",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Company URL",
+              "displayName": "Company URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Company Background",
+              "displayName": "Company Background",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Brand Name",
+              "displayName": "Brand Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Brand Website",
+              "displayName": "Brand Website",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Brand Overview",
+              "displayName": "Brand Overview",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Brand Products/Services",
+              "displayName": "Brand Products/Services",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Target Geo-location",
+              "displayName": "Target Geo-location",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Type of GTM",
+              "displayName": "Type of GTM",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "GMT Timeline",
+              "displayName": "GMT Timeline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Expected Campaign Start",
+              "displayName": "Expected Campaign Start",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Expected Campaign End",
+              "displayName": "Expected Campaign End",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "GTM Plan Section Elements",
+              "displayName": "GTM Plan Section Elements",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Plan Status",
+              "displayName": "Plan Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        640,
+        -120
+      ],
+      "id": "3c2bbb94-913a-4c0a-bcab-231d51d54c76",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8",
+          "mode": "list",
+          "cachedResultName": "ReadyCare- [AI Agent Inputs] - GTM Marketing Plan Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Inputs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        860,
+        -120
+      ],
+      "id": "202d71e9-3430-418f-8031-6118700f77e2",
+      "name": "Google Sheets2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.gtmElements }}",
+                    "rightValue": "Ideas",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "57c272cf-a06a-4574-8f43-df6993c26ce5"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Ideas"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "70f0b520-004d-4da7-9d67-09523d2f18cd",
+                    "leftValue": "={{ $json.gtmElements }}",
+                    "rightValue": "Goals and KPIs",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Goals and KPIs"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "4942ec77-9c2f-497a-a2ed-fc3353776b5d",
+                    "leftValue": "={{ $json.gtmElements }}",
+                    "rightValue": "Customer pain points",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Customer pain points"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "25d02219-b7b8-41aa-8153-3e2789510711",
+                    "leftValue": "={{ $json.gtmElements }}",
+                    "rightValue": "Industry analysis",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Industry analysis"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "ec564578-f4a0-4599-bffb-3e9106d44c02",
+                    "leftValue": "={{ $json.gtmElements }}",
+                    "rightValue": "SWOT analysis",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "SWOT analysis"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "28dce622-0b61-4ddd-a9f3-32a421f31bcf",
+                    "leftValue": "={{ $json.gtmElements }}",
+                    "rightValue": "Campaign concept",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Campaign concept"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "329f0b6f-e0b0-4791-a2bf-7d8fbb544786",
+                    "leftValue": "={{ $json.gtmElements }}",
+                    "rightValue": "Journey map",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Journey map"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "b06ab0ce-ca32-4be2-8758-cec2a6a97ef5",
+                    "leftValue": "={{ $json.gtmElements }}",
+                    "rightValue": "Promotion",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Promotion"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e0051ae8-d01c-45bc-9916-93488a027201",
+                    "leftValue": "={{ $json.gtmElements }}",
+                    "rightValue": "Roadmap",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Roadmap"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        540,
+        780
+      ],
+      "id": "c13eb695-851f-4ed0-8db1-28a1cb447fd0",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "daff8e1e-790a-4e65-bf50-17edfb8577fa",
+              "name": "gtmPlanSection",
+              "value": "={{ $json['GTM Plan Section Elements'].split(\", \") }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1140,
+        -120
+      ],
+      "id": "61899909-8ace-42d8-b019-2bcb3e1584d3",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "gtmPlanSection",
+        "options": {
+          "destinationFieldName": "gtmElements"
+        }
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1360,
+        -120
+      ],
+      "id": "ae614684-9af6-40e8-b9e2-f79e756d9262",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8",
+          "mode": "list",
+          "cachedResultName": "ReadyCare- [AI Agent Inputs] - GTM Marketing Plan Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Inputs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1340,
+        120
+      ],
+      "id": "86e6817e-ace5-4a1a-b038-e4c910319571",
+      "name": "Google Sheets3",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8",
+          "mode": "list",
+          "cachedResultName": "ReadyCare- [AI Agent Inputs] - GTM Marketing Plan Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Inputs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1340,
+        340
+      ],
+      "id": "61ecb328-ccb7-4f42-9d8c-e70ae280abf4",
+      "name": "Google Sheets4",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8",
+          "mode": "list",
+          "cachedResultName": "ReadyCare- [AI Agent Inputs] - GTM Marketing Plan Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Inputs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1360,
+        560
+      ],
+      "id": "5cc54279-58db-4f01-a5e8-4b77d0b9d8db",
+      "name": "Google Sheets5",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8",
+          "mode": "list",
+          "cachedResultName": "ReadyCare- [AI Agent Inputs] - GTM Marketing Plan Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Inputs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1360,
+        760
+      ],
+      "id": "6223d65c-d428-4e02-817d-fdaf6a8f8a3f",
+      "name": "Google Sheets6",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8",
+          "mode": "list",
+          "cachedResultName": "ReadyCare- [AI Agent Inputs] - GTM Marketing Plan Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Inputs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1380,
+        1020
+      ],
+      "id": "c29919be-ffaf-42d9-8230-f71340d6c08d",
+      "name": "Google Sheets7",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8",
+          "mode": "list",
+          "cachedResultName": "ReadyCare- [AI Agent Inputs] - GTM Marketing Plan Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Inputs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1380,
+        1260
+      ],
+      "id": "5a401362-a396-438f-a26c-4c6b4b18c8a9",
+      "name": "Google Sheets8",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8",
+          "mode": "list",
+          "cachedResultName": "ReadyCare- [AI Agent Inputs] - GTM Marketing Plan Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Inputs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1380,
+        1480
+      ],
+      "id": "b5d3f7ef-88fe-4445-97a1-863dc19959df",
+      "name": "Google Sheets9",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8",
+          "mode": "list",
+          "cachedResultName": "ReadyCare- [AI Agent Inputs] - GTM Marketing Plan Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Inputs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1400,
+        1720
+      ],
+      "id": "f7dcb88b-f71b-4489-86ba-a9b3f9d76f59",
+      "name": "Google Sheets10",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8",
+          "mode": "list",
+          "cachedResultName": "ReadyCare- [AI Agent Inputs] - GTM Marketing Plan Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Inputs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1UpJpOxIpwt7qyATZ9vpJYnEL34IbUJZA5cld5h4MfP8/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1400,
+        1960
+      ],
+      "id": "413ba0d8-0a05-47c4-87b5-7c64fad19c12",
+      "name": "Google Sheets11",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        1800,
+        120
+      ],
+      "id": "821586e8-66ba-4cc2-900a-f981daa525e0",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1720,
+        280
+      ],
+      "id": "c3634e3d-d776-4a01-a08f-3e787ade470a",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Company & Brand Background Search Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Company & Brand Background Search Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_search_engine": {
+      "ai_tool": [
+        [
+          {
+            "node": "Company & Brand Background Search Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "product_page_content_scraper": {
+      "ai_tool": [
+        [
+          {
+            "node": "Company & Brand Background Search Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Company & Brand Background Search Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Company & Brand Background Search Agent": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Sheets4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Sheets5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Sheets6",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Sheets7",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Sheets8",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Sheets9",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Sheets10",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Sheets11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets3": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Company & Brand Background Search Agent": [
+      {
+        "json": {
+          "output": {
+            "companyBackground": "ReadyCare Manufacturing Sdn Bhd is a prominent Malaysian manufacturer based in Ipoh, Perak, specializing in dehumidifiers and household products. Founded by Yeoh Eng Foo in 2013 (with roots back to Comebest (M) Sdn. Bhd.), the company started commercial production in 2014. It is known for innovative home solutions including models of dehumidifiers with integrated fragrances such as charcoal, floral, and lavender. ReadyCare also manufactures environmentally friendly cleaning agents and protective gloves. The company emphasizes quality, safety, and sustainability in its products and operations, incorporating green energy and environmentally conscious practices.",
+            "brandOverview": "Readycare Signature is a pioneering Malaysian brand focusing on sustainable, bio-based cleaning solutions crafted from renewable plant-based materials. The brand promotes a bio-based lifestyle to reduce environmental impact, offering products like multipurpose cleaners, dishwashing liquids, and vegan-certified baby care items. It leverages Industry 4.0 technologies and green energy in manufacturing, supporting local communities and economy. Readycare Signature's cleaning products are gentle, free from harsh chemicals, artificial fragrances, and dyes, designed for families including babies and pets, while maintaining high cleaning efficacy.",
+            "brandProducts": [
+              {
+                "productName": "Biobased Baby Laundry Detergent",
+                "productDescription": "A plant-based baby laundry detergent that is gentle on the skin and effective in cleaning baby clothes, made from renewable, sustainable materials."
+              },
+              {
+                "productName": "Biobased Baby Bottle & Utensil Cleaner",
+                "productDescription": "A gentle yet powerful cleaner designed specifically for baby bottles and utensils, made with plant-based ingredients for safe cleaning."
+              },
+              {
+                "productName": "Biobased Toilet Bowl Cleaner",
+                "productDescription": "A toilet bowl cleaner formulated with bio-based ingredients, providing effective cleaning while being environmentally friendly."
+              },
+              {
+                "productName": "Cat & Dog Biobased Pet Deodorant",
+                "productDescription": "A pet deodorant for cats and dogs made from bio-based materials, keeping pets fresh with safe and natural ingredients."
+              },
+              {
+                "productName": "Cat Biobased Pet Shampoo",
+                "productDescription": "A bio-based shampoo specially formulated for cats, gentle on fur and skin, with natural ingredients to clean and refresh."
+              },
+              {
+                "productName": "Dog Biobased Pet Shampoo",
+                "productDescription": "A dog shampoo made from bio-based ingredients, designed for flea and tick protection while being gentle and eco-friendly."
+              },
+              {
+                "productName": "Biobased Glass Cleaner",
+                "productDescription": "An eco-friendly glass cleaner made with plant-derived ingredients, providing streak-free and powerful cleaning."
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "versionId": "25e81810-ef8b-430f-9658-c2d86d7bd88e",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-05-01T08:37:26.676Z",
+      "createdAt": "2025-05-01T08:37:26.676Z",
+      "role": "workflow:owner",
+      "workflowId": "p1b730v6mnsGA95H",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
