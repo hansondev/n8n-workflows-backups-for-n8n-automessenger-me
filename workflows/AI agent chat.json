@@ -1,0 +1,138 @@
+{
+  "updatedAt": "2024-02-08T15:45:52.582Z",
+  "createdAt": "2024-02-08T15:45:52.582Z",
+  "id": "IB5cOlWdO3I5Cnis",
+  "name": "AI agent chat",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "model": "gpt-3.5-turbo-16k",
+        "options": {}
+      },
+      "id": "dd0950cf-6f6c-47a2-91ef-25961a31061d",
+      "name": "Chat OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "position": [
+        640,
+        460
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {},
+      "id": "d268da47-c71d-4aa0-b77c-c84df7958847",
+      "name": "Window Buffer Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "position": [
+        780,
+        460
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {},
+      "id": "918b0a89-a9e5-4a41-afa7-9e693a2116fc",
+      "name": "On new manual Chat Message",
+      "type": "@n8n/n8n-nodes-langchain.manualChatTrigger",
+      "position": [
+        360,
+        140
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "ed8cfcaf-ddbe-4270-bbd9-958f85653b96",
+      "name": "Conversational Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        700,
+        160
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "dc2b0f22-bd1c-4a32-b8de-3cf8dd019bdb",
+      "name": "SerpAPI",
+      "type": "@n8n/n8n-nodes-langchain.toolSerpApi",
+      "position": [
+        920,
+        460
+      ],
+      "typeVersion": 1
+    }
+  ],
+  "connections": {
+    "Chat OpenAI": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Conversational Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Conversational Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On new manual Chat Message": {
+      "main": [
+        [
+          {
+            "node": "Conversational Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SerpAPI": {
+      "ai_tool": [
+        [
+          {
+            "node": "Conversational Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateId": "1954"
+  },
+  "pinData": {},
+  "versionId": "9569e5d3-2957-410b-ae82-8bcb8fe256a3",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-02-08T15:45:52.593Z",
+      "createdAt": "2024-02-08T15:45:52.593Z",
+      "role": "workflow:owner",
+      "workflowId": "IB5cOlWdO3I5Cnis",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
