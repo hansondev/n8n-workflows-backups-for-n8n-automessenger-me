@@ -1,0 +1,181 @@
+{
+  "updatedAt": "2025-05-25T04:27:10.000Z",
+  "createdAt": "2025-05-25T03:09:21.132Z",
+  "id": "8WriMxLORrN2AZaA",
+  "name": "[DEVELOPMENT] [Sub-workflow] - GSlides Find Slide Object Ids",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "const slideIds = $input\n  .all()\n  .flatMap(item => item.json.slides)\n\nconst objectId = slideIds.map(obj => ({ slideIds: obj.objectId }));\n\nreturn objectId"
+      },
+      "id": "3671b042-a8d8-4796-8685-7b77d3fea3ba",
+      "name": "Retrieve matching Images ObjectIds",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        480,
+        20
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "url": "=https://slides.googleapis.com/v1/presentations/{{ $json.presentation_id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleSlidesOAuth2Api",
+        "options": {}
+      },
+      "id": "cb5422d7-bc95-4de5-8491-eea84fa8c4ac",
+      "name": "Retrieve All Slide Elements",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        240,
+        20
+      ],
+      "typeVersion": 4.2,
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "slideIds",
+              "renameField": true,
+              "outputFieldName": "objectId"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        700,
+        20
+      ],
+      "id": "a29feba3-764a-4ef0-8f3b-96cd64c9451c",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "presentation_id"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -60,
+        20
+      ],
+      "id": "e5ee51c3-8f9e-4a8f-ad52-b06cd84c3e88",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "52333b2b-4dff-4f7c-a121-a081e4772ef7",
+              "name": "objectId",
+              "value": "={{ $json.objectId }}",
+              "type": "array"
+            },
+            {
+              "id": "c4c88951-7a67-42ca-9350-dcec82ee8162",
+              "name": "totalSlides",
+              "value": "={{ $json.objectId.length }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        920,
+        20
+      ],
+      "id": "94fdc283-bb97-4b56-9cf7-e689ad649359",
+      "name": "Edit Fields"
+    }
+  ],
+  "connections": {
+    "Retrieve All Slide Elements": {
+      "main": [
+        [
+          {
+            "node": "Retrieve matching Images ObjectIds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retrieve matching Images ObjectIds": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Retrieve All Slide Elements",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "19a134b8-473e-4b63-be3f-4e874efda233",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-05-25T03:09:21.135Z",
+      "createdAt": "2025-05-25T03:09:21.135Z",
+      "role": "workflow:owner",
+      "workflowId": "8WriMxLORrN2AZaA",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
