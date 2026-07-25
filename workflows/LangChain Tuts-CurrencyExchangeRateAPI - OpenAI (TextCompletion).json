@@ -1,0 +1,155 @@
+{
+  "updatedAt": "2024-02-09T09:56:29.000Z",
+  "createdAt": "2024-02-09T05:01:16.866Z",
+  "id": "pdqG5aBKlZtC44HO",
+  "name": "LangChain Tuts-CurrencyExchangeRateAPI - OpenAI (TextCompletion)",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "c91c57ed-e54b-4178-ba96-3ad4ebbb4db1",
+      "name": "When clicking \"Test workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        500,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "http://api.exchangerate.host/live",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "access_key",
+              "value": "d11da8891df97b8260dcc29f115516b0"
+            },
+            {
+              "name": "base",
+              "value": "USD"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "76b3c981-af47-431e-bef2-ab8b874aaa60",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        880,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "prompt": "=This is a JSON output from Currency Layer API where get list of currency rate based on USD in the \"quotes\" object field. Create  the plain text with numbered list of format.\n\nJSON output: {{ $json.quotes }}\n\nPlain text interpretation:",
+        "options": {
+          "maxTokens": 1000,
+          "temperature": 0
+        }
+      },
+      "id": "6db387c5-03ff-4c93-ae23-915f3796f644",
+      "name": "OpenAI",
+      "type": "n8n-nodes-base.openAi",
+      "typeVersion": 1.1,
+      "position": [
+        1120,
+        200
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAi account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "response",
+              "stringValue": "={{ $json.text }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "9731ac68-da61-485f-9982-64565f458f27",
+      "name": "Response",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1340,
+        140
+      ]
+    }
+  ],
+  "connections": {
+    "When clicking \"Test workflow\"": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "aef03b87-17fc-44a8-87a8-a3c0e72e1270",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-02-09T05:01:16.899Z",
+      "createdAt": "2024-02-09T05:01:16.899Z",
+      "role": "workflow:owner",
+      "workflowId": "pdqG5aBKlZtC44HO",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2024-02-09T09:02:54.997Z",
+      "createdAt": "2024-02-09T09:02:54.997Z",
+      "id": "oSuy7ALYFMAuny1i",
+      "name": "Langchain"
+    }
+  ]
+}
