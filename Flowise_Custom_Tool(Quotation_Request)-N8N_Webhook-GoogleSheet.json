@@ -1,0 +1,184 @@
+{
+  "updatedAt": "2024-10-11T00:59:10.000Z",
+  "createdAt": "2024-06-24T07:44:38.540Z",
+  "id": "NsQKOPENhlApNWk1",
+  "name": "Flowise_Custom_Tool(Quotation_Request)-N8N_Webhook-GoogleSheet",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1cjiQ3vGtrivN38sWuMdJ6aMJwcWVodKJhBRI_HPFYCg",
+          "mode": "list",
+          "cachedResultName": "YT-Thomas_Ingram-N8N_Flowise_Quotation_Webhook_Sync_Demo",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cjiQ3vGtrivN38sWuMdJ6aMJwcWVodKJhBRI_HPFYCg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cjiQ3vGtrivN38sWuMdJ6aMJwcWVodKJhBRI_HPFYCg/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "First Name": "={{ $json.body.firstName }}",
+            "Last Name": "={{ $json.body.lastName }}",
+            "Email": "={{ $json.body.email }}",
+            "Phone": "={{ $json.body.phone }}"
+          },
+          "matchingColumns": [
+            "First Name"
+          ],
+          "schema": [
+            {
+              "id": "First Name",
+              "displayName": "First Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Last Name",
+              "displayName": "Last Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fe05abdc-ac81-40af-a5d8-db0ab9c86190",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.3,
+      "position": [
+        1140,
+        420
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "quotation-form-demo-1",
+        "formTitle": "N8N Quotation Form Demo 1",
+        "formDescription": "For demostrate and testing the N8N Form Triggert",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "First Name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Last Name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Phone",
+              "fieldType": "number",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b44cb63e-9083-4351-980a-a0eadff998dd",
+      "name": "n8n Form Trigger",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2,
+      "position": [
+        380,
+        340
+      ],
+      "webhookId": "ba4a521d-b0a0-4dac-8fd7-c3afebc16464",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "demo-quotation-sheet",
+        "options": {}
+      },
+      "id": "6af2fefd-377c-4e63-bd77-01336463f396",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        700,
+        340
+      ],
+      "webhookId": "7bfd963a-481b-464d-b12a-c7fc91aaf575"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "fb45843f-99d8-42d9-b3f2-df5326ed242e",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2024-06-24T07:44:38.730Z",
+      "createdAt": "2024-06-24T07:44:38.730Z",
+      "role": "workflow:owner",
+      "workflowId": "NsQKOPENhlApNWk1",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
