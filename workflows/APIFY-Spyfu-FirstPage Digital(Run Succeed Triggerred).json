@@ -1,0 +1,2909 @@
+{
+  "updatedAt": "2023-12-12T02:55:49.000Z",
+  "createdAt": "2023-12-11T03:36:12.806Z",
+  "id": "iIkoFSUUDN4LrrjY",
+  "name": "APIFY-Spyfu-FirstPage Digital(Run Succeed Triggerred)",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.datasetID }}/items?token={{ $json.APItoken }}&format=json&clean=false",
+        "options": {}
+      },
+      "id": "b2708c49-79e3-4119-bb13-c17c07e8d2ee",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1620,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "spyfu-firstpage-digital-most-successful-kws",
+        "options": {}
+      },
+      "id": "88a9042b-e0d3-4659-afc3-f1d56de782a3",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        840,
+        320
+      ],
+      "webhookId": "19b4509d-c618-4f2f-8f15-109766e5eb54"
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "APItoken",
+              "stringValue": "RMcnCuQuPp4AAsEwZjt5FNDF4"
+            },
+            {
+              "name": "datasetID",
+              "stringValue": "={{ $json.body.resource.defaultDatasetId }}"
+            },
+            {
+              "name": "actorRunID",
+              "stringValue": "={{ $json.body.eventData.actorRunId }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "dbadaf69-0d81-4b2d-ad31-0ba52335d6e6",
+      "name": "Set Datadset HTTP Request Variable",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1340,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "keyword",
+              "stringValue": "={{ $('HTTP Request').item.json.keyword }}"
+            },
+            {
+              "name": "searchVolume",
+              "stringValue": "={{ $('HTTP Request').item.json.searchVolume }}"
+            },
+            {
+              "name": "rankingDifficulty",
+              "stringValue": "={{ $('HTTP Request').item.json.rankingDifficulty }}"
+            },
+            {
+              "name": "totalMonthlyClicks",
+              "stringValue": "={{ $('HTTP Request').item.json.totalMonthlyClicks }}"
+            },
+            {
+              "name": "costPerClick",
+              "stringValue": "={{ $('HTTP Request').item.json.broadCostPerClick }}"
+            },
+            {
+              "name": "adCompetitorsSnapshot1",
+              "stringValue": "=1. {{ $json[\"serpAdvertisers\"][0][\"domains\"][0] }}\n2. {{ $json[\"serpAdvertisers\"][0][\"domains\"][1] }}\n3. {{ $json[\"serpAdvertisers\"][0][\"domains\"][2] }}\n4. {{ $json[\"serpAdvertisers\"][0][\"domains\"][3] }}\n5. {{ $json[\"serpAdvertisers\"][0][\"domains\"][4] }}"
+            },
+            {
+              "name": "adCompetitorsSnapshot2",
+              "stringValue": "=1. {{ $json[\"serpAdvertisers\"][1][\"domains\"][0] }}\n2. {{ $json[\"serpAdvertisers\"][1][\"domains\"][1] }}\n3. {{ $json[\"serpAdvertisers\"][1][\"domains\"][2] }}\n4. {{ $json[\"serpAdvertisers\"][1][\"domains\"][3] }}\n5. {{ $json[\"serpAdvertisers\"][1][\"domains\"][4] }}"
+            },
+            {
+              "name": "adCompetitorsSnapshot3",
+              "stringValue": "=1. {{ $json[\"serpAdvertisers\"][8][\"domains\"][0] }}\n2. {{ $json[\"serpAdvertisers\"][8][\"domains\"][1] }}\n3. {{ $json[\"serpAdvertisers\"][8][\"domains\"][2] }}\n4. {{ $json[\"serpAdvertisers\"][8][\"domains\"][3] }}\n5. {{ $json[\"serpAdvertisers\"][8][\"domains\"][4] }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "583f8319-e994-4b72-9cae-7c47d1f0a67e",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1960,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI",
+          "mode": "list",
+          "cachedResultName": "SpyFu_API-FirstPageDigital-PPC Ads Analysis (9Dec23 Updates)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Most Successful KWs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Keyword": "={{ $json.keyword }}",
+            "Search Volume": "={{ $json.searchVolume }}",
+            "Ranking Difficulty": "={{ $json.rankingDifficulty }}",
+            "Avg. Monthly Clicks": "={{ $json.totalMonthlyClicks }}",
+            "Avg. CPC": "={{ $json.costPerClick }}",
+            "Ad Competitor Record 1": "={{ $json.adCompetitorsSnapshot1 }}",
+            "Ad Competitor Record 2": "={{ $json.adCompetitorsSnapshot2 }}",
+            "Ad Competitor Record 3": "={{ $json.adCompetitorsSnapshot3 }}"
+          },
+          "matchingColumns": [
+            "Keyword"
+          ],
+          "schema": [
+            {
+              "id": "Keyword",
+              "displayName": "Keyword",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Search Volume",
+              "displayName": "Search Volume",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ranking Difficulty",
+              "displayName": "Ranking Difficulty",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Avg. Monthly Clicks",
+              "displayName": "Avg. Monthly Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Avg. CPC",
+              "displayName": "Avg. CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Competitor Record 1",
+              "displayName": "Ad Competitor Record 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Competitor Record 2",
+              "displayName": "Ad Competitor Record 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Competitor Record 3",
+              "displayName": "Ad Competitor Record 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {
+          "cellFormat": "USER_ENTERED"
+        }
+      },
+      "id": "943463d3-32f8-4fe9-b963-9f485a7545f6",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        2380,
+        100
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.datasetID }}/items?token={{ $json.APItoken }}&format=json&clean=false",
+        "options": {}
+      },
+      "id": "def7c0e7-91fe-43d6-b8f4-31f1ed3d5205",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1640,
+        -380
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "spyfu-firstpage-digital-top-ads",
+        "options": {}
+      },
+      "id": "5e5deb5b-af53-4a19-9f81-30eee34ad1ad",
+      "name": "Webhook1",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        860,
+        -260
+      ],
+      "webhookId": "ab60e72a-4e98-40dd-83ee-9befbc839a49"
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "APItoken",
+              "stringValue": "RMcnCuQuPp4AAsEwZjt5FNDF4"
+            },
+            {
+              "name": "datasetID",
+              "stringValue": "={{ $json.body.resource.defaultDatasetId }}"
+            },
+            {
+              "name": "actorRunID",
+              "stringValue": "={{ $json.body.eventData.actorRunId }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "00c2ac5f-f550-498c-810f-edaf39fdda64",
+      "name": "Set Datadset HTTP Request Variable1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1400,
+        -300
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "averageAdPosition",
+              "type": "numberValue",
+              "numberValue": "={{ $json.averagePosition }}"
+            },
+            {
+              "name": "averageAdCount",
+              "type": "numberValue",
+              "numberValue": "={{ $json.averageAdCount }}"
+            },
+            {
+              "name": "adBodyContent",
+              "stringValue": "={{ $json.body }}"
+            },
+            {
+              "name": "fullURL",
+              "stringValue": "={{ $json.fullUrl }}"
+            },
+            {
+              "name": "leaderboardCount",
+              "type": "numberValue",
+              "numberValue": "={{ $json.leaderboardCount }}"
+            },
+            {
+              "name": "percentageLeaderboard",
+              "type": "numberValue",
+              "numberValue": "={{ $json.percentageLeaderboard }}"
+            },
+            {
+              "name": "percentageAdServed",
+              "type": "numberValue",
+              "numberValue": "={{ $json.percentageAdsServed }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "2e239c6b-6d26-4ecc-a557-f88456f3e5cf",
+      "name": "Edit Fields1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1980,
+        -360
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI",
+          "mode": "list",
+          "cachedResultName": "SpyFu_API-FirstPageDigital-PPC Ads Analysis (9Dec23 Updates)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1998703856,
+          "mode": "list",
+          "cachedResultName": "Top Ads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI/edit#gid=1998703856"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Avg Ad Position": "={{ $json.averageAdPosition }}",
+            "Avg Ad Count": "={{ $json.averageAdCount }}",
+            "Ad Body Content": "={{ $json.adBodyContent }}",
+            "Full URL": "={{ $json.fullURL }}",
+            "Leaderboard Count": "={{ $json.leaderboardCount }}",
+            "% Leaderboard": "={{ $json.percentageLeaderboard }}",
+            "% Ad Served": "={{ $json.percentageAdServed }}"
+          },
+          "matchingColumns": [
+            "Avg Ad Position"
+          ],
+          "schema": [
+            {
+              "id": "Avg Ad Position",
+              "displayName": "Avg Ad Position",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Avg Ad Count",
+              "displayName": "Avg Ad Count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Body Content",
+              "displayName": "Ad Body Content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Full URL",
+              "displayName": "Full URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Leaderboard Count",
+              "displayName": "Leaderboard Count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "% Leaderboard",
+              "displayName": "% Leaderboard",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "% Ad Served",
+              "displayName": "% Ad Served",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ecc22c7b-63d8-4aea-9ed0-6e035bbaf2e2",
+      "name": "Google Sheets1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        2400,
+        -400
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Parameter: Get Most Successful Keywords \n",
+        "height": 409.9719873238856,
+        "width": 1758.4468591695604
+      },
+      "id": "aabfb1ed-0939-4bbd-af23-3e343d0e759f",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        700,
+        60
+      ]
+    },
+    {
+      "parameters": {
+        "content": "# Parameter: Get Top Ads\n",
+        "height": 409.9719873238856,
+        "width": 1758.4468591695604
+      },
+      "id": "e18a71c8-cc31-4a00-af80-0050c729aa4a",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        700,
+        -480
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.datasetID }}/items?token={{ $json.APItoken }}&format=json&clean=false",
+        "options": {}
+      },
+      "id": "4cb77a5b-3c87-492f-825a-216925b98bc7",
+      "name": "HTTP Request2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1640,
+        -1000
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "spyfu-firstpage-digital-top-competitors",
+        "options": {}
+      },
+      "id": "bd736022-123d-47a0-abb2-ab2c41be08c7",
+      "name": "Webhook2",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        860,
+        -880
+      ],
+      "webhookId": "4876bf2a-e089-4539-818d-60466b5302ba"
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "APItoken",
+              "stringValue": "RMcnCuQuPp4AAsEwZjt5FNDF4"
+            },
+            {
+              "name": "datasetID",
+              "stringValue": "={{ $json.body.resource.defaultDatasetId }}"
+            },
+            {
+              "name": "actorRunID",
+              "stringValue": "={{ $json.body.eventData.actorRunId }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "66a7f51a-6139-4db8-9add-da83e2ee661d",
+      "name": "Set Datadset HTTP Request Variable2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1360,
+        -920
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "domain",
+              "stringValue": "={{ $json.domain }}"
+            },
+            {
+              "name": "rank",
+              "type": "numberValue",
+              "numberValue": "={{ $json.rank }}"
+            },
+            {
+              "name": "serpType",
+              "stringValue": "={{ $json.type }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "9ac83375-3337-43d8-a067-78b700436c95",
+      "name": "Edit Fields2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2160,
+        -1040
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI",
+          "mode": "list",
+          "cachedResultName": "SpyFu_API-FirstPageDigital-PPC Ads Analysis (9Dec23 Updates)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1228306826,
+          "mode": "list",
+          "cachedResultName": "Top Competitors",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI/edit#gid=1228306826"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Domain Name": "={{ $json.domain }}",
+            "Ranking": "={{ $json.rank }}",
+            "SERP Type": "={{ $json.serpType }}"
+          },
+          "matchingColumns": [
+            "Domain Name"
+          ],
+          "schema": [
+            {
+              "id": "Domain Name",
+              "displayName": "Domain Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ranking",
+              "displayName": "Ranking",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "SERP Type",
+              "displayName": "SERP Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {
+          "cellFormat": "USER_ENTERED"
+        }
+      },
+      "id": "bc5751e6-e9d7-4192-922f-009154a808ff",
+      "name": "Google Sheets2",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        2500,
+        -900
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Parameter: Get Top Ad Competitors\n",
+        "height": 409.9719873238856,
+        "width": 2022.3409456740787
+      },
+      "id": "faa4100d-de41-49fe-be82-3981823d9d49",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        700,
+        -1100
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.type }}",
+              "value2": "paid"
+            }
+          ]
+        }
+      },
+      "id": "eb443cb8-d709-4ac2-980f-fd001cd8273b",
+      "name": "Filter1",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 1,
+      "position": [
+        1880,
+        -960
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.datasetID }}/items?token={{ $json.APItoken }}&format=json&clean=false",
+        "options": {}
+      },
+      "id": "6fe6eed9-a9ef-41da-85b7-4505d84c9fa4",
+      "name": "HTTP Request3",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1620,
+        800
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "spyfu-firstpage-digital-most-valuable-kws",
+        "options": {}
+      },
+      "id": "241a968c-8e4c-4ce1-a88c-e893634aacd4",
+      "name": "Webhook3",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        840,
+        920
+      ],
+      "webhookId": "e8eecb36-b5ca-4823-8e45-e0b90e3f4482"
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "APItoken",
+              "stringValue": "RMcnCuQuPp4AAsEwZjt5FNDF4"
+            },
+            {
+              "name": "datasetID",
+              "stringValue": "={{ $json.body.resource.defaultDatasetId }}"
+            },
+            {
+              "name": "actorRunID",
+              "stringValue": "={{ $json.body.eventData.actorRunId }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "783046dd-d6af-49aa-8c7e-202e9be09e43",
+      "name": "Set Datadset HTTP Request Variable3",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1340,
+        880
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "keyword",
+              "stringValue": "={{ $('HTTP Request3').item.json.keyword }}"
+            },
+            {
+              "name": "topRankedURL",
+              "stringValue": "={{ $json.topRankedUrl }}"
+            },
+            {
+              "name": "rank",
+              "type": "numberValue",
+              "numberValue": "={{ $json.rank }}"
+            },
+            {
+              "name": "rankChange",
+              "type": "numberValue",
+              "numberValue": "={{ $json.rankChange }}"
+            },
+            {
+              "name": "serarchVolume",
+              "type": "numberValue",
+              "numberValue": "={{ $json.searchVolume }}"
+            },
+            {
+              "name": "rankingDifficulty",
+              "type": "numberValue",
+              "numberValue": "={{ $json.rankingDifficulty }}"
+            },
+            {
+              "name": "avgCPC",
+              "type": "numberValue",
+              "numberValue": "={{ $json.broadCostPerClick }}"
+            },
+            {
+              "name": "totalMonthlyClicks",
+              "type": "numberValue",
+              "numberValue": "={{ $json.totalMonthlyClicks }}"
+            },
+            {
+              "name": "percentagePaidClicks",
+              "type": "numberValue",
+              "numberValue": "={{ $json.percentPaidClicks }}"
+            },
+            {
+              "name": "paidCompetitors",
+              "type": "numberValue",
+              "numberValue": "={{ $json.paidCompetitors }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "ef5cd663-a1cc-4c2f-a672-7d7531499ec0",
+      "name": "Edit Fields3",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1960,
+        820
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI",
+          "mode": "list",
+          "cachedResultName": "SpyFu_API-FirstPageDigital-PPC Ads Analysis (9Dec23 Updates)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 532149713,
+          "mode": "list",
+          "cachedResultName": "Most Valuable KWs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI/edit#gid=532149713"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Keywords": "={{ $json.keyword }}",
+            "Top Ranked URL": "={{ $json.topRankedURL }}",
+            "Current SERP Rank": "={{ $json.rank }}",
+            "SERP Rank Changes": "={{ $json.rankChange }}",
+            "Search Volume": "={{ $json.serarchVolume }}",
+            "Ranking Difficulty": "={{ $json.rankingDifficulty }}",
+            "Avg. CPC": "={{ $json.avgCPC }}",
+            "Total Monthly Clicks": "={{ $json.totalMonthlyClicks }}",
+            "% Paid Clicks": "={{ $json.percentagePaidClicks }}",
+            "Paid Competitors": "={{ $json.paidCompetitors }}"
+          },
+          "matchingColumns": [
+            "Keywords"
+          ],
+          "schema": [
+            {
+              "id": "Keywords",
+              "displayName": "Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Top Ranked URL",
+              "displayName": "Top Ranked URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Current SERP Rank",
+              "displayName": "Current SERP Rank",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "SERP Rank Changes",
+              "displayName": "SERP Rank Changes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Search Volume",
+              "displayName": "Search Volume",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ranking Difficulty",
+              "displayName": "Ranking Difficulty",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Avg. CPC",
+              "displayName": "Avg. CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total Monthly Clicks",
+              "displayName": "Total Monthly Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "% Paid Clicks",
+              "displayName": "% Paid Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Paid Competitors",
+              "displayName": "Paid Competitors",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2711d6bf-bf78-403a-9eae-6b4e730744ce",
+      "name": "Google Sheets3",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        2380,
+        700
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Parameter: Get Most Valuable Keywords \n",
+        "height": 409.9719873238856,
+        "width": 1758.4468591695604
+      },
+      "id": "813906ef-64ff-4fbe-baaf-5931bf53db81",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        700,
+        660
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.datasetID }}/items?token={{ $json.APItoken }}&format=json&clean=false",
+        "options": {}
+      },
+      "id": "9042143a-dc7f-4459-8929-1be80c037abf",
+      "name": "HTTP Request4",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1620,
+        1400
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "spyfu-firstpage-digital-domain-stats",
+        "options": {}
+      },
+      "id": "fe26c07c-bf0e-4a4a-97fe-0fb83da2cb67",
+      "name": "Webhook4",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        840,
+        1520
+      ],
+      "webhookId": "f69dc64d-4449-428d-a8e1-5bb5124fd11d"
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "APItoken",
+              "stringValue": "RMcnCuQuPp4AAsEwZjt5FNDF4"
+            },
+            {
+              "name": "datasetID",
+              "stringValue": "={{ $json.body.resource.defaultDatasetId }}"
+            },
+            {
+              "name": "actorRunID",
+              "stringValue": "={{ $json.body.eventData.actorRunId }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "68e5a952-b554-44d9-8d50-b4736c28fb91",
+      "name": "Set Datadset HTTP Request Variable4",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1340,
+        1480
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "year",
+              "type": "numberValue",
+              "numberValue": "={{ $json.searchDate.year }}"
+            },
+            {
+              "name": "monthOfTheYear",
+              "type": "numberValue",
+              "numberValue": "={{ $json.searchDate.month }}"
+            },
+            {
+              "name": "monthlyPaidClicks",
+              "type": "numberValue",
+              "numberValue": "={{ $json.monthlyPaidClicks }}"
+            },
+            {
+              "name": "monthlyBudget",
+              "type": "numberValue",
+              "numberValue": "={{ $json.monthlyBudget }}"
+            },
+            {
+              "name": "totalAdsPurchased",
+              "type": "numberValue",
+              "numberValue": "={{ $json.totalAdsPurchased }}"
+            },
+            {
+              "name": "strength",
+              "type": "numberValue",
+              "numberValue": "={{ $json.strength }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "b84e03fc-d8ff-4232-a0aa-9b563c9d7b23",
+      "name": "Edit Fields4",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1940,
+        1360
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI",
+          "mode": "list",
+          "cachedResultName": "SpyFu_API-FirstPageDigital-PPC Ads Analysis (9Dec23 Updates)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1396817426,
+          "mode": "list",
+          "cachedResultName": "Domain Stats",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI/edit#gid=1396817426"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Year": "={{ $json.year }}",
+            "Month Of Year": "={{ $json.monthOfTheYear }}",
+            "Monthly Paid Clicks": "={{ $json.monthlyPaidClicks }}",
+            "Monthly Budget": "={{ $json.monthlyBudget }}",
+            "Total Ads Purchased": "={{ $json.totalAdsPurchased }}",
+            "Strength": "={{ $json.strength }}"
+          },
+          "matchingColumns": [
+            "Year"
+          ],
+          "schema": [
+            {
+              "id": "Year",
+              "displayName": "Year",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Month Of Year",
+              "displayName": "Month Of Year",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Monthly Paid Clicks",
+              "displayName": "Monthly Paid Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Monthly Budget",
+              "displayName": "Monthly Budget",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total Ads Purchased",
+              "displayName": "Total Ads Purchased",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Strength",
+              "displayName": "Strength",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "34a7e8c2-1f75-46ea-b7d9-9c824b2f9a86",
+      "name": "Google Sheets4",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        2420,
+        1360
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Parameter: Get Domain Stats\n",
+        "height": 409.9719873238856,
+        "width": 1758.4468591695604
+      },
+      "id": "13300914-5baa-48ac-8358-0a0373dd7059",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        700,
+        1260
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.year }}",
+              "operation": "equal",
+              "value2": 2023
+            }
+          ]
+        }
+      },
+      "id": "77599c9b-9a66-4ea6-8495-ce8fddcbb809",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 1,
+      "position": [
+        2160,
+        1360
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "clear",
+        "documentId": {
+          "__rl": true,
+          "value": "1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI",
+          "mode": "list",
+          "cachedResultName": "SpyFu_API-FirstPageDigital-PPC Ads Analysis (9Dec23 Updates)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1228306826,
+          "mode": "list",
+          "cachedResultName": "Top Competitors",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI/edit#gid=1228306826"
+        },
+        "keepFirstRow": true
+      },
+      "id": "a10f4ebf-b702-4012-bbdc-afa70072a6c4",
+      "name": "Google Sheets5",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        1080,
+        -880
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "clear",
+        "documentId": {
+          "__rl": true,
+          "value": "1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI",
+          "mode": "list",
+          "cachedResultName": "SpyFu_API-FirstPageDigital-PPC Ads Analysis (9Dec23 Updates)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1998703856,
+          "mode": "list",
+          "cachedResultName": "Top Ads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI/edit#gid=1998703856"
+        },
+        "keepFirstRow": true
+      },
+      "id": "21d9d32a-8178-4660-b346-2de9bcaea9cc",
+      "name": "Google Sheets6",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        1080,
+        -260
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "clear",
+        "documentId": {
+          "__rl": true,
+          "value": "1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI",
+          "mode": "list",
+          "cachedResultName": "SpyFu_API-FirstPageDigital-PPC Ads Analysis (9Dec23 Updates)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Most Successful KWs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI/edit#gid=0"
+        },
+        "keepFirstRow": true
+      },
+      "id": "bd579383-735e-4210-bc76-8ec9a0b6f781",
+      "name": "Google Sheets7",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        1060,
+        320
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "clear",
+        "documentId": {
+          "__rl": true,
+          "value": "1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI",
+          "mode": "list",
+          "cachedResultName": "SpyFu_API-FirstPageDigital-PPC Ads Analysis (9Dec23 Updates)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 532149713,
+          "mode": "list",
+          "cachedResultName": "Most Valuable KWs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI/edit#gid=532149713"
+        },
+        "keepFirstRow": true
+      },
+      "id": "3dd9507a-9604-4b93-af2e-a89ec89a755e",
+      "name": "Google Sheets8",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        1060,
+        920
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "clear",
+        "documentId": {
+          "__rl": true,
+          "value": "1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI",
+          "mode": "list",
+          "cachedResultName": "SpyFu_API-FirstPageDigital-PPC Ads Analysis (9Dec23 Updates)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1396817426,
+          "mode": "list",
+          "cachedResultName": "Domain Stats",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1uoCXbGawtjDjDRQAJIWzgR_ljLAfhGs29_8m15XRowI/edit#gid=1396817426"
+        },
+        "keepFirstRow": true
+      },
+      "id": "ef90a127-ba4d-487e-94d1-e1c0ce71589d",
+      "name": "Google Sheets9",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        1060,
+        1520
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Datadset HTTP Request Variable": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Datadset HTTP Request Variable1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "Filter1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook2": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Datadset HTTP Request Variable2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook3": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Datadset HTTP Request Variable3": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request4": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook4": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Datadset HTTP Request Variable4": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets5": {
+      "main": [
+        [
+          {
+            "node": "Set Datadset HTTP Request Variable2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets6": {
+      "main": [
+        [
+          {
+            "node": "Set Datadset HTTP Request Variable1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets7": {
+      "main": [
+        [
+          {
+            "node": "Set Datadset HTTP Request Variable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets8": {
+      "main": [
+        [
+          {
+            "node": "Set Datadset HTTP Request Variable3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets9": {
+      "main": [
+        [
+          {
+            "node": "Set Datadset HTTP Request Variable4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Webhook2": [
+      {
+        "json": {
+          "headers": {
+            "x-forwarded-host": "n8n.automessenger.me",
+            "x-forwarded-server": "n8n.automessenger.me",
+            "x-real-ip": "35.153.70.88",
+            "x-forwarded-for": "35.153.70.88",
+            "x-forwarded-proto": "https",
+            "host": "n8n.automessenger.me",
+            "connection": "Upgrade",
+            "content-length": "2107",
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "x-apify-webhook": "yo",
+            "x-apify-webhook-dispatch-id": "Z7KBCrZKxGhaetNKO",
+            "x-apify-request-origin": "WEBHOOK",
+            "x-apify-workflow-key": "ea0qetn4rhro",
+            "user-agent": "axios/0.27.2"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "userId": "MgfRjc3oxA7ihmNAP",
+            "createdAt": "2023-12-11T03:42:23.056Z",
+            "eventType": "ACTOR.RUN.SUCCEEDED",
+            "eventData": {
+              "actorId": "ZE0kOBoNTtd4UvMGo",
+              "actorTaskId": "LFZiM3FdzDW6wTyvt",
+              "actorRunId": "kZ8DsbEova4cm0a8P"
+            },
+            "resource": {
+              "id": "kZ8DsbEova4cm0a8P",
+              "actId": "ZE0kOBoNTtd4UvMGo",
+              "userId": "MgfRjc3oxA7ihmNAP",
+              "actorTaskId": "LFZiM3FdzDW6wTyvt",
+              "startedAt": "2023-12-11T03:42:13.386Z",
+              "finishedAt": "2023-12-11T03:42:16.802Z",
+              "status": "SUCCEEDED",
+              "meta": {
+                "origin": "WEB",
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+              },
+              "stats": {
+                "inputBodyLen": 125,
+                "rebootCount": 0,
+                "restartCount": 0,
+                "durationMillis": 3290,
+                "resurrectCount": 0,
+                "runTimeSecs": 3.29,
+                "metamorph": 0,
+                "computeUnits": 0.00022847222222222222,
+                "memAvgBytes": 1103874.5825977302,
+                "memMaxBytes": 89837568,
+                "memCurrentBytes": 89837568,
+                "cpuAvgUsage": -0.2599267337599373,
+                "cpuMaxUsage": 103.06094993581513,
+                "cpuCurrentUsage": 103.06094993581513,
+                "netRxBytes": 7689,
+                "netTxBytes": 150
+              },
+              "options": {
+                "build": "latest",
+                "memoryMbytes": 256,
+                "timeoutSecs": 360,
+                "diskMbytes": 512
+              },
+              "buildId": "fim0aFDkobQoqNVwe",
+              "exitCode": 0,
+              "defaultKeyValueStoreId": "SvnAFQ8bHxF5dhhuZ",
+              "defaultDatasetId": "tKUchCAMDIxnyD3PX",
+              "defaultRequestQueueId": "03aMCVOALJQa3s7WT",
+              "buildNumber": "1.7.13",
+              "containerUrl": "https://pgiz1iabfqg7.runs.apify.net",
+              "usage": {
+                "ACTOR_COMPUTE_UNITS": 0.00022847222222222222,
+                "DATASET_READS": 0,
+                "DATASET_WRITES": 9,
+                "KEY_VALUE_STORE_READS": 1,
+                "KEY_VALUE_STORE_WRITES": 1,
+                "KEY_VALUE_STORE_LISTS": 0,
+                "REQUEST_QUEUE_READS": 0,
+                "REQUEST_QUEUE_WRITES": 0,
+                "DATA_TRANSFER_INTERNAL_GBYTES": 0.0000043101608753204346,
+                "DATA_TRANSFER_EXTERNAL_GBYTES": 0,
+                "PROXY_RESIDENTIAL_TRANSFER_GBYTES": 0,
+                "PROXY_SERPS": 0
+              },
+              "usageTotalUsd": 0.00019160439693265493,
+              "usageUsd": {
+                "ACTOR_COMPUTE_UNITS": 0.0000913888888888889,
+                "DATASET_READS": 0,
+                "DATASET_WRITES": 0.000045,
+                "KEY_VALUE_STORE_READS": 0.000005,
+                "KEY_VALUE_STORE_WRITES": 0.00005,
+                "KEY_VALUE_STORE_LISTS": 0,
+                "REQUEST_QUEUE_READS": 0,
+                "REQUEST_QUEUE_WRITES": 0,
+                "DATA_TRANSFER_INTERNAL_GBYTES": 2.1550804376602173e-7,
+                "DATA_TRANSFER_EXTERNAL_GBYTES": 0,
+                "PROXY_RESIDENTIAL_TRANSFER_GBYTES": 0,
+                "PROXY_SERPS": 0
+              }
+            }
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Webhook1": [
+      {
+        "json": {
+          "headers": {
+            "x-forwarded-host": "n8n.automessenger.me",
+            "x-forwarded-server": "n8n.automessenger.me",
+            "x-real-ip": "3.80.2.165",
+            "x-forwarded-for": "3.80.2.165",
+            "x-forwarded-proto": "https",
+            "host": "n8n.automessenger.me",
+            "connection": "Upgrade",
+            "content-length": "2147",
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "x-apify-webhook": "yo",
+            "x-apify-webhook-dispatch-id": "yy6FCge8HQjKQ7Qn0",
+            "x-apify-request-origin": "WEBHOOK",
+            "x-apify-workflow-key": "f3mwvt5p5qz2",
+            "user-agent": "axios/0.27.2"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "userId": "MgfRjc3oxA7ihmNAP",
+            "createdAt": "2023-12-11T03:58:10.273Z",
+            "eventType": "ACTOR.RUN.SUCCEEDED",
+            "eventData": {
+              "actorId": "ZE0kOBoNTtd4UvMGo",
+              "actorTaskId": "h9BBw71QzrikiY3o6",
+              "actorRunId": "i6F9chG6p4eNOhnOG"
+            },
+            "resource": {
+              "id": "i6F9chG6p4eNOhnOG",
+              "actId": "ZE0kOBoNTtd4UvMGo",
+              "userId": "MgfRjc3oxA7ihmNAP",
+              "actorTaskId": "h9BBw71QzrikiY3o6",
+              "startedAt": "2023-12-11T03:57:59.000Z",
+              "finishedAt": "2023-12-11T03:58:03.994Z",
+              "status": "SUCCEEDED",
+              "meta": {
+                "origin": "WEB",
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+              },
+              "stats": {
+                "inputBodyLen": 125,
+                "rebootCount": 0,
+                "restartCount": 0,
+                "durationMillis": 4916,
+                "resurrectCount": 0,
+                "runTimeSecs": 4.916,
+                "metamorph": 0,
+                "computeUnits": 0.0003413888888888889,
+                "memAvgBytes": 48707574.34680514,
+                "memMaxBytes": 101986304,
+                "memCurrentBytes": 101986304,
+                "cpuAvgUsage": 3.0733629563319136,
+                "cpuMaxUsage": 88.60017643352236,
+                "cpuCurrentUsage": 9.999000892060659,
+                "netRxBytes": 11386,
+                "netTxBytes": 3966
+              },
+              "options": {
+                "build": "latest",
+                "memoryMbytes": 256,
+                "timeoutSecs": 360,
+                "diskMbytes": 512
+              },
+              "buildId": "fim0aFDkobQoqNVwe",
+              "exitCode": 0,
+              "defaultKeyValueStoreId": "PZdREl05MRVlH63AE",
+              "defaultDatasetId": "XULMb1KsgN30HgFtn",
+              "defaultRequestQueueId": "uf7LrsFBmVI8Xqhge",
+              "buildNumber": "1.7.13",
+              "containerUrl": "https://xhdemknx1v9u.runs.apify.net",
+              "usage": {
+                "ACTOR_COMPUTE_UNITS": 0.0003413888888888889,
+                "DATASET_READS": 0,
+                "DATASET_WRITES": 2,
+                "KEY_VALUE_STORE_READS": 1,
+                "KEY_VALUE_STORE_WRITES": 1,
+                "KEY_VALUE_STORE_LISTS": 0,
+                "REQUEST_QUEUE_READS": 0,
+                "REQUEST_QUEUE_WRITES": 0,
+                "DATA_TRANSFER_INTERNAL_GBYTES": 0.000002880580723285675,
+                "DATA_TRANSFER_EXTERNAL_GBYTES": 0.0000031497329473495483,
+                "PROXY_RESIDENTIAL_TRANSFER_GBYTES": 0,
+                "PROXY_SERPS": 0
+              },
+              "usageTotalUsd": 0.00020232953118118975,
+              "usageUsd": {
+                "ACTOR_COMPUTE_UNITS": 0.00013655555555555556,
+                "DATASET_READS": 0,
+                "DATASET_WRITES": 0.00001,
+                "KEY_VALUE_STORE_READS": 0.000005,
+                "KEY_VALUE_STORE_WRITES": 0.00005,
+                "KEY_VALUE_STORE_LISTS": 0,
+                "REQUEST_QUEUE_READS": 0,
+                "REQUEST_QUEUE_WRITES": 0,
+                "DATA_TRANSFER_INTERNAL_GBYTES": 1.4402903616428376e-7,
+                "DATA_TRANSFER_EXTERNAL_GBYTES": 6.299465894699098e-7,
+                "PROXY_RESIDENTIAL_TRANSFER_GBYTES": 0,
+                "PROXY_SERPS": 0
+              }
+            }
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Edit Fields1": [
+      {
+        "json": {
+          "averageAdPosition": 4,
+          "averageAdCount": 7,
+          "adBodyContent": "Choose our SEO agency as your eCommerce SEO guide & we’ll deliver results within 90 days.",
+          "fullURL": "http://firstpagedigital.sg/",
+          "leaderboardCount": 1,
+          "percentageLeaderboard": 1,
+          "percentageAdServed": 0.5
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "averageAdPosition": 3,
+          "averageAdCount": 3,
+          "adBodyContent": "Choose our SEO agency as your eCommerce SEO guide & we’ll deliver results within 90 days. Partner with APAC's highest rated SEO agency. Guaranteed traffic to grow your revenue. Free 2 Months SEO Servi",
+          "fullURL": "http://firstpagedigital.sg/",
+          "leaderboardCount": 0,
+          "percentageLeaderboard": 0,
+          "percentageAdServed": 0.5
+        },
+        "pairedItem": {
+          "item": 1
+        }
+      }
+    ],
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "x-forwarded-host": "n8n.automessenger.me",
+            "x-forwarded-server": "n8n.automessenger.me",
+            "x-real-ip": "44.200.113.108",
+            "x-forwarded-for": "44.200.113.108",
+            "x-forwarded-proto": "https",
+            "host": "n8n.automessenger.me",
+            "connection": "Upgrade",
+            "content-length": "2147",
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "x-apify-webhook": "yo",
+            "x-apify-webhook-dispatch-id": "5N2DKmDwaB07bAskr",
+            "x-apify-request-origin": "WEBHOOK",
+            "x-apify-workflow-key": "lf1l7nivbo1s",
+            "user-agent": "axios/0.27.2"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "userId": "MgfRjc3oxA7ihmNAP",
+            "createdAt": "2023-12-11T04:06:28.495Z",
+            "eventType": "ACTOR.RUN.SUCCEEDED",
+            "eventData": {
+              "actorId": "ZE0kOBoNTtd4UvMGo",
+              "actorTaskId": "smFNY4jWIxUtZiDuk",
+              "actorRunId": "m2rHVGrq8vgOLgugt"
+            },
+            "resource": {
+              "id": "m2rHVGrq8vgOLgugt",
+              "actId": "ZE0kOBoNTtd4UvMGo",
+              "userId": "MgfRjc3oxA7ihmNAP",
+              "actorTaskId": "smFNY4jWIxUtZiDuk",
+              "startedAt": "2023-12-11T04:06:15.609Z",
+              "finishedAt": "2023-12-11T04:06:22.276Z",
+              "status": "SUCCEEDED",
+              "meta": {
+                "origin": "WEB",
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+              },
+              "stats": {
+                "inputBodyLen": 125,
+                "rebootCount": 0,
+                "restartCount": 0,
+                "durationMillis": 6493,
+                "resurrectCount": 0,
+                "runTimeSecs": 6.493,
+                "metamorph": 0,
+                "computeUnits": 0.00045090277777777777,
+                "memAvgBytes": 48176296.2204614,
+                "memMaxBytes": 86749184,
+                "memCurrentBytes": 86749184,
+                "cpuAvgUsage": 1.472607579008101,
+                "cpuMaxUsage": 103.82652121212121,
+                "cpuCurrentUsage": 1.8803761755485895,
+                "netRxBytes": 10220,
+                "netTxBytes": 3766
+              },
+              "options": {
+                "build": "latest",
+                "memoryMbytes": 256,
+                "timeoutSecs": 360,
+                "diskMbytes": 512
+              },
+              "buildId": "fim0aFDkobQoqNVwe",
+              "exitCode": 0,
+              "defaultKeyValueStoreId": "A4VIwpwuuo88groNV",
+              "defaultDatasetId": "xecYm41AuX0csSsCl",
+              "defaultRequestQueueId": "UAgLTkkF3YA9OMFQO",
+              "buildNumber": "1.7.13",
+              "containerUrl": "https://lb09cekhy3vh.runs.apify.net",
+              "usage": {
+                "ACTOR_COMPUTE_UNITS": 0.00045090277777777777,
+                "DATASET_READS": 0,
+                "DATASET_WRITES": 5,
+                "KEY_VALUE_STORE_READS": 1,
+                "KEY_VALUE_STORE_WRITES": 1,
+                "KEY_VALUE_STORE_LISTS": 0,
+                "REQUEST_QUEUE_READS": 0,
+                "REQUEST_QUEUE_WRITES": 0,
+                "DATA_TRANSFER_INTERNAL_GBYTES": 0.000004891306161880493,
+                "DATA_TRANSFER_EXTERNAL_GBYTES": 0.0000013299286365509033,
+                "PROXY_RESIDENTIAL_TRANSFER_GBYTES": 0,
+                "PROXY_SERPS": 0
+              },
+              "usageTotalUsd": 0.00026087166214651533,
+              "usageUsd": {
+                "ACTOR_COMPUTE_UNITS": 0.00018036111111111112,
+                "DATASET_READS": 0,
+                "DATASET_WRITES": 0.000025,
+                "KEY_VALUE_STORE_READS": 0.000005,
+                "KEY_VALUE_STORE_WRITES": 0.00005,
+                "KEY_VALUE_STORE_LISTS": 0,
+                "REQUEST_QUEUE_READS": 0,
+                "REQUEST_QUEUE_WRITES": 0,
+                "DATA_TRANSFER_INTERNAL_GBYTES": 2.445653080940247e-7,
+                "DATA_TRANSFER_EXTERNAL_GBYTES": 2.659857273101807e-7,
+                "PROXY_RESIDENTIAL_TRANSFER_GBYTES": 0,
+                "PROXY_SERPS": 0
+              }
+            }
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Edit Fields": [
+      {
+        "json": {
+          "keyword": "ascend marketing",
+          "searchVolume": "260",
+          "rankingDifficulty": "9",
+          "totalMonthlyClicks": "200",
+          "costPerClick": null,
+          "adCompetitorsSnapshot1": "1. indeed.com\n2. \n3. \n4. \n5. ",
+          "adCompetitorsSnapshot2": "1. \n2. \n3. \n4. \n5. ",
+          "adCompetitorsSnapshot3": "1. \n2. \n3. \n4. \n5. "
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "keyword": "digital influence lab",
+          "searchVolume": "260",
+          "rankingDifficulty": "6",
+          "totalMonthlyClicks": "260",
+          "costPerClick": "1.14",
+          "adCompetitorsSnapshot1": "1. \n2. \n3. \n4. \n5. ",
+          "adCompetitorsSnapshot2": "1. \n2. \n3. \n4. \n5. ",
+          "adCompetitorsSnapshot3": "1. wunderfauks.com\n2. noxinfluencer.com\n3. theglocals.com\n4. \n5. "
+        },
+        "pairedItem": {
+          "item": 1
+        }
+      },
+      {
+        "json": {
+          "keyword": "media companies in singapore",
+          "searchVolume": "220",
+          "rankingDifficulty": "17",
+          "totalMonthlyClicks": "110",
+          "costPerClick": "3.89",
+          "adCompetitorsSnapshot1": "1. \n2. \n3. \n4. \n5. ",
+          "adCompetitorsSnapshot2": "1. thebrightproduction.com\n2. wearemills.com\n3. \n4. \n5. ",
+          "adCompetitorsSnapshot3": "1. \n2. \n3. \n4. \n5. "
+        },
+        "pairedItem": {
+          "item": 2
+        }
+      },
+      {
+        "json": {
+          "keyword": "instagram ads cost",
+          "searchVolume": "190",
+          "rankingDifficulty": "0",
+          "totalMonthlyClicks": "130",
+          "costPerClick": "1.02",
+          "adCompetitorsSnapshot1": "1. \n2. \n3. \n4. \n5. ",
+          "adCompetitorsSnapshot2": "1. facebook.com\n2. \n3. \n4. \n5. ",
+          "adCompetitorsSnapshot3": "1. kuubiik.com\n2. firstpagedigital.sg\n3. info.com\n4. asiapacdigital.com\n5. "
+        },
+        "pairedItem": {
+          "item": 3
+        }
+      },
+      {
+        "json": {
+          "keyword": "social media advertising cost",
+          "searchVolume": "130",
+          "rankingDifficulty": null,
+          "totalMonthlyClicks": "75",
+          "costPerClick": "13.33",
+          "adCompetitorsSnapshot1": "1. \n2. \n3. \n4. \n5. ",
+          "adCompetitorsSnapshot2": "1. \n2. \n3. \n4. \n5. ",
+          "adCompetitorsSnapshot3": "1. \n2. \n3. \n4. \n5. "
+        },
+        "pairedItem": {
+          "item": 4
+        }
+      }
+    ],
+    "Webhook3": [
+      {
+        "json": {
+          "headers": {
+            "x-forwarded-host": "n8n.automessenger.me",
+            "x-forwarded-server": "n8n.automessenger.me",
+            "x-real-ip": "100.24.118.51",
+            "x-forwarded-for": "100.24.118.51",
+            "x-forwarded-proto": "https",
+            "host": "n8n.automessenger.me",
+            "connection": "Upgrade",
+            "content-length": "2108",
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "x-apify-webhook": "yo",
+            "x-apify-webhook-dispatch-id": "ANIXRPPCCz4HDmJxo",
+            "x-apify-request-origin": "WEBHOOK",
+            "x-apify-workflow-key": "fos4gbgycnbx",
+            "user-agent": "axios/0.27.2"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "userId": "MgfRjc3oxA7ihmNAP",
+            "createdAt": "2023-12-11T04:18:56.135Z",
+            "eventType": "ACTOR.RUN.SUCCEEDED",
+            "eventData": {
+              "actorId": "ZE0kOBoNTtd4UvMGo",
+              "actorTaskId": "9mfj3qHaa2kQvM7Sx",
+              "actorRunId": "GJuDhGTkwy2tux22P"
+            },
+            "resource": {
+              "id": "GJuDhGTkwy2tux22P",
+              "actId": "ZE0kOBoNTtd4UvMGo",
+              "userId": "MgfRjc3oxA7ihmNAP",
+              "actorTaskId": "9mfj3qHaa2kQvM7Sx",
+              "startedAt": "2023-12-11T04:18:45.608Z",
+              "finishedAt": "2023-12-11T04:18:49.977Z",
+              "status": "SUCCEEDED",
+              "meta": {
+                "origin": "WEB",
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+              },
+              "stats": {
+                "inputBodyLen": 125,
+                "rebootCount": 0,
+                "restartCount": 0,
+                "durationMillis": 4227,
+                "resurrectCount": 0,
+                "runTimeSecs": 4.227,
+                "metamorph": 0,
+                "computeUnits": 0.00029354166666666667,
+                "memAvgBytes": 26686421.387137454,
+                "memMaxBytes": 91901952,
+                "memCurrentBytes": 91901952,
+                "cpuAvgUsage": -0.5611319354159567,
+                "cpuMaxUsage": 88.99552495697074,
+                "cpuCurrentUsage": 88.99552495697074,
+                "netRxBytes": 2399,
+                "netTxBytes": 1278
+              },
+              "options": {
+                "build": "latest",
+                "memoryMbytes": 256,
+                "timeoutSecs": 360,
+                "diskMbytes": 512
+              },
+              "buildId": "fim0aFDkobQoqNVwe",
+              "exitCode": 0,
+              "defaultKeyValueStoreId": "8yUn4pgX1D5cxOFkJ",
+              "defaultDatasetId": "PtERPEtfdCrA87p23",
+              "defaultRequestQueueId": "uNocdNrUjjImbaZF3",
+              "buildNumber": "1.7.13",
+              "containerUrl": "https://yzfqxq2lduwj.runs.apify.net",
+              "usage": {
+                "ACTOR_COMPUTE_UNITS": 0.00029354166666666667,
+                "DATASET_READS": 0,
+                "DATASET_WRITES": 5,
+                "KEY_VALUE_STORE_READS": 1,
+                "KEY_VALUE_STORE_WRITES": 1,
+                "KEY_VALUE_STORE_LISTS": 0,
+                "REQUEST_QUEUE_READS": 0,
+                "REQUEST_QUEUE_WRITES": 0,
+                "DATA_TRANSFER_INTERNAL_GBYTES": 0.0000029569491744041443,
+                "DATA_TRANSFER_EXTERNAL_GBYTES": 0,
+                "PROXY_RESIDENTIAL_TRANSFER_GBYTES": 0,
+                "PROXY_SERPS": 0
+              },
+              "usageTotalUsd": 0.00019756451412538688,
+              "usageUsd": {
+                "ACTOR_COMPUTE_UNITS": 0.00011741666666666667,
+                "DATASET_READS": 0,
+                "DATASET_WRITES": 0.000025,
+                "KEY_VALUE_STORE_READS": 0.000005,
+                "KEY_VALUE_STORE_WRITES": 0.00005,
+                "KEY_VALUE_STORE_LISTS": 0,
+                "REQUEST_QUEUE_READS": 0,
+                "REQUEST_QUEUE_WRITES": 0,
+                "DATA_TRANSFER_INTERNAL_GBYTES": 1.4784745872020721e-7,
+                "DATA_TRANSFER_EXTERNAL_GBYTES": 0,
+                "PROXY_RESIDENTIAL_TRANSFER_GBYTES": 0,
+                "PROXY_SERPS": 0
+              }
+            }
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Edit Fields3": [
+      {
+        "json": {
+          "keyword": "disney plus singapore",
+          "topRankedURL": "https://www.firstpagedigital.sg/resources/digital-marketing/disney-plus-is-killing-it-with-their-digital-marketing-strategy-heres-why/",
+          "rank": 72,
+          "rankChange": 14,
+          "serarchVolume": 13400,
+          "rankingDifficulty": 11,
+          "avgCPC": 0.94,
+          "totalMonthlyClicks": 360,
+          "percentagePaidClicks": null,
+          "paidCompetitors": 1
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "keyword": "first page",
+          "topRankedURL": "https://www.firstpagedigital.sg/",
+          "rank": 1,
+          "rankChange": 0,
+          "serarchVolume": 130,
+          "rankingDifficulty": 14,
+          "avgCPC": 0.69,
+          "totalMonthlyClicks": 270,
+          "percentagePaidClicks": null,
+          "paidCompetitors": 8
+        },
+        "pairedItem": {
+          "item": 1
+        }
+      },
+      {
+        "json": {
+          "keyword": "firstpage",
+          "topRankedURL": "https://www.firstpagedigital.sg/",
+          "rank": 1,
+          "rankChange": 0,
+          "serarchVolume": 65,
+          "rankingDifficulty": 12,
+          "avgCPC": null,
+          "totalMonthlyClicks": 145,
+          "percentagePaidClicks": 0,
+          "paidCompetitors": 8
+        },
+        "pairedItem": {
+          "item": 2
+        }
+      },
+      {
+        "json": {
+          "keyword": "first page",
+          "topRankedURL": "https://www.firstpagedigital.sg/who-we-are/",
+          "rank": 3,
+          "rankChange": -2,
+          "serarchVolume": 130,
+          "rankingDifficulty": 14,
+          "avgCPC": 0.69,
+          "totalMonthlyClicks": 270,
+          "percentagePaidClicks": null,
+          "paidCompetitors": 8
+        },
+        "pairedItem": {
+          "item": 3
+        }
+      },
+      {
+        "json": {
+          "keyword": "singapore male influencers",
+          "topRankedURL": "https://www.firstpagedigital.sg/resources/social/top-male-fashion-influencers-singapore/",
+          "rank": 2,
+          "rankChange": 6,
+          "serarchVolume": 65,
+          "rankingDifficulty": 6,
+          "avgCPC": 0.19,
+          "totalMonthlyClicks": null,
+          "percentagePaidClicks": null,
+          "paidCompetitors": 7
+        },
+        "pairedItem": {
+          "item": 4
+        }
+      }
+    ],
+    "Webhook4": [
+      {
+        "json": {
+          "headers": {
+            "x-forwarded-host": "n8n.automessenger.me",
+            "x-forwarded-server": "n8n.automessenger.me",
+            "x-real-ip": "3.236.139.203",
+            "x-forwarded-for": "3.236.139.203",
+            "x-forwarded-proto": "https",
+            "host": "n8n.automessenger.me",
+            "connection": "Upgrade",
+            "content-length": "2097",
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "x-apify-webhook": "yo",
+            "x-apify-webhook-dispatch-id": "XyUlnnRlUqf6359WM",
+            "x-apify-request-origin": "WEBHOOK",
+            "x-apify-workflow-key": "u5pkrkjxs1bb",
+            "user-agent": "axios/0.27.2"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "userId": "MgfRjc3oxA7ihmNAP",
+            "createdAt": "2023-12-11T04:26:14.571Z",
+            "eventType": "ACTOR.RUN.SUCCEEDED",
+            "eventData": {
+              "actorId": "ZE0kOBoNTtd4UvMGo",
+              "actorTaskId": "GuK1LNsfsdHBPhjaV",
+              "actorRunId": "fi0wWtLgkB8vRMCIV"
+            },
+            "resource": {
+              "id": "fi0wWtLgkB8vRMCIV",
+              "actId": "ZE0kOBoNTtd4UvMGo",
+              "userId": "MgfRjc3oxA7ihmNAP",
+              "actorTaskId": "GuK1LNsfsdHBPhjaV",
+              "startedAt": "2023-12-11T04:26:03.765Z",
+              "finishedAt": "2023-12-11T04:26:08.382Z",
+              "status": "SUCCEEDED",
+              "meta": {
+                "origin": "WEB",
+                "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+              },
+              "stats": {
+                "inputBodyLen": 125,
+                "rebootCount": 0,
+                "restartCount": 0,
+                "durationMillis": 4515,
+                "resurrectCount": 0,
+                "runTimeSecs": 4.515,
+                "metamorph": 0,
+                "computeUnits": 0.00031354166666666667,
+                "memAvgBytes": 97247232,
+                "memMaxBytes": 97247232,
+                "memCurrentBytes": 0,
+                "cpuAvgUsage": 0,
+                "cpuMaxUsage": 0,
+                "cpuCurrentUsage": 0,
+                "netRxBytes": 9217,
+                "netTxBytes": 3203
+              },
+              "options": {
+                "build": "latest",
+                "memoryMbytes": 256,
+                "timeoutSecs": 360,
+                "diskMbytes": 512
+              },
+              "buildId": "fim0aFDkobQoqNVwe",
+              "exitCode": 0,
+              "defaultKeyValueStoreId": "Jq3eV2N8FxHbOgee7",
+              "defaultDatasetId": "IBfhP5SlXYfeqR0Y8",
+              "defaultRequestQueueId": "M4L4rfCd6KNuO2DFa",
+              "buildNumber": "1.7.13",
+              "containerUrl": "https://ze7utg8mp25c.runs.apify.net",
+              "usage": {
+                "ACTOR_COMPUTE_UNITS": 0.00031354166666666667,
+                "DATASET_READS": 0,
+                "DATASET_WRITES": 33,
+                "KEY_VALUE_STORE_READS": 1,
+                "KEY_VALUE_STORE_WRITES": 1,
+                "KEY_VALUE_STORE_LISTS": 0,
+                "REQUEST_QUEUE_READS": 0,
+                "REQUEST_QUEUE_WRITES": 0,
+                "DATA_TRANSFER_INTERNAL_GBYTES": 0.0000011203810572624207,
+                "DATA_TRANSFER_EXTERNAL_GBYTES": 0.0000026943162083625793,
+                "PROXY_RESIDENTIAL_TRANSFER_GBYTES": 0,
+                "PROXY_SERPS": 0
+              },
+              "usageTotalUsd": 0.00034601154896120236,
+              "usageUsd": {
+                "ACTOR_COMPUTE_UNITS": 0.00012541666666666666,
+                "DATASET_READS": 0,
+                "DATASET_WRITES": 0.00016500000000000003,
+                "KEY_VALUE_STORE_READS": 0.000005,
+                "KEY_VALUE_STORE_WRITES": 0.00005,
+                "KEY_VALUE_STORE_LISTS": 0,
+                "REQUEST_QUEUE_READS": 0,
+                "REQUEST_QUEUE_WRITES": 0,
+                "DATA_TRANSFER_INTERNAL_GBYTES": 5.601905286312104e-8,
+                "DATA_TRANSFER_EXTERNAL_GBYTES": 5.388632416725159e-7,
+                "PROXY_RESIDENTIAL_TRANSFER_GBYTES": 0,
+                "PROXY_SERPS": 0
+              }
+            }
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Edit Fields4": [
+      {
+        "json": {
+          "year": 2021,
+          "monthOfTheYear": 3,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 0,
+          "totalAdsPurchased": 13,
+          "strength": 0
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "year": 2021,
+          "monthOfTheYear": 4,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 1.75,
+          "totalAdsPurchased": 85,
+          "strength": 1
+        },
+        "pairedItem": {
+          "item": 1
+        }
+      },
+      {
+        "json": {
+          "year": 2021,
+          "monthOfTheYear": 5,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 1.75,
+          "totalAdsPurchased": 87,
+          "strength": 1
+        },
+        "pairedItem": {
+          "item": 2
+        }
+      },
+      {
+        "json": {
+          "year": 2021,
+          "monthOfTheYear": 6,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 6.35,
+          "totalAdsPurchased": 109,
+          "strength": 1
+        },
+        "pairedItem": {
+          "item": 3
+        }
+      },
+      {
+        "json": {
+          "year": 2021,
+          "monthOfTheYear": 7,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 48.65,
+          "totalAdsPurchased": 197,
+          "strength": 1
+        },
+        "pairedItem": {
+          "item": 4
+        }
+      },
+      {
+        "json": {
+          "year": 2021,
+          "monthOfTheYear": 8,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 95.28999999999999,
+          "totalAdsPurchased": 234,
+          "strength": 1
+        },
+        "pairedItem": {
+          "item": 5
+        }
+      },
+      {
+        "json": {
+          "year": 2021,
+          "monthOfTheYear": 9,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 95.28999999999999,
+          "totalAdsPurchased": 248,
+          "strength": 1
+        },
+        "pairedItem": {
+          "item": 6
+        }
+      },
+      {
+        "json": {
+          "year": 2021,
+          "monthOfTheYear": 10,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 99.76,
+          "totalAdsPurchased": 268,
+          "strength": 1
+        },
+        "pairedItem": {
+          "item": 7
+        }
+      },
+      {
+        "json": {
+          "year": 2021,
+          "monthOfTheYear": 11,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 99.76,
+          "totalAdsPurchased": 283,
+          "strength": 1
+        },
+        "pairedItem": {
+          "item": 8
+        }
+      },
+      {
+        "json": {
+          "year": 2021,
+          "monthOfTheYear": 12,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 109.10000000000001,
+          "totalAdsPurchased": 301,
+          "strength": 1
+        },
+        "pairedItem": {
+          "item": 9
+        }
+      },
+      {
+        "json": {
+          "year": 2022,
+          "monthOfTheYear": 1,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 109.10000000000001,
+          "totalAdsPurchased": 326,
+          "strength": 1
+        },
+        "pairedItem": {
+          "item": 10
+        }
+      },
+      {
+        "json": {
+          "year": 2022,
+          "monthOfTheYear": 2,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 109.10000000000001,
+          "totalAdsPurchased": 336,
+          "strength": 1
+        },
+        "pairedItem": {
+          "item": 11
+        }
+      },
+      {
+        "json": {
+          "year": 2022,
+          "monthOfTheYear": 3,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 109.10000000000001,
+          "totalAdsPurchased": 338,
+          "strength": 1
+        },
+        "pairedItem": {
+          "item": 12
+        }
+      },
+      {
+        "json": {
+          "year": 2022,
+          "monthOfTheYear": 4,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 133.3,
+          "totalAdsPurchased": 338,
+          "strength": 30
+        },
+        "pairedItem": {
+          "item": 13
+        }
+      },
+      {
+        "json": {
+          "year": 2022,
+          "monthOfTheYear": 5,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 143.2,
+          "totalAdsPurchased": 394,
+          "strength": 31
+        },
+        "pairedItem": {
+          "item": 14
+        }
+      },
+      {
+        "json": {
+          "year": 2022,
+          "monthOfTheYear": 6,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 0,
+          "totalAdsPurchased": 0,
+          "strength": 1
+        },
+        "pairedItem": {
+          "item": 15
+        }
+      },
+      {
+        "json": {
+          "year": 2022,
+          "monthOfTheYear": 7,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 0,
+          "totalAdsPurchased": 0,
+          "strength": 34
+        },
+        "pairedItem": {
+          "item": 16
+        }
+      },
+      {
+        "json": {
+          "year": 2022,
+          "monthOfTheYear": 8,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 210100,
+          "totalAdsPurchased": 510,
+          "strength": 29
+        },
+        "pairedItem": {
+          "item": 17
+        }
+      },
+      {
+        "json": {
+          "year": 2022,
+          "monthOfTheYear": 9,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 216100,
+          "totalAdsPurchased": 534,
+          "strength": 40
+        },
+        "pairedItem": {
+          "item": 18
+        }
+      },
+      {
+        "json": {
+          "year": 2022,
+          "monthOfTheYear": 10,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 224500,
+          "totalAdsPurchased": 553,
+          "strength": 36
+        },
+        "pairedItem": {
+          "item": 19
+        }
+      },
+      {
+        "json": {
+          "year": 2022,
+          "monthOfTheYear": 11,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 253400,
+          "totalAdsPurchased": 586,
+          "strength": 0
+        },
+        "pairedItem": {
+          "item": 20
+        }
+      },
+      {
+        "json": {
+          "year": 2022,
+          "monthOfTheYear": 12,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 253100,
+          "totalAdsPurchased": 601,
+          "strength": 25
+        },
+        "pairedItem": {
+          "item": 21
+        }
+      },
+      {
+        "json": {
+          "year": 2023,
+          "monthOfTheYear": 1,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 256600,
+          "totalAdsPurchased": 613,
+          "strength": 30
+        },
+        "pairedItem": {
+          "item": 22
+        }
+      },
+      {
+        "json": {
+          "year": 2023,
+          "monthOfTheYear": 2,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 258300,
+          "totalAdsPurchased": 654,
+          "strength": 22
+        },
+        "pairedItem": {
+          "item": 23
+        }
+      },
+      {
+        "json": {
+          "year": 2023,
+          "monthOfTheYear": 3,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 275500,
+          "totalAdsPurchased": 663,
+          "strength": 29
+        },
+        "pairedItem": {
+          "item": 24
+        }
+      },
+      {
+        "json": {
+          "year": 2023,
+          "monthOfTheYear": 4,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 281000,
+          "totalAdsPurchased": 669,
+          "strength": 21
+        },
+        "pairedItem": {
+          "item": 25
+        }
+      },
+      {
+        "json": {
+          "year": 2023,
+          "monthOfTheYear": 5,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 281300,
+          "totalAdsPurchased": 687,
+          "strength": 22
+        },
+        "pairedItem": {
+          "item": 26
+        }
+      },
+      {
+        "json": {
+          "year": 2023,
+          "monthOfTheYear": 6,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 299100,
+          "totalAdsPurchased": 711,
+          "strength": 28
+        },
+        "pairedItem": {
+          "item": 27
+        }
+      },
+      {
+        "json": {
+          "year": 2023,
+          "monthOfTheYear": 7,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 298900,
+          "totalAdsPurchased": 724,
+          "strength": 23
+        },
+        "pairedItem": {
+          "item": 28
+        }
+      },
+      {
+        "json": {
+          "year": 2023,
+          "monthOfTheYear": 8,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 306800,
+          "totalAdsPurchased": 760,
+          "strength": 30
+        },
+        "pairedItem": {
+          "item": 29
+        }
+      },
+      {
+        "json": {
+          "year": 2023,
+          "monthOfTheYear": 9,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 271400,
+          "totalAdsPurchased": 819,
+          "strength": 23
+        },
+        "pairedItem": {
+          "item": 30
+        }
+      },
+      {
+        "json": {
+          "year": 2023,
+          "monthOfTheYear": 10,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 225700,
+          "totalAdsPurchased": 848,
+          "strength": 31
+        },
+        "pairedItem": {
+          "item": 31
+        }
+      },
+      {
+        "json": {
+          "year": 2023,
+          "monthOfTheYear": 11,
+          "monthlyPaidClicks": 0,
+          "monthlyBudget": 231500,
+          "totalAdsPurchased": 864,
+          "strength": 25
+        },
+        "pairedItem": {
+          "item": 32
+        }
+      }
+    ]
+  },
+  "versionId": "877844fd-3b61-4956-b042-1f8f1f7f90d0",
+  "triggerCount": 5,
+  "shared": [
+    {
+      "updatedAt": "2023-12-11T03:36:12.829Z",
+      "createdAt": "2023-12-11T03:36:12.829Z",
+      "role": "workflow:owner",
+      "workflowId": "iIkoFSUUDN4LrrjY",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
