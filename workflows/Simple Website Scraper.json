@@ -1,0 +1,102 @@
+{
+  "updatedAt": "2024-04-25T09:14:06.000Z",
+  "createdAt": "2024-04-25T09:06:53.324Z",
+  "id": "8plWxTtloTL2XedN",
+  "name": "Simple Website Scraper",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "16d484e5-a02a-4919-8520-e70ada129ad3",
+      "name": "When clicking \"Test workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://us-central1-n8nintegration-363509.cloudfunctions.net/getPageContent?name={{ $json.url }}",
+        "options": {}
+      },
+      "id": "d840b2d2-f624-4f2f-96fb-ab49884e790b",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1140,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d29709ca-3487-46c7-a770-91ab2b1fb691",
+              "name": "url",
+              "value": "https://techcrunch.com/category/artificial-intelligence/",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8517788e-3d54-4695-8ad8-43fcc7f4105d",
+      "name": "Insert URL Here",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        840,
+        240
+      ]
+    }
+  ],
+  "connections": {
+    "When clicking \"Test workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Insert URL Here",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert URL Here": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "986c2889-9c82-4a07-b68b-bfca48e26e59",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-04-25T09:06:53.368Z",
+      "createdAt": "2024-04-25T09:06:53.368Z",
+      "role": "workflow:owner",
+      "workflowId": "8plWxTtloTL2XedN",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
