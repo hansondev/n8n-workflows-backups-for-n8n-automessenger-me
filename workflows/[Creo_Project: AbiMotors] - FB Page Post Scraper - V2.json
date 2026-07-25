@@ -1,0 +1,785 @@
+{
+  "updatedAt": "2025-06-18T16:14:46.000Z",
+  "createdAt": "2025-06-18T16:04:07.035Z",
+  "id": "e9U7nQSzQWgeCP9K",
+  "name": "[Creo_Project: AbiMotors] - FB Page Post Scraper - V2",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "url": "https://facebook-scraper-api4.p.rapidapi.com/get_facebook_page_id",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "link",
+              "value": "={{ $json['FB Page URL'] }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-rapidapi-host",
+              "value": "facebook-scraper-api4.p.rapidapi.com"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1580,
+        40
+      ],
+      "id": "4f856350-6f63-4ccf-8a56-e92b6f7d7262",
+      "name": "GET FB Page ID",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "RhcMhaqem5mohNc1",
+          "name": "RapidAPI Header Auth(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/actor-runs/{{ $json.data.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "waitForFinish",
+              "value": "60"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -300,
+        40
+      ],
+      "id": "d15f98bb-6a0c-40e0-8876-1d76a3344858",
+      "name": "Get Actor Run",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -540,
+        40
+      ],
+      "id": "e1275c99-4e2b-4359-8ef0-b13d134a8c16",
+      "name": "Wait",
+      "webhookId": "a3216efe-abbd-429b-b905-9afced96f8d4"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.data.defaultDatasetId }}/items ",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        300,
+        20
+      ],
+      "id": "98821825-2c49-46c0-a1a9-ffe9ffefe882",
+      "name": "Get Datasets",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "575cc607-2b70-4323-b268-995590595b10",
+              "leftValue": "={{ $json.data.status }}",
+              "rightValue": "SUCCEEDED",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -40,
+        40
+      ],
+      "id": "ed6a4672-ea35-4f87-a763-3c4445f5bd28",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "formTitle": "Abi Motors FB Page Posts Scraping",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "FB Page Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Sementra Hot Spring Nature Resort Gopeng"
+                  },
+                  {
+                    "option": "Readycare Signature"
+                  },
+                  {
+                    "option": "Abi Motors Sdn Bhd"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "FB Page URL",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "https://www.facebook.com/sementrahotspringnatureresortgopeng"
+                  },
+                  {
+                    "option": "https://www.facebook.com/readycaresignature"
+                  },
+                  {
+                    "option": "https://www.facebook.com/peroduoabimotors"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Max Posts Scrape",
+              "fieldType": "number"
+            }
+          ]
+        },
+        "options": {
+          "path": "fb-readycare-posts-scraping"
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -1860,
+        40
+      ],
+      "id": "070cfce4-85cb-4b50-b4df-9977ab30d11a",
+      "name": "On form submission",
+      "webhookId": "9a909819-2f21-448d-9734-986d19b6bf11"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d34a454b-8ca5-484d-8497-a9b21dc01027",
+              "name": "fbPageID",
+              "value": "={{ $json.facebook_id }}",
+              "type": "string"
+            },
+            {
+              "id": "5abdcb31-b02b-4fe4-8012-431bf344b1f8",
+              "name": "fbPageURL",
+              "value": "={{ $('On form submission').first().json['FB Page URL'] }}",
+              "type": "string"
+            },
+            {
+              "id": "289e120f-34ba-43db-b1a0-e76f24755de3",
+              "name": "maxPosts",
+              "value": "={{ $('On form submission').first().json['Max Posts Scrape'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1240,
+        40
+      ],
+      "id": "1d7eb793-630e-48a5-b5e4-a90a505f9e9c",
+      "name": "SET Inputs For APIFY FB Scraper"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/actor-tasks/immense_grasshopper~facebook-posts-scraper-task/runs",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"input\": [\n        {\n            \"url\": \"{{ $json.fbPageURL }}\",\n            \"maxPosts\": {{ $json.maxPosts }}\n        }\n    ]\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -860,
+        40
+      ],
+      "id": "217ab911-116c-4c77-b81a-5b47e0dfc33a",
+      "name": "APIFY FB Posts Scraper Actor Start",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ed570b1b-7813-4061-a8c6-fff5e4d43aa4",
+              "name": "numRow",
+              "value": "={{ $itemIndex+1 }}",
+              "type": "string"
+            },
+            {
+              "id": "37e5b5be-aec7-4377-87e3-8941c6302423",
+              "name": "datePublished",
+              "value": "={{ $json.creationDate }}",
+              "type": "string"
+            },
+            {
+              "id": "094014be-d849-4620-9a1b-900d3f4ece69",
+              "name": "postText",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "1c542148-722b-4c44-89bb-d8a8f3fac310",
+              "name": "postID",
+              "value": "={{ $json.postId }}",
+              "type": "string"
+            },
+            {
+              "id": "78fe163a-62d8-4d97-b9f8-70aa937fb0d4",
+              "name": "postURL",
+              "value": "={{ $json.postUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "19b3d5ae-028f-4040-a3ee-94f49f9ae7c2",
+              "name": "reactionCount",
+              "value": "={{ $json.reactionCount }}",
+              "type": "number"
+            },
+            {
+              "id": "644d9b4e-6b50-4c44-a933-65e2e5a4515b",
+              "name": "shareCount",
+              "value": "={{ $json.shareCount }}",
+              "type": "string"
+            },
+            {
+              "id": "f743818d-0527-4de1-9ca1-c41dae2644aa",
+              "name": "commentCount",
+              "value": "={{ $json.commentComment }}",
+              "type": "string"
+            },
+            {
+              "id": "a0725947-9049-442e-bdd7-b0972d0f638a",
+              "name": "videoViewCount",
+              "value": "={{ $json.videoViewCount }}",
+              "type": "string"
+            },
+            {
+              "id": "6bb8f671-ded0-469c-8e65-0044051f2aad",
+              "name": "imagePostList",
+              "value": "={{ $json.imageUrlList }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1880,
+        520
+      ],
+      "id": "b086b2fe-2530-442f-9514-e1b077972d12",
+      "name": "Mapped Important Fields With Scraped Data"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -1560,
+        520
+      ],
+      "id": "7fce1fd1-8965-4d2d-aad2-c97ec07643d1",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "create",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pn83rt95epwfhjl",
+        "table": "mjc19ihit33kj7f",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Row Num",
+              "fieldValue": "={{ $json.numRow }}"
+            },
+            {
+              "fieldName": "Date Published",
+              "fieldValue": "={{ $json.datePublished }}"
+            },
+            {
+              "fieldName": "Post ID",
+              "fieldValue": "={{ $json.postID }}"
+            },
+            {
+              "fieldName": "Text Post",
+              "fieldValue": "={{ $json.postText }}"
+            },
+            {
+              "fieldName": "Post URL",
+              "fieldValue": "={{ $json.postURL }}"
+            },
+            {
+              "fieldName": "Post Image List",
+              "fieldValue": "={{ $json.imagePostList }}"
+            },
+            {
+              "fieldName": "Reaction Counts",
+              "fieldValue": "={{ $json.reactionCount }}"
+            },
+            {
+              "fieldName": "Share Counts",
+              "fieldValue": "={{ $json.shareCount }}"
+            },
+            {
+              "fieldName": "Comment Counts",
+              "fieldValue": "={{ $json.commentCount }}"
+            },
+            {
+              "fieldName": "Video View Counts",
+              "fieldValue": "={{ $json.videoViewCount }}"
+            },
+            {
+              "fieldName": "Scraped Date Updates",
+              "fieldValue": "={{ $now.format('yyyy-MM-dd') }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -720,
+        560
+      ],
+      "id": "cffd5bbf-6e5d-45ac-8149-670bf0b362c1",
+      "name": "NocoDB2",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pn83rt95epwfhjl",
+        "table": "mjc19ihit33kj7f",
+        "limit": 40,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -720,
+        380
+      ],
+      "id": "bc73c78f-f21a-4cf3-9634-bfa6c78c48db",
+      "name": "NocoDB",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -1020,
+        380
+      ],
+      "id": "77b3912f-3633-48d5-a969-0d107a699c08",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "={{ $now.format('yyyy-MM-dd-hh-mm-ss') }}_FB-ReadyCare-Posts-Scraped",
+          "mode": "id"
+        },
+        "embeddingBatchSize": 500,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "typeVersion": 1.3,
+      "position": [
+        -360,
+        380
+      ],
+      "id": "3e2cf809-2f33-4f24-8302-c66cad980835",
+      "name": "Qdrant Vector Store",
+      "credentials": {
+        "qdrantApi": {
+          "id": "JHGJ4OS8az0ug9lO",
+          "name": "QdrantCloud(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "text-embedding-3-large",
+        "options": {
+          "dimensions": 1536,
+          "batchSize": 500
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -480,
+        620
+      ],
+      "id": "054e701e-5085-4aa6-bc0d-d7ecac3e6c22",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        -160,
+        640
+      ],
+      "id": "c6255a46-6ae0-4c1a-9681-68f06c0ff2a0",
+      "name": "Default Data Loader"
+    }
+  ],
+  "connections": {
+    "GET FB Page ID": {
+      "main": [
+        [
+          {
+            "node": "SET Inputs For APIFY FB Scraper",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Actor Run": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get Actor Run",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Datasets": {
+      "main": [
+        [
+          {
+            "node": "Mapped Important Fields With Scraped Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Get Datasets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "GET FB Page ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SET Inputs For APIFY FB Scraper": {
+      "main": [
+        [
+          {
+            "node": "APIFY FB Posts Scraper Actor Start",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "APIFY FB Posts Scraper Actor Start": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mapped Important Fields With Scraped Data": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "NocoDB2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NocoDB2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NocoDB": {
+      "main": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "NocoDB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "On form submission": [
+      {
+        "json": {
+          "FB Page Name": "Abi Motors Sdn Bhd",
+          "FB Page URL": "https://www.facebook.com/peroduoabimotors",
+          "Max Posts Scrape": 30,
+          "submittedAt": "2025-06-19T00:09:19.596+08:00",
+          "formMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "98649459-f3c8-4f28-9056-1ada3bacba67",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-06-18T16:04:07.043Z",
+      "createdAt": "2025-06-18T16:04:07.043Z",
+      "role": "workflow:owner",
+      "workflowId": "e9U7nQSzQWgeCP9K",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
