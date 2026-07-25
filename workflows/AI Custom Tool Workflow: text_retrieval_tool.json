@@ -1,0 +1,239 @@
+{
+  "updatedAt": "2024-10-11T09:24:54.000Z",
+  "createdAt": "2024-10-11T09:08:17.845Z",
+  "id": "f5zvMF05z8otZrXq",
+  "name": "AI Custom Tool Workflow: text_retrieval_tool",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "d1726b10-64bc-4e4e-a839-9965d1e25b8c",
+      "name": "Execute workflow",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        480,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "253c2b17-c749-4f0a-93e8-5ff74f1ce49b",
+              "name": "domain",
+              "value": "={{ $json.query }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "270f302e-f476-42e7-9a82-ebcb9768db7e",
+      "name": "Set domain",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        740,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ed0f1505-82b6-4393-a0d8-088055137ec9",
+              "name": "domain",
+              "value": "={{ $json.domain.startsWith(\"http\") ? $json.domain : \"http://\" + $json.domain }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "569d75ce-d7c9-46ce-93c2-9dd5f1db38d4",
+      "name": "Add protocool to domain",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        940,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.domain }}",
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 5000
+            }
+          },
+          "timeout": 10000
+        }
+      },
+      "id": "3b87e94d-47e3-4d5b-ae6c-7d4afe8d9464",
+      "name": "Get website",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1160,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "html": "={{ $json.raw_content}}",
+        "options": {}
+      },
+      "id": "61bf2ee1-9dc3-4be6-a0f4-af424f7c86dc",
+      "name": "Convert HTML to Markdown",
+      "type": "n8n-nodes-base.markdown",
+      "typeVersion": 1,
+      "position": [
+        1700,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2b1c7ff8-06a7-448b-99b7-5ede4b2e0bf0",
+              "name": "response",
+              "value": "={{ $json.data }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5ae4c6d6-7b3e-46ef-b434-e960c1c86324",
+      "name": "Set response",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1980,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "raw_content",
+              "cssSelector": "body",
+              "skipSelectors": "a[href], img"
+            }
+          ]
+        },
+        "options": {
+          "cleanUpText": true
+        }
+      },
+      "id": "9cdfe7d7-1527-4107-86d4-4184518ffbb2",
+      "name": "HTML",
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        1380,
+        160
+      ]
+    }
+  ],
+  "connections": {
+    "Execute workflow": {
+      "main": [
+        [
+          {
+            "node": "Set domain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set domain": {
+      "main": [
+        [
+          {
+            "node": "Add protocool to domain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add protocool to domain": {
+      "main": [
+        [
+          {
+            "node": "Get website",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get website": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert HTML to Markdown": {
+      "main": [
+        [
+          {
+            "node": "Set response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "Convert HTML to Markdown",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "d1449c4d-3a4d-4355-bb8a-5d462d5b8543",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-10-11T09:08:17.854Z",
+      "createdAt": "2024-10-11T09:08:17.854Z",
+      "role": "workflow:owner",
+      "workflowId": "f5zvMF05z8otZrXq",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
