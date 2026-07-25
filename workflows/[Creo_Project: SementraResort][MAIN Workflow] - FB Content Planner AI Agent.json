@@ -1,0 +1,2142 @@
+{
+  "updatedAt": "2025-06-17T10:48:34.000Z",
+  "createdAt": "2025-04-26T04:37:08.662Z",
+  "id": "YRYAExo8iO9cITZK",
+  "name": "[Creo_Project: SementraResort][MAIN Workflow] - FB Content Planner AI Agent",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "abf5a1f2-936f-4edf-b82c-aadcfd599aff",
+              "name": "webURL",
+              "value": "={{ $json['Website URL'] }}",
+              "type": "string"
+            },
+            {
+              "id": "ca7f411b-82e6-4d2c-9b5b-3cf511095390",
+              "name": "searchQuery",
+              "value": "={{ $json.Name }}{{ $json.Geolocation }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1100,
+        -820
+      ],
+      "id": "37092ced-9d7a-4834-aaaf-03f81926e12d",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Generate the Facebook Content Posting Planner for the month,{{ $json.month }}{{ $now.format('yyyy') }}:\n1. Start Date: {{ $json.startDate }}\n2. End Date: {{ $json.endDate }}\n3. Brand Name: {{ $json.brandName }}\n4. Industry Category: {{ $json.industryCategory }}\n5. Target Audience: {{ $json.targetAudience }}\n6. Total Posts To Generate: {{ $json.totalPostsToGenerate }}\n7. Tone And Voice: {{ $json.toneAndVoice }}\n8. Call-to-action: {{ $json.callToAction }}\n9. Types of FB Media For Visual Content: {{ $json.mediaTypesVisualContent }}\n10 Types of Topics For Visual Content: {{ $json.contentTypesForVisual }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "={{ $('Google Sheets').item.json['AI Agent Sys Prompt'] }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        -460,
+        100
+      ],
+      "id": "0ccf4ce5-dd3f-458c-974e-1be5789775c3",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        -640,
+        360
+      ],
+      "id": "d0d5f601-9cdd-4a4e-9bea-6c14375f26bd",
+      "name": "DeepSeek Chat Model",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "8Hvjw0JNKmbO191K",
+          "name": "DeepSeekAPI - info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1020,
+        -640
+      ],
+      "id": "95a8d469-194a-42a7-b085-a39e4888b9c1",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        -40,
+        320
+      ],
+      "id": "eb228e32-a284-491e-960a-62e847d7f7e3",
+      "name": "Think"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[\n  {\n    \"datePosting\": \"27 Apr 2025\",\n    \"textPost\": \"🌿 Escape to Serenity at Sementra Hot Spring Nature Resort! 🌿\\n\\n Unwind in our natural hot springs, explore lush trails, and enjoy the soothing sounds of nature. Perfect for a quick getaway or a longer retreat. \\n\\n Book your stay now: https://bit.ly/BookingSMT \\n\\n #SementraResort #NatureEscape #HotSpringBliss #Relaxation #MalaysiaHoliday\",\n    \"visualIdea\": \"A serene image of the hot springs surrounded by greenery, with steam rising from the water, showcasing the tranquil environment.\"\n  },\n  {\n    \"datePosting\": \"29 Apr 2025\",\n    \"textPost\": \"🏞️ Adventure Awaits at Sementra! 🏞️ \\n\\n From hiking to waterfall swimming, there’s something for everyone. Plan your next adventure with us and create unforgettable memories. \\n\\n Book your adventure: https://bit.ly/BookingSMT \\n\\n #AdventureTime #SementraResort #OutdoorFun #ExploreNature #WeekendGetaway\",\n    \"visualIdea\": \"An action shot of guests hiking or swimming in the waterfall pool, capturing the excitement of outdoor activities.\"\n  },\n  {\n    \"datePosting\": \"5 May 2025\",\n    \"textPost\": \"💆‍♂️ Recharge Your Mind and Body 💆‍♂️ \\n\\n Our hot springs are rich in minerals that promote relaxation and well-being. Treat yourself to a rejuvenating soak today! \\n\\n Book now: https://bit.ly/BookingSMT \\n\\n #WellnessRetreat #SementraResort #HotSpringTherapy #Relaxation #SelfCare\",\n    \"visualIdea\": \"A close-up of the hot springs with a guest enjoying the therapeutic benefits, emphasizing relaxation.\"\n  }  \n]\n\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        160,
+        300
+      ],
+      "id": "ca89e586-8e57-4a20-baa8-7d95cef08d56",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -40,
+        100
+      ],
+      "id": "c949664d-aa02-4b20-8707-66bf1edcba60",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1TYlcHKY7hl7LQVF9nVjvByPoYBznH78_m0KXktScWWg",
+          "mode": "list",
+          "cachedResultName": "[2025] - SementraResort - [MASTER Plan] - Monthly FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TYlcHKY7hl7LQVF9nVjvByPoYBznH78_m0KXktScWWg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1925536382,
+          "mode": "list",
+          "cachedResultName": "June",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TYlcHKY7hl7LQVF9nVjvByPoYBznH78_m0KXktScWWg/edit#gid=1925536382"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date Posting": "={{ $json.datePosting }}",
+            "Text Post": "={{ $json.textPost }}",
+            "Visual Idea": "={{ $json.visualIdea }}"
+          },
+          "matchingColumns": [
+            "Date Posting"
+          ],
+          "schema": [
+            {
+              "id": "Date Posting",
+              "displayName": "Date Posting",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Text Post",
+              "displayName": "Text Post",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Visual Idea",
+              "displayName": "Visual Idea",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Remark",
+              "displayName": "Remark",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        160,
+        100
+      ],
+      "id": "130e803c-7d82-4bc6-ba84-bb5b4090a8b1",
+      "name": "Google Sheets2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $('Google Drive2').first().json.id }}",
+        "simple": false
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        860,
+        180
+      ],
+      "id": "e714e203-51c5-4ccc-a0e5-2e550e2b4255",
+      "name": "Google Docs",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        380,
+        100
+      ],
+      "id": "cc51fb8e-6ad1-48ef-98c1-85bc64f13af5",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $('Google Drive2').first().json.id }}",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "locationChoice": "location",
+              "index": "={{ $json.tableCells[2].content[0].startIndex }}",
+              "text": "={{ $('Edit Fields3').item.json.visualIdea }}}"
+            },
+            {
+              "action": "insert",
+              "locationChoice": "location",
+              "index": "={{ $json.tableCells[1].content[0].startIndex }}",
+              "text": "={{ $('Edit Fields3').item.json.textPost }}"
+            },
+            {
+              "action": "insert",
+              "locationChoice": "location",
+              "index": "={{ $json.tableCells[0].content[0].startIndex }}",
+              "text": "={{ $('Edit Fields3').item.json.datePosting }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2280,
+        -80
+      ],
+      "id": "e7e3a5d0-c6bf-4277-acae-b3a9c6593830",
+      "name": "Google Docs3",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3bd4c732-4a26-4638-81c9-36034ca9a617",
+              "name": "tableCells",
+              "value": "={{ $jmespath($json.body.content, '[?table].table.tableRows[-1].tableCells')[0] }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2060,
+        -80
+      ],
+      "id": "d858b138-e6c3-4396-b9fa-d2383d7bb1e3",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "11368f3e-434a-4cb9-a1c8-cb7d3a7f8daf",
+              "name": "table",
+              "value": "={{ $jmespath($json.body.content, '[?table]')[0] }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1040,
+        180
+      ],
+      "id": "27234493-50c9-4a5e-9e2e-fcb36cf262b2",
+      "name": "Get Table"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $('Google Drive2').first().json.id }}",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "object": "tableRow",
+              "action": "insert",
+              "index": "={{ $('Get Table1').item.json.table.startIndex }}",
+              "rowIndex": "={{ $('Get Table1').item.json.table.table.tableRows.length - 1 }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1640,
+        -80
+      ],
+      "id": "03e1eb66-c5fd-41c2-97b2-2ca77870a260",
+      "name": "Insert table row at bottom",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $('Google Drive2').first().json.id }}",
+        "simple": false
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1860,
+        -80
+      ],
+      "id": "2dcf2de6-8166-41a7-8701-d3d3eef39cd1",
+      "name": "Get updated document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to get the upcoming public holidays in order to create general festive postings or special occasional posting to match the theme.",
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "en.malaysia#holiday@group.v.calendar.google.com",
+          "mode": "list",
+          "cachedResultName": "Holidays in Malaysia"
+        },
+        "returnAll": true,
+        "timeMax": "={{ $now.plus({ week: 4 }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        -100,
+        440
+      ],
+      "id": "f83e904e-6fcd-4364-9eed-06b2d6a3269b",
+      "name": "get_public_holidays",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "UZglpsDrPwduER7r",
+          "name": "GCalendar(boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ddc53601-f3de-4f0e-9bac-4ad590891705",
+              "leftValue": "={{ $json.Industry }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "b98c8e3f-a320-461e-b713-3d7ca6ed944f",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1400,
+        -580
+      ],
+      "id": "1749c01b-eb0c-429f-9f7e-d0a5a68ee795",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -940,
+        -220
+      ],
+      "id": "a9fe8140-4889-4396-b1a7-895e0b08d7b5",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to get the search query through the search engine, gather the sources and summarize the web research as the output.",
+        "workflowId": {
+          "__rl": true,
+          "value": "KdAUfF05Oj85t0Vb",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Perplexica AI Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ $('If').item.json.Name }} {{ $('If').item.json.Geolocation }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -580,
+        -220
+      ],
+      "id": "ed9e8022-53af-4eab-bb50-d842885288bc",
+      "name": "ai_web_research_tool"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Company Name: {{ $json.Name }} {{ $json.Geolocation }}\nIndustry Type: {{ $json.Industry }}\nWebsite URL: {{ $json['Website URL'] }}",
+        "options": {
+          "systemMessage": "={{ $json['Prompt For AI Agent'] }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        -820,
+        -400
+      ],
+      "id": "92a226e6-a9fc-4e43-b606-f098d8aa3e92",
+      "name": "Web Research Agent"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Identify the input user's search query for segmenting the most suitable industry:\n{{ $json.searchQuery }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "# Role\nYou are a market research specialist who are specialize on doing market search and market analysis\n\n# Task\nYou are tasked to identify which the right category industry to be segmented based on the user requested search query\n\n# Output Format\nOnly output the actual text-based answer without any unnecessary explanations, definitions and other factual data. If you had been identified more than one category, you can output the categories with comma-separated for each category"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.6,
+      "position": [
+        -900,
+        -820
+      ],
+      "id": "7f524888-111f-42e3-9780-4aff2385f01a",
+      "name": "Identify Industry Type"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls",
+          "mode": "list",
+          "cachedResultName": "[2025] - SementraResort - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2095342283,
+          "mode": "list",
+          "cachedResultName": "Web Research",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls/edit#gid=2095342283"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $('Google Sheets Trigger').item.json.Name }}",
+            "Website URL": "={{ $('Google Sheets Trigger').item.json['Website URL'] }}",
+            "Industry": "={{ $json.text }}"
+          },
+          "matchingColumns": [
+            "Name"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Website URL",
+              "displayName": "Website URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Geolocation",
+              "displayName": "Geolocation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Industry",
+              "displayName": "Industry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Prompt For AI Agent",
+              "displayName": "Prompt For AI Agent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -520,
+        -820
+      ],
+      "id": "a41fa8a7-bc6e-4089-8db7-b1fefc0535bc",
+      "name": "Update Industry Type",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -400,
+        -640
+      ],
+      "id": "fbae329e-e21b-4074-8410-91f19e109d65",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to get the search query through the search engine, gather the sources and summarize the web research as the output.",
+        "workflowId": {
+          "__rl": true,
+          "value": "KdAUfF05Oj85t0Vb",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Perplexica AI Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ $('If').item.json.Name }} {{ $('If').item.json.Geolocation }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -40,
+        -640
+      ],
+      "id": "7791f7a0-389d-40fa-b50f-423834839785",
+      "name": "ai_web_research_tool1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Company Name: {{ $('Google Sheets Trigger').first().json.Name }} {{ $('Google Sheets Trigger').first().json.Geolocation }}\nIndustry Type: {{ $json['Industry'] }}\nWebsite URL: {{ $('Google Sheets Trigger').first().json['Website URL']}}",
+        "options": {
+          "systemMessage": "={{ $('Google Sheets Trigger').first().json['Prompt For AI Agent'] }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        -280,
+        -820
+      ],
+      "id": "bd9176ec-1788-43b0-8e8d-a3a9ab38fbc1",
+      "name": "Web Research Agent1"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls",
+          "mode": "list",
+          "cachedResultName": "[2025] - SementraResort - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2095342283,
+          "mode": "list",
+          "cachedResultName": "Web Research",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls/edit#gid=2095342283"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $('Google Sheets1').first().json.Name }}",
+            "Research Result": "={{ $json.output }}",
+            "Status": "Completed"
+          },
+          "matchingColumns": [
+            "Name"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Website URL",
+              "displayName": "Website URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Geolocation",
+              "displayName": "Geolocation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Industry",
+              "displayName": "Industry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Research Result",
+              "displayName": "Research Result",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Prompt For AI Agent",
+              "displayName": "Prompt For AI Agent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        540,
+        -640
+      ],
+      "id": "071dcc4b-f629-4ad4-89af-13b664389dca",
+      "name": "Update Web Research Result1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls",
+          "mode": "list",
+          "cachedResultName": "[2025] - SementraResort - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 407131889,
+          "mode": "list",
+          "cachedResultName": "Input For AI Agent",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls/edit#gid=407131889"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -1880,
+        120
+      ],
+      "id": "b96d2fee-b37d-4850-adc2-ae43b7c6bf1e",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1764e9a9-8a3f-4101-93e2-2641f4c33b74",
+              "name": "month",
+              "value": "={{ $('On form submission').first().json['Month of Year'] }}",
+              "type": "string"
+            },
+            {
+              "id": "aff2545b-fbf6-4138-8b75-399a086c821c",
+              "name": "startDate",
+              "value": "={{ $('Google Sheets').first().json['Start Date'] }}",
+              "type": "string"
+            },
+            {
+              "id": "0c53bcea-8520-40b1-997e-6bb9a1c51355",
+              "name": "endDate",
+              "value": "={{ $('Google Sheets').first().json['End Date'] }}",
+              "type": "string"
+            },
+            {
+              "id": "4fb9d3d7-2613-4dd7-83d7-e206fdd81ef8",
+              "name": "brandName",
+              "value": "={{ $('Google Sheets3').first().json.Name }} {{ $('Google Sheets3').first().json.Geolocation }}",
+              "type": "string"
+            },
+            {
+              "id": "43efa54e-d6f9-4e33-a396-894c5cd891d2",
+              "name": "websiteUrl",
+              "value": "={{ $('Google Sheets3').item.json['Website URL'] }}",
+              "type": "string"
+            },
+            {
+              "id": "b235bac2-0188-4462-ae8e-d0be95dcadc4",
+              "name": "industryCategory",
+              "value": "={{ $('Google Sheets3').first().json.Industry }}",
+              "type": "string"
+            },
+            {
+              "id": "e95da6c6-6d82-4ba2-a56f-1abbcd85e0ec",
+              "name": "targetAudience",
+              "value": "={{ $('Google Sheets').first().json['Target Audience'] }}",
+              "type": "string"
+            },
+            {
+              "id": "14ecb7f0-57e5-4fca-aa1a-549ffecfdc20",
+              "name": "totalPostsToGenerate",
+              "value": "={{ $('Google Sheets').item.json['Total Generate Posts'] }}",
+              "type": "number"
+            },
+            {
+              "id": "f8f111a4-67d4-4af8-90f1-c41f66382a74",
+              "name": "callToAction",
+              "value": "={{ $('Google Sheets').item.json['Call-to-action'] }}",
+              "type": "string"
+            },
+            {
+              "id": "87b128d6-a343-4543-9585-6175975be481",
+              "name": "mediaTypesVisualContent",
+              "value": "={{ $('Google Sheets').first().json['Types of FB Media For Visual Idea'] }}",
+              "type": "string"
+            },
+            {
+              "id": "b1ffaaff-a7e2-44d4-a34c-9d3c31889ec7",
+              "name": "toneAndVoice",
+              "value": "={{ $('Google Sheets').first().json['Types of FB Media For Visual Idea'] }}",
+              "type": "string"
+            },
+            {
+              "id": "82f59f68-203a-44e0-9caa-3988eace777e",
+              "name": "contentTypesForVisual",
+              "value": "={{ $('Google Sheets').item.json['Content Types For Visual Idea'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -700,
+        100
+      ],
+      "id": "35200d4e-102e-4cac-9c15-1dc42a7ce266",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls",
+          "mode": "list",
+          "cachedResultName": "[2025] - SementraResort - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1438649008,
+          "mode": "list",
+          "cachedResultName": "FB Posts Scraped Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls/edit#gid=1438649008"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        -480,
+        400
+      ],
+      "id": "04d93d6a-ecb8-4843-9106-25b3b58960e2",
+      "name": "facebook_posts_data",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formTitle": "Creo Client: Sementra Resort Monthly Social Media Posting Form",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Month of Year",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "January"
+                  },
+                  {
+                    "option": "February"
+                  },
+                  {
+                    "option": "March"
+                  },
+                  {
+                    "option": "April"
+                  },
+                  {
+                    "option": "May"
+                  },
+                  {
+                    "option": "June"
+                  },
+                  {
+                    "option": "July"
+                  },
+                  {
+                    "option": "August"
+                  },
+                  {
+                    "option": "september"
+                  },
+                  {
+                    "option": "October"
+                  },
+                  {
+                    "option": "November"
+                  },
+                  {
+                    "option": "December"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Client Name Label",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "SementraResort"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "GSheet AI Agent Input File Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "[2025] - SementraResort - [AI Agent Input] - FB Content Creation Planner"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "GDocs Social Media Content Plan File Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Monthly FB Content Creation Planner"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -2460,
+        -280
+      ],
+      "id": "a25b7d42-6d29-42ea-9a34-2cbb488c2fd9",
+      "name": "On form submission",
+      "webhookId": "ab286419-9ce8-44a7-adc0-21d670891071"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls",
+          "mode": "list",
+          "cachedResultName": "[2025] - SementraResort - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2095342283,
+          "mode": "list",
+          "cachedResultName": "Web Research",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls/edit#gid=2095342283"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -1720,
+        -520
+      ],
+      "id": "848efdb4-fd3c-4ffc-9052-9d7534f04e61",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls",
+          "mode": "list",
+          "cachedResultName": "[2025] - SementraResort - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2095342283,
+          "mode": "list",
+          "cachedResultName": "Web Research",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls/edit#gid=2095342283"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -2140,
+        120
+      ],
+      "id": "e010c0fb-feeb-44ea-8d4c-87d8a0e5f9a8",
+      "name": "Google Sheets3",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "SementraResort - Monthly FB Content Creation Planner",
+        "filter": {
+          "whatToSearch": "all",
+          "fileTypes": [
+            "application/vnd.google-apps.document"
+          ]
+        },
+        "options": {
+          "fields": [
+            "name",
+            "id",
+            "mimeType"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -1580,
+        120
+      ],
+      "id": "03065754-2528-4d4a-9469-081f9c26d602",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $('Google Drive2').first().json.id }}",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "object": "tableRow",
+              "action": "delete",
+              "index": "={{ $json[\"table\"][\"startIndex\"] }}",
+              "rowIndex": "={{ $json[\"table\"][\"table\"][\"tableRows\"].length - 1 }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1220,
+        180
+      ],
+      "id": "631449f6-0078-4e5c-8d92-a501317639fd",
+      "name": "Google Docs1",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "={{ $json.name }}",
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "1xkIlICE0BuEgytmmK5XkqzWmsYGSiBJG",
+            "mode": "id"
+          }
+        },
+        "options": {
+          "fields": [
+            "id",
+            "name",
+            "mimeType"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -960,
+        100
+      ],
+      "id": "5508cf92-4bd0-4b5d-8026-2c54923f92ab",
+      "name": "Google Drive2",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $('Google Drive2').first().json.id }}",
+        "simple": false
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1220,
+        -80
+      ],
+      "id": "275ec42f-6799-47a8-8f9e-0dd29f460f97",
+      "name": "Google Docs2",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "11368f3e-434a-4cb9-a1c8-cb7d3a7f8daf",
+              "name": "table",
+              "value": "={{ $jmespath($json.body.content, '[?table]')[0] }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1440,
+        -80
+      ],
+      "id": "eae80d46-34b5-4333-bc7e-09ab8ade5e86",
+      "name": "Get Table1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "74aa8c3f-48e3-4c72-ba2c-b35155464b9d",
+              "name": "datePosting",
+              "value": "={{ $json['Date Posting'] }}",
+              "type": "string"
+            },
+            {
+              "id": "d2e4f52e-d396-4361-9cce-b7e7623cb2fb",
+              "name": "textPost",
+              "value": "={{ $json['Text Post'] }}",
+              "type": "string"
+            },
+            {
+              "id": "9917245f-d1ac-4329-a039-4d0f95f732e6",
+              "name": "visualIdea",
+              "value": "={{ $json['Visual Idea'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        620,
+        180
+      ],
+      "id": "79208462-93b1-4bd7-98a2-a5999019dd7e",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "74aa8c3f-48e3-4c72-ba2c-b35155464b9d",
+              "name": "datePosting",
+              "value": "={{ $('Edit Fields3').item.json.datePosting }}",
+              "type": "string"
+            },
+            {
+              "id": "d2e4f52e-d396-4361-9cce-b7e7623cb2fb",
+              "name": "textPost",
+              "value": "={{ $('Edit Fields3').item.json.textPost }}",
+              "type": "string"
+            },
+            {
+              "id": "9917245f-d1ac-4329-a039-4d0f95f732e6",
+              "name": "visualIdea",
+              "value": "={{ $('Edit Fields3').item.json.visualIdea }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        700,
+        -100
+      ],
+      "id": "f739c671-22f9-4a3a-8f86-890b9e25b1f3",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        980,
+        -100
+      ],
+      "id": "0f98c088-9db6-4464-926e-2eb1fd0510fa",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "104792ab-69ca-4dee-b254-82685b529080",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "=[{{ $('On form submission').item.json['Month of Year'] }} 2025] - {{ $('On form submission').item.json['Client Name Label'] }} - {{ $('On form submission').item.json['GDocs Social Media Content Plan File Name'] }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1300,
+        120
+      ],
+      "id": "30087498-f9f0-47be-b36f-845bdd62ac9e",
+      "name": "If1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -1440,
+        380
+      ],
+      "id": "cbcfe3f8-d3bc-417b-9ba7-5064685fc486",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool retrieval the scraped web research data.By getting this data, you are able to understand my client business, products and services details in summary information from the website itself.",
+        "documentId": {
+          "__rl": true,
+          "value": "1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls",
+          "mode": "list",
+          "cachedResultName": "[2025] - SementraResort - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2095342283,
+          "mode": "list",
+          "cachedResultName": "Web Research",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls/edit#gid=2095342283"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRangeA1",
+              "range": "E:E"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        -320,
+        400
+      ],
+      "id": "f743ee8d-e696-44ab-af36-29b82b591eec",
+      "name": "web_research_retriever",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1"
+        },
+        "options": {
+          "responseFormat": "json_object"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -1240,
+        620
+      ],
+      "id": "7999e4fd-ef53-46e0-a595-c2d2d223a2f9",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      },
+      "disabled": true
+    }
+  ],
+  "connections": {
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Identify Industry Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Identify Industry Type",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs": {
+      "main": [
+        [
+          {
+            "node": "Get Table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Google Docs3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs3": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Table": {
+      "main": [
+        [
+          {
+            "node": "Google Docs1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert table row at bottom": {
+      "main": [
+        [
+          {
+            "node": "Get updated document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get updated document": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_public_holidays": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Web Research Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Web Research Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_web_research_tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Web Research Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Web Research Agent": {
+      "main": [
+        [
+          {
+            "node": "Update Web Research Result1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Identify Industry Type": {
+      "main": [
+        [
+          {
+            "node": "Update Industry Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Industry Type": {
+      "main": [
+        [
+          {
+            "node": "Web Research Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Web Research Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_web_research_tool1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Web Research Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Web Research Agent1": {
+      "main": [
+        [
+          {
+            "node": "Update Web Research Result1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Web Research Result1": {
+      "main": [
+        []
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "facebook_posts_data": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Sheets3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets3": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs2": {
+      "main": [
+        [
+          {
+            "node": "Get Table1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Table1": {
+      "main": [
+        [
+          {
+            "node": "Insert table row at bottom",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Google Docs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Google Docs2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Google Drive2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "web_research_retriever": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "On form submission": [
+      {
+        "json": {
+          "Month of Year": "June",
+          "Client Name Label": "SementraResort",
+          "GSheet AI Agent Input File Name": "[2025] - SementraResort - [AI Agent Input] - FB Content Creation Planner",
+          "GDocs Social Media Content Plan File Name": "Monthly FB Content Creation Planner",
+          "submittedAt": "2025-05-18T18:41:41.968+08:00",
+          "formMode": "test"
+        }
+      }
+    ],
+    "AI Agent": [
+      {
+        "json": {
+          "output": [
+            {
+              "datePosting": "01 Jun 2025",
+              "textPost": "🌿 Start your June with a refreshing escape! 🌿\n\nTrade the city hustle for the soothing sounds of nature at Sementra. Perfect for a quick recharge or a family adventure.\n\n🏨Book your stay at Sementra Resort now👉 https://bit.ly/BookingSMT\n\n#NatureEscape #WeekendGetaway #FamilyTime #MalaysiaTravel",
+              "visualIdea": "A serene video reel of the resort’s lush greenery and hot springs, with guests enjoying the peaceful surroundings."
+            },
+            {
+              "datePosting": "03 Jun 2025",
+              "textPost": "Did you know? The mineral-rich hot springs at Sementra are perfect for relaxation and rejuvenation. 🌊✨\n\nTake a dip and let nature work its magic!\n\n🏨Book your stay at Sementra Resort now👉 https://bit.ly/BookingSMT\n\n#HotSpringBliss #WellnessRetreat #NatureHeals #TravelTips",
+              "visualIdea": "A static image of the hot springs with steam rising, showcasing the therapeutic environment."
+            },
+            {
+              "datePosting": "06 Jun 2025",
+              "textPost": "🌍 Travel Quiz Time! 🌍\n\nHow well do you know Malaysia’s natural wonders? Test your knowledge and share your score below! ⬇️\n\n🏨Book your stay at Sementra Resort now👉 https://bit.ly/BookingSMT\n\n#TravelQuiz #NatureLovers #ExploreMalaysia #FunFriday",
+              "visualIdea": "An engaging image carousel with multiple-choice questions about Malaysia’s natural attractions."
+            },
+            {
+              "datePosting": "09 Jun 2025",
+              "textPost": "Happy The Yang di-Pertuan Agong's Birthday! 🇲🇾✨\n\nCelebrate this special day with a peaceful retreat at Sementra. Enjoy the beauty of nature and create lasting memories.\n\n🏨Book your stay at Sementra Resort now👉 https://bit.ly/BookingSMT\n\n#AgongBirthday #NationalPride #NatureRetreat #Malaysia",
+              "visualIdea": "A video reel of the resort’s scenic views, with a patriotic touch to honor the holiday."
+            },
+            {
+              "datePosting": "12 Jun 2025",
+              "textPost": "Family bonding just got better! 👨‍👩‍👧‍👦\n\nPlan a weekend getaway at Sementra and enjoy activities like hiking, hot springs, and more. Perfect for creating unforgettable moments.\n\n🏨Book your stay at Sementra Resort now👉 https://bit.ly/BookingSMT\n\n#FamilyBonding #WeekendFun #NatureAdventure #QualityTime",
+              "visualIdea": "A heartwarming static image of a family enjoying outdoor activities at the resort."
+            },
+            {
+              "datePosting": "15 Jun 2025",
+              "textPost": "🌿 Mini-Game Alert! 🌿\n\nCan you spot the hidden Rajah Brooke butterfly in this photo? Drop a 🦋 in the comments if you find it!\n\n🏨Book your stay at Sementra Resort now👉 https://bit.ly/BookingSMT\n\n#NatureGame #ButterflySpotting #FunActivity #ExploreNature",
+              "visualIdea": "A static image of the rainforest with the Rajah Brooke butterfly subtly hidden in the frame."
+            },
+            {
+              "datePosting": "18 Jun 2025",
+              "textPost": "Travel Tip: Pack light, but don’t forget your sense of adventure! 🎒\n\nSementra offers everything you need for a memorable stay—just bring your enthusiasm.\n\n🏨Book your stay at Sementra Resort now👉 https://bit.ly/BookingSMT\n\n#TravelTips #AdventureAwaits #PackSmart #ExploreMore",
+              "visualIdea": "A video reel showcasing essential items for a nature getaway, with scenic shots of the resort."
+            },
+            {
+              "datePosting": "21 Jun 2025",
+              "textPost": "Happy Hari Raya Haji! 🌙\n\nWishing you peace, joy, and blessings this festive season. Celebrate with a serene retreat at Sementra.\n\n🏨Book your stay at Sementra Resort now👉 https://bit.ly/BookingSMT\n\n#HariRayaHaji #FestiveGreetings #NaturePeace #Malaysia",
+              "visualIdea": "A static image of the resort’s tranquil setting, with festive elements like lanterns or ketupat."
+            },
+            {
+              "datePosting": "24 Jun 2025",
+              "textPost": "Why wait for the weekend? Midweek escapes are the new trend! 🌿\n\nTake a break from the routine and unwind at Sementra—your perfect midweek recharge.\n\n🏨Book your stay at Sementra Resort now👉 https://bit.ly/BookingSMT\n\n#MidweekEscape #RechargeYourself #NatureBreak #TravelNow",
+              "visualIdea": "A video reel of guests enjoying the resort’s amenities during a quiet weekday."
+            },
+            {
+              "datePosting": "27 Jun 2025",
+              "textPost": "🌊 Waterfall Wonders! 🌊\n\nDid you know Sementra is close to stunning waterfalls? Plan a day trip and experience the magic of cascading waters.\n\n🏨Book your stay at Sementra Resort now👉 https://bit.ly/BookingSMT\n\n#WaterfallAdventure #NatureMagic #ExplorePerak #TravelInspo",
+              "visualIdea": "A static image of a nearby waterfall, with a guest enjoying the view."
+            },
+            {
+              "datePosting": "29 Jun 2025",
+              "textPost": "🌿 Sunday Funday Idea! 🌿\n\nGather your friends for a day of fun at Sementra—hot springs, games, and laughter guaranteed.\n\n🏨Book your stay at Sementra Resort now👉 https://bit.ly/BookingSMT\n\n#SundayFunday #FriendshipGoals #NatureFun #WeekendVibes",
+              "visualIdea": "A video reel of friends enjoying activities like bonfires or group hikes at the resort."
+            },
+            {
+              "datePosting": "30 Jun 2025",
+              "textPost": "June may be ending, but the adventure doesn’t have to! 🌿\n\nPlan your July getaway now and keep the summer vibes alive at Sementra.\n\n🏨Book your stay at Sementra Resort now👉 https://bit.ly/BookingSMT\n\n#SummerVibes #AdventureContinues #NatureRetreat #TravelGoals",
+              "visualIdea": "A static image of the resort’s sunset views, symbolizing the end of June and the start of new adventures."
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "versionId": "e52457f7-f1be-4581-b6e7-d3fd94dfc1ef",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-04-26T04:37:08.669Z",
+      "createdAt": "2025-04-26T04:37:08.669Z",
+      "role": "workflow:owner",
+      "workflowId": "YRYAExo8iO9cITZK",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2025-04-25T07:31:07.022Z",
+      "createdAt": "2025-04-25T07:31:07.022Z",
+      "id": "9Gp47jN1RS49GmsF",
+      "name": "CREO_PROJECT"
+    },
+    {
+      "updatedAt": "2025-04-26T04:25:52.442Z",
+      "createdAt": "2025-04-26T04:25:52.442Z",
+      "id": "v4flmjP5hdyH5E40",
+      "name": "Creo-SementraResort"
+    }
+  ]
+}
