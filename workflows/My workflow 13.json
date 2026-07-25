@@ -1,0 +1,100 @@
+{
+  "updatedAt": "2025-06-08T05:08:14.000Z",
+  "createdAt": "2025-06-08T03:08:29.660Z",
+  "id": "5wVwaGchVK3qnns9",
+  "name": "My workflow 13",
+  "active": false,
+  "isArchived": true,
+  "nodes": [
+    {
+      "parameters": {
+        "path": "68bc5601-2303-4b68-a295-b04f5bf8c062",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "7b807896-be39-4fbb-8351-a43407644073",
+      "name": "Webhook",
+      "webhookId": "68bc5601-2303-4b68-a295-b04f5bf8c062"
+    },
+    {
+      "parameters": {
+        "url": "https://teable-1.automessenger.me/api/table/tblgfpf2wRkCnzNOpXG/record",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "fieldKeyType",
+              "value": "name"
+            },
+            {
+              "name": "viewId",
+              "value": "viwJAAm0eB3QV7T8kGu"
+            },
+            {
+              "name": "search",
+              "value": "ReadyCare Signature,Name,true"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer teable_accwEYiOz3nknuEk5zg_irXxhuK7hGFcXWHK5SLaJrBALZkd7x3kGXUlZWv0VbE="
+            },
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "e0430fb3-52e3-4962-b927-3597748761d5",
+      "name": "HTTP Request"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "c2963602-6263-447f-95a4-75a59a44c2cf",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-06-08T03:08:29.663Z",
+      "createdAt": "2025-06-08T03:08:29.663Z",
+      "role": "workflow:owner",
+      "workflowId": "5wVwaGchVK3qnns9",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
