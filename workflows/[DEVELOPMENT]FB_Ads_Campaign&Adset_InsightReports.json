@@ -1,0 +1,2019 @@
+{
+  "updatedAt": "2025-05-20T16:46:09.000Z",
+  "createdAt": "2025-04-11T16:02:37.298Z",
+  "id": "Z2D5YN1hFAV8laoR",
+  "name": "[DEVELOPMENT]FB_Ads_Campaign&Adset_InsightReports",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "graphApiVersion": "v22.0",
+        "node": "={{ $('Google Sheets Trigger').item.json['Ad Account ID'] }}",
+        "edge": "={{ $('Google Sheets Trigger').item.json.Edge }}",
+        "options": {
+          "fields": {
+            "field": [
+              {
+                "name": "id"
+              },
+              {
+                "name": "name"
+              },
+              {
+                "name": "status"
+              },
+              {
+                "name": "objective"
+              },
+              {
+                "name": "buying_type"
+              },
+              {
+                "name": "=insights{\n      optimization_goal,\n      impressions,\n      reach,\n      clicks,\n      cpm,\n      cpc,\n      ctr,\n      spend,\n      frequency\n    }"
+              }
+            ]
+          },
+          "queryParameters": {
+            "parameter": [
+              {
+                "name": "effective_status",
+                "value": "[\"PAUSED\"]"
+              },
+              {
+                "name": "date_preset",
+                "value": "this_month"
+              }
+            ]
+          },
+          "queryParametersJson": "=[\n  {\n    \"field\":\"name\",      \n    \"operator\":\"IN\",\n    \"value\":\"{{ $('Google Sheets Trigger').item.json['Client Name'] }}\"\n  }\n] "
+        }
+      },
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        -400,
+        140
+      ],
+      "id": "517314c5-bc3b-45e4-bbf4-726196670c31",
+      "name": "List All Ad Campaigns",
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "6Ubpg26JSILclSIn",
+          "name": "FB Graph API - boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        140
+      ],
+      "id": "ac3f3def-2da5-4a55-9fa2-903b187a19df",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "baba9589-8e32-4f37-8318-555fdc0decb7",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "={{ $('Google Sheets Trigger').item.json['Client Name'] }}",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "7e2ce39f-b9cc-4e35-8ed2-2f6595ea55bc",
+              "leftValue": "={{ $json.insights }}",
+              "rightValue": "={{ $json.insights }}",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        100,
+        140
+      ],
+      "id": "95d4f32c-d852-4b7a-bd75-00b04d61d51d",
+      "name": "Get Only Active Campaigns"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1380,
+        -240
+      ],
+      "id": "dd6ab7f1-3483-43a2-922e-4814406227ff",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1960,
+        -200
+      ],
+      "id": "b8441d5c-cc11-4716-a8fe-4965c68a12b9",
+      "name": "Split Out1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fda0f828-4368-4d79-91ea-44a5c3ecaf73",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "2494ffcf-fdf3-4e0f-bc4a-13809343f2de",
+              "name": "adsetName",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "9bb243a0-833f-4a5e-9daa-8b8442e2ea29",
+              "name": "adsetStatus",
+              "value": "={{ $json.status }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1500,
+        40
+      ],
+      "id": "2a8680ea-367b-493f-b36a-71edd4f41fb1",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1960,
+        40
+      ],
+      "id": "d9bbb100-f0b4-41d6-80c2-713feb13c337",
+      "name": "Split Out2"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "insights.data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        600,
+        -240
+      ],
+      "id": "9e4da1dd-28ac-4634-88bd-def61f0a0288",
+      "name": "Split Out3"
+    },
+    {
+      "parameters": {
+        "graphApiVersion": "v22.0",
+        "node": "={{ $json.id }}",
+        "edge": "ads",
+        "options": {
+          "fields": {
+            "field": [
+              {
+                "name": "id,name,status,adset_id"
+              },
+              {
+                "name": "creative"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        600,
+        600
+      ],
+      "id": "bd26820c-a7c0-450d-a6b4-c6741bd1ad2d",
+      "name": "Facebook Graph API2",
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "6Ubpg26JSILclSIn",
+          "name": "FB Graph API - boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        980,
+        600
+      ],
+      "id": "858e1d9e-77a5-4869-8d17-49cb62754aa5",
+      "name": "Split Out4"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1900,
+        560
+      ],
+      "id": "67d1b5fc-ac72-4d13-b2a7-c421c193626c",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2360,
+        580
+      ],
+      "id": "e55df405-e3de-4d12-b532-6401d9f86536",
+      "name": "Split Out5"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1440,
+        680
+      ],
+      "id": "b015ef4e-2e84-4d82-844b-1f5ad6953de3",
+      "name": "Loop Over Items2"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        2600,
+        -40
+      ],
+      "id": "dbfb2cff-27e9-4c01-bed6-4dd927ac9217",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1wEHPA3nrZibNAFAF2UGa1KMdegeUPmCvk9FyTFRO6L4",
+          "mode": "list",
+          "cachedResultName": "[Apr2025] - N8N_Automation_Report - SementraResort - MetaAdsCampaignReport",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wEHPA3nrZibNAFAF2UGa1KMdegeUPmCvk9FyTFRO6L4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Input",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wEHPA3nrZibNAFAF2UGa1KMdegeUPmCvk9FyTFRO6L4/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1080,
+        140
+      ],
+      "id": "f0fbeae4-1705-47c8-9196-e5472025dcc9",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "oMHjbut2VzVQ0VcS",
+          "name": "GSheet Trigger- boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d30ddcd4-90ee-421a-8fae-1ff30c0de14c",
+              "name": "campaignId",
+              "value": "={{ $('Get Only Active Campaigns').item.json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "41926a1a-a62c-44bc-b1ce-954b107e0f71",
+              "name": "campaignName",
+              "value": "={{ $('Get Only Active Campaigns').item.json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "30f5e202-1213-4dd8-b0c2-94d27a40631d",
+              "name": "campaignStatus",
+              "value": "={{ $('Get Only Active Campaigns').item.json.status }}",
+              "type": "string"
+            },
+            {
+              "id": "e552ce60-ca93-44fc-8d80-8b551cb319b2",
+              "name": "date_start",
+              "value": "={{ $json.date_start }}",
+              "type": "string"
+            },
+            {
+              "id": "1c801b74-1716-4e30-b8c6-d71ce3272afe",
+              "name": "date_stop",
+              "value": "={{ $json.date_stop }}",
+              "type": "string"
+            },
+            {
+              "id": "9f52573d-5732-4c25-a5ae-e0518759c691",
+              "name": "campaignObjective",
+              "value": "={{ $('Get Only Active Campaigns').item.json.objective }}",
+              "type": "string"
+            },
+            {
+              "id": "7e0ea6a8-a938-4075-a9bb-c5bb497cb90e",
+              "name": "optimization_goal",
+              "value": "={{ $json.optimization_goal }}",
+              "type": "string"
+            },
+            {
+              "id": "684cb8e7-aeea-447d-b249-3ef59f7a13df",
+              "name": "impressions",
+              "value": "={{ $json.impressions.toNumber().format('en-US') }}",
+              "type": "string"
+            },
+            {
+              "id": "98ee84e4-067d-40b1-9a49-fe15c82b696a",
+              "name": "reach",
+              "value": "={{ $json.reach.toNumber().format(\"en-US\") }}",
+              "type": "string"
+            },
+            {
+              "id": "50e7fe15-e43f-4904-a5c8-79466fee024e",
+              "name": "clicks",
+              "value": "={{ $json.clicks.toNumber().format(\"en-US\") }}",
+              "type": "string"
+            },
+            {
+              "id": "e277cafa-c2bd-437d-bee6-6f2da7526c48",
+              "name": "cpm",
+              "value": "={{ $json.cpm.toNumber().round(2) }}",
+              "type": "number"
+            },
+            {
+              "id": "3e4bd344-28f8-42f9-979e-9daa089999ed",
+              "name": "cpc",
+              "value": "={{ $json.cpc.toNumber().round(2) }}",
+              "type": "string"
+            },
+            {
+              "id": "0b7492dc-d75f-4098-85b3-d53829c81bd1",
+              "name": "ctr",
+              "value": "={{ $json.ctr.toNumber().round(2) }}",
+              "type": "number"
+            },
+            {
+              "id": "4cb620ce-1810-42be-92e3-c81578910cea",
+              "name": "adSpend",
+              "value": "={{ $json.spend.toNumber().round(2) }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        940,
+        -240
+      ],
+      "id": "0cbe5ed3-c208-4101-b4f1-b6fb8db01bd7",
+      "name": "Set Campaign Lvl Dimension & Metrics"
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "2025-05-01",
+        "format": "yyyy-MM-dd",
+        "outputFieldName": "startDate",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        -840,
+        40
+      ],
+      "id": "b34a96a5-e96c-46c2-a338-7a7fc465e77f",
+      "name": "startDate"
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "2025-05-18",
+        "format": "yyyy-MM-dd",
+        "outputFieldName": "endDate",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        -840,
+        260
+      ],
+      "id": "bad23178-442f-4dae-8adb-6b0abfc0e4eb",
+      "name": "endDate"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        -600,
+        140
+      ],
+      "id": "a7ff829d-ab35-41ed-bd17-c51e11be0cee",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "graphApiVersion": "v22.0",
+        "node": "={{ $('Set Campaign Lvl Dimension & Metrics').item.json.campaignId }}",
+        "edge": "adsets",
+        "options": {
+          "queryParameters": {
+            "parameter": [
+              {
+                "name": "fields",
+                "value": "id,name,status,daily_budget,targeting,start_time,end_time,billing_event"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        1620,
+        -220
+      ],
+      "id": "1f94e527-e05b-4841-a249-b143387c4f44",
+      "name": "Get All Adsets Dimension",
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "6Ubpg26JSILclSIn",
+          "name": "FB Graph API - boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "graphApiVersion": "v22.0",
+        "node": "={{ $json.id }}",
+        "edge": "insights",
+        "options": {
+          "fields": {
+            "field": [
+              {
+                "name": "date_start,date_stop,impressions,reach,clicks,cpm,cpc,ctr,inline_link_clicks,inline_link_click_ctr,outbound_clicks,cost_per_outbound_click,outbound_clicks_ctr,spend"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        1740,
+        40
+      ],
+      "id": "c4619393-a5d9-4a68-8f45-76bdb519e947",
+      "name": "Get Adset Insights",
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "6Ubpg26JSILclSIn",
+          "name": "FB Graph API - boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6a3f4b29-82c4-42f9-9fcd-f65935be3f95",
+              "name": "adsetName",
+              "value": "={{ $('Edit Fields1').item.json.adsetName }}",
+              "type": "string"
+            },
+            {
+              "id": "2303d80d-c3eb-4827-b75c-6264db5c118e",
+              "name": "adsetStatus",
+              "value": "={{ $('Edit Fields1').item.json.adsetStatus }}",
+              "type": "string"
+            },
+            {
+              "id": "7a09eac7-042d-4229-9fc4-e225b2ffadab",
+              "name": "dateStart",
+              "value": "={{ $json.date_start }}",
+              "type": "string"
+            },
+            {
+              "id": "8e6d60b5-1ea6-489c-afde-e29d65870dd9",
+              "name": "dateStop",
+              "value": "={{ $json.date_stop }}",
+              "type": "string"
+            },
+            {
+              "id": "8044da90-ccc9-438e-bd96-f8c419c9c6af",
+              "name": "impressions",
+              "value": "={{ $json.impressions }}",
+              "type": "number"
+            },
+            {
+              "id": "ccf16a6b-3ab8-404b-9385-f957b5182896",
+              "name": "reach",
+              "value": "={{ $json.reach }}",
+              "type": "number"
+            },
+            {
+              "id": "7a8fa8b1-b674-4846-bf21-4b6df0513e3e",
+              "name": "clicks",
+              "value": "={{ $json.clicks }}",
+              "type": "number"
+            },
+            {
+              "id": "8d8dcc36-0638-45f6-b4cf-a729188e81d3",
+              "name": "cpm",
+              "value": "={{ $json.cpm }}",
+              "type": "number"
+            },
+            {
+              "id": "36935140-fd58-4196-85a6-9d1f3a36171c",
+              "name": "cpc",
+              "value": "={{ $json.cpc }}",
+              "type": "number"
+            },
+            {
+              "id": "dd3f3c0b-59d5-4b18-8370-26d58950cdd5",
+              "name": "ctr",
+              "value": "={{ $json.ctr }}",
+              "type": "number"
+            },
+            {
+              "id": "1be7df78-7d9b-404d-9606-f2af3798cfac",
+              "name": "inlineLinkClicks",
+              "value": "={{ $json.inline_link_clicks }}",
+              "type": "number"
+            },
+            {
+              "id": "3e6662e8-6b19-4db6-aef4-aa72e30c7845",
+              "name": "adSpend",
+              "value": "={{ $json.spend }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2160,
+        40
+      ],
+      "id": "c078dc98-c62d-48d5-818e-4f6e68f3f7b5",
+      "name": "Set All Adsets Metrics"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fda0f828-4368-4d79-91ea-44a5c3ecaf73",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "2494ffcf-fdf3-4e0f-bc4a-13809343f2de",
+              "name": "adsetName",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "9bb243a0-833f-4a5e-9daa-8b8442e2ea29",
+              "name": "adsetStatus",
+              "value": "={{ $json.status }}",
+              "type": "string"
+            },
+            {
+              "id": "5434784c-1d48-4285-8f99-2e4c77abdd96",
+              "name": "dailyBudget",
+              "value": "={{ $json.daily_budget.slice(0,2).toNumber() }}.{{ $json.daily_budget.substring(2,3).toNumber() }}",
+              "type": "number"
+            },
+            {
+              "id": "a5b6a7ea-d56f-476e-a7a6-ec1156b78644",
+              "name": "basicTargetingAge",
+              "value": "={{ $json.targeting.age_min.toString() }} - {{ $json.targeting.age_max.toString() }}",
+              "type": "string"
+            },
+            {
+              "id": "37fd7918-8cf5-4be6-b852-31cdc1e0f4d0",
+              "name": "basicTargetingInterest",
+              "value": "={{ $json.targeting.flexible_spec[0].interests.map(item => item.name).join(\", \") }}",
+              "type": "string"
+            },
+            {
+              "id": "fa279e54-16f3-46c1-91c9-f1524e1123a2",
+              "name": "targetCountry",
+              "value": "={{ $json.targeting.geo_locations.cities.map(item => item.country).first() }}",
+              "type": "string"
+            },
+            {
+              "id": "499e658b-426b-4bac-9c5e-16d761123758",
+              "name": "targetCites",
+              "value": "={{ $json.targeting.geo_locations.cities.map(item => item.name).join(\", \") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2300,
+        -200
+      ],
+      "id": "a809fc03-bcdc-4ca4-bf5c-f9885e84ee01",
+      "name": "Set All Adsets Dimensions"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1wEHPA3nrZibNAFAF2UGa1KMdegeUPmCvk9FyTFRO6L4",
+          "mode": "list",
+          "cachedResultName": "[Apr2025] - N8N_Automation_Report - SementraResort - MetaAdsCampaignReport",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wEHPA3nrZibNAFAF2UGa1KMdegeUPmCvk9FyTFRO6L4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 342425151,
+          "mode": "list",
+          "cachedResultName": "Adset Level",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wEHPA3nrZibNAFAF2UGa1KMdegeUPmCvk9FyTFRO6L4/edit#gid=342425151"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Campaign Name": "={{ $('Loop Over Items').item.json['Campaign Name'] }}",
+            "Adset Name": "={{ $json.adsetName }}",
+            "Start Date": "={{ $json.dateStart }}",
+            "End Date": "={{ $json.dateStop }}",
+            "Basic Targeting (Age)": "={{ $json.basicTargetingAge }}",
+            "Basic Targeting (Interest)": "={{ $json.basicTargetingInterest }}",
+            "Target Country": "={{ $json.targetCountry }}",
+            "Target Cities": "={{ $json.targetCites }}",
+            "Impressions": "={{ $json.impressions?.round(2) || 0 }}",
+            "Reach": "={{ $json.reach?.round(2) || 0 }}",
+            "Clicks": "={{ $json.clicks?.round(2) || 0 }}",
+            "CPM (RM)": "={{ $json.cpm?.round(2) || 0 }}",
+            "CPC (RM)": "={{ $json.cpc?.round(2) || 0 }}",
+            "CTR %": "={{ $json.ctr.round(2) || 0 }}",
+            "Link Clicks": "={{ $json.inlineLinkClicks?.round(2) || 0 }}",
+            "Ad Spend": "={{ $json.adSpend?.format(\"en-US\")  || 0 }}"
+          },
+          "matchingColumns": [
+            "Campaign Name"
+          ],
+          "schema": [
+            {
+              "id": "Campaign Name",
+              "displayName": "Campaign Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Adset Name",
+              "displayName": "Adset Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Start Date",
+              "displayName": "Start Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "End Date",
+              "displayName": "End Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Basic Targeting (Age)",
+              "displayName": "Basic Targeting (Age)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Basic Targeting (Interest)",
+              "displayName": "Basic Targeting (Interest)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Target Country",
+              "displayName": "Target Country",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Target Cities",
+              "displayName": "Target Cities",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Impressions",
+              "displayName": "Impressions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Reach",
+              "displayName": "Reach",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Clicks",
+              "displayName": "Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CPM (RM)",
+              "displayName": "CPM (RM)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CPC (RM)",
+              "displayName": "CPC (RM)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CTR %",
+              "displayName": "CTR %",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Link Clicks",
+              "displayName": "Link Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Cost/Link Click",
+              "displayName": "Cost/Link Click",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Link Click CTR",
+              "displayName": "Link Click CTR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Outbound Clicks",
+              "displayName": "Outbound Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Cost/Outbound Click",
+              "displayName": "Cost/Outbound Click",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Outbound CTR",
+              "displayName": "Outbound CTR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Spend",
+              "displayName": "Ad Spend",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2920,
+        60
+      ],
+      "id": "31fbf599-9560-42ab-9f2f-e8f41e3ee0ba",
+      "name": "Update Adset Level Report",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6a3f4b29-82c4-42f9-9fcd-f65935be3f95",
+              "name": "adName",
+              "value": "={{ $json.ad_name }}",
+              "type": "string"
+            },
+            {
+              "id": "7a09eac7-042d-4229-9fc4-e225b2ffadab",
+              "name": "dateStart",
+              "value": "={{ $json.date_start }}",
+              "type": "string"
+            },
+            {
+              "id": "8e6d60b5-1ea6-489c-afde-e29d65870dd9",
+              "name": "dateStop",
+              "value": "={{ $json.date_stop }}",
+              "type": "string"
+            },
+            {
+              "id": "8044da90-ccc9-438e-bd96-f8c419c9c6af",
+              "name": "impressions",
+              "value": "={{ $json.impressions }}",
+              "type": "number"
+            },
+            {
+              "id": "ccf16a6b-3ab8-404b-9385-f957b5182896",
+              "name": "reach",
+              "value": "={{ $json.reach }}",
+              "type": "number"
+            },
+            {
+              "id": "7a8fa8b1-b674-4846-bf21-4b6df0513e3e",
+              "name": "clicks",
+              "value": "={{ $json.clicks }}",
+              "type": "number"
+            },
+            {
+              "id": "8d8dcc36-0638-45f6-b4cf-a729188e81d3",
+              "name": "cpm",
+              "value": "={{ $json.cpm }}",
+              "type": "number"
+            },
+            {
+              "id": "36935140-fd58-4196-85a6-9d1f3a36171c",
+              "name": "cpc",
+              "value": "={{ $json.cpc }}",
+              "type": "number"
+            },
+            {
+              "id": "e982fa9f-a67a-4ff5-a2c5-e1f661d0630f",
+              "name": "ctr",
+              "value": "={{ $json.ctr }}",
+              "type": "number"
+            },
+            {
+              "id": "2aba9965-edec-49a4-b065-b420a1510ca7",
+              "name": "adSpend",
+              "value": "={{ $json.spend }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2580,
+        580
+      ],
+      "id": "21b6129b-5af3-41d1-a913-14761a71aaf4",
+      "name": "Set Ad Insights Metrics"
+    },
+    {
+      "parameters": {
+        "graphApiVersion": "v22.0",
+        "node": "={{ $json.creative.id }}",
+        "options": {
+          "fields": {
+            "field": [
+              {
+                "name": "id,name,adlabels,status,body,object_type"
+              },
+              {
+                "name": "thumbnail_url,title,call_to_action"
+              },
+              {
+                "name": "asset_feed_spec,effective_object_story_id,instagram_permalink_url"
+              },
+              {
+                "name": "object_story_spec"
+              }
+            ]
+          },
+          "queryParameters": {
+            "parameter": [
+              {
+                "name": "thumbnail_width",
+                "value": "500"
+              },
+              {
+                "name": "thumbnail_height",
+                "value": "500"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        1780,
+        800
+      ],
+      "id": "1d24e0aa-3ee4-4176-b40e-0d668b5d8966",
+      "name": "GET Ad Creative Details",
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "6Ubpg26JSILclSIn",
+          "name": "FB Graph API - boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "864b2cd7-acdb-40b1-8f0f-7e63a6ba57a6",
+              "name": "ad_id",
+              "value": "={{ $('Loop Over Items2').item.json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "7fe309be-6f0e-4d2d-bd33-0c68501dc414",
+              "name": "ad_name",
+              "value": "={{ $('Loop Over Items2').item.json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "21148edb-7244-4545-a4d3-32c9b324e059",
+              "name": "creative_id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "c49a4649-01c6-446f-aeee-3f57a8a4a146",
+              "name": "ad_thumbnail",
+              "value": "={{ $json.thumbnail_url }}",
+              "type": "string"
+            },
+            {
+              "id": "1220055e-f79f-4b33-8fa8-fbd6d0ca5bbf",
+              "name": "ad_texts",
+              "value": "=- {{ $json.asset_feed_spec.bodies.map(item => item.text).join(\"\\n\\n========================================\\n\\n - \") }}",
+              "type": "string"
+            },
+            {
+              "id": "40c286f6-0d59-4827-abaf-855c332de5fe",
+              "name": "ad_healines",
+              "value": "=-{{ $json.asset_feed_spec.titles.map(item => item.text).join(\"\\n - \") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2020,
+        800
+      ],
+      "id": "8695989d-eb85-4627-b3f2-2da7e7bb9b6d",
+      "name": "Set Ad Creatives Dimensions"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1wEHPA3nrZibNAFAF2UGa1KMdegeUPmCvk9FyTFRO6L4",
+          "mode": "list",
+          "cachedResultName": "[Apr2025] - N8N_Automation_Report - SementraResort - MetaAdsCampaignReport",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wEHPA3nrZibNAFAF2UGa1KMdegeUPmCvk9FyTFRO6L4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1940162687,
+          "mode": "list",
+          "cachedResultName": "Ad Level",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wEHPA3nrZibNAFAF2UGa1KMdegeUPmCvk9FyTFRO6L4/edit#gid=1940162687"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Ad Name": "={{ $json.ad_name }}",
+            "Ad Thumbnail": "={{ $json.ad_thumbnail }}",
+            "Ad Texts": "={{ $json.ad_texts }}",
+            "Ad Headlines": "={{ $json.ad_healines }}"
+          },
+          "matchingColumns": [
+            "Ad Name"
+          ],
+          "schema": [
+            {
+              "id": "Ad Name",
+              "displayName": "Ad Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ad Thumbnail",
+              "displayName": "Ad Thumbnail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ad Texts",
+              "displayName": "Ad Texts",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ad Headlines",
+              "displayName": "Ad Headlines",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Start Date",
+              "displayName": "Start Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "End Date",
+              "displayName": "End Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Impressions",
+              "displayName": "Impressions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Reach",
+              "displayName": "Reach",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Clicks",
+              "displayName": "Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CPM (RM)",
+              "displayName": "CPM (RM)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CPC (RM)",
+              "displayName": "CPC (RM)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "CTR %",
+              "displayName": "CTR %",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Spend",
+              "displayName": "Ad Spend",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2240,
+        800
+      ],
+      "id": "6b2dbf20-656e-4762-8681-4ab64574d3a4",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "dafbec59-1380-4396-bff7-2fc22eee7f60",
+              "name": "ad_id",
+              "value": "={{ $('Split Out4').item.json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "9809c84f-1330-4f2b-9459-1abdbd2d2666",
+              "name": "ad_name",
+              "value": "={{ $('Split Out4').item.json.name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1680,
+        560
+      ],
+      "id": "6e9484d8-c8e3-4c33-aea1-0efdf2e1e5fb",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1wEHPA3nrZibNAFAF2UGa1KMdegeUPmCvk9FyTFRO6L4",
+          "mode": "list",
+          "cachedResultName": "[Apr2025] - N8N_Automation_Report - SementraResort - MetaAdsCampaignReport",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wEHPA3nrZibNAFAF2UGa1KMdegeUPmCvk9FyTFRO6L4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1940162687,
+          "mode": "list",
+          "cachedResultName": "Ad Level",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wEHPA3nrZibNAFAF2UGa1KMdegeUPmCvk9FyTFRO6L4/edit#gid=1940162687"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Ad Name": "={{ $json.adName }}",
+            "Start Date": "={{ $json.dateStart }}",
+            "End Date": "={{ $json.dateStop }}",
+            "Impressions": "={{ $json.impressions }}",
+            "Reach": "={{ $json.reach }}",
+            "Clicks": "={{ $json.clicks }}",
+            "CPM (RM)": "={{ $json.cpm }}",
+            "CPC (RM)": "={{ $json.cpc }}",
+            "CTR %": "={{ $json.ctr }}",
+            "Ad Spend": "={{ $json.adSpend }}"
+          },
+          "matchingColumns": [
+            "Ad Name"
+          ],
+          "schema": [
+            {
+              "id": "Ad Name",
+              "displayName": "Ad Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ad Thumbnail",
+              "displayName": "Ad Thumbnail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Texts",
+              "displayName": "Ad Texts",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Headlines",
+              "displayName": "Ad Headlines",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Start Date",
+              "displayName": "Start Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "End Date",
+              "displayName": "End Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Impressions",
+              "displayName": "Impressions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Reach",
+              "displayName": "Reach",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Clicks",
+              "displayName": "Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CPM (RM)",
+              "displayName": "CPM (RM)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CPC (RM)",
+              "displayName": "CPC (RM)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CTR %",
+              "displayName": "CTR %",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Spend",
+              "displayName": "Ad Spend",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2140,
+        400
+      ],
+      "id": "1401429e-a37c-4482-b9de-34b9c35c529f",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "graphApiVersion": "v22.0",
+        "node": "={{ $json.ad_id }}",
+        "edge": "insights",
+        "options": {
+          "fields": {
+            "field": [
+              {
+                "name": "ad_id,ad_name,date_start,date_stop,impressions,reach,clicks,cpm,cpc,ctr,spend"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        2140,
+        580
+      ],
+      "id": "0b7b17f4-633d-4aa0-aeda-14bbadff066e",
+      "name": "Get Ad Level Insights",
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "6Ubpg26JSILclSIn",
+          "name": "FB Graph API - boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Adset Level\n**1. First flow will down to Adset dimensions such as Adset Name, Campaign Name, TA Age Range and TA Interest Setup**\n**2. Second flow will retrive to Adsets metrics such as impressions, reach, clicks, cpm, cpc, ctr, ad spend etc.**",
+        "height": 660,
+        "width": 1940
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1200,
+        -380
+      ],
+      "typeVersion": 1,
+      "id": "eb81a944-24d8-4d38-a44d-db152e86cb26",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# Campaign Level\n**Get campaign level dimensions such as Campaign Name, Campaign Status, Campaign Objective and Goal Optimization and retrieve to Adsets metrics such as impressions, reach, clicks, cpm, cpc, ctr, ad spend etc.**",
+        "height": 520,
+        "width": 640,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        540,
+        -380
+      ],
+      "typeVersion": 1,
+      "id": "cd057e87-ae6c-4eac-af24-f20414ad88d4",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "# Ad Level\n**1. First flow will down to Ad dimensions such as Ad Name, Creative Id and Creative Name**\n**2. Second flow will retrieve to each Ad metrics such as impressions, reach, clicks, cpm, cpc, ctr, ad spend etc.**",
+        "height": 640,
+        "width": 2640,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        500,
+        380
+      ],
+      "typeVersion": 1,
+      "id": "f5b53075-ecd8-4b69-a016-77eaf875e609",
+      "name": "Sticky Note2"
+    }
+  ],
+  "connections": {
+    "List All Ad Campaigns": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Get Only Active Campaigns",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Only Active Campaigns": {
+      "main": [
+        [
+          {
+            "node": "Split Out3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Facebook Graph API2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Get All Adsets Dimension",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Set All Adsets Dimensions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Get Adset Insights",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out2": {
+      "main": [
+        [
+          {
+            "node": "Set All Adsets Metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out3": {
+      "main": [
+        [
+          {
+            "node": "Set Campaign Lvl Dimension & Metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Facebook Graph API2": {
+      "main": [
+        [
+          {
+            "node": "Split Out4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out4": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Ad Level Insights",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out5": {
+      "main": [
+        [
+          {
+            "node": "Set Ad Insights Metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "GET Ad Creative Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "startDate",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "endDate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Update Adset Level Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Campaign Lvl Dimension & Metrics": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "startDate": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "endDate": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "List All Ad Campaigns",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get All Adsets Dimension": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Adset Insights": {
+      "main": [
+        [
+          {
+            "node": "Split Out2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set All Adsets Metrics": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Set All Adsets Dimensions": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Adset Level Report": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Ad Creative Details": {
+      "main": [
+        [
+          {
+            "node": "Set Ad Creatives Dimensions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Ad Creatives Dimensions": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Ad Insights Metrics": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Ad Level Insights": {
+      "main": [
+        [
+          {
+            "node": "Split Out5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "1285b17a-f47f-4f7f-a80e-fae8d0cf5915",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-04-11T16:02:37.306Z",
+      "createdAt": "2025-04-11T16:02:37.306Z",
+      "role": "workflow:owner",
+      "workflowId": "Z2D5YN1hFAV8laoR",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
