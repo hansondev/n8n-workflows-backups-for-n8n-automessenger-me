@@ -1,0 +1,1601 @@
+{
+  "updatedAt": "2025-06-12T14:58:14.000Z",
+  "createdAt": "2025-06-08T07:38:54.688Z",
+  "id": "w6SuMqazKshDP5Qq",
+  "name": "[Creo_Project - ReadyCare] - WP Landing Page Bundle Campaign Content Generator",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "RCSignature Bundle Campaign Landing Page Content Generator",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Main Website Link"
+            },
+            {
+              "fieldLabel": "Section Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Hero Section"
+                  },
+                  {
+                    "option": "Bundle Feature Section"
+                  },
+                  {
+                    "option": "USPs Section"
+                  },
+                  {
+                    "option": "Product Selection Section"
+                  }
+                ]
+              },
+              "multiselect": true,
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Campagin Landing Page REST URL"
+            },
+            {
+              "fieldLabel": "Campaign Name"
+            },
+            {
+              "fieldLabel": "Campaign Start",
+              "fieldType": "date"
+            },
+            {
+              "fieldLabel": "Campaign End",
+              "fieldType": "date"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "3eda7330-1f95-4a48-9cf9-ad9dd98e1353",
+      "name": "On form submission",
+      "webhookId": "bac7d959-ec3a-45eb-ab1e-ac62fab8d7ad"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "Section Name",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        240,
+        0
+      ],
+      "id": "dcae0b4b-2a06-4ef9-bfc4-39e8d36dcbc2",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('On form submission').item.json['Campagin Landing Page REST URL'] }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "wordpressApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"acf\": {\n    \"bundle_feature_main_heading_h2\": {{ JSON.stringify($json.bundleFeatureHeadingH2) }},\n    \"bundle_feature_main_description\": {{ JSON.stringify($json.bundleFeatureDescription) }}\n  }\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2420,
+        -420
+      ],
+      "id": "66ea8a44-a6d0-405e-ac50-4865ad5005d2",
+      "name": "HTTP Request",
+      "credentials": {
+        "wordpressApi": {
+          "id": "XvElTo6wbe59lO92",
+          "name": "WPAccount (rcsignature.com.my)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json['Section Name'] }}",
+                    "rightValue": "Bundle Feature Section",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "aada1afa-dc0c-4502-8d0b-5f9f0ae354b7"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Bundle Feature Section"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "989cccd0-9e72-4f83-be70-ff3a026ff5c6",
+                    "leftValue": "={{ $json['Section Name'] }}",
+                    "rightValue": "USPs Section",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "USPs Section"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "4e85141a-a404-440b-a4d2-92bf4ea0e11a",
+                    "leftValue": "={{ $json['Section Name'] }}",
+                    "rightValue": "Product Selection Section",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Product Selection Section"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        480,
+        0
+      ],
+      "id": "8c6c810a-eaed-4751-85b9-d66b52cea5f6",
+      "name": "Split Landing Page Section"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Website URL:\n{{ $json.website_url }}\n------\nSection Name: \n{{ $json.sectionName }}\n\nSection Content Ideation:\n{{ $json.sectionContentIdeation }}\n------\nCampaign Name:\n{{ $json.campaignName }}\n------\nCampaign Start:\n{{ $json.campaignStart }}\n------\nCampaign End:\n{{ $json.campaignEnd }}\nBundle Types Available:\n{{ $json.bundleTypes }}\n------\nBundle Pack Categories Available:\n{{ $json.bundlePackCategories }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a Wordpress and Woocommerce expert as well as Ecommerce landing page content writing specialist who familiar with landing page structure and section content.\n\n# Task\n- You are tasked to generate a Ecommerce landing page content writing for {{ $json.campaignName }} in {{ $json.campaignStart.toDateTime().format('LLLL') }} {{ $json.campaignStart.toDateTime().format('yyyy') }} based on the landing page section, {{ $json.sectionName }} that had been assigned to you.\n- In order to generate the right landing page {{ $json.sectionName }} content, I will provide you necessary inputs as context for you to refer.\n\n# Context\n- I will providing you those necessary information in order to generate the right output without any misleading, fals claims and hallucination output.\n- Thus, the context that I am providing as your input as below:\n  -- Website URL\n  -- Section Name\n  -- Section Content Ideation\n  -- Campaign Name\n  -- Campaign Start\n  -- Campaign End\n  -- Bundle Types\n  -- Bundle Pack Categories\n\n# Tools\nIn order to generate the right landing page {{ $json.sectionName }} content writing and to ensure that content generated relevant to the current proposed campaign, you are require to use the following tools to assist you to complete the assigned task as below:\n1. **`get_products_listed`**  \n  - This tool is to retrieve all the products listed live in the current used Ecommerce platform store (Woocommerce)\n  - You are going to fetch only neccessary information such as product name (`name`), product page link (`permalink`) and product description ('description' and `short_description`).\n\n2. **`deep_research_engine`**\n  - This tool is process in-depth research based on the provided website url or relevant search query from ai search engine intelligently powered by TALIVY AI and generate summary output where consist of information about the website, search query, products, brands, company and etc. \n\n# Output\n- All output must be in the JSON structure format and make sure that all the output generated must exclude the any explaination, other extra information or asking questions. Only generate the exact require output based on the JSON structure.\n\n## Example Output\n```\njson:[\n {\n   \"bundle_feature_main_heading_h2: \"RC Mid Year Bundle Pack Promo,\n   \"bundle_feature_main_description\": \"This bundle pack promotion campaign is special dedicated for eco-friendly user who have love to join the impact to save the earth and enhancing healthy lifestyle that supporting and consumign biobased home appliance products. Thus, celebrate this, we are coming this special promotion campaign to encourage more users or consumer to gain awarness on eco-green or non-chemical based products.\"\n }\n]\n```"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        1700,
+        -420
+      ],
+      "id": "2300ff01-c503-4f44-a10c-1adfd8229b2f",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1k0fdciFmoCg9kWcDaNqaZ7olb8eDgA6DBzNeFDeFAvk",
+          "mode": "list",
+          "cachedResultName": "[June2025] - RCSignature WP Landing Page Content Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1k0fdciFmoCg9kWcDaNqaZ7olb8eDgA6DBzNeFDeFAvk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Input AI Agent",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1k0fdciFmoCg9kWcDaNqaZ7olb8eDgA6DBzNeFDeFAvk/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        880,
+        -420
+      ],
+      "id": "b100ea72-bbd7-41b0-8871-0de7b2aeda57",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "0612f0d3-0a45-4328-868a-6a9cce012d66",
+              "leftValue": "={{ $json['Section Name'] }}",
+              "rightValue": "={{ $('Split Landing Page Section').item.json['Section Name'] }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1140,
+        -420
+      ],
+      "id": "8f8dfef4-65be-4f90-825a-38c85de28c22",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9df265c6-aeb3-49f1-877a-9f2ba6821af9",
+              "name": "sectionName",
+              "value": "={{ $json['Section Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "cfbeabb6-5522-4116-81b1-f227ca26e0e0",
+              "name": "sectionContentIdeation",
+              "value": "={{ $json['Section Content Ideation'] }}",
+              "type": "string"
+            },
+            {
+              "id": "273dc4a3-9e67-4b9a-8252-c0b6bd2a452d",
+              "name": "campaignName",
+              "value": "={{ $('On form submission').first().json['Campaign Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "98642159-a414-47ee-9902-b03a1b187bb7",
+              "name": "campaignStart",
+              "value": "={{ $('On form submission').first().json['Campaign Start'].toDateTime().format(' dd LLLL yyyy') }}",
+              "type": "string"
+            },
+            {
+              "id": "8f8fa75e-48fa-4f4c-b47b-84ab92e89bf5",
+              "name": "campaignEnd",
+              "value": "={{ $('On form submission').first().json['Campaign End'].toDateTime().format(' dd LLLL yyyy') }}",
+              "type": "string"
+            },
+            {
+              "id": "81083f00-861d-496f-9763-8c38ecf65115",
+              "name": "bundleTypes",
+              "value": "={{ $json['Bundle Types Available'] }}",
+              "type": "string"
+            },
+            {
+              "id": "111781a0-94db-40ad-a642-af97e6655056",
+              "name": "bundlePackCategories",
+              "value": "={{ $json['Bundle Pack Categories'] }}",
+              "type": "string"
+            },
+            {
+              "id": "9abec1ad-f531-42bd-9a4e-45c722b25945",
+              "name": "website_url",
+              "value": "={{ $('On form submission').first().json['Main Website Link'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1360,
+        -420
+      ],
+      "id": "74217bbb-b47b-40f0-8093-ff4ac163c09d",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool is to retrieve all the products listed live in Woocommerce Ecommerce platform store.",
+        "operation": "getAll",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.wooCommerceTool",
+      "typeVersion": 1,
+      "position": [
+        1620,
+        -200
+      ],
+      "id": "198ad54e-3d87-4d23-81df-bedb6d4536dc",
+      "name": "get_products_listed",
+      "credentials": {
+        "wooCommerceApi": {
+          "id": "vUUGG8jfnynWfhkh",
+          "name": "WooCommerce(https://rcsignature.com.my/)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": " [\n   {\n     \"bundle_feature_main_heading_h2\": \"RC Mid Year Bundle Pack Promo\",\n     \"bundle_feature_main_description\": \"This bundle pack promotion campaign is special dedicated for eco-friendly user who have love to join the impact to save the earth and enhancing healthy lifestyle that supporting and consumign biobased home appliance products. Thus, celebrate this, we are coming this special promotion campaign to encourage more users or consumer to gain awarness on eco-green or non-chemical based products.\"\n   }\n]"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        2100,
+        -220
+      ],
+      "id": "6302bb1f-0597-4851-b715-5705da6e3768",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro-preview-05-06",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1400,
+        -580
+      ],
+      "id": "9f111411-73af-44c4-950f-29184fb13d10",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b545c628-70f4-4b3b-a2d3-2e9778777ae1",
+              "name": "bundleFeatureHeadingH2",
+              "value": "={{ $json.output[0].bundle_feature_main_heading_h2 }}",
+              "type": "string"
+            },
+            {
+              "id": "c8319d53-cde1-4eba-8905-e086f0b8468d",
+              "name": "bundleFeatureDescription",
+              "value": "={{ $json.output[0].bundle_feature_main_description }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2180,
+        -420
+      ],
+      "id": "b867e8ef-a575-42ad-aba7-e0d5ea4f111b",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1k0fdciFmoCg9kWcDaNqaZ7olb8eDgA6DBzNeFDeFAvk",
+          "mode": "list",
+          "cachedResultName": "[June2025] - RCSignature WP Landing Page Content Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1k0fdciFmoCg9kWcDaNqaZ7olb8eDgA6DBzNeFDeFAvk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Input AI Agent",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1k0fdciFmoCg9kWcDaNqaZ7olb8eDgA6DBzNeFDeFAvk/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        900,
+        20
+      ],
+      "id": "a400f39a-148f-4c45-9484-279548373d68",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "0612f0d3-0a45-4328-868a-6a9cce012d66",
+              "leftValue": "={{ $json['Section Name'] }}",
+              "rightValue": "={{ $('Split Landing Page Section').item.json['Section Name'] }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1160,
+        20
+      ],
+      "id": "1f339dd2-ac95-4c97-b3b0-b5d6da7efc1a",
+      "name": "Filter1"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1k0fdciFmoCg9kWcDaNqaZ7olb8eDgA6DBzNeFDeFAvk",
+          "mode": "list",
+          "cachedResultName": "[June2025] - RCSignature WP Landing Page Content Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1k0fdciFmoCg9kWcDaNqaZ7olb8eDgA6DBzNeFDeFAvk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Input AI Agent",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1k0fdciFmoCg9kWcDaNqaZ7olb8eDgA6DBzNeFDeFAvk/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        880,
+        440
+      ],
+      "id": "0940b5c2-3acd-44f9-ba81-4d265ba60f3a",
+      "name": "Google Sheets2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "0612f0d3-0a45-4328-868a-6a9cce012d66",
+              "leftValue": "={{ $json['Section Name'] }}",
+              "rightValue": "={{ $('Split Landing Page Section').item.json['Section Name'] }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1140,
+        440
+      ],
+      "id": "0c7b0d7e-6e4a-4530-a4cf-52c134d8a709",
+      "name": "Filter2"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1460,
+        -260
+      ],
+      "id": "a7af3614-eeaf-4422-b0ae-db423c784d74",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool is to crawl the Ecommerce store sitemap pages that had been indexed and scrape all the page content in markdown format to refer as the input context in order to generate the section content.",
+        "workflowId": {
+          "__rl": true,
+          "value": "6GmpoovcrJu1Mzsd",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow]  -Crawl4AI Page Sitemap Content Scraper Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "searchUrl": "={{ $('On form submission').first().json['Main Website Link'] }}"
+          },
+          "matchingColumns": [
+            "searchUrl"
+          ],
+          "schema": [
+            {
+              "id": "searchUrl",
+              "displayName": "searchUrl",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1740,
+        -580
+      ],
+      "id": "ef5686a1-9c86-4995-aab8-a6ecc990eee2",
+      "name": "web_sitemap_crawler",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.tavily.com/search",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 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"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "={{ $fromAI(\"query\", \"Use the search query to get detailed informantion from seach engine and generate summary back as output\", \"string\") }}"
+            },
+            {
+              "name": "include_answer",
+              "value": "advanced"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        1820,
+        -200
+      ],
+      "id": "a89d7317-a3cd-486b-b220-e5f4f0d40ad4",
+      "name": "deep_research_engine"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('On form submission').item.json['Campagin Landing Page REST URL'] }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "wordpressApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"acf\": {\n    \"usps_section_reason_heading_h2\": {{ JSON.stringify($json.uspReasonHeadingH2) }},\n    \"usps_section_reason_description\": {{ JSON.stringify($json.uspReasonDescription) }},\n    \"usps_section_benefits_heading_h3\": {{ JSON.stringify($json.uspBenefitsHeadingH3) }},\n    \"usps_section_benefits_description\": {{ JSON.stringify($json.uspBenefitsDescription) }} \n  }\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2500,
+        20
+      ],
+      "id": "7ccc20db-658d-4dad-a6eb-8bda7073313c",
+      "name": "HTTP Request1",
+      "credentials": {
+        "wordpressApi": {
+          "id": "XvElTo6wbe59lO92",
+          "name": "WPAccount (rcsignature.com.my)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Website URL:\n{{ $json.website_url }}\n------\nSection Name: \n{{ $json.sectionName }}\n\nSection Content Ideation:\n{{ $json.sectionContentIdeation }}\n------\nCampaign Name:\n{{ $json.campaignName }}\n------\nCampaign Start:\n{{ $json.campaignStart }}\n------\nCampaign End:\n{{ $json.campaignEnd }}\nBundle Types Available:\n{{ $json.bundleTypes }}\n------\nBundle Pack Categories Available:\n{{ $json.bundlePackCategories }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a Wordpress and Woocommerce expert as well as Ecommerce landing page content writing specialist who familiar with landing page structure and section content.\n\n# Task\n- You are tasked to generate a Ecommerce landing page content writing for {{ $json.campaignName }} in {{ $json.campaignStart.toDateTime().format('LLLL') }} {{ $json.campaignStart.toDateTime().format('yyyy') }} based on the landing page section, {{ $json.sectionName }} that had been assigned to you.\n- In order to generate the right landing page {{ $json.sectionName }} content, I will provide you necessary inputs as context for you to refer.\n\n# Context\n- I will providing you those necessary information in order to generate the right output without any misleading, false claims and hallucination output.\n- Thus, the context that I am providing as your input as below:\n  -- Website URL\n  -- Section Name\n  -- Section Content Ideation\n  -- Campaign Name\n  -- Campaign Start\n  -- Campaign End\n  -- Bundle Types\n  -- Bundle Pack Categories\n\n# Tools\nIn order to generate the right landing page {{ $json.sectionName }} content writing and to ensure that content generated relevant to the current proposed campaign, you are require to use the following tools to assist you to complete the assigned task as below:\n1. **`get_products_listed`**  \n  - This tool is to retrieve all the products listed live in the current used Ecommerce platform store (Woocommerce)\n  - You are going to fetch only neccessary information such as product name (`name`), product page link (`permalink`) and product description ('description' and `short_description`).\n\n2. **`deep_research_engine`**\n  - This tool is process in-depth research based on the provided website url or relevant search query from ai search engine intelligently powered by TALIVY AI and generate summary output where consist of information about the website, search query, products, brands, company and etc. \n\n# Output\n- All output must be in the JSON structure format and make sure that all the output generated must exclude the any explaination, other extra information or asking questions. Only generate the exact require output based on the JSON structure.\n\n## Example Output\n```\njson:[\n {\n   \"usps_section_reason_heading_h2\": \"Why ReadyCare Biobased Products?\",\n   \"usps_section_reason_description\": \"ReadyCare Signature is Malaysia's first USDA Bio-Based certified brand, offering eco-friendly and skin-friendly cleaning solutions. ReadyCare's products are manufactured and certified by Malaysia Halal Certification issued under Department of Islamic Development Malaysia (JAKIM) . Many comments in the market suggest that plant-based/bio-based products are expensive and have less cleaning power. However, Readycare is budget-friendly (affordable) and demonstrates strong cleaning power.\",\n   \"usps_section_benefits_heading_h3\": \"Benefits of ReadyCare Biobased Products\",\n   \"usps_section_benefits_description\": \"•<b>Eco-Friendly:</b> Biobased products help protect our planet by using renewable resources, reducing environmental impact. <br> •<b>Sustainable:</b> By choosing biobased, you support a cycle of production and consumption that's good for the earth. <br> •<b>Lower Carbon Footprint:</b> Producing biobased products often emits fewer greenhouse gases than conventional methods.<br>•<b>Safe and Gentle:</b> Our products are free from harsh chemicals, making them safer for you and your family.<br>•<b>Versatile and Effective:</b> From cleaning solutions to packaging, biobased materials offer eco-friendly alternatives without compromising on quality.\"\n }\n]\n```"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        1780,
+        20
+      ],
+      "id": "98b4577b-c80a-4614-8607-3f2de2fc067c",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9df265c6-aeb3-49f1-877a-9f2ba6821af9",
+              "name": "sectionName",
+              "value": "={{ $json['Section Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "cfbeabb6-5522-4116-81b1-f227ca26e0e0",
+              "name": "sectionContentIdeation",
+              "value": "={{ $json['Section Content Ideation'] }}",
+              "type": "string"
+            },
+            {
+              "id": "273dc4a3-9e67-4b9a-8252-c0b6bd2a452d",
+              "name": "campaignName",
+              "value": "={{ $('On form submission').first().json['Campaign Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "98642159-a414-47ee-9902-b03a1b187bb7",
+              "name": "campaignStart",
+              "value": "={{ $('On form submission').first().json['Campaign Start'].toDateTime().format(' dd LLLL yyyy') }}",
+              "type": "string"
+            },
+            {
+              "id": "8f8fa75e-48fa-4f4c-b47b-84ab92e89bf5",
+              "name": "campaignEnd",
+              "value": "={{ $('On form submission').first().json['Campaign End'].toDateTime().format(' dd LLLL yyyy') }}",
+              "type": "string"
+            },
+            {
+              "id": "81083f00-861d-496f-9763-8c38ecf65115",
+              "name": "bundleTypes",
+              "value": "={{ $json['Bundle Types Available'] }}",
+              "type": "string"
+            },
+            {
+              "id": "111781a0-94db-40ad-a642-af97e6655056",
+              "name": "bundlePackCategories",
+              "value": "={{ $json['Bundle Pack Categories'] }}",
+              "type": "string"
+            },
+            {
+              "id": "9abec1ad-f531-42bd-9a4e-45c722b25945",
+              "name": "website_url",
+              "value": "={{ $('On form submission').first().json['Main Website Link'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1440,
+        20
+      ],
+      "id": "67180af2-19e8-4ea7-b833-9c04eb4c8026",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool is to retrieve all the products listed live in Woocommerce Ecommerce platform store.",
+        "operation": "getAll",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.wooCommerceTool",
+      "typeVersion": 1,
+      "position": [
+        1700,
+        240
+      ],
+      "id": "fcb2d29c-5589-44d2-a95c-1da566c31bef",
+      "name": "get_products_listed1",
+      "credentials": {
+        "wooCommerceApi": {
+          "id": "vUUGG8jfnynWfhkh",
+          "name": "WooCommerce(https://rcsignature.com.my/)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": " [\n {\n   \"usps_section_reason_heading_h2\": \"Why ReadyCare Biobased Products?\",\n   \"usps_section_reason_description\": \"ReadyCare Signature is Malaysia's first USDA Bio-Based certified brand, offering eco-friendly and skin-friendly cleaning solutions. ReadyCare's products are manufactured and certified by Malaysia Halal Certification issued under Department of Islamic Development Malaysia (JAKIM) . Many comments in the market suggest that plant-based/bio-based products are expensive and have less cleaning power. However, Readycare is budget-friendly (affordable) and demonstrates strong cleaning power.\",\n   \"usps_section_benefits_heading_h3\": \"Benefits of ReadyCare Biobased Products\",\n   \"usps_section_benefits_description\": \"•<b>Eco-Friendly:</b> Biobased products help protect our planet by using renewable resources, reducing environmental impact.<br>•<b>Sustainable:</b>By choosing biobased, you support a cycle of production and consumption that's good for the earth.<br>•<b>Lower Carbon Footprint:</b>Producing biobased products often emits fewer greenhouse gases than conventional methods.<br>•<b>Safe and Gentle:</b> Our products are free from harsh chemicals, making them safer for you and your family.<br>•<b>Versatile and Effective:</b> From cleaning solutions to packaging, biobased materials offer eco-friendly alternatives without compromising on quality.\"\n }\n]"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        2180,
+        220
+      ],
+      "id": "1c2637b4-63a3-4a4d-a902-b6819ef5b608",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b545c628-70f4-4b3b-a2d3-2e9778777ae1",
+              "name": "uspReasonHeadingH2",
+              "value": "={{ $json.output[0].usps_section_reason_heading_h2 }}",
+              "type": "string"
+            },
+            {
+              "id": "c8319d53-cde1-4eba-8905-e086f0b8468d",
+              "name": "uspReasonDescription",
+              "value": "={{ $json.output[0].usps_section_reason_description }}",
+              "type": "string"
+            },
+            {
+              "id": "28a583f8-9e5a-4524-bb3f-800493eab3f4",
+              "name": "uspBenefitsHeadingH3",
+              "value": "={{ $json.output[0].usps_section_benefits_heading_h3 }}",
+              "type": "string"
+            },
+            {
+              "id": "fbf1dde9-3080-483d-aea4-75990260621b",
+              "name": "uspBenefitsDescription",
+              "value": "={{ $json.output[0].usps_section_benefits_description }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2260,
+        20
+      ],
+      "id": "918139f7-0fe4-4591-bcd2-9db1808cf000",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1540,
+        180
+      ],
+      "id": "ee7cd6a5-08ce-40ba-b90c-bc9b0860ad9a",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.tavily.com/search",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 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"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "={{ $fromAI(\"query\", \"Use the search query to get detailed informantion from seach engine and generate summary back as output\", \"string\") }}"
+            },
+            {
+              "name": "include_answer",
+              "value": "advanced"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        1900,
+        240
+      ],
+      "id": "bcd99dbd-096c-47d3-a584-8aab7ad1eec0",
+      "name": "deep_research_engine1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('On form submission').item.json['Campagin Landing Page REST URL'] }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "wordpressApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"acf\": {\n    \"product_selection_main_heading_h2\": {{ JSON.stringify($json.productSelectionHeadingH2) }},\n    \"product_selection_main_description\": {{ JSON.stringify($json.productSelectionDescription) }}\n  }\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2460,
+        440
+      ],
+      "id": "19b397a5-e97e-4616-86d6-5329164eeb22",
+      "name": "HTTP Request2",
+      "credentials": {
+        "wordpressApi": {
+          "id": "XvElTo6wbe59lO92",
+          "name": "WPAccount (rcsignature.com.my)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Website URL:\n{{ $json.website_url }}\n------\nSection Name: \n{{ $json.sectionName }}\n\nSection Content Ideation:\n{{ $json.sectionContentIdeation }}\n------\nCampaign Name:\n{{ $json.campaignName }}\n------\nCampaign Start:\n{{ $json.campaignStart }}\n------\nCampaign End:\n{{ $json.campaignEnd }}\nBundle Types Available:\n{{ $json.bundleTypes }}\n------\nBundle Pack Categories Available:\n{{ $json.bundlePackCategories }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a Wordpress and Woocommerce expert as well as Ecommerce landing page content writing specialist who familiar with landing page structure and section content.\n\n# Task\n- You are tasked to generate a Ecommerce landing page content writing for {{ $json.campaignName }} in {{ $json.campaignStart.toDateTime().format('LLLL') }} {{ $json.campaignStart.toDateTime().format('yyyy') }} based on the landing page section, {{ $json.sectionName }} that had been assigned to you.\n- In order to generate the right landing page {{ $json.sectionName }} content, I will provide you necessary inputs as context for you to refer.\n\n# Context\n- I will providing you those necessary information in order to generate the right output without any misleading, false claims and hallucination output.\n- Thus, the context that I am providing as your input as below:\n  -- Website URL\n  -- Section Name\n  -- Section Content Ideation\n  -- Campaign Name\n  -- Campaign Start\n  -- Campaign End\n  -- Bundle Types\n  -- Bundle Pack Categories\n\n# Tools\nIn order to generate the right landing page {{ $json.sectionName }} content writing and to ensure that content generated relevant to the current proposed campaign, you are require to use the following tools to assist you to complete the assigned task as below:\n1. **`get_products_listed`**  \n  - This tool is to retrieve all the products listed live in the current used Ecommerce platform store (Woocommerce)\n  - You are going to fetch only neccessary information such as product name (`name`), product page link (`permalink`) and product description ('description' and `short_description`).\n\n2. **`deep_research_engine`**\n  - This tool is process in-depth research based on the provided website url or relevant search query from ai search engine intelligently powered by TALIVY AI and generate summary output where consist of information about the website, search query, products, brands, company and etc. \n\n# Output\n- All output must be in the JSON structure format and make sure that all the output generated must exclude the any explaination, other extra information or asking questions. Only generate the exact require output based on the JSON structure.\n\n## Example Output\n```\njson:[\n {\n   \"product_selection_main_heading_h2\": \"Select Your Favourite Biobased Products!\",\n   \"product_selection_main_description\": \"\\u003Ch3\\u003ESteps To Purchase And Redeem Your Bundle Packs:\\u003C/h3\\u003E\\r\\nStep 1: Selecting the favorite bundle pack product.\\r\\n\\r\\nStep 2: Select bundle type or amount of bundle want to purchase after clicked 'More Product Details' or 'Select Option' button.\\r\\n\\r\\nStep 3: The bundle deals vouchers will auto applied in the cart after clicked 'Add To Cart' button.\\r\\n\\r\\nStep 4: Complete the purchase process by proceeding the Ipay88 payment gateaway following by filling up the shipping details.\"\n }\n]\n```"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        1740,
+        440
+      ],
+      "id": "e08facec-ea7f-4cac-a836-069702d3b17c",
+      "name": "AI Agent2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9df265c6-aeb3-49f1-877a-9f2ba6821af9",
+              "name": "sectionName",
+              "value": "={{ $json['Section Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "cfbeabb6-5522-4116-81b1-f227ca26e0e0",
+              "name": "sectionContentIdeation",
+              "value": "={{ $json['Section Content Ideation'] }}",
+              "type": "string"
+            },
+            {
+              "id": "273dc4a3-9e67-4b9a-8252-c0b6bd2a452d",
+              "name": "campaignName",
+              "value": "={{ $('On form submission').first().json['Campaign Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "98642159-a414-47ee-9902-b03a1b187bb7",
+              "name": "campaignStart",
+              "value": "={{ $('On form submission').first().json['Campaign Start'].toDateTime().format(' dd LLLL yyyy') }}",
+              "type": "string"
+            },
+            {
+              "id": "8f8fa75e-48fa-4f4c-b47b-84ab92e89bf5",
+              "name": "campaignEnd",
+              "value": "={{ $('On form submission').first().json['Campaign End'].toDateTime().format(' dd LLLL yyyy') }}",
+              "type": "string"
+            },
+            {
+              "id": "81083f00-861d-496f-9763-8c38ecf65115",
+              "name": "bundleTypes",
+              "value": "={{ $json['Bundle Types Available'] }}",
+              "type": "string"
+            },
+            {
+              "id": "111781a0-94db-40ad-a642-af97e6655056",
+              "name": "bundlePackCategories",
+              "value": "={{ $json['Bundle Pack Categories'] }}",
+              "type": "string"
+            },
+            {
+              "id": "9abec1ad-f531-42bd-9a4e-45c722b25945",
+              "name": "website_url",
+              "value": "={{ $('On form submission').first().json['Main Website Link'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1400,
+        440
+      ],
+      "id": "b2d4e1e3-c94c-4e45-a607-4d2f31de7231",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool is to retrieve all the products listed live in Woocommerce Ecommerce platform store.",
+        "operation": "getAll",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.wooCommerceTool",
+      "typeVersion": 1,
+      "position": [
+        1660,
+        660
+      ],
+      "id": "f36288ed-78fc-4725-a969-701a977b43ae",
+      "name": "get_products_listed2",
+      "credentials": {
+        "wooCommerceApi": {
+          "id": "vUUGG8jfnynWfhkh",
+          "name": "WooCommerce(https://rcsignature.com.my/)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[\n {\n   \"product_selection_main_heading_h2\": \"Select Your Favourite Biobased Products!\",\n   \"product_selection_main_description\": \"\\u003Ch3\\u003ESteps To Purchase And Redeem Your Bundle Packs:\\u003C/h3\\u003E\\r\\nStep 1: Selecting the favorite bundle pack product.\\r\\n\\r\\nStep 2: Select bundle type or amount of bundle want to purchase after clicked 'More Product Details' or 'Select Option' button.\\r\\n\\r\\nStep 3: The bundle deals vouchers will auto applied in the cart after clicked 'Add To Cart' button.\\r\\n\\r\\nStep 4: Complete the purchase process by proceeding the Ipay88 payment gateaway following by filling up the shipping details.\"\n }\n]"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        2140,
+        640
+      ],
+      "id": "ea56e24f-682a-4d70-ad28-4b6661c87ee6",
+      "name": "Structured Output Parser2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b545c628-70f4-4b3b-a2d3-2e9778777ae1",
+              "name": "productSelectionHeadingH2",
+              "value": "={{ $json.output[0].product_selection_main_heading_h2 }}",
+              "type": "string"
+            },
+            {
+              "id": "c8319d53-cde1-4eba-8905-e086f0b8468d",
+              "name": "productSelectionDescription",
+              "value": "={{ $json.output[0].product_selection_main_description }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2220,
+        440
+      ],
+      "id": "093d0bd3-6030-4478-afdb-65beb9491bcc",
+      "name": "Edit Fields5"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1500,
+        600
+      ],
+      "id": "3bb43d0e-7cc4-4e2a-93fc-5f0e98f14c35",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.tavily.com/search",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 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"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "={{ $fromAI(\"query\", \"Use the search query to get detailed informantion from seach engine and generate summary back as output\", \"string\") }}"
+            },
+            {
+              "name": "include_answer",
+              "value": "advanced"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        1860,
+        660
+      ],
+      "id": "86f62d3c-1b46-420d-94eb-1383be3e318b",
+      "name": "deep_research_engine2"
+    }
+  ],
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Split Landing Page Section",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Landing Page Section": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Sheets2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_products_listed": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "Filter1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets2": {
+      "main": [
+        [
+          {
+            "node": "Filter2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "web_sitemap_crawler": {
+      "ai_tool": [
+        []
+      ]
+    },
+    "deep_research_engine": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_products_listed1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "deep_research_engine1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_products_listed2": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser2": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields5": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "deep_research_engine2": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "On form submission": [
+      {
+        "json": {
+          "Main Website Link": "https://rcsignature.com.my/",
+          "Section Name": [
+            "Bundle Feature Section",
+            "USPs Section",
+            "Product Selection Section"
+          ],
+          "Campagin Landing Page REST URL": "https://rcsignature.com.my/wp-json/wp/v2/campaign/990270",
+          "Campaign Name": "2025 ReadyCare Mid Year Bundle Promotion",
+          "Campaign Start": "2025-07-01",
+          "Campaign End": "2025-07-31",
+          "submittedAt": "2025-06-11T18:07:35.062+08:00",
+          "formMode": "test"
+        }
+      }
+    ],
+    "AI Agent": [
+      {
+        "json": {
+          "output": [
+            {
+              "bundle_feature_main_heading_h2": "Explore Our Exclusive Bundle Packs for Mid Year Savings!",
+              "bundle_feature_main_description": "Celebrate the 2025 ReadyCare Mid Year Bundle Promotion running from 1st to 31st July 2025. Enjoy various bundle types including Buy 2 Free 1, Buy 3 Free 2, and Buy 4 Free 3 on selected eco-friendly products.\n\nChoose from our specially curated bundle categories: RC Dishwashing Pack, RC Laundry Care Pack, and RC Multipurpose Cleaners Pack. Stock up and save with bundles designed to keep your home naturally clean and safe."
+            }
+          ]
+        }
+      }
+    ],
+    "AI Agent1": [
+      {
+        "json": {
+          "output": [
+            {
+              "usps_section_reason_heading_h2": "Choose ReadyCare for Safe, Powerful, Eco-Friendly Biobased Cleaning",
+              "usps_section_reason_description": "ReadyCare biobased products reduce reliance on fossil fuels and lessen environmental impact by using renewable plant-based ingredients. They are free from harsh chemicals, artificial fragrances, and dyes, providing a safer choice for households with sensitive skin, babies, and pets. Despite being gentle, these products offer strong cleaning performance, making them a sustainable and effective alternative to traditional chemical cleaners.",
+              "usps_section_benefits_heading_h3": "Benefits of Choosing ReadyCare Biobased Products",
+              "usps_section_benefits_description": "•<b>Eco-Friendly:</b> Crafted from renewable resources, ReadyCare products help reduce pollution and conserve natural resources.<br>•<b>Safe for Sensitive Skin:</b> Free from petrochemicals and harsh additives, they are ideal for families with babies, pets, and those with chemical sensitivities.<br>•<b>Powerful Cleaning Performance:</b> Effectively removes dirt, grease, and germs without harming your health or the environment.<br>•<b>Versatile Range:</b> From laundry detergents to pet deodorants and multipurpose cleaners, ReadyCare covers all household needs.<br>•<b>Sustainable Commitment:</b> Low carbon footprint manufacturing and biodegradable ingredients contribute to a healthier planet."
+            }
+          ]
+        }
+      }
+    ],
+    "AI Agent2": [
+      {
+        "json": {
+          "output": [
+            {
+              "product_selection_main_heading_h2": "How To Purchase And Redeem Your 2025 ReadyCare Mid Year Bundle Pack:",
+              "product_selection_main_description": "<h3>Follow These Simple Steps to Enjoy Your Bundle Deals:</h3>\nStep 1: Select your favourite bundle pack product from our categories - RC Dishwashing Pack, RC Laundry Care Pack, or RC Multipurpose Cleaners Pack.\n\nStep 2: Click on \"More Product Details\" or \"Select Option\" button to choose your desired bundle type - Buy 2 Free 1, Buy 3 Free 2, or Buy 4 Free 3.\n\nStep 3: Add the selected bundle to your cart and the bundle deal vouchers will be applied automatically.\n\nStep 4: Complete the purchase process by proceeding with the Ipay88 payment gateway and fill in your shipping details.\n\nEnjoy your savings on the 2025 ReadyCare Mid Year Bundle Promotion, running from 01 July to 31 July 2025!"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "versionId": "e34760c6-8bb4-4de5-8cae-fb02df1a12f6",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-06-08T07:38:54.691Z",
+      "createdAt": "2025-06-08T07:38:54.691Z",
+      "role": "workflow:owner",
+      "workflowId": "w6SuMqazKshDP5Qq",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2025-04-25T07:31:07.022Z",
+      "createdAt": "2025-04-25T07:31:07.022Z",
+      "id": "9Gp47jN1RS49GmsF",
+      "name": "CREO_PROJECT"
+    },
+    {
+      "updatedAt": "2025-04-25T07:31:25.019Z",
+      "createdAt": "2025-04-25T07:31:25.019Z",
+      "id": "d0GbgHO5mVb8EyMk",
+      "name": "Creo-ReadyCare"
+    }
+  ]
+}
