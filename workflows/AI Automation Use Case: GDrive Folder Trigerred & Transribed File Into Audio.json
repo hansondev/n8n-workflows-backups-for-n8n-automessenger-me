@@ -1,0 +1,375 @@
+{
+  "updatedAt": "2024-08-27T09:15:16.000Z",
+  "createdAt": "2024-06-20T14:56:22.799Z",
+  "id": "o4FYGF16BMfrLrk1",
+  "name": "AI Automation Use Case: GDrive Folder Trigerred & Transribed File Into Audio",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "cc79569c-ad5d-4abc-ba57-f2532973926c",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        780,
+        200
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "id": "fbb564bb-43c7-4c16-9510-6fdad6e0315f",
+      "name": "Google Drive1",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1180,
+        220
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "ZZtfpdmhfdrjjM7Z",
+          "name": "GDrive-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "={{ $('Google Drive Trigger').item.json.originalFilename.replaceAll(\".mp3\", \"_Japanese_translate\") }}.mp3",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1MnPcvGmVoB-yvKTilTjISBC_jyEOUf-d",
+          "mode": "list",
+          "cachedResultName": "Audio_Converted",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1MnPcvGmVoB-yvKTilTjISBC_jyEOUf-d"
+        },
+        "options": {}
+      },
+      "id": "8f15f179-4805-4157-b003-31ced4b47ff9",
+      "name": "Google Drive2",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2660,
+        480
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "ZZtfpdmhfdrjjM7Z",
+          "name": "GDrive-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "claude-3-haiku-20240307",
+        "options": {
+          "maxTokensToSample": 1000,
+          "topP": 0.7
+        }
+      },
+      "id": "9737c402-eef3-434d-a83e-005ed8a78014",
+      "name": "Anthropic Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.1,
+      "position": [
+        1380,
+        600
+      ],
+      "credentials": {
+        "anthropicApi": {
+          "id": "A086ghbh0vMy1zjD",
+          "name": "Anthropic (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "claude-3-haiku-20240307",
+        "options": {
+          "maxTokensToSample": 1000,
+          "topP": 0.7
+        }
+      },
+      "id": "09eb0b5a-2e45-433d-9ae5-c856222b3344",
+      "name": "Anthropic Chat Model1",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.1,
+      "position": [
+        1860,
+        600
+      ],
+      "credentials": {
+        "anthropicApi": {
+          "id": "A086ghbh0vMy1zjD",
+          "name": "Anthropic (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1U074dQP0Tan7JoyyHbOPPwRk79VICad6",
+          "mode": "list",
+          "cachedResultName": "AI_Transcribe_Audio_Converter",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1U074dQP0Tan7JoyyHbOPPwRk79VICad6"
+        },
+        "event": "fileCreated",
+        "options": {}
+      },
+      "id": "ef655044-a5f8-4da1-a587-403cc1095055",
+      "name": "Google Drive Trigger",
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        760,
+        400
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "ZZtfpdmhfdrjjM7Z",
+          "name": "GDrive-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "binaryPropertyName": "=data",
+        "options": {}
+      },
+      "id": "b340eebf-594a-4e24-af0b-6569bb15ecfc",
+      "name": "OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.3,
+      "position": [
+        1400,
+        220
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "7e77c2ee-a3f9-4d37-9499-3a48baf6c656",
+      "name": "Summarization Chain",
+      "type": "@n8n/n8n-nodes-langchain.chainSummarization",
+      "typeVersion": 2,
+      "position": [
+        1600,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.response.text }}",
+        "messages": {
+          "messageValues": [
+            {
+              "type": "HumanMessagePromptTemplate",
+              "message": "Translate into japanese"
+            }
+          ]
+        }
+      },
+      "id": "525057b7-2bdb-4354-92be-6dec8db59eca",
+      "name": "Basic LLM Chain",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.4,
+      "position": [
+        1960,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "input": "={{ $json.text }}",
+        "voice": "fable",
+        "options": {}
+      },
+      "id": "8a223839-ab0d-47a7-bd2c-8bdfb924c956",
+      "name": "OpenAI1",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.3,
+      "position": [
+        2340,
+        440
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Drive1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive1": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Summarization Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Drive1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Summarization Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarization Chain": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "OpenAI1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI1": {
+      "main": [
+        [
+          {
+            "node": "Google Drive2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "OpenAI": [
+      {
+        "json": {
+          "text": "Vice President Johnson, Mr. Speaker, Mr. Chief Justice, President Eisenhower, Vice President Nixon, President Truman, Reverend Clergy, fellow citizens. We observe today not a victory of party, but a celebration of freedom, symbolizing an end as well as a beginning, signifying renewal as well as change. For I have sworn before you and Almighty God the same solemn oath our forebears prescribed nearly a century and three quarters ago. The world is very different now, for man holds in his mortal hands the power to abolish all forms of human poverty and all forms of human life. And yet the same revolutionary beliefs for which our forebears fought are still at issue around the globe, the belief that the rights of man come not from the generosity of the state, but from the hand of God. We dare not forget today that we are the heirs of that first revolution. Let the word go forth from this time and place to friend and foe alike that the torch has been passed to a new generation of Americans born in this century tempered by war, disciplined by a hard and bitter peace, proud of our ancient heritage, and unwilling to witness or permit the slow undoing of those human rights to which this nation has always been committed and to which we are committed today at home and around the world. Let every nation know, whether it wishes us well or ill, that we shall pay any price, bear any burden, meet any hardship, support any friend, oppose any foe, to assure the survival and the success of liberty. This much we pledge and more. To those old allies whose cultural and spiritual origins we share, we pledge the loyalty of faithful friends. United, there is little we cannot do in a host of cooperative ventures. Divided, there is little we can do, for we dare not meet a powerful challenge at odds and split asunder. To those new states whom we welcome to the ranks of the free, we pledge our word that one form of colonial control shall not have passed away merely to be replaced by a far more iron tyranny. We shall not always expect to find them supporting our view."
+        }
+      }
+    ]
+  },
+  "versionId": "d964f9b7-baf4-4565-aba5-c01dbf280701",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-06-20T14:56:22.890Z",
+      "createdAt": "2024-06-20T14:56:22.890Z",
+      "role": "workflow:owner",
+      "workflowId": "o4FYGF16BMfrLrk1",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2024-06-20T14:55:32.293Z",
+      "createdAt": "2024-06-20T14:55:32.293Z",
+      "id": "5gO74HHz9IApTqg6",
+      "name": "Udemy-Derek_Chung"
+    }
+  ]
+}
