@@ -1,0 +1,158 @@
+{
+  "updatedAt": "2025-06-20T07:31:01.000Z",
+  "createdAt": "2025-06-20T02:39:10.075Z",
+  "id": "JIVTxSawNABSxVKn",
+  "name": "[DEVELOPMENT] - FB_Ads_Campaign_Creation_With_API",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpRequestMethod": "POST",
+        "graphApiVersion": "v22.0",
+        "node": "act_1469962883517859/campaigns",
+        "options": {
+          "queryParameters": {
+            "parameter": [
+              {
+                "name": "name",
+                "value": "=Hanson-FB-ads-N8N-automation-test-{{ $itemIndex+1 }}"
+              },
+              {
+                "name": "objective",
+                "value": "OUTCOME_TRAFFIC"
+              },
+              {
+                "name": "special_ad_categories",
+                "value": "[\"NONE\"]"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.facebookGraphApi",
+      "typeVersion": 1,
+      "position": [
+        280,
+        -80
+      ],
+      "id": "b758ad21-5ef2-4df0-94b4-feebd8e9366d",
+      "name": "Facebook Graph API",
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "2Kp3sMOYXJcixajO",
+          "name": "FBGraphAPI_AccessToken-boonhong0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v23.0/act_",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "name",
+              "value": "My campaign"
+            },
+            {
+              "name": "objective",
+              "value": "OUTCOME_TRAFFIC"
+            },
+            {
+              "name": "status",
+              "value": "PAUSED"
+            },
+            {
+              "name": "special_ad_categories",
+              "value": "[]"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "access_token"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        340,
+        240
+      ],
+      "id": "9cf1d11e-0f9e-43e1-9bf6-ed7c9037766c",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "formTitle": "FB Ads Campaign Level Configuration Form",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Campaign Name"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -120,
+        20
+      ],
+      "id": "3debcb22-f0ef-4e16-8503-9747ac95e4bd",
+      "name": "On form submission",
+      "webhookId": "f3c96217-3a45-4f16-a4a0-a1a0a07d458b"
+    }
+  ],
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Facebook Graph API",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Facebook Graph API": [
+      {
+        "json": {
+          "id": "120225596305530765"
+        }
+      }
+    ]
+  },
+  "versionId": "4a31402f-7ba8-46ac-932c-6fbb15258190",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-06-20T02:39:10.084Z",
+      "createdAt": "2025-06-20T02:39:10.084Z",
+      "role": "workflow:owner",
+      "workflowId": "JIVTxSawNABSxVKn",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
