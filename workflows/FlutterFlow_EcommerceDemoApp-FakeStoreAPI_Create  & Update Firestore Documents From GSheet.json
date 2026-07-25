@@ -1,0 +1,2006 @@
+{
+  "updatedAt": "2023-12-25T11:58:26.000Z",
+  "createdAt": "2023-12-25T08:34:19.372Z",
+  "id": "XOaC0O68xGycL9lE",
+  "name": "FlutterFlow_EcommerceDemoApp-FakeStoreAPI_Create  & Update Firestore Documents From GSheet",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "280208c5-3f3a-4c35-a252-cd62b381ae9c",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        880,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://fakestoreapi.com/products/category/men's%20clothing",
+        "options": {}
+      },
+      "id": "88a39610-56be-4e05-b5a3-cc052c24fb70",
+      "name": "Get Store Categories: Men Clothing",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1220,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://fakestoreapi.com/products/category/electronics",
+        "options": {}
+      },
+      "id": "22be627f-bc66-44b0-aeab-7cf58cae0e5d",
+      "name": "Get Store Categories: Electronics",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1220,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://fakestoreapi.com/products/category/jewelery",
+        "options": {}
+      },
+      "id": "2a54f3c5-80bb-4def-a193-7ec923315f9d",
+      "name": "Get Store Categories: Jewelery",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1240,
+        660
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "productTitle",
+              "stringValue": "={{ $json.title }}"
+            },
+            {
+              "name": "productDescription",
+              "stringValue": "={{ $json.description }}"
+            },
+            {
+              "name": "categories",
+              "stringValue": "={{ $json.category }}"
+            },
+            {
+              "name": "productImage",
+              "stringValue": "={{ $json.image }}"
+            },
+            {
+              "name": "price",
+              "stringValue": "={{ $json.price }}"
+            },
+            {
+              "name": "stockCounts",
+              "stringValue": "={{ $json.rating.count }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "73f273b7-5151-4f9f-bf73-171d9dff767f",
+      "name": "Category-Men Clothings",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1480,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "productTitle",
+              "stringValue": "={{ $json.title }}"
+            },
+            {
+              "name": "productDescription",
+              "stringValue": "={{ $json.description }}"
+            },
+            {
+              "name": "categories",
+              "stringValue": "={{ $json.category }}"
+            },
+            {
+              "name": "productImage",
+              "stringValue": "={{ $json.image }}"
+            },
+            {
+              "name": "price",
+              "stringValue": "={{ $json.price }}"
+            },
+            {
+              "name": "stockCounts",
+              "stringValue": "={{ $json.rating.count }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "92187284-c6ca-4a02-aeae-ebebcd149555",
+      "name": "Category-Electronics",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1480,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "productTitle",
+              "stringValue": "={{ $json.title }}"
+            },
+            {
+              "name": "productDescription",
+              "stringValue": "={{ $json.description }}"
+            },
+            {
+              "name": "categories",
+              "stringValue": "={{ $json.category }}"
+            },
+            {
+              "name": "productImage",
+              "stringValue": "={{ $json.image }}"
+            },
+            {
+              "name": "price",
+              "stringValue": "={{ $json.price }}"
+            },
+            {
+              "name": "stockCounts",
+              "stringValue": "={{ $json.rating.count }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "60f53c9f-9021-457c-a1ab-47dd62d3a320",
+      "name": "Category-Jewelery",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1480,
+        660
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "productTitle",
+              "field2": "productDescription"
+            }
+          ]
+        },
+        "joinMode": "keepEverything",
+        "options": {}
+      },
+      "id": "866af9e5-56bc-49c7-b994-32ed22de99bd",
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [
+        1780,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "productTitle",
+              "field2": "productDescription"
+            }
+          ]
+        },
+        "joinMode": "keepEverything",
+        "options": {}
+      },
+      "id": "aeb0dfcf-b54a-4cea-a519-0332acfa4928",
+      "name": "Merge1",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [
+        2000,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1G9gqyPr6FUaFbWHn3NLtwTVbqD8s4_0UB7TA69-kSoI",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Ecommerce Demo App Fake Store API Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1G9gqyPr6FUaFbWHn3NLtwTVbqD8s4_0UB7TA69-kSoI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 104771511,
+          "mode": "list",
+          "cachedResultName": "Category",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1G9gqyPr6FUaFbWHn3NLtwTVbqD8s4_0UB7TA69-kSoI/edit#gid=104771511"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.categories }}"
+          },
+          "matchingColumns": [
+            "Name"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6ea1feb5-f362-492b-a612-7bebf5434fb1",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        2660,
+        0
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "removeDuplicates",
+        "compare": "selectedFields",
+        "fieldsToCompare": "categories",
+        "options": {}
+      },
+      "id": "46b8bc5e-107a-42a5-86ae-be9e6913456b",
+      "name": "Item Lists",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3.1,
+      "position": [
+        2260,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "projectId": "={{ $json.firestoreProjectName }}",
+        "collection": "={{ $json.collectionName }}",
+        "documentId": "={{ $json.initialDocID }}",
+        "simple": false
+      },
+      "id": "e8a672df-3cd2-4b9d-9476-517b5764a2d2",
+      "name": "Google Cloud Firestore",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        2960,
+        320
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1G9gqyPr6FUaFbWHn3NLtwTVbqD8s4_0UB7TA69-kSoI",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Ecommerce Demo App Fake Store API Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1G9gqyPr6FUaFbWHn3NLtwTVbqD8s4_0UB7TA69-kSoI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 104771511,
+          "mode": "list",
+          "cachedResultName": "Category",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1G9gqyPr6FUaFbWHn3NLtwTVbqD8s4_0UB7TA69-kSoI/edit#gid=104771511"
+        },
+        "options": {}
+      },
+      "id": "50e80a2e-a92c-4b05-a26a-a9bc25bbdbd5",
+      "name": "Google Sheets2",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        3200,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "Name",
+              "operation": "isEmpty"
+            }
+          ]
+        }
+      },
+      "id": "10dfaf18-2b05-4f33-bc0c-e3daa3dec482",
+      "name": "IF",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        2480,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "firestoreProjectName",
+              "stringValue": "fftutorial-ecommercedemoapp"
+            },
+            {
+              "name": "collectionName",
+              "stringValue": "Category"
+            },
+            {
+              "name": "initialDocID",
+              "stringValue": "aoLA3GwvunEclQwI2cPo"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "1d4fcc1a-e03f-4b69-973f-172dfc138fdf",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2700,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "projectId": "={{ $('Edit Fields').item.json.firestoreProjectName }}",
+        "collection": "={{ $('Edit Fields').item.json.collectionName }}",
+        "updateKey": "_id",
+        "columns": "Name"
+      },
+      "id": "ea195fbe-7e7d-419a-b84e-df8e1a1c06e1",
+      "name": "Google Cloud Firestore2",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        3700,
+        240
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "_id",
+              "stringValue": "={{ $json.row_number }}"
+            },
+            {
+              "name": "Name",
+              "stringValue": "={{ $json.Name }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "f85b0cfe-249f-4799-9d23-59f09c317977",
+      "name": "Edit Fields1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        3420,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "projectId": "={{ $json.firestoreProjectName }}",
+        "collection": "={{ $json.collectionName }}",
+        "documentId": "={{ $json.initialDocID }}",
+        "simple": false
+      },
+      "id": "dc60190a-433e-4eb3-a5a6-3d6fc5242653",
+      "name": "Google Cloud Firestore1",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        2880,
+        -20
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1G9gqyPr6FUaFbWHn3NLtwTVbqD8s4_0UB7TA69-kSoI",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Ecommerce Demo App Fake Store API Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1G9gqyPr6FUaFbWHn3NLtwTVbqD8s4_0UB7TA69-kSoI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 104771511,
+          "mode": "list",
+          "cachedResultName": "Category",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1G9gqyPr6FUaFbWHn3NLtwTVbqD8s4_0UB7TA69-kSoI/edit#gid=104771511"
+        },
+        "options": {}
+      },
+      "id": "4762fd36-ecb7-4b88-9dd7-7e828ce913fa",
+      "name": "Google Sheets3",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        3120,
+        -40
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "projectId": "={{ $('Edit Fields').item.json.firestoreProjectName }}",
+        "collection": "={{ $('Edit Fields').item.json.collectionName }}",
+        "updateKey": "_id",
+        "columns": "Name"
+      },
+      "id": "0066b628-74ad-48b9-8eac-e9d5e8e045ac",
+      "name": "Google Cloud Firestore3",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        3620,
+        -100
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "_id",
+              "stringValue": "={{ $json.row_number }}"
+            },
+            {
+              "name": "Name",
+              "stringValue": "={{ $json.Name }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "f53490bc-b50a-4e8a-9de7-ea022955005c",
+      "name": "Edit Fields2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        3340,
+        -40
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1G9gqyPr6FUaFbWHn3NLtwTVbqD8s4_0UB7TA69-kSoI",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Ecommerce Demo App Fake Store API Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1G9gqyPr6FUaFbWHn3NLtwTVbqD8s4_0UB7TA69-kSoI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 104771511,
+          "mode": "list",
+          "cachedResultName": "Category",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1G9gqyPr6FUaFbWHn3NLtwTVbqD8s4_0UB7TA69-kSoI/edit#gid=104771511"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $json.categories }}"
+          },
+          "matchingColumns": [
+            "Name"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "edd70003-007d-42f1-af57-d88fd5c9385c",
+      "name": "Google Sheets1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        2640,
+        600
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "projectId": "={{ $json.firestoreProjectName }}",
+        "collection": "={{ $json.categoryCollectionName }}"
+      },
+      "id": "295cb383-98c8-475d-9ead-932d84098ce6",
+      "name": "Google Cloud Firestore4",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        3160,
+        880
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1G9gqyPr6FUaFbWHn3NLtwTVbqD8s4_0UB7TA69-kSoI",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Ecommerce Demo App Fake Store API Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1G9gqyPr6FUaFbWHn3NLtwTVbqD8s4_0UB7TA69-kSoI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Product",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1G9gqyPr6FUaFbWHn3NLtwTVbqD8s4_0UB7TA69-kSoI/edit#gid=0"
+        },
+        "options": {}
+      },
+      "id": "1065174c-3093-4bcb-9979-f9332f1a367d",
+      "name": "Google Sheets4",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        3220,
+        1120
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "Name",
+              "operation": "isEmpty"
+            }
+          ]
+        }
+      },
+      "id": "5eec9fd9-e88d-444e-b4b7-c1968564b30b",
+      "name": "IF1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        2280,
+        680
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "firestoreProjectName",
+              "stringValue": "fftutorial-ecommercedemoapp"
+            },
+            {
+              "name": "productCollectionName",
+              "stringValue": "Products"
+            },
+            {
+              "name": "initialDocID",
+              "stringValue": "aoLA3GwvunEclQwI2cPo"
+            },
+            {
+              "name": "categoryCollectionName",
+              "stringValue": "Category"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "cbe47f3e-9834-4a0f-80ca-2244a1d09795",
+      "name": "Edit Fields3",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2900,
+        920
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "projectId": "={{ $('Edit Fields3').item.json.firestoreProjectName }}",
+        "collection": "={{ $('Edit Fields3').item.json.productCollectionName }}",
+        "updateKey": "_id",
+        "columns": "Title, Description, CategoryDocRef, Image, Price, StockCounts"
+      },
+      "id": "b386ed21-75ca-448c-a258-aa75af1f1950",
+      "name": "Google Cloud Firestore5",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        4140,
+        880
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "_id",
+              "stringValue": "={{ $json.row_number }}"
+            },
+            {
+              "name": "Title",
+              "stringValue": "={{ $json.Title }}"
+            },
+            {
+              "name": "Description",
+              "stringValue": "={{ $json.Description }}"
+            },
+            {
+              "name": "CategoryDocRef",
+              "stringValue": "=/Category/{{ $json.categoryDocID }}"
+            },
+            {
+              "name": "Image",
+              "stringValue": "={{ $json.Image }}"
+            },
+            {
+              "name": "Price",
+              "type": "numberValue",
+              "numberValue": "={{ $json.Price }}"
+            },
+            {
+              "name": "StockCounts",
+              "stringValue": "={{ $json['Stock Counts'] }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "477cb6ad-79ed-4cc8-b704-09de08f8c2af",
+      "name": "Edit Fields4",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        3900,
+        920
+      ]
+    },
+    {
+      "parameters": {
+        "projectId": "={{ $json.firestoreProjectName }}",
+        "collection": "={{ $json.collectionName }}",
+        "documentId": "={{ $json.initialDocID }}",
+        "simple": false
+      },
+      "id": "96b1f604-2579-4c33-af78-9749aefd4320",
+      "name": "Google Cloud Firestore6",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        3000,
+        560
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1G9gqyPr6FUaFbWHn3NLtwTVbqD8s4_0UB7TA69-kSoI",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Ecommerce Demo App Fake Store API Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1G9gqyPr6FUaFbWHn3NLtwTVbqD8s4_0UB7TA69-kSoI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 104771511,
+          "mode": "list",
+          "cachedResultName": "Category",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1G9gqyPr6FUaFbWHn3NLtwTVbqD8s4_0UB7TA69-kSoI/edit#gid=104771511"
+        },
+        "options": {}
+      },
+      "id": "0e0b6d21-e078-45ed-9ca5-576e73308057",
+      "name": "Google Sheets5",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        3240,
+        540
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "projectId": "={{ $('Edit Fields3').item.json.firestoreProjectName }}",
+        "collection": "={{ $('Edit Fields3').item.json.collectionName }}",
+        "updateKey": "_id",
+        "columns": "Name"
+      },
+      "id": "0e7a984a-6201-484b-9c8e-ce79c55fdc74",
+      "name": "Google Cloud Firestore7",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        3740,
+        480
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "_id",
+              "stringValue": "={{ $json.row_number }}"
+            },
+            {
+              "name": "Name",
+              "stringValue": "={{ $json.Name }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "e1f36910-f895-4208-bb1f-9ca1ab439264",
+      "name": "Edit Fields5",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        3460,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "f5b1f67c-7762-4006-af97-aeb5741a26ed",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        2540,
+        920
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "8b20dcc3-3dbf-46f0-aacb-5b22602deadd",
+      "name": "Replace Me",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2720,
+        940
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "categoryDocID",
+              "stringValue": "={{ $json._id }}"
+            },
+            {
+              "name": "categoryName",
+              "stringValue": "={{ $json.Name }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "12c4380b-ab15-4797-bfd2-8bd6275cc9d9",
+      "name": "Edit Fields6",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        3360,
+        880
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "categoryName",
+              "field2": "Category"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "dbdc81ac-8e54-4b7b-a670-ca037fc8ebcf",
+      "name": "Merge2",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [
+        3680,
+        960
+      ]
+    }
+  ],
+  "connections": {
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Get Store Categories: Men Clothing",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Store Categories: Electronics",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Store Categories: Jewelery",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Store Categories: Men Clothing": {
+      "main": [
+        [
+          {
+            "node": "Category-Men Clothings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Store Categories: Electronics": {
+      "main": [
+        [
+          {
+            "node": "Category-Electronics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Store Categories: Jewelery": {
+      "main": [
+        [
+          {
+            "node": "Category-Jewelery",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Category-Men Clothings": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Category-Electronics": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Category-Jewelery": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Item Lists",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "IF1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists": {
+      "main": [
+        [
+          {
+            "node": "IF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Cloud Firestore": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Cloud Firestore1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Cloud Firestore4": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets4": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "IF1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore4",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Sheets4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Cloud Firestore6": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets5": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields5": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields6": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Get Store Categories: Men Clothing": [
+      {
+        "json": {
+          "id": 1,
+          "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+          "price": 109.95,
+          "description": "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
+          "category": "men's clothing",
+          "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
+          "rating": {
+            "rate": 3.9,
+            "count": 120
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "id": 2,
+          "title": "Mens Casual Premium Slim Fit T-Shirts ",
+          "price": 22.3,
+          "description": "Slim-fitting style, contrast raglan long sleeve, three-button henley placket, light weight & soft fabric for breathable and comfortable wearing. And Solid stitched shirts with round neck made for durability and a great fit for casual fashion wear and diehard baseball fans. The Henley style round neckline includes a three-button placket.",
+          "category": "men's clothing",
+          "image": "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg",
+          "rating": {
+            "rate": 4.1,
+            "count": 259
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "id": 3,
+          "title": "Mens Cotton Jacket",
+          "price": 55.99,
+          "description": "great outerwear jackets for Spring/Autumn/Winter, suitable for many occasions, such as working, hiking, camping, mountain/rock climbing, cycling, traveling or other outdoors. Good gift choice for you or your family member. A warm hearted love to Father, husband or son in this thanksgiving or Christmas Day.",
+          "category": "men's clothing",
+          "image": "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg",
+          "rating": {
+            "rate": 4.7,
+            "count": 500
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "id": 4,
+          "title": "Mens Casual Slim Fit",
+          "price": 15.99,
+          "description": "The color could be slightly different between on the screen and in practice. / Please note that body builds vary by person, therefore, detailed size information should be reviewed below on the product description.",
+          "category": "men's clothing",
+          "image": "https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg",
+          "rating": {
+            "rate": 2.1,
+            "count": 430
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Get Store Categories: Electronics": [
+      {
+        "json": {
+          "id": 9,
+          "title": "WD 2TB Elements Portable External Hard Drive - USB 3.0 ",
+          "price": 64,
+          "description": "USB 3.0 and USB 2.0 Compatibility Fast data transfers Improve PC Performance High Capacity; Compatibility Formatted NTFS for Windows 10, Windows 8.1, Windows 7; Reformatting may be required for other operating systems; Compatibility may vary depending on user’s hardware configuration and operating system",
+          "category": "electronics",
+          "image": "https://fakestoreapi.com/img/61IBBVJvSDL._AC_SY879_.jpg",
+          "rating": {
+            "rate": 3.3,
+            "count": 203
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "id": 10,
+          "title": "SanDisk SSD PLUS 1TB Internal SSD - SATA III 6 Gb/s",
+          "price": 109,
+          "description": "Easy upgrade for faster boot up, shutdown, application load and response (As compared to 5400 RPM SATA 2.5” hard drive; Based on published specifications and internal benchmarking tests using PCMark vantage scores) Boosts burst write performance, making it ideal for typical PC workloads The perfect balance of performance and reliability Read/write speeds of up to 535MB/s/450MB/s (Based on internal testing; Performance may vary depending upon drive capacity, host device, OS and application.)",
+          "category": "electronics",
+          "image": "https://fakestoreapi.com/img/61U7T1koQqL._AC_SX679_.jpg",
+          "rating": {
+            "rate": 2.9,
+            "count": 470
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "id": 11,
+          "title": "Silicon Power 256GB SSD 3D NAND A55 SLC Cache Performance Boost SATA III 2.5",
+          "price": 109,
+          "description": "3D NAND flash are applied to deliver high transfer speeds Remarkable transfer speeds that enable faster bootup and improved overall system performance. The advanced SLC Cache Technology allows performance boost and longer lifespan 7mm slim design suitable for Ultrabooks and Ultra-slim notebooks. Supports TRIM command, Garbage Collection technology, RAID, and ECC (Error Checking & Correction) to provide the optimized performance and enhanced reliability.",
+          "category": "electronics",
+          "image": "https://fakestoreapi.com/img/71kWymZ+c+L._AC_SX679_.jpg",
+          "rating": {
+            "rate": 4.8,
+            "count": 319
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "id": 12,
+          "title": "WD 4TB Gaming Drive Works with Playstation 4 Portable External Hard Drive",
+          "price": 114,
+          "description": "Expand your PS4 gaming experience, Play anywhere Fast and easy, setup Sleek design with high capacity, 3-year manufacturer's limited warranty",
+          "category": "electronics",
+          "image": "https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_.jpg",
+          "rating": {
+            "rate": 4.8,
+            "count": 400
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "id": 13,
+          "title": "Acer SB220Q bi 21.5 inches Full HD (1920 x 1080) IPS Ultra-Thin",
+          "price": 599,
+          "description": "21. 5 inches Full HD (1920 x 1080) widescreen IPS display And Radeon free Sync technology. No compatibility for VESA Mount Refresh Rate: 75Hz - Using HDMI port Zero-frame design | ultra-thin | 4ms response time | IPS panel Aspect ratio - 16: 9. Color Supported - 16. 7 million colors. Brightness - 250 nit Tilt angle -5 degree to 15 degree. Horizontal viewing angle-178 degree. Vertical viewing angle-178 degree 75 hertz",
+          "category": "electronics",
+          "image": "https://fakestoreapi.com/img/81QpkIctqPL._AC_SX679_.jpg",
+          "rating": {
+            "rate": 2.9,
+            "count": 250
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "id": 14,
+          "title": "Samsung 49-Inch CHG90 144Hz Curved Gaming Monitor (LC49HG90DMNXZA) – Super Ultrawide Screen QLED ",
+          "price": 999.99,
+          "description": "49 INCH SUPER ULTRAWIDE 32:9 CURVED GAMING MONITOR with dual 27 inch screen side by side QUANTUM DOT (QLED) TECHNOLOGY, HDR support and factory calibration provides stunningly realistic and accurate color and contrast 144HZ HIGH REFRESH RATE and 1ms ultra fast response time work to eliminate motion blur, ghosting, and reduce input lag",
+          "category": "electronics",
+          "image": "https://fakestoreapi.com/img/81Zt42ioCgL._AC_SX679_.jpg",
+          "rating": {
+            "rate": 2.2,
+            "count": 140
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Get Store Categories: Jewelery": [
+      {
+        "json": {
+          "id": 5,
+          "title": "John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet",
+          "price": 695,
+          "description": "From our Legends Collection, the Naga was inspired by the mythical water dragon that protects the ocean's pearl. Wear facing inward to be bestowed with love and abundance, or outward for protection.",
+          "category": "jewelery",
+          "image": "https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg",
+          "rating": {
+            "rate": 4.6,
+            "count": 400
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "id": 6,
+          "title": "Solid Gold Petite Micropave ",
+          "price": 168,
+          "description": "Satisfaction Guaranteed. Return or exchange any order within 30 days.Designed and sold by Hafeez Center in the United States. Satisfaction Guaranteed. Return or exchange any order within 30 days.",
+          "category": "jewelery",
+          "image": "https://fakestoreapi.com/img/61sbMiUnoGL._AC_UL640_QL65_ML3_.jpg",
+          "rating": {
+            "rate": 3.9,
+            "count": 70
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "id": 7,
+          "title": "White Gold Plated Princess",
+          "price": 9.99,
+          "description": "Classic Created Wedding Engagement Solitaire Diamond Promise Ring for Her. Gifts to spoil your love more for Engagement, Wedding, Anniversary, Valentine's Day...",
+          "category": "jewelery",
+          "image": "https://fakestoreapi.com/img/71YAIFU48IL._AC_UL640_QL65_ML3_.jpg",
+          "rating": {
+            "rate": 3,
+            "count": 400
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "id": 8,
+          "title": "Pierced Owl Rose Gold Plated Stainless Steel Double",
+          "price": 10.99,
+          "description": "Rose Gold Plated Double Flared Tunnel Plug Earrings. Made of 316L Stainless Steel",
+          "category": "jewelery",
+          "image": "https://fakestoreapi.com/img/51UDEzMJVpL._AC_UL640_QL65_ML3_.jpg",
+          "rating": {
+            "rate": 1.9,
+            "count": 100
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Category-Men Clothings": [
+      {
+        "json": {
+          "productTitle": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+          "productDescription": "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
+          "categories": "men's clothing",
+          "productImage": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
+          "price": "109.95",
+          "stockCounts": "120"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "productTitle": "Mens Casual Premium Slim Fit T-Shirts ",
+          "productDescription": "Slim-fitting style, contrast raglan long sleeve, three-button henley placket, light weight & soft fabric for breathable and comfortable wearing. And Solid stitched shirts with round neck made for durability and a great fit for casual fashion wear and diehard baseball fans. The Henley style round neckline includes a three-button placket.",
+          "categories": "men's clothing",
+          "productImage": "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg",
+          "price": "22.3",
+          "stockCounts": "259"
+        },
+        "pairedItem": {
+          "item": 1
+        }
+      },
+      {
+        "json": {
+          "productTitle": "Mens Cotton Jacket",
+          "productDescription": "great outerwear jackets for Spring/Autumn/Winter, suitable for many occasions, such as working, hiking, camping, mountain/rock climbing, cycling, traveling or other outdoors. Good gift choice for you or your family member. A warm hearted love to Father, husband or son in this thanksgiving or Christmas Day.",
+          "categories": "men's clothing",
+          "productImage": "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg",
+          "price": "55.99",
+          "stockCounts": "500"
+        },
+        "pairedItem": {
+          "item": 2
+        }
+      },
+      {
+        "json": {
+          "productTitle": "Mens Casual Slim Fit",
+          "productDescription": "The color could be slightly different between on the screen and in practice. / Please note that body builds vary by person, therefore, detailed size information should be reviewed below on the product description.",
+          "categories": "men's clothing",
+          "productImage": "https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg",
+          "price": "15.99",
+          "stockCounts": "430"
+        },
+        "pairedItem": {
+          "item": 3
+        }
+      }
+    ],
+    "Category-Electronics": [
+      {
+        "json": {
+          "productTitle": "WD 2TB Elements Portable External Hard Drive - USB 3.0 ",
+          "productDescription": "USB 3.0 and USB 2.0 Compatibility Fast data transfers Improve PC Performance High Capacity; Compatibility Formatted NTFS for Windows 10, Windows 8.1, Windows 7; Reformatting may be required for other operating systems; Compatibility may vary depending on user’s hardware configuration and operating system",
+          "categories": "electronics",
+          "productImage": "https://fakestoreapi.com/img/61IBBVJvSDL._AC_SY879_.jpg",
+          "price": "64",
+          "stockCounts": "203"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "productTitle": "SanDisk SSD PLUS 1TB Internal SSD - SATA III 6 Gb/s",
+          "productDescription": "Easy upgrade for faster boot up, shutdown, application load and response (As compared to 5400 RPM SATA 2.5” hard drive; Based on published specifications and internal benchmarking tests using PCMark vantage scores) Boosts burst write performance, making it ideal for typical PC workloads The perfect balance of performance and reliability Read/write speeds of up to 535MB/s/450MB/s (Based on internal testing; Performance may vary depending upon drive capacity, host device, OS and application.)",
+          "categories": "electronics",
+          "productImage": "https://fakestoreapi.com/img/61U7T1koQqL._AC_SX679_.jpg",
+          "price": "109",
+          "stockCounts": "470"
+        },
+        "pairedItem": {
+          "item": 1
+        }
+      },
+      {
+        "json": {
+          "productTitle": "Silicon Power 256GB SSD 3D NAND A55 SLC Cache Performance Boost SATA III 2.5",
+          "productDescription": "3D NAND flash are applied to deliver high transfer speeds Remarkable transfer speeds that enable faster bootup and improved overall system performance. The advanced SLC Cache Technology allows performance boost and longer lifespan 7mm slim design suitable for Ultrabooks and Ultra-slim notebooks. Supports TRIM command, Garbage Collection technology, RAID, and ECC (Error Checking & Correction) to provide the optimized performance and enhanced reliability.",
+          "categories": "electronics",
+          "productImage": "https://fakestoreapi.com/img/71kWymZ+c+L._AC_SX679_.jpg",
+          "price": "109",
+          "stockCounts": "319"
+        },
+        "pairedItem": {
+          "item": 2
+        }
+      },
+      {
+        "json": {
+          "productTitle": "WD 4TB Gaming Drive Works with Playstation 4 Portable External Hard Drive",
+          "productDescription": "Expand your PS4 gaming experience, Play anywhere Fast and easy, setup Sleek design with high capacity, 3-year manufacturer's limited warranty",
+          "categories": "electronics",
+          "productImage": "https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_.jpg",
+          "price": "114",
+          "stockCounts": "400"
+        },
+        "pairedItem": {
+          "item": 3
+        }
+      },
+      {
+        "json": {
+          "productTitle": "Acer SB220Q bi 21.5 inches Full HD (1920 x 1080) IPS Ultra-Thin",
+          "productDescription": "21. 5 inches Full HD (1920 x 1080) widescreen IPS display And Radeon free Sync technology. No compatibility for VESA Mount Refresh Rate: 75Hz - Using HDMI port Zero-frame design | ultra-thin | 4ms response time | IPS panel Aspect ratio - 16: 9. Color Supported - 16. 7 million colors. Brightness - 250 nit Tilt angle -5 degree to 15 degree. Horizontal viewing angle-178 degree. Vertical viewing angle-178 degree 75 hertz",
+          "categories": "electronics",
+          "productImage": "https://fakestoreapi.com/img/81QpkIctqPL._AC_SX679_.jpg",
+          "price": "599",
+          "stockCounts": "250"
+        },
+        "pairedItem": {
+          "item": 4
+        }
+      },
+      {
+        "json": {
+          "productTitle": "Samsung 49-Inch CHG90 144Hz Curved Gaming Monitor (LC49HG90DMNXZA) – Super Ultrawide Screen QLED ",
+          "productDescription": "49 INCH SUPER ULTRAWIDE 32:9 CURVED GAMING MONITOR with dual 27 inch screen side by side QUANTUM DOT (QLED) TECHNOLOGY, HDR support and factory calibration provides stunningly realistic and accurate color and contrast 144HZ HIGH REFRESH RATE and 1ms ultra fast response time work to eliminate motion blur, ghosting, and reduce input lag",
+          "categories": "electronics",
+          "productImage": "https://fakestoreapi.com/img/81Zt42ioCgL._AC_SX679_.jpg",
+          "price": "999.99",
+          "stockCounts": "140"
+        },
+        "pairedItem": {
+          "item": 5
+        }
+      }
+    ],
+    "Category-Jewelery": [
+      {
+        "json": {
+          "productTitle": "John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet",
+          "productDescription": "From our Legends Collection, the Naga was inspired by the mythical water dragon that protects the ocean's pearl. Wear facing inward to be bestowed with love and abundance, or outward for protection.",
+          "categories": "jewelery",
+          "productImage": "https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg",
+          "price": "695",
+          "stockCounts": "400"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "productTitle": "Solid Gold Petite Micropave ",
+          "productDescription": "Satisfaction Guaranteed. Return or exchange any order within 30 days.Designed and sold by Hafeez Center in the United States. Satisfaction Guaranteed. Return or exchange any order within 30 days.",
+          "categories": "jewelery",
+          "productImage": "https://fakestoreapi.com/img/61sbMiUnoGL._AC_UL640_QL65_ML3_.jpg",
+          "price": "168",
+          "stockCounts": "70"
+        },
+        "pairedItem": {
+          "item": 1
+        }
+      },
+      {
+        "json": {
+          "productTitle": "White Gold Plated Princess",
+          "productDescription": "Classic Created Wedding Engagement Solitaire Diamond Promise Ring for Her. Gifts to spoil your love more for Engagement, Wedding, Anniversary, Valentine's Day...",
+          "categories": "jewelery",
+          "productImage": "https://fakestoreapi.com/img/71YAIFU48IL._AC_UL640_QL65_ML3_.jpg",
+          "price": "9.99",
+          "stockCounts": "400"
+        },
+        "pairedItem": {
+          "item": 2
+        }
+      },
+      {
+        "json": {
+          "productTitle": "Pierced Owl Rose Gold Plated Stainless Steel Double",
+          "productDescription": "Rose Gold Plated Double Flared Tunnel Plug Earrings. Made of 316L Stainless Steel",
+          "categories": "jewelery",
+          "productImage": "https://fakestoreapi.com/img/51UDEzMJVpL._AC_UL640_QL65_ML3_.jpg",
+          "price": "10.99",
+          "stockCounts": "100"
+        },
+        "pairedItem": {
+          "item": 3
+        }
+      }
+    ],
+    "Merge1": [
+      {
+        "json": {
+          "productTitle": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+          "productDescription": "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
+          "categories": "men's clothing",
+          "productImage": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
+          "price": "109.95",
+          "stockCounts": "120"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "productTitle": "Mens Casual Premium Slim Fit T-Shirts ",
+          "productDescription": "Slim-fitting style, contrast raglan long sleeve, three-button henley placket, light weight & soft fabric for breathable and comfortable wearing. And Solid stitched shirts with round neck made for durability and a great fit for casual fashion wear and diehard baseball fans. The Henley style round neckline includes a three-button placket.",
+          "categories": "men's clothing",
+          "productImage": "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg",
+          "price": "22.3",
+          "stockCounts": "259"
+        },
+        "pairedItem": {
+          "item": 1
+        }
+      },
+      {
+        "json": {
+          "productTitle": "Mens Cotton Jacket",
+          "productDescription": "great outerwear jackets for Spring/Autumn/Winter, suitable for many occasions, such as working, hiking, camping, mountain/rock climbing, cycling, traveling or other outdoors. Good gift choice for you or your family member. A warm hearted love to Father, husband or son in this thanksgiving or Christmas Day.",
+          "categories": "men's clothing",
+          "productImage": "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg",
+          "price": "55.99",
+          "stockCounts": "500"
+        },
+        "pairedItem": {
+          "item": 2
+        }
+      },
+      {
+        "json": {
+          "productTitle": "Mens Casual Slim Fit",
+          "productDescription": "The color could be slightly different between on the screen and in practice. / Please note that body builds vary by person, therefore, detailed size information should be reviewed below on the product description.",
+          "categories": "men's clothing",
+          "productImage": "https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_.jpg",
+          "price": "15.99",
+          "stockCounts": "430"
+        },
+        "pairedItem": {
+          "item": 3
+        }
+      },
+      {
+        "json": {
+          "productTitle": "WD 2TB Elements Portable External Hard Drive - USB 3.0 ",
+          "productDescription": "USB 3.0 and USB 2.0 Compatibility Fast data transfers Improve PC Performance High Capacity; Compatibility Formatted NTFS for Windows 10, Windows 8.1, Windows 7; Reformatting may be required for other operating systems; Compatibility may vary depending on user’s hardware configuration and operating system",
+          "categories": "electronics",
+          "productImage": "https://fakestoreapi.com/img/61IBBVJvSDL._AC_SY879_.jpg",
+          "price": "64",
+          "stockCounts": "203"
+        },
+        "pairedItem": {
+          "item": 4
+        }
+      },
+      {
+        "json": {
+          "productTitle": "SanDisk SSD PLUS 1TB Internal SSD - SATA III 6 Gb/s",
+          "productDescription": "Easy upgrade for faster boot up, shutdown, application load and response (As compared to 5400 RPM SATA 2.5” hard drive; Based on published specifications and internal benchmarking tests using PCMark vantage scores) Boosts burst write performance, making it ideal for typical PC workloads The perfect balance of performance and reliability Read/write speeds of up to 535MB/s/450MB/s (Based on internal testing; Performance may vary depending upon drive capacity, host device, OS and application.)",
+          "categories": "electronics",
+          "productImage": "https://fakestoreapi.com/img/61U7T1koQqL._AC_SX679_.jpg",
+          "price": "109",
+          "stockCounts": "470"
+        },
+        "pairedItem": {
+          "item": 5
+        }
+      },
+      {
+        "json": {
+          "productTitle": "Silicon Power 256GB SSD 3D NAND A55 SLC Cache Performance Boost SATA III 2.5",
+          "productDescription": "3D NAND flash are applied to deliver high transfer speeds Remarkable transfer speeds that enable faster bootup and improved overall system performance. The advanced SLC Cache Technology allows performance boost and longer lifespan 7mm slim design suitable for Ultrabooks and Ultra-slim notebooks. Supports TRIM command, Garbage Collection technology, RAID, and ECC (Error Checking & Correction) to provide the optimized performance and enhanced reliability.",
+          "categories": "electronics",
+          "productImage": "https://fakestoreapi.com/img/71kWymZ+c+L._AC_SX679_.jpg",
+          "price": "109",
+          "stockCounts": "319"
+        },
+        "pairedItem": {
+          "item": 6
+        }
+      },
+      {
+        "json": {
+          "productTitle": "WD 4TB Gaming Drive Works with Playstation 4 Portable External Hard Drive",
+          "productDescription": "Expand your PS4 gaming experience, Play anywhere Fast and easy, setup Sleek design with high capacity, 3-year manufacturer's limited warranty",
+          "categories": "electronics",
+          "productImage": "https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_.jpg",
+          "price": "114",
+          "stockCounts": "400"
+        },
+        "pairedItem": {
+          "item": 7
+        }
+      },
+      {
+        "json": {
+          "productTitle": "Acer SB220Q bi 21.5 inches Full HD (1920 x 1080) IPS Ultra-Thin",
+          "productDescription": "21. 5 inches Full HD (1920 x 1080) widescreen IPS display And Radeon free Sync technology. No compatibility for VESA Mount Refresh Rate: 75Hz - Using HDMI port Zero-frame design | ultra-thin | 4ms response time | IPS panel Aspect ratio - 16: 9. Color Supported - 16. 7 million colors. Brightness - 250 nit Tilt angle -5 degree to 15 degree. Horizontal viewing angle-178 degree. Vertical viewing angle-178 degree 75 hertz",
+          "categories": "electronics",
+          "productImage": "https://fakestoreapi.com/img/81QpkIctqPL._AC_SX679_.jpg",
+          "price": "599",
+          "stockCounts": "250"
+        },
+        "pairedItem": {
+          "item": 8
+        }
+      },
+      {
+        "json": {
+          "productTitle": "Samsung 49-Inch CHG90 144Hz Curved Gaming Monitor (LC49HG90DMNXZA) – Super Ultrawide Screen QLED ",
+          "productDescription": "49 INCH SUPER ULTRAWIDE 32:9 CURVED GAMING MONITOR with dual 27 inch screen side by side QUANTUM DOT (QLED) TECHNOLOGY, HDR support and factory calibration provides stunningly realistic and accurate color and contrast 144HZ HIGH REFRESH RATE and 1ms ultra fast response time work to eliminate motion blur, ghosting, and reduce input lag",
+          "categories": "electronics",
+          "productImage": "https://fakestoreapi.com/img/81Zt42ioCgL._AC_SX679_.jpg",
+          "price": "999.99",
+          "stockCounts": "140"
+        },
+        "pairedItem": {
+          "item": 9
+        }
+      },
+      {
+        "json": {
+          "productTitle": "John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet",
+          "productDescription": "From our Legends Collection, the Naga was inspired by the mythical water dragon that protects the ocean's pearl. Wear facing inward to be bestowed with love and abundance, or outward for protection.",
+          "categories": "jewelery",
+          "productImage": "https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg",
+          "price": "695",
+          "stockCounts": "400"
+        },
+        "pairedItem": {
+          "item": 0,
+          "input": 1
+        }
+      },
+      {
+        "json": {
+          "productTitle": "Solid Gold Petite Micropave ",
+          "productDescription": "Satisfaction Guaranteed. Return or exchange any order within 30 days.Designed and sold by Hafeez Center in the United States. Satisfaction Guaranteed. Return or exchange any order within 30 days.",
+          "categories": "jewelery",
+          "productImage": "https://fakestoreapi.com/img/61sbMiUnoGL._AC_UL640_QL65_ML3_.jpg",
+          "price": "168",
+          "stockCounts": "70"
+        },
+        "pairedItem": {
+          "item": 1,
+          "input": 1
+        }
+      },
+      {
+        "json": {
+          "productTitle": "White Gold Plated Princess",
+          "productDescription": "Classic Created Wedding Engagement Solitaire Diamond Promise Ring for Her. Gifts to spoil your love more for Engagement, Wedding, Anniversary, Valentine's Day...",
+          "categories": "jewelery",
+          "productImage": "https://fakestoreapi.com/img/71YAIFU48IL._AC_UL640_QL65_ML3_.jpg",
+          "price": "9.99",
+          "stockCounts": "400"
+        },
+        "pairedItem": {
+          "item": 2,
+          "input": 1
+        }
+      },
+      {
+        "json": {
+          "productTitle": "Pierced Owl Rose Gold Plated Stainless Steel Double",
+          "productDescription": "Rose Gold Plated Double Flared Tunnel Plug Earrings. Made of 316L Stainless Steel",
+          "categories": "jewelery",
+          "productImage": "https://fakestoreapi.com/img/51UDEzMJVpL._AC_UL640_QL65_ML3_.jpg",
+          "price": "10.99",
+          "stockCounts": "100"
+        },
+        "pairedItem": {
+          "item": 3,
+          "input": 1
+        }
+      }
+    ]
+  },
+  "versionId": "7bf36b9f-8361-4eb9-abeb-e6243d86d2b9",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2023-12-25T08:34:19.377Z",
+      "createdAt": "2023-12-25T08:34:19.377Z",
+      "role": "workflow:owner",
+      "workflowId": "XOaC0O68xGycL9lE",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
