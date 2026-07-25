@@ -1,0 +1,326 @@
+{
+  "updatedAt": "2024-09-04T09:25:30.605Z",
+  "createdAt": "2024-09-04T09:25:30.605Z",
+  "id": "eNCzIfHLsUhTTKZZ",
+  "name": "CTN_GA4-BigQuery Members Monthly Reports",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "projectId": {
+          "__rl": true,
+          "value": "ctn-hanson-n8n-integration",
+          "mode": "list",
+          "cachedResultName": "ctn-hanson-n8n-integration",
+          "cachedResultUrl": "https://console.cloud.google.com/bigquery?project=ctn-hanson-n8n-integration"
+        },
+        "sqlQuery": "SELECT\n  DATE,\n  event_name,\n  first_user_source,\n  first_user_medium,\n  first_user_campaign_name,\n  device_category,\n  country_cd_1,\n  dateJoined_cd_2,\n  newMember_cd_3,\n  SAFE_DIVIDE(\n    SUM(event_count_without_session_start),\n    COUNT(DISTINCT user_pseudo_id)\n  ) AS events_per_user\nFROM\n  (\n    SELECT\n      event_date AS DATE,\n      event_name AS event_name,\n      traffic_source.source AS first_user_source,\n      traffic_source.medium AS first_user_medium,\n      traffic_source.name AS first_user_campaign_name,\n      device.category AS device_category,\n      (\n        SELECT\n          value.string_value\n        FROM\n          UNNEST (event_params)\n        WHERE\n          KEY = 'country'\n      ) AS country_cd_1,\n      (\n        SELECT\n          value.string_value\n        FROM\n          UNNEST (event_params)\n        WHERE\n          KEY = 'dateJoined'\n      ) AS dateJoined_cd_2,\n      (\n        SELECT\n          value.string_value\n        FROM\n          UNNEST (event_params)\n        WHERE\n          KEY = 'newMember'\n      ) AS newMember_cd_3,\n      COUNTIF(event_name NOT IN ('session_start')) AS event_count_without_session_start,\n      user_pseudo_id\n    FROM\n      `ctn-hanson-n8n-integration.analytics_426212519.events_*`\n    WHERE\n      _TABLE_SUFFIX BETWEEN '20240804' AND '20240831'\n    GROUP BY\n      DATE,\n      event_name,\n      first_user_source,\n      first_user_medium,\n      first_user_campaign_name,\n      device_category,\n      country_cd_1,\n      dateJoined_cd_2,\n      newMember_cd_3,\n      user_pseudo_id\n  )\nGROUP BY\n  DATE,\n  event_name,\n  first_user_source,\n  first_user_medium,\n  first_user_campaign_name,\n  device_category,\n  country_cd_1,\n  dateJoined_cd_2,\n  newMember_cd_3\nHAVING\n  event_name = 'generate_lead'\nORDER BY\n  DATE ASC",
+        "options": {}
+      },
+      "id": "df549c0d-7e5c-42dd-b3c7-95ea9a6b8d67",
+      "name": "Google BigQuery",
+      "type": "n8n-nodes-base.googleBigQuery",
+      "typeVersion": 2.1,
+      "position": [
+        800,
+        280
+      ],
+      "credentials": {
+        "googleBigQueryOAuth2Api": {
+          "id": "Esaan9GJ8k4XsIdO",
+          "name": "BigQuery (marketing@citinow.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "632ebd27-6433-486e-aefc-8bf88206ef71",
+              "name": "signup_date",
+              "value": "={{ $json.DATE.toDateTime().format('dd-MM-yyyy') }}",
+              "type": "string"
+            },
+            {
+              "id": "b65401e1-add6-4bc0-85dd-9b3e12556f35",
+              "name": "signup_source",
+              "value": "={{ $json.first_user_source.replaceAll(\"(direct)\", \"direct traffic\") }}",
+              "type": "string"
+            },
+            {
+              "id": "39ff53ff-08b7-4448-aed3-389b66d05aa4",
+              "name": "signup_medium",
+              "value": "={{ $json.first_user_medium.replaceAll(\"(none)\", \"N/A\") }}",
+              "type": "string"
+            },
+            {
+              "id": "a9d2fdc4-6259-4f4b-86d1-e22752081977",
+              "name": "signup_medium",
+              "value": "={{ $json.first_user_medium.replaceAll(\"(none)\", \"N/A\") }}",
+              "type": "string"
+            },
+            {
+              "id": "93e7d897-f8d0-4894-aae6-298a4bedfb66",
+              "name": "signup_campaign_name",
+              "value": "={{ $json.first_user_campaign_name.replaceAll(\"(none)\", \"NA\").replaceAll(\"(direct)\", \"direct\").replaceAll(\"(orgamic)\", \"organic\").replaceAll(\"(referral)\", \"referral\") }}",
+              "type": "string"
+            },
+            {
+              "id": "f2edca96-117a-4beb-afb9-4d40570fd63d",
+              "name": "signup_currency",
+              "value": "={{ $json.country_cd_1 }}",
+              "type": "string"
+            },
+            {
+              "id": "ed786001-20ed-49f6-a611-bcb29a206fdd",
+              "name": "is_newSignUp",
+              "value": "={{ $json.newMember_cd_3.toBoolean() }}",
+              "type": "string"
+            },
+            {
+              "id": "ca76775a-2084-48f6-8507-653f0769e0d1",
+              "name": "user_per_signup",
+              "value": "={{ $json.events_per_user.toNumber().floor() }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a041e811-3578-447d-9bf4-68c857487688",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1020,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "signup_date"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "96c8c847-d881-4588-b208-2ad28c68cf64",
+      "name": "Sort",
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        1240,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $('n8n Form Trigger').item.json['Google Sheet ID'] }}",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ $('n8n Form Trigger').item.json['Sheet Tab Name'] }}",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Signup Date": "={{ $json.signup_date }}",
+            "Signup Source": "={{ $json.signup_source }}",
+            "Signup Medium": "={{ $json.signup_medium }}",
+            "Campaign Name": "={{ $json.signup_campaign_name }}",
+            "Sign Up Curency": "={{ $json.signup_currency }}",
+            "User Per Signup": "={{ $json.user_per_signup }}"
+          },
+          "matchingColumns": [
+            "Signup Date"
+          ],
+          "schema": [
+            {
+              "id": "Signup Date",
+              "displayName": "Signup Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Signup Source",
+              "displayName": "Signup Source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Signup Medium",
+              "displayName": "Signup Medium",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Campaign Name",
+              "displayName": "Campaign Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Sign Up Curency",
+              "displayName": "Sign Up Curency",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "User Per Signup",
+              "displayName": "User Per Signup",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ecaf3e80-67c3-461d-846c-a384d0e8aba4",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1460,
+        280
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "OXDxWGfDEtymBBHC",
+          "name": "GSheet - marketing@citinow.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "a2dcd5af-19c7-489a-8649-85ec5209491e",
+        "formTitle": "CTN GA4-BigQuery Event: lead_generate Monthly Data Sync.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Start Date",
+              "fieldType": "date",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "End Date",
+              "fieldType": "date",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Google Sheet ID",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Sheet Tab Name"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f3f9af04-064c-468b-8213-8cfebcbc1b0d",
+      "name": "n8n Form Trigger",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.1,
+      "position": [
+        540,
+        280
+      ],
+      "webhookId": "a2dcd5af-19c7-489a-8649-85ec5209491e"
+    }
+  ],
+  "connections": {
+    "Google BigQuery": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Sort",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "n8n Form Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google BigQuery",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "bea03ba4-e12e-4640-ac96-1abb345ffd1b",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-09-04T09:25:30.701Z",
+      "createdAt": "2024-09-04T09:25:30.701Z",
+      "role": "workflow:owner",
+      "workflowId": "eNCzIfHLsUhTTKZZ",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
