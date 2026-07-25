@@ -1,0 +1,334 @@
+{
+  "updatedAt": "2025-06-13T15:55:12.000Z",
+  "createdAt": "2025-06-13T14:32:10.031Z",
+  "id": "ihpnrPPy4fdokJXE",
+  "name": "Mistral ORC File Content Extraction Demo",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Mistral OCR File Content Extractor",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "dataUpload",
+              "fieldType": "file"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "06a6a49e-812f-49f6-acb4-e2090ca42bcb",
+      "name": "On form submission",
+      "webhookId": "72022232-d20a-42fd-800d-6692d5182b32"
+    },
+    {
+      "parameters": {
+        "operation": "fromJson",
+        "binaryPropertyName": "ocr_output.json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        920,
+        0
+      ],
+      "id": "9744c898-3559-4fec-a533-0f573ecdec28",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.mistral.ai/v1/files",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "purpose",
+              "value": "ocr"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "dataUpload"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "3bc70361-8a8b-49ca-8a6c-cc42eb19dd5d",
+      "name": "Upload File To Mistral OCR API",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "JRoMy8xqqGtlyHst",
+          "name": "MistralAPI Header Auth(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.mistral.ai/v1/files/{{ $json.id }}/url",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "expiry",
+              "value": "24"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        440,
+        0
+      ],
+      "id": "9ebeadc9-0897-46df-bcd0-904642336115",
+      "name": "Get Mistral OCR Signed URL",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "JRoMy8xqqGtlyHst",
+          "name": "MistralAPI Header Auth(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.mistral.ai/v1/ocr",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"mistral-ocr-latest\",\n  \"document\": {\n    \"type\": \"document_url\",\n    \"document_url\": {{ JSON.stringify($json.url) }}\n  },\n  \"include_image_base64\": true\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "ocr_output.json"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        660,
+        0
+      ],
+      "id": "53c2d56e-36b9-43e6-8fbc-dbbf62066d0f",
+      "name": "Get Mistral OCR results",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "JRoMy8xqqGtlyHst",
+          "name": "MistralAPI Header Auth(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec04e575-d5a9-4948-81ab-b42745d303df",
+              "name": "contentExtracted",
+              "value": "={{ $json.markdown }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1460,
+        0
+      ],
+      "id": "09c9882c-4312-44d6-952f-67e61c9fd22a",
+      "name": "Extract The Result Content Output"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data.pages",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1140,
+        0
+      ],
+      "id": "469aa0dc-6516-42eb-9ff4-b49f5f4c3d9f",
+      "name": "Split Out"
+    }
+  ],
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Upload File To Mistral OCR API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload File To Mistral OCR API": {
+      "main": [
+        [
+          {
+            "node": "Get Mistral OCR Signed URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Mistral OCR Signed URL": {
+      "main": [
+        [
+          {
+            "node": "Get Mistral OCR results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Mistral OCR results": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Extract The Result Content Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract The Result Content Output": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "On form submission": [
+      {
+        "json": {
+          "dataUpload": [
+            {
+              "filename": "KPJIpohSpecialist_X_Creo-MetaAds_1-18May25_Report_V1.pdf",
+              "mimetype": "application/pdf",
+              "size": 2273629
+            }
+          ],
+          "submittedAt": "2025-06-13T23:48:41.320+08:00",
+          "formMode": "test"
+        }
+      }
+    ],
+    "Upload File To Mistral OCR API": [
+      {
+        "json": {
+          "id": "33d931eb-29c7-45f0-8237-02c6551a9c92",
+          "object": "file",
+          "bytes": 2273629,
+          "created_at": 1749829721,
+          "filename": "KPJIpohSpecialist_X_Creo-MetaAds_1-18May25_Report_V1.pdf",
+          "purpose": "ocr",
+          "sample_type": "ocr_input",
+          "num_lines": 0,
+          "mimetype": "application/pdf",
+          "source": "upload",
+          "signature": "fc2b958c4384c822d0e86440650e2815"
+        }
+      }
+    ],
+    "Get Mistral OCR Signed URL": [
+      {
+        "json": {
+          "url": "https://mistralaifilesapiprodswe.blob.core.windows.net/fine-tune/97a253a0-ee54-4641-985b-f55e44b11db3/1168c578-7824-493f-b9df-07cb189a619f/33d931eb29c745f0823702c6551a9c92.pdf?se=2025-06-14T15%3A48%3A42Z&sp=r&sv=2025-05-05&sr=b&sig=xP3qgapejyq0SCrPFScEzGv1VUgOzLwTpUddkO9/Cg0%3D"
+        }
+      }
+    ],
+    "Get Mistral OCR results": [
+      {
+        "json": {
+          "url": "https://mistralaifilesapiprodswe.blob.core.windows.net/fine-tune/97a253a0-ee54-4641-985b-f55e44b11db3/1168c578-7824-493f-b9df-07cb189a619f/33d931eb29c745f0823702c6551a9c92.pdf?se=2025-06-14T15%3A48%3A42Z&sp=r&sv=2025-05-05&sr=b&sig=xP3qgapejyq0SCrPFScEzGv1VUgOzLwTpUddkO9/Cg0%3D"
+        }
+      }
+    ]
+  },
+  "versionId": "286d8c56-5450-4aa2-ae4d-4e88f3b9f11b",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-06-13T14:32:10.041Z",
+      "createdAt": "2025-06-13T14:32:10.041Z",
+      "role": "workflow:owner",
+      "workflowId": "ihpnrPPy4fdokJXE",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
