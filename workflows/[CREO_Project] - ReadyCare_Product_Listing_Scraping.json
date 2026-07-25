@@ -1,0 +1,535 @@
+{
+  "updatedAt": "2025-05-14T10:05:07.000Z",
+  "createdAt": "2025-04-24T03:28:38.018Z",
+  "id": "GZnWy5NLGEIzhzBp",
+  "name": "[CREO_Project] - ReadyCare_Product_Listing_Scraping",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f07a7b5c-71e5-4aca-adce-e01b0d6c7fde",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "=pending",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "7f622642-d24c-47de-b4be-93ce15948db3",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "=processing",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1160,
+        0
+      ],
+      "id": "6463f36a-ff79-4ddb-b8bf-0425a3be58f4",
+      "name": "If In Process2"
+    },
+    {
+      "parameters": {
+        "content": "# CSS Structure Based Scraper (Scraping Products)",
+        "height": 80,
+        "width": 1760,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -260,
+        -120
+      ],
+      "id": "11a9016b-a5e5-4810-9e77-fc9034361bfa",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://crawl4ai.automessenger.me/crawl",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"urls\": \"{{ $json['Shop Page URL'] }}\",\n  \"crawler_params\": {\n    \"headless\": true\n  },\n  \"extraction_config\": {\n    \"type\": \"json_css\",\n    \"params\": {\n      \"schema\": {\n        \"name\": \"ReadyCare Signature Products\",\n        \"baseSelector\": \"{{ $json['CSS Base Selector'] }}\",\n        \"fields\": [\n          {\n            \"name\": \"product_link\",\n            \"selector\": \"a.button\",\n            \"type\": \"attribute\",\n            \"attribute\": \"href\"\n          },\n          {\n            \"name\": \"product_title\",\n            \"selector\": \"h2.woocommerce-loop-product__title\",\n            \"type\": \"text\"\n          },\n          {\n            \"name\": \"pricing\",\n            \"selector\": \".price > .amount > bdi\",\n            \"type\": \"text\"\n          }\n        ]\n      },\n      \"verbose\": true\n    }\n  },\n  \"cache_mode\": \"bypass\",\n  \"semaphore_count\": 2\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        420,
+        0
+      ],
+      "id": "0ea2d5b5-0478-44d0-99b8-983f70300510",
+      "name": "CSS Crawl Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Sxyip2DbXxp8AQIB",
+          "name": "Craw4Ai Header Auth(crawl4ai.automessenger.me)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 15
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        660,
+        0
+      ],
+      "id": "de7e32fb-f315-46fc-9c9b-b6eae1a0a398",
+      "name": "Wait for CSS Crawl",
+      "webhookId": "75c74b5b-96bc-41bc-a259-dec4548938a9"
+    },
+    {
+      "parameters": {
+        "url": "=https://crawl4ai.automessenger.me/task/{{ $json.task_id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        840,
+        0
+      ],
+      "id": "75dea634-21ca-4da0-bc0a-9dc38c7c4abf",
+      "name": "Get CSS Crawl",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Sxyip2DbXxp8AQIB",
+          "name": "Craw4Ai Header Auth(crawl4ai.automessenger.me)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"task_id\": \"{{ $('CSS Crawl Request').item.json.task_id }}\",\n  \"status\": \"{{ $json.status }}\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1000,
+        0
+      ],
+      "id": "3bb0e526-00e9-43b8-b5ef-5c5debace120",
+      "name": "CSS TID Field"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"products\": {{ $('Get CSS Crawl').item.json.result.extracted_content }}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1360,
+        -20
+      ],
+      "id": "ee7cc4f9-1485-48da-ab30-da6670c5e35f",
+      "name": "CSS Result"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "products",
+        "options": {
+          "destinationFieldName": "data"
+        }
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1560,
+        -20
+      ],
+      "id": "c4a6e894-3220-4586-a718-1922889153c4",
+      "name": "CSS Result Split"
+    },
+    {
+      "parameters": {
+        "formTitle": "Ecommerce Shop Page Using Crawl4Ai Scraper",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Shop Page URL"
+            },
+            {
+              "fieldLabel": "CSS Base Selector"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        180,
+        0
+      ],
+      "id": "0fcf716e-725b-40d7-963f-b6e66139dfe2",
+      "name": "On form submission",
+      "webhookId": "03592d55-3d9f-41a3-8ff2-6c92586434a1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "dd96d96f-24b9-4a1c-b5f5-5cbecc9a9f38",
+              "name": "Product Title",
+              "value": "={{ $json.data.product_title }}",
+              "type": "string"
+            },
+            {
+              "id": "95337cef-ece4-4346-b120-e816a8ba0b51",
+              "name": "Pricing",
+              "value": "={{ $json.data.pricing }}",
+              "type": "string"
+            },
+            {
+              "id": "5021474d-40b8-4d43-b62f-b1cef7f97f80",
+              "name": "Product Link",
+              "value": "={{ $json.data.product_link }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1780,
+        -20
+      ],
+      "id": "1cc2aabb-0e75-428a-8767-2dc70059d838",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s",
+          "mode": "list",
+          "cachedResultName": "ReadyCare Signature Ecommerce Store Product Listing(Apr2025_Update)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "All Product Pages",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Product Name": "={{ $json['Product Title'] }}",
+            "Pricing": "={{ $json.Pricing }}",
+            "Product Page Link": "={{ $json['Product Link'] }}"
+          },
+          "matchingColumns": [
+            "Product Name"
+          ],
+          "schema": [
+            {
+              "id": "Product Name",
+              "displayName": "Product Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Pricing",
+              "displayName": "Pricing",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Product Page Link",
+              "displayName": "Product Page Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2120,
+        -20
+      ],
+      "id": "c6841737-caca-4a67-b89b-8879f6b6c7b3",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "If In Process2": {
+      "main": [
+        [
+          {
+            "node": "CSS Result",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait for CSS Crawl",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CSS Crawl Request": {
+      "main": [
+        [
+          {
+            "node": "Wait for CSS Crawl",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for CSS Crawl": {
+      "main": [
+        [
+          {
+            "node": "Get CSS Crawl",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get CSS Crawl": {
+      "main": [
+        [
+          {
+            "node": "CSS TID Field",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CSS TID Field": {
+      "main": [
+        [
+          {
+            "node": "If In Process2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CSS Result": {
+      "main": [
+        [
+          {
+            "node": "CSS Result Split",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CSS Result Split": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "CSS Crawl Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "CSS Result": [
+      {
+        "json": {
+          "products": [
+            {
+              "product_link": "https://rcsignature.com.my/shop/biobased-veggie-wash/",
+              "product_title": "Biobased Veggie Wash",
+              "pricing": "RM11.90"
+            },
+            {
+              "product_link": "https://rcsignature.com.my/shop/biobased-laundry-liquid-detergent/",
+              "product_title": "Biobased Laundry Liquid Detergent",
+              "pricing": "RM15.90"
+            },
+            {
+              "product_link": "https://rcsignature.com.my/shop/biobased-dish-washing-liquid/",
+              "product_title": "Biobased Dishwashing Liquid",
+              "pricing": "RM9.90"
+            },
+            {
+              "product_link": "https://rcsignature.com.my/shop/biobased-multipurpose-cleaner/",
+              "product_title": "Biobased Multipurpose Cleaner",
+              "pricing": "RM9.90"
+            },
+            {
+              "product_link": "https://rcsignature.com.my/shop/biobased-fabric-softener/",
+              "product_title": "Biobased Fabric Softener",
+              "pricing": "RM15.90"
+            },
+            {
+              "product_link": "https://rcsignature.com.my/shop/biobased-laundry-sanitizer/",
+              "product_title": "Biobased Laundry Sanitizer",
+              "pricing": "RM25.90"
+            },
+            {
+              "product_link": "https://rcsignature.com.my/shop/biobased-toilet-blue-cleaner/",
+              "product_title": "Biobased Toilet Blue Cleaner 3x50g",
+              "pricing": "RM9.90"
+            },
+            {
+              "product_link": "https://rcsignature.com.my/shop/ready-eco-toilet-blue-cleaner-2x80g/",
+              "product_title": "Ready Eco Toilet Blue Cleaner 2x80g",
+              "pricing": "RM9.90"
+            },
+            {
+              "product_link": "https://rcsignature.com.my/shop/dog-biobased-pet-shampoo/",
+              "product_title": "[Dog] Biobased Pet Shampoo",
+              "pricing": "RM19.90"
+            },
+            {
+              "product_link": "https://rcsignature.com.my/shop/cat-biobased-pet-shampoo-2/",
+              "product_title": "[Cat] Biobased Pet Shampoo",
+              "pricing": "RM19.90"
+            },
+            {
+              "product_link": "https://rcsignature.com.my/shop/cat-dog-biobased-pet-deodorant/",
+              "product_title": "[Cat & Dog] Biobased Pet Deodorant",
+              "pricing": "RM19.90"
+            },
+            {
+              "product_link": "https://rcsignature.com.my/shop/biobased-toilet-bowl-cleaner/",
+              "product_title": "Biobased Toilet Bowl Cleaner",
+              "pricing": "RM9.90"
+            },
+            {
+              "product_link": "https://rcsignature.com.my/shop/biobased-baby-bottle-utensil-cleaner/",
+              "product_title": "Biobased Baby Bottle & Utensil Cleaner",
+              "pricing": "RM14.90"
+            },
+            {
+              "product_link": "https://rcsignature.com.my/shop/biobased-baby-laundry-detergent/",
+              "product_title": "Biobased Baby Laundry Detergent",
+              "pricing": "RM25.90"
+            },
+            {
+              "product_link": "https://rcsignature.com.my/shop/biobased-baby-sanitizer-spray-chamomile-essential-oil-vinegar/",
+              "product_title": "Biobased Baby Sanitizer Spray",
+              "pricing": "RM13.90"
+            },
+            {
+              "product_link": "https://rcsignature.com.my/shop/biobased-glass-cleaner/",
+              "product_title": "Biobased Glass Cleaner",
+              "pricing": "RM12.90"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "versionId": "04d505e0-eb8b-41a2-b459-39f4a776ae1a",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-04-24T03:28:38.022Z",
+      "createdAt": "2025-04-24T03:28:38.022Z",
+      "role": "workflow:owner",
+      "workflowId": "GZnWy5NLGEIzhzBp",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
