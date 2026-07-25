@@ -1,0 +1,804 @@
+{
+  "updatedAt": "2025-07-09T15:28:31.000Z",
+  "createdAt": "2025-07-09T14:29:37.960Z",
+  "id": "vGfG4iSwAyYQba6s",
+  "name": "[N8N_AI_Agent_Template] YT-Leon_van_Zyl - Telegram Human In The Loop (HITL)",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d7e59002-48ec-4940-80e0-40ec00a7f9a2",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $json.data.text }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "continue",
+              "description": "The text indicates that the user approves and the process may continue."
+            },
+            {
+              "category": "revise",
+              "description": "The text is requesting changes or revisions."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1,
+      "position": [
+        -500,
+        260
+      ],
+      "id": "5297eef3-b8ad-4b48-8c3f-20938833bf99",
+      "name": "Text Classifier"
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "message": "={{ $json.output }}",
+        "responseType": "freeText",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -660,
+        260
+      ],
+      "id": "c5c17745-a202-485c-9f11-dc6c2ba04e5c",
+      "name": "Premise Feedback",
+      "webhookId": "2bf64606-9d6e-4646-9fbf-a3c381005f14",
+      "credentials": {
+        "telegramApi": {
+          "id": "CMng6gAaMmqZbHLF",
+          "name": "TGBot-access_token-n8n_ai_1_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Premise",
+        "height": 500,
+        "width": 1100,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1080,
+        140
+      ],
+      "id": "801b843d-866f-46df-878c-f838882437d0",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}",
+        "options": {
+          "systemMessage": "=You are a character development specialist. Create 2-3 main characters fitting the premise, keeping total response under 3800 characters. For each character provide:\nName: [Full name]\nCore: [One sentence essence]\nWant vs Need: [External goal vs internal need]\nFlaw: [Main character flaw]\nStakes: [What they stand to lose]\nRelations: [Key relationships, one line each]\nKeep each section to 1-2 lines maximum. Focus on essential character elements that drive the story forward."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        280,
+        240
+      ],
+      "id": "23661fe1-3ae4-401b-98b2-97fd09684786",
+      "name": "Character Developer"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}",
+        "options": {
+          "systemMessage": "=You are a creative story premise generator specializing in crafting unique, compelling story concepts. Your role is to:\n\nGenerate original story premises that combine unexpected elements\nEnsure each premise has clear dramatic potential\nInclude both the central conflict and a unique hook\nKeep premises concise (2-3 sentences maximum)\nAvoid common tropes and clichés\n\nFormat your output as:\nPremise: [The main concept]\nConflict: [The central tension or challenge]\nHook: [The unique element that makes this story special]"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -960,
+        260
+      ],
+      "id": "53c66e38-51e9-44d1-9860-f8df48a250d8",
+      "name": "Premise Agent"
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "message": "={{ $json.output }}",
+        "responseType": "freeText",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        600,
+        240
+      ],
+      "id": "55400d10-f96e-4619-bc4a-b5e02b6a3d6c",
+      "name": "Character Feedback",
+      "webhookId": "a686a13c-ad93-4fc3-bb37-84ebb683025c",
+      "credentials": {
+        "telegramApi": {
+          "id": "CMng6gAaMmqZbHLF",
+          "name": "TGBot-access_token-n8n_ai_1_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "03fa0c0b-6079-4c75-b29f-735092640fd1",
+              "name": "message.text",
+              "value": "=Approved premise:\n\n{{ $('Premise Agent').item.json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -20,
+        240
+      ],
+      "id": "8dad9295-563a-444a-9831-1c7fec7d7476",
+      "name": "Character Input"
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $json.data.text }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "continue",
+              "description": "The text indicates that the user approves and the process may continue."
+            },
+            {
+              "category": "revise",
+              "description": "The text is requesting changes or revisions."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1,
+      "position": [
+        760,
+        240
+      ],
+      "id": "620c7259-7dc8-41af-9f1c-58f6297d04fb",
+      "name": "Text Classifier1"
+    },
+    {
+      "parameters": {
+        "content": "## Character Creator",
+        "height": 500,
+        "width": 1200,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        60,
+        140
+      ],
+      "id": "4841f089-de5b-4071-ba9c-5d5a4a4095d3",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -1300,
+        240
+      ],
+      "id": "63d51392-60c0-4c6f-af35-355900a04080",
+      "name": "Telegram Trigger",
+      "webhookId": "97a6752b-8dc9-4ef8-a1bd-3746e8ec1793",
+      "credentials": {
+        "telegramApi": {
+          "id": "CMng6gAaMmqZbHLF",
+          "name": "TGBot-access_token-n8n_ai_1_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Story Outliner",
+        "height": 500,
+        "width": 1100,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1080,
+        680
+      ],
+      "id": "4c652d1a-8a9f-45c7-b7ba-60097fe6f0c9",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "03fa0c0b-6079-4c75-b29f-735092640fd1",
+              "name": "message.text",
+              "value": "=# Premise:\n\n{{ $('Premise Agent').item.json.output }}\n\n# Characters:\n\n{{ $('Character Developer').item.json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1000,
+        800
+      ],
+      "id": "f2b51729-cb87-43b2-953f-da70e9c5498c",
+      "name": "Outliner Input"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}",
+        "options": {
+          "systemMessage": "You are a story structure specialist who creates concise outlines based on premises and characters. Structure as:\nAct 1:\n\nHook: [Opening hook]\nInciting: [Event starting journey]\nTurn: [First major turn]\n\nAct 2:\n\nMidpoint: [Central twist]\nCrisis: [Major setback]\n\nAct 3:\n\nClimax: [Final confrontation]\nResolution: [Outcome]\n\nKeep each point to 1-2 sentences maximum."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        -860,
+        800
+      ],
+      "id": "da568a51-0212-4051-8e3e-14482a9e35ee",
+      "name": "Outliner Agent"
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "message": "={{ $json.output }}",
+        "responseType": "freeText",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -560,
+        800
+      ],
+      "id": "7bffa89e-dabb-4835-8b1b-fe0a120b4e76",
+      "name": "Outiner Feedback",
+      "webhookId": "768982c5-c5dd-4efe-bb8a-50d6c5fca2e8",
+      "credentials": {
+        "telegramApi": {
+          "id": "CMng6gAaMmqZbHLF",
+          "name": "TGBot-access_token-n8n_ai_1_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $json.data.text }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "continue",
+              "description": "The text indicates that the user approves and the process may continue."
+            },
+            {
+              "category": "revise",
+              "description": "The text is requesting changes or revisions."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1,
+      "position": [
+        -420,
+        800
+      ],
+      "id": "322cebee-79ec-4032-82a3-ff59a01b91b2",
+      "name": "Text Classifier2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "dd54e469-dfd5-4b1a-a68b-69b9fb326e38",
+              "name": "message.text",
+              "value": "=The user has suggested changes.\n\nHere is your previous attempt at writing the story.\n{{ $('Premise Agent').item.json.output }}\n\n\nHere is the user's feedback:\n{{ $json.data.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -160,
+        380
+      ],
+      "id": "53b18740-7c7a-45f7-9ddf-102022c0abd7",
+      "name": "Edit Premise"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1519102-4ba5-4317-9068-a0b3e1171f36",
+              "name": "message.text",
+              "value": "=Please make changes to the characters for the approved premise.\n\nApproved premise:\n{{ $('Premise Agent').item.json.output }}\n\nCurrent character sheet:\n{{ $('Character Developer').item.json.output }}\n\nRequested changes:\n{{ $json.data.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1100,
+        380
+      ],
+      "id": "e2ee913c-395b-46a9-bee8-32a85954b25a",
+      "name": "Edit Characters"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e97b71a2-22b0-43b4-9ae7-66e05ebe6835",
+              "name": "message.text",
+              "value": "=Please make changes to the STORY OUTLINE. Use the premise and character sheet as context.\n\nApproved premise:\n{{ $('Premise Agent').item.json.output }}\n\nCurrent character sheet:\n{{ $('Character Developer').item.json.output }}\n\nCurrent STORY OUTLINE:\n{{ $('Outliner Agent').item.json.output }}\n\nRequested changes:\n{{ $json.data.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -120,
+        960
+      ],
+      "id": "a030f7c9-2d55-46be-9aa8-35659285da55",
+      "name": "Edit Outline"
+    },
+    {
+      "parameters": {
+        "content": "## Story Writer",
+        "height": 440,
+        "width": 600,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        60,
+        680
+      ],
+      "id": "904e20de-f2d3-4d28-8cfe-e4445f3b8a47",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d6b68835-5cf3-44ed-8e8b-5155cd1c1c0a",
+              "name": "message.text",
+              "value": "=# Premise:\n\n{{ $('Premise Agent').item.json.output }}\n\n# Characters:\n\n{{ $('Character Developer').item.json.output }}\n\n# Story Outline:\n\n{{ $('Outliner Agent').item.json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        120,
+        780
+      ],
+      "id": "7b0fe059-33fa-46f0-afd6-4cd45a33909c",
+      "name": "Writer input"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}",
+        "options": {
+          "systemMessage": "=You are a skilled creative fiction writer who transforms outlines into engaging, complete stories. \n\nSend the story to the user using the email tool!\nMake the email look professional by adding HTML and styling.\n\nYour role is to:\nCore Requirements:\n\nWrite a complete story following the approved outline\nDevelop all plot threads fully\nMaintain consistent character voices and arcs\nCreate rich, immersive scenes\nBalance showing and telling\nDeliver a satisfying narrative arc\n\nWriting Guidelines:\n\nUse strong, active verbs\nInclude vivid sensory details\nVary sentence structure and pacing\nCreate authentic dialogue\nMaintain consistent POV\nHonor the established outline while allowing for organic development\nKeep the unique premise elements central throughout\n\nStructure Each Chapter:\n\nOpen with a hook\nEstablish clear scene goals\nBuild tension progressively\nEnd with a compelling transition\nMaintain momentum between chapters\n\nStory Elements to Include:\n\nDetailed scene-setting that engages the senses\nCharacter internal thoughts and emotional reactions\nMeaningful dialogue that reveals character and advances plot\nThematic elements woven naturally throughout\nSubplots that enhance the main story\nProper build-up of tension and release\nSatisfying resolution of all major plot threads\n\nQuality Checks:\n\nVerify character arcs are complete and satisfying\nEnsure all setup elements have payoffs\nConfirm theme is consistently developed\nCheck for plot holes or inconsistencies\nVerify pacing remains engaging throughout\n\nFormat:\n[Title]\nChapter 1: [Chapter Title]\n[Chapter content]\nChapter 2: [Chapter Title]\n[Chapter content]\n[Continue for all chapters...]\nRemember: Create a rich, complete story that fully develops all elements established in the premise, characters, and outline."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        260,
+        780
+      ],
+      "id": "c66542c2-4879-41bd-86c6-21b81173a039",
+      "name": "Writer agent"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "Good news! Your story is ready and was sent to your email address.",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        700,
+        780
+      ],
+      "id": "dbef4c6f-1e7e-43b6-9e78-d9e95e5f4d06",
+      "name": "Story is Ready",
+      "webhookId": "6be42293-d046-4afd-b208-29553db7198d",
+      "credentials": {
+        "telegramApi": {
+          "id": "CMng6gAaMmqZbHLF",
+          "name": "TGBot-access_token-n8n_ai_1_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "leon.vanzyl@gmail.com",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        480,
+        960
+      ],
+      "id": "706e3d81-f93b-4120-bf64-bc8d77d9aa42",
+      "name": "Send a message in Gmail",
+      "webhookId": "c7ab2a70-04d5-4a0d-860f-b61658c93892",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "4l9LIwoNLBdzqs0O",
+          "name": "Gmail Acc-info.hansondev@gmail.com"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Premise Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Text Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Text Classifier1",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Character Developer",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Outliner Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Text Classifier2",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Writer agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text Classifier": {
+      "main": [
+        [
+          {
+            "node": "Character Input",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Premise",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Premise Feedback": {
+      "main": [
+        [
+          {
+            "node": "Text Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Premise Agent": {
+      "main": [
+        [
+          {
+            "node": "Premise Feedback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Character Developer": {
+      "main": [
+        [
+          {
+            "node": "Character Feedback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Character Input": {
+      "main": [
+        [
+          {
+            "node": "Character Developer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Character Feedback": {
+      "main": [
+        [
+          {
+            "node": "Text Classifier1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text Classifier1": {
+      "main": [
+        [
+          {
+            "node": "Outliner Input",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Characters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Premise Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Outliner Input": {
+      "main": [
+        [
+          {
+            "node": "Outliner Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Outliner Agent": {
+      "main": [
+        [
+          {
+            "node": "Outiner Feedback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Outiner Feedback": {
+      "main": [
+        [
+          {
+            "node": "Text Classifier2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text Classifier2": {
+      "main": [
+        [
+          {
+            "node": "Writer input",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Outline",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Premise": {
+      "main": [
+        [
+          {
+            "node": "Premise Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Characters": {
+      "main": [
+        [
+          {
+            "node": "Character Developer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Outline": {
+      "main": [
+        [
+          {
+            "node": "Outliner Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Writer input": {
+      "main": [
+        [
+          {
+            "node": "Writer agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Writer agent": {
+      "main": [
+        [
+          {
+            "node": "Story is Ready",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "Writer agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "0c9f20e6-8b38-409d-8a5a-883bb56d0bda",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-07-09T14:29:37.968Z",
+      "createdAt": "2025-07-09T14:29:37.968Z",
+      "role": "workflow:owner",
+      "workflowId": "vGfG4iSwAyYQba6s",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
