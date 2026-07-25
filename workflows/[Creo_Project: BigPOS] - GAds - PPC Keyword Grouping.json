@@ -1,0 +1,397 @@
+{
+  "updatedAt": "2025-04-25T07:33:37.000Z",
+  "createdAt": "2025-04-19T15:02:25.758Z",
+  "id": "xISTBmT8dF3oGc9a",
+  "name": "[Creo_Project: BigPOS] - GAds - PPC Keyword Grouping",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "keyword_data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        140,
+        -20
+      ],
+      "id": "9ca28b48-ea8b-4587-99b4-fa581a3702ae",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=# Role\nYou are a digital ads campaign specialist. \n\n# Task\nYour task now is to analyze the JSON array of nested object raw keyword research data and segment those list of keyword data based on specific adgroup name where the adgroup names are provided by the user.\n\n# Context\n1. Keyword Reasearch Data: {{ JSON.stringify($json.keyword_data) }}\n2. Adgroup Name For Keyword Grouping: {{ JSON.stringify($json['Adgroup Name']) }}\n3. Adgroup Description For Identify The Right Adgroup To Group The Keywords: {{ JSON.stringify($json['AdGroup Description']) }}\n\n# Output\nThe output must be in JSON format.",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Instructions:\n- Place the a JSON object field called `adgroup_segments` as the highest level\n- Place the list of adgroup name in JSON array field called `adgroup_name` nested in `adgroup_segments`\n- Always keep in mind that there's a few `adgroup_name` array items nested under `adgroup_segments` array field\n- Place all the following object fields inside the each JSON array `adgroup_name` field as below: \n  -- `keyword`(type:string)\n  -- `competition_index`(type:number)\n  -- `competition_range`(type: string)\n  -- `avg_search_vol`(type: number)\n  -- `lowest_cpc`(type:string)\n  -- `highest_cpc`(type:string)\n- Make sure that all the object fields are wrapped by `adgroup_name` JSON array field\n- Make sure that `adgroup_name` have to replace with the actual adgroup name where can use `read_adgroup_name` tool to identify and extract the right adgroup name to categorize the keyword data\n\n# Example of JSON Output Structure\n{\n  \"Generic - POS System\":[\n    {\n      \"keyword\": \"point of sale pos terminal\",\n      \"competiton_index\": 72,\n      \"competiton_range\": \"HIGH\",\n      \"avg_search_vol\": 170,\n      \"lowest_cpc\": \"$0.56\",\n      \"highest_cpc\": \"$2.07\"\n    },\n        {\n      \"keyword\": \"point of sale pos terminal\",\n      \"competiton_index\": 72,\n      \"competiton_range\": \"HIGH\",\n      \"avg_search_vol\": 170,\n      \"lowest_cpc\": \"$0.56\",\n      \"highest_cpc\": \"$2.07\"\n    },\n    {\n      \"keyword\": \"point of sale systems\",\n      \"competiton_index\": 74,\n      \"competiton_range\": \"HIGH\",\n      \"avg_search_vol\": 1900,\n      \"lowest_cpc\": \"$0.63\",\n      \"highest_cpc\": \"$$2.56\"\n    }\n  ],\n    \"Generic- Retail\":[\n    {\n      \"keyword\": \"pos systems for retail\",\n      \"competiton_index\": 90,\n      \"competiton_range\": \"HIGH\",\n      \"avg_search_vol\": 110,\n      \"lowest_cpc\": \"$0.92\",\n      \"highest_cpc\": \"$4.57\"\n    },\n    {\n      \"keyword\": \"retail pos\",\n      \"competiton_index\": 37,\n      \"competiton_range\": \"MEDIUM\",\n      \"avg_search_vol\": 110,\n      \"lowest_cpc\": \"$0.57\",\n      \"highest_cpc\": \"$1.53\"\n    },\n    {\n      \"keyword\": \"retail software\",\n      \"competiton_index\": 60,\n      \"competiton_range\": \"MEDIUM\",\n      \"avg_search_vol\": 70,\n      \"lowest_cpc\": \"$0.92\",\n      \"highest_cpc\": \"$2.54\"\n    }\n  ]      \n}\n\n# Tool\n- Use `read_adgroup_name` tool to identify the adgroup name for categorize the keywords groups based on listed adgroup name\n- Use `read_adgroup_name` to replace the JSON schema field `adgroup_name` to the adgroup name that listed in the sheet"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        660,
+        0
+      ],
+      "id": "a610cfd6-74fa-4953-84db-47824052bb4f",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"adgroup_segments\":{\n      \"adgroup_name\":{\n        \"type\": \"array\",\n        \"items\": {\n          \"keyword\": {\n            \"type\": \"string\"\n          },\n          \"competiton_index\": {\n            \"type\": \"number\"\n          },\n          \"competiton_range\": {\n            \"type\": \"string\"\n          },\n          \"avg_search_vol\": {\n            \"type\": \"number\"\n          },\n          \"lowest_cpc\": {\n            \"type\": \"string\"\n          },\n          \"highest_cpc\": {\n            \"type\": \"string\"\n          }                           \n        }\n      }\n    }\n  }\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        940,
+        200
+      ],
+      "id": "0f2597ad-f1cf-4ed4-b299-74d5c62f6b97",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "84b62827-a95d-4a32-884c-90ee420d045d",
+              "name": "adgroup_name",
+              "value": "={{ $json.keyword }}",
+              "type": "string"
+            },
+            {
+              "id": "e096c27e-e2c7-497b-a0df-8d106206d311",
+              "name": "keyword",
+              "value": "={{ $json.adgroup_segments.keyword }}",
+              "type": "string"
+            },
+            {
+              "id": "3683b4fb-30ec-4697-922d-3d97a60e9cd2",
+              "name": "competition_index",
+              "value": "={{ $json.adgroup_segments.competition_index }}",
+              "type": "number"
+            },
+            {
+              "id": "596dde17-f760-4c10-9f49-3502097158a8",
+              "name": "competition_range",
+              "value": "={{ $json.adgroup_segments.competition_range }}",
+              "type": "string"
+            },
+            {
+              "id": "418841a7-4cb3-4606-a3cd-26a11f8b16f7",
+              "name": "avg_monthly_vol",
+              "value": "={{ $json.adgroup_segments.avg_monthly_vol }}",
+              "type": "number"
+            },
+            {
+              "id": "1728303a-9b9a-4c12-b160-5863ff26bd65",
+              "name": "lowest_cpc",
+              "value": "={{ $json.adgroup_segments.lowest_cpc }}",
+              "type": "number"
+            },
+            {
+              "id": "952188ef-b5f7-4e6a-be18-0aa13cd4a641",
+              "name": "highest_cpc",
+              "value": "={{ $json.adgroup_segments.highest_cpc }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1440,
+        -20
+      ],
+      "id": "c02e7818-fd86-44ce-852f-e6637527c513",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "adgroup_segments",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1160,
+        -20
+      ],
+      "id": "546da9d9-236c-459d-8266-a43c4ed72555",
+      "name": "Split Out1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {
+          "responseFormat": "json_object"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        540,
+        180
+      ],
+      "id": "53d2176f-15df-49c0-b551-f2bf3b6c5fc6",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1q7wpQ4kb9JMr39j5PuRxJAqd1uMEq_cO8CDYWoMhNNc",
+          "mode": "list",
+          "cachedResultName": "Creo - GAds - BigPOS - KeywordResearch",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1q7wpQ4kb9JMr39j5PuRxJAqd1uMEq_cO8CDYWoMhNNc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1970663071,
+          "mode": "list",
+          "cachedResultName": "Adgroup Name",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1q7wpQ4kb9JMr39j5PuRxJAqd1uMEq_cO8CDYWoMhNNc/edit#gid=1970663071"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRange"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        740,
+        260
+      ],
+      "id": "4acaa722-79cf-48c4-9725-664b58a28bd5",
+      "name": "read_adgroup_name",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1q7wpQ4kb9JMr39j5PuRxJAqd1uMEq_cO8CDYWoMhNNc",
+          "mode": "list",
+          "cachedResultName": "Creo - GAds - BigPOS - KeywordResearch",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1q7wpQ4kb9JMr39j5PuRxJAqd1uMEq_cO8CDYWoMhNNc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1970663071,
+          "mode": "list",
+          "cachedResultName": "Adgroup Name",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1q7wpQ4kb9JMr39j5PuRxJAqd1uMEq_cO8CDYWoMhNNc/edit#gid=1970663071"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -60,
+        200
+      ],
+      "id": "2d2221ce-3eb6-465f-955d-d77283bd24e8",
+      "name": "Google Sheets5",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "Adgroup Name"
+            },
+            {
+              "fieldToAggregate": "AdGroup Description"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        140,
+        180
+      ],
+      "id": "57f1e27a-6268-48c5-8825-5580d1502676",
+      "name": "Aggregate2"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        420,
+        0
+      ],
+      "id": "ee7273b6-5013-4322-be7f-658afaeee45b",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -320,
+        0
+      ],
+      "id": "e6f69713-5465-4796-9728-aace8a228d84",
+      "name": "When Executed by Another Workflow"
+    }
+  ],
+  "connections": {
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "read_adgroup_name": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets5": {
+      "main": [
+        [
+          {
+            "node": "Aggregate2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate2": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "7f7609d4-d290-4cdc-8640-25b9fbee2d5f",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-04-19T15:02:25.766Z",
+      "createdAt": "2025-04-19T15:02:25.766Z",
+      "role": "workflow:owner",
+      "workflowId": "xISTBmT8dF3oGc9a",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
