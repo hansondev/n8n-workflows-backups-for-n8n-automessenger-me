@@ -1,0 +1,179 @@
+{
+  "updatedAt": "2025-11-29T08:48:10.000Z",
+  "createdAt": "2025-11-29T08:47:20.659Z",
+  "id": "LP7UiDTKLs5ehsWn",
+  "name": "[Sub-workflow] - GSlides Slide Object Ids Finder",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "const slideIds = $input\n  .all()\n  .flatMap(item => item.json.slides)\n\nconst objectId = slideIds.map(obj => ({ slideIds: obj.objectId }));\n\nreturn objectId"
+      },
+      "id": "53372cea-33f6-4953-be99-b642cf85793d",
+      "name": "Retrieve matching Images ObjectIds",
+      "type": "n8n-nodes-base.code",
+      "position": [
+        784,
+        -80
+      ],
+      "typeVersion": 2
+    },
+    {
+      "parameters": {
+        "url": "=https://slides.googleapis.com/v1/presentations/{{ $json.presentation_id }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleSlidesOAuth2Api",
+        "options": {}
+      },
+      "id": "39bf99f2-1110-42f5-95f5-269b4cf47d10",
+      "name": "Retrieve All Slide Elements",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        544,
+        -80
+      ],
+      "typeVersion": 4.2,
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "slideIds",
+              "renameField": true,
+              "outputFieldName": "objectId"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1008,
+        -80
+      ],
+      "id": "7ea21e8a-6abd-479c-b250-79611ad242a1",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "presentation_id"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        240,
+        -80
+      ],
+      "id": "fd1ae80d-0365-47a0-9323-c3adc6e29907",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "52333b2b-4dff-4f7c-a121-a081e4772ef7",
+              "name": "objectId",
+              "value": "={{ $json.objectId }}",
+              "type": "array"
+            },
+            {
+              "id": "c4c88951-7a67-42ca-9350-dcec82ee8162",
+              "name": "totalSlides",
+              "value": "={{ $json.objectId.length }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1232,
+        -80
+      ],
+      "id": "5eee6b02-15b2-4e62-99a1-66a0538f8dfe",
+      "name": "Edit Fields"
+    }
+  ],
+  "connections": {
+    "Retrieve matching Images ObjectIds": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retrieve All Slide Elements": {
+      "main": [
+        [
+          {
+            "node": "Retrieve matching Images ObjectIds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Retrieve All Slide Elements",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "e7bb0c7f-1de3-4ce8-b0c6-0a490d681926",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-11-29T08:47:20.667Z",
+      "createdAt": "2025-11-29T08:47:20.667Z",
+      "role": "workflow:owner",
+      "workflowId": "LP7UiDTKLs5ehsWn",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
