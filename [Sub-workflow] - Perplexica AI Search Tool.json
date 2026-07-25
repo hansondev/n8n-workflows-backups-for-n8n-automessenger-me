@@ -1,0 +1,120 @@
+{
+  "updatedAt": "2025-06-17T15:05:59.000Z",
+  "createdAt": "2025-04-26T07:53:25.562Z",
+  "id": "KdAUfF05Oj85t0Vb",
+  "name": "[Sub-workflow] - Perplexica AI Search Tool",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"query\": \"the search query requested by user\"\n}"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -40,
+        20
+      ],
+      "id": "e2876931-5ea1-497d-8bcf-ef95d5ac0307",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://perplexica-1.automessenger.me/api/search",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"chatModel\": {\n    \"provider\": \"openai\",\n    \"name\": \"gpt-4o-mini\"\n  },\n  \"embeddingModel\": {\n    \"provider\": \"openai\",\n    \"name\": \"text-embedding-3-large\"\n  },\n  \"optimizationMode\": \"speed\",\n  \"focusMode\": \"webSearch\",\n  \"query\": \"{{ $json.query }}\",\n  \"history\": [\n    [\"human\", \"Hi, how are you?\"],\n    [\"assistant\", \"I am doing well, how can I help you today?\"]\n  ],\n  \"systemInstructions\": \"Focus on providing technical details where requested by the user.\",\n  \"stream\": false\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        200,
+        20
+      ],
+      "id": "d10475d5-9616-4f85-a824-2d46613ecaee",
+      "name": "Perplexity API"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "44172b6e-8679-4f98-8931-715589ff5a24",
+              "name": "summary",
+              "value": "={{ $json.message }}",
+              "type": "string"
+            },
+            {
+              "id": "0a2727dc-6ec9-4719-993a-cf132f301703",
+              "name": "sources",
+              "value": "={{ $json.sources }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        420,
+        20
+      ],
+      "id": "f418ff7d-74c3-47eb-bc2c-6a5fc166d928",
+      "name": "Results"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Perplexity API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Perplexity API": {
+      "main": [
+        [
+          {
+            "node": "Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "17bab4c9-8dd7-4d12-9849-87afbf39227c",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-04-26T07:53:25.566Z",
+      "createdAt": "2025-04-26T07:53:25.566Z",
+      "role": "workflow:owner",
+      "workflowId": "KdAUfF05Oj85t0Vb",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2025-04-26T07:53:53.852Z",
+      "createdAt": "2025-04-26T07:53:53.852Z",
+      "id": "hCI3uuYrzecVAgbS",
+      "name": "AI Agent Subworkflow"
+    }
+  ]
+}
