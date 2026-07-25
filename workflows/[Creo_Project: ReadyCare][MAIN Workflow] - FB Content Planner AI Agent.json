@@ -1,0 +1,2199 @@
+{
+  "updatedAt": "2025-05-19T07:19:54.000Z",
+  "createdAt": "2025-04-28T03:31:32.392Z",
+  "id": "w8BWIGvauiJryijl",
+  "name": "[Creo_Project: ReadyCare][MAIN Workflow] - FB Content Planner AI Agent",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "abf5a1f2-936f-4edf-b82c-aadcfd599aff",
+              "name": "webURL",
+              "value": "={{ $json['Website URL'] }}",
+              "type": "string"
+            },
+            {
+              "id": "ca7f411b-82e6-4d2c-9b5b-3cf511095390",
+              "name": "searchQuery",
+              "value": "={{ $json.Name }}{{ $json.Geolocation }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -320,
+        80
+      ],
+      "id": "89df8951-ea18-4144-b9ef-a73bcf61650d",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Generate the Facebook Content Posting Planner for the month,{{ $json.month }}{{ $now.format('yyyy') }}:\n1. Start Date: {{ $json.startDate }}\n2. End Date: {{ $json.endDate }}\n3. Brand Name: {{ $json.brandName }}\n4. Industry Category: {{ $json.industryCategory }}\n5. Target Audience: {{ $json.targetAudience }}\n6. Total Posts To Generate: {{ $json.totalPostsToGenerate }}\n7. Tone And Voice: {{ $json.toneAndVoice }}\n8. Types of FB Media For Visual Content: {{ $json.mediaTypesVisualContent }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "={{ $('Google Sheets').item.json['Prompt For AI Agent'] }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        640,
+        920
+      ],
+      "id": "d6ef2a47-8437-4b1e-8fe6-55cdd3ff1da1",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -240,
+        260
+      ],
+      "id": "b264f569-7576-459f-9af6-ba62dbac2a27",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        1080,
+        1160
+      ],
+      "id": "a00d7b63-0f8e-4fac-99bf-d327b9c11d23",
+      "name": "Think"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[\n  {\n    \"datePosting\": \"27 Apr 2025\",\n    \"textPost\": \"👚 Laundry Wins:Bright Clothes, Happy Skin! 🌿 \\n Emma’s busy mornings got easier when she switched to a gentle bio-based detergent that keeps clothes fresh and soft—perfect for her little ones’ sensitive skin.✨ \\n Explore easy laundry care here:https://rcsignature.com.my/shop/biobased-laundry-liquid-detergent/ \\n #LaundryTips #GentleCare #EcoFriendly #FreshClothes #FamilyFirst\",\n    \"visualIdea\": \"Static image of a neatly folded laundry pile with the laundry detergent bottle in the background.\"\n  },\n  {\n    \"datePosting\": \"29 Apr 2025\",\n    \"textPost\": \"🌿 Say goodbye to harsh chemical smells! \\n After cleaning, wouldn’t it be nice if your home smelled fresh and natural? Many find that bio-based cleaners with essential oils leave a gentle, uplifting scent—no overwhelming fumes, just clean air. 🍋🌸 \\n Discover the difference nature makes🌱✨: https://rcsignature.com.my/biobased-shop/ \\n #FreshHome #NaturalScents #EcoFriendlyCleaning #NoHarshChemicals \",\n    \"visualIdea\": \"Static image of a person smelling the fresh scent of a newly cleaned room, with sunlight streaming in.\"\n  },\n  {\n    \"datePosting\": \"3 May 2025\",\n    \"textPost\": \"🍼 Baby Bottle Care Made Simple! \\n New mom Sarah found peace of mind knowing her baby's bottles were cleaned gently without harsh chemicals. 'It's reassuring to use something safe yet effective every day,' she says. 💧 \\n Discover gentle cleaning for your little one’s essentials: https://rcsignature.com.my/shop/biobased-baby-bottle-utensil-cleaner/ \\n #SafeForBaby #GentleCleaning #PeaceOfMind #EcoFriendlyParenting 🌿\",\n    \"visualIdea\": \"Video reel demonstrating the gentle cleaning of baby bottles with the product.\"\n  }\n]"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1260,
+        1120
+      ],
+      "id": "2707bdfe-4c3e-4d32-a2bd-60b00fec4449",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1060,
+        920
+      ],
+      "id": "103469ff-3b05-4f42-a2fd-13ecf27168e5",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1YK0Wgq2bu3dwUqX-qsSS44WQGl-ryWoa5kMmiOAvHkU",
+          "mode": "list",
+          "cachedResultName": "[2025] - ReadyCare - [MASTER Plan] - Monthly FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YK0Wgq2bu3dwUqX-qsSS44WQGl-ryWoa5kMmiOAvHkU/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1772910228,
+          "mode": "list",
+          "cachedResultName": "June",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YK0Wgq2bu3dwUqX-qsSS44WQGl-ryWoa5kMmiOAvHkU/edit#gid=1772910228"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date Posting": "={{ $json.datePosting }}",
+            "Text Post": "={{ $json.textPost }}",
+            "Visual Idea": "={{ $json.visualIdea }}"
+          },
+          "matchingColumns": [
+            "Date Posting"
+          ],
+          "schema": [
+            {
+              "id": "Date Posting",
+              "displayName": "Date Posting",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Text Post",
+              "displayName": "Text Post",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Visual Idea",
+              "displayName": "Visual Idea",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Remark",
+              "displayName": "Remark",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1260,
+        920
+      ],
+      "id": "6a779f80-2ff9-427c-a8e3-3da9cb9dc2d4",
+      "name": "Google Sheets2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $('Google Drive2').first().json.id }}",
+        "simple": false
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1960,
+        1000
+      ],
+      "id": "5fe8b54c-b009-4b74-95b9-a875fa15bc94",
+      "name": "Google Docs",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1480,
+        920
+      ],
+      "id": "63e21a86-b8f4-4a1e-af90-2ce5c33c1f34",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $('Google Drive2').first().json.id }}",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "locationChoice": "location",
+              "index": "={{ $json.tableCells[2].content[0].startIndex }}",
+              "text": "={{ $('Edit Fields3').item.json.visualIdea }}"
+            },
+            {
+              "action": "insert",
+              "locationChoice": "location",
+              "index": "={{ $json.tableCells[1].content[0].startIndex }}",
+              "text": "={{ $('Edit Fields3').item.json.textPost }}"
+            },
+            {
+              "action": "insert",
+              "locationChoice": "location",
+              "index": "={{ $json.tableCells[0].content[0].startIndex }}",
+              "text": "={{ $('Edit Fields3').item.json.datePosting }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        3380,
+        740
+      ],
+      "id": "64a0e3a5-026e-4d2e-bee7-53f6f9245b62",
+      "name": "Google Docs3",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3bd4c732-4a26-4638-81c9-36034ca9a617",
+              "name": "tableCells",
+              "value": "={{ $jmespath($json.body.content, '[?table].table.tableRows[-1].tableCells')[0] }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3160,
+        740
+      ],
+      "id": "8cd4f5b5-93c5-4c03-87e9-d47d0e0b3d1c",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "11368f3e-434a-4cb9-a1c8-cb7d3a7f8daf",
+              "name": "table",
+              "value": "={{ $jmespath($json.body.content, '[?table]')[0] }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2140,
+        1000
+      ],
+      "id": "8e17ef45-0fb7-4ffb-b1c5-5ed6b39e36d1",
+      "name": "Get Table"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $('Google Drive2').first().json.id }}",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "object": "tableRow",
+              "action": "insert",
+              "index": "={{ $('Get Table1').item.json.table.startIndex }}",
+              "rowIndex": "={{ $('Get Table1').item.json.table.table.tableRows.length - 1 }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2740,
+        740
+      ],
+      "id": "acde4c5f-539f-4aa1-9c3f-4979da0af169",
+      "name": "Insert table row at bottom",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $('Google Drive2').first().json.id }}",
+        "simple": false
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2960,
+        740
+      ],
+      "id": "85bff024-b85d-4f4e-a583-eaa58f37aace",
+      "name": "Get updated document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to get the upcoming public holidays in order to create general festive postings or special occasional posting to match the theme.",
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "en.malaysia#holiday@group.v.calendar.google.com",
+          "mode": "list",
+          "cachedResultName": "Holidays in Malaysia"
+        },
+        "returnAll": true,
+        "timeMax": "={{ $now.plus({ week: 4 }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        1000,
+        1260
+      ],
+      "id": "b57c6542-a9bc-4a26-a2b9-3220e6665599",
+      "name": "get_public_holidays",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "UZglpsDrPwduER7r",
+          "name": "GCalendar(boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ddc53601-f3de-4f0e-9bac-4ad590891705",
+              "leftValue": "={{ $json.Industry }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "b98c8e3f-a320-461e-b713-3d7ca6ed944f",
+              "leftValue": "",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -620,
+        320
+      ],
+      "id": "1138ad82-2b49-4766-b830-4ee2316af5c9",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -160,
+        640
+      ],
+      "id": "a6801077-a6cb-4465-8899-d939c6faa7b5",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to get the search query through the search engine, gather the sources and summarize the web research as the output.",
+        "workflowId": {
+          "__rl": true,
+          "value": "KdAUfF05Oj85t0Vb",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Perplexica AI Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ $('If').item.json.Name }} {{ $('If').item.json.Geolocation }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        260,
+        620
+      ],
+      "id": "fbd6398b-56c8-4a09-a1e7-1938f25838d0",
+      "name": "ai_web_research_tool"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Company Name: {{ $json.Name }} {{ $json.Geolocation }}\nIndustry Type: {{ $json.Industry }}\nWebsite URL: {{ $json['Website URL'] }}",
+        "options": {
+          "systemMessage": "={{ $json['Prompt For AI Agent'] }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        -40,
+        440
+      ],
+      "id": "adbfb847-9a54-44b0-acbd-3bb1ae01d23c",
+      "name": "Web Research Agent"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Identify the input user's search query for segmenting the most suitable industry:\n{{ $json.searchQuery }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "# Role\nYou are a market research specialist who are specialize on doing market search and market analysis\n\n# Task\nYou are tasked to identify which the right category industry to be segmented based on the user requested search query\n\n# Output Format\nOnly output the actual text-based answer without any unnecessary explanations, definitions and other factual data. If you had been identified more than one category, you can output the categories with comma-separated for each category"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.6,
+      "position": [
+        -60,
+        80
+      ],
+      "id": "cf46bcf0-0bf8-45fd-af11-5755b9798915",
+      "name": "Identify Industry Type"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls",
+          "mode": "list",
+          "cachedResultName": "[2025] - SementraResort - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2095342283,
+          "mode": "list",
+          "cachedResultName": "Web Research",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls/edit#gid=2095342283"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $('Google Sheets Trigger').item.json.Name }}",
+            "Website URL": "={{ $('Google Sheets Trigger').item.json['Website URL'] }}",
+            "Industry": "={{ $json.text }}"
+          },
+          "matchingColumns": [
+            "Name"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Website URL",
+              "displayName": "Website URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Geolocation",
+              "displayName": "Geolocation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Industry",
+              "displayName": "Industry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Prompt For AI Agent",
+              "displayName": "Prompt For AI Agent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        260,
+        80
+      ],
+      "id": "37faa7f8-433e-487e-a9e9-4dd816b7cdbb",
+      "name": "Update Industry Type",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        380,
+        260
+      ],
+      "id": "18f735bf-474f-4edd-8ebc-b3e19a7547a9",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to get the search query through the search engine, gather the sources and summarize the web research as the output.",
+        "workflowId": {
+          "__rl": true,
+          "value": "KdAUfF05Oj85t0Vb",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Perplexica AI Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ $('If').item.json.Name }} {{ $('If').item.json.Geolocation }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        740,
+        260
+      ],
+      "id": "bc816cdf-0cec-4c82-9c6e-3cf32922d557",
+      "name": "ai_web_research_tool1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Company Name: {{ $('Google Sheets Trigger').first().json.Name }} {{ $('Google Sheets Trigger').first().json.Geolocation }}\nIndustry Type: {{ $json['Industry'] }}\nWebsite URL: {{ $('Google Sheets Trigger').first().json['Website URL']}}",
+        "options": {
+          "systemMessage": "={{ $('Google Sheets Trigger').first().json['Prompt For AI Agent'] }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        500,
+        80
+      ],
+      "id": "00e0e745-2b82-41b4-b02f-62a8e2d64f42",
+      "name": "Web Research Agent1"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c",
+          "mode": "list",
+          "cachedResultName": "[2025] - ReadyCare - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2095342283,
+          "mode": "list",
+          "cachedResultName": "Web Research",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls/edit#gid=2095342283"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $('Google Sheets1').first().json.Name }}",
+            "Research Result": "={{ $json.output }}",
+            "Status": "Completed"
+          },
+          "matchingColumns": [
+            "Name"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Website URL",
+              "displayName": "Website URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Geolocation",
+              "displayName": "Geolocation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Industry",
+              "displayName": "Industry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Research Result",
+              "displayName": "Research Result",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Prompt For AI Agent",
+              "displayName": "Prompt For AI Agent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1100,
+        340
+      ],
+      "id": "0bb11516-0d9c-461c-b0c5-d96d2d82cfdb",
+      "name": "Update Web Research Result1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c",
+          "mode": "list",
+          "cachedResultName": "[2025] - ReadyCare - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 407131889,
+          "mode": "list",
+          "cachedResultName": "Input For AI Agent",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c/edit#gid=407131889"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -700,
+        940
+      ],
+      "id": "0e485e47-499a-48b5-ac70-69bef713600a",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1764e9a9-8a3f-4101-93e2-2641f4c33b74",
+              "name": "month",
+              "value": "={{ $('On form submission').first().json['Month of Year'] }}",
+              "type": "string"
+            },
+            {
+              "id": "aff2545b-fbf6-4138-8b75-399a086c821c",
+              "name": "startDate",
+              "value": "={{ $('Google Sheets').first().json['Start Date'] }}",
+              "type": "string"
+            },
+            {
+              "id": "0c53bcea-8520-40b1-997e-6bb9a1c51355",
+              "name": "endDate",
+              "value": "={{ $('Google Sheets').first().json['End Date'] }}",
+              "type": "string"
+            },
+            {
+              "id": "4fb9d3d7-2613-4dd7-83d7-e206fdd81ef8",
+              "name": "brandName",
+              "value": "={{ $('Google Sheets3').first().json.Name }} {{ $('Google Sheets3').first().json.Geolocation }}",
+              "type": "string"
+            },
+            {
+              "id": "43efa54e-d6f9-4e33-a396-894c5cd891d2",
+              "name": "websiteUrl",
+              "value": "={{ $('Google Sheets3').item.json['Website URL'] }}",
+              "type": "string"
+            },
+            {
+              "id": "b235bac2-0188-4462-ae8e-d0be95dcadc4",
+              "name": "industryCategory",
+              "value": "={{ $('Google Sheets3').first().json.Industry }}",
+              "type": "string"
+            },
+            {
+              "id": "e95da6c6-6d82-4ba2-a56f-1abbcd85e0ec",
+              "name": "targetAudience",
+              "value": "={{ $('Google Sheets').first().json['Target Audience'] }}",
+              "type": "string"
+            },
+            {
+              "id": "14ecb7f0-57e5-4fca-aa1a-549ffecfdc20",
+              "name": "totalPostsToGenerate",
+              "value": "={{ $('Google Sheets').item.json['Total Generate Posts'] }}",
+              "type": "number"
+            },
+            {
+              "id": "87b128d6-a343-4543-9585-6175975be481",
+              "name": "mediaTypesVisualContent",
+              "value": "={{ $('Google Sheets').first().json['Types of FB Media For Visual Idea'] }}",
+              "type": "string"
+            },
+            {
+              "id": "b1ffaaff-a7e2-44d4-a34c-9d3c31889ec7",
+              "name": "toneAndVoice",
+              "value": "={{ $('Google Sheets').first().json['Types of FB Media For Visual Idea'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        400,
+        920
+      ],
+      "id": "78756a6e-a1d6-4bf6-9724-7787c9b7e3d9",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c",
+          "mode": "list",
+          "cachedResultName": "[2025] - ReadyCare - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1438649008,
+          "mode": "list",
+          "cachedResultName": "FB Posts Scraped Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c/edit#gid=1438649008"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRangeA1",
+              "range": "C:C"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        420,
+        1260
+      ],
+      "id": "dce6b270-e7a6-481f-a73a-78bccf70d3fe",
+      "name": "facebook_posts_data",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formTitle": "Creo Client: ReadyCare Monthly Social Media Posting Form",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Month of Year",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "January"
+                  },
+                  {
+                    "option": "February"
+                  },
+                  {
+                    "option": "March"
+                  },
+                  {
+                    "option": "April"
+                  },
+                  {
+                    "option": "May"
+                  },
+                  {
+                    "option": "June"
+                  },
+                  {
+                    "option": "July"
+                  },
+                  {
+                    "option": "August"
+                  },
+                  {
+                    "option": "september"
+                  },
+                  {
+                    "option": "October"
+                  },
+                  {
+                    "option": "November"
+                  },
+                  {
+                    "option": "December"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Client Name Label",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "SementraResort"
+                  },
+                  {
+                    "option": "ReadyCare"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "GSheet AI Agent Input File Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "[2025] - ReadyCare - [AI Agent Input] - FB Content Creation Planner"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "GDocs Social Media Content Plan File Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Monthly FB Content Creation Planner"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -1360,
+        540
+      ],
+      "id": "2b4cbeda-d385-48c6-9f69-f1aec3571af3",
+      "name": "On form submission",
+      "webhookId": "ab286419-9ce8-44a7-adc0-21d670891071"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c",
+          "mode": "list",
+          "cachedResultName": "[2025] - ReadyCare - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2095342283,
+          "mode": "list",
+          "cachedResultName": "Web Research",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c/edit#gid=2095342283"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -940,
+        380
+      ],
+      "id": "50ff9a1d-0434-4243-b44e-8397f1edeb88",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c",
+          "mode": "list",
+          "cachedResultName": "[2025] - ReadyCare - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2095342283,
+          "mode": "list",
+          "cachedResultName": "Web Research",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c/edit#gid=2095342283"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -980,
+        940
+      ],
+      "id": "c65d82b1-20ec-441e-b4d6-1da7d3d5bdd0",
+      "name": "Google Sheets3",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "ReadyCare - Monthly FB Content Creation Planner",
+        "filter": {
+          "whatToSearch": "all",
+          "fileTypes": [
+            "application/vnd.google-apps.document"
+          ]
+        },
+        "options": {
+          "fields": [
+            "name",
+            "id",
+            "mimeType"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -480,
+        940
+      ],
+      "id": "4dd5f87b-dd0c-43ea-82ea-8179df5a0262",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $('Google Drive2').first().json.id }}",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "object": "tableRow",
+              "action": "delete",
+              "index": "={{ $json[\"table\"][\"startIndex\"] }}",
+              "rowIndex": "={{ $json[\"table\"][\"table\"][\"tableRows\"].length - 1 }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2320,
+        1000
+      ],
+      "id": "b8926389-fb72-4781-ac30-e47087603741",
+      "name": "Google Docs1",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "={{ $json.name }}",
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "1ifAFdk-hXXClnZDc13ocgur4T4YkVUuI",
+            "mode": "id"
+          }
+        },
+        "options": {
+          "fields": [
+            "id",
+            "name",
+            "mimeType"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        140,
+        920
+      ],
+      "id": "f8c12d19-80e0-467b-a418-98971418fd17",
+      "name": "Google Drive2",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $('Google Drive2').first().json.id }}",
+        "simple": false
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2320,
+        740
+      ],
+      "id": "056fa368-40fd-4a94-bd33-0880f9da85f6",
+      "name": "Google Docs2",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "11368f3e-434a-4cb9-a1c8-cb7d3a7f8daf",
+              "name": "table",
+              "value": "={{ $jmespath($json.body.content, '[?table]')[0] }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2540,
+        740
+      ],
+      "id": "0b89b84a-8f08-4996-b325-aca249684b8d",
+      "name": "Get Table1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "74aa8c3f-48e3-4c72-ba2c-b35155464b9d",
+              "name": "datePosting",
+              "value": "={{ $json['Date Posting'] }}",
+              "type": "string"
+            },
+            {
+              "id": "d2e4f52e-d396-4361-9cce-b7e7623cb2fb",
+              "name": "textPost",
+              "value": "={{ $json['Text Post'] }}",
+              "type": "string"
+            },
+            {
+              "id": "9917245f-d1ac-4329-a039-4d0f95f732e6",
+              "name": "visualIdea",
+              "value": "={{ $json['Visual Idea'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1720,
+        1000
+      ],
+      "id": "9811e4c9-c3eb-4c14-bc4a-44f4c69d757d",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "74aa8c3f-48e3-4c72-ba2c-b35155464b9d",
+              "name": "datePosting",
+              "value": "={{ $('Edit Fields3').item.json.datePosting }}",
+              "type": "string"
+            },
+            {
+              "id": "d2e4f52e-d396-4361-9cce-b7e7623cb2fb",
+              "name": "textPost",
+              "value": "={{ $('Edit Fields3').item.json.textPost }}",
+              "type": "string"
+            },
+            {
+              "id": "9917245f-d1ac-4329-a039-4d0f95f732e6",
+              "name": "visualIdea",
+              "value": "={{ $('Edit Fields3').item.json.visualIdea }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1800,
+        720
+      ],
+      "id": "ea6a8def-b1a7-4c7a-98f9-b927e381f10e",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        2080,
+        720
+      ],
+      "id": "87b04f7e-1b36-4016-8222-a92477641fcb",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "104792ab-69ca-4dee-b254-82685b529080",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "=[{{ $('On form submission').item.json['Month of Year'] }} 2025] - {{ $('On form submission').item.json['Client Name Label'] }} - {{ $('On form submission').item.json['GDocs Social Media Content Plan File Name'] }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -200,
+        940
+      ],
+      "id": "f38b187c-8b16-4291-b179-306a70a6064c",
+      "name": "If1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -340,
+        1200
+      ],
+      "id": "bc28c2ee-c08f-4d0e-bd27-3e6c82072dd7",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool retrieval the scraped web research data.By getting this data, you are able to understand my client business, products and services details in summary information from the website itself.",
+        "documentId": {
+          "__rl": true,
+          "value": "187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c",
+          "mode": "list",
+          "cachedResultName": "[2025] - ReadyCare - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2095342283,
+          "mode": "list",
+          "cachedResultName": "Web Research",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c/edit#gid=2095342283"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRangeA1",
+              "range": "E1:E2"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        580,
+        1340
+      ],
+      "id": "784a79bd-36f9-4e55-b0ad-e049c767312d",
+      "name": "web_research_retriever",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool retrieval the scraped web research data.By getting this data, you are able to understand my client business, products and services details in summary information from the website itself.",
+        "documentId": {
+          "__rl": true,
+          "value": "1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s",
+          "mode": "list",
+          "cachedResultName": "ReadyCare Signature Ecommerce Store Product Listing(Apr2025_Update)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "All Product Pages",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        720,
+        1360
+      ],
+      "id": "6d2ef76f-d299-4efe-80ba-240fb25c70b4",
+      "name": "readyCare_product_page_url",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to read and retrieve all ReadyCare Products details that had been scraped including product name, description and variations for illustrating how the products can fix and solve the audience daily household cleaning problems.",
+        "documentId": {
+          "__rl": true,
+          "value": "1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s",
+          "mode": "list",
+          "cachedResultName": "ReadyCare Signature Ecommerce Store Product Listing(Apr2025_Update)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1871117814,
+          "mode": "list",
+          "cachedResultName": "Product Details",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit#gid=1871117814"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        900,
+        1400
+      ],
+      "id": "508e1003-f0b5-4926-a7a6-2864b66f6c9f",
+      "name": "readyCare_product_details",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        260,
+        1160
+      ],
+      "id": "4d3dd118-0b9b-4106-b863-8ec19d3dc5a0",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Identify Industry Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Identify Industry Type",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs": {
+      "main": [
+        [
+          {
+            "node": "Get Table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs3": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Google Docs3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Table": {
+      "main": [
+        [
+          {
+            "node": "Google Docs1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert table row at bottom": {
+      "main": [
+        [
+          {
+            "node": "Get updated document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get updated document": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_public_holidays": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Web Research Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Web Research Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_web_research_tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Web Research Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Web Research Agent": {
+      "main": [
+        [
+          {
+            "node": "Update Web Research Result1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Identify Industry Type": {
+      "main": [
+        [
+          {
+            "node": "Update Industry Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Industry Type": {
+      "main": [
+        [
+          {
+            "node": "Web Research Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Web Research Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_web_research_tool1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Web Research Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Web Research Agent1": {
+      "main": [
+        [
+          {
+            "node": "Update Web Research Result1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "facebook_posts_data": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Sheets3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets3": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs2": {
+      "main": [
+        [
+          {
+            "node": "Get Table1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Table1": {
+      "main": [
+        [
+          {
+            "node": "Insert table row at bottom",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Google Docs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Google Docs2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Google Drive2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "web_research_retriever": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "readyCare_product_page_url": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "readyCare_product_details": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "On form submission": [
+      {
+        "json": {
+          "Month of Year": "June",
+          "Client Name Label": "ReadyCare",
+          "GSheet AI Agent Input File Name": "[2025] - ReadyCare - [AI Agent Input] - FB Content Creation Planner",
+          "GDocs Social Media Content Plan File Name": "Monthly FB Content Creation Planner",
+          "submittedAt": "2025-05-18T23:14:46.888+08:00",
+          "formMode": "test"
+        }
+      }
+    ],
+    "Web Research Agent": [
+      {
+        "json": {
+          "output": "Readycare Signature is a leading brand in Malaysia that focuses on eco-friendly and sustainable cleaning solutions while prioritizing health and wellness. Established in 1999 under ReadyCare (M) Sdn. Bhd., the company is headquartered in Ipoh, Perak, Malaysia. \n\n### Commitment to Sustainability\nReadycare Signature is dedicated to minimizing its environmental impact by using bio-based materials derived from renewable plant sources. This approach supports consumer demands for environmentally friendly products. The company operates a modern factory equipped with Industry 4.0 technologies, enhancing production efficiency and reducing waste. Additionally, it utilizes green energy sources like solar power to lower its carbon footprint.\n\n### Product Range\nThe product lineup of Readycare Signature includes:\n- **Bio-based Cleaning Solutions**: Safe for users and the environment, formulated with sustainable ingredients.\n- **Baby Care Line**: A recently launched range, certified by USDA as bio-based and verified by the UK Vegan Society, addressing parental concerns regarding chemical use in baby products.\n- **General Cleaning Supplies**: Includes a variety of cleaning agents, disposable gloves, sponges, and other cleaning tools for household and industrial applications.\n\n### Community Engagement\nReadycare Signature actively promotes a bio-based lifestyle through community engagement and educational initiatives, highlighting the importance of sustainability.\n\nIn summary, Readycare Signature is well-positioned as a leading provider of eco-friendly cleaning products in Malaysia, with a focus on innovative manufacturing practices and sustainability. For further details, visit their [official website](https://rcsignature.com.my)."
+        }
+      }
+    ],
+    "AI Agent": [
+      {
+        "json": {
+          "output": [
+            {
+              "datePosting": "01 Jun 2025",
+              "textPost": "🌱 Fresh Start: Family Meal Preps Without Worry\nChloe always wondered if those hidden residues on fruits and veggies could trigger allergies. A quick wash with a biobased, food-grade solution means her family enjoys fresher, safer produce—peace of mind with every bite.\nExplore clean eating at home: https://rcsignature.com.my/shop/biobased-veggie-wash/\n#CleanCooking #FreshVeggies #AllergyFriendly #FamilyCare #HealthyLiving",
+              "visualIdea": "Video reel of a parent washing vegetables with children, showing the difference between unwashed and cleaned veggies using the Biobased Veggie Wash, ending with a family meal at the table."
+            },
+            {
+              "datePosting": "02 Jun 2025",
+              "textPost": "👑 Celebrating Yang di-Pertuan Agong’s Birthday at Home\nAs families gather to mark this special day, keeping the home clean and safe brings everyone closer. Non-chemical, gentle cleaning options help create a festive, welcoming space without irritation to sensitive skin.\nDiscover safer cleaning for special occasions: https://rcsignature.com.my/biobased-shop/\n#MalaysianTradition #FestiveSeason #GentleCleaning #SafeCelebration #AgongBirthday",
+              "visualIdea": "Static image of a laid-out festive living room, decorations up, with non-chemical cleaning products subtly placed in the background."
+            },
+            {
+              "datePosting": "05 Jun 2025",
+              "textPost": "🧸 Toy Trouble? No Stress.\nWhen toys hit the floor (again), Sarah doesn’t panic about harsh chemicals. A quick wipe with a baby-safe sanitizer lets her youngest play safely, freeing her from worry over irritants or sticky residue.\nSee what makes safe play easy: https://rcsignature.com.my/shop/biobased-baby-sanitizer-spray-chamomile-essential-oil-vinegar/\n#BabySafe #SensitiveSkin #PlaytimeSolutions #MomLife #EcoCare",
+              "visualIdea": "Video reel showing a toddler dropping toys, a parent spritzing and wiping down a toy with Biobased Baby Sanitizer Spray, and the child playing happily again."
+            },
+            {
+              "datePosting": "07 Jun 2025",
+              "textPost": "🕌 Hari Raya Haji Harmony: Clean Spaces for Open House\nWith extra guests and celebrations, keeping every corner fresh is a breeze using plant-based multipurpose cleaners—powerful on stains, kind to sensitive hands, and safe for little helpers too.\nGive your home extra care this Raya: https://rcsignature.com.my/shop/biobased-multipurpose-cleaner/\n#HariRayaHaji #CleanTogether #EcoRamadan #SensitiveHands #FamilyFriendly",
+              "visualIdea": "Video reel of a multi-generational family tidying up together, younger children wiping low surfaces, everyone smiling and prepping for open house."
+            },
+            {
+              "datePosting": "10 Jun 2025",
+              "textPost": "🐶 Furry Friends, Happy Homes\nMaya used to worry about pet shampoo giving her dog itchy skin. Now bath time means a shiny coat and no harsh residues—just gentle, plant-based care for every wag and cuddle.\nSee the fur-care difference: https://rcsignature.com.my/shop/dog-biobased-pet-shampoo/\n#PetParents #SensitivePets #NoHarshChemicals #HealthyPetSkin #EcoPetCare",
+              "visualIdea": "Static image carousel: Before-and-after pet bath day, closeups of shiny pet fur, and a happy dog cuddling with its family."
+            },
+            {
+              "datePosting": "13 Jun 2025",
+              "textPost": "🥬 No More Worry About Pesticides on Your Plate\nEvery day, parents ask: is tonight’s salad really safe? Washing produce with a gentle, vegan-friendly wash effectively removes unwanted residues—leaving meals safer for sensitive tummies.\nLearn how families eat cleaner: https://rcsignature.com.my/shop/biobased-veggie-wash/\n#EatSafe #VeganFriendly #HealthyMeals #FamilyPriority #CleanLiving",
+              "visualIdea": "Video reel showing the process of rinsing mixed salad greens and fruit for a kids’ lunchbox, emphasizing clear water and vibrant ingredients."
+            },
+            {
+              "datePosting": "16 Jun 2025",
+              "textPost": "💧 Laundry Routines for Sensitive Skin\nAfter switching detergents to a low-pH, non-irritating liquid wash, Adam finally saw his children’s itchy skin disappear. Each week’s laundry now brings reassurance—clothes are soft, residue-free, and gentle on every hug.\nFind gentle laundry care here: https://rcsignature.com.my/shop/biobased-laundry-liquid-detergent/\n#SensitiveSkin #LaundryRoutine #EcoDetergent #GentleCare #FamilySafe",
+              "visualIdea": "Video reel: Child rubbing face against freshly washed shirt, parent putting away soft, bright clothes, then family group hug."
+            },
+            {
+              "datePosting": "19 Jun 2025",
+              "textPost": "🍽️ Grease to Shine, Sensitive Hand Approved\nCooking for a big family means facing stacks of oily plates. The switch to a biobased dishwashing liquid means quick cleaning, no stinging hands, and sparkling results—no more dry, irritated skin post-dinner.\nMake dish duty easier: https://rcsignature.com.my/shop/biobased-dish-washing-liquid/\n#DishwashingDay #GentleOnHands #ZeroResidue #EcoFamily #CleanKitchen",
+              "visualIdea": "Static image: Close-up of hands washing dishes in soapy water, glowing plates, with product bottle in the foreground."
+            },
+            {
+              "datePosting": "21 Jun 2025",
+              "textPost": "🌿 Weekly Refresh: Bathroom Scent Goals\nOscar’s family struggled with lingering odors and tough stains—until a botanical toilet blue cleaner helped keep things smelling pine-fresh, even after a busy week.\nTry nature-powered freshness: https://rcsignature.com.my/shop/biobased-toilet-blue-cleaner/\n#BathroomBliss #OdorControl #PineFresh #EcoCleaning #FamilyRoutine",
+              "visualIdea": "Static image of a sparkling clean bathroom, blue toilet water visible, with pine branches nearby for a ‘fresh’ effect."
+            },
+            {
+              "datePosting": "23 Jun 2025",
+              "textPost": "🌞 Sensitive Skin, Summer Play\nSweaty school days and playdates can mean extra laundry challenges for children prone to allergies. A baby-formulated, chamomile-enriched detergent keeps their clothes comfy and their skin smiling—every single wash.\nSee comfort for little ones: https://rcsignature.com.my/shop/biobased-baby-laundry-detergent/\n#BabyLaundry #AllergyRelief #GentleCleaning #Motherhood #SafeClothes",
+              "visualIdea": "Video reel: Pile of children’s colorful clothes, before/after shots of play, close up of soft fabric, and a baby giggling."
+            },
+            {
+              "datePosting": "25 Jun 2025",
+              "textPost": "✨ Brilliant Glass, No Nasty Smells\nFed up with streaky mirrors and chemical fumes, Lee switched to a plant-powered glass cleaner for all her household’s glass and mirrors. No headaches, only a streak-free shine that’s safe for curious little fingers.\nShine up your space: https://rcsignature.com.my/shop/biobased-glass-cleaner/\n#ClearView #SafeCleaning #GlassCare #EcoSmartLiving #ShinyHouse",
+              "visualIdea": "Static image: Dramatic before/after mirror shot, child’s handprint visible, then gone—sunlight streaming through."
+            },
+            {
+              "datePosting": "27 Jun 2025",
+              "textPost": "🍼 Baby’s Bottle, Zero Residue\nFeeding time is less stressful when baby bottles are cleaned with a hypoallergenic, residue-free wash—leaving no worries about milk fats, smells, or soapiness lingering for your little one.\nSee bottle care in action: https://rcsignature.com.my/shop/biobased-baby-bottle-utensil-cleaner/\n#BabyCare #FeedingTime #ResidueFree #SensitiveBaby #CleanStart",
+              "visualIdea": "Video reel: Parent gently cleaning a milk bottle, detailed closeup of rinsing, followed by smiling baby reaching for bottle. "
+            },
+            {
+              "datePosting": "29 Jun 2025",
+              "textPost": "🌟 Weekends Are for Family—Not Extra Chores!\nEnjoy the weekend with less worry about chemical exposure. Switching to non-chemical, easy-rinse formulas means more quality time and cleaner surfaces—and peace of mind for sensitive skin.\nSee how easy it can be: https://rcsignature.com.my/biobased-shop/\n#WeekendLiving #SafeHome #AllergyAware #LowToxLife #FamilyTime",
+              "visualIdea": "Static image carousel: Happy family relaxing together indoors, kitchen and play area clean, products subtly placed in the environment."
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "versionId": "f10e684d-3708-48d5-8236-fc49ffdebee1",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-04-28T03:31:32.397Z",
+      "createdAt": "2025-04-28T03:31:32.397Z",
+      "role": "workflow:owner",
+      "workflowId": "w8BWIGvauiJryijl",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
