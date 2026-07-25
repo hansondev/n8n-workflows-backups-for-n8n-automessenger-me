@@ -1,0 +1,490 @@
+{
+  "updatedAt": "2025-07-10T13:28:24.000Z",
+  "createdAt": "2025-04-26T09:21:32.158Z",
+  "id": "6GmpoovcrJu1Mzsd",
+  "name": "[Sub-workflow]  -Crawl4AI Page Sitemap Content Scraper Tool",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"searchUrl\": \"website url to extract page sitemap\"\n}"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -620,
+        -20
+      ],
+      "id": "a47e3888-e77e-4c05-af08-84efae73dae5",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "name": "page_sitemap_extractor",
+        "description": "Call this tool to extract the web page sitemap in the XML format",
+        "workflowId": {
+          "__rl": true,
+          "value": "6e3l98LoJkKRfgEp",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Page Sitemap Crawler Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ $json.searchUrl }}"
+          },
+          "matchingColumns": [
+            "searchUrl"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        -120,
+        200
+      ],
+      "id": "7f341e7a-9c33-4f33-8fe4-ca8a5ee94a58",
+      "name": "page_sitemap_extractor"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ca4d8864-cbe2-4a3e-9381-55980e235092",
+              "name": "rawSitemapXml",
+              "value": "={{ $json.output }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        40,
+        -20
+      ],
+      "id": "fb122954-2ecb-4762-a883-dd58429f21d5",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -460,
+        200
+      ],
+      "id": "8a991dfa-5baa-4a60-ad7b-e17672580b2f",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.searchUrl }}",
+        "options": {
+          "systemMessage": "=# Role\nYou are a technical SEO and Web scraping specialist who really know how to get extract website information such as sitemap.xml, robots.txt and other metadata of the main domain website\n\n# Task\nYou are tasked to extract website internal page sitemap from the user provided website search url\n\n# Tool\nYou are require to use `page_sitemap_extractor` tool in order to extract the raw page sitemap xml string\n\n# Output Format\nOnly output the actual full text-based non-markdown format page sitemap xml file without any unnecessary explanations, definitions and other factual data.\n\n# Example Output\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!-- This sitemap was dynamically generated on April 26, 2025 at 10:11 am by All in One SEO v4.6.8.1 - the original SEO plugin for WordPress. -->\n\n<?xml-stylesheet type=\"text/xsl\" href=\"https://sementra.my/default-sitemap.xsl?sitemap=page\"?>\n<urlset\n\txmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"\n\txmlns:xhtml=\"http://www.w3.org/1999/xhtml\"\n\txmlns:image=\"http://www.google.com/schemas/sitemap-image/1.1\"\n>\n\t<url>\n\t\t<loc><![CDATA[https://sementra.my/]]></loc>\n\t\t<lastmod><![CDATA[2024-02-26T09:12:06+00:00]]></lastmod>\n\t\t<changefreq><![CDATA[always]]></changefreq>\n\t\t<priority><![CDATA[1]]></priority>\n\t</url>\n\t<url>\n\t\t<loc><![CDATA[https://sementra.my/book-now-stay-later/]]></loc>\n\t\t<lastmod><![CDATA[2024-03-07T04:25:54+00:00]]></lastmod>\n\t\t<changefreq><![CDATA[weekly]]></changefreq>\n\t\t<priority><![CDATA[0.7]]></priority>\n\t</url>\n\t<url>\n\t\t<loc><![CDATA[https://sementra.my/about-us/]]></loc>\n\t\t<lastmod><![CDATA[2024-02-28T03:27:35+00:00]]></lastmod>\n\t\t<changefreq><![CDATA[weekly]]></changefreq>\n\t\t<priority><![CDATA[0.7]]></priority>\n\t</url>\n\t<url>\n\t\t<loc><![CDATA[https://sementra.my/puupa-chalet/]]></loc>\n\t\t<lastmod><![CDATA[2024-02-28T02:25:28+00:00]]></lastmod>\n\t\t<changefreq><![CDATA[weekly]]></changefreq>\n\t\t<priority><![CDATA[0.7]]></priority>\n\t</url>\n\t<url>\n\t\t<loc><![CDATA[https://sementra.my/contact-us/]]></loc>\n\t\t<lastmod><![CDATA[2024-02-27T09:29:50+00:00]]></lastmod>\n\t\t<changefreq><![CDATA[weekly]]></changefreq>\n\t\t<priority><![CDATA[0.7]]></priority>\n\t</url>\n\t<url>\n\t\t<loc><![CDATA[https://sementra.my/experience/]]></loc>\n\t\t<lastmod><![CDATA[2024-02-27T08:41:09+00:00]]></lastmod>\n\t\t<changefreq><![CDATA[weekly]]></changefreq>\n\t\t<priority><![CDATA[0.7]]></priority>\n\t</url>\n\t<url>\n\t\t<loc><![CDATA[https://sementra.my/offer/]]></loc>\n\t\t<lastmod><![CDATA[2024-02-27T07:28:36+00:00]]></lastmod>\n\t\t<changefreq><![CDATA[weekly]]></changefreq>\n\t\t<priority><![CDATA[0.7]]></priority>\n\t</url>\n\t<url>\n\t\t<loc><![CDATA[https://sementra.my/mekar-chalet/]]></loc>\n\t\t<lastmod><![CDATA[2024-02-27T06:03:12+00:00]]></lastmod>\n\t\t<changefreq><![CDATA[weekly]]></changefreq>\n\t\t<priority><![CDATA[0.7]]></priority>\n\t</url>\n\t<url>\n\t\t<loc><![CDATA[https://sementra.my/larva-chalet/]]></loc>\n\t\t<lastmod><![CDATA[2024-02-27T05:05:56+00:00]]></lastmod>\n\t\t<changefreq><![CDATA[weekly]]></changefreq>\n\t\t<priority><![CDATA[0.7]]></priority>\n\t</url>\n\t<url>\n\t\t<loc><![CDATA[https://sementra.my/accommodation/]]></loc>\n\t\t<lastmod><![CDATA[2024-02-26T11:44:35+00:00]]></lastmod>\n\t\t<changefreq><![CDATA[weekly]]></changefreq>\n\t\t<priority><![CDATA[0.7]]></priority>\n\t</url>\n\t<url>\n\t\t<loc><![CDATA[https://sementra.my/sample-page/]]></loc>\n\t\t<lastmod><![CDATA[2024-02-01T03:18:26+00:00]]></lastmod>\n\t\t<changefreq><![CDATA[weekly]]></changefreq>\n\t\t<priority><![CDATA[0.7]]></priority>\n\t</url>\n</urlset>\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        -360,
+        -20
+      ],
+      "id": "bd3e86cc-578c-4783-9700-af39a15192a3",
+      "name": "Page Sitemap AI Extractor"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=This XML file does not appear to have any style information associated with it. The document tree is shown below:\n{{ $json.rawSitemapXml }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are specialized in generating url array outputs out of xml based sitemaps,\n\nplease output in the following format:\n{\nurls: [\"https://www.url1.com\"]\n}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        260,
+        -20
+      ],
+      "id": "02a422ba-9017-4e3e-b27b-f64aa63a4305",
+      "name": "Web Pages AI Extractor"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n\t\"urls\": [\"https://www.url1.com\", \"https://www.url2.com\"]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        440,
+        200
+      ],
+      "id": "b749304e-1344-4047-b43d-e4ac75cfcf80",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        200,
+        200
+      ],
+      "id": "f8d3de7f-28d8-415b-a565-a69ca8ed5902",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        800,
+        -20
+      ],
+      "id": "a3ca65fb-40ea-4781-a607-512b14f3acb1",
+      "name": "Wait",
+      "webhookId": "75c74b5b-96bc-41bc-a259-dec4548938a9"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"task_id\": \"{{ $('Crawl4AI Request').item.json.task_id }}\",\n  \"status\": \"{{ $json.status }}\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1100,
+        -20
+      ],
+      "id": "685a0a8b-924e-433b-8bb7-690bd65cb452",
+      "name": "Task ID Field"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f07a7b5c-71e5-4aca-adce-e01b0d6c7fde",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "=pending",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "7f622642-d24c-47de-b4be-93ce15948db3",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "=processing",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1240,
+        -20
+      ],
+      "id": "184af04e-be6c-463a-8c3f-5c959b4f6161",
+      "name": "If In Process"
+    },
+    {
+      "parameters": {
+        "url": "=https://crawl4ai.automessenger.me/task/{{ $json.task_id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        940,
+        -20
+      ],
+      "id": "ede26212-30f6-4620-a308-5af023985242",
+      "name": "Get Markdown Result",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Sxyip2DbXxp8AQIB",
+          "name": "Craw4Ai Header Auth(crawl4ai.automessenger.me)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"response\": {{ JSON.stringify( $('Get Markdown Result').item.json.result.markdown) }}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1460,
+        -40
+      ],
+      "id": "27a0ff28-ebb2-41e0-b06f-15648cbf15cd",
+      "name": "Markdown Result"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://crawl4ai.automessenger.me/crawl",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"urls\": {{ JSON.stringify($json.output.urls) }},\n  \"extraction_config\": {\n    \"type\": \"basic\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        600,
+        -20
+      ],
+      "id": "d177dbea-172b-4c33-9e70-59291ad30522",
+      "name": "Crawl4AI Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Sxyip2DbXxp8AQIB",
+          "name": "Craw4Ai Header Auth(crawl4ai.automessenger.me)"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Page Sitemap AI Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "page_sitemap_extractor": {
+      "ai_tool": [
+        [
+          {
+            "node": "Page Sitemap AI Extractor",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Page Sitemap AI Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Page Sitemap AI Extractor": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Web Pages AI Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Web Pages AI Extractor",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Web Pages AI Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get Markdown Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Task ID Field": {
+      "main": [
+        [
+          {
+            "node": "If In Process",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If In Process": {
+      "main": [
+        [
+          {
+            "node": "Markdown Result",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Markdown Result": {
+      "main": [
+        [
+          {
+            "node": "Task ID Field",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Web Pages AI Extractor": {
+      "main": [
+        [
+          {
+            "node": "Crawl4AI Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crawl4AI Request": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "c91d8721-faa7-4df4-90d6-83f0338febf6",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-04-26T09:21:32.161Z",
+      "createdAt": "2025-04-26T09:21:32.161Z",
+      "role": "workflow:owner",
+      "workflowId": "6GmpoovcrJu1Mzsd",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
