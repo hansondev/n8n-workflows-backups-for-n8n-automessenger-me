@@ -1,0 +1,4609 @@
+{
+  "updatedAt": "2024-07-02T08:15:43.000Z",
+  "createdAt": "2024-07-02T03:20:15.769Z",
+  "id": "Z90BWWbwjIXe9p17",
+  "name": "CTNow Ad Campaign (Adsterra) Data Sync - Google Sheet",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "path": "ctn-adsterra-campaign-monthly-report",
+        "formTitle": "Hanson Citinow Adsterra Ads Campaign",
+        "formDescription": "Insert The API Token, Start Date & Finish Date To Get Campaign Data From APIs",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "API Token",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Start Date",
+              "fieldType": "date",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Finish Date",
+              "fieldType": "date",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "appendAttribution": true
+        }
+      },
+      "id": "20e42457-b452-43d0-ab16-a9cce74e4847",
+      "name": "n8n Form Trigger",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2,
+      "position": [
+        180,
+        640
+      ],
+      "webhookId": "c1633c8f-ba7d-48a6-a8fe-0a483aebe763"
+    },
+    {
+      "parameters": {
+        "url": "=https://api3.adsterratools.com/advertiser/{{ $json['API Token'] }}/campaigns.json",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3ffb99df-3ecb-43ef-b52d-83236bb2f949",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        460,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "items",
+        "options": {}
+      },
+      "id": "8975da4f-5663-4ce7-8070-9562b1ad2688",
+      "name": "Split Out From Items Field",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        680,
+        600
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "3d90833c-62e2-43b0-b312-ad4ef624eb3a",
+      "name": "No Operation, do nothing",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2460,
+        -140
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "71e784bd-5582-46e2-bd87-a50fed2a48fb",
+      "name": "No Operation, do nothing1",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2700,
+        580
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ef7290cd-d2d4-40b1-aa40-6f7e774840b3",
+              "name": "campaign_id",
+              "value": "={{ $json.id }}",
+              "type": "number"
+            },
+            {
+              "id": "60e27ed9-e6b5-49de-b4d9-5e581f23b419",
+              "name": "campaign_name",
+              "value": "={{ $json.alias }}",
+              "type": "string"
+            },
+            {
+              "id": "2509a6c1-f5c2-415f-8158-87383d09cbca",
+              "name": "pricing_type",
+              "value": "={{ $json.pricing_type }}",
+              "type": "string"
+            },
+            {
+              "id": "0141b09f-4564-4517-a39a-cba828a8b805",
+              "name": "price_bid",
+              "value": "={{ $json.pricing_settings[0].price }}",
+              "type": "number"
+            },
+            {
+              "id": "0d10b190-5ee3-44a0-87f7-52e05dbbd0f7",
+              "name": "target_country",
+              "value": "={{ $json.pricing_settings[0].country_code }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f0f7020e-ef74-4b47-bcea-579197104e69",
+      "name": "Map Active Popunder Ads Campaign Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2900,
+        -620
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ef7290cd-d2d4-40b1-aa40-6f7e774840b3",
+              "name": "campaign_id",
+              "value": "={{ $json.id }}",
+              "type": "number"
+            },
+            {
+              "id": "60e27ed9-e6b5-49de-b4d9-5e581f23b419",
+              "name": "campaign_name",
+              "value": "={{ $json.alias }}",
+              "type": "string"
+            },
+            {
+              "id": "2509a6c1-f5c2-415f-8158-87383d09cbca",
+              "name": "pricing_type",
+              "value": "={{ $json.pricing_type }}",
+              "type": "string"
+            },
+            {
+              "id": "0141b09f-4564-4517-a39a-cba828a8b805",
+              "name": "price_bid",
+              "value": "={{ $json.pricing_settings[0].price }}",
+              "type": "number"
+            },
+            {
+              "id": "0d10b190-5ee3-44a0-87f7-52e05dbbd0f7",
+              "name": "target_country",
+              "value": "={{ $json.pricing_settings[0].country_code }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "68612f0c-3f1b-4a0a-9af4-da6e4b4550ec",
+      "name": "Map Inactive Popunder Ads Campaign Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3260,
+        20
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cb02382f-3929-48af-9824-025a61891781",
+              "leftValue": "={{ $json.isNotEmpty() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "9769aaa4-c3b2-40f2-92fb-b5030377b3ce",
+      "name": "If Output Not Empty",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        2260,
+        -380
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cb02382f-3929-48af-9824-025a61891781",
+              "leftValue": "={{ $json.isNotEmpty() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "824ed770-b028-46aa-8ef8-ef46970ba25e",
+      "name": "If Output Not Empty1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        2300,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api3.adsterratools.com/advertiser/{{ $('n8n Form Trigger').first().json['API Token'] }}/stats.json",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "start_date",
+              "value": "={{ $('n8n Form Trigger').first().json['Start Date'] }}"
+            },
+            {
+              "name": "finish_date",
+              "value": "={{ $('n8n Form Trigger').first().json['Finish Date'] }}"
+            },
+            {
+              "name": "group_by",
+              "value": "campaign"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "80b60efa-1778-44c5-9edb-44cf48c7e6fb",
+      "name": "Call API For Each Popunder Campaign Statistics",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2640,
+        -300
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "items",
+        "options": {}
+      },
+      "id": "da9f8418-1613-4f73-a3ad-967993b9e5e5",
+      "name": "Split Out From Items Array",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        3180,
+        -440
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "eb4071b6-5780-4ffd-b8c5-e294e5001c6d",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        2920,
+        -380
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "e06069e3-5fa8-4b7c-91bc-d225334cc320",
+      "name": "Replace Me",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        3080,
+        -220
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.format }}",
+                    "rightValue": "pu",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Popunder Ads"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "b9d226b0-f824-4fdb-b614-37cb4aa1da6c",
+                    "leftValue": "={{ $json.format }}",
+                    "rightValue": "sb",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Social Bar Ads"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "136d1689-062f-4f3c-8eef-c84e37f491cd",
+      "name": "Filter Ad Formats",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        940,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api3.adsterratools.com/advertiser/{{ $('n8n Form Trigger').first().json['API Token'] }}/stats.json",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "start_date",
+              "value": "={{ $('n8n Form Trigger').first().json['Start Date'] }}"
+            },
+            {
+              "name": "finish_date",
+              "value": "={{ $('n8n Form Trigger').first().json['Finish Date'] }}"
+            },
+            {
+              "name": "group_by",
+              "value": "campaign"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b5dedd39-7a52-4127-8cb2-487b4b6aeb77",
+      "name": "Call API For Each Popunder Campaign Statistics1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2780,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "items",
+        "options": {}
+      },
+      "id": "ebc989e8-5be7-4a2a-9704-0b23a80674bb",
+      "name": "Split Out From Items Array1",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        3320,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "3c9e4e13-b030-483a-9923-b38a06d01189",
+      "name": "Loop Over Items1",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        3040,
+        360
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "ea11dc26-0eaa-4baf-8622-a9f19345968b",
+      "name": "Replace Me1",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        3380,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "campaign_id",
+              "field2": "campaign"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a6ee07fc-de5d-4083-92c0-9de854c73408",
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [
+        3400,
+        -580
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "campaign_id",
+              "field2": "campaign"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1dad2b8c-3d29-4f3e-9a29-007ce1797bbe",
+      "name": "Merge1",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [
+        3580,
+        80
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "8fae9115-668b-46c7-943d-a1a1460c97c8",
+      "name": "No Operation, do nothing2",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2460,
+        1180
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "fcd35392-60c5-4109-b7c1-4500c7a81498",
+      "name": "No Operation, do nothing3",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2780,
+        1780
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cb02382f-3929-48af-9824-025a61891781",
+              "leftValue": "={{ $json.isNotEmpty() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "d450ccfd-71e9-42ca-b382-ac1306d0d644",
+      "name": "If Output Not Empty2",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        2260,
+        1000
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cb02382f-3929-48af-9824-025a61891781",
+              "leftValue": "={{ $json.isNotEmpty() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "140467b7-109b-4a29-a0cc-80347adcc157",
+      "name": "If Output Not Empty3",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        2260,
+        1460
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "items",
+        "options": {}
+      },
+      "id": "40525023-9ee8-4234-91b7-e0b4a1e4d73f",
+      "name": "Split Out From Items Array2",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        3180,
+        940
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "2aa3cff2-04f2-4789-9dba-4a4c5ebc0643",
+      "name": "Loop Over Items2",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        2920,
+        1000
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "5b02d5ba-6b25-4b10-be32-a9e99867d826",
+      "name": "Replace Me2",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        3080,
+        1160
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "items",
+        "options": {}
+      },
+      "id": "3a29ad9f-7c23-4729-9f75-477316708947",
+      "name": "Split Out From Items Array3",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        3300,
+        1600
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "6a61a6aa-95d8-4bd8-af10-2cc48bdebd0c",
+      "name": "Loop Over Items3",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        3000,
+        1660
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "512c8aa9-55d5-4bc1-96a3-39b3e3545070",
+      "name": "Replace Me3",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        3320,
+        1760
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "campaign_id",
+              "field2": "campaign"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "cfd57232-c461-4586-87fa-4ef0cd64cb44",
+      "name": "Merge2",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [
+        3400,
+        800
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "campaign_id",
+              "field2": "campaign"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a3631cc2-23d3-47ca-b1cd-c3b6fa38ae91",
+      "name": "Merge3",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [
+        3580,
+        1460
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ef7290cd-d2d4-40b1-aa40-6f7e774840b3",
+              "name": "campaign_id",
+              "value": "={{ $json.id }}",
+              "type": "number"
+            },
+            {
+              "id": "60e27ed9-e6b5-49de-b4d9-5e581f23b419",
+              "name": "campaign_name",
+              "value": "={{ $json.alias }}",
+              "type": "string"
+            },
+            {
+              "id": "2509a6c1-f5c2-415f-8158-87383d09cbca",
+              "name": "pricing_type",
+              "value": "={{ $json.pricing_type }}",
+              "type": "string"
+            },
+            {
+              "id": "0141b09f-4564-4517-a39a-cba828a8b805",
+              "name": "price_bid",
+              "value": "={{ $json.pricing_settings[0].price }}",
+              "type": "number"
+            },
+            {
+              "id": "0d10b190-5ee3-44a0-87f7-52e05dbbd0f7",
+              "name": "target_country",
+              "value": "={{ $json.pricing_settings[0].country_code }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "869ddcac-9609-4568-8f5e-ee6243be6529",
+      "name": "Map Active Social Bar Ads Campaign Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2900,
+        760
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api3.adsterratools.com/advertiser/{{ $('n8n Form Trigger').first().json['API Token'] }}/stats.json",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "start_date",
+              "value": "={{ $('n8n Form Trigger').first().json['Start Date'] }}"
+            },
+            {
+              "name": "finish_date",
+              "value": "={{ $('n8n Form Trigger').first().json['Finish Date'] }}"
+            },
+            {
+              "name": "group_by",
+              "value": "campaign"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1d6b330e-f1b0-462d-a4bd-ec6a3f783317",
+      "name": "Call API For Each Social Bar Campaign Statistics2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2760,
+        1580
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api3.adsterratools.com/advertiser/{{ $('n8n Form Trigger').first().json['API Token'] }}/stats.json",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "start_date",
+              "value": "={{ $('n8n Form Trigger').first().json['Start Date'] }}"
+            },
+            {
+              "name": "finish_date",
+              "value": "={{ $('n8n Form Trigger').first().json['Finish Date'] }}"
+            },
+            {
+              "name": "group_by",
+              "value": "campaign"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4a5254cf-00eb-407c-889c-1843bd58c9c2",
+      "name": "Call API For Each Social Bar Campaign Statistics",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2640,
+        1080
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "22ca9b78-78d1-4d7a-9e5c-bd62425ec7f0",
+      "name": "No Operation, do nothing4",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2960,
+        2380
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "cb02382f-3929-48af-9824-025a61891781",
+              "leftValue": "={{ $json.isNotEmpty() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "9c73c67f-80e7-4f25-aaba-9c2e49f16078",
+      "name": "If Output Not Empty4",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        2440,
+        2060
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "items",
+        "options": {}
+      },
+      "id": "e6e902f7-f6d4-43e4-a280-882675592871",
+      "name": "Split Out From Items Array4",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        3480,
+        2200
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "dc5b4015-cfd3-4ae5-be46-b50e79688bb6",
+      "name": "Loop Over Items4",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        3180,
+        2260
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "72314432-a339-4893-9f89-c5dd226c83dd",
+      "name": "Replace Me4",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        3500,
+        2360
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "mergeByFields": {
+          "values": [
+            {
+              "field1": "campaign_id",
+              "field2": "campaign"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "04a4ef4c-9256-4a75-99fa-4d7885cd1e66",
+      "name": "Merge4",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [
+        3760,
+        2060
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api3.adsterratools.com/advertiser/{{ $('n8n Form Trigger').first().json['API Token'] }}/stats.json",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "start_date",
+              "value": "={{ $('n8n Form Trigger').first().json['Start Date'] }}"
+            },
+            {
+              "name": "finish_date",
+              "value": "={{ $('n8n Form Trigger').first().json['Finish Date'] }}"
+            },
+            {
+              "name": "group_by",
+              "value": "campaign"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ef1b31e8-074e-4146-8b48-fe4a8ed8c5fe",
+      "name": "Call API For Each Social Bar Campaign Statistics3",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2940,
+        2180
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ef7290cd-d2d4-40b1-aa40-6f7e774840b3",
+              "name": "campaign_id",
+              "value": "={{ $json.id }}",
+              "type": "number"
+            },
+            {
+              "id": "60e27ed9-e6b5-49de-b4d9-5e581f23b419",
+              "name": "campaign_name",
+              "value": "={{ $json.alias }}",
+              "type": "string"
+            },
+            {
+              "id": "2509a6c1-f5c2-415f-8158-87383d09cbca",
+              "name": "pricing_type",
+              "value": "={{ $json.pricing_type }}",
+              "type": "string"
+            },
+            {
+              "id": "0141b09f-4564-4517-a39a-cba828a8b805",
+              "name": "price_bid",
+              "value": "={{ $json.pricing_settings[0].price }}",
+              "type": "number"
+            },
+            {
+              "id": "0d10b190-5ee3-44a0-87f7-52e05dbbd0f7",
+              "name": "target_country",
+              "value": "={{ $json.pricing_settings[0].country_code }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c1b1829d-2d3e-45a8-851f-c79aaa09dd91",
+      "name": "Map Active In Limited Budget Social Bar Ads Campaign Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3260,
+        1400
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ef7290cd-d2d4-40b1-aa40-6f7e774840b3",
+              "name": "campaign_id",
+              "value": "={{ $json.id }}",
+              "type": "number"
+            },
+            {
+              "id": "60e27ed9-e6b5-49de-b4d9-5e581f23b419",
+              "name": "campaign_name",
+              "value": "={{ $json.alias }}",
+              "type": "string"
+            },
+            {
+              "id": "2509a6c1-f5c2-415f-8158-87383d09cbca",
+              "name": "pricing_type",
+              "value": "={{ $json.pricing_type }}",
+              "type": "string"
+            },
+            {
+              "id": "0141b09f-4564-4517-a39a-cba828a8b805",
+              "name": "price_bid",
+              "value": "={{ $json.pricing_settings[0].price }}",
+              "type": "number"
+            },
+            {
+              "id": "0d10b190-5ee3-44a0-87f7-52e05dbbd0f7",
+              "name": "target_country",
+              "value": "={{ $json.pricing_settings[0].country_code }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ae07e2e4-2de1-4e81-89ca-06d7aebb77b2",
+      "name": "Map Inactive Social Bar Ads Campaign Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3440,
+        2000
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cbc140c7-4b2f-43d8-8f0f-b29a10a317bc",
+              "name": "campaign_name",
+              "value": "={{ $json.campaign_name }}",
+              "type": "string"
+            },
+            {
+              "id": "77d7cdd2-7488-4970-87dc-4b9e92ea8d70",
+              "name": "start_date",
+              "value": "={{ $('n8n Form Trigger').first().json['Start Date'] }}",
+              "type": "string"
+            },
+            {
+              "id": "5a61b56d-8c94-4ca3-8992-68e57e1db3d8",
+              "name": "finish_date",
+              "value": "={{ $('n8n Form Trigger').first().json['Finish Date'] }}",
+              "type": "string"
+            },
+            {
+              "id": "112cca3a-3fd4-4f6f-a187-2a9b41ff005a",
+              "name": "campaign_status",
+              "value": "Active",
+              "type": "string"
+            },
+            {
+              "id": "f9141111-c0dd-4fd9-ba95-494574204476",
+              "name": "pricing_modal",
+              "value": "={{ $json.pricing_type }}",
+              "type": "string"
+            },
+            {
+              "id": "b04d74b0-de22-4b3c-8d7a-f5c3aa57bd32",
+              "name": "target_country",
+              "value": "={{ $json.target_country }}",
+              "type": "string"
+            },
+            {
+              "id": "9a93e2d7-0ee6-4a0e-910d-3abf9714ad8a",
+              "name": "max_bid",
+              "value": "={{ $json.price_bid }}",
+              "type": "number"
+            },
+            {
+              "id": "7f705b03-08e7-4899-b3f3-9f3160b9f4e7",
+              "name": "total_impressions",
+              "value": "={{ $json.impressions }}",
+              "type": "number"
+            },
+            {
+              "id": "7abc83c4-d61f-4840-8398-856d6523f6f4",
+              "name": "total_clicks",
+              "value": "={{ $json.clicks }}",
+              "type": "number"
+            },
+            {
+              "id": "faecc330-eb3e-433c-a0db-08fcb3427553",
+              "name": "avg_ctr",
+              "value": "={{ $json.ctr }}",
+              "type": "number"
+            },
+            {
+              "id": "e912a20c-6a22-4418-b21a-06f1908272ea",
+              "name": "avg_cpm",
+              "value": "={{ $json.cpm }}",
+              "type": "number"
+            },
+            {
+              "id": "8538d078-765e-4d08-b1b6-237b685ce50d",
+              "name": "total_spend",
+              "value": "={{ $json.spent }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a1a25b11-1168-4f18-a76d-944c9614c753",
+      "name": "Map All Popunder Active Campaigns Statistics",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3660,
+        -700
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1PPveb4ogRIYfTQE4kvPamwCO_R7HMWMzDVyC3l5-RMM",
+          "mode": "list",
+          "cachedResultName": "Adsterra - Monthly Campaign Reports",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PPveb4ogRIYfTQE4kvPamwCO_R7HMWMzDVyC3l5-RMM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Popunder",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PPveb4ogRIYfTQE4kvPamwCO_R7HMWMzDVyC3l5-RMM/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Campaign Name": "={{ $json.campaign_name }}",
+            "Start Date": "={{ $json.start_date }}",
+            "Finish Date": "={{ $json.finish_date }}",
+            "Pricing Modal": "={{ $json.pricing_modal }}",
+            "Target Country": "={{ $json.target_country }}",
+            "Max Bid (US$)": "={{ $json.max_bid }}",
+            "Total Impressions": "={{ $json.total_impressions }}",
+            "Avg. CTR": "={{ $json.avg_ctr }}",
+            "Total Clicks": "={{ $json.total_clicks }}",
+            "Avg. CPM": "={{ $json.avg_cpm }}",
+            "Total Spend (US$)": "={{ $json.total_spend }}",
+            "Campaign Status": "={{ $json.campaign_status }}"
+          },
+          "matchingColumns": [
+            "Campaign Name"
+          ],
+          "schema": [
+            {
+              "id": "Campaign Name",
+              "displayName": "Campaign Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Start Date",
+              "displayName": "Start Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Finish Date",
+              "displayName": "Finish Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Campaign Status",
+              "displayName": "Campaign Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Pricing Modal",
+              "displayName": "Pricing Modal",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Target Country",
+              "displayName": "Target Country",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Max Bid (US$)",
+              "displayName": "Max Bid (US$)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total Impressions",
+              "displayName": "Total Impressions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total Clicks",
+              "displayName": "Total Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Avg. CTR",
+              "displayName": "Avg. CTR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Avg. CPM",
+              "displayName": "Avg. CPM",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Avg. CPC",
+              "displayName": "Avg. CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total Spend (US$)",
+              "displayName": "Total Spend (US$)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "503acf34-27e0-4531-b34d-6cb8b31aa1af",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        4020,
+        -760
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1PPveb4ogRIYfTQE4kvPamwCO_R7HMWMzDVyC3l5-RMM",
+          "mode": "list",
+          "cachedResultName": "Adsterra - Monthly Campaign Reports",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PPveb4ogRIYfTQE4kvPamwCO_R7HMWMzDVyC3l5-RMM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Popunder",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PPveb4ogRIYfTQE4kvPamwCO_R7HMWMzDVyC3l5-RMM/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Campaign Name": "={{ $json.campaign_name }}",
+            "Start Date": "={{ $json.start_date }}",
+            "Finish Date": "={{ $json.finish_date }}",
+            "Pricing Modal": "={{ $json.pricing_modal }}",
+            "Target Country": "={{ $json.target_country }}",
+            "Max Bid (US$)": "={{ $json.max_bid }}",
+            "Total Impressions": "={{ $json.total_impressions }}",
+            "Avg. CTR": "={{ $json.avg_ctr }}",
+            "Total Clicks": "={{ $json.total_clicks }}",
+            "Avg. CPM": "={{ $json.avg_cpm }}",
+            "Total Spend (US$)": "={{ $json.total_spend }}",
+            "Campaign Status": "={{ $json.campaign_status }}"
+          },
+          "matchingColumns": [
+            "Campaign Name"
+          ],
+          "schema": [
+            {
+              "id": "Campaign Name",
+              "displayName": "Campaign Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Start Date",
+              "displayName": "Start Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Finish Date",
+              "displayName": "Finish Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Campaign Status",
+              "displayName": "Campaign Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Pricing Modal",
+              "displayName": "Pricing Modal",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Target Country",
+              "displayName": "Target Country",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Max Bid (US$)",
+              "displayName": "Max Bid (US$)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total Impressions",
+              "displayName": "Total Impressions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total Clicks",
+              "displayName": "Total Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Avg. CTR",
+              "displayName": "Avg. CTR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Avg. CPM",
+              "displayName": "Avg. CPM",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Avg. CPC",
+              "displayName": "Avg. CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total Spend (US$)",
+              "displayName": "Total Spend (US$)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {
+          "useAppend": true
+        }
+      },
+      "id": "068c520d-2ae9-4cb9-a1a2-b8d8ff8a2005",
+      "name": "Google Sheets1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        4180,
+        -40
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cbc140c7-4b2f-43d8-8f0f-b29a10a317bc",
+              "name": "campaign_name",
+              "value": "={{ $json.campaign_name }}",
+              "type": "string"
+            },
+            {
+              "id": "77d7cdd2-7488-4970-87dc-4b9e92ea8d70",
+              "name": "start_date",
+              "value": "={{ $('n8n Form Trigger').first().json['Start Date'] }}",
+              "type": "string"
+            },
+            {
+              "id": "5a61b56d-8c94-4ca3-8992-68e57e1db3d8",
+              "name": "finish_date",
+              "value": "={{ $('n8n Form Trigger').first().json['Finish Date'] }}",
+              "type": "string"
+            },
+            {
+              "id": "112cca3a-3fd4-4f6f-a187-2a9b41ff005a",
+              "name": "campaign_status",
+              "value": "Inactive",
+              "type": "string"
+            },
+            {
+              "id": "f9141111-c0dd-4fd9-ba95-494574204476",
+              "name": "pricing_modal",
+              "value": "={{ $json.pricing_type }}",
+              "type": "string"
+            },
+            {
+              "id": "b04d74b0-de22-4b3c-8d7a-f5c3aa57bd32",
+              "name": "target_country",
+              "value": "={{ $json.target_country }}",
+              "type": "string"
+            },
+            {
+              "id": "9a93e2d7-0ee6-4a0e-910d-3abf9714ad8a",
+              "name": "max_bid",
+              "value": "={{ $json.price_bid }}",
+              "type": "number"
+            },
+            {
+              "id": "7f705b03-08e7-4899-b3f3-9f3160b9f4e7",
+              "name": "total_impressions",
+              "value": "={{ $json.impressions }}",
+              "type": "number"
+            },
+            {
+              "id": "7abc83c4-d61f-4840-8398-856d6523f6f4",
+              "name": "total_clicks",
+              "value": "={{ $json.clicks }}",
+              "type": "number"
+            },
+            {
+              "id": "faecc330-eb3e-433c-a0db-08fcb3427553",
+              "name": "avg_ctr",
+              "value": "={{ $json.ctr }}",
+              "type": "number"
+            },
+            {
+              "id": "e912a20c-6a22-4418-b21a-06f1908272ea",
+              "name": "avg_cpm",
+              "value": "={{ $json.cpm }}",
+              "type": "number"
+            },
+            {
+              "id": "8538d078-765e-4d08-b1b6-237b685ce50d",
+              "name": "total_spend",
+              "value": "={{ $json.spent }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c4ce893c-5250-43dc-8130-32d336e171a4",
+      "name": "Map All Popunder Inactive Campaigns Statistics",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3820,
+        20
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.activity }}",
+                    "rightValue": 4,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Active"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "9fdf95da-e96c-48b5-8e95-b0b40fcbee76",
+                    "leftValue": "={{ $json.activity }}",
+                    "rightValue": 1,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Inactive"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b5ab8c9c-b56b-453b-a734-5df8a43c6564",
+      "name": "Filter Campaign Status",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        1820,
+        -60
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1PPveb4ogRIYfTQE4kvPamwCO_R7HMWMzDVyC3l5-RMM",
+          "mode": "list",
+          "cachedResultName": "Adsterra - Monthly Campaign Reports",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PPveb4ogRIYfTQE4kvPamwCO_R7HMWMzDVyC3l5-RMM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 867889915,
+          "mode": "list",
+          "cachedResultName": "Social Bar",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PPveb4ogRIYfTQE4kvPamwCO_R7HMWMzDVyC3l5-RMM/edit#gid=867889915"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Campaign Name": "={{ $json.campaign_name }}",
+            "Start Date": "={{ $json.start_date }}",
+            "Finish Date": "={{ $json.finish_date }}",
+            "Pricing Modal": "={{ $json.pricing_modal }}",
+            "Target Country": "={{ $json.target_country }}",
+            "Max Bid (US$)": "={{ $json.max_bid }}",
+            "Total Impressions": "={{ $json.total_impressions }}",
+            "Avg. CTR": "={{ $json.avg_ctr }}",
+            "Total Clicks": "={{ $json.total_clicks }}",
+            "Avg. CPM": "={{ $json.avg_cpm }}",
+            "Total Spend (US$)": "={{ $json.total_spend }}",
+            "Campaign Status": "={{ $json.campaign_status }}"
+          },
+          "matchingColumns": [
+            "Campaign Name"
+          ],
+          "schema": [
+            {
+              "id": "Campaign Name",
+              "displayName": "Campaign Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Start Date",
+              "displayName": "Start Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Finish Date",
+              "displayName": "Finish Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Campaign Status",
+              "displayName": "Campaign Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Pricing Modal",
+              "displayName": "Pricing Modal",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Target Country",
+              "displayName": "Target Country",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Max Bid (US$)",
+              "displayName": "Max Bid (US$)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total Impressions",
+              "displayName": "Total Impressions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total Clicks",
+              "displayName": "Total Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Avg. CTR",
+              "displayName": "Avg. CTR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Avg. CPM",
+              "displayName": "Avg. CPM",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Avg. CPC",
+              "displayName": "Avg. CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total Spend (US$)",
+              "displayName": "Total Spend (US$)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "86c3278f-a1eb-485c-9f26-cdf6ed1b152c",
+      "name": "Google Sheets2",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        4060,
+        700
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cbc140c7-4b2f-43d8-8f0f-b29a10a317bc",
+              "name": "campaign_name",
+              "value": "={{ $json.campaign_name }}",
+              "type": "string"
+            },
+            {
+              "id": "77d7cdd2-7488-4970-87dc-4b9e92ea8d70",
+              "name": "start_date",
+              "value": "={{ $('n8n Form Trigger').first().json['Start Date'] }}",
+              "type": "string"
+            },
+            {
+              "id": "5a61b56d-8c94-4ca3-8992-68e57e1db3d8",
+              "name": "finish_date",
+              "value": "={{ $('n8n Form Trigger').first().json['Finish Date'] }}",
+              "type": "string"
+            },
+            {
+              "id": "112cca3a-3fd4-4f6f-a187-2a9b41ff005a",
+              "name": "campaign_status",
+              "value": "Active",
+              "type": "string"
+            },
+            {
+              "id": "f9141111-c0dd-4fd9-ba95-494574204476",
+              "name": "pricing_modal",
+              "value": "={{ $json.pricing_type }}",
+              "type": "string"
+            },
+            {
+              "id": "b04d74b0-de22-4b3c-8d7a-f5c3aa57bd32",
+              "name": "target_country",
+              "value": "={{ $json.target_country }}",
+              "type": "string"
+            },
+            {
+              "id": "9a93e2d7-0ee6-4a0e-910d-3abf9714ad8a",
+              "name": "max_bid",
+              "value": "={{ $json.price_bid }}",
+              "type": "number"
+            },
+            {
+              "id": "7f705b03-08e7-4899-b3f3-9f3160b9f4e7",
+              "name": "total_impressions",
+              "value": "={{ $json.impressions }}",
+              "type": "number"
+            },
+            {
+              "id": "7abc83c4-d61f-4840-8398-856d6523f6f4",
+              "name": "total_clicks",
+              "value": "={{ $json.clicks }}",
+              "type": "number"
+            },
+            {
+              "id": "faecc330-eb3e-433c-a0db-08fcb3427553",
+              "name": "avg_ctr",
+              "value": "={{ $json.ctr }}",
+              "type": "number"
+            },
+            {
+              "id": "e912a20c-6a22-4418-b21a-06f1908272ea",
+              "name": "avg_cpm",
+              "value": "={{ $json.cpm }}",
+              "type": "number"
+            },
+            {
+              "id": "8538d078-765e-4d08-b1b6-237b685ce50d",
+              "name": "total_spend",
+              "value": "={{ $json.spent }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6908ddc3-8422-4155-90e1-632811509d18",
+      "name": "Map All Social Bar Active Campaigns Statistics",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3700,
+        760
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.activity }}",
+                    "rightValue": 4,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Active"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "8c77db05-de4b-4ee9-af72-ee2fa4e7ae48",
+                    "leftValue": "={{ $json.activity }}",
+                    "rightValue": 3,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Active Limited By Budget"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "9fdf95da-e96c-48b5-8e95-b0b40fcbee76",
+                    "leftValue": "={{ $json.activity }}",
+                    "rightValue": 1,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Inactive"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b276d101-522f-43a0-a993-edd73e03353e",
+      "name": "Filter Campaign Status1",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        1820,
+        1120
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1PPveb4ogRIYfTQE4kvPamwCO_R7HMWMzDVyC3l5-RMM",
+          "mode": "list",
+          "cachedResultName": "Adsterra - Monthly Campaign Reports",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PPveb4ogRIYfTQE4kvPamwCO_R7HMWMzDVyC3l5-RMM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 867889915,
+          "mode": "list",
+          "cachedResultName": "Social Bar",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PPveb4ogRIYfTQE4kvPamwCO_R7HMWMzDVyC3l5-RMM/edit#gid=867889915"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Campaign Name": "={{ $json.campaign_name }}",
+            "Start Date": "={{ $json.start_date }}",
+            "Finish Date": "={{ $json.finish_date }}",
+            "Pricing Modal": "={{ $json.pricing_modal }}",
+            "Target Country": "={{ $json.target_country }}",
+            "Max Bid (US$)": "={{ $json.max_bid }}",
+            "Total Impressions": "={{ $json.total_impressions }}",
+            "Avg. CTR": "={{ $json.avg_ctr }}",
+            "Total Clicks": "={{ $json.total_clicks }}",
+            "Avg. CPM": "={{ $json.avg_cpm }}",
+            "Total Spend (US$)": "={{ $json.total_spend }}"
+          },
+          "matchingColumns": [
+            "Campaign Name"
+          ],
+          "schema": [
+            {
+              "id": "Campaign Name",
+              "displayName": "Campaign Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Start Date",
+              "displayName": "Start Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Finish Date",
+              "displayName": "Finish Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pricing Modal",
+              "displayName": "Pricing Modal",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Target Country",
+              "displayName": "Target Country",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Max Bid (US$)",
+              "displayName": "Max Bid (US$)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total Impressions",
+              "displayName": "Total Impressions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total Clicks",
+              "displayName": "Total Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Avg. CTR",
+              "displayName": "Avg. CTR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Avg. CPM",
+              "displayName": "Avg. CPM",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Avg. CPC",
+              "displayName": "Avg. CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total Spend (US$)",
+              "displayName": "Total Spend (US$)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e7f1ba9c-da62-4474-93a8-0f8712bb4ff0",
+      "name": "Google Sheets3",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        4160,
+        1360
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cbc140c7-4b2f-43d8-8f0f-b29a10a317bc",
+              "name": "campaign_name",
+              "value": "={{ $json.campaign_name }}",
+              "type": "string"
+            },
+            {
+              "id": "77d7cdd2-7488-4970-87dc-4b9e92ea8d70",
+              "name": "start_date",
+              "value": "={{ $('n8n Form Trigger').first().json['Start Date'] }}",
+              "type": "string"
+            },
+            {
+              "id": "5a61b56d-8c94-4ca3-8992-68e57e1db3d8",
+              "name": "finish_date",
+              "value": "={{ $('n8n Form Trigger').first().json['Finish Date'] }}",
+              "type": "string"
+            },
+            {
+              "id": "112cca3a-3fd4-4f6f-a187-2a9b41ff005a",
+              "name": "campaign_status",
+              "value": "Active Limited By Budget",
+              "type": "string"
+            },
+            {
+              "id": "f9141111-c0dd-4fd9-ba95-494574204476",
+              "name": "pricing_modal",
+              "value": "={{ $json.pricing_type }}",
+              "type": "string"
+            },
+            {
+              "id": "b04d74b0-de22-4b3c-8d7a-f5c3aa57bd32",
+              "name": "target_country",
+              "value": "={{ $json.target_country }}",
+              "type": "string"
+            },
+            {
+              "id": "9a93e2d7-0ee6-4a0e-910d-3abf9714ad8a",
+              "name": "max_bid",
+              "value": "={{ $json.price_bid }}",
+              "type": "number"
+            },
+            {
+              "id": "7f705b03-08e7-4899-b3f3-9f3160b9f4e7",
+              "name": "total_impressions",
+              "value": "={{ $json.impressions }}",
+              "type": "number"
+            },
+            {
+              "id": "7abc83c4-d61f-4840-8398-856d6523f6f4",
+              "name": "total_clicks",
+              "value": "={{ $json.clicks }}",
+              "type": "number"
+            },
+            {
+              "id": "faecc330-eb3e-433c-a0db-08fcb3427553",
+              "name": "avg_ctr",
+              "value": "={{ $json.ctr }}",
+              "type": "number"
+            },
+            {
+              "id": "e912a20c-6a22-4418-b21a-06f1908272ea",
+              "name": "avg_cpm",
+              "value": "={{ $json.cpm }}",
+              "type": "number"
+            },
+            {
+              "id": "8538d078-765e-4d08-b1b6-237b685ce50d",
+              "name": "total_spend",
+              "value": "={{ $json.spent }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "84555529-3831-479d-8d4a-3a2de9d4e247",
+      "name": "Map All Social Bar Active Limited By Budget Campaigns Statistics",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3840,
+        1400
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1PPveb4ogRIYfTQE4kvPamwCO_R7HMWMzDVyC3l5-RMM",
+          "mode": "list",
+          "cachedResultName": "Adsterra - Monthly Campaign Reports",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PPveb4ogRIYfTQE4kvPamwCO_R7HMWMzDVyC3l5-RMM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 867889915,
+          "mode": "list",
+          "cachedResultName": "Social Bar",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PPveb4ogRIYfTQE4kvPamwCO_R7HMWMzDVyC3l5-RMM/edit#gid=867889915"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Campaign Name": "={{ $json.campaign_name }}",
+            "Start Date": "={{ $json.start_date }}",
+            "Finish Date": "={{ $json.finish_date }}",
+            "Pricing Modal": "={{ $json.pricing_modal }}",
+            "Target Country": "={{ $json.target_country }}",
+            "Max Bid (US$)": "={{ $json.max_bid }}",
+            "Total Impressions": "={{ $json.total_impressions }}",
+            "Avg. CTR": "={{ $json.avg_ctr }}",
+            "Total Clicks": "={{ $json.total_clicks }}",
+            "Avg. CPM": "={{ $json.avg_cpm }}",
+            "Total Spend (US$)": "={{ $json.total_spend }}"
+          },
+          "matchingColumns": [
+            "Campaign Name"
+          ],
+          "schema": [
+            {
+              "id": "Campaign Name",
+              "displayName": "Campaign Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Start Date",
+              "displayName": "Start Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Finish Date",
+              "displayName": "Finish Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Pricing Modal",
+              "displayName": "Pricing Modal",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Target Country",
+              "displayName": "Target Country",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Max Bid (US$)",
+              "displayName": "Max Bid (US$)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total Impressions",
+              "displayName": "Total Impressions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total Clicks",
+              "displayName": "Total Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Avg. CTR",
+              "displayName": "Avg. CTR",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Avg. CPM",
+              "displayName": "Avg. CPM",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Avg. CPC",
+              "displayName": "Avg. CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Total Spend (US$)",
+              "displayName": "Total Spend (US$)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d7159a38-c096-4f16-9a56-260c7bbfd819",
+      "name": "Google Sheets4",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        4320,
+        1980
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cbc140c7-4b2f-43d8-8f0f-b29a10a317bc",
+              "name": "campaign_name",
+              "value": "={{ $json.campaign_name }}",
+              "type": "string"
+            },
+            {
+              "id": "77d7cdd2-7488-4970-87dc-4b9e92ea8d70",
+              "name": "start_date",
+              "value": "={{ $('n8n Form Trigger').first().json['Start Date'] }}",
+              "type": "string"
+            },
+            {
+              "id": "5a61b56d-8c94-4ca3-8992-68e57e1db3d8",
+              "name": "finish_date",
+              "value": "={{ $('n8n Form Trigger').first().json['Finish Date'] }}",
+              "type": "string"
+            },
+            {
+              "id": "112cca3a-3fd4-4f6f-a187-2a9b41ff005a",
+              "name": "campaign_status",
+              "value": "Active Limited By Budget",
+              "type": "string"
+            },
+            {
+              "id": "f9141111-c0dd-4fd9-ba95-494574204476",
+              "name": "pricing_modal",
+              "value": "={{ $json.pricing_type }}",
+              "type": "string"
+            },
+            {
+              "id": "b04d74b0-de22-4b3c-8d7a-f5c3aa57bd32",
+              "name": "target_country",
+              "value": "={{ $json.target_country }}",
+              "type": "string"
+            },
+            {
+              "id": "9a93e2d7-0ee6-4a0e-910d-3abf9714ad8a",
+              "name": "max_bid",
+              "value": "={{ $json.price_bid }}",
+              "type": "number"
+            },
+            {
+              "id": "7f705b03-08e7-4899-b3f3-9f3160b9f4e7",
+              "name": "total_impressions",
+              "value": "={{ $json.impressions }}",
+              "type": "number"
+            },
+            {
+              "id": "7abc83c4-d61f-4840-8398-856d6523f6f4",
+              "name": "total_clicks",
+              "value": "={{ $json.clicks }}",
+              "type": "number"
+            },
+            {
+              "id": "faecc330-eb3e-433c-a0db-08fcb3427553",
+              "name": "avg_ctr",
+              "value": "={{ $json.ctr }}",
+              "type": "number"
+            },
+            {
+              "id": "e912a20c-6a22-4418-b21a-06f1908272ea",
+              "name": "avg_cpm",
+              "value": "={{ $json.cpm }}",
+              "type": "number"
+            },
+            {
+              "id": "8538d078-765e-4d08-b1b6-237b685ce50d",
+              "name": "total_spend",
+              "value": "={{ $json.spent }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a1ac6b3b-2edd-4b39-a6df-4748538e833b",
+      "name": "Map All Social Bar Active Limited By Budget Campaigns Statistics1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4000,
+        2020
+      ]
+    }
+  ],
+  "connections": {
+    "n8n Form Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Split Out From Items Field",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out From Items Field": {
+      "main": [
+        [
+          {
+            "node": "Filter Ad Formats",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Output Not Empty": {
+      "main": [
+        [
+          {
+            "node": "Map Active Popunder Ads Campaign Fields",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Call API For Each Popunder Campaign Statistics",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Output Not Empty1": {
+      "main": [
+        [
+          {
+            "node": "Map Inactive Popunder Ads Campaign Fields",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Call API For Each Popunder Campaign Statistics1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Active Popunder Ads Campaign Fields": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call API For Each Popunder Campaign Statistics": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Split Out From Items Array",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Replace Me",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Ad Formats": {
+      "main": [
+        [
+          {
+            "node": "Filter Campaign Status",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Filter Campaign Status1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out From Items Array": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Call API For Each Popunder Campaign Statistics1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out From Items Array1": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [
+          {
+            "node": "Split Out From Items Array1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Replace Me1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Inactive Popunder Ads Campaign Fields": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Output Not Empty2": {
+      "main": [
+        [
+          {
+            "node": "Map Active Social Bar Ads Campaign Fields",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Call API For Each Social Bar Campaign Statistics",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Output Not Empty3": {
+      "main": [
+        [
+          {
+            "node": "Map Active In Limited Budget Social Bar Ads Campaign Fields",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Call API For Each Social Bar Campaign Statistics2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out From Items Array2": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Loop Over Items2": {
+      "main": [
+        [
+          {
+            "node": "Split Out From Items Array2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Replace Me2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out From Items Array3": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Loop Over Items3": {
+      "main": [
+        [
+          {
+            "node": "Split Out From Items Array3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Replace Me3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me3": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Active Social Bar Ads Campaign Fields": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call API For Each Social Bar Campaign Statistics2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call API For Each Social Bar Campaign Statistics": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Output Not Empty4": {
+      "main": [
+        [
+          {
+            "node": "Map Inactive Social Bar Ads Campaign Fields",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Call API For Each Social Bar Campaign Statistics3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out From Items Array4": {
+      "main": [
+        [
+          {
+            "node": "Merge4",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Loop Over Items4": {
+      "main": [
+        [
+          {
+            "node": "Split Out From Items Array4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Replace Me4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me4": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call API For Each Social Bar Campaign Statistics3": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Active In Limited Budget Social Bar Ads Campaign Fields": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Inactive Social Bar Ads Campaign Fields": {
+      "main": [
+        [
+          {
+            "node": "Merge4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Map All Popunder Active Campaigns Statistics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map All Popunder Active Campaigns Statistics": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Map All Popunder Inactive Campaigns Statistics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map All Popunder Inactive Campaigns Statistics": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Campaign Status": {
+      "main": [
+        [
+          {
+            "node": "If Output Not Empty",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If Output Not Empty1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge2": {
+      "main": [
+        [
+          {
+            "node": "Map All Social Bar Active Campaigns Statistics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map All Social Bar Active Campaigns Statistics": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Campaign Status1": {
+      "main": [
+        [
+          {
+            "node": "If Output Not Empty2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If Output Not Empty3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If Output Not Empty4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge3": {
+      "main": [
+        [
+          {
+            "node": "Map All Social Bar Active Limited By Budget Campaigns Statistics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map All Social Bar Active Limited By Budget Campaigns Statistics": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map All Social Bar Active Limited By Budget Campaigns Statistics1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge4": {
+      "main": [
+        [
+          {
+            "node": "Map All Social Bar Active Limited By Budget Campaigns Statistics1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "n8n Form Trigger": [
+      {
+        "json": {
+          "API Token": "b29a23cfd460430cc477c2310b864d5f",
+          "Start Date": "2024-06-01",
+          "Finish Date": "2024-06-30",
+          "submittedAt": "2024-07-02T03:49:18.022Z",
+          "formMode": "test"
+        }
+      }
+    ],
+    "HTTP Request": [
+      {
+        "json": {
+          "items": [
+            {
+              "id": 1053912,
+              "alias": "24June - CTNPromo - Popunder - Main+Adult - SCPM - HK - MOB_V1",
+              "activity": 4,
+              "is_ssp": "yes",
+              "format": "pu",
+              "pricing_type": "CPM",
+              "pricing_settings": [
+                {
+                  "price": 1.54,
+                  "country_code": "HK"
+                }
+              ]
+            },
+            {
+              "id": 1053906,
+              "alias": "24June - CTNPromo - Popunder -  Main+Adult - SCPM - HK  - DESK_V1",
+              "activity": 4,
+              "is_ssp": "yes",
+              "format": "pu",
+              "pricing_type": "CPM",
+              "pricing_settings": [
+                {
+                  "price": 0.68,
+                  "country_code": "HK"
+                }
+              ]
+            },
+            {
+              "id": 1061388,
+              "alias": "June24- Free_HKD188_CTNMain - Interstitial - Adult - SCPM - HK - MOB_V1",
+              "activity": 1,
+              "is_ssp": "yes",
+              "format": "sb",
+              "pricing_type": "CPM",
+              "pricing_settings": [
+                {
+                  "price": 0.8,
+                  "country_code": "HK"
+                }
+              ]
+            },
+            {
+              "id": 1061119,
+              "alias": "June24 - Free_HKD188_CTNMain - Interstitial - Adult - SCPM - HK - DESK_V1",
+              "activity": 1,
+              "is_ssp": "yes",
+              "format": "sb",
+              "pricing_type": "CPM",
+              "pricing_settings": [
+                {
+                  "price": 0.8,
+                  "country_code": "HK"
+                }
+              ]
+            },
+            {
+              "id": 1065314,
+              "alias": "June24 - 40%_TaxRebate_CTNMain - Interstitial - Adult - SCPM - HK - DESK_V1",
+              "activity": 3,
+              "is_ssp": "yes",
+              "format": "sb",
+              "pricing_type": "CPM",
+              "pricing_settings": [
+                {
+                  "price": 0.8,
+                  "country_code": "HK"
+                }
+              ]
+            },
+            {
+              "id": 1065311,
+              "alias": "June24 - 50%_Casino_CTNMain - Interstitial - Adult - SCPM - HK - DESK_V1",
+              "activity": 3,
+              "is_ssp": "yes",
+              "format": "sb",
+              "pricing_type": "CPM",
+              "pricing_settings": [
+                {
+                  "price": 0.8,
+                  "country_code": "HK"
+                }
+              ]
+            },
+            {
+              "id": 1065310,
+              "alias": "June24 - 55%_Sports_CTNMain - Interstitial - Adult - SCPM - HK - DESK_V1",
+              "activity": 3,
+              "is_ssp": "yes",
+              "format": "sb",
+              "pricing_type": "CPM",
+              "pricing_settings": [
+                {
+                  "price": 0.8,
+                  "country_code": "HK"
+                }
+              ]
+            },
+            {
+              "id": 1065309,
+              "alias": "June24 - 155%_SlotFishingLotto_CTNMain - Interstitial - Adult - SCPM - HK - DESK_V1",
+              "activity": 3,
+              "is_ssp": "yes",
+              "format": "sb",
+              "pricing_type": "CPM",
+              "pricing_settings": [
+                {
+                  "price": 0.8,
+                  "country_code": "HK"
+                }
+              ]
+            },
+            {
+              "id": 1065301,
+              "alias": "June24 - 300%_SlotFishingLotto_CTNMain - Interstitial - Adult - SCPM - HK - DESK_V1",
+              "activity": 3,
+              "is_ssp": "yes",
+              "format": "sb",
+              "pricing_type": "CPM",
+              "pricing_settings": [
+                {
+                  "price": 0.8,
+                  "country_code": "HK"
+                }
+              ]
+            },
+            {
+              "id": 1065300,
+              "alias": "June24- 40%_TaxRebate_CTNMain - Interstitial - Adult - SCPM - HK - MOB_V1",
+              "activity": 3,
+              "is_ssp": "yes",
+              "format": "sb",
+              "pricing_type": "CPM",
+              "pricing_settings": [
+                {
+                  "price": 0.8,
+                  "country_code": "HK"
+                }
+              ]
+            },
+            {
+              "id": 1065299,
+              "alias": "June24 - 50%_Casino_CTNMain - Interstitial - Adult - SCPM - HK - MOB_V1",
+              "activity": 3,
+              "is_ssp": "yes",
+              "format": "sb",
+              "pricing_type": "CPM",
+              "pricing_settings": [
+                {
+                  "price": 0.8,
+                  "country_code": "HK"
+                }
+              ]
+            },
+            {
+              "id": 1065298,
+              "alias": "June24 - 50%_Sports_CTNMain - Interstitial - Adult - SCPM - HK - MOB_V1",
+              "activity": 3,
+              "is_ssp": "yes",
+              "format": "sb",
+              "pricing_type": "CPM",
+              "pricing_settings": [
+                {
+                  "price": 0.8,
+                  "country_code": "HK"
+                }
+              ]
+            },
+            {
+              "id": 1065297,
+              "alias": "June24- 155%_SlotFishLotto_CTNMain - Interstitial - Adult - SCPM - HK - MOB_V1",
+              "activity": 3,
+              "is_ssp": "yes",
+              "format": "sb",
+              "pricing_type": "CPM",
+              "pricing_settings": [
+                {
+                  "price": 0.8,
+                  "country_code": "HK"
+                }
+              ]
+            },
+            {
+              "id": 1065296,
+              "alias": "June24- 300%_SlotFishLotto_CTNMain - Interstitial - Adult - SCPM - HK - MOB_V1",
+              "activity": 3,
+              "is_ssp": "yes",
+              "format": "sb",
+              "pricing_type": "CPM",
+              "pricing_settings": [
+                {
+                  "price": 0.8,
+                  "country_code": "HK"
+                }
+              ]
+            },
+            {
+              "id": 1061387,
+              "alias": "June24- CTNPromo - Interstitial - Main - SCPM - HK - MOB_V1",
+              "activity": 1,
+              "is_ssp": "yes",
+              "format": "sb",
+              "pricing_type": "CPM",
+              "pricing_settings": [
+                {
+                  "price": 0.7,
+                  "country_code": "HK"
+                }
+              ]
+            },
+            {
+              "id": 1060718,
+              "alias": "June24- CTNPromo - Interstitial - Main - SCPM - HK - DESK_V1",
+              "activity": 1,
+              "is_ssp": "yes",
+              "format": "sb",
+              "pricing_type": "CPM",
+              "pricing_settings": [
+                {
+                  "price": 0.68,
+                  "country_code": "HK"
+                }
+              ]
+            }
+          ],
+          "itemCount": 16
+        }
+      }
+    ],
+    "Split Out From Items Field": [
+      {
+        "json": {
+          "id": 1053912,
+          "alias": "24June - CTNPromo - Popunder - Main+Adult - SCPM - HK - MOB_V1",
+          "activity": 4,
+          "is_ssp": "yes",
+          "format": "pu",
+          "pricing_type": "CPM",
+          "pricing_settings": [
+            {
+              "price": 1.54,
+              "country_code": "HK"
+            }
+          ]
+        }
+      },
+      {
+        "json": {
+          "id": 1053906,
+          "alias": "24June - CTNPromo - Popunder -  Main+Adult - SCPM - HK  - DESK_V1",
+          "activity": 4,
+          "is_ssp": "yes",
+          "format": "pu",
+          "pricing_type": "CPM",
+          "pricing_settings": [
+            {
+              "price": 0.68,
+              "country_code": "HK"
+            }
+          ]
+        }
+      },
+      {
+        "json": {
+          "id": 1061388,
+          "alias": "June24- Free_HKD188_CTNMain - Interstitial - Adult - SCPM - HK - MOB_V1",
+          "activity": 1,
+          "is_ssp": "yes",
+          "format": "sb",
+          "pricing_type": "CPM",
+          "pricing_settings": [
+            {
+              "price": 0.8,
+              "country_code": "HK"
+            }
+          ]
+        }
+      },
+      {
+        "json": {
+          "id": 1061119,
+          "alias": "June24 - Free_HKD188_CTNMain - Interstitial - Adult - SCPM - HK - DESK_V1",
+          "activity": 1,
+          "is_ssp": "yes",
+          "format": "sb",
+          "pricing_type": "CPM",
+          "pricing_settings": [
+            {
+              "price": 0.8,
+              "country_code": "HK"
+            }
+          ]
+        }
+      },
+      {
+        "json": {
+          "id": 1065314,
+          "alias": "June24 - 40%_TaxRebate_CTNMain - Interstitial - Adult - SCPM - HK - DESK_V1",
+          "activity": 3,
+          "is_ssp": "yes",
+          "format": "sb",
+          "pricing_type": "CPM",
+          "pricing_settings": [
+            {
+              "price": 0.8,
+              "country_code": "HK"
+            }
+          ]
+        }
+      },
+      {
+        "json": {
+          "id": 1065311,
+          "alias": "June24 - 50%_Casino_CTNMain - Interstitial - Adult - SCPM - HK - DESK_V1",
+          "activity": 3,
+          "is_ssp": "yes",
+          "format": "sb",
+          "pricing_type": "CPM",
+          "pricing_settings": [
+            {
+              "price": 0.8,
+              "country_code": "HK"
+            }
+          ]
+        }
+      },
+      {
+        "json": {
+          "id": 1065310,
+          "alias": "June24 - 55%_Sports_CTNMain - Interstitial - Adult - SCPM - HK - DESK_V1",
+          "activity": 3,
+          "is_ssp": "yes",
+          "format": "sb",
+          "pricing_type": "CPM",
+          "pricing_settings": [
+            {
+              "price": 0.8,
+              "country_code": "HK"
+            }
+          ]
+        }
+      },
+      {
+        "json": {
+          "id": 1065309,
+          "alias": "June24 - 155%_SlotFishingLotto_CTNMain - Interstitial - Adult - SCPM - HK - DESK_V1",
+          "activity": 3,
+          "is_ssp": "yes",
+          "format": "sb",
+          "pricing_type": "CPM",
+          "pricing_settings": [
+            {
+              "price": 0.8,
+              "country_code": "HK"
+            }
+          ]
+        }
+      },
+      {
+        "json": {
+          "id": 1065301,
+          "alias": "June24 - 300%_SlotFishingLotto_CTNMain - Interstitial - Adult - SCPM - HK - DESK_V1",
+          "activity": 3,
+          "is_ssp": "yes",
+          "format": "sb",
+          "pricing_type": "CPM",
+          "pricing_settings": [
+            {
+              "price": 0.8,
+              "country_code": "HK"
+            }
+          ]
+        }
+      },
+      {
+        "json": {
+          "id": 1065300,
+          "alias": "June24- 40%_TaxRebate_CTNMain - Interstitial - Adult - SCPM - HK - MOB_V1",
+          "activity": 3,
+          "is_ssp": "yes",
+          "format": "sb",
+          "pricing_type": "CPM",
+          "pricing_settings": [
+            {
+              "price": 0.8,
+              "country_code": "HK"
+            }
+          ]
+        }
+      },
+      {
+        "json": {
+          "id": 1065299,
+          "alias": "June24 - 50%_Casino_CTNMain - Interstitial - Adult - SCPM - HK - MOB_V1",
+          "activity": 3,
+          "is_ssp": "yes",
+          "format": "sb",
+          "pricing_type": "CPM",
+          "pricing_settings": [
+            {
+              "price": 0.8,
+              "country_code": "HK"
+            }
+          ]
+        }
+      },
+      {
+        "json": {
+          "id": 1065298,
+          "alias": "June24 - 50%_Sports_CTNMain - Interstitial - Adult - SCPM - HK - MOB_V1",
+          "activity": 3,
+          "is_ssp": "yes",
+          "format": "sb",
+          "pricing_type": "CPM",
+          "pricing_settings": [
+            {
+              "price": 0.8,
+              "country_code": "HK"
+            }
+          ]
+        }
+      },
+      {
+        "json": {
+          "id": 1065297,
+          "alias": "June24- 155%_SlotFishLotto_CTNMain - Interstitial - Adult - SCPM - HK - MOB_V1",
+          "activity": 3,
+          "is_ssp": "yes",
+          "format": "sb",
+          "pricing_type": "CPM",
+          "pricing_settings": [
+            {
+              "price": 0.8,
+              "country_code": "HK"
+            }
+          ]
+        }
+      },
+      {
+        "json": {
+          "id": 1065296,
+          "alias": "June24- 300%_SlotFishLotto_CTNMain - Interstitial - Adult - SCPM - HK - MOB_V1",
+          "activity": 3,
+          "is_ssp": "yes",
+          "format": "sb",
+          "pricing_type": "CPM",
+          "pricing_settings": [
+            {
+              "price": 0.8,
+              "country_code": "HK"
+            }
+          ]
+        }
+      },
+      {
+        "json": {
+          "id": 1061387,
+          "alias": "June24- CTNPromo - Interstitial - Main - SCPM - HK - MOB_V1",
+          "activity": 1,
+          "is_ssp": "yes",
+          "format": "sb",
+          "pricing_type": "CPM",
+          "pricing_settings": [
+            {
+              "price": 0.7,
+              "country_code": "HK"
+            }
+          ]
+        }
+      },
+      {
+        "json": {
+          "id": 1060718,
+          "alias": "June24- CTNPromo - Interstitial - Main - SCPM - HK - DESK_V1",
+          "activity": 1,
+          "is_ssp": "yes",
+          "format": "sb",
+          "pricing_type": "CPM",
+          "pricing_settings": [
+            {
+              "price": 0.68,
+              "country_code": "HK"
+            }
+          ]
+        }
+      }
+    ],
+    "Call API For Each Popunder Campaign Statistics": [
+      {
+        "json": {
+          "items": [
+            {
+              "campaign": 1053906,
+              "impressions": 77496,
+              "conversions": 0,
+              "clicks": 0,
+              "ctr": 0,
+              "cpm": 0.546,
+              "spent": 42.294,
+              "i2c": 0
+            },
+            {
+              "campaign": 1053912,
+              "impressions": 178788,
+              "conversions": 0,
+              "clicks": 0,
+              "ctr": 0,
+              "cpm": 1.333,
+              "spent": 238.365,
+              "i2c": 0
+            },
+            {
+              "campaign": 1060718,
+              "impressions": 123302,
+              "conversions": 0,
+              "clicks": 18715,
+              "ctr": 15.178,
+              "cpm": 0.668,
+              "spent": 82.406,
+              "i2c": 0
+            },
+            {
+              "campaign": 1061119,
+              "impressions": 71819,
+              "conversions": 0,
+              "clicks": 4267,
+              "ctr": 5.941,
+              "cpm": 0.687,
+              "spent": 49.31,
+              "i2c": 0
+            },
+            {
+              "campaign": 1061387,
+              "impressions": 136997,
+              "conversions": 0,
+              "clicks": 17008,
+              "ctr": 12.415,
+              "cpm": 0.7,
+              "spent": 95.898,
+              "i2c": 0
+            },
+            {
+              "campaign": 1061388,
+              "impressions": 88401,
+              "conversions": 0,
+              "clicks": 7538,
+              "ctr": 8.527,
+              "cpm": 0.688,
+              "spent": 60.862,
+              "i2c": 0
+            },
+            {
+              "campaign": 1065296,
+              "impressions": 17615,
+              "conversions": 0,
+              "clicks": 1524,
+              "ctr": 8.652,
+              "cpm": 0.8,
+              "spent": 14.092,
+              "i2c": 0
+            },
+            {
+              "campaign": 1065297,
+              "impressions": 17565,
+              "conversions": 0,
+              "clicks": 1488,
+              "ctr": 8.471,
+              "cpm": 0.8,
+              "spent": 14.052,
+              "i2c": 0
+            },
+            {
+              "campaign": 1065298,
+              "impressions": 17910,
+              "conversions": 0,
+              "clicks": 1533,
+              "ctr": 8.559,
+              "cpm": 0.8,
+              "spent": 14.328,
+              "i2c": 0
+            },
+            {
+              "campaign": 1065299,
+              "impressions": 17646,
+              "conversions": 0,
+              "clicks": 1509,
+              "ctr": 8.552,
+              "cpm": 0.8,
+              "spent": 14.117,
+              "i2c": 0
+            },
+            {
+              "campaign": 1065300,
+              "impressions": 17697,
+              "conversions": 0,
+              "clicks": 1527,
+              "ctr": 8.629,
+              "cpm": 0.8,
+              "spent": 14.158,
+              "i2c": 0
+            },
+            {
+              "campaign": 1065301,
+              "impressions": 12840,
+              "conversions": 0,
+              "clicks": 784,
+              "ctr": 6.106,
+              "cpm": 0.8,
+              "spent": 10.272,
+              "i2c": 0
+            },
+            {
+              "campaign": 1065309,
+              "impressions": 12737,
+              "conversions": 0,
+              "clicks": 745,
+              "ctr": 5.849,
+              "cpm": 0.8,
+              "spent": 10.19,
+              "i2c": 0
+            },
+            {
+              "campaign": 1065310,
+              "impressions": 12926,
+              "conversions": 0,
+              "clicks": 781,
+              "ctr": 6.042,
+              "cpm": 0.8,
+              "spent": 10.341,
+              "i2c": 0
+            },
+            {
+              "campaign": 1065311,
+              "impressions": 12722,
+              "conversions": 0,
+              "clicks": 759,
+              "ctr": 5.966,
+              "cpm": 0.8,
+              "spent": 10.178,
+              "i2c": 0
+            },
+            {
+              "campaign": 1065314,
+              "impressions": 12698,
+              "conversions": 0,
+              "clicks": 761,
+              "ctr": 5.993,
+              "cpm": 0.8,
+              "spent": 10.158,
+              "i2c": 0
+            }
+          ],
+          "itemCount": 16,
+          "dbLastUpdateTime": "2024-07-02 05:09:45",
+          "dbDateTime": "2024-07-02 05:09:50"
+        }
+      },
+      {
+        "json": {
+          "items": [
+            {
+              "campaign": 1053906,
+              "impressions": 77496,
+              "conversions": 0,
+              "clicks": 0,
+              "ctr": 0,
+              "cpm": 0.546,
+              "spent": 42.294,
+              "i2c": 0
+            },
+            {
+              "campaign": 1053912,
+              "impressions": 178788,
+              "conversions": 0,
+              "clicks": 0,
+              "ctr": 0,
+              "cpm": 1.333,
+              "spent": 238.365,
+              "i2c": 0
+            },
+            {
+              "campaign": 1060718,
+              "impressions": 123302,
+              "conversions": 0,
+              "clicks": 18715,
+              "ctr": 15.178,
+              "cpm": 0.668,
+              "spent": 82.406,
+              "i2c": 0
+            },
+            {
+              "campaign": 1061119,
+              "impressions": 71819,
+              "conversions": 0,
+              "clicks": 4267,
+              "ctr": 5.941,
+              "cpm": 0.687,
+              "spent": 49.31,
+              "i2c": 0
+            },
+            {
+              "campaign": 1061387,
+              "impressions": 136997,
+              "conversions": 0,
+              "clicks": 17008,
+              "ctr": 12.415,
+              "cpm": 0.7,
+              "spent": 95.898,
+              "i2c": 0
+            },
+            {
+              "campaign": 1061388,
+              "impressions": 88401,
+              "conversions": 0,
+              "clicks": 7538,
+              "ctr": 8.527,
+              "cpm": 0.688,
+              "spent": 60.862,
+              "i2c": 0
+            },
+            {
+              "campaign": 1065296,
+              "impressions": 17615,
+              "conversions": 0,
+              "clicks": 1524,
+              "ctr": 8.652,
+              "cpm": 0.8,
+              "spent": 14.092,
+              "i2c": 0
+            },
+            {
+              "campaign": 1065297,
+              "impressions": 17565,
+              "conversions": 0,
+              "clicks": 1488,
+              "ctr": 8.471,
+              "cpm": 0.8,
+              "spent": 14.052,
+              "i2c": 0
+            },
+            {
+              "campaign": 1065298,
+              "impressions": 17910,
+              "conversions": 0,
+              "clicks": 1533,
+              "ctr": 8.559,
+              "cpm": 0.8,
+              "spent": 14.328,
+              "i2c": 0
+            },
+            {
+              "campaign": 1065299,
+              "impressions": 17646,
+              "conversions": 0,
+              "clicks": 1509,
+              "ctr": 8.552,
+              "cpm": 0.8,
+              "spent": 14.117,
+              "i2c": 0
+            },
+            {
+              "campaign": 1065300,
+              "impressions": 17697,
+              "conversions": 0,
+              "clicks": 1527,
+              "ctr": 8.629,
+              "cpm": 0.8,
+              "spent": 14.158,
+              "i2c": 0
+            },
+            {
+              "campaign": 1065301,
+              "impressions": 12840,
+              "conversions": 0,
+              "clicks": 784,
+              "ctr": 6.106,
+              "cpm": 0.8,
+              "spent": 10.272,
+              "i2c": 0
+            },
+            {
+              "campaign": 1065309,
+              "impressions": 12737,
+              "conversions": 0,
+              "clicks": 745,
+              "ctr": 5.849,
+              "cpm": 0.8,
+              "spent": 10.19,
+              "i2c": 0
+            },
+            {
+              "campaign": 1065310,
+              "impressions": 12926,
+              "conversions": 0,
+              "clicks": 781,
+              "ctr": 6.042,
+              "cpm": 0.8,
+              "spent": 10.341,
+              "i2c": 0
+            },
+            {
+              "campaign": 1065311,
+              "impressions": 12722,
+              "conversions": 0,
+              "clicks": 759,
+              "ctr": 5.966,
+              "cpm": 0.8,
+              "spent": 10.178,
+              "i2c": 0
+            },
+            {
+              "campaign": 1065314,
+              "impressions": 12698,
+              "conversions": 0,
+              "clicks": 761,
+              "ctr": 5.993,
+              "cpm": 0.8,
+              "spent": 10.158,
+              "i2c": 0
+            }
+          ],
+          "itemCount": 16,
+          "dbLastUpdateTime": "2024-07-02 05:09:45",
+          "dbDateTime": "2024-07-02 05:09:50"
+        }
+      }
+    ],
+    "Merge": [
+      {
+        "json": {
+          "campaign_id": 1053912,
+          "campaign_name": "24June - CTNPromo - Popunder - Main+Adult - SCPM - HK - MOB_V1",
+          "pricing_type": "CPM",
+          "price_bid": 1.54,
+          "target_country": "HK",
+          "campaign": 1053912,
+          "impressions": 178788,
+          "conversions": 0,
+          "clicks": 0,
+          "ctr": 0,
+          "cpm": 1.333,
+          "spent": 238.365,
+          "i2c": 0
+        }
+      },
+      {
+        "json": {
+          "campaign_id": 1053906,
+          "campaign_name": "24June - CTNPromo - Popunder -  Main+Adult - SCPM - HK  - DESK_V1",
+          "pricing_type": "CPM",
+          "price_bid": 0.68,
+          "target_country": "HK",
+          "campaign": 1053906,
+          "impressions": 77496,
+          "conversions": 0,
+          "clicks": 0,
+          "ctr": 0,
+          "cpm": 0.546,
+          "spent": 42.294,
+          "i2c": 0
+        }
+      }
+    ],
+    "Map All Popunder Active Campaigns Statistics": [
+      {
+        "json": {
+          "campaign_name": "24June - CTNPromo - Popunder - Main+Adult - SCPM - HK - MOB_V1",
+          "start_date": "2024-06-01",
+          "finish_date": "2024-06-30",
+          "campaign_status": "Active",
+          "pricing_modal": "CPM",
+          "target_country": "HK",
+          "max_bid": 1.54,
+          "total_impressions": 178788,
+          "total_clicks": 0,
+          "avg_ctr": 0,
+          "avg_cpm": 1.333,
+          "total_spend": 238.365
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "24June - CTNPromo - Popunder -  Main+Adult - SCPM - HK  - DESK_V1",
+          "start_date": "2024-06-01",
+          "finish_date": "2024-06-30",
+          "campaign_status": "Active",
+          "pricing_modal": "CPM",
+          "target_country": "HK",
+          "max_bid": 0.68,
+          "total_impressions": 77496,
+          "total_clicks": 0,
+          "avg_ctr": 0,
+          "avg_cpm": 0.546,
+          "total_spend": 42.294
+        }
+      }
+    ],
+    "Merge3": [
+      {
+        "json": {
+          "campaign_id": 1065314,
+          "campaign_name": "June24 - 40%_TaxRebate_CTNMain - Interstitial - Adult - SCPM - HK - DESK_V1",
+          "pricing_type": "CPM",
+          "price_bid": 0.8,
+          "target_country": "HK",
+          "campaign": 1065314,
+          "impressions": 12698,
+          "conversions": 0,
+          "clicks": 761,
+          "ctr": 5.993,
+          "cpm": 0.8,
+          "spent": 10.158,
+          "i2c": 0
+        }
+      },
+      {
+        "json": {
+          "campaign_id": 1065311,
+          "campaign_name": "June24 - 50%_Casino_CTNMain - Interstitial - Adult - SCPM - HK - DESK_V1",
+          "pricing_type": "CPM",
+          "price_bid": 0.8,
+          "target_country": "HK",
+          "campaign": 1065311,
+          "impressions": 12722,
+          "conversions": 0,
+          "clicks": 759,
+          "ctr": 5.966,
+          "cpm": 0.8,
+          "spent": 10.178,
+          "i2c": 0
+        }
+      },
+      {
+        "json": {
+          "campaign_id": 1065310,
+          "campaign_name": "June24 - 55%_Sports_CTNMain - Interstitial - Adult - SCPM - HK - DESK_V1",
+          "pricing_type": "CPM",
+          "price_bid": 0.8,
+          "target_country": "HK",
+          "campaign": 1065310,
+          "impressions": 12926,
+          "conversions": 0,
+          "clicks": 781,
+          "ctr": 6.042,
+          "cpm": 0.8,
+          "spent": 10.341,
+          "i2c": 0
+        }
+      },
+      {
+        "json": {
+          "campaign_id": 1065309,
+          "campaign_name": "June24 - 155%_SlotFishingLotto_CTNMain - Interstitial - Adult - SCPM - HK - DESK_V1",
+          "pricing_type": "CPM",
+          "price_bid": 0.8,
+          "target_country": "HK",
+          "campaign": 1065309,
+          "impressions": 12737,
+          "conversions": 0,
+          "clicks": 745,
+          "ctr": 5.849,
+          "cpm": 0.8,
+          "spent": 10.19,
+          "i2c": 0
+        }
+      },
+      {
+        "json": {
+          "campaign_id": 1065301,
+          "campaign_name": "June24 - 300%_SlotFishingLotto_CTNMain - Interstitial - Adult - SCPM - HK - DESK_V1",
+          "pricing_type": "CPM",
+          "price_bid": 0.8,
+          "target_country": "HK",
+          "campaign": 1065301,
+          "impressions": 12840,
+          "conversions": 0,
+          "clicks": 784,
+          "ctr": 6.106,
+          "cpm": 0.8,
+          "spent": 10.272,
+          "i2c": 0
+        }
+      },
+      {
+        "json": {
+          "campaign_id": 1065300,
+          "campaign_name": "June24- 40%_TaxRebate_CTNMain - Interstitial - Adult - SCPM - HK - MOB_V1",
+          "pricing_type": "CPM",
+          "price_bid": 0.8,
+          "target_country": "HK",
+          "campaign": 1065300,
+          "impressions": 17697,
+          "conversions": 0,
+          "clicks": 1527,
+          "ctr": 8.629,
+          "cpm": 0.8,
+          "spent": 14.158,
+          "i2c": 0
+        }
+      },
+      {
+        "json": {
+          "campaign_id": 1065299,
+          "campaign_name": "June24 - 50%_Casino_CTNMain - Interstitial - Adult - SCPM - HK - MOB_V1",
+          "pricing_type": "CPM",
+          "price_bid": 0.8,
+          "target_country": "HK",
+          "campaign": 1065299,
+          "impressions": 17646,
+          "conversions": 0,
+          "clicks": 1509,
+          "ctr": 8.552,
+          "cpm": 0.8,
+          "spent": 14.117,
+          "i2c": 0
+        }
+      },
+      {
+        "json": {
+          "campaign_id": 1065298,
+          "campaign_name": "June24 - 50%_Sports_CTNMain - Interstitial - Adult - SCPM - HK - MOB_V1",
+          "pricing_type": "CPM",
+          "price_bid": 0.8,
+          "target_country": "HK",
+          "campaign": 1065298,
+          "impressions": 17910,
+          "conversions": 0,
+          "clicks": 1533,
+          "ctr": 8.559,
+          "cpm": 0.8,
+          "spent": 14.328,
+          "i2c": 0
+        }
+      },
+      {
+        "json": {
+          "campaign_id": 1065297,
+          "campaign_name": "June24- 155%_SlotFishLotto_CTNMain - Interstitial - Adult - SCPM - HK - MOB_V1",
+          "pricing_type": "CPM",
+          "price_bid": 0.8,
+          "target_country": "HK",
+          "campaign": 1065297,
+          "impressions": 17565,
+          "conversions": 0,
+          "clicks": 1488,
+          "ctr": 8.471,
+          "cpm": 0.8,
+          "spent": 14.052,
+          "i2c": 0
+        }
+      },
+      {
+        "json": {
+          "campaign_id": 1065296,
+          "campaign_name": "June24- 300%_SlotFishLotto_CTNMain - Interstitial - Adult - SCPM - HK - MOB_V1",
+          "pricing_type": "CPM",
+          "price_bid": 0.8,
+          "target_country": "HK",
+          "campaign": 1065296,
+          "impressions": 17615,
+          "conversions": 0,
+          "clicks": 1524,
+          "ctr": 8.652,
+          "cpm": 0.8,
+          "spent": 14.092,
+          "i2c": 0
+        }
+      }
+    ],
+    "Map All Social Bar Active Limited By Budget Campaigns Statistics": [
+      {
+        "json": {
+          "campaign_name": "June24 - 40%_TaxRebate_CTNMain - Interstitial - Adult - SCPM - HK - DESK_V1",
+          "start_date": "2024-06-01",
+          "finish_date": "2024-06-30",
+          "campaign_status": "Active Limited By Budget",
+          "pricing_modal": "CPM",
+          "target_country": "HK",
+          "max_bid": 0.8,
+          "total_impressions": 12698,
+          "total_clicks": 761,
+          "avg_ctr": 5.993,
+          "avg_cpm": 0.8,
+          "total_spend": 10.158
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "June24 - 50%_Casino_CTNMain - Interstitial - Adult - SCPM - HK - DESK_V1",
+          "start_date": "2024-06-01",
+          "finish_date": "2024-06-30",
+          "campaign_status": "Active Limited By Budget",
+          "pricing_modal": "CPM",
+          "target_country": "HK",
+          "max_bid": 0.8,
+          "total_impressions": 12722,
+          "total_clicks": 759,
+          "avg_ctr": 5.966,
+          "avg_cpm": 0.8,
+          "total_spend": 10.178
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "June24 - 55%_Sports_CTNMain - Interstitial - Adult - SCPM - HK - DESK_V1",
+          "start_date": "2024-06-01",
+          "finish_date": "2024-06-30",
+          "campaign_status": "Active Limited By Budget",
+          "pricing_modal": "CPM",
+          "target_country": "HK",
+          "max_bid": 0.8,
+          "total_impressions": 12926,
+          "total_clicks": 781,
+          "avg_ctr": 6.042,
+          "avg_cpm": 0.8,
+          "total_spend": 10.341
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "June24 - 155%_SlotFishingLotto_CTNMain - Interstitial - Adult - SCPM - HK - DESK_V1",
+          "start_date": "2024-06-01",
+          "finish_date": "2024-06-30",
+          "campaign_status": "Active Limited By Budget",
+          "pricing_modal": "CPM",
+          "target_country": "HK",
+          "max_bid": 0.8,
+          "total_impressions": 12737,
+          "total_clicks": 745,
+          "avg_ctr": 5.849,
+          "avg_cpm": 0.8,
+          "total_spend": 10.19
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "June24 - 300%_SlotFishingLotto_CTNMain - Interstitial - Adult - SCPM - HK - DESK_V1",
+          "start_date": "2024-06-01",
+          "finish_date": "2024-06-30",
+          "campaign_status": "Active Limited By Budget",
+          "pricing_modal": "CPM",
+          "target_country": "HK",
+          "max_bid": 0.8,
+          "total_impressions": 12840,
+          "total_clicks": 784,
+          "avg_ctr": 6.106,
+          "avg_cpm": 0.8,
+          "total_spend": 10.272
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "June24- 40%_TaxRebate_CTNMain - Interstitial - Adult - SCPM - HK - MOB_V1",
+          "start_date": "2024-06-01",
+          "finish_date": "2024-06-30",
+          "campaign_status": "Active Limited By Budget",
+          "pricing_modal": "CPM",
+          "target_country": "HK",
+          "max_bid": 0.8,
+          "total_impressions": 17697,
+          "total_clicks": 1527,
+          "avg_ctr": 8.629,
+          "avg_cpm": 0.8,
+          "total_spend": 14.158
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "June24 - 50%_Casino_CTNMain - Interstitial - Adult - SCPM - HK - MOB_V1",
+          "start_date": "2024-06-01",
+          "finish_date": "2024-06-30",
+          "campaign_status": "Active Limited By Budget",
+          "pricing_modal": "CPM",
+          "target_country": "HK",
+          "max_bid": 0.8,
+          "total_impressions": 17646,
+          "total_clicks": 1509,
+          "avg_ctr": 8.552,
+          "avg_cpm": 0.8,
+          "total_spend": 14.117
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "June24 - 50%_Sports_CTNMain - Interstitial - Adult - SCPM - HK - MOB_V1",
+          "start_date": "2024-06-01",
+          "finish_date": "2024-06-30",
+          "campaign_status": "Active Limited By Budget",
+          "pricing_modal": "CPM",
+          "target_country": "HK",
+          "max_bid": 0.8,
+          "total_impressions": 17910,
+          "total_clicks": 1533,
+          "avg_ctr": 8.559,
+          "avg_cpm": 0.8,
+          "total_spend": 14.328
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "June24- 155%_SlotFishLotto_CTNMain - Interstitial - Adult - SCPM - HK - MOB_V1",
+          "start_date": "2024-06-01",
+          "finish_date": "2024-06-30",
+          "campaign_status": "Active Limited By Budget",
+          "pricing_modal": "CPM",
+          "target_country": "HK",
+          "max_bid": 0.8,
+          "total_impressions": 17565,
+          "total_clicks": 1488,
+          "avg_ctr": 8.471,
+          "avg_cpm": 0.8,
+          "total_spend": 14.052
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "June24- 300%_SlotFishLotto_CTNMain - Interstitial - Adult - SCPM - HK - MOB_V1",
+          "start_date": "2024-06-01",
+          "finish_date": "2024-06-30",
+          "campaign_status": "Active Limited By Budget",
+          "pricing_modal": "CPM",
+          "target_country": "HK",
+          "max_bid": 0.8,
+          "total_impressions": 17615,
+          "total_clicks": 1524,
+          "avg_ctr": 8.652,
+          "avg_cpm": 0.8,
+          "total_spend": 14.092
+        }
+      }
+    ],
+    "Map All Social Bar Active Limited By Budget Campaigns Statistics1": [
+      {
+        "json": {
+          "campaign_name": "June24 - 40%_TaxRebate_CTNMain - Interstitial - Adult - SCPM - HK - DESK_V1",
+          "start_date": "2024-06-01",
+          "finish_date": "2024-06-30",
+          "campaign_status": "Active Limited By Budget",
+          "pricing_modal": "CPM",
+          "target_country": "HK",
+          "max_bid": 0.8,
+          "total_impressions": 12698,
+          "total_clicks": 761,
+          "avg_ctr": 5.993,
+          "avg_cpm": 0.8,
+          "total_spend": 10.158
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "June24 - 50%_Casino_CTNMain - Interstitial - Adult - SCPM - HK - DESK_V1",
+          "start_date": "2024-06-01",
+          "finish_date": "2024-06-30",
+          "campaign_status": "Active Limited By Budget",
+          "pricing_modal": "CPM",
+          "target_country": "HK",
+          "max_bid": 0.8,
+          "total_impressions": 12722,
+          "total_clicks": 759,
+          "avg_ctr": 5.966,
+          "avg_cpm": 0.8,
+          "total_spend": 10.178
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "June24 - 55%_Sports_CTNMain - Interstitial - Adult - SCPM - HK - DESK_V1",
+          "start_date": "2024-06-01",
+          "finish_date": "2024-06-30",
+          "campaign_status": "Active Limited By Budget",
+          "pricing_modal": "CPM",
+          "target_country": "HK",
+          "max_bid": 0.8,
+          "total_impressions": 12926,
+          "total_clicks": 781,
+          "avg_ctr": 6.042,
+          "avg_cpm": 0.8,
+          "total_spend": 10.341
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "June24 - 155%_SlotFishingLotto_CTNMain - Interstitial - Adult - SCPM - HK - DESK_V1",
+          "start_date": "2024-06-01",
+          "finish_date": "2024-06-30",
+          "campaign_status": "Active Limited By Budget",
+          "pricing_modal": "CPM",
+          "target_country": "HK",
+          "max_bid": 0.8,
+          "total_impressions": 12737,
+          "total_clicks": 745,
+          "avg_ctr": 5.849,
+          "avg_cpm": 0.8,
+          "total_spend": 10.19
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "June24 - 300%_SlotFishingLotto_CTNMain - Interstitial - Adult - SCPM - HK - DESK_V1",
+          "start_date": "2024-06-01",
+          "finish_date": "2024-06-30",
+          "campaign_status": "Active Limited By Budget",
+          "pricing_modal": "CPM",
+          "target_country": "HK",
+          "max_bid": 0.8,
+          "total_impressions": 12840,
+          "total_clicks": 784,
+          "avg_ctr": 6.106,
+          "avg_cpm": 0.8,
+          "total_spend": 10.272
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "June24- 40%_TaxRebate_CTNMain - Interstitial - Adult - SCPM - HK - MOB_V1",
+          "start_date": "2024-06-01",
+          "finish_date": "2024-06-30",
+          "campaign_status": "Active Limited By Budget",
+          "pricing_modal": "CPM",
+          "target_country": "HK",
+          "max_bid": 0.8,
+          "total_impressions": 17697,
+          "total_clicks": 1527,
+          "avg_ctr": 8.629,
+          "avg_cpm": 0.8,
+          "total_spend": 14.158
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "June24 - 50%_Casino_CTNMain - Interstitial - Adult - SCPM - HK - MOB_V1",
+          "start_date": "2024-06-01",
+          "finish_date": "2024-06-30",
+          "campaign_status": "Active Limited By Budget",
+          "pricing_modal": "CPM",
+          "target_country": "HK",
+          "max_bid": 0.8,
+          "total_impressions": 17646,
+          "total_clicks": 1509,
+          "avg_ctr": 8.552,
+          "avg_cpm": 0.8,
+          "total_spend": 14.117
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "June24 - 50%_Sports_CTNMain - Interstitial - Adult - SCPM - HK - MOB_V1",
+          "start_date": "2024-06-01",
+          "finish_date": "2024-06-30",
+          "campaign_status": "Active Limited By Budget",
+          "pricing_modal": "CPM",
+          "target_country": "HK",
+          "max_bid": 0.8,
+          "total_impressions": 17910,
+          "total_clicks": 1533,
+          "avg_ctr": 8.559,
+          "avg_cpm": 0.8,
+          "total_spend": 14.328
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "June24- 155%_SlotFishLotto_CTNMain - Interstitial - Adult - SCPM - HK - MOB_V1",
+          "start_date": "2024-06-01",
+          "finish_date": "2024-06-30",
+          "campaign_status": "Active Limited By Budget",
+          "pricing_modal": "CPM",
+          "target_country": "HK",
+          "max_bid": 0.8,
+          "total_impressions": 17565,
+          "total_clicks": 1488,
+          "avg_ctr": 8.471,
+          "avg_cpm": 0.8,
+          "total_spend": 14.052
+        }
+      },
+      {
+        "json": {
+          "campaign_name": "June24- 300%_SlotFishLotto_CTNMain - Interstitial - Adult - SCPM - HK - MOB_V1",
+          "start_date": "2024-06-01",
+          "finish_date": "2024-06-30",
+          "campaign_status": "Active Limited By Budget",
+          "pricing_modal": "CPM",
+          "target_country": "HK",
+          "max_bid": 0.8,
+          "total_impressions": 17615,
+          "total_clicks": 1524,
+          "avg_ctr": 8.652,
+          "avg_cpm": 0.8,
+          "total_spend": 14.092
+        }
+      }
+    ]
+  },
+  "versionId": "84be7d14-c220-46af-9e5d-61ab00d952af",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-07-02T03:20:15.979Z",
+      "createdAt": "2024-07-02T03:20:15.979Z",
+      "role": "workflow:owner",
+      "workflowId": "Z90BWWbwjIXe9p17",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
