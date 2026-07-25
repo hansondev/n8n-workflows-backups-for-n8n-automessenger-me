@@ -1,0 +1,112 @@
+{
+  "updatedAt": "2023-12-18T14:46:03.000Z",
+  "createdAt": "2023-12-18T07:40:52.217Z",
+  "id": "uSUbmYT0PCaVznSB",
+  "name": "HTTP Request-RapidAPI-Airbnb",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "00e7f117-2a26-4b56-a565-06d2f9409954",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        820,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "url": "http:///search-location",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "location",
+              "value": "Kuala Lumpur"
+            },
+            {
+              "name": "checkin",
+              "value": "2023-12-22"
+            },
+            {
+              "name": "checkout",
+              "value": "2023-12-24"
+            },
+            {
+              "name": "adults",
+              "value": "1"
+            },
+            {
+              "name": "children",
+              "value": "0"
+            },
+            {
+              "name": "infants",
+              "value": "0"
+            },
+            {
+              "name": "pets",
+              "value": "0"
+            },
+            {
+              "name": "page",
+              "value": "1"
+            },
+            {
+              "name": "currency",
+              "value": "USD"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "faf372df-c776-4d5d-82ed-782333e35aa4",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1180,
+        220
+      ]
+    }
+  ],
+  "connections": {
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "ef341882-af6c-401e-9cc3-73258e5e97d6",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2023-12-18T07:40:52.231Z",
+      "createdAt": "2023-12-18T07:40:52.231Z",
+      "role": "workflow:owner",
+      "workflowId": "uSUbmYT0PCaVznSB",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
