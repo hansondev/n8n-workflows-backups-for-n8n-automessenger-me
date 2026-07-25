@@ -1,0 +1,950 @@
+{
+  "updatedAt": "2025-11-12T08:54:28.000Z",
+  "createdAt": "2025-09-04T09:59:48.687Z",
+  "id": "soRMIz5IAaDIz4Sb",
+  "name": "[Sub-workflow] - APIFY MetaAds Library Scraper",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "fbPageUrl"
+            }
+          ]
+        }
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        464,
+        304
+      ]
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        720,
+        -320
+      ],
+      "id": "5de0336a-79f8-46ef-b8fc-314cb2a41fae",
+      "name": "When clicking ‘Execute workflow’",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1072,
+        304
+      ],
+      "id": "fa63848d-651e-4bb4-ab88-ead943841b8d",
+      "name": "Wait",
+      "webhookId": "c619b5fe-e9ba-46b4-be6c-b3fe4fa81eed"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.data.defaultDatasetId }}/items ",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1760,
+        288
+      ],
+      "id": "653202c6-8fa3-4d3d-afff-931c2f7a22f0",
+      "name": "Get Datasets",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/actor-tasks/boonhongtan0309~facebook-ads-scraper-reefhaven/runs",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"isDetailsPerAd\": true,\n    \"onlyTotal\": false,\n    \"resultsLimit\": 50,\n    \"startUrls\": [\n        {\n            \"url\": \"{{ $json.fbPageUrl }}?ref=page_internal\",\n            \"method\": \"GET\"\n        }\n    ]\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        784,
+        304
+      ],
+      "id": "11c0e2ae-ce63-40c1-9c32-a44b50ca8427",
+      "name": "Actor - Run Task",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "ka8mQTiaSBrnVUh2",
+          "name": "APIFYHeaderAuth(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/actor-runs/{{ $json.data.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "waitForFinish",
+              "value": "60"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1296,
+        304
+      ],
+      "id": "e9501b0a-e815-4cb3-867f-8fd468d7a118",
+      "name": "Get Actor Task ID",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "575cc607-2b70-4323-b268-995590595b10",
+              "leftValue": "={{ $json.data.status }}",
+              "rightValue": "SUCCEEDED",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1520,
+        304
+      ],
+      "id": "34889454-fa6d-45c8-8183-080a74ec4540",
+      "name": "Check Task Status"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.snapshot.images }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "array",
+                      "operation": "notEmpty",
+                      "singleValue": true
+                    },
+                    "id": "63348a44-925a-4dfc-b25c-f7f274c9f0be"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Image Ads Type"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "76576aa8-bcde-4eff-8d5e-42f1e94d469d",
+                    "leftValue": "={{ $json.snapshot.videos }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "array",
+                      "operation": "notEmpty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Video Ads Type"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "5b29e947-9056-406b-9bb0-5f150269ed9a",
+                    "leftValue": "={{ $json.snapshot.cards }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "array",
+                      "operation": "notEmpty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Carousel Ads Type"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        2016,
+        256
+      ],
+      "id": "bf75a8ce-edef-480a-8be6-26ea83a9068e",
+      "name": "Segmenting Ad Types"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "snapshot.images",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2336,
+        32
+      ],
+      "id": "399c4149-b512-457c-aab3-015a7314192f",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cfe71785-80d0-4ca1-82aa-e9d26fe98e1c",
+              "name": "displayFormat",
+              "value": "={{ $('Segmenting Ad Types').item.json.snapshot.displayFormat }}",
+              "type": "string"
+            },
+            {
+              "id": "038abdc5-8293-4368-bff2-2f7ac00b4bc1",
+              "name": "originalImageUrl",
+              "value": "={{ $json.originalImageUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "c12d501a-8117-47d5-a7c9-c9bc18237368",
+              "name": "resizedImageUrl",
+              "value": "={{ $json.resizedImageUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "836e3dab-677c-4931-afd8-982b8b0634d5",
+              "name": "adText",
+              "value": "={{ $('Segmenting Ad Types').item.json.snapshot.body.text }}",
+              "type": "string"
+            },
+            {
+              "id": "8c671084-c088-4736-802b-e36c163c6f56",
+              "name": "adheadline",
+              "value": "={{ $('Segmenting Ad Types').item.json.snapshot.title }}",
+              "type": "string"
+            },
+            {
+              "id": "1ceba1e8-1261-451e-9c0c-5dd046fac740",
+              "name": "linkDescription",
+              "value": "={{ $('Segmenting Ad Types').item.json.snapshot.linkDescription }}",
+              "type": "string"
+            },
+            {
+              "id": "fbc83aa6-a26f-4c5b-b6d3-78dcc7164e67",
+              "name": "linkUrl",
+              "value": "={{ $('Segmenting Ad Types').item.json.snapshot.linkUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "a8b3c48b-2b7c-485b-822d-81c0eadab0f8",
+              "name": "ctaText",
+              "value": "={{ $('Segmenting Ad Types').item.json.snapshot.ctaText }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2592,
+        32
+      ],
+      "id": "ba74a935-5e9a-4740-a637-a868138e0fff",
+      "name": "Extract Only Important Image Ad Details"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "snapshot.videos",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2336,
+        256
+      ],
+      "id": "3552f995-9723-406a-bbbb-bf202885cbb6",
+      "name": "Split Out1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "95f6b368-b9e0-42d8-b820-2a961ffddc46",
+              "name": "displayFormat",
+              "value": "={{ $('Segmenting Ad Types').item.json.snapshot.displayFormat }}",
+              "type": "string"
+            },
+            {
+              "id": "7cd9d673-11d6-431f-a5b2-8b7e6bfa9006",
+              "name": "videoHdUrl",
+              "value": "={{ $json.videoHdUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "ff5da4cf-c628-4ef4-851c-2bc9bbc2b6bd",
+              "name": "videoSdUrl",
+              "value": "={{ $json.videoSdUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "2dc5a92c-fcfb-4e0f-9b03-0e487428650e",
+              "name": "videoPreviewImageUrl",
+              "value": "={{ $json.videoPreviewImageUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "836e3dab-677c-4931-afd8-982b8b0634d5",
+              "name": "adText",
+              "value": "={{ $('Segmenting Ad Types').item.json.snapshot.body.text }}",
+              "type": "string"
+            },
+            {
+              "id": "8c671084-c088-4736-802b-e36c163c6f56",
+              "name": "adheadline",
+              "value": "={{ $('Segmenting Ad Types').item.json.snapshot.title }}",
+              "type": "string"
+            },
+            {
+              "id": "fbc83aa6-a26f-4c5b-b6d3-78dcc7164e67",
+              "name": "linkUrl",
+              "value": "={{ $('Segmenting Ad Types').item.json.snapshot.linkUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "a8b3c48b-2b7c-485b-822d-81c0eadab0f8",
+              "name": "ctaText",
+              "value": "={{ $('Segmenting Ad Types').item.json.snapshot.ctaText }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2592,
+        256
+      ],
+      "id": "8b2648f3-80e4-434e-b1d2-bcdc6f0eb3da",
+      "name": "Extract Only Important Video Ad Details"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "snapshot.cards",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2320,
+        512
+      ],
+      "id": "9624d546-420d-4a1b-b33a-bf13d1812faa",
+      "name": "Split Out2"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.originalImageUrl }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "72d44ae5-5e22-412e-8fbf-4a8c5d0fb336"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Image Carousel Card"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "af30e663-0375-4e37-b814-914a281d2115",
+                    "leftValue": "={{ $json.videoHdUrl }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Video Carousel Card"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        2576,
+        544
+      ],
+      "id": "e7858eda-0da8-4bb4-8c4f-9bc4a26555b2",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "25a8254b-b9ed-419b-87ef-2a0b36fda5cc",
+              "name": "displayFormat",
+              "value": "={{ $('Segmenting Ad Types').item.json.snapshot.displayFormat }}",
+              "type": "string"
+            },
+            {
+              "id": "aeda76b1-7ca5-46f1-8a80-f1682638129c",
+              "name": "originalImageUrl",
+              "value": "={{ $json.originalImageUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "93fe08c5-a52b-4984-a328-cff860c00d06",
+              "name": "resizedImageUrl",
+              "value": "={{ $json.resizedImageUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "836e3dab-677c-4931-afd8-982b8b0634d5",
+              "name": "adText",
+              "value": "={{ $json.body }}",
+              "type": "string"
+            },
+            {
+              "id": "8c671084-c088-4736-802b-e36c163c6f56",
+              "name": "adheadline",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "fbc83aa6-a26f-4c5b-b6d3-78dcc7164e67",
+              "name": "linkUrl",
+              "value": "={{ $('Segmenting Ad Types').item.json.snapshot.linkUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "a8b3c48b-2b7c-485b-822d-81c0eadab0f8",
+              "name": "ctaText",
+              "value": "={{ $('Segmenting Ad Types').item.json.snapshot.ctaText }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2848,
+        416
+      ],
+      "id": "841da564-8f26-4b86-a850-472702e4dd60",
+      "name": "Extract Only Important Image Carousel Ad Details"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "358dbe57-1f1f-4c0c-8600-c9a65d846ff1",
+              "name": "displayFormat",
+              "value": "={{ $('Segmenting Ad Types').item.json.snapshot.displayFormat }}",
+              "type": "string"
+            },
+            {
+              "id": "7cd9d673-11d6-431f-a5b2-8b7e6bfa9006",
+              "name": "videoHdUrl",
+              "value": "={{ $json.videoHdUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "ff5da4cf-c628-4ef4-851c-2bc9bbc2b6bd",
+              "name": "videoSdUrl",
+              "value": "={{ $json.videoSdUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "2dc5a92c-fcfb-4e0f-9b03-0e487428650e",
+              "name": "videoPreviewImageUrl",
+              "value": "={{ $json.videoPreviewImageUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "836e3dab-677c-4931-afd8-982b8b0634d5",
+              "name": "adText",
+              "value": "={{ $json.body }}",
+              "type": "string"
+            },
+            {
+              "id": "8c671084-c088-4736-802b-e36c163c6f56",
+              "name": "adheadline",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "fbc83aa6-a26f-4c5b-b6d3-78dcc7164e67",
+              "name": "linkUrl",
+              "value": "={{ $('Segmenting Ad Types').item.json.snapshot.linkUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "a8b3c48b-2b7c-485b-822d-81c0eadab0f8",
+              "name": "ctaText",
+              "value": "={{ $('Segmenting Ad Types').item.json.snapshot.ctaText }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2848,
+        688
+      ],
+      "id": "ac35f91c-a79e-4f6e-bd2e-c0898e0ef12c",
+      "name": "Extract Only Important Video Carousel Ad Details"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        3120,
+        464
+      ],
+      "id": "7ec94e50-cdec-49ee-9c59-811327bc587b",
+      "name": "Merge"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        2960,
+        160
+      ],
+      "id": "cf1d31e2-e355-48d7-a876-f7411b9f17f0",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        3408,
+        272
+      ],
+      "id": "c4c698ee-7620-4490-9fc0-eb9e8f5f94ce",
+      "name": "Merge2"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Actor - Run Task",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        []
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get Actor Task ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Actor - Run Task": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Actor Task ID": {
+      "main": [
+        [
+          {
+            "node": "Check Task Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Task Status": {
+      "main": [
+        [
+          {
+            "node": "Get Datasets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Datasets": {
+      "main": [
+        [
+          {
+            "node": "Segmenting Ad Types",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Segmenting Ad Types": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Split Out2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Extract Only Important Image Ad Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Extract Only Important Video Ad Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out2": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Extract Only Important Image Carousel Ad Details",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Extract Only Important Video Carousel Ad Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Only Important Image Carousel Ad Details": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Only Important Video Carousel Ad Details": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Extract Only Important Image Ad Details": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Only Important Video Ad Details": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "When clicking ‘Execute workflow’": [
+      {
+        "json": {
+          "fbPageUrl": "https://www.facebook.com/ReefHavenAU/"
+        }
+      }
+    ]
+  },
+  "versionId": "ff593f0a-cc18-462b-8fb3-76b4102c3f00",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-09-04T09:59:48.699Z",
+      "createdAt": "2025-09-04T09:59:48.699Z",
+      "role": "workflow:owner",
+      "workflowId": "soRMIz5IAaDIz4Sb",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
