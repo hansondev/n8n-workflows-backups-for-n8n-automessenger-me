@@ -1,0 +1,859 @@
+{
+  "updatedAt": "2025-05-21T15:12:28.000Z",
+  "createdAt": "2025-05-10T09:18:52.989Z",
+  "id": "JtGavv3MtojdftQA",
+  "name": "AI_Agent_Template - Typebot + N8N AI Agent Chatbot Integration",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "mode": "webhook",
+        "options": {
+          "responseMode": "lastNode"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -2640,
+        -160
+      ],
+      "id": "57c02a4b-e553-4bb0-af06-b681aa1b8e72",
+      "name": "Chat trigger",
+      "webhookId": "d79cbe1b-a021-4aea-9586-7fcaaa9bfefb",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fb5ccfb0-0bea-45c0-9edf-88e28a096a8e",
+              "name": "actions",
+              "value": "1. exit_agent: action to exit or change the agent for conversation;\n2. newsletter_signup: action to collect data from user to add to mailing list;",
+              "type": "string"
+            },
+            {
+              "id": "42204235-ec8f-4d64-a9a2-de162618698c",
+              "name": "reactions",
+              "value": "1. exit_agent: say politely \"Bye\" to user and add friendly emoji;\n2. newsletter_signup: inform user that you will collect data for signup (and add friendly emoji);",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "include": "selected",
+        "includeFields": "body.sessionId,body.message,body.category,body.action",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2340,
+        620
+      ],
+      "id": "d8fb44cc-143d-47d9-bb49-42bc73d9c841",
+      "name": "Set actions and reactions"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message }}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=Classify the text provided by the user into one of the following categories: \n{{ $json.actions }}\n\nIf none from above matches the context, set action to \"other\".\n\nUse the provided formatting instructions below. Don't explain, and only output the JSON."
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.5,
+      "position": [
+        -2020,
+        180
+      ],
+      "id": "8d945140-727e-4333-a502-cf9210e9b78e",
+      "name": "Define action"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -2060,
+        400
+      ],
+      "id": "1fe206d1-16bd-4a0e-bba9-7a4925f43684",
+      "name": "OpenAI (actions)",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n\t\"action\": \"type of action from user intent\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        -1820,
+        400
+      ],
+      "id": "e88331ef-0168-4b62-b9ee-2363b7ca0d4c",
+      "name": "JSON Parser (actions)"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": []
+        },
+        "includeOtherFields": true,
+        "include": "selected",
+        "includeFields": "output.action",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1660,
+        180
+      ],
+      "id": "f2ae6464-5966-407e-998c-11ef8c0fbbf4",
+      "name": "Set defined action"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        -1360,
+        560
+      ],
+      "id": "8f6a751e-6d65-4ffc-80c1-892543e6fd4f",
+      "name": "Merge input and defined action"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.category }}",
+                    "rightValue": "typebot",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "57ccf1e3-7b3b-4d60-9d9c-1266fde99780"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Typebot"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "2fba6c7d-04ed-420d-b01a-e44d1bee132a",
+                    "leftValue": "={{ $json.category }}",
+                    "rightValue": "n8n",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "n8n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -1120,
+        560
+      ],
+      "id": "834dbb54-eec4-4746-a705-6fe835b4108d",
+      "name": "Switch agents"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message }}",
+        "options": {
+          "systemMessage": "=You are a very helpful assistant working as a part of larger chat system. User can access conversation with you from main menu. Your task is to provide information about n8n based on the docs. Use GitHub tool to retrieve the correct docs (all docs are in /docs directory).\n\nYour response MUST always be plain text (no Markdown, no links, or text formatting).\n\nAgent is capable of performing actions:\n{{ $json.action }}\n\nAction that will be taken: {{ $json.action }}\n\nRespond to user accordingly to the action to be taken. If action value is not on a given actions list, run conversation forward.\n\nReactions: \n{{ $json.reactions }}\n\nHere are the paths. Pass them to the tool as they are - without any modifications. Don't add any file paths or extensions.\n\nPath list:\n/1-0-migration-checklist/\n/choose-n8n/\n/enterprise-key/\n/external-secrets/\n/glossary/\n/keyboard-shortcuts/\n/learning-path/\n/log-streaming/\n/release-notes/\n/sustainable-use-license/\n/video-courses/\n/advanced-ai/\n/advanced-ai/intro-tutorial/\n/advanced-ai/examples/agent-chain-comparison/\n/advanced-ai/examples/api-workflow-tool/\n/advanced-ai/examples/data-google-sheets/\n/advanced-ai/examples/human-fallback/\n/advanced-ai/examples/introduction/\n/advanced-ai/examples/understand-agents/\n/advanced-ai/examples/understand-chains/\n/advanced-ai/examples/understand-memory/\n/advanced-ai/examples/understand-tools/\n/advanced-ai/examples/understand-vector-databases/\n/advanced-ai/examples/using-the-fromai-function/\n/advanced-ai/examples/vector-store-website/\n/advanced-ai/langchain/langchain-learning-resources/\n/advanced-ai/langchain/langchain-n8n/\n/advanced-ai/langchain/langsmith/\n/advanced-ai/langchain/overview/\n/api/\n/api/api-reference/\n/api/authentication/\n/api/pagination/\n/api/using-api-playground/\n/code/\n/code/ai-code/\n/code/code-node/\n/code/expressions/\n/code/variables/\n/code/builtin/convenience/\n/code/builtin/current-node-input/\n/code/builtin/date-time/\n/code/builtin/http-node-variables/\n/code/builtin/jmespath/\n/code/builtin/langchain-methods/\n/code/builtin/n8n-metadata/\n/code/builtin/output-other-nodes/\n/code/builtin/overview/\n/code/builtin/data-transformation-functions/\n/code/builtin/data-transformation-functions/arrays/\n/code/builtin/data-transformation-functions/booleans/\n/code/builtin/data-transformation-functions/dates/\n/code/builtin/data-transformation-functions/numbers/\n/code/builtin/data-transformation-functions/objects/\n/code/builtin/data-transformation-functions/strings/\n/code/cookbook/jmespath/\n/code/cookbook/luxon/\n/code/cookbook/builtin/\n/code/cookbook/builtin/all/\n/code/cookbook/builtin/execution/\n/code/cookbook/builtin/get-workflow-static-data/\n/code/cookbook/builtin/itemmatching/\n/code/cookbook/builtin/vars/\n/code/cookbook/code-node/\n/code/cookbook/code-node/console-log/\n/code/cookbook/code-node/get-binary-data-buffer/\n/code/cookbook/code-node/number-items-last-node/\n/code/cookbook/expressions/\n/code/cookbook/expressions/check-incoming-data/\n/code/cookbook/expressions/common-issues/\n/code/cookbook/http-node/\n/code/cookbook/http-node/pagination/\n/courses/\n/courses/level-one/\n/courses/level-one/chapter-1/\n/courses/level-one/chapter-2/\n/courses/level-one/chapter-3/\n/courses/level-one/chapter-4/\n/courses/level-one/chapter-6/\n/courses/level-one/chapter-7/\n/courses/level-one/chapter-5/chapter-5.1/\n/courses/level-one/chapter-5/chapter-5.2/\n/courses/level-one/chapter-5/chapter-5.3/\n/courses/level-one/chapter-5/chapter-5.4/\n/courses/level-one/chapter-5/chapter-5.5/\n/courses/level-one/chapter-5/chapter-5.6/\n/courses/level-one/chapter-5/chapter-5.7/\n/courses/level-one/chapter-5/chapter-5.8/\n/courses/level-two/\n/courses/level-two/chapter-1/\n/courses/level-two/chapter-2/\n/courses/level-two/chapter-3/\n/courses/level-two/chapter-4/\n/courses/level-two/chapter-6/\n/courses/level-two/chapter-5/chapter-5.0/\n/courses/level-two/chapter-5/chapter-5.1/\n/courses/level-two/chapter-5/chapter-5.2/\n/courses/level-two/chapter-5/chapter-5.3/\n/credentials/\n/credentials/add-edit-credentials/\n/credentials/credential-sharing/\n/data/\n/data/binary-data/\n/data/code/\n/data/data-editing/\n/data/data-filtering/\n/data/data-flow-nodes/\n/data/data-mocking/\n/data/data-pinning/\n/data/data-structure/\n/data/transforming-data/\n/data/data-mapping/\n/data/data-mapping/data-mapping-expressions/\n/data/data-mapping/data-mapping-ui/\n/data/data-mapping/data-item-linking/\n/data/data-mapping/data-item-linking/item-linking-code-node/\n/data/data-mapping/data-item-linking/item-linking-concepts/\n/data/data-mapping/data-item-linking/item-linking-errors/\n/data/data-mapping/data-item-linking/item-linking-node-building/\n/embed/\n/embed/configuration/\n/embed/deployment/\n/embed/managing-workflows/\n/embed/prerequisites/\n/embed/white-labelling/\n/embed/workflow-templates/\n/flow-logic/\n/flow-logic/error-handling/\n/flow-logic/execution-order/\n/flow-logic/looping/\n/flow-logic/merging/\n/flow-logic/splitting/\n/flow-logic/subworkflows/\n/flow-logic/waiting/\n/help-community/contributing/\n/help-community/help/\n/hosting/\n/hosting/cli-commands/\n/hosting/community-edition-features/\n/hosting/architecture/database-structure/\n/hosting/architecture/overview/\n/hosting/configuration/configuration-methods/\n/hosting/configuration/supported-databases-settings/\n/hosting/configuration/task-runners/\n/hosting/configuration/user-management-self-hosted/\n/hosting/configuration/configuration-examples/\n/hosting/configuration/configuration-examples/base-url/\n/hosting/configuration/configuration-examples/custom-certificate-authority/\n/hosting/configuration/configuration-examples/custom-nodes-location/\n/hosting/configuration/configuration-examples/encryption-key/\n/hosting/configuration/configuration-examples/execution-timeout/\n/hosting/configuration/configuration-examples/isolation/\n/hosting/configuration/configuration-examples/modules-in-code-node/\n/hosting/configuration/configuration-examples/prometheus/\n/hosting/configuration/configuration-examples/time-zone/\n/hosting/configuration/configuration-examples/user-folder/\n/hosting/configuration/configuration-examples/webhook-url/\n/hosting/configuration/environment-variables/\n/hosting/configuration/environment-variables/binary-data/\n/hosting/configuration/environment-variables/credentials/\n/hosting/configuration/environment-variables/database/\n/hosting/configuration/environment-variables/deployment/\n/hosting/configuration/environment-variables/endpoints/\n/hosting/configuration/environment-variables/executions/\n/hosting/configuration/environment-variables/external-data-storage/\n/hosting/configuration/environment-variables/external-hooks/\n/hosting/configuration/environment-variables/external-secrets/\n/hosting/configuration/environment-variables/licenses/\n/hosting/configuration/environment-variables/logs/\n/hosting/configuration/environment-variables/nodes/\n/hosting/configuration/environment-variables/queue-mode/\n/hosting/configuration/environment-variables/security/\n/hosting/configuration/environment-variables/source-control/\n/hosting/configuration/environment-variables/task-runners/\n/hosting/configuration/environment-variables/timezone-localization/\n/hosting/configuration/environment-variables/user-management-smtp-2fa/\n/hosting/configuration/environment-variables/workflows/\n/hosting/installation/docker/\n/hosting/installation/npm/\n/hosting/installation/updating/\n/hosting/installation/server-setups/\n/hosting/installation/server-setups/aws/\n/hosting/installation/server-setups/azure/\n/hosting/installation/server-setups/digital-ocean/\n/hosting/installation/server-setups/docker-compose/\n/hosting/installation/server-setups/google-cloud/\n/hosting/installation/server-setups/heroku/\n/hosting/installation/server-setups/hetzner/\n/hosting/logging-monitoring/logging/\n/hosting/logging-monitoring/monitoring/\n/hosting/scaling/binary-data/\n/hosting/scaling/concurrency-control/\n/hosting/scaling/execution-data/\n/hosting/scaling/external-storage/\n/hosting/scaling/memory-errors/\n/hosting/scaling/overview/\n/hosting/scaling/performance-benchmarking/\n/hosting/scaling/queue-mode/\n/hosting/securing/blocking-nodes/\n/hosting/securing/disable-public-api/\n/hosting/securing/hardening-task-runners/\n/hosting/securing/overview/\n/hosting/securing/security-audit/\n/hosting/securing/set-up-ssl/\n/hosting/securing/set-up-sso/\n/hosting/securing/telemetry-opt-out/\n/hosting/starter-kits/ai-starter-kit/\n/integrations/\n/integrations/custom-operations/\n/integrations/builtin/node-types/\n/integrations/builtin/rate-limits/\n/integrations/builtin/app-nodes/\n/integrations/builtin/app-nodes/n8n-nodes-base.actionnetwork/\n/integrations/builtin/app-nodes/n8n-nodes-base.activecampaign/\n/integrations/builtin/app-nodes/n8n-nodes-base.adalo/\n/integrations/builtin/app-nodes/n8n-nodes-base.affinity/\n/integrations/builtin/app-nodes/n8n-nodes-base.agilecrm/\n/integrations/builtin/app-nodes/n8n-nodes-base.amqp/\n/integrations/builtin/app-nodes/n8n-nodes-base.apitemplateio/\n/integrations/builtin/app-nodes/n8n-nodes-base.asana/\n/integrations/builtin/app-nodes/n8n-nodes-base.automizy/\n/integrations/builtin/app-nodes/n8n-nodes-base.autopilot/\n/integrations/builtin/app-nodes/n8n-nodes-base.awscertificatemanager/\n/integrations/builtin/app-nodes/n8n-nodes-base.awscomprehend/\n/integrations/builtin/app-nodes/n8n-nodes-base.awsdynamodb/\n/integrations/builtin/app-nodes/n8n-nodes-base.awselb/\n/integrations/builtin/app-nodes/n8n-nodes-base.awslambda/\n/integrations/builtin/app-nodes/n8n-nodes-base.awsrekognition/\n/integrations/builtin/app-nodes/n8n-nodes-base.awss3/\n/integrations/builtin/app-nodes/n8n-nodes-base.awsses/\n/integrations/builtin/app-nodes/n8n-nodes-base.awssns/\n/integrations/builtin/app-nodes/n8n-nodes-base.awssqs/\n/integrations/builtin/app-nodes/n8n-nodes-base.awstextract/\n/integrations/builtin/app-nodes/n8n-nodes-base.awstranscribe/\n/integrations/builtin/app-nodes/n8n-nodes-base.azurestorage/\n/integrations/builtin/app-nodes/n8n-nodes-base.bamboohr/\n/integrations/builtin/app-nodes/n8n-nodes-base.bannerbear/\n/integrations/builtin/app-nodes/n8n-nodes-base.baserow/\n/integrations/builtin/app-nodes/n8n-nodes-base.beeminder/\n/integrations/builtin/app-nodes/n8n-nodes-base.bitly/\n/integrations/builtin/app-nodes/n8n-nodes-base.bitwarden/\n/integrations/builtin/app-nodes/n8n-nodes-base.box/\n/integrations/builtin/app-nodes/n8n-nodes-base.brandfetch/\n/integrations/builtin/app-nodes/n8n-nodes-base.brevo/\n/integrations/builtin/app-nodes/n8n-nodes-base.bubble/\n/integrations/builtin/app-nodes/n8n-nodes-base.chargebee/\n/integrations/builtin/app-nodes/n8n-nodes-base.circleci/\n/integrations/builtin/app-nodes/n8n-nodes-base.ciscowebex/\n/integrations/builtin/app-nodes/n8n-nodes-base.clearbit/\n/integrations/builtin/app-nodes/n8n-nodes-base.clickup/\n/integrations/builtin/app-nodes/n8n-nodes-base.clockify/\n/integrations/builtin/app-nodes/n8n-nodes-base.cloudflare/\n/integrations/builtin/app-nodes/n8n-nodes-base.cockpit/\n/integrations/builtin/app-nodes/n8n-nodes-base.coda/\n/integrations/builtin/app-nodes/n8n-nodes-base.coingecko/\n/integrations/builtin/app-nodes/n8n-nodes-base.contentful/\n/integrations/builtin/app-nodes/n8n-nodes-base.convertkit/\n/integrations/builtin/app-nodes/n8n-nodes-base.copper/\n/integrations/builtin/app-nodes/n8n-nodes-base.cortex/\n/integrations/builtin/app-nodes/n8n-nodes-base.cratedb/\n/integrations/builtin/app-nodes/n8n-nodes-base.crowddev/\n/integrations/builtin/app-nodes/n8n-nodes-base.customerio/\n/integrations/builtin/app-nodes/n8n-nodes-base.deepl/\n/integrations/builtin/app-nodes/n8n-nodes-base.demio/\n/integrations/builtin/app-nodes/n8n-nodes-base.dhl/\n/integrations/builtin/app-nodes/n8n-nodes-base.discourse/\n/integrations/builtin/app-nodes/n8n-nodes-base.disqus/\n/integrations/builtin/app-nodes/n8n-nodes-base.drift/\n/integrations/builtin/app-nodes/n8n-nodes-base.dropbox/\n/integrations/builtin/app-nodes/n8n-nodes-base.dropcontact/\n/integrations/builtin/app-nodes/n8n-nodes-base.egoi/\n/integrations/builtin/app-nodes/n8n-nodes-base.elasticsearch/\n/integrations/builtin/app-nodes/n8n-nodes-base.elasticsecurity/\n/integrations/builtin/app-nodes/n8n-nodes-base.emelia/\n/integrations/builtin/app-nodes/n8n-nodes-base.erpnext/\n/integrations/builtin/app-nodes/n8n-nodes-base.facebookgraphapi/\n/integrations/builtin/app-nodes/n8n-nodes-base.filemaker/\n/integrations/builtin/app-nodes/n8n-nodes-base.flow/\n/integrations/builtin/app-nodes/n8n-nodes-base.freshdesk/\n/integrations/builtin/app-nodes/n8n-nodes-base.freshservice/\n/integrations/builtin/app-nodes/n8n-nodes-base.freshworkscrm/\n/integrations/builtin/app-nodes/n8n-nodes-base.getresponse/\n/integrations/builtin/app-nodes/n8n-nodes-base.ghost/\n/integrations/builtin/app-nodes/n8n-nodes-base.github/\n/integrations/builtin/app-nodes/n8n-nodes-base.gitlab/\n/integrations/builtin/app-nodes/n8n-nodes-base.gong/\n/integrations/builtin/app-nodes/n8n-nodes-base.googleads/\n/integrations/builtin/app-nodes/n8n-nodes-base.googleanalytics/\n/integrations/builtin/app-nodes/n8n-nodes-base.googlebigquery/\n/integrations/builtin/app-nodes/n8n-nodes-base.googlebooks/\n/integrations/builtin/app-nodes/n8n-nodes-base.googlebusinessprofile/\n/integrations/builtin/app-nodes/n8n-nodes-base.googlechat/\n/integrations/builtin/app-nodes/n8n-nodes-base.googlecloudfirestore/\n/integrations/builtin/app-nodes/n8n-nodes-base.googlecloudnaturallanguage/\n/integrations/builtin/app-nodes/n8n-nodes-base.googlecloudrealtimedatabase/\n/integrations/builtin/app-nodes/n8n-nodes-base.googlecloudstorage/\n/integrations/builtin/app-nodes/n8n-nodes-base.googlecontacts/\n/integrations/builtin/app-nodes/n8n-nodes-base.googledocs/\n/integrations/builtin/app-nodes/n8n-nodes-base.googleperspective/\n/integrations/builtin/app-nodes/n8n-nodes-base.googleslides/\n/integrations/builtin/app-nodes/n8n-nodes-base.googletasks/\n/integrations/builtin/app-nodes/n8n-nodes-base.googletranslate/\n/integrations/builtin/app-nodes/n8n-nodes-base.gotify/\n/integrations/builtin/app-nodes/n8n-nodes-base.gotowebinar/\n/integrations/builtin/app-nodes/n8n-nodes-base.grafana/\n/integrations/builtin/app-nodes/n8n-nodes-base.grist/\n/integrations/builtin/app-nodes/n8n-nodes-base.gsuiteadmin/\n/integrations/builtin/app-nodes/n8n-nodes-base.hackernews/\n/integrations/builtin/app-nodes/n8n-nodes-base.halopsa/\n/integrations/builtin/app-nodes/n8n-nodes-base.harvest/\n/integrations/builtin/app-nodes/n8n-nodes-base.helpscout/\n/integrations/builtin/app-nodes/n8n-nodes-base.highlevel/\n/integrations/builtin/app-nodes/n8n-nodes-base.homeassistant/\n/integrations/builtin/app-nodes/n8n-nodes-base.hubspot/\n/integrations/builtin/app-nodes/n8n-nodes-base.humanticai/\n/integrations/builtin/app-nodes/n8n-nodes-base.hunter/\n/integrations/builtin/app-nodes/n8n-nodes-base.intercom/\n/integrations/builtin/app-nodes/n8n-nodes-base.invoiceninja/\n/integrations/builtin/app-nodes/n8n-nodes-base.iterable/\n/integrations/builtin/app-nodes/n8n-nodes-base.jenkins/\n/integrations/builtin/app-nodes/n8n-nodes-base.jira/\n/integrations/builtin/app-nodes/n8n-nodes-base.kafka/\n/integrations/builtin/app-nodes/n8n-nodes-base.keap/\n/integrations/builtin/app-nodes/n8n-nodes-base.kitemaker/\n/integrations/builtin/app-nodes/n8n-nodes-base.kobotoolbox/\n/integrations/builtin/app-nodes/n8n-nodes-base.lemlist/\n/integrations/builtin/app-nodes/n8n-nodes-base.line/\n/integrations/builtin/app-nodes/n8n-nodes-base.linear/\n/integrations/builtin/app-nodes/n8n-nodes-base.lingvanex/\n/integrations/builtin/app-nodes/n8n-nodes-base.linkedin/\n/integrations/builtin/app-nodes/n8n-nodes-base.lonescale/\n/integrations/builtin/app-nodes/n8n-nodes-base.magento2/\n/integrations/builtin/app-nodes/n8n-nodes-base.mailcheck/\n/integrations/builtin/app-nodes/n8n-nodes-base.mailchimp/\n/integrations/builtin/app-nodes/n8n-nodes-base.mailerlite/\n/integrations/builtin/app-nodes/n8n-nodes-base.mailgun/\n/integrations/builtin/app-nodes/n8n-nodes-base.mailjet/\n/integrations/builtin/app-nodes/n8n-nodes-base.mandrill/\n/integrations/builtin/app-nodes/n8n-nodes-base.marketstack/\n/integrations/builtin/app-nodes/n8n-nodes-base.matrix/\n/integrations/builtin/app-nodes/n8n-nodes-base.mattermost/\n/integrations/builtin/app-nodes/n8n-nodes-base.mautic/\n/integrations/builtin/app-nodes/n8n-nodes-base.medium/\n/integrations/builtin/app-nodes/n8n-nodes-base.messagebird/\n/integrations/builtin/app-nodes/n8n-nodes-base.metabase/\n/integrations/builtin/app-nodes/n8n-nodes-base.microsoftdynamicscrm/\n/integrations/builtin/app-nodes/n8n-nodes-base.microsoftentra/\n/integrations/builtin/app-nodes/n8n-nodes-base.microsoftexcel/\n/integrations/builtin/app-nodes/n8n-nodes-base.microsoftgraphsecurity/\n/integrations/builtin/app-nodes/n8n-nodes-base.microsoftonedrive/\n/integrations/builtin/app-nodes/n8n-nodes-base.microsoftoutlook/\n/integrations/builtin/app-nodes/n8n-nodes-base.microsoftsql/\n/integrations/builtin/app-nodes/n8n-nodes-base.microsoftteams/\n/integrations/builtin/app-nodes/n8n-nodes-base.microsofttodo/\n/integrations/builtin/app-nodes/n8n-nodes-base.mindee/\n/integrations/builtin/app-nodes/n8n-nodes-base.misp/\n/integrations/builtin/app-nodes/n8n-nodes-base.mocean/\n/integrations/builtin/app-nodes/n8n-nodes-base.mondaycom/\n/integrations/builtin/app-nodes/n8n-nodes-base.mongodb/\n/integrations/builtin/app-nodes/n8n-nodes-base.monicacrm/\n/integrations/builtin/app-nodes/n8n-nodes-base.mqtt/\n/integrations/builtin/app-nodes/n8n-nodes-base.msg91/\n/integrations/builtin/app-nodes/n8n-nodes-base.n8ntrainingcustomerdatastore/\n/integrations/builtin/app-nodes/n8n-nodes-base.n8ntrainingcustomermessenger/\n/integrations/builtin/app-nodes/n8n-nodes-base.nasa/\n/integrations/builtin/app-nodes/n8n-nodes-base.netlify/\n/integrations/builtin/app-nodes/n8n-nodes-base.netscaleradc/\n/integrations/builtin/app-nodes/n8n-nodes-base.nextcloud/\n/integrations/builtin/app-nodes/n8n-nodes-base.nocodb/\n/integrations/builtin/app-nodes/n8n-nodes-base.npm/\n/integrations/builtin/app-nodes/n8n-nodes-base.odoo/\n/integrations/builtin/app-nodes/n8n-nodes-base.okta/\n/integrations/builtin/app-nodes/n8n-nodes-base.onesimpleapi/\n/integrations/builtin/app-nodes/n8n-nodes-base.onfleet/\n/integrations/builtin/app-nodes/n8n-nodes-base.openthesaurus/\n/integrations/builtin/app-nodes/n8n-nodes-base.openweathermap/\n/integrations/builtin/app-nodes/n8n-nodes-base.oura/\n/integrations/builtin/app-nodes/n8n-nodes-base.paddle/\n/integrations/builtin/app-nodes/n8n-nodes-base.pagerduty/\n/integrations/builtin/app-nodes/n8n-nodes-base.paypal/\n/integrations/builtin/app-nodes/n8n-nodes-base.peekalink/\n/integrations/builtin/app-nodes/n8n-nodes-base.phantombuster/\n/integrations/builtin/app-nodes/n8n-nodes-base.philipshue/\n/integrations/builtin/app-nodes/n8n-nodes-base.pipedrive/\n/integrations/builtin/app-nodes/n8n-nodes-base.plivo/\n/integrations/builtin/app-nodes/n8n-nodes-base.postbin/\n/integrations/builtin/app-nodes/n8n-nodes-base.posthog/\n/integrations/builtin/app-nodes/n8n-nodes-base.profitwell/\n/integrations/builtin/app-nodes/n8n-nodes-base.pushbullet/\n/integrations/builtin/app-nodes/n8n-nodes-base.pushcut/\n/integrations/builtin/app-nodes/n8n-nodes-base.pushover/\n/integrations/builtin/app-nodes/n8n-nodes-base.questdb/\n/integrations/builtin/app-nodes/n8n-nodes-base.quickbase/\n/integrations/builtin/app-nodes/n8n-nodes-base.quickbooks/\n/integrations/builtin/app-nodes/n8n-nodes-base.quickchart/\n/integrations/builtin/app-nodes/n8n-nodes-base.rabbitmq/\n/integrations/builtin/app-nodes/n8n-nodes-base.raindrop/\n/integrations/builtin/app-nodes/n8n-nodes-base.reddit/\n/integrations/builtin/app-nodes/n8n-nodes-base.redis/\n/integrations/builtin/app-nodes/n8n-nodes-base.rocketchat/\n/integrations/builtin/app-nodes/n8n-nodes-base.rundeck/\n/integrations/builtin/app-nodes/n8n-nodes-base.s3/\n/integrations/builtin/app-nodes/n8n-nodes-base.salesforce/\n/integrations/builtin/app-nodes/n8n-nodes-base.salesmate/\n/integrations/builtin/app-nodes/n8n-nodes-base.seatable/\n/integrations/builtin/app-nodes/n8n-nodes-base.securityscorecard/\n/integrations/builtin/app-nodes/n8n-nodes-base.segment/\n/integrations/builtin/app-nodes/n8n-nodes-base.sendgrid/\n/integrations/builtin/app-nodes/n8n-nodes-base.sendy/\n/integrations/builtin/app-nodes/n8n-nodes-base.sentryio/\n/integrations/builtin/app-nodes/n8n-nodes-base.servicenow/\n/integrations/builtin/app-nodes/n8n-nodes-base.shopify/\n/integrations/builtin/app-nodes/n8n-nodes-base.signl4/\n/integrations/builtin/app-nodes/n8n-nodes-base.slack/\n/integrations/builtin/app-nodes/n8n-nodes-base.sms77/\n/integrations/builtin/app-nodes/n8n-nodes-base.snowflake/\n/integrations/builtin/app-nodes/n8n-nodes-base.splunk/\n/integrations/builtin/app-nodes/n8n-nodes-base.spontit/\n/integrations/builtin/app-nodes/n8n-nodes-base.spotify/\n/integrations/builtin/app-nodes/n8n-nodes-base.stackby/\n/integrations/builtin/app-nodes/n8n-nodes-base.storyblok/\n/integrations/builtin/app-nodes/n8n-nodes-base.strapi/\n/integrations/builtin/app-nodes/n8n-nodes-base.strava/\n/integrations/builtin/app-nodes/n8n-nodes-base.stripe/\n/integrations/builtin/app-nodes/n8n-nodes-base.syncromsp/\n/integrations/builtin/app-nodes/n8n-nodes-base.taiga/\n/integrations/builtin/app-nodes/n8n-nodes-base.tapfiliate/\n/integrations/builtin/app-nodes/n8n-nodes-base.thehive/\n/integrations/builtin/app-nodes/n8n-nodes-base.thehive5/\n/integrations/builtin/app-nodes/n8n-nodes-base.timescaledb/\n/integrations/builtin/app-nodes/n8n-nodes-base.todoist/\n/integrations/builtin/app-nodes/n8n-nodes-base.travisci/\n/integrations/builtin/app-nodes/n8n-nodes-base.trello/\n/integrations/builtin/app-nodes/n8n-nodes-base.twake/\n/integrations/builtin/app-nodes/n8n-nodes-base.twilio/\n/integrations/builtin/app-nodes/n8n-nodes-base.twist/\n/integrations/builtin/app-nodes/n8n-nodes-base.twitter/\n/integrations/builtin/app-nodes/n8n-nodes-base.unleashedsoftware/\n/integrations/builtin/app-nodes/n8n-nodes-base.uplead/\n/integrations/builtin/app-nodes/n8n-nodes-base.uproc/\n/integrations/builtin/app-nodes/n8n-nodes-base.uptimerobot/\n/integrations/builtin/app-nodes/n8n-nodes-base.urlscanio/\n/integrations/builtin/app-nodes/n8n-nodes-base.venafitlsprotectcloud/\n/integrations/builtin/app-nodes/n8n-nodes-base.venafitlsprotectdatacenter/\n/integrations/builtin/app-nodes/n8n-nodes-base.vero/\n/integrations/builtin/app-nodes/n8n-nodes-base.vonage/\n/integrations/builtin/app-nodes/n8n-nodes-base.webflow/\n/integrations/builtin/app-nodes/n8n-nodes-base.wekan/\n/integrations/builtin/app-nodes/n8n-nodes-base.wise/\n/integrations/builtin/app-nodes/n8n-nodes-base.woocommerce/\n/integrations/builtin/app-nodes/n8n-nodes-base.wordpress/\n/integrations/builtin/app-nodes/n8n-nodes-base.xero/\n/integrations/builtin/app-nodes/n8n-nodes-base.yourls/\n/integrations/builtin/app-nodes/n8n-nodes-base.youtube/\n/integrations/builtin/app-nodes/n8n-nodes-base.zammad/\n/integrations/builtin/app-nodes/n8n-nodes-base.zendesk/\n/integrations/builtin/app-nodes/n8n-nodes-base.zohocrm/\n/integrations/builtin/app-nodes/n8n-nodes-base.zoom/\n/integrations/builtin/app-nodes/n8n-nodes-base.zulip/\n/integrations/builtin/app-nodes/n8n-nodes-base.airtable/\n/integrations/builtin/app-nodes/n8n-nodes-base.airtable/common-issues/\n/integrations/builtin/app-nodes/n8n-nodes-base.discord/\n/integrations/builtin/app-nodes/n8n-nodes-base.discord/common-issues/\n/integrations/builtin/app-nodes/n8n-nodes-base.gmail/\n/integrations/builtin/app-nodes/n8n-nodes-base.gmail/common-issues/\n/integrations/builtin/app-nodes/n8n-nodes-base.gmail/draft-operations/\n/integrations/builtin/app-nodes/n8n-nodes-base.gmail/label-operations/\n/integrations/builtin/app-nodes/n8n-nodes-base.gmail/message-operations/\n/integrations/builtin/app-nodes/n8n-nodes-base.gmail/thread-operations/\n/integrations/builtin/app-nodes/n8n-nodes-base.googlecalendar/\n/integrations/builtin/app-nodes/n8n-nodes-base.googlecalendar/calendar-operations/\n/integrations/builtin/app-nodes/n8n-nodes-base.googlecalendar/event-operations/\n/integrations/builtin/app-nodes/n8n-nodes-base.googledrive/\n/integrations/builtin/app-nodes/n8n-nodes-base.googledrive/common-issues/\n/integrations/builtin/app-nodes/n8n-nodes-base.googledrive/file-folder-operations/\n/integrations/builtin/app-nodes/n8n-nodes-base.googledrive/file-operations/\n/integrations/builtin/app-nodes/n8n-nodes-base.googledrive/folder-operations/\n/integrations/builtin/app-nodes/n8n-nodes-base.googledrive/shared-drive-operations/\n/integrations/builtin/app-nodes/n8n-nodes-base.googlesheets/\n/integrations/builtin/app-nodes/n8n-nodes-base.googlesheets/common-issues/\n/integrations/builtin/app-nodes/n8n-nodes-base.googlesheets/document-operations/\n/integrations/builtin/app-nodes/n8n-nodes-base.googlesheets/sheet-operations/\n/integrations/builtin/app-nodes/n8n-nodes-base.mysql/\n/integrations/builtin/app-nodes/n8n-nodes-base.mysql/common-issues/\n/integrations/builtin/app-nodes/n8n-nodes-base.notion/\n/integrations/builtin/app-nodes/n8n-nodes-base.notion/common-issues/\n/integrations/builtin/app-nodes/n8n-nodes-base.postgres/\n/integrations/builtin/app-nodes/n8n-nodes-base.postgres/common-issues/\n/integrations/builtin/app-nodes/n8n-nodes-base.supabase/\n/integrations/builtin/app-nodes/n8n-nodes-base.supabase/common-issues/\n/integrations/builtin/app-nodes/n8n-nodes-base.telegram/\n/integrations/builtin/app-nodes/n8n-nodes-base.telegram/callback-operations/\n/integrations/builtin/app-nodes/n8n-nodes-base.telegram/chat-operations/\n/integrations/builtin/app-nodes/n8n-nodes-base.telegram/common-issues/\n/integrations/builtin/app-nodes/n8n-nodes-base.telegram/file-operations/\n/integrations/builtin/app-nodes/n8n-nodes-base.telegram/message-operations/\n/integrations/builtin/app-nodes/n8n-nodes-base.whatsapp/\n/integrations/builtin/app-nodes/n8n-nodes-base.whatsapp/common-issues/\n/integrations/builtin/app-nodes/n8n-nodes-langchain.openai/\n/integrations/builtin/app-nodes/n8n-nodes-langchain.openai/assistant-operations/\n/integrations/builtin/app-nodes/n8n-nodes-langchain.openai/audio-operations/\n/integrations/builtin/app-nodes/n8n-nodes-langchain.openai/common-issues/\n/integrations/builtin/app-nodes/n8n-nodes-langchain.openai/file-operations/\n/integrations/builtin/app-nodes/n8n-nodes-langchain.openai/image-operations/\n/integrations/builtin/app-nodes/n8n-nodes-langchain.openai/text-operations/\n/integrations/builtin/cluster-nodes/\n/integrations/builtin/cluster-nodes/root-nodes/\n/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.chainllm/\n/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.chainsummarization/\n/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.code/\n/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.information-extractor/\n/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.sentimentanalysis/\n/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.text-classifier/\n/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.vectorstoreinmemory/\n/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.vectorstoremongodbatlas/\n/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.vectorstorepgvector/\n/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.vectorstorepinecone/\n/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.vectorstoreqdrant/\n/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.vectorstoresupabase/\n/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.vectorstorezep/\n/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.agent/\n/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.agent/common-issues/\n/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.agent/conversational-agent/\n/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.agent/openai-functions-agent/\n/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.agent/plan-execute-agent/\n/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.agent/react-agent/\n/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.agent/sql-agent/\n/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.agent/tools-agent/\n/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.chainretrievalqa/\n/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.chainretrievalqa/common-issues/\n/integrations/builtin/cluster-nodes/sub-nodes/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.documentdefaultdataloader/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.documentgithubloader/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.embeddingsawsbedrock/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.embeddingsazureopenai/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.embeddingscohere/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.embeddingsgooglegemini/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.embeddingsgooglepalm/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.embeddingshuggingfaceinference/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.embeddingsmistralcloud/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.embeddingsollama/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.embeddingsopenai/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.lmchatanthropic/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.lmchatawsbedrock/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.lmchatazureopenai/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.lmchatdeepseek/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.lmchatgooglegemini/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.lmchatgooglevertex/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.lmchatgroq/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.lmchatmistralcloud/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.lmchatopenrouter/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.lmcohere/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.lmopenhuggingfaceinference/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.memorymanager/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.memorymotorhead/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.memorypostgreschat/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.memoryredischat/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.memoryxata/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.memoryzep/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.outputparserautofixing/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.outputparseritemlist/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.retrievercontextualcompression/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.retrievermultiquery/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.retrievervectorstore/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.retrieverworkflow/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.textsplittercharactertextsplitter/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.textsplitterrecursivecharactertextsplitter/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.textsplittertokensplitter/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.toolcalculator/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.toolcode/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.toolhttprequest/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.toolserpapi/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.toolvectorstore/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.toolwikipedia/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.toolwolframalpha/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.toolworkflow/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.lmchatollama/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.lmchatollama/common-issues/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.lmchatopenai/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.lmchatopenai/common-issues/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.lmollama/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.lmollama/common-issues/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.memorybufferwindow/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.memorybufferwindow/common-issues/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.outputparserstructured/\n/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.outputparserstructured/common-issues/\n/integrations/builtin/core-nodes/\n/integrations/builtin/core-nodes/n8n-nodes-base.activationtrigger/\n/integrations/builtin/core-nodes/n8n-nodes-base.aggregate/\n/integrations/builtin/core-nodes/n8n-nodes-base.aitransform/\n/integrations/builtin/core-nodes/n8n-nodes-base.comparedatasets/\n/integrations/builtin/core-nodes/n8n-nodes-base.compression/\n/integrations/builtin/core-nodes/n8n-nodes-base.converttofile/\n/integrations/builtin/core-nodes/n8n-nodes-base.crypto/\n/integrations/builtin/core-nodes/n8n-nodes-base.datetime/\n/integrations/builtin/core-nodes/n8n-nodes-base.debughelper/\n/integrations/builtin/core-nodes/n8n-nodes-base.editimage/\n/integrations/builtin/core-nodes/n8n-nodes-base.emailimap/\n/integrations/builtin/core-nodes/n8n-nodes-base.errortrigger/\n/integrations/builtin/core-nodes/n8n-nodes-base.executeworkflow/\n/integrations/builtin/core-nodes/n8n-nodes-base.executeworkflowtrigger/\n/integrations/builtin/core-nodes/n8n-nodes-base.executiondata/\n/integrations/builtin/core-nodes/n8n-nodes-base.extractfromfile/\n/integrations/builtin/core-nodes/n8n-nodes-base.filter/\n/integrations/builtin/core-nodes/n8n-nodes-base.form/\n/integrations/builtin/core-nodes/n8n-nodes-base.formtrigger/\n/integrations/builtin/core-nodes/n8n-nodes-base.ftp/\n/integrations/builtin/core-nodes/n8n-nodes-base.git/\n/integrations/builtin/core-nodes/n8n-nodes-base.graphql/\n/integrations/builtin/core-nodes/n8n-nodes-base.html/\n/integrations/builtin/core-nodes/n8n-nodes-base.if/\n/integrations/builtin/core-nodes/n8n-nodes-base.itemlists/\n/integrations/builtin/core-nodes/n8n-nodes-base.jwt/\n/integrations/builtin/core-nodes/n8n-nodes-base.ldap/\n/integrations/builtin/core-nodes/n8n-nodes-base.limit/\n/integrations/builtin/core-nodes/n8n-nodes-base.localfiletrigger/\n/integrations/builtin/core-nodes/n8n-nodes-base.manualworkflowtrigger/\n/integrations/builtin/core-nodes/n8n-nodes-base.markdown/\n/integrations/builtin/core-nodes/n8n-nodes-base.merge/\n/integrations/builtin/core-nodes/n8n-nodes-base.n8n/\n/integrations/builtin/core-nodes/n8n-nodes-base.n8ntrigger/\n/integrations/builtin/core-nodes/n8n-nodes-base.noop/\n/integrations/builtin/core-nodes/n8n-nodes-base.readwritefile/\n/integrations/builtin/core-nodes/n8n-nodes-base.renamekeys/\n/integrations/builtin/core-nodes/n8n-nodes-base.respondtowebhook/\n/integrations/builtin/core-nodes/n8n-nodes-base.rssfeedread/\n/integrations/builtin/core-nodes/n8n-nodes-base.rssfeedreadtrigger/\n/integrations/builtin/core-nodes/n8n-nodes-base.sendemail/\n/integrations/builtin/core-nodes/n8n-nodes-base.set/\n/integrations/builtin/core-nodes/n8n-nodes-base.sort/\n/integrations/builtin/core-nodes/n8n-nodes-base.splitinbatches/\n/integrations/builtin/core-nodes/n8n-nodes-base.splitout/\n/integrations/builtin/core-nodes/n8n-nodes-base.ssetrigger/\n/integrations/builtin/core-nodes/n8n-nodes-base.ssh/\n/integrations/builtin/core-nodes/n8n-nodes-base.stopanderror/\n/integrations/builtin/core-nodes/n8n-nodes-base.summarize/\n/integrations/builtin/core-nodes/n8n-nodes-base.switch/\n/integrations/builtin/core-nodes/n8n-nodes-base.totp/\n/integrations/builtin/core-nodes/n8n-nodes-base.wait/\n/integrations/builtin/core-nodes/n8n-nodes-base.workflowtrigger/\n/integrations/builtin/core-nodes/n8n-nodes-base.xml/\n/integrations/builtin/core-nodes/n8n-nodes-base.code/\n/integrations/builtin/core-nodes/n8n-nodes-base.code/common-issues/\n/integrations/builtin/core-nodes/n8n-nodes-base.code/keyboard-shortcuts/\n/integrations/builtin/core-nodes/n8n-nodes-base.executecommand/\n/integrations/builtin/core-nodes/n8n-nodes-base.executecommand/common-issues/\n/integrations/builtin/core-nodes/n8n-nodes-base.httprequest/\n/integrations/builtin/core-nodes/n8n-nodes-base.httprequest/common-issues/\n/integrations/builtin/core-nodes/n8n-nodes-base.removeduplicates/\n/integrations/builtin/core-nodes/n8n-nodes-base.removeduplicates/templates-and-examples/\n/integrations/builtin/core-nodes/n8n-nodes-base.scheduletrigger/\n/integrations/builtin/core-nodes/n8n-nodes-base.scheduletrigger/common-issues/\n/integrations/builtin/core-nodes/n8n-nodes-base.webhook/\n/integrations/builtin/core-nodes/n8n-nodes-base.webhook/common-issues/\n/integrations/builtin/core-nodes/n8n-nodes-base.webhook/workflow-development/\n/integrations/builtin/core-nodes/n8n-nodes-langchain.chattrigger/\n/integrations/builtin/core-nodes/n8n-nodes-langchain.chattrigger/common-issues/\n/integrations/builtin/credentials/\n/integrations/builtin/credentials/actionnetwork/\n/integrations/builtin/credentials/activecampaign/\n/integrations/builtin/credentials/acuityscheduling/\n/integrations/builtin/credentials/adalo/\n/integrations/builtin/credentials/affinity/\n/integrations/builtin/credentials/agilecrm/\n/integrations/builtin/credentials/airtable/\n/integrations/builtin/credentials/alienvault/\n/integrations/builtin/credentials/amqp/\n/integrations/builtin/credentials/anthropic/\n/integrations/builtin/credentials/apitemplateio/\n/integrations/builtin/credentials/asana/\n/integrations/builtin/credentials/auth0management/\n/integrations/builtin/credentials/automizy/\n/integrations/builtin/credentials/autopilot/\n/integrations/builtin/credentials/aws/\n/integrations/builtin/credentials/azureopenai/\n/integrations/builtin/credentials/azurestorage/\n/integrations/builtin/credentials/bamboohr/\n/integrations/builtin/credentials/bannerbear/\n/integrations/builtin/credentials/baserow/\n/integrations/builtin/credentials/beeminder/\n/integrations/builtin/credentials/bitbucket/\n/integrations/builtin/credentials/bitly/\n/integrations/builtin/credentials/bitwarden/\n/integrations/builtin/credentials/box/\n/integrations/builtin/credentials/brandfetch/\n/integrations/builtin/credentials/brevo/\n/integrations/builtin/credentials/bubble/\n/integrations/builtin/credentials/cal/\n/integrations/builtin/credentials/calendly/\n/integrations/builtin/credentials/carbonblack/\n/integrations/builtin/credentials/chargebee/\n/integrations/builtin/credentials/circleci/\n/integrations/builtin/credentials/ciscomeraki/\n/integrations/builtin/credentials/ciscosecureendpoint/\n/integrations/builtin/credentials/ciscoumbrella/\n/integrations/builtin/credentials/ciscowebex/\n/integrations/builtin/credentials/clearbit/\n/integrations/builtin/credentials/clickup/\n/integrations/builtin/credentials/clockify/\n/integrations/builtin/credentials/cloudflare/\n/integrations/builtin/credentials/cockpit/\n/integrations/builtin/credentials/coda/\n/integrations/builtin/credentials/cohere/\n/integrations/builtin/credentials/contentful/\n/integrations/builtin/credentials/convertapi/\n/integrations/builtin/credentials/convertkit/\n/integrations/builtin/credentials/copper/\n/integrations/builtin/credentials/cortex/\n/integrations/builtin/credentials/cratedb/\n/integrations/builtin/credentials/crowddev/\n/integrations/builtin/credentials/crowdstrike/\n/integrations/builtin/credentials/customerio/\n/integrations/builtin/credentials/datadog/\n/integrations/builtin/credentials/deepl/\n/integrations/builtin/credentials/deepseek/\n/integrations/builtin/credentials/demio/\n/integrations/builtin/credentials/dfiriris/\n/integrations/builtin/credentials/dhl/\n/integrations/builtin/credentials/discord/\n/integrations/builtin/credentials/discourse/\n/integrations/builtin/credentials/disqus/\n/integrations/builtin/credentials/drift/\n/integrations/builtin/credentials/dropbox/\n/integrations/builtin/credentials/dropcontact/\n/integrations/builtin/credentials/dynatrace/\n/integrations/builtin/credentials/egoi/\n/integrations/builtin/credentials/elasticsearch/\n/integrations/builtin/credentials/elasticsecurity/\n/integrations/builtin/credentials/emelia/\n/integrations/builtin/credentials/erpnext/\n/integrations/builtin/credentials/eventbrite/\n/integrations/builtin/credentials/f5bigip/\n/integrations/builtin/credentials/facebookapp/\n/integrations/builtin/credentials/facebookgraph/\n/integrations/builtin/credentials/facebookleadads/\n/integrations/builtin/credentials/figma/\n/integrations/builtin/credentials/filemaker/\n/integrations/builtin/credentials/filescan/\n/integrations/builtin/credentials/flow/\n/integrations/builtin/credentials/formiotrigger/\n/integrations/builtin/credentials/formstacktrigger/\n/integrations/builtin/credentials/fortigate/\n/integrations/builtin/credentials/freshdesk/\n/integrations/builtin/credentials/freshservice/\n/integrations/builtin/credentials/freshworkscrm/\n/integrations/builtin/credentials/ftp/\n/integrations/builtin/credentials/getresponse/\n/integrations/builtin/credentials/ghost/\n/integrations/builtin/credentials/git/\n/integrations/builtin/credentials/github/\n/integrations/builtin/credentials/gitlab/\n/integrations/builtin/credentials/gong/\n/integrations/builtin/credentials/googleai/\n/integrations/builtin/credentials/gotify/\n/integrations/builtin/credentials/gotowebinar/\n/integrations/builtin/credentials/grafana/\n/integrations/builtin/credentials/grist/\n/integrations/builtin/credentials/groq/\n/integrations/builtin/credentials/gumroad/\n/integrations/builtin/credentials/halopsa/\n/integrations/builtin/credentials/harvest/\n/integrations/builtin/credentials/helpscout/\n/integrations/builtin/credentials/highlevel/\n/integrations/builtin/credentials/homeassistant/\n/integrations/builtin/credentials/httprequest/\n/integrations/builtin/credentials/hubspot/\n/integrations/builtin/credentials/huggingface/\n/integrations/builtin/credentials/humanticai/\n/integrations/builtin/credentials/hunter/\n/integrations/builtin/credentials/hybridanalysis/\n/integrations/builtin/credentials/impervawaf/\n/integrations/builtin/credentials/intercom/\n/integrations/builtin/credentials/invoiceninja/\n/integrations/builtin/credentials/iterable/\n/integrations/builtin/credentials/jenkins/\n/integrations/builtin/credentials/jira/\n/integrations/builtin/credentials/jotform/\n/integrations/builtin/credentials/jwt/\n/integrations/builtin/credentials/kafka/\n/integrations/builtin/credentials/keap/\n/integrations/builtin/credentials/kibana/\n/integrations/builtin/credentials/kitemaker/\n/integrations/builtin/credentials/kobotoolbox/\n/integrations/builtin/credentials/ldap/\n/integrations/builtin/credentials/lemlist/\n/integrations/builtin/credentials/line/\n/integrations/builtin/credentials/linear/\n/integrations/builtin/credentials/lingvanex/\n/integrations/builtin/credentials/linkedin/\n/integrations/builtin/credentials/lonescale/\n/integrations/builtin/credentials/magento2/\n/integrations/builtin/credentials/mailcheck/\n/integrations/builtin/credentials/mailchimp/\n/integrations/builtin/credentials/mailerlite/\n/integrations/builtin/credentials/mailgun/\n/integrations/builtin/credentials/mailjet/\n/integrations/builtin/credentials/malcore/\n/integrations/builtin/credentials/mandrill/\n/integrations/builtin/credentials/marketstack/\n/integrations/builtin/credentials/matrix/\n/integrations/builtin/credentials/mattermost/\n/integrations/builtin/credentials/mautic/\n/integrations/builtin/credentials/medium/\n/integrations/builtin/credentials/messagebird/\n/integrations/builtin/credentials/metabase/\n/integrations/builtin/credentials/microsoft/\n/integrations/builtin/credentials/microsoftazuremonitor/\n/integrations/builtin/credentials/microsoftentra/\n/integrations/builtin/credentials/microsoftsql/\n/integrations/builtin/credentials/mindee/\n/integrations/builtin/credentials/miro/\n/integrations/builtin/credentials/misp/\n/integrations/builtin/credentials/mist/\n/integrations/builtin/credentials/mistral/\n/integrations/builtin/credentials/mocean/\n/integrations/builtin/credentials/mondaycom/\n/integrations/builtin/credentials/mongodb/\n/integrations/builtin/credentials/monicacrm/\n/integrations/builtin/credentials/motorhead/\n/integrations/builtin/credentials/mqtt/\n/integrations/builtin/credentials/msg91/\n/integrations/builtin/credentials/mysql/\n/integrations/builtin/credentials/nasa/\n/integrations/builtin/credentials/netlify/\n/integrations/builtin/credentials/netscaleradc/\n/integrations/builtin/credentials/nextcloud/\n/integrations/builtin/credentials/nocodb/\n/integrations/builtin/credentials/notion/\n/integrations/builtin/credentials/npm/\n/integrations/builtin/credentials/odoo/\n/integrations/builtin/credentials/okta/\n/integrations/builtin/credentials/ollama/\n/integrations/builtin/credentials/onesimpleapi/\n/integrations/builtin/credentials/onfleet/\n/integrations/builtin/credentials/openai/\n/integrations/builtin/credentials/opencti/\n/integrations/builtin/credentials/openrouter/\n/integrations/builtin/credentials/openweathermap/\n/integrations/builtin/credentials/oura/\n/integrations/builtin/credentials/paddle/\n/integrations/builtin/credentials/pagerduty/\n/integrations/builtin/credentials/paypal/\n/integrations/builtin/credentials/peekalink/\n/integrations/builtin/credentials/phantombuster/\n/integrations/builtin/credentials/philipshue/\n/integrations/builtin/credentials/pinecone/\n/integrations/builtin/credentials/pipedrive/\n/integrations/builtin/credentials/plivo/\n/integrations/builtin/credentials/postgres/\n/integrations/builtin/credentials/posthog/\n/integrations/builtin/credentials/postmark/\n/integrations/builtin/credentials/profitwell/\n/integrations/builtin/credentials/pushbullet/\n/integrations/builtin/credentials/pushcut/\n/integrations/builtin/credentials/pushover/\n/integrations/builtin/credentials/qdrant/\n/integrations/builtin/credentials/qradar/\n/integrations/builtin/credentials/qualys/\n/integrations/builtin/credentials/questdb/\n/integrations/builtin/credentials/quickbase/\n/integrations/builtin/credentials/quickbooks/\n/integrations/builtin/credentials/rabbitmq/\n/integrations/builtin/credentials/raindrop/\n/integrations/builtin/credentials/rapid7insightvm/\n/integrations/builtin/credentials/recordedfuture/\n/integrations/builtin/credentials/reddit/\n/integrations/builtin/credentials/redis/\n/integrations/builtin/credentials/rocketchat/\n/integrations/builtin/credentials/rundeck/\n/integrations/builtin/credentials/s3/\n/integrations/builtin/credentials/salesforce/\n/integrations/builtin/credentials/salesmate/\n/integrations/builtin/credentials/seatable/\n/integrations/builtin/credentials/securityscorecard/\n/integrations/builtin/credentials/segment/\n/integrations/builtin/credentials/sekoia/\n/integrations/builtin/credentials/sendgrid/\n/integrations/builtin/credentials/sendy/\n/integrations/builtin/credentials/sentryio/\n/integrations/builtin/credentials/serp/\n/integrations/builtin/credentials/servicenow/\n/integrations/builtin/credentials/shopify/\n/integrations/builtin/credentials/shuffler/\n/integrations/builtin/credentials/signl4/\n/integrations/builtin/credentials/slack/\n/integrations/builtin/credentials/sms77/\n/integrations/builtin/credentials/snowflake/\n/integrations/builtin/credentials/solarwindsipam/\n/integrations/builtin/credentials/solarwindsobservability/\n/integrations/builtin/credentials/splunk/\n/integrations/builtin/credentials/spontit/\n/integrations/builtin/credentials/spotify/\n/integrations/builtin/credentials/ssh/\n/integrations/builtin/credentials/stackby/\n/integrations/builtin/credentials/storyblok/\n/integrations/builtin/credentials/strapi/\n/integrations/builtin/credentials/strava/\n/integrations/builtin/credentials/stripe/\n/integrations/builtin/credentials/supabase/\n/integrations/builtin/credentials/surveymonkey/\n/integrations/builtin/credentials/syncromsp/\n/integrations/builtin/credentials/sysdig/\n/integrations/builtin/credentials/taiga/\n/integrations/builtin/credentials/tapfiliate/\n/integrations/builtin/credentials/telegram/\n/integrations/builtin/credentials/thehive/\n/integrations/builtin/credentials/thehive5/\n/integrations/builtin/credentials/timescaledb/\n/integrations/builtin/credentials/todoist/\n/integrations/builtin/credentials/toggl/\n/integrations/builtin/credentials/totp/\n/integrations/builtin/credentials/travisci/\n/integrations/builtin/credentials/trellixepo/\n/integrations/builtin/credentials/trello/\n/integrations/builtin/credentials/twake/\n/integrations/builtin/credentials/twilio/\n/integrations/builtin/credentials/twist/\n/integrations/builtin/credentials/twitter/\n/integrations/builtin/credentials/typeform/\n/integrations/builtin/credentials/unleashedsoftware/\n/integrations/builtin/credentials/uplead/\n/integrations/builtin/credentials/uproc/\n/integrations/builtin/credentials/uptimerobot/\n/integrations/builtin/credentials/urlscanio/\n/integrations/builtin/credentials/venafitlsprotectcloud/\n/integrations/builtin/credentials/venafitlsprotectdatacenter/\n/integrations/builtin/credentials/vero/\n/integrations/builtin/credentials/virustotal/\n/integrations/builtin/credentials/vonage/\n/integrations/builtin/credentials/webflow/\n/integrations/builtin/credentials/webhook/\n/integrations/builtin/credentials/wekan/\n/integrations/builtin/credentials/whatsapp/\n/integrations/builtin/credentials/wise/\n/integrations/builtin/credentials/wolframalpha/\n/integrations/builtin/credentials/woocommerce/\n/integrations/builtin/credentials/wordpress/\n/integrations/builtin/credentials/workable/\n/integrations/builtin/credentials/wufoo/\n/integrations/builtin/credentials/xata/\n/integrations/builtin/credentials/xero/\n/integrations/builtin/credentials/yourls/\n/integrations/builtin/credentials/zabbix/\n/integrations/builtin/credentials/zammad/\n/integrations/builtin/credentials/zendesk/\n/integrations/builtin/credentials/zep/\n/integrations/builtin/credentials/zoho/\n/integrations/builtin/credentials/zoom/\n/integrations/builtin/credentials/zscalerzia/\n/integrations/builtin/credentials/zulip/\n/integrations/builtin/credentials/google/\n/integrations/builtin/credentials/google/oauth-generic/\n/integrations/builtin/credentials/google/oauth-single-service/\n/integrations/builtin/credentials/google/service-account/\n/integrations/builtin/credentials/imap/\n/integrations/builtin/credentials/imap/gmail/\n/integrations/builtin/credentials/imap/outlook/\n/integrations/builtin/credentials/imap/yahoo/\n/integrations/builtin/credentials/sendemail/\n/integrations/builtin/credentials/sendemail/gmail/\n/integrations/builtin/credentials/sendemail/outlook/\n/integrations/builtin/credentials/sendemail/yahoo/\n/integrations/builtin/trigger-nodes/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.activecampaigntrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.acuityschedulingtrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.affinitytrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.airtabletrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.amqptrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.asanatrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.autopilottrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.awssnstrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.bitbuckettrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.boxtrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.brevotrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.calendlytrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.caltrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.chargebeetrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.ciscowebextrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.clickuptrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.clockifytrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.convertkittrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.coppertrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.crowddevtrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.customeriotrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.emeliatrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.eventbritetrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.facebookleadadstrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.figmatrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.flowtrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.formiotrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.formstacktrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.getresponsetrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.githubtrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.gitlabtrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.googlebusinessprofiletrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.googlecalendartrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.gumroadtrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.helpscouttrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.hubspottrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.invoiceninjatrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.jiratrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.jotformtrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.kafkatrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.keaptrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.kobotoolboxtrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.lemlisttrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.lineartrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.lonescaletrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.mailchimptrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.mailerlitetrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.mailjettrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.mautictrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.microsoftonedrivetrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.microsoftoutlooktrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.mqtttrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.netlifytrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.notiontrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.onfleettrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.paypaltrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.pipedrivetrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.postgrestrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.postmarktrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.pushcuttrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.rabbitmqtrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.redistrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.salesforcetrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.seatabletrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.shopifytrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.slacktrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.stravatrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.stripetrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.surveymonkeytrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.taigatrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.thehive5trigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.thehivetrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.toggltrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.trellotrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.twiliotrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.typeformtrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.venafitlsprotectcloudtrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.webflowtrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.whatsapptrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.wisetrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.woocommercetrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.workabletrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.wufootrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.zendesktrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.facebooktrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.facebooktrigger/ad-account/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.facebooktrigger/application/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.facebooktrigger/certificate-transparency/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.facebooktrigger/group/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.facebooktrigger/instagram/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.facebooktrigger/link/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.facebooktrigger/page/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.facebooktrigger/permissions/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.facebooktrigger/user/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.facebooktrigger/whatsapp/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.facebooktrigger/workplace-security/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.gmailtrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.gmailtrigger/common-issues/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.gmailtrigger/poll-mode-options/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.googledrivetrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.googledrivetrigger/common-issues/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.googlesheetstrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.googlesheetstrigger/common-issues/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.telegramtrigger/\n/integrations/builtin/trigger-nodes/n8n-nodes-base.telegramtrigger/common-issues/\n/integrations/community-nodes/blocklist/\n/integrations/community-nodes/build-community-nodes/\n/integrations/community-nodes/risks/\n/integrations/community-nodes/troubleshooting/\n/integrations/community-nodes/usage/\n/integrations/community-nodes/installation/\n/integrations/community-nodes/installation/gui-install/\n/integrations/community-nodes/installation/manual-install/\n/integrations/creating-nodes/overview/\n/integrations/creating-nodes/build/\n/integrations/creating-nodes/build/declarative-style-node/\n/integrations/creating-nodes/build/node-development-environment/\n/integrations/creating-nodes/build/programmatic-style-node/\n/integrations/creating-nodes/build/reference/\n/integrations/creating-nodes/build/reference/code-standards/\n/integrations/creating-nodes/build/reference/credentials-files/\n/integrations/creating-nodes/build/reference/http-helpers/\n/integrations/creating-nodes/build/reference/node-codex-files/\n/integrations/creating-nodes/build/reference/node-file-structure/\n/integrations/creating-nodes/build/reference/node-versioning/\n/integrations/creating-nodes/build/reference/paired-items/\n/integrations/creating-nodes/build/reference/ui-elements/\n/integrations/creating-nodes/build/reference/node-base-files/\n/integrations/creating-nodes/build/reference/node-base-files/declarative-style-parameters/\n/integrations/creating-nodes/build/reference/node-base-files/programmatic-style-execute-method/\n/integrations/creating-nodes/build/reference/node-base-files/programmatic-style-parameters/\n/integrations/creating-nodes/build/reference/node-base-files/standard-parameters/\n/integrations/creating-nodes/build/reference/node-base-files/structure/\n/integrations/creating-nodes/deploy/\n/integrations/creating-nodes/deploy/install-private-nodes/\n/integrations/creating-nodes/deploy/submit-community-nodes/\n/integrations/creating-nodes/plan/\n/integrations/creating-nodes/plan/choose-node-method/\n/integrations/creating-nodes/plan/node-types/\n/integrations/creating-nodes/plan/node-ui-design/\n/integrations/creating-nodes/test/\n/integrations/creating-nodes/test/node-linter/\n/integrations/creating-nodes/test/run-node-locally/\n/integrations/creating-nodes/test/troubleshooting-node-development/\n/manage-cloud/ai-assistant/\n/manage-cloud/change-ownership-or-username/\n/manage-cloud/cloud-admin-dashboard/\n/manage-cloud/cloud-data-management/\n/manage-cloud/cloud-ip/\n/manage-cloud/concurrency/\n/manage-cloud/overview/\n/manage-cloud/set-cloud-timezone/\n/manage-cloud/update-cloud-version/\n/privacy-security/\n/privacy-security/incident-response/\n/privacy-security/privacy/\n/privacy-security/what-you-can-do/\n/release-notes/0-x/\n/source-control-environments/\n/source-control-environments/create-environments/\n/source-control-environments/setup/\n/source-control-environments/understand/\n/source-control-environments/understand/environments/\n/source-control-environments/understand/git/\n/source-control-environments/understand/patterns/\n/source-control-environments/using/\n/source-control-environments/using/copy-work/\n/source-control-environments/using/manage-variables/\n/source-control-environments/using/push-pull/\n/try-it-out/\n/try-it-out/quickstart/\n/try-it-out/tutorial-first-workflow/\n/user-management/\n/user-management/account-types/\n/user-management/best-practices/\n/user-management/cloud-setup/\n/user-management/ldap/\n/user-management/manage-users/\n/user-management/two-factor-auth/\n/user-management/rbac/\n/user-management/rbac/projects/\n/user-management/rbac/role-types/\n/user-management/saml/\n/user-management/saml/managing/\n/user-management/saml/okta/\n/user-management/saml/setup/\n/user-management/saml/troubleshooting/\n/workflows/\n/workflows/create/\n/workflows/export-import/\n/workflows/history/\n/workflows/settings/\n/workflows/sharing/\n/workflows/tags/\n/workflows/templates/\n/workflows/workflow-id/\n/workflows/components/\n/workflows/components/connections/\n/workflows/components/nodes/\n/workflows/components/sticky-notes/\n/workflows/executions/\n/workflows/executions/all-executions/\n/workflows/executions/custom-executions-data/\n/workflows/executions/debug/\n/workflows/executions/manual-partial-and-production-executions/\n/workflows/executions/single-workflow-executions/"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        -540,
+        880
+      ],
+      "id": "3c5eb38b-80d3-4b7f-911f-8426784e773a",
+      "name": "Docs agent (n8n)"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message }}",
+        "options": {
+          "systemMessage": "=You are a very helpful assistant working as a part of larger chat system. User can access conversation with you from main menu. Your task is to provide information about Typbot based on the docs. Use GitHub tool to retrieve the correct docs (all docs are in /apps/docs directory).\n\nYour response MUST always be plain text (no Markdown, no links, or text formatting).\n\nAgent is capable of performing actions:\n{{ $json.action }}\n\nAction that will be taken: {{ $json.action }}\n\nRespond to user accordingly for the action to be taken. If action value is not on a given actions list, run conversation forward.\n\nReactions: \n{{ $json.reactions }}\n\nHere are the paths. Pass them to the tool as they are - without any modifications. Don't add any file paths or extensions.\n\nPath list:\n/api-reference/analytics/get-stats\n/api-reference/authentication\n/api-reference/billing/get-usage\n/api-reference/billing/list-invoices\n/api-reference/chat/continue-chat\n/api-reference/chat/generate-upload-url\n/api-reference/chat/save-logs\n/api-reference/chat/start-chat\n/api-reference/chat/start-preview-chat\n/api-reference/chat/update-typebot-in-session\n/api-reference/folder/create\n/api-reference/folder/delete\n/api-reference/folder/get\n/api-reference/folder/list\n/api-reference/folder/update\n/api-reference/how-to\n/api-reference/results/delete\n/api-reference/results/get\n/api-reference/results/list\n/api-reference/results/list-logs\n/api-reference/typebot/create\n/api-reference/typebot/delete\n/api-reference/typebot/get\n/api-reference/typebot/get-published-bot\n/api-reference/typebot/import\n/api-reference/typebot/list\n/api-reference/typebot/publish\n/api-reference/typebot/unpublish\n/api-reference/typebot/update\n/api-reference/workspace/create\n/api-reference/workspace/delete\n/api-reference/workspace/get\n/api-reference/workspace/list\n/api-reference/workspace/list-members\n/api-reference/workspace/update\n/breaking-changes\n/contribute/guidelines\n/contribute/guides/blog\n/contribute/guides/create-block\n/contribute/guides/documentation\n/contribute/guides/local-installation\n/contribute/guides/translation\n/contribute/overview\n/contribute/the-forge/action\n/contribute/the-forge/auth\n/contribute/the-forge/block\n/contribute/the-forge/cli\n/contribute/the-forge/fetcher\n/contribute/the-forge/options\n/contribute/the-forge/overview\n/contribute/the-forge/run\n/deploy/api/overview\n/deploy/web/blink\n/deploy/web/custom-domain\n/deploy/web/html-javascript\n/deploy/web/iframe\n/deploy/web/next-js\n/deploy/web/overview\n/deploy/web/react\n/deploy/web/script\n/deploy/web/webflow\n/deploy/web/wordpress\n/deploy/whatsapp/create-meta-app\n/deploy/whatsapp/overview\n/editor/blocks/bubbles/audio\n/editor/blocks/bubbles/embed\n/editor/blocks/bubbles/image\n/editor/blocks/bubbles/text\n/editor/blocks/bubbles/video\n/editor/blocks/inputs/buttons\n/editor/blocks/inputs/date\n/editor/blocks/inputs/email\n/editor/blocks/inputs/file-upload\n/editor/blocks/inputs/number\n/editor/blocks/inputs/payment\n/editor/blocks/inputs/phone-number\n/editor/blocks/inputs/picture-choice\n/editor/blocks/inputs/rating\n/editor/blocks/inputs/text\n/editor/blocks/inputs/time\n/editor/blocks/inputs/website\n/editor/blocks/integrations/anthropic\n/editor/blocks/integrations/chatwoot\n/editor/blocks/integrations/dify-ai\n/editor/blocks/integrations/elevenlabs\n/editor/blocks/integrations/google-analytics\n/editor/blocks/integrations/google-sheets\n/editor/blocks/integrations/http-request\n/editor/blocks/integrations/make-com\n/editor/blocks/integrations/meta-pixel\n/editor/blocks/integrations/mistral\n/editor/blocks/integrations/nocodb\n/editor/blocks/integrations/openai\n/editor/blocks/integrations/pabbly-connect\n/editor/blocks/integrations/posthog\n/editor/blocks/integrations/segment\n/editor/blocks/integrations/send-email\n/editor/blocks/integrations/zapier\n/editor/blocks/integrations/zendesk\n/editor/blocks/logic/ab-test\n/editor/blocks/logic/condition\n/editor/blocks/logic/jump\n/editor/blocks/logic/redirect\n/editor/blocks/logic/script\n/editor/blocks/logic/set-variable\n/editor/blocks/logic/typebot-link\n/editor/blocks/logic/wait\n/editor/blocks/logic/webhook\n/editor/blocks/overview\n/editor/context-menu\n/editor/events/command\n/editor/export-import\n/editor/graph\n/editor/publish\n/editor/share\n/editor/variables\n/faq\n/get-started/introduction\n/get-started/overview\n/guides/how-to-create-loops\n/guides/how-to-get-help\n/guides/how-to-split-ai-messages-in-multi-blocks\n/guides/mailer-lite\n/guides/multi-avatars\n/guides/rtl\n/guides/utm-in-results\n/report-abuse\n/results/analytics\n/results/overview\n/self-hosting/breaking-changes\n/self-hosting/configuration\n/self-hosting/deploy/alibaba-cloud\n/self-hosting/deploy/docker\n/self-hosting/deploy/manual\n/self-hosting/deploy/vercel\n/self-hosting/get-started\n/self-hosting/guides/planetscale\n/self-hosting/guides/s3\n/self-hosting/troubleshoot\n/settings/overview\n/settings/remember-user\n/theme/font\n/theme/overview\n/user/credentials\n/user/delete-account\n/user/preferences\n/workspace\n/workspace/add-members-and-guests\n/workspace/subscription"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        -540,
+        480
+      ],
+      "id": "8c504c33-f3e8-4254-b9c3-cca1164ae226",
+      "name": "Docs agent (Typebot)"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -460,
+        700
+      ],
+      "id": "52972311-4a5b-4a24-ab74-67251b72944b",
+      "name": "Memory (Typebot)"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -640,
+        1120
+      ],
+      "id": "62ffb04b-0da2-43b9-9be3-75f6f77b8991",
+      "name": "OpenAI (n8n)",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -480,
+        1120
+      ],
+      "id": "3a42cac4-242f-44a1-b58b-0439e7ce5338",
+      "name": "Memory (n8n)"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        60,
+        140
+      ],
+      "id": "6063e825-9374-4985-ac7d-ba196aa410f7",
+      "name": "Merge output"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "https://github.com/baptisteArno",
+          "mode": "url"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "https://github.com/baptisteArno/typebot.io",
+          "mode": "url"
+        },
+        "filePath": "={{ '/apps/docs' + $fromAI('File_Path', ``, 'string') + '.mdx' }}",
+        "asBinaryProperty": false,
+        "additionalParameters": {
+          "reference": ""
+        }
+      },
+      "type": "n8n-nodes-base.githubTool",
+      "typeVersion": 1,
+      "position": [
+        -300,
+        700
+      ],
+      "id": "0fb00005-ebf8-4b60-b45d-83acc65f7484",
+      "name": "GitHub - Typebot",
+      "webhookId": "224540e6-6ef2-428f-a4dd-9600253504c0",
+      "credentials": {
+        "githubApi": {
+          "id": "bLNtfkba10lWS5IP",
+          "name": "GitHub Acc-APIAccessToken(hansondev)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "operation": "get",
+        "owner": {
+          "__rl": true,
+          "value": "https://github.com/n8n-io",
+          "mode": "url"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "https://github.com/n8n-io/n8n-docs",
+          "mode": "url"
+        },
+        "filePath": "={{ '/docs' + $fromAI('File_Path', ``, 'string').replace(/\\/$/, \"\") + \".md\" }}",
+        "asBinaryProperty": false,
+        "additionalParameters": {
+          "reference": ""
+        }
+      },
+      "type": "n8n-nodes-base.githubTool",
+      "typeVersion": 1,
+      "position": [
+        -300,
+        1120
+      ],
+      "id": "f4c7f1f7-8964-4684-989f-1ac701675dcc",
+      "name": "GitHub - n8n",
+      "webhookId": "ea6716f8-a5e6-49fd-beda-cf019884187e",
+      "credentials": {
+        "githubApi": {
+          "id": "bLNtfkba10lWS5IP",
+          "name": "GitHub Acc-APIAccessToken(hansondev)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "### Set actions and bot behavior\nDescribe carefully in variable `actions` available operations for the bot. \n\nIn variable `reactions` define how bot should react to the given action (e.g. inform user about triggering the specific action). \n\n⚠️ **Feel free to define your own actions - remember to set also correct paths in your Typebot chatflow.**\n\n🚨 **Be careful about the structure of the content - please be consistent as this data is passed to the agents.**",
+        "height": 500,
+        "width": 340
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2460,
+        280
+      ],
+      "id": "0588fac6-c219-4889-9268-86a0089a1abf",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "### Define action\nThis chain is responsible for recognizing the action that user wants to trigger based on the context of the message.",
+        "height": 280,
+        "width": 540
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2060,
+        60
+      ],
+      "id": "d0fa202b-0b7a-4e70-bdda-47344a7800e2",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "### Merge all data\nMerge input message, session ID, category variable, actions, reactions and recognized action together. ",
+        "height": 340
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1440,
+        400
+      ],
+      "id": "d2343613-8a1b-41ec-8a2c-801b10f9e7f4",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "### Agent switcher\nForward the message (query) to the specific agent (based on choice of the user in Typebot).",
+        "height": 340
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1180,
+        400
+      ],
+      "id": "0148fb0b-d285-4679-89bf-772427191779",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "### Agents (generate output message)\nThose agents are responsible for retrieving data from GitHub docs and answersing questions related to Typebot/n8n. \n\n⚠️ **For your use case, you can change those agents entirely, add your own tools, prompts and functionalities.**\n\n🚨 **Remember to keep user message, actions and reactions in the context window of the agent.**",
+        "height": 1000,
+        "width": 580
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -720,
+        260
+      ],
+      "id": "c6895adb-094a-41dc-ad35-70c57455f0a1",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "### Response data\nMerge defined action and output from agent. Send data back to Typebot.",
+        "height": 300
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "80b6bd96-fd3f-436f-b6a6-fb1d656e1ae9",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## ⚠️ Note\n\n1. Complete video guide for this workflow is available [on my YouTube](https://youtu.be/Qmru6rZ16oE).\n2. Remember to add your credentials and configure nodes.\n3. If you like this workflow, please subscribe to [my YouTube channel](https://www.youtube.com/@workfloows) and/or [my newsletter](https://workfloows.com/).\n\n**Thank you for your support!**",
+        "height": 237,
+        "width": 421
+      },
+      "id": "2c54ca4e-4aa1-4630-9fa5-e70847c3b351",
+      "name": "Sticky Note6",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -3200,
+        680
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## Smart Multi-Agent Chat Bot\n\nThis workflow is responsible for recognizing the user’s intention to perform a specific action (e.g., signing up for the newsletter) and composing a response using one of the AI agents (previously chosen by the user).\n\nThe workflow uses [Typebot](https://typebot.io/) as a chat interface to run both regular LLM conversations and perform actions defined by this workflow.",
+        "height": 237,
+        "width": 421,
+        "color": 7
+      },
+      "id": "218a5d54-45ee-41c8-9de2-ade3429c77eb",
+      "name": "Sticky Note7",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -3200,
+        60
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "## 🚨 Important\n\nThis workflow is intended to connect and use with [Typebot](https://typebot.io/). You can download example Typebot workflow [here](https://gist.github.com/workfloows/5e580d600213bbda4ebc8fe36d4731c8).\n\nTo use Typebot chatflow:\n1. Go to [source file](https://gist.github.com/workfloows/5e580d600213bbda4ebc8fe36d4731c8) of the chat flow, save it e.g. as `chatflow.json`\n2. Go to Typebot dashboard and click \"Create a typebot\"\n3. Click \"Import a file\"\n4. Select saved JSON file from step 1\n\nVideo guide for this concept is available on [my YouTube channel](https://youtu.be/Qmru6rZ16oE).\n\n",
+        "height": 337,
+        "width": 421,
+        "color": 3
+      },
+      "id": "e0e50fa1-5991-4972-ad14-07d2b7d8c22b",
+      "name": "Sticky Note8",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -3200,
+        320
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -620,
+        700
+      ],
+      "id": "8b2fb64c-9ee4-433d-9a4c-6f3f418f0101",
+      "name": "OpenAI (Typebot)",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "### Chat trigger\nUse the chat webhook link to transfer the data from Typebot to n8n.",
+        "height": 280
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2720,
+        500
+      ],
+      "id": "550db5e7-0b2f-4232-8ae3-dd67021de6f8",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "9d08160d-7f5b-4701-8ab1-1e43e38ccfe1",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -2660,
+        620
+      ],
+      "id": "8689c988-91ee-4078-9486-b1e510630354",
+      "name": "Webhook",
+      "webhookId": "9d08160d-7f5b-4701-8ab1-1e43e38ccfe1"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"response\": {{ JSON.stringify($json.response) }}\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.2,
+      "position": [
+        700,
+        140
+      ],
+      "id": "2dc12540-2130-4af5-8097-070062a501ad",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6fa3d324-1bf5-410c-b373-343e4abee17e",
+              "name": "response",
+              "value": "={\n  \"output\": {{ $json.output.toJsonString() }},\n  \"action\": {{ $json.action.toJsonString() }}\n}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        420,
+        140
+      ],
+      "id": "3341679b-1735-4c4f-8b8f-4104b91a62be",
+      "name": "Edit Fields"
+    }
+  ],
+  "connections": {
+    "Chat trigger": {
+      "main": [
+        []
+      ]
+    },
+    "Set actions and reactions": {
+      "main": [
+        [
+          {
+            "node": "Define action",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge input and defined action",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Define action": {
+      "main": [
+        [
+          {
+            "node": "Set defined action",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI (actions)": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Define action",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON Parser (actions)": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Define action",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set defined action": {
+      "main": [
+        [
+          {
+            "node": "Merge input and defined action",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge input and defined action": {
+      "main": [
+        [
+          {
+            "node": "Switch agents",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch agents": {
+      "main": [
+        [
+          {
+            "node": "Docs agent (Typebot)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Docs agent (n8n)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Docs agent (n8n)": {
+      "main": [
+        [
+          {
+            "node": "Merge output",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Docs agent (Typebot)": {
+      "main": [
+        [
+          {
+            "node": "Merge output",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Memory (Typebot)": {
+      "ai_memory": [
+        [
+          {
+            "node": "Docs agent (Typebot)",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI (n8n)": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Docs agent (n8n)",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Memory (n8n)": {
+      "ai_memory": [
+        [
+          {
+            "node": "Docs agent (n8n)",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub - Typebot": {
+      "ai_tool": [
+        [
+          {
+            "node": "Docs agent (Typebot)",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub - n8n": {
+      "ai_tool": [
+        [
+          {
+            "node": "Docs agent (n8n)",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI (Typebot)": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Docs agent (Typebot)",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Set actions and reactions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge output": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "87ef8e44-45e5-464b-a76b-571a9a068be5",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2025-05-10T09:18:53.009Z",
+      "createdAt": "2025-05-10T09:18:53.009Z",
+      "role": "workflow:owner",
+      "workflowId": "JtGavv3MtojdftQA",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
