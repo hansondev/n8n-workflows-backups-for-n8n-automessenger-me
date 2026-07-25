@@ -1,0 +1,132 @@
+{
+  "updatedAt": "2024-02-17T09:50:06.000Z",
+  "createdAt": "2024-02-17T09:34:15.697Z",
+  "id": "jKYdZ7gAmS0yps0H",
+  "name": "AI Workflow Tuts 1: Raw_JSON_Data (Fruits)",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "return [{\"fruit\": \"apple\", \"color\": \"green\", \"dataPrivacyLevel\": \"public\"},{\"fruit\": \"banana\", \"color\": \"yellow\", \"dataPrivacyLevel\": \"public\"},{\"fruit\": \"tomato\", \"color\": \"red\", \"dataPrivacyLevel\": \"private\"}]"
+      },
+      "id": "3e64f2a7-2720-4656-8d7c-1d2dbe2c0121",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        820,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "public",
+              "value2": "={{ $json.dataPrivacyLevel }}"
+            }
+          ]
+        }
+      },
+      "id": "e471a4a6-233a-4ac0-8ae1-6892f38449cc",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 1,
+      "position": [
+        1020,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "include": "specifiedFields",
+        "fieldsToInclude": "fruit, color",
+        "options": {}
+      },
+      "id": "3a062dc0-3011-488d-8043-f403a73386f7",
+      "name": "Aggregate",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1240,
+        220
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "27c1771b-9cd9-4297-8964-5f2f6cc8a9fe",
+      "name": "Execute Workflow Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1,
+      "position": [
+        640,
+        220
+      ]
+    }
+  ],
+  "connections": {
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Workflow Trigger": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "727d1e6c-4d84-452b-afed-be85cadaf0dd",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-02-17T09:34:15.728Z",
+      "createdAt": "2024-02-17T09:34:15.728Z",
+      "role": "workflow:owner",
+      "workflowId": "jKYdZ7gAmS0yps0H",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2024-02-17T09:50:04.623Z",
+      "createdAt": "2024-02-17T09:50:04.623Z",
+      "id": "WMFzqjADjj4FDJJS",
+      "name": "N8N_AI_Workflow_Tuts"
+    }
+  ]
+}
