@@ -1,0 +1,2797 @@
+{
+  "updatedAt": "2025-12-16T09:10:06.000Z",
+  "createdAt": "2025-06-17T15:30:40.414Z",
+  "id": "fOkPRDzHPGtoPp9x",
+  "name": "[Creo_Project: SementraResort][MAIN Agent] - FB Content Planner AI Agent(LATEST)",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        -1968,
+        384
+      ],
+      "id": "d75bfe2d-13ca-4d35-9ef1-95be248ab23c",
+      "name": "DeepSeek Chat Model",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "8Hvjw0JNKmbO191K",
+          "name": "DeepSeekAPI - info.hansondev@gmail.com"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        -1088,
+        320
+      ],
+      "id": "c654e150-3ae9-4197-a19a-d7b88efb819b",
+      "name": "Think"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[\n  {\n    \"datePosting\": \"27 Apr 2025\",\n    \"textPostV1\": \"🌿 Escape to Serenity at Sementra Hot Spring Nature Resort! 🌿\\n\\n Unwind in our natural hot springs, explore lush trails, and enjoy the soothing sounds of nature. Perfect for a quick getaway or a longer retreat. \\n\\n Book your stay now: https://bit.ly/BookingSMT \\n\\n #SementraResort #NatureEscape #HotSpringBliss #Relaxation #MalaysiaHoliday\",\n    \"textPostV2\": \"Ready for a mid-year reset? 🌿 Escape the hustle and bustle and immerse yourself in the calming embrace of nature. Let the soothing sounds of the rainforest and the warmth of our hot springs melt your stress away.\\n\\n 🏨Book your stay at Sementra Resort now👉 https://bit.ly/BookingSMT\\n\\n #SementraReset #NatureHeals #MidYearEscape #GopengGetaway #RainforestRetreat #MalaysiaTravel\",\n    \"visualIdea\": \"A captivating video reel showcasing a montage of serene moments at the resort: steam rising from the hot springs at dawn, sunlight filtering through the trees, a gentle waterfall, and a guest peacefully meditating by the river. The video should have a calming and cinematic feel.\"\n  },\n  {\n    \"datePosting\": \"29 Apr 2025\",\n    \"textPostV1\": \"🏞️ Adventure Awaits at Sementra! 🏞️ \\n\\n From hiking to waterfall swimming, there’s something for everyone. Plan your next adventure with us and create unforgettable memories. \\n\\n Book your adventure: https://bit.ly/BookingSMT \\n\\n #AdventureTime #SementraResort #OutdoorFun #ExploreNature #WeekendGetaway\",\n    \"textPostV2\": \"Did you know that the vibrant Rajah Brooke's Birdwing butterfly is a common sight here? 🦋 These stunning creatures are a symbol of Malaysia's rich biodiversity. Keep your eyes peeled during your nature walk – you might just spot one!\\n\\n 🏨Book your stay at Sementra Resort now👉 https://bit.ly/BookingSMT\\n\\n #RajahBrooke #ButterflyWatching #SementraWildlife #NatureLovers #Gopeng #MalaysiaNature\",    \n    \"visualIdea\": \"A carousel of high-quality photos. The first image is a stunning close-up of a Rajah Brooke's Birdwing butterfly. Subsequent images show guests on a guided nature walk, looking up at the trees with binoculars, and wide shots of the lush greenery where the butterflies can be found. The final image could be a simple graphic with a fun fact about the butterfly.\"\n  },\n  {\n    \"datePosting\": \"5 May 2025\",\n    \"textPostV1\": \"💆‍♂️ Recharge Your Mind and Body 💆‍♂️ \\n\\n Our hot springs are rich in minerals that promote relaxation and well-being. Treat yourself to a rejuvenating soak today! \\n\\n Book now: https://bit.ly/BookingSMT \\n\\n #WellnessRetreat #SementraResort #HotSpringTherapy #Relaxation #SelfCare\",\n    \"textPostV2\": \"What's your ultimate travel style: thrilling adventures or peaceful relaxation? 🤔 Let us know in the comments! At Sementra, you don't have to choose. You can have both!\\n\\n 🏨Book your stay at Sementra Resort now👉 https://bit.ly/BookingSMT\\n\\n #AdventureOrRelax #TravelQuiz #SementraResort #Gopeng #MalaysiaAdventure #NatureRetreat\",    \n    \"visualIdea\": \"An engaging poll-style static image with a split-screen design. One side shows an adventurous activity like white water rafting, and the other side shows a tranquil scene like a person relaxing in the hot springs. The headline would be 'Adventure or Relaxation?' with options for the audience to comment.\"\n  }  \n]\n\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        -880,
+        304
+      ],
+      "id": "b5b4e136-246d-4810-bfca-a021086db70b",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -1088,
+        80
+      ],
+      "id": "f930fa48-6318-4224-ad4d-422bcdda63ba",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $('Copy Last Month Content Planner GDocs').first().json.id }}",
+        "simple": false
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        -1136,
+        1248
+      ],
+      "id": "dba3b005-a766-4c7a-8ccb-69d9cafb76d6",
+      "name": "Google Docs",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -1616,
+        1168
+      ],
+      "id": "1fc95df6-f032-43da-af32-5ae1c55058fc",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3bd4c732-4a26-4638-81c9-36034ca9a617",
+              "name": "tableCells",
+              "value": "={{ $jmespath($json.body.content, '[?table].table.tableRows[-1].tableCells')[0] }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        64,
+        992
+      ],
+      "id": "431a79d4-6d44-4a97-b499-59305dbf8077",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "11368f3e-434a-4cb9-a1c8-cb7d3a7f8daf",
+              "name": "table",
+              "value": "={{ $jmespath($json.body.content, '[?table]')[0] }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -960,
+        1248
+      ],
+      "id": "08f77204-26a4-43f6-99ff-9ea3a6964e1e",
+      "name": "Get Table"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $('Copy Last Month Content Planner GDocs').first().json.id }}",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "object": "tableRow",
+              "action": "insert",
+              "index": "={{ $('Get Table1').item.json.table.startIndex }}",
+              "rowIndex": "={{ $('Get Table1').item.json.table.table.tableRows.length - 1 }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        -368,
+        992
+      ],
+      "id": "84407a46-ea3c-4bf7-85d5-ba01d991d9ad",
+      "name": "Insert table row at bottom",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $('Copy Last Month Content Planner GDocs').first().json.id }}",
+        "simple": false
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        -144,
+        992
+      ],
+      "id": "75df2af0-06de-4326-b4dc-a80bd1fc249b",
+      "name": "Get updated document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to get the upcoming regional public holidays in order to create general festival greetings or story history of some regional festive posting to match the festive appreciation or holiday celebration for content post.",
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "en.malaysia#holiday@group.v.calendar.google.com",
+          "mode": "list",
+          "cachedResultName": "Holidays in Malaysia"
+        },
+        "returnAll": true,
+        "timeMin": "={{ $now.plus(16, 'days') }}",
+        "timeMax": "={{ $now.plus(7,'weeks') }}",
+        "options": {
+          "fields": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Fields', ``, 'string') }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        -1136,
+        448
+      ],
+      "id": "137d0737-859e-4c65-8471-4b7e0098709c",
+      "name": "get_public_holidays",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "UZglpsDrPwduER7r",
+          "name": "GCalendar(boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formTitle": "Creo Client: Sementra Resort Monthly Social Media Posting Form",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Month of Year",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "January"
+                  },
+                  {
+                    "option": "February"
+                  },
+                  {
+                    "option": "March"
+                  },
+                  {
+                    "option": "April"
+                  },
+                  {
+                    "option": "May"
+                  },
+                  {
+                    "option": "June"
+                  },
+                  {
+                    "option": "July"
+                  },
+                  {
+                    "option": "August"
+                  },
+                  {
+                    "option": "september"
+                  },
+                  {
+                    "option": "October"
+                  },
+                  {
+                    "option": "November"
+                  },
+                  {
+                    "option": "December"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Start Posting Date",
+              "fieldType": "date"
+            },
+            {
+              "fieldLabel": "End Posting Date",
+              "fieldType": "date"
+            },
+            {
+              "fieldLabel": "Tone And Voice",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Conversational"
+                  },
+                  {
+                    "option": "Friendly"
+                  },
+                  {
+                    "option": "Formal"
+                  },
+                  {
+                    "option": "Informal"
+                  },
+                  {
+                    "option": "Aggressive"
+                  },
+                  {
+                    "option": "Persuasive"
+                  }
+                ]
+              },
+              "multiselect": true
+            },
+            {
+              "fieldLabel": "Total Posts Generator",
+              "fieldType": "number"
+            },
+            {
+              "fieldLabel": "Visual Types Posts Segmentation",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Video Reels: 6 Posts"
+                  },
+                  {
+                    "option": "Static Image/Image Carousel: 6 Posts"
+                  }
+                ]
+              },
+              "multiselect": true
+            },
+            {
+              "fieldLabel": "Visual Ideation",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Malaysia travel or tourism general tips and guidelines."
+                  },
+                  {
+                    "option": "Travel and leisure based tips and guidelines."
+                  },
+                  {
+                    "option": "Quizes or Polls about the general and specific local travel based information."
+                  },
+                  {
+                    "option": "Engaging mini-games for audience having fun and engage"
+                  }
+                ]
+              },
+              "multiselect": true
+            }
+          ]
+        },
+        "options": {
+          "path": "sementra-fb-post-generator"
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -2640,
+        -1488
+      ],
+      "id": "de7de518-2c3c-4b6f-983c-83cb2890486f",
+      "name": "On form submission",
+      "webhookId": "96899b02-77f3-4344-ab09-e99d8fb95c38"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $('Copy Last Month Content Planner GDocs').first().json.id }}",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "object": "tableRow",
+              "action": "delete",
+              "index": "={{ $json[\"table\"][\"startIndex\"] }}",
+              "rowIndex": "={{ $json[\"table\"][\"table\"][\"tableRows\"].length - 1 }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        -784,
+        1248
+      ],
+      "id": "38221ed4-5400-4653-af21-c10ade07905e",
+      "name": "Google Docs1",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $('Copy Last Month Content Planner GDocs').first().json.id }}",
+        "simple": false
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        -784,
+        992
+      ],
+      "id": "bfad4232-669a-46b2-9fcc-4cb0d0bb8833",
+      "name": "Google Docs2",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "11368f3e-434a-4cb9-a1c8-cb7d3a7f8daf",
+              "name": "table",
+              "value": "={{ $jmespath($json.body.content, '[?table]')[0] }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -560,
+        992
+      ],
+      "id": "a3c7f1d9-6fff-4014-a11a-a3226400451f",
+      "name": "Get Table1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bae18e06-1a31-4a2d-99c0-a1bfb201dc9e",
+              "name": "Month Year",
+              "value": "={{ $json['Month Year'] }}",
+              "type": "string"
+            },
+            {
+              "id": "74aa8c3f-48e3-4c72-ba2c-b35155464b9d",
+              "name": "datePosting",
+              "value": "={{ $json['Date Posting'] }}",
+              "type": "string"
+            },
+            {
+              "id": "d2e4f52e-d396-4361-9cce-b7e7623cb2fb",
+              "name": "textPostV1",
+              "value": "={{ $json['Text Post V1'] }}",
+              "type": "string"
+            },
+            {
+              "id": "0ecff522-dcba-4822-8c6c-4aff3d8afcea",
+              "name": "textPostV2",
+              "value": "={{ $json['Text Post V2'] }}",
+              "type": "string"
+            },
+            {
+              "id": "9917245f-d1ac-4329-a039-4d0f95f732e6",
+              "name": "visualIdea",
+              "value": "={{ $json['Visual Idea'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1376,
+        1248
+      ],
+      "id": "c480ba4d-0ede-42f7-9bd7-62a5148e7b31",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "74aa8c3f-48e3-4c72-ba2c-b35155464b9d",
+              "name": "datePosting",
+              "value": "={{ $('Edit Fields3').first().json.datePosting }}",
+              "type": "string"
+            },
+            {
+              "id": "d2e4f52e-d396-4361-9cce-b7e7623cb2fb",
+              "name": "textPostV1",
+              "value": "={{ $('Edit Fields3').first().json.textPostV1 }}",
+              "type": "string"
+            },
+            {
+              "id": "7df15573-fb54-4d42-95d8-c7d17048076f",
+              "name": "textPostV2",
+              "value": "={{ $('Edit Fields3').first().json.textPostV2 }}",
+              "type": "string"
+            },
+            {
+              "id": "9917245f-d1ac-4329-a039-4d0f95f732e6",
+              "name": "visualIdea",
+              "value": "={{ $('Edit Fields3').first().json.visualIdea }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1296,
+        960
+      ],
+      "id": "50331e80-a834-4345-a7d1-5653302a8ff0",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -1024,
+        960
+      ],
+      "id": "beebd737-981b-4dda-9fde-b6c6449a8133",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "create",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mxmnsinj8bpe6ix",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Month",
+              "fieldValue": "={{ $json['Month of Year'] }}"
+            },
+            {
+              "fieldName": "Start Posting Date",
+              "fieldValue": "={{ $json['Start Posting Date'] }}"
+            },
+            {
+              "fieldName": "End Posting Date",
+              "fieldValue": "={{ $json['End Posting Date'] }}"
+            },
+            {
+              "fieldName": "Tone And Voice",
+              "fieldValue": "={{ $json['Tone And Voice'] }}"
+            },
+            {
+              "fieldName": "Total Posts Generate",
+              "fieldValue": "={{ $json['Total Posts Generator'] }}"
+            },
+            {
+              "fieldName": "Post Type Segmentation",
+              "fieldValue": "=- {{ $json['Visual Types Posts Segmentation'].join(\"\\n -\") }}"
+            },
+            {
+              "fieldName": "Visual Ideation",
+              "fieldValue": "=- {{ $json['Visual Ideation'].join(\"\\n- \") }}"
+            },
+            {
+              "fieldName": "Status",
+              "fieldValue": "Pending"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -2320,
+        -1488
+      ],
+      "id": "7a9e7c28-9ae1-47e7-b96d-496b66a9bd68",
+      "name": "NocoDB",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "sementra-fb-post-generator",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -2704,
+        144
+      ],
+      "id": "1e4efcde-2331-4196-b83b-4e17ec4ebb8e",
+      "name": "Webhook",
+      "webhookId": "7877e78d-081d-41dc-a1ae-daf2102c8e7b"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=- {{ $json['Visual Ideation'].join(\"\\n -\") }}"
+            },
+            {
+              "content": "=<Role>\nYou are a social media content planning specialist who familiarized with most trending social media platforms including Facebook, Instagram, TikTok, X.com, LinkedIn etc that knowing about the content posting structure is different based on the social media platforms.\n</Role>\n<Task>\nYou are tasked to come out at least 4 to 5 target audience list based on provided user details and provided tool to fetch the company background and research details.\n</Task>\n<Tools>\nYou are require to use the listed tool(s) in order for well-understand about the company background, brand, product and services before come out the list of target audience as below:\n- research_data_fetcher: Use this tool to read and fetch the data needed such as company name, company website, company location, industry types and research output.\n</Tools>\n<Output>\nYou should only generate what the user requested as output without any other explaination and extra information about the requested task in text based.",
+              "role": "system"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -2016,
+        -1488
+      ],
+      "id": "9831aa4e-4a29-4016-b208-a8918baa5676",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mz1o2jdyqtf2vy4",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDbTool",
+      "typeVersion": 3,
+      "position": [
+        -2000,
+        -1280
+      ],
+      "id": "86961d87-50da-49b6-a4ee-9cb321f9ad6b",
+      "name": "NocoDB1",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mxmnsinj8bpe6ix",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('NocoDB').item.json.Id }}"
+            },
+            {
+              "fieldName": "Target Audience",
+              "fieldValue": "={{ $json.message.content }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -1664,
+        -1488
+      ],
+      "id": "7ce190be-1bc7-4c04-8ec0-f499606317a1",
+      "name": "NocoDB2",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -2016,
+        112
+      ],
+      "id": "05fe7498-7722-4f0c-b094-1c37cd6d00fc",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1764e9a9-8a3f-4101-93e2-2641f4c33b74",
+              "name": "month",
+              "value": "={{ $json.Month }}",
+              "type": "string"
+            },
+            {
+              "id": "aff2545b-fbf6-4138-8b75-399a086c821c",
+              "name": "startDate",
+              "value": "={{ $json['Start Posting Date'] }}",
+              "type": "string"
+            },
+            {
+              "id": "0c53bcea-8520-40b1-997e-6bb9a1c51355",
+              "name": "endDate",
+              "value": "={{ $json['End Posting Date'] }}",
+              "type": "string"
+            },
+            {
+              "id": "4fb9d3d7-2613-4dd7-83d7-e206fdd81ef8",
+              "name": "brandName",
+              "value": "={{ $json['Company Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "43efa54e-d6f9-4e33-a396-894c5cd891d2",
+              "name": "companyUrl",
+              "value": "={{ $json['Company Website'] }}",
+              "type": "string"
+            },
+            {
+              "id": "b235bac2-0188-4462-ae8e-d0be95dcadc4",
+              "name": "industryCategory",
+              "value": "={{ $json['Industry Types'] }}",
+              "type": "string"
+            },
+            {
+              "id": "e95da6c6-6d82-4ba2-a56f-1abbcd85e0ec",
+              "name": "targetAudience",
+              "value": "={{ $json['Target Audience'] }}",
+              "type": "string"
+            },
+            {
+              "id": "9f85fe60-9044-4cc9-9f45-80ac4d70a079",
+              "name": "coreServices",
+              "value": "={{ $json['Core Services'] }}",
+              "type": "string"
+            },
+            {
+              "id": "14ecb7f0-57e5-4fca-aa1a-549ffecfdc20",
+              "name": "totalPostsToGenerate",
+              "value": "={{ $json['Total Posts Generate'] }}",
+              "type": "number"
+            },
+            {
+              "id": "f8f111a4-67d4-4af8-90f1-c41f66382a74",
+              "name": "callToAction",
+              "value": "={{ $json['Call To Action'] }}",
+              "type": "string"
+            },
+            {
+              "id": "87b128d6-a343-4543-9585-6175975be481",
+              "name": "visualIdeation",
+              "value": "={{ $json['Visual Ideation'] }}",
+              "type": "string"
+            },
+            {
+              "id": "b1ffaaff-a7e2-44d4-a34c-9d3c31889ec7",
+              "name": "toneAndVoice",
+              "value": "={{ $json['Tone And Voice'] }}",
+              "type": "string"
+            },
+            {
+              "id": "82f59f68-203a-44e0-9caa-3988eace777e",
+              "name": "postTypeSegmentation",
+              "value": "={{ $json['Post Type Segmentation'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1744,
+        80
+      ],
+      "id": "231175cb-fb1c-4736-ad59-7767255f71a0",
+      "name": "Merge Both AI Agent Input + Company Research Details"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Generate the Facebook Content Posting Planner for the month,{{ $json.month }}{{ $now.format('yyyy') }}:\n1. Start Date: {{ $json.startDate }}\n2. End Date: {{ $json.endDate }}\n3. Brand Name: {{ $json.brandName }}\n4. Industry Category: {{ $json.industryCategory }}\n5. Target Audience: {{ $json.targetAudience }}\n6. Core Services: {{ $json.coreServices }}\n7. Total Posts To Generate: {{ $json.totalPostsToGenerate }}\n8. Tone And Voice: {{ $json.toneAndVoice }}\n9. Call-to-action: {{ $json.callToAction }}\n10. Visual Ideation: {{ $json.visualIdeation }}\n11. Post Types Segmentation: {{ $json.postTypeSegmentation }}\n12 Amount of Version Per Post: 2",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a social media content planning specialist who familiarized with most trending social media platforms including Facebook, Instagram, TikTok, X.com, LinkedIn etc which knowing well about the content posting structure and outline differently based on the various social media platforms. \n\n# Task\n- You are tasked to come out a monthly proper Facebook post content planner for my client's Facebook business page. The post content must be relate to target audience and showcase how the brand's services can give their audience feel and experience the brand service fulfillment.\n- Don't not come out pushy or hardsell intent phrases or less using these words such as \"Our [Company Name]\", \"Our [Brand Name]\" or \"Our [Product Name]\", following by the selected tone and voice to make the content more engaging and interactive.\n\n# Tools\nYou are require to use the listed tools in order for well-understand about the the writing style, the product and services and post content structure before come out the full content post. Here is the list of the tools require based on the sequence as below:\n1. `fb_posts_data_table`: Call this tool to retrieve all the previous scraped Facebook Page Posts in table format. This allows you to capture and analyze the style from the previous post content published before generate the new post content output.\n2. `company_research_retriever`: Call this tool to fetch and retrieve the scraped company, brand and industry research data. By getting this data, you are able to understand my client business background, products and services details in overview information for post content crafting.\n3. `ai_search_query`: Call this tool to query region or local based information such as general knowledge about the geolocation, industry knowledge, guidelines, tips or any queries related to the company, brands and products.\n4. `get_public_holidays`: Call this tool to get the upcoming regional public holidays in order to create general festival greetings or story history of some regional festives posting to match the festives appreciation or holiday celebration for content post.\n5. `Think`: Call this tool to do some reasoning and thinking about what are steps to take next in order to accomplish the requested task. It will not obtain new information or change the database, but just append the thought to the log. Use it when complex reasoning or some cache memory is needed.\n\n# Input Context\nIn order to come out a proper Facebook posts content planner, I will provide the inputs for you such as:\n- Month\n- Start Date\n- End Date\n- Brand Name\n- Target Audience\n- Core Services\n- Total Posts Generate\n- Tone And Voice\n- Call To Action (CTA)\n- Visual Ideation\n- Post Types Segmentation\n\n# Text Post Content Structure\n- The ideal output for text post content(textPost) structure based on the following sequence should be in like this:\n -- Headline: The use case of the day\n -- Description: Illustrate the audience's use case about what problem had benn raised and how to solve it\n -- Call-to-action: Simple call-to-action that can lead the audience to the brand or product details destination link\n -- 4 to 6 Suitable Hashtags\n\n# Output\n- The output must be follow the JSON structured schema and output response must not include any unnecessary explanations, definitions and other unrelated information.\n- The output of post content must be unique and should not repeated from the previous post content.\n- The output should not include the the label of content structure such as `Headline`, `Description` and `Call-to-action`\n- For `visualIdea` should crafting out based on \"Visual Ideation\" and \"Post Types Segmentation\" input context. This can be ensure that the visual idea description can be more insightful for graphic visual designer reference to come out the right creative formats and artworks.\n\n## Example JSON Strcture Output\njson:[\n  {\n    \"datePosting\": \"27 Apr 2025\",\n    \"textPostV1\": \"🌿 Escape to Serenity at Sementra Hot Spring Nature Resort! 🌿\\n\\n Unwind in our natural hot springs, explore lush trails, and enjoy the soothing sounds of nature. Perfect for a quick getaway or a longer retreat. \\n\\n Book your stay now: https://bit.ly/BookingSMT \\n\\n #SementraResort #NatureEscape #HotSpringBliss #Relaxation #MalaysiaHoliday\",\n    \"textPostV2\": \"Ready for a mid-year reset? 🌿 Escape the hustle and bustle and immerse yourself in the calming embrace of nature. Let the soothing sounds of the rainforest and the warmth of our hot springs melt your stress away.\\n\\n 🏨Book your stay at Sementra Resort now👉 https://bit.ly/BookingSMT\\n\\n #SementraReset #NatureHeals #MidYearEscape #GopengGetaway #RainforestRetreat #MalaysiaTravel\",\n    \"visualIdea\": \"A captivating video reel showcasing a montage of serene moments at the resort: steam rising from the hot springs at dawn, sunlight filtering through the trees, a gentle waterfall, and a guest peacefully meditating by the river. The video should have a calming and cinematic feel.\"\n  },\n  {\n    \"datePosting\": \"29 Apr 2025\",\n    \"textPostV1\": \"🏞️ Adventure Awaits at Sementra! 🏞️ \\n\\n From hiking to waterfall swimming, there’s something for everyone. Plan your next adventure with us and create unforgettable memories. \\n\\n Book your adventure: https://bit.ly/BookingSMT \\n\\n #AdventureTime #SementraResort #OutdoorFun #ExploreNature #WeekendGetaway\",\n    \"textPostV2\": \"Did you know that the vibrant Rajah Brooke's Birdwing butterfly is a common sight here? 🦋 These stunning creatures are a symbol of Malaysia's rich biodiversity. Keep your eyes peeled during your nature walk – you might just spot one!\\n\\n 🏨Book your stay at Sementra Resort now👉 https://bit.ly/BookingSMT\\n\\n #RajahBrooke #ButterflyWatching #SementraWildlife #NatureLovers #Gopeng #MalaysiaNature\",    \n    \"visualIdea\": \"A carousel of high-quality photos. The first image is a stunning close-up of a Rajah Brooke's Birdwing butterfly. Subsequent images show guests on a guided nature walk, looking up at the trees with binoculars, and wide shots of the lush greenery where the butterflies can be found. The final image could be a simple graphic with a fun fact about the butterfly.\"\n  },\n  {\n    \"datePosting\": \"5 May 2025\",\n    \"textPostV1\": \"💆‍♂️ Recharge Your Mind and Body 💆‍♂️ \\n\\n Our hot springs are rich in minerals that promote relaxation and well-being. Treat yourself to a rejuvenating soak today! \\n\\n Book now: https://bit.ly/BookingSMT \\n\\n #WellnessRetreat #SementraResort #HotSpringTherapy #Relaxation #SelfCare\",\n    \"textPostV2\": \"What's your ultimate travel style: thrilling adventures or peaceful relaxation? 🤔 Let us know in the comments! At Sementra, you don't have to choose. You can have both!\\n\\n 🏨Book your stay at Sementra Resort now👉 https://bit.ly/BookingSMT\\n\\n #AdventureOrRelax #TravelQuiz #SementraResort #Gopeng #MalaysiaAdventure #NatureRetreat\",    \n    \"visualIdea\": \"An engaging poll-style static image with a split-screen design. One side shows an adventurous activity like white water rafting, and the other side shows a tranquil scene like a person relaxing in the hot springs. The headline would be 'Adventure or Relaxation?' with options for the audience to comment.\"\n  }  \n]\n\n## Definition of JSON Output Fields\n- datePosting: The date for scheduling and publishing the post to the Facebook business page.\n- textPostV1: The version 1 of text content post to describing and telling the storylines to their audience based on their audience daily real life events or use cases that can relate to the selected Brand products or core services features and how the brand's products or services can help the targeted audience to solve the use cases or challenges as solution to them.\n- visualIdea: The description of the visual idea for creative team as the reference or starting point that what kind of storyboard or elements to illustrate and support the generated text content (copywriting). The longer description, the creative team will easier to understand they want to do."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        -1488,
+        80
+      ],
+      "id": "12d78d27-2c8a-4ba6-a0da-4a9faeac1b15",
+      "name": "FB Post Content Agent"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to retrieve all the previous scraped Facebook Page Posts in table format. This allows you to capture and analyze the style from the previous post content published before generate the new post content output.",
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mpxvf44uk5svwsm",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDbTool",
+      "typeVersion": 3,
+      "position": [
+        -1520,
+        384
+      ],
+      "id": "4f6fadc1-c556-4ad9-a2dc-39ace285c2cf",
+      "name": "fb_posts_data_table",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to fetch and retrieve the scraped company, brand and industry research data. By getting this data, you are able to understand my client business background, products and services details in overview information for post content crafting.",
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mz1o2jdyqtf2vy4",
+        "options": {
+          "fields": [
+            "Research Output"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDbTool",
+      "typeVersion": 3,
+      "position": [
+        -1408,
+        464
+      ],
+      "id": "459faddc-4fb7-4540-a806-bb7e132ec2f3",
+      "name": "company_research_retriever",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1760,
+        352
+      ],
+      "id": "696d99f0-96bd-4267-a628-437d3ddb30a6",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to query region or local based information such as general knowledge about the geolocation, industry knowledge, guidelines, tips or any queries related to the company, brands and products.",
+        "workflowId": {
+          "__rl": true,
+          "value": "tfyIBxAjFGmiaES6",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/tfyIBxAjFGmiaES6",
+          "cachedResultName": "[Sub-workflow]  - Exa.ai AI Research Answer + Crawl4AI Citation Crawler"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [
+            "search_query"
+          ],
+          "schema": [
+            {
+              "id": "search_query",
+              "displayName": "search_query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -1280,
+        400
+      ],
+      "id": "b2131cbf-2af5-4360-9831-6c8cee2c3dd1",
+      "name": "ai_search_query"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -656,
+        80
+      ],
+      "id": "3e2ce9f4-2f6e-4468-9928-525dc93de566",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "bb08b5e4-562d-42c8-b6c3-fefbc58acb70",
+              "leftValue": "={{ $('Merge Both AI Agent Input + Company Research Details').first().json.month }}",
+              "rightValue": "={{ $json.Month }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -480,
+        384
+      ],
+      "id": "c1698bda-96cf-4ab0-a1e0-1480c5a7e4a3",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "fb-sementra-content-google-doc-generator",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -2704,
+        1168
+      ],
+      "id": "905fa6ae-788e-44b1-ab59-09d11dee94a4",
+      "name": "Webhook1",
+      "webhookId": "3098f031-338b-4ea5-a991-7dfc1435e98b"
+    },
+    {
+      "parameters": {
+        "url": "https://facebook-scraper-api4.p.rapidapi.com/get_facebook_page_id",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "link",
+              "value": "={{ $json['FB Page URL'] }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-rapidapi-host",
+              "value": "facebook-scraper-api4.p.rapidapi.com"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -2368,
+        -976
+      ],
+      "id": "f9fb2b2a-efba-4cce-8b3b-5e4b66866413",
+      "name": "GET FB Page ID",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "RhcMhaqem5mohNc1",
+          "name": "RapidAPI Header Auth(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/actor-runs/{{ $json.data.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "waitForFinish",
+              "value": "60"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1088,
+        -976
+      ],
+      "id": "85fd536a-6883-4924-a0c2-b98fba777e25",
+      "name": "Get Actor Run",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -1328,
+        -976
+      ],
+      "id": "840b049d-9e22-41d1-a848-c13a53e7429b",
+      "name": "Wait",
+      "webhookId": "a3216efe-abbd-429b-b905-9afced96f8d4"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.data.defaultDatasetId }}/items ",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -480,
+        -1008
+      ],
+      "id": "0bae71c2-6365-4eec-92ca-2f0e1917bcb7",
+      "name": "Get Datasets",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "575cc607-2b70-4323-b268-995590595b10",
+              "leftValue": "={{ $json.data.status }}",
+              "rightValue": "SUCCEEDED",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -816,
+        -976
+      ],
+      "id": "464cb408-e60e-44e5-98cb-f736d2d645c1",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d34a454b-8ca5-484d-8497-a9b21dc01027",
+              "name": "fbPageID",
+              "value": "={{ $json.facebook_id }}",
+              "type": "string"
+            },
+            {
+              "id": "5abdcb31-b02b-4fe4-8012-431bf344b1f8",
+              "name": "fbPageURL",
+              "value": "={{ $('On form submission1').first().json['FB Page URL'] }}",
+              "type": "string"
+            },
+            {
+              "id": "289e120f-34ba-43db-b1a0-e76f24755de3",
+              "name": "maxPosts",
+              "value": "={{ $('On form submission1').first().json['Max Posts Scrape'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2016,
+        -976
+      ],
+      "id": "6aaaa5f4-d640-47b7-84b4-a2fe3aa0ce77",
+      "name": "SET Inputs For APIFY FB Scraper"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/actor-tasks/immense_grasshopper~facebook-posts-scraper-task/runs",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"input\": [\n        {\n            \"url\": \"{{ $json.fbPageURL }}\",\n            \"maxPosts\": {{ $json.maxPosts }}\n        }\n    ]\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1648,
+        -976
+      ],
+      "id": "dc2821a3-f441-446d-a227-9de0f2e0be06",
+      "name": "APIFY FB Posts Scraper Actor Start",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ed570b1b-7813-4061-a8c6-fff5e4d43aa4",
+              "name": "numRow",
+              "value": "={{ $itemIndex+1 }}",
+              "type": "string"
+            },
+            {
+              "id": "37e5b5be-aec7-4377-87e3-8941c6302423",
+              "name": "datePublished",
+              "value": "={{ $json.creationDate }}",
+              "type": "string"
+            },
+            {
+              "id": "094014be-d849-4620-9a1b-900d3f4ece69",
+              "name": "postText",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "1c542148-722b-4c44-89bb-d8a8f3fac310",
+              "name": "postID",
+              "value": "={{ $json.postId }}",
+              "type": "string"
+            },
+            {
+              "id": "78fe163a-62d8-4d97-b9f8-70aa937fb0d4",
+              "name": "postURL",
+              "value": "={{ $json.postUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "19b3d5ae-028f-4040-a3ee-94f49f9ae7c2",
+              "name": "reactionCount",
+              "value": "={{ $json.reactionCount }}",
+              "type": "number"
+            },
+            {
+              "id": "644d9b4e-6b50-4c44-a933-65e2e5a4515b",
+              "name": "shareCount",
+              "value": "={{ $json.shareCount }}",
+              "type": "string"
+            },
+            {
+              "id": "f743818d-0527-4de1-9ca1-c41dae2644aa",
+              "name": "commentCount",
+              "value": "={{ $json.commentComment }}",
+              "type": "string"
+            },
+            {
+              "id": "a0725947-9049-442e-bdd7-b0972d0f638a",
+              "name": "videoViewCount",
+              "value": "={{ $json.videoViewCount }}",
+              "type": "string"
+            },
+            {
+              "id": "6bb8f671-ded0-469c-8e65-0044051f2aad",
+              "name": "imagePostList",
+              "value": "={{ $json.imageUrlList }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2608,
+        -560
+      ],
+      "id": "8a0f5159-6630-470e-90d5-e0de090b3d92",
+      "name": "Mapped Important Fields With Scraped Data"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "={{ $now.format('yyyy-MM-dd-hh-mm-ss') }}_FB-Sementra-Post-Scraped",
+          "mode": "id"
+        },
+        "embeddingBatchSize": 500,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "typeVersion": 1.3,
+      "position": [
+        -1344,
+        -720
+      ],
+      "id": "d66596c9-4a25-46e3-9348-8320b5311198",
+      "name": "Qdrant Vector Store",
+      "credentials": {
+        "qdrantApi": {
+          "id": "JHGJ4OS8az0ug9lO",
+          "name": "QdrantCluster[creo_sementra_fb_posts](boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "text-embedding-3-large",
+        "options": {
+          "dimensions": 1536,
+          "batchSize": 500
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -1456,
+        -464
+      ],
+      "id": "7e7d16ff-0fbd-44a8-ae2b-66e51fed25af",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        -1136,
+        -448
+      ],
+      "id": "47119baa-e17c-462e-9a51-31b1688e91ec",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "formTitle": "fb-sementra-posts-scraping",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "FB Page Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Sementra Hot Spring Nature Resort Gopeng"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "FB Page URL",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "https://www.facebook.com/sementrahotspringnatureresortgopeng"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Max Posts Scrape",
+              "fieldType": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -2640,
+        -976
+      ],
+      "id": "ed41f040-a7a1-4297-8687-0d791607901b",
+      "name": "On form submission1",
+      "webhookId": "9a909819-2f21-448d-9734-986d19b6bf11"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -2320,
+        -560
+      ],
+      "id": "e0cf3920-9cd6-4339-81fc-f1c7a43e32ce",
+      "name": "Loop Over Items2"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "create",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mpxvf44uk5svwsm",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Row Num",
+              "fieldValue": "={{ $json.numRow }}"
+            },
+            {
+              "fieldName": "Date Published",
+              "fieldValue": "={{ $json.datePublished }}"
+            },
+            {
+              "fieldName": "Post ID",
+              "fieldValue": "={{ $json.postID }}"
+            },
+            {
+              "fieldName": "Text Post",
+              "fieldValue": "={{ $json.postText }}"
+            },
+            {
+              "fieldName": "Post URL",
+              "fieldValue": "={{ $json.postURL }}"
+            },
+            {
+              "fieldName": "Post Image List",
+              "fieldValue": "={{ $json.imagePostList }}"
+            },
+            {
+              "fieldName": "Reaction Counts",
+              "fieldValue": "={{ $json.reactionCount }}"
+            },
+            {
+              "fieldName": "Share Counts",
+              "fieldValue": "={{ $json.shareCount }}"
+            },
+            {
+              "fieldName": "Comment Counts",
+              "fieldValue": "={{ $json.commentCount }}"
+            },
+            {
+              "fieldName": "Video View Counts",
+              "fieldValue": "={{ $json.videoViewCount }}"
+            },
+            {
+              "fieldName": "Scraped Date Updates",
+              "fieldValue": "={{ $now.format('yyyy-MM-dd') }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -1696,
+        -528
+      ],
+      "id": "2261b3c5-8cd0-43ad-b331-7b2f79838041",
+      "name": "NocoDB9",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -2000,
+        -720
+      ],
+      "id": "5236aca8-aa49-4a37-8fc4-74d361ffa3ff",
+      "name": "Aggregate1"
+    },
+    {
+      "parameters": {
+        "content": "## 1. Sementra FB Posting Scraping + Store in Nocodb + Qdrant Vector DB",
+        "height": 920,
+        "width": 2440
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2720,
+        -1120
+      ],
+      "typeVersion": 1,
+      "id": "4cb49eca-46d4-4e08-924c-7b0b9f7277b2",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mpxvf44uk5svwsm",
+        "limit": 40,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -1696,
+        -720
+      ],
+      "id": "888826d1-911e-478e-ac75-735e4010d67d",
+      "name": "Get many rows",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## 2. Sementra Monthly FB Content Text Post Generation & Store In Nocodb Table",
+        "height": 820,
+        "width": 2620,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2720,
+        -144
+      ],
+      "typeVersion": 1,
+      "id": "ff1beb9c-175a-4271-8db8-88ef72698d76",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mxmnsinj8bpe6ix",
+        "options": {
+          "where": "=(Month,eq,{{ $now.plus(1,'month').format('LLLL') }})"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -2368,
+        32
+      ],
+      "id": "b68c106a-1abc-4503-8337-1f300894fca9",
+      "name": "GET AI Agent Input Form",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mz1o2jdyqtf2vy4",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -2368,
+        288
+      ],
+      "id": "b7e94fbd-2cbd-4c5f-89bb-0c1392ad2527",
+      "name": "GET Company & Brand Research Info",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "create",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "m81gd3tq5p27ans",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Date Posting",
+              "fieldValue": "={{ $json.datePosting }}"
+            },
+            {
+              "fieldName": "Month Year",
+              "fieldValue": "={{ $('Merge Both AI Agent Input + Company Research Details').first().json.month }} {{ $now.format('yyyy') }}"
+            },
+            {
+              "fieldName": "Text Post V1",
+              "fieldValue": "={{ $json.textPostV1 }}"
+            },
+            {
+              "fieldName": "Text Post V2",
+              "fieldValue": "={{ $json.textPostV2 }}"
+            },
+            {
+              "fieldName": "Visual Idea",
+              "fieldValue": "={{ $json.visualIdea }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -880,
+        80
+      ],
+      "id": "ce8e8847-1d76-460e-a9be-7467e4c13f3a",
+      "name": "Create a row",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mxmnsinj8bpe6ix",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -704,
+        384
+      ],
+      "id": "803420bb-3dab-4846-889c-9050e4767e3b",
+      "name": "Get The AI Input Table Record",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mxmnsinj8bpe6ix",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $json.Id }}"
+            },
+            {
+              "fieldName": "Status",
+              "fieldValue": "Completed"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -256,
+        384
+      ],
+      "id": "49e64588-bbe2-40dd-b83b-b768a5e8ae59",
+      "name": "Update AI Input Record Status -> Completed",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "SementraResort - Monthly FB Content Creation Planner",
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "1xkIlICE0BuEgytmmK5XkqzWmsYGSiBJG",
+            "mode": "list",
+            "cachedResultName": "Monthly FB Posting",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/1xkIlICE0BuEgytmmK5XkqzWmsYGSiBJG"
+          }
+        },
+        "options": {
+          "fields": [
+            "name",
+            "mimeType",
+            "id"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -2480,
+        1168
+      ],
+      "id": "ba1f7659-b32b-442c-9807-a0dfbd21c7ce",
+      "name": "Get ALL SementraResort - Monthly FB Content Creation Planner GDocs",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "copy",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "name": "=[{{ $now.plus({week:3}).format('LLLL yyyy') }}]- SementraResort - Monthly FB Content Creation Planner",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -2048,
+        1168
+      ],
+      "id": "0341b7ff-ef6a-4191-ac83-843285095b98",
+      "name": "Copy Last Month Content Planner GDocs",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5d70667e-a21c-4117-84e5-d958e752622b",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "={{ $now.format('LLLL yyyy') }}",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "cbff7e9d-15c7-4b24-ae99-36cf5205377c",
+              "leftValue": "={{ $json.mimeType }}",
+              "rightValue": "application/vnd.google-apps.document",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -2256,
+        1168
+      ],
+      "id": "7ab05bd7-6526-4253-af58-3bca5b7bfc9a",
+      "name": "Filtered Last Month GDocs Content Planner"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "m81gd3tq5p27ans",
+        "options": {
+          "where": "=(Month Year,eq,{{ $now.plus(1,\"months\").format('LLLL yyyy') }})"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -1856,
+        1168
+      ],
+      "id": "f3db599b-39f0-4f8e-bd8c-7036d1ab9334",
+      "name": "Retrieve Next Month Generated Content Posts",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $('Copy Last Month Content Planner GDocs').first().json.id }}",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "locationChoice": "location",
+              "index": "={{ $json.tableCells[3].content[0].startIndex }}",
+              "text": "={{ $('Edit Fields3').item.json.visualIdea }}}"
+            },
+            {
+              "action": "insert",
+              "locationChoice": "location",
+              "index": "={{ $json.tableCells[2].content[0].startIndex }}",
+              "text": "={{ $('Edit Fields3').item.json.textPostV2 }}"
+            },
+            {
+              "action": "insert",
+              "locationChoice": "location",
+              "index": "={{ $json.tableCells[1].content[0].startIndex }}",
+              "text": "={{ $('Edit Fields3').item.json.textPostV1 }}"
+            },
+            {
+              "action": "insert",
+              "locationChoice": "location",
+              "index": "={{ $json.tableCells[0].content[0].startIndex }}",
+              "text": "={{ $('Edit Fields3').item.json.datePosting }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "={{ $('Get updated document').item.json.body.content[1].paragraph.elements[0].textRun.content }}",
+              "replaceText": "=SEMENTRA - {{ $now.plus({week:3}).format('LLLL').toUpperCase() }} 2025  SOCIAL MEDIA POST"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        272,
+        992
+      ],
+      "id": "dd8ff6d1-c77b-4023-a37e-0659f57ea1b4",
+      "name": "Update a document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## 3.  Sementra Generated Monthly FB Content Text Post Export To Google Docs",
+        "height": 860,
+        "width": 3240,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2768,
+        752
+      ],
+      "typeVersion": 1,
+      "id": "34f52383-bc6a-4759-af5e-87b8eaf5aa3a",
+      "name": "Sticky Note2"
+    }
+  ],
+  "connections": {
+    "DeepSeek Chat Model": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "Think": {
+      "ai_tool": [
+        [
+          {
+            "node": "FB Post Content Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "FB Post Content Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Create a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs": {
+      "main": [
+        [
+          {
+            "node": "Get Table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Update a document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Table": {
+      "main": [
+        [
+          {
+            "node": "Google Docs1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert table row at bottom": {
+      "main": [
+        [
+          {
+            "node": "Get updated document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get updated document": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_public_holidays": {
+      "ai_tool": [
+        [
+          {
+            "node": "FB Post Content Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "NocoDB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs2": {
+      "main": [
+        [
+          {
+            "node": "Get Table1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Table1": {
+      "main": [
+        [
+          {
+            "node": "Insert table row at bottom",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Google Docs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Google Docs2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "GET AI Agent Input Form",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "GET Company & Brand Research Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NocoDB": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NocoDB1": {
+      "ai_tool": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "NocoDB2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Merge Both AI Agent Input + Company Research Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Both AI Agent Input + Company Research Details": {
+      "main": [
+        [
+          {
+            "node": "FB Post Content Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FB Post Content Agent": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "fb_posts_data_table": {
+      "ai_tool": [
+        [
+          {
+            "node": "FB Post Content Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "company_research_retriever": {
+      "ai_tool": [
+        [
+          {
+            "node": "FB Post Content Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "FB Post Content Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_search_query": {
+      "ai_tool": [
+        [
+          {
+            "node": "FB Post Content Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Get The AI Input Table Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Update AI Input Record Status -> Completed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Get ALL SementraResort - Monthly FB Content Creation Planner GDocs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET FB Page ID": {
+      "main": [
+        [
+          {
+            "node": "SET Inputs For APIFY FB Scraper",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Actor Run": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get Actor Run",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Datasets": {
+      "main": [
+        [
+          {
+            "node": "Mapped Important Fields With Scraped Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Get Datasets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SET Inputs For APIFY FB Scraper": {
+      "main": [
+        [
+          {
+            "node": "APIFY FB Posts Scraper Actor Start",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "APIFY FB Posts Scraper Actor Start": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mapped Important Fields With Scraped Data": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission1": {
+      "main": [
+        [
+          {
+            "node": "GET FB Page ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items2": {
+      "main": [
+        [
+          {
+            "node": "Aggregate1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "NocoDB9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NocoDB9": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate1": {
+      "main": [
+        [
+          {
+            "node": "Get many rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows": {
+      "main": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET AI Agent Input Form": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Company & Brand Research Info": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Create a row": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get The AI Input Table Record": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get ALL SementraResort - Monthly FB Content Creation Planner GDocs": {
+      "main": [
+        [
+          {
+            "node": "Filtered Last Month GDocs Content Planner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Copy Last Month Content Planner GDocs": {
+      "main": [
+        [
+          {
+            "node": "Retrieve Next Month Generated Content Posts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filtered Last Month GDocs Content Planner": {
+      "main": [
+        [
+          {
+            "node": "Copy Last Month Content Planner GDocs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retrieve Next Month Generated Content Posts": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a document": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "On form submission": [
+      {
+        "json": {
+          "Month of Year": "July",
+          "Start Posting Date": "2025-07-01",
+          "End Posting Date": "2025-07-31",
+          "Tone And Voice": [
+            "Conversational",
+            "Friendly",
+            "Informal",
+            "Persuasive"
+          ],
+          "Total Posts Generator": 13,
+          "Visual Types Posts Segmentation": [
+            "Video Reels: 6 Posts",
+            "Static Image/Image Carousel: 6 Posts"
+          ],
+          "Visual Ideation": [
+            "Malaysia travel or tourism general tips and guidelines.",
+            "Travel and leisure based tips and guidelines.",
+            "Quizes or Polls about the general and specific local travel based information.",
+            "Engaging mini-games for audience having fun and engage"
+          ],
+          "submittedAt": "2025-06-18T00:24:35.802+08:00",
+          "formMode": "test"
+        }
+      }
+    ],
+    "NocoDB": [
+      {
+        "json": {
+          "Month": "July",
+          "Start Posting Date": "2025-07-01",
+          "End Posting Date": "2025-07-31",
+          "Tone And Voice": [
+            "Conversational",
+            "Friendly",
+            "Informal",
+            "Persuasive"
+          ],
+          "Total Posts Generate": 13,
+          "Post Type Segmentation": [
+            "Video Reels: 6 Posts",
+            "Static Image/Image Carousel: 6 Posts"
+          ],
+          "Visual Ideation": [
+            "Malaysia travel or tourism general tips and guidelines.",
+            "Travel and leisure based tips and guidelines.",
+            "Quizes or Polls about the general and specific local travel based information.",
+            "Engaging mini-games for audience having fun and engage"
+          ],
+          "Id": 2
+        }
+      }
+    ],
+    "OpenAI": [
+      {
+        "json": {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "1. Eco-tourism and nature lovers interested in Malaysia's natural hot springs and rainforest retreats.\n2. Adventure seekers looking for activities like white water rafting and caving in Malaysia.\n3. Local and international tourists planning leisure stays at resorts with modern amenities and tranquil environments.\n4. Families and groups seeking serene holiday accommodations with swimming pools and scenic views in Malaysia.\n5. Travel enthusiasts interested in cultural and local dining experiences around Gopeng, Perak, Malaysia.",
+            "refusal": null,
+            "annotations": []
+          },
+          "logprobs": null,
+          "finish_reason": "stop"
+        }
+      }
+    ],
+    "Webhook1": [
+      {
+        "json": {
+          "headers": {
+            "x-forwarded-host": "n8n.automessenger.me",
+            "x-forwarded-server": "n8n.automessenger.me",
+            "x-real-ip": "52.15.226.51",
+            "x-forwarded-for": "52.15.226.51",
+            "x-forwarded-proto": "https",
+            "host": "n8n.automessenger.me",
+            "connection": "Upgrade",
+            "content-length": "2860",
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "user-agent": "axios/1.10.0",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "sentry-trace": "2eb339fba7cf46a0b37ed0376b0a1698-9ba2b10caaa811f0",
+            "baggage": "sentry-environment=production,sentry-release=0.111.4,sentry-public_key=545692f1a4c6783d1ebb54fa5c095dc8,sentry-trace_id=2eb339fba7cf46a0b37ed0376b0a1698,sentry-org_id=4505953073889280"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "type": "records.after.update",
+            "id": "6431a6db-5906-4905-948b-6997a5a1ce6e",
+            "version": "v3",
+            "data": {
+              "table_id": "mxmnsinj8bpe6ix",
+              "table_name": "[AI_AGENT] - FB Post Content Agent",
+              "previous_rows": [
+                {
+                  "Id": 67,
+                  "Month": "August",
+                  "Start Posting Date": "2025-08-01",
+                  "End Posting Date": "2025-08-31",
+                  "Tone And Voice": "Conversational,Friendly,Persuasive,Informal",
+                  "Total Posts Generate": 15,
+                  "Version": null,
+                  "Status": "Generating",
+                  "Post Type Segmentation": "- Video Reels: 6 Posts\n- Static Image/Carousel Images Carousel: 6 Posts",
+                  "Target Audience": "- Nature lovers and individuals seeking a peaceful retreat from urban life to relax and rejuvenate.\n- Families looking for a nature-based getaway that is popular for family stays and offers a safe environment for children.\n- Couples seeking a romantic and serene destination for a private getaway.\n- Adventure enthusiasts and outdoor lovers interested in exploring the surrounding area's activities, such as hiking, water rafting, and caving.",
+                  "Visual Ideation": "- Malaysia travel or tourism general tips and guidelines.\n- Travel and leisure based tips and guidelines.\n- Quizes or Polls about the general and specific local travel based information.\n- Engaging mini-games for audience having fun and engage.",
+                  "Call To Action": "🏨Book your stay at Sementra Resort now👉 https://bit.ly/BookingSMT",
+                  "CreatedAt": "2025-07-14 07:23:44+00:00",
+                  "UpdatedAt": "2025-07-14 08:28:29+00:00",
+                  "Generate Post Text": {
+                    "type": "webhook",
+                    "label": "Generate Post Text",
+                    "fk_webhook_id": "hkcu37zs2bewfv3o"
+                  }
+                }
+              ],
+              "rows": [
+                {
+                  "Id": 67,
+                  "Month": "August",
+                  "Start Posting Date": "2025-08-01",
+                  "End Posting Date": "2025-08-31",
+                  "Tone And Voice": "Conversational,Friendly,Persuasive,Informal",
+                  "Total Posts Generate": 15,
+                  "Version": null,
+                  "Status": "Completed",
+                  "Post Type Segmentation": "- Video Reels: 6 Posts\n- Static Image/Carousel Images Carousel: 6 Posts",
+                  "Target Audience": "- Nature lovers and individuals seeking a peaceful retreat from urban life to relax and rejuvenate.\n- Families looking for a nature-based getaway that is popular for family stays and offers a safe environment for children.\n- Couples seeking a romantic and serene destination for a private getaway.\n- Adventure enthusiasts and outdoor lovers interested in exploring the surrounding area's activities, such as hiking, water rafting, and caving.",
+                  "Visual Ideation": "- Malaysia travel or tourism general tips and guidelines.\n- Travel and leisure based tips and guidelines.\n- Quizes or Polls about the general and specific local travel based information.\n- Engaging mini-games for audience having fun and engage.",
+                  "Call To Action": "🏨Book your stay at Sementra Resort now👉 https://bit.ly/BookingSMT",
+                  "CreatedAt": "2025-07-14 07:23:44+00:00",
+                  "UpdatedAt": "2025-07-14 08:28:31+00:00",
+                  "Generate Post Text": {
+                    "type": "webhook",
+                    "label": "Generate Post Text",
+                    "fk_webhook_id": "hkcu37zs2bewfv3o"
+                  }
+                }
+              ]
+            }
+          },
+          "webhookUrl": "https://n8n.automessenger.me/webhook-test/fb-sementra-content-google-doc-generator",
+          "executionMode": "test"
+        }
+      }
+    ],
+    "Copy Last Month Content Planner GDocs": [
+      {
+        "json": {
+          "kind": "drive#file",
+          "id": "1ZV0uXoE7gqZloWI8HasSA6xnaj5c5BBmfZThj9XNMfo",
+          "name": "[August 2025]- SementraResort - Monthly FB Content Creation Planner",
+          "mimeType": "application/vnd.google-apps.document"
+        }
+      }
+    ]
+  },
+  "versionId": "ba13ed40-8d92-4c0f-b9a5-e95b477666cd",
+  "triggerCount": 4,
+  "shared": [
+    {
+      "updatedAt": "2025-06-17T15:30:40.425Z",
+      "createdAt": "2025-06-17T15:30:40.425Z",
+      "role": "workflow:owner",
+      "workflowId": "fOkPRDzHPGtoPp9x",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2025-04-25T07:31:07.022Z",
+      "createdAt": "2025-04-25T07:31:07.022Z",
+      "id": "9Gp47jN1RS49GmsF",
+      "name": "CREO_PROJECT"
+    },
+    {
+      "updatedAt": "2025-04-26T04:25:52.442Z",
+      "createdAt": "2025-04-26T04:25:52.442Z",
+      "id": "v4flmjP5hdyH5E40",
+      "name": "Creo-SementraResort"
+    }
+  ]
+}
