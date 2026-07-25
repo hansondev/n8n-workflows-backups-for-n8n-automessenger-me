@@ -1,0 +1,282 @@
+{
+  "updatedAt": "2025-05-22T03:40:42.000Z",
+  "createdAt": "2025-05-21T15:32:20.554Z",
+  "id": "VnBGPGc72moIr2qV",
+  "name": "[TEST][DEVELOPMENT] - FB Messenger API + Typebot API",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "multipleMethods": true,
+        "path": "fb-messenger-autoresponder-v2",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -120,
+        -180
+      ],
+      "id": "05e1f8f7-32e2-4124-856c-220c9332ed92",
+      "name": "Webhook",
+      "webhookId": "1ef40560-81f1-4bfb-81cf-4229819b521d"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "0051f5fc-0b07-45e8-b750-c102be05e125",
+              "leftValue": "={{ $json.query['hub.mode'] }}",
+              "rightValue": "subscribe",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "bc477965-a4cd-4281-814f-be4c66c555a7",
+              "leftValue": "={{ $json.query['hub.verify_token'] }}",
+              "rightValue": "automessenger123",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        340,
+        -220
+      ],
+      "id": "6124b85c-7531-4ef1-b7bf-52cefce6da9a",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.query['hub.challenge'] }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.2,
+      "position": [
+        560,
+        -320
+      ],
+      "id": "d240aa23-d1b7-414d-8596-fdb7cedd9dde",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "respondWith": "noData",
+        "options": {
+          "responseCode": 403
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.2,
+      "position": [
+        580,
+        -140
+      ],
+      "id": "e0e03b6f-b7f6-4de6-8705-aa83a44d7203",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "content": "## For Webhook FB App Verification\n**Devlopment Mode**",
+        "height": 360,
+        "width": 560
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        220,
+        -360
+      ],
+      "typeVersion": 1,
+      "id": "1f3b1fe7-c42f-4862-805d-226604013497",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "respondWith": "noData",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.2,
+      "position": [
+        620,
+        140
+      ],
+      "id": "e7f279ab-92b6-424f-aa9f-51fcfbabeb33",
+      "name": "Respond to Webhook2"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v22.0/{{ $('Webhook').item.json.body.entry[0].messaging[0].recipient.id }}/messages",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "access_token",
+              "value": "EAAswZAYOhYT4BO1OPZC5rpwLFXuJccXCZBuggId1n0MV2WKimrsZAXtKv1D479XOf0kaapUkKZCBbhFJd01veEt88CHJo5n8t4eu408Y9b4wZBNjLEZCWZBZB43IKb8Flybg7nutM5oLNzRkvggcktoMyfw1Ay7Qbpkobx6ZAUp56iG0xoWhMVIgq96EVkLzvnLISRWwZDZD"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"recipient\":{\n  \"id\":\"{{ $('Webhook').item.json.body.entry[0].messaging[0].sender.id }}\"\n  },\n  \"messaging_type\":\n  \"RESPONSE\",\n  \"message\":{\n    \"text\":{{ JSON.stringify($('HTTP Request').item.json.messages[0].content.richText[0].children[0].text) }}\n  }\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        840,
+        140
+      ],
+      "id": "6fed6239-a931-492a-9cd7-bcfdd2668219",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://bot.automessenger.me/api/v1/typebots/my-typebot-sikxs2k/startChat",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        140,
+        140
+      ],
+      "id": "8862a84e-5904-406b-86f8-a10f0a1b8d0c",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://bot.automessenger.me/api/v1/sessions/{{ $json.sessionId }}/continueChat",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"message\": \"{{ $json.messages[0].content.richText[0].children[0].text }}\"\n} ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        360,
+        140
+      ],
+      "id": "e365f9ab-dc0b-416d-9656-15ebc69bd51d",
+      "name": "HTTP Request2"
+    }
+  ],
+  "connections": {
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "8a5ba194-3f04-4796-ad96-396a17be3787",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-05-21T15:32:20.560Z",
+      "createdAt": "2025-05-21T15:32:20.560Z",
+      "role": "workflow:owner",
+      "workflowId": "VnBGPGc72moIr2qV",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
