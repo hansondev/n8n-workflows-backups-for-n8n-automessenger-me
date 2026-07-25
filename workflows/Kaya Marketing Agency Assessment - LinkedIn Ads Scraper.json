@@ -1,0 +1,658 @@
+{
+  "updatedAt": "2025-02-19T11:04:03.000Z",
+  "createdAt": "2025-01-10T08:44:21.261Z",
+  "id": "CP5Ck7puLmzonWy4",
+  "name": "Kaya Marketing Agency Assessment - LinkedIn Ads Scraper",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "APIFY LinkedIn Ads Scraper",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Campany Name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Country Code",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Start Date",
+              "fieldType": "date",
+              "formatDate": "yyyy-mm-dd"
+            },
+            {
+              "fieldLabel": "End Date",
+              "fieldType": "date",
+              "formatDate": "yyyy-mm-dd"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -420,
+        -20
+      ],
+      "id": "d16a8dea-cf5c-4f6f-a7ee-cfb471f8a3ae",
+      "name": "On form submission",
+      "webhookId": "f2117512-b4f3-4d80-ac4f-ae26379e3e32"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6f26b3c5-aba6-430d-9213-084b06717677",
+              "name": "campany_name",
+              "value": "={{ $json['Campany Name'].toLowerCase() }}",
+              "type": "string"
+            },
+            {
+              "id": "ee5a78e7-f2a9-4fb2-a908-c9cdfc5aecfd",
+              "name": "country_code",
+              "value": "={{ $json['Country Code'].toUpperCase() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -200,
+        -20
+      ],
+      "id": "c2e33bd4-709b-4bf1-873d-565d5644dd0b",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/actor-tasks/immense_grasshopper~linkedin-ads-scraper-for-clay-task/run-sync-get-dataset-items?token=RMcnCuQuPp4AAsEwZjt5FNDF4",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"companyName\": \"{{ $json.campany_name }}\",\n  \"country\": \"{{ $json.country_code }}\",\n  \"proxyConfiguration\": {\n    \"useApifyProxy\": false\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        20,
+        -20
+      ],
+      "id": "d84a3791-d662-41e9-b7f7-f9923493e4e9",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f4db52ce-0000-4a4e-9c17-0164fa7adc6c",
+              "name": "campany_name",
+              "value": "={{ $('Edit Fields').item.json.campany_name.toTitleCase() }}",
+              "type": "string"
+            },
+            {
+              "id": "d451b0c3-865b-4b91-a959-224208e4b9df",
+              "name": "target_country",
+              "value": "={{ $('Edit Fields').item.json.country_code }}",
+              "type": "string"
+            },
+            {
+              "id": "d303746f-3226-47a7-9e45-edad4aeb10a0",
+              "name": "ad_category",
+              "value": "={{ $json.adCategory }}",
+              "type": "string"
+            },
+            {
+              "id": "e3dcaf4e-fda4-4bcb-bb41-bcaa3a83250a",
+              "name": "ad_headline",
+              "value": "={{ $json.adTitle }}",
+              "type": "string"
+            },
+            {
+              "id": "e007a252-1c7d-44fb-8bce-5d6aaa21c4c0",
+              "name": "ad_description",
+              "value": "={{ $json.adText }}",
+              "type": "string"
+            },
+            {
+              "id": "732151d4-75da-449a-959c-6aec6aece2cf",
+              "name": "ad_cta",
+              "value": "={{ $json.adCTA }}",
+              "type": "string"
+            },
+            {
+              "id": "d0e96202-3d3a-4c64-8369-0687481e9a7c",
+              "name": "ad_image_urls",
+              "value": "={{ $json.imageUrls.join(\"\\n\\n\") }}",
+              "type": "string"
+            },
+            {
+              "id": "c1d380af-6b55-41e8-8bf4-38a7eb2ce393",
+              "name": "ad_library_url",
+              "value": "={{ $json.adUrl }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        240,
+        -20
+      ],
+      "id": "826f81fe-0506-4bde-acb0-72402ae57418",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "177bdd43-4460-816e-a642-f20148d803ee",
+          "mode": "list",
+          "cachedResultName": "Rutter LinkedIn 2024 Campaigns Records",
+          "cachedResultUrl": "https://www.notion.so/177bdd434460816ea642f20148d803ee"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Company Name|title",
+              "title": "={{ $json.campany_name }}"
+            },
+            {
+              "key": "Target Country|rich_text",
+              "textContent": "={{ $json.target_country }}"
+            },
+            {
+              "key": "Ad Category|rich_text",
+              "textContent": "={{ $json.ad_category }}"
+            },
+            {
+              "key": "Ad Headline|rich_text",
+              "textContent": "={{ $json.ad_headline }}"
+            },
+            {
+              "key": "Ad Description|rich_text",
+              "textContent": "={{ $json.ad_description }}"
+            },
+            {
+              "key": "Ad CTA|rich_text",
+              "textContent": "={{ $json.ad_cta }}"
+            },
+            {
+              "key": "Ad Image URLs|rich_text",
+              "richText": true,
+              "text": {
+                "text": [
+                  {
+                    "text": "={{ $json.ad_image_urls }}",
+                    "isLink": true,
+                    "annotationUi": {}
+                  }
+                ]
+              }
+            },
+            {
+              "key": "Ad Display URL|url",
+              "urlValue": "={{ $json.ad_library_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        940,
+        -200
+      ],
+      "id": "4fb770d9-7401-4c13-b86d-c3df88ad63b2",
+      "name": "Notion1",
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.campany_name }}",
+                    "rightValue": "Rutter",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Rutter"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "51b3e3be-75fc-4cee-b68a-5dba14053463",
+                    "leftValue": "={{ $json.campany_name }}",
+                    "rightValue": "Codat",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Codat"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "b35ca8f8-3f97-4982-a895-258fbceb0933",
+                    "leftValue": "={{ $json.campany_name }}",
+                    "rightValue": "Railz",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Railz"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "6d7695d7-1382-454b-bed5-d91bec2a66a0",
+                    "leftValue": "={{ $json.campany_name }}",
+                    "rightValue": "Merge",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Merge"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        480,
+        -40
+      ],
+      "id": "25a4da12-980e-49da-997e-c656748a252f",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "177bdd43-4460-80c8-9cb1-d9167cc66dc3",
+          "mode": "list",
+          "cachedResultName": "Codat LinkedIn 2024 Campaigns Records",
+          "cachedResultUrl": "https://www.notion.so/177bdd43446080c89cb1d9167cc66dc3"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Company Name|title",
+              "title": "={{ $json.campany_name }}"
+            },
+            {
+              "key": "Target Country|rich_text",
+              "textContent": "={{ $json.target_country }}"
+            },
+            {
+              "key": "Ad Category|rich_text",
+              "textContent": "={{ $json.ad_category }}"
+            },
+            {
+              "key": "Ad Headline|rich_text",
+              "textContent": "={{ $json.ad_headline }}"
+            },
+            {
+              "key": "Ad Description|rich_text",
+              "textContent": "={{ $json.ad_description }}"
+            },
+            {
+              "key": "Ad CTA|rich_text",
+              "textContent": "={{ $json.ad_cta }}"
+            },
+            {
+              "key": "Ad Image URLs|rich_text",
+              "richText": true,
+              "text": {
+                "text": [
+                  {
+                    "text": "={{ $json.ad_image_urls }}",
+                    "isLink": true,
+                    "annotationUi": {}
+                  }
+                ]
+              }
+            },
+            {
+              "key": "Ad Display URL|url",
+              "urlValue": "={{ $json.ad_library_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        940,
+        -20
+      ],
+      "id": "4089ada3-8bab-4d0e-9f55-4f11d243422c",
+      "name": "Notion",
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "177bdd43-4460-8056-a142-e6c45981e711",
+          "mode": "list",
+          "cachedResultName": "Railz LinkedIn 2024 Campaigns Records",
+          "cachedResultUrl": "https://www.notion.so/177bdd4344608056a142e6c45981e711"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Company Name|title",
+              "title": "={{ $json.campany_name }}"
+            },
+            {
+              "key": "Target Country|rich_text",
+              "textContent": "={{ $json.target_country }}"
+            },
+            {
+              "key": "Ad Category|rich_text",
+              "textContent": "={{ $json.ad_category }}"
+            },
+            {
+              "key": "Ad Headline|rich_text",
+              "textContent": "={{ $json.ad_headline }}"
+            },
+            {
+              "key": "Ad Description|rich_text",
+              "textContent": "={{ $json.ad_description }}"
+            },
+            {
+              "key": "Ad CTA|rich_text",
+              "textContent": "={{ $json.ad_cta }}"
+            },
+            {
+              "key": "Ad Image URLs|rich_text",
+              "richText": true,
+              "text": {
+                "text": [
+                  {
+                    "text": "={{ $json.ad_image_urls }}",
+                    "isLink": true,
+                    "annotationUi": {}
+                  }
+                ]
+              }
+            },
+            {
+              "key": "Ad Display URL|url",
+              "urlValue": "={{ $json.ad_library_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        940,
+        160
+      ],
+      "id": "2443d427-f512-4e35-a20a-25482206c7ff",
+      "name": "Notion2",
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "177bdd43-4460-807b-bac1-f909b4039560",
+          "mode": "list",
+          "cachedResultName": "Merge LinkedIn 2024 Campaigns Records",
+          "cachedResultUrl": "https://www.notion.so/177bdd434460807bbac1f909b4039560"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Company Name|title",
+              "title": "={{ $json.campany_name }}"
+            },
+            {
+              "key": "Target Country|rich_text",
+              "textContent": "={{ $json.target_country }}"
+            },
+            {
+              "key": "Ad Category|rich_text",
+              "textContent": "={{ $json.ad_category }}"
+            },
+            {
+              "key": "Ad Headline|rich_text",
+              "textContent": "={{ $json.ad_headline }}"
+            },
+            {
+              "key": "Ad Description|rich_text",
+              "textContent": "={{ $json.ad_description }}"
+            },
+            {
+              "key": "Ad CTA|rich_text",
+              "textContent": "={{ $json.ad_cta }}"
+            },
+            {
+              "key": "Ad Image URLs|rich_text",
+              "richText": true,
+              "text": {
+                "text": [
+                  {
+                    "text": "={{ $json.ad_image_urls }}",
+                    "isLink": true,
+                    "annotationUi": {}
+                  }
+                ]
+              }
+            },
+            {
+              "key": "Ad Display URL|url",
+              "urlValue": "={{ $json.ad_library_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        960,
+        380
+      ],
+      "id": "138e855c-2f55-4238-9d2c-76dceb3cd9b1",
+      "name": "Notion3",
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Notion1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notion",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notion2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notion3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "4780b802-f838-4814-b8f1-b6cfb730df51",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-01-10T08:44:21.287Z",
+      "createdAt": "2025-01-10T08:44:21.287Z",
+      "role": "workflow:owner",
+      "workflowId": "CP5Ck7puLmzonWy4",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
