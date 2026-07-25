@@ -1,0 +1,3736 @@
+{
+  "updatedAt": "2025-09-04T16:16:38.000Z",
+  "createdAt": "2025-09-04T04:22:06.352Z",
+  "id": "12FruiUeQdeF84RI",
+  "name": "[FrontAge - ReefHeaven] - Ad Campaign Copies Generator",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "m6f2rfg4z0p7vsx",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -1216,
+        176
+      ],
+      "id": "6ac0324f-7381-415f-862c-64899aff7182",
+      "name": "Get many rows",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Brand Name: {{ $json['Brand Name'] }}\nBusiness Location: {{ $json['Brand Location'] }}\nBusiness Type: {{ $('On form submission2').item.json['Business Type'] }}\nBrand Website: {{ $json['Brand Website'] }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a web research specialist who familiarized on scraping the web content from the user search query and summarizing what the company, brand and services details.  \n\n# Task\n- You are tasked to come out a simple but comprehensive details of client's business research profiling such as business overview, core products, core services and target audience based on user provided information such as client's brand name, client official business website url and client's business location.\n- The tasks to be fulfill including generating for business overview, core service and target audience.\n\n# Tool\nIn order able to scrape the web content based on user provided brand website url to generate the require output such as the business overview, core service and target audience. You are require to use the following tool:\n- `**ai_web_research_tool**` : Call this tool to get the search query through the ai search engine, gather the sources and results such as the business overview, core services and target audience. as the output.\n\n# User Context\nYou are require to input the provided user context as reference in order to come out the right output. The user context information will be provided by the user as such:\n- Brand Name\n- Business Location\n- Brand Website\n- Business Type\n\n# Output\nThe output should be in structured JSON format where the output had been generated will be allocate based on the require JSON structure or schema without any task explaination and other unnecessary details.\n\n## Example of JSON structure\n```\njson: {\n \"businessOverview\": \"ReadyCare Signature is a company based in Ipoh, Perak, Malaysia, specializing in bio-based cleaning solutions with a strong emphasis on environmental sustainability. The company operates primarily from two locations: its main factory at Lot 222429, Hala Industri Bercham 3, Kawasan Industri Ringan Bercham, and a retail outlet at Lot G5, No 39 Ipoh Garden Square, Jalan Sultan Azlan Shah Utara.\\n\\n Under the leadership of Mr. Yeoh Eng Foo, ReadyCare has developed the Signature Selection Biobased Series, which comprises plant-based cleaning products that are dermatologist-tested, vegan, USDA Certified Biobased, and Halal Certified. The focus is on creating effective cleaning solutions that pose minimal risk to families and the environment. Their manufacturing facility employs advanced robotic technology, with about one robot for every five workers, to enhance quality control and precision.\\n\\n ReadyCare Signature stands out for its commitment to sustainability, utilizing solar energy and recyclable materials in its operations. They have also launched initiatives such as Refill Stations for their products, promoting sustainable consumption practices. Their products are marketed as being gentle on the skin and effective without harmful chemicals, suitable for families, including those with babies and pets.\",\n  \"coreProducts\": \"1. Biobased Veggie Wash\\n -The vegan residue free, and easy rinse off formulation dissolves quickly, leaving the fruits and vegetables clean and safe to consume. Main Ingredients: Aqua, Plant Based Surfactant, Glycerine, Baking Soda, Citric Acid, Food additive grade disinfectant, Salt, Food Grade Preservative, Food Additive Grade Disinfectant. Cautions: Store in cool and dry place. Keep out of reach of children. For external use only. In case of contact with eyes, rinse immediately with plenty of water for several minutes and seek medical advice if irritation persists.\\n\\n 2. Biobased Laundry Liquid Detergent\\n -USDA Certified Biobased, food grade baking soda, low pH, no optical brightener, dye, parabens, or perfume, gentle on skin, vegan friendly, low-suds formula.\\n\\n 3.Biobased Dishwashing Liquid: Eucalyptus\\n -USDA Certified Biobased formulation, food grade baking soda, prevents bacterial growth, easy to rinse off, neutral pH, biobased and Vegan formulation, no added petrochemical surfactants, gentle to skin.\",\n  \"coreServices\": \"1. **Quarantined Marine Livestock**: Specializes in sourcing rare and exotic fish that are fully quarantined and medicated before being sold. This ensures healthy, disease-free animals for customers' aquariums.\\n2. **Aquarium Supplies**: Offers a range of top-quality aquarium supplies from leading brands to help customers create and maintain healthy aquatic environments.\\n3. **Custom Aquarium Design**: Provides services for designing and curating bespoke aquariums tailored to client needs, whether for homes or businesses.\\n4. **Maintenance Services**: Offers ongoing aquarium maintenance to ensure the longevity and health of the marine ecosystems they help create.\\n5. **Nationwide Shipping**: Delivers livestock and products across Australia with an overnight door-to-door service.\",\n  \"targetAudience\": \"- For household who are looking for non-chemical based household cleaning products. \\n- For families who have skin sensitive and allergic concern on heavy and mid chemical-based clearning products.\\n - For parent who have children have skin sensitive and allergic concern on heavy and mid chemical-based clearning products\"\n}\n\n```"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -896,
+        176
+      ],
+      "id": "42301e12-7b64-466d-8e2c-0d0ef953dd52",
+      "name": "Brand Research Agent"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n \"businessOverview\": \"ReadyCare Signature is a company based in Ipoh, Perak, Malaysia, specializing in bio-based cleaning solutions with a strong emphasis on environmental sustainability. The company operates primarily from two locations: its main factory at Lot 222429, Hala Industri Bercham 3, Kawasan Industri Ringan Bercham, and a retail outlet at Lot G5, No 39 Ipoh Garden Square, Jalan Sultan Azlan Shah Utara.\\n\\n Under the leadership of Mr. Yeoh Eng Foo, ReadyCare has developed the Signature Selection Biobased Series, which comprises plant-based cleaning products that are dermatologist-tested, vegan, USDA Certified Biobased, and Halal Certified. The focus is on creating effective cleaning solutions that pose minimal risk to families and the environment. Their manufacturing facility employs advanced robotic technology, with about one robot for every five workers, to enhance quality control and precision.\\n\\n ReadyCare Signature stands out for its commitment to sustainability, utilizing solar energy and recyclable materials in its operations. They have also launched initiatives such as Refill Stations for their products, promoting sustainable consumption practices. Their products are marketed as being gentle on the skin and effective without harmful chemicals, suitable for families, including those with babies and pets.\",\n  \"coreProducts\": \"1. Biobased Veggie Wash\\n -The vegan residue free, and easy rinse off formulation dissolves quickly, leaving the fruits and vegetables clean and safe to consume. Main Ingredients: Aqua, Plant Based Surfactant, Glycerine, Baking Soda, Citric Acid, Food additive grade disinfectant, Salt, Food Grade Preservative, Food Additive Grade Disinfectant. Cautions: Store in cool and dry place. Keep out of reach of children. For external use only. In case of contact with eyes, rinse immediately with plenty of water for several minutes and seek medical advice if irritation persists.\\n\\n 2. Biobased Laundry Liquid Detergent\\n -USDA Certified Biobased, food grade baking soda, low pH, no optical brightener, dye, parabens, or perfume, gentle on skin, vegan friendly, low-suds formula.\\n\\n 3.Biobased Dishwashing Liquid: Eucalyptus\\n -USDA Certified Biobased formulation, food grade baking soda, prevents bacterial growth, easy to rinse off, neutral pH, biobased and Vegan formulation, no added petrochemical surfactants, gentle to skin.\",\n  \"coreServices\": \"1. **Quarantined Marine Livestock**: Specializes in sourcing rare and exotic fish that are fully quarantined and medicated before being sold. This ensures healthy, disease-free animals for customers' aquariums.\\n2. **Aquarium Supplies**: Offers a range of top-quality aquarium supplies from leading brands to help customers create and maintain healthy aquatic environments.\\n3. **Custom Aquarium Design**: Provides services for designing and curating bespoke aquariums tailored to client needs, whether for homes or businesses.\\n4. **Maintenance Services**: Offers ongoing aquarium maintenance to ensure the longevity and health of the marine ecosystems they help create.\\n5. **Nationwide Shipping**: Delivers livestock and products across Australia with an overnight door-to-door service.\",\n  \"targetAudience\": \"- For household who are looking for non-chemical based household cleaning products. \\n- For families who have skin sensitive and allergic concern on heavy and mid chemical-based clearning products.\\n - For parent who have children have skin sensitive and allergic concern on heavy and mid chemical-based clearning products\"\n}",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        -672,
+        336
+      ],
+      "id": "2edbbf97-aeef-46e0-af14-15f81dc85fba",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -480,
+        480
+      ],
+      "id": "68bb12f0-97c5-4806-a62b-2dea7cf530b9",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to get the search query through the ai search engine, gather the sources and results such as the business overview, core service and target audience. as the output.",
+        "workflowId": {
+          "__rl": true,
+          "value": "tfyIBxAjFGmiaES6",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow]  - Exa.ai AI Research Answer + Crawl4AI Citation Crawler"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "search_query": "={{ $json['Brand Website'] }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "search_query",
+              "displayName": "search_query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -832,
+        384
+      ],
+      "id": "ee704043-9f69-462b-94b6-9a6d13cc9d57",
+      "name": "ai_web_research_tool"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1008,
+        336
+      ],
+      "id": "ec4f85fd-1d0e-42aa-a548-da29a6b5c6e6",
+      "name": "Google Gemini Chat Model3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "m6f2rfg4z0p7vsx",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Business Overview",
+              "fieldValue": "={{ $json.output.businessOverview }}"
+            },
+            {
+              "fieldName": "Core Products",
+              "fieldValue": "={{ $json.output.coreProducts }}"
+            },
+            {
+              "fieldName": "Core Services",
+              "fieldValue": "={{ $json.output.coreServices }}"
+            },
+            {
+              "fieldName": "Target Audience",
+              "fieldValue": "={{ $json.output.targetAudience }}"
+            },
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Get many rows').item.json.Id }}"
+            },
+            {
+              "fieldName": "Business Research Status",
+              "fieldValue": "Completed"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -464,
+        176
+      ],
+      "id": "a4832457-86c9-4710-abd0-031e5fa00938",
+      "name": "Update a row",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formTitle": "[Front Age Assignment] - Reef Haven Business Profile Research",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Brand Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Reef Haven"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Brand Website",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "https://reefhaven.com.au/"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Social Media Platforms",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Facebook"
+                  },
+                  {
+                    "option": "Instagram"
+                  },
+                  {
+                    "option": "Youtube"
+                  }
+                ]
+              },
+              "multiselect": true
+            },
+            {
+              "fieldLabel": "Business Type",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Premier Aquarium Store"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Brand Location",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Victoria Australia"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -1456,
+        176
+      ],
+      "id": "ed35afa2-7d22-43f5-9662-4145a5ddf3fd",
+      "name": "On form submission2",
+      "webhookId": "81f1be26-ddb1-47c7-90e9-30ff8d771b76"
+    },
+    {
+      "parameters": {
+        "content": "## Scanning For Client's Business Overview Research",
+        "height": 500,
+        "width": 1200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1504,
+        96
+      ],
+      "typeVersion": 1,
+      "id": "7dcc5b2b-142b-4819-92ad-07a7d2a1873f",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "m6f2rfg4z0p7vsx",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        192,
+        32
+      ],
+      "id": "e96fa320-f5c9-45bd-8dd8-26198fb56abf",
+      "name": "Get Business Research Overview Info1",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "  {\n   \"clientName\": \"The client's brand name\",\n   \"clientWebsite\": \"The client's brand website\",\n   \"clientSocialMediaPlatforms\": [\"Facebook\", \"Instagram\", \"TikTok\", \"Youtube\"],\n   \"clientSocialMediaProfiles\": [\n      {\n      \"Facebook\": \"https://facebook.com/client-page\",\n      \"Instagram\": \"https://instagram.com/client-username\",\n      \"TikTok\": \"https://tiktok.com/@client-username\",\n      \"Youtube\": \"https://youtube.com/@client-username\"\n     }\n    ]\n  }",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        848,
+        224
+      ],
+      "id": "0fb8ad8d-bf01-4a34-b5b8-109b3d409ffd",
+      "name": "Structured Output Parser2"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        448,
+        208
+      ],
+      "id": "0a7a58b1-797b-4531-9a4c-0c3112b6e11a",
+      "name": "Google Gemini Chat Model4",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1040,
+        336
+      ],
+      "id": "9256fa39-5892-4f2d-a979-799864f66867",
+      "name": "OpenAI Chat Model5",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output.clientSocialMediaProfiles",
+        "options": {
+          "destinationFieldName": "socialMediaProfiles"
+        }
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        144,
+        416
+      ],
+      "id": "63289f24-c0a0-4b5e-b1b5-5ebffdc2123a",
+      "name": "Split Out2"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to crawl the listed client's brand website to scrape and return the raw webpage content as context in order to complete the task requested.",
+        "workflowId": {
+          "__rl": true,
+          "value": "QeHEewsZGYiAUIfz",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Crawl4AI Single Webpage Crawler"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "url": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('url', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "url"
+          ],
+          "schema": [
+            {
+              "id": "url",
+              "displayName": "url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        576,
+        224
+      ],
+      "id": "2d3a0ac0-a786-448c-a4c9-f3b1940adfdf",
+      "name": "webpage_crawler"
+    },
+    {
+      "parameters": {
+        "content": "## Client Business Research & Social Media Profiles Finder\n",
+        "height": 760,
+        "width": 1640
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -240,
+        -112
+      ],
+      "typeVersion": 1,
+      "id": "fbe52836-91a3-4f54-b223-9601ad1c0d0e",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Client Company Name: {{ $json['Brand Name'] }}\nClient Business Overview: {{ $('Get Business Research Overview Info1').item.json['Business Overview'] }}\nClient Brand Website: {{ $json['Brand Website'] }}\nClient Brand Location: {{ $json['Brand Location'] }}\nClient Core Product: \n{{ $json['Core Services'] }}\nClient Target Audience: \n{{ $('Get Business Research Overview Info1').item.json[\"Target Audience\"] }}\n",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a market research and analysis specialist who are able to do web scraping based on client name, and client website.\n\n# Task\n- You are tasked to do web scraping to lookout my client's {{ $('Get Business Research Overview Info1').item.json['Brand Name'] }} social media profiles before strategize on crafting the ad creative and ad content for upcoming ads campaign.\n\n# User Context\nYou are require to follow the provided user input as context and references for you to generate the right output and avoid any hallucination or any misinformation occurred. The user context will be providing such as:\n- Client Brand Name\n- Client Business Overview\n- Client Brand Website\n- Client Core Services\n- Client Target Audience\n\n# Tools To Use\nYou are require to use the following tools in order to accomplish the requesting task and generate the right outputs are listed as below:\n- `webpage_crawler`: Call this tool to crawl the listed client's brand website to scrape and return the raw webpage content as context in order to complete the task requested.\n- `client_info_searcher`: Call this tool to query the client's require information such as business overview, business location, core products and target audience based on the listed client brand name.\n\n# Output\nThe output generated must be in structured JSON data format without any explanation and unneccessary information. Only come out the output that what had been require above and following the example of JSON structure output or schema as refenrence below.\n\n## Example of JSON Output\n```\njson:\n  {\n   \"clientName\": \"The client's brand name\",\n   \"clientWebsite\": \"The client's brand website\",\n   \"clientSocialMediaPlatforms\": [\"Facebook\", \"Instagram\", \"TikTok\", \"Youtube\"],\n   \"clientSocialMediaProfiles\": [\n      {\n      \"Facebook\": \"https://facebook.com/client-page\",\n      \"Instagram\": \"https://instagram.com/client-username\",\n      \"TikTok\": \"https://tiktok.com/@client-username\",\n      \"Youtube\": \"https://youtube.com/@client-username\"\n     }\n    ]\n  }\n\n\n\n```"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        560,
+        32
+      ],
+      "id": "3bb20510-4613-44f7-a60c-94a2e89c9127",
+      "name": "Brand Social Media Profiles Finder"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to query the client's require information such as business overview, business location, core products and target audience based on the listed client brand name.",
+        "workflowId": {
+          "__rl": true,
+          "value": "Ek66VfFhjAWBSb3v",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Tavily AI Research Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        720,
+        240
+      ],
+      "id": "afbe8519-b939-44c7-b0ff-6741177f2926",
+      "name": "client_info_searcher"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "m6f2rfg4z0p7vsx",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Get Business Research Overview Info1').item.json.Id }}"
+            },
+            {
+              "fieldName": "Social Media Used",
+              "fieldValue": "={{ $('Brand Social Media Profiles Finder').item.json.output.clientSocialMediaPlatforms }}"
+            },
+            {
+              "fieldName": "Social Media Profiles",
+              "fieldValue": "={{ $json.socialMediaProfiles }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        640,
+        416
+      ],
+      "id": "c67d5d3a-5c3c-45ac-b8a1-e0c51be68755",
+      "name": "Update Social Media Profiles Links",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        -512,
+        2400
+      ],
+      "id": "887a81b3-8732-4978-b8c2-1e7ceb5ff0bb",
+      "name": "DeepSeek Chat Model1",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "8Hvjw0JNKmbO191K",
+          "name": "DeepSeekAPI - info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "84cbce38-f15c-42b6-9bae-a0873fee57e1",
+              "leftValue": "={{ $json.query.actionType }}",
+              "rightValue": "generateAdHooks",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1184,
+        1696
+      ],
+      "id": "4273c74c-26d1-4a7c-b60e-11e25054896c",
+      "name": "Execute If Action Type=generateAdHooks"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -1168,
+        1936
+      ],
+      "id": "6b44e0bc-2eac-4a5e-8a80-6ad8a82f3a9c",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c610eccd-1dcb-44fb-8ecc-6caae2e33c42",
+              "name": "amountAdHooksGenerate",
+              "value": "={{ $json['Versions Ad Hooks To Generate'] }}",
+              "type": "number"
+            },
+            {
+              "id": "f2eda636-d1f0-4214-bbfd-c9bd7cc9fccf",
+              "name": "targetProducts",
+              "value": "={{ $jmespath($json['Target Products'],\"[*].productCategory\") }}",
+              "type": "array"
+            },
+            {
+              "id": "b7956738-9fb6-4c24-8296-0498ca9125ee",
+              "name": "targetServices",
+              "value": "={{ $jmespath($json['Target Services'],\"[*].serviceCategory\") }}",
+              "type": "array"
+            },
+            {
+              "id": "a1e164dc-8371-49f9-bca0-f58ae4f06ac5",
+              "name": "targetLanguage",
+              "value": "={{ $json['Target Language'] }}",
+              "type": "string"
+            },
+            {
+              "id": "50d384ab-402a-4bdf-8525-0b40bf0387a9",
+              "name": "facebookPageUrl",
+              "value": "={{ $json['Social Media Profiles (from ReefHaven_CompetitorResearch&Analysis)'][0].Facebook }}",
+              "type": "string"
+            },
+            {
+              "id": "dc82d3c0-b9a9-4d22-af6f-273ff079e813",
+              "name": "instagramProfileUrl",
+              "value": "={{ $json['Social Media Profiles (from ReefHaven_CompetitorResearch&Analysis)'][0].Instagram }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -704,
+        1680
+      ],
+      "id": "16c6ef37-cae0-4e5a-b979-104f6ad08138",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "mn471p99c1i4nth",
+        "id": "={{ $json.body.data.rows[0].Id }}"
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -944,
+        1680
+      ],
+      "id": "a4543211-4071-42ff-bcf7-5e3ade62843e",
+      "name": "Get a row",
+      "retryOnFail": true,
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[\n {\n  \"version\": \"Version 1\",\n  \"adHook\": \"The generated descriptive and detailed ad hook 1\"\n },\n {\n  \"version\": \"Version 2\",\n  \"adHook\": \"The generated descriptive and detailed ad hook 2\"\n },\n {\n  \"version\": \"Version 3\",\n  \"adHook\": \"The generated descriptive and detailed ad hook 3\"\n }\n]"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        128,
+        1888
+      ],
+      "id": "5d50bac9-57eb-468d-93f2-cef1c4b4c6fe",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "name": "web_search",
+        "description": "=Get the in depth information about the user's search query that is relevant to the search query, including web content, and other relevant sources",
+        "workflowId": {
+          "__rl": true,
+          "value": "Ek66VfFhjAWBSb3v",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Tavily AI Research Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        -464,
+        2000
+      ],
+      "id": "f0cece6b-0e31-44c2-90b5-d79029103e80",
+      "name": "web_search"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        0,
+        1984
+      ],
+      "id": "e612e01f-1420-4feb-a25d-fbcea0acfbe0",
+      "name": "Think"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2fbc23ed-5b57-49e2-b7ff-dfd5b110499d",
+              "name": "version",
+              "value": "={{ $('Get many rows1').item.json.Version }}",
+              "type": "string"
+            },
+            {
+              "id": "a41d4661-9902-4ba4-8883-797d6a7e50a1",
+              "name": "targetProducts",
+              "value": "={{ $jmespath($('Get many rows1').item.json['Target Products'][0],\"[*].productCategory\") }}",
+              "type": "array"
+            },
+            {
+              "id": "1ed18031-fe1c-455c-91b6-2f90ca9464a9",
+              "name": "targetServices",
+              "value": "={{ $jmespath($('Get many rows1').item.json['Target Services'][0],\"[*].serviceCategory\") }}",
+              "type": "array"
+            },
+            {
+              "id": "5e9fcef9-a435-4a4e-b068-1deda15ece62",
+              "name": "targetLanguage",
+              "value": "={{ $('Get many rows1').item.json['Target Language'][0] }}",
+              "type": "string"
+            },
+            {
+              "id": "152c15f2-3027-46c4-b578-4db12ecfd94c",
+              "name": "adHook",
+              "value": "={{ $('Update a row2').item.json['Ad Hooks'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -848,
+        2176
+      ],
+      "id": "9d6c448b-4d3f-4336-a496-a40139b2cbc1",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1472,
+        1936
+      ],
+      "id": "5ff831f1-acdd-47e5-ac8e-aa7f38855353",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.adImageUrl.replaceAll(\"https://drive.google.com/file/d/\",\"\").replaceAll(\"/view?usp=sharing\",\"\").replaceAll(\"/view?usp=drive_link\",\"\").replaceAll(\"/view?usp=drivesdk\",\"\",).replaceAll(\"\\n\",\"\") }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -1760,
+        1488
+      ],
+      "id": "8a543837-88f9-49a7-9bee-2a43e999dab7",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Craft {{ $json.amountAdHooksGenerate }} ad hook versions for theese target categories of products:{{ $json.targetProducts }} and target categories of services:{{ $json.targetServices }} in {{ $json.targetLanguage.toLowerCase() }}.",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a professional ad copywriter who are knowing how to generate an effective and high conversion ad copies in various industries or niches compatible with also fluent in multiple languages.\n\n# Task\nYou are tasked with crafting multiple versions of ad hooks for the specific ad campaign in Meta Ads based on the user's provided inputs. \n\n# Tools\nYou are required to use the following tools to craft the right and accurate ad copies and avoid any hallucinations:\n- `company_research_fetcher`: Call this tool to fetch and gather all the necessary company information such as company name, company website, company location, industry types, business overeview, core services and target audience.\n- `ai_web_search`: Call this tool to search additional information and knowledge related organization, organization services, industry etc if you are not sure and need more validation more certain queries.\n- `ad_library_scraper`: Call this tool to extract the previous published ad posts from ad library and extract the important ad posts details such as ad texts, headlines, link description, call-to-action text and other details.\n- `fb_page_posts_scraper`: Call this tool to scrape Facebook page post through provided Facebook page url and extract the posts details such as post text, post url, image URLs etc.\n\n\n# User Context\nThe user will provide several important inputs to ensure that you are able to generate the right output such as:\n- Target Product Categories\n- Target Service Categories\n- Amount Ad Hooks To Generate\n- Target Language\n\n\n# Context Definition\n- Target Service: The selected client's service would like to run ad campaign in Meta or TikTok ads campaign.\n- Amount Ad Hooks To Generate: Amount of Ad Hooks want to generate before going to generate the actual ad copies. \n- Target Language: The selected target language would like to generate ad copies to deliver to the right target audience\n- Ad Image URL: The downdable ad image link that showcase or display about the ad campaign or promotion in visual way.\n\n# Output\nThe generated output must be follow the structured JSON format.\n\n## Example JSON Output\n```\njson: [\n {\n  \"version\": \"Version 1\",\n  \"adHook\": \"The generated descriptive and detailed ad hook 1\"\n },\n {\n  \"version\": \"Version 2\",\n  \"adHook\": \"The generated descriptive and detailed ad hook 2\"\n },\n {\n  \"version\": \"Version 3\",\n  \"adHook\": \"The generated descriptive and detailed ad hook 3\"\n }\n]\n```"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        -480,
+        1680
+      ],
+      "id": "d6b47557-dd3a-41e7-ab9c-94eec4ab316a",
+      "name": "Ad Hook Generator"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to fetch and gather all the necessary company information such as company name, company website, company location, industry types, business overeview, core services and target audience.",
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "m6f2rfg4z0p7vsx",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDbTool",
+      "typeVersion": 3,
+      "position": [
+        -592,
+        1984
+      ],
+      "id": "c7e404f2-2b69-424a-87c4-c7639d27fb67",
+      "name": "company_research_fetcher",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        1680
+      ],
+      "id": "17243f79-d7b6-4880-9970-c1dbec81df7c",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "mpkdf5e310m9ps3",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $json.Id }}"
+            },
+            {
+              "fieldName": "Ad Hooks",
+              "fieldValue": "={{ $('Loop Over Items').item.json.adHook }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -752,
+        2352
+      ],
+      "id": "03116052-9d75-4b6e-b79a-9e0e25d59003",
+      "name": "Update a row2",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "mpkdf5e310m9ps3",
+        "options": {
+          "fields": [],
+          "where": "=(Date Created,eq,exactDate,{{ $('Get a row').item.json['Date Created'] }})~and(Version,eq,{{ $json.version }})"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -960,
+        2352
+      ],
+      "id": "a7c8c748-ed46-42b2-b0a5-e2e50215f6d5",
+      "name": "Get many rows1",
+      "retryOnFail": true,
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -1216,
+        2288
+      ],
+      "id": "5a1ee818-2124-4954-a3c1-84c1dda1ea07",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"version\": \"Version 1\",\n  \"adAngle\": \"The generated descriptive and detailed ad angle 1 based on the selected ad hook 1\"\n }"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        272,
+        2384
+      ],
+      "id": "3998c911-1e94-4ef3-ba1e-aa9cd59f2229",
+      "name": "Structured Output Parser3"
+    },
+    {
+      "parameters": {
+        "name": "web_search",
+        "description": "=Get the in depth information about the user's search query that is relevant to the search query, including web content, and other relevant sources",
+        "workflowId": {
+          "__rl": true,
+          "value": "Ek66VfFhjAWBSb3v",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Tavily AI Research Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        -240,
+        2496
+      ],
+      "id": "314708b0-e750-4518-9f70-93afd057b64b",
+      "name": "web_search1"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        128,
+        2448
+      ],
+      "id": "9bad34bc-a89a-44fd-99aa-60a5f1e66bb3",
+      "name": "Think1"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to fetch and gather all the necessary company information such as company name, company website, company location, industry types, business overeview, core services and target audience.",
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "m6f2rfg4z0p7vsx",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDbTool",
+      "typeVersion": 3,
+      "position": [
+        -384,
+        2464
+      ],
+      "id": "fae1feb0-2a44-4263-8bd1-ca9b82eb8d39",
+      "name": "company_research_fetcher1",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Craft an ad angle for {{ $json.version }} based on the generated ad hook: \n{{ $json.adHook }} in {{ $json.targetLanguage.toLowerCase() }}.\n\nWhile crafting the ad ad angle, always need to refer back to the following: \n1. Product categories: {{ $json.targetProducts }} \n2. Service categories: {{ $json.targetServices }}\n",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a professional ad copywriter who are knowing how to generate an effective and high conversion ad copies in various industries or niches compatible with also fluent in multiple languages.\n\n# Task\nYou are tasked with crafting multiple versions of ad angles for the specific ad campaign in Meta Ads based on the user's provided inputs. \n\n# Tools\nYou are required to use the following tools to craft the right and accurate ad copies and avoid any hallucinations:\n- `company_research_fetcher`: Call this tool to fetch and gather all the necessary company information such as company name, company website, company location, industry types, business overeview, core services and target audience.\n- `ai_web_search`: Call this tool to search additional information and knowledge related organization, organization services, industry etc if you are not sure and need more validation more certain queries.\n- `ad_library_scraper`: Call this tool to extract the previous published ad posts from ad library and extract the important ad posts details such as ad texts, headlines, link description, call-to-action text and other details.\n- `fb_page_posts_scraper`: Call this tool to scrape Facebook page post through provided Facebook page url and extract the posts details such as post text, post url, image URLs etc.\n\n# User Context\nThe user will provide several important inputs to ensure that you are able to generate the right output such as:\n- Version\n- Product Categories\n- Service Catergories\n- Target Language\n- Ad Hook\n\n# Context Definition\n- Version: The version of ad angle that you want to generate based on the ad hooks generated.\n- Service Categories: The selected client's product categories would like to run ad campaign in Meta or TikTok ads campaign.\n- Service Categories: The selected client's service categories would like to run ad campaign in Meta or TikTok ads campaign.\n- Target Language: The selected target language would like to generate ad copies to deliver to the right target audience\n- Ad Hook: The different versions ad hook generated provided with unique and not duplicated. \n\n# Output\nThe generated output must be follow the structured JSON format.\n\n## Example JSON Output\n```\njson: {\n  \"version\": \"Version 1\",\n  \"adAngle\": \"The generated descriptive and detailed ad angle 1 based on the selected ad hook 1\"\n }\n```"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        -304,
+        2176
+      ],
+      "id": "8796276a-bf59-4990-bfe4-47fe9fa9f788",
+      "name": "Ad Angle Generator"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c7769876-9bcb-4b74-aff7-2f8ae2011095",
+              "name": "version",
+              "value": "={{ $json.output.version }}",
+              "type": "string"
+            },
+            {
+              "id": "fb362974-640f-440f-b155-3c03b8da1155",
+              "name": "adAngle",
+              "value": "={{ $json.output.adAngle }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        416,
+        2176
+      ],
+      "id": "1513c217-1a27-43ec-ac48-86ab7df9c371",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3f4c87a6-efeb-4ac4-9a21-7fdaf7dc4602",
+              "name": "version",
+              "value": "={{ $('Get many rows2').item.json.Version }}",
+              "type": "string"
+            },
+            {
+              "id": "fce65f63-6496-49b3-852f-402ccc671cea",
+              "name": "targetProducts",
+              "value": "={{ $('Get many rows2').item.json['Target Products'][0] }}",
+              "type": "array"
+            },
+            {
+              "id": "2848d3df-e747-4843-b343-646312cf2797",
+              "name": "targetServices",
+              "value": "={{ $('Get many rows2').item.json['Target Services'][0] }}",
+              "type": "array"
+            },
+            {
+              "id": "152c15f2-3027-46c4-b578-4db12ecfd94c",
+              "name": "adHook",
+              "value": "={{ $('Get many rows2').item.json['Ad Hooks'] }}",
+              "type": "string"
+            },
+            {
+              "id": "bdde978a-0270-477c-9cdd-b36cbc713604",
+              "name": "adAngle",
+              "value": "={{ $('Update a row3').item.json['Ad Angles'] }}",
+              "type": "string"
+            },
+            {
+              "id": "45310992-283d-42bf-9e5c-34530c33b9d2",
+              "name": "targetAudience",
+              "value": "={{ $('Get many rows2').item.json['Target Audience (from Ad Hooks & Angles Generator)'][0] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -176,
+        2720
+      ],
+      "id": "7c0df2fd-2e71-4b7f-bbb1-00f34358ac36",
+      "name": "Edit Fields5"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "mpkdf5e310m9ps3",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $json.Id }}"
+            },
+            {
+              "fieldName": "Version",
+              "fieldValue": "={{ $('Loop Over Items1').item.json.version }}"
+            },
+            {
+              "fieldName": "Ad Angles",
+              "fieldValue": "={{ $('Loop Over Items1').item.json.adAngle }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -80,
+        2896
+      ],
+      "id": "27187a8a-0dd1-476c-8205-a11c1ac85a7e",
+      "name": "Update a row3",
+      "executeOnce": false,
+      "retryOnFail": true,
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "mpkdf5e310m9ps3",
+        "options": {
+          "fields": [],
+          "where": "=(Date Created,eq,exactDate,{{ $('Get a row').item.json['Date Created'] }})~and(Version,eq,{{ $json.version }})"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -288,
+        2896
+      ],
+      "id": "b795af8c-756d-4725-aed0-786f390eeda1",
+      "name": "Get many rows2",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -544,
+        2832
+      ],
+      "id": "166fd2a1-28f7-4e5b-a5c9-ea0a6f827c4f",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"version\": \"Version 1\",\n  \"adCopy\": \"👁️ Are blurry days holding you back? Struggling with glasses that slip down, contacts that irritate, or simply feeling like you're missing out on life’s vibrant details? 🌈 It doesn’t have to be this way.\\n\\n At KPJ Ipoh Specialist Hospital 🏥, we offer a second chance for your eyes—a safe and trusted LASIK procedure designed just for YOU. 💎 Imagine waking up each morning refreshed ✨—seeing every sunrise clearly without fumbling for glasses or lenses.\\n ✅ Affordable & Accessible – Quality care at prices you can trust \\n ✅ Safe Technology – Advanced equipment handled by experts 👩‍⚕️ \\n ✅ Life-Changing Results – Freedom from eyewear starts now 🎉 \\n\\n 💡 Don’t let poor vision hold you back another day. This is YOUR opportunity to rejuvenate your eyesight—and reclaim all those precious missed moments! Book a consultation today 📆 and take the first step toward freedom. Call us now! 📞\"\n}",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1824,
+        2176
+      ],
+      "id": "50a6bcb7-8b0f-4f47-93e9-fbb6b64f9c01",
+      "name": "Structured Output Parser4",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "name": "web_search",
+        "description": "=Get the in depth information about the user's search query that is relevant to the search query, including web content, and other relevant sources",
+        "workflowId": {
+          "__rl": true,
+          "value": "Ek66VfFhjAWBSb3v",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Tavily AI Research Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        1536,
+        2256
+      ],
+      "id": "5c6b92df-0a14-4e4b-b2b9-f12c956aef6c",
+      "name": "web_search2",
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        1712,
+        2240
+      ],
+      "id": "856c59d5-0e85-4aa3-acd8-13cc0baefaba",
+      "name": "Think2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to fetch and gather all the necessary company information such as company name, company website, company location, industry types, business overeview, core services and target audience.",
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pnsdsx5i8rktgjf",
+        "table": "mvz46p06j62lgs7",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDbTool",
+      "typeVersion": 3,
+      "position": [
+        1392,
+        2224
+      ],
+      "id": "86f146d3-b68c-4768-8eb2-1010b6d868c5",
+      "name": "company_research_fetcher2",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Version: {{ $json.version }}\nAd Copy Structure:\n{{ $json.adCopyStructure }}\n",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a professional ad copywriter who are knowing how to generate an effective and high conversion ad copies in various industries or niches compatible with also fluent in multiple languages.\n\n# Task\nYou are tasked with crafting multiple versions of ad copies for the specific ad campaign in Meta Ads based on the user's provided inputs. \n\n\n\n# Output\n- The generated output must be follow the structured JSON format and only wrapped the actual output in the right JSON structure without any additional information and explaination.\n- Don not include the ad copy structure description such as \"Headline\", \"Paragraph 1\", \"Paragraph 2\", \"Paragraph 3\", \"Call-to-action\" etc.\n\n## Example JSON Output\n```\njson: {\n  \"version\": \"Version 1\",\n  \"adCopy\": \"👁️ Are blurry days holding you back? Struggling with glasses that slip down, contacts that irritate, or simply feeling like you're missing out on life’s vibrant details? 🌈 It doesn’t have to be this way.\\n\\n At KPJ Ipoh Specialist Hospital 🏥, we offer a second chance for your eyes—a safe and trusted LASIK procedure designed just for YOU. 💎 Imagine waking up each morning refreshed ✨—seeing every sunrise clearly without fumbling for glasses or lenses.\\n ✅ Affordable & Accessible – Quality care at prices you can trust \\n ✅ Safe Technology – Advanced equipment handled by experts 👩‍⚕️ \\n ✅ Life-Changing Results – Freedom from eyewear starts now 🎉 \\n\\n 💡 Don’t let poor vision hold you back another day. This is YOUR opportunity to rejuvenate your eyesight—and reclaim all those precious missed moments! Book a consultation today 📆 and take the first step toward freedom. Call us now! 📞\"\n}\n```"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        1472,
+        1936
+      ],
+      "id": "119a4d90-7885-4b08-8621-87700181eddf",
+      "name": "Meta Ad Angle Generator",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1168,
+        2784
+      ],
+      "id": "0b40c24a-0c4d-4220-ae84-84749c246345",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        1760,
+        2384
+      ],
+      "id": "a14bbe18-e708-4e48-ad39-b9f21b1ba35d",
+      "name": "DeepSeek Chat Model",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "8Hvjw0JNKmbO191K",
+          "name": "DeepSeekAPI - info.hansondev@gmail.com"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        1312,
+        2096
+      ],
+      "id": "6f14cab8-4582-4093-aa69-8df658779398",
+      "name": "DeepSeek Chat Model2",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "8Hvjw0JNKmbO191K",
+          "name": "DeepSeekAPI - info.hansondev@gmail.com"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fb4ccd1f-689a-438c-a269-3bd61dd6e8ad",
+              "name": "version",
+              "value": "={{ $json.output.version }}",
+              "type": "string"
+            },
+            {
+              "id": "05b230a7-f73b-420b-9ce5-435562a915ab",
+              "name": "adCopy",
+              "value": "={{ $json.output.adCopy }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1856,
+        1936
+      ],
+      "id": "c780aabf-4a46-4262-9b07-d63a2c303282",
+      "name": "Edit Fields6",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pnsdsx5i8rktgjf",
+        "table": "mqyhdmslzlf5bhj",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $json.Id }}"
+            },
+            {
+              "fieldName": "Version",
+              "fieldValue": "={{ $('Loop Over Items2').item.json.version }}"
+            },
+            {
+              "fieldName": "Ad Angle",
+              "fieldValue": "={{ $('Loop Over Items2').item.json.adCopy }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        2576,
+        2000
+      ],
+      "id": "1e6f3ffd-e044-402d-b627-74059d0a7d68",
+      "name": "Update a row4",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pnsdsx5i8rktgjf",
+        "table": "mqyhdmslzlf5bhj",
+        "options": {
+          "fields": [],
+          "where": "=(Target Service,eq,{{ $('Get a row').item.json['Target Service'] }})~and(Version,eq,{{ $json.version }})"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        2368,
+        2000
+      ],
+      "id": "694fbe74-22d0-4e82-8a7e-2fe0a706f08c",
+      "name": "Get many rows3",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        2112,
+        1936
+      ],
+      "id": "0b66ea5d-c9f9-4c6b-96d6-54a30e86190c",
+      "name": "Loop Over Items2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pnsdsx5i8rktgjf",
+        "table": "mqyhdmslzlf5bhj",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Status",
+              "fieldValue": "Completed"
+            },
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Update a row4').item.json.Id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        2400,
+        1792
+      ],
+      "id": "82e38460-e98a-4581-a08e-82fff96a0bc8",
+      "name": "Update a row5",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "reef-haven-social-media-profiles-finder",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        32
+      ],
+      "id": "beb863f1-afdb-4c61-9f4b-434bed8308f5",
+      "name": "Triggered Social Profile Finder Action Button",
+      "webhookId": "cb9099cd-963b-44c2-9e54-78698fc663b9"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "generate-target-products-for-ad-campaign",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1408,
+        880
+      ],
+      "id": "49067dbd-08a7-42ff-bd74-55439502b754",
+      "name": "Generate Target Products",
+      "webhookId": "bb2a5ecc-8c6c-4da1-9c9a-2635b06ce811"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "generate-target-services-for-ad-campaign",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1392,
+        1088
+      ],
+      "id": "980d09a6-b1ad-42d5-9eeb-425947e98bc7",
+      "name": "Generate Target Services",
+      "webhookId": "3166e14e-93c4-4324-bcd8-9c7e153eabf7"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.query.action }}",
+                    "rightValue": "generateTargetProducts",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "de744ede-95e7-4efd-afaa-b08e874f97ff"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Generate Target Products"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "f1d2c0f0-ce54-4291-b992-70855fd13010",
+                    "leftValue": "={{ $json.query.action }}",
+                    "rightValue": "generateTargetServices",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Generate Target Services"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -928,
+        976
+      ],
+      "id": "303d95b8-cf8f-4fa1-8559-b7d84370bbfd",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "mn471p99c1i4nth",
+        "options": {
+          "where": "=(Date Created,eq,exactDate,{{ $json.body.data.rows[0]['Date Created'] }})~and(Target Products,is,null)~and(Target Services,is,null)"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -400,
+        784
+      ],
+      "id": "1f5347d4-ca9f-4088-9d90-542207532a7c",
+      "name": "Get many rows4",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-5-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -288,
+        944
+      ],
+      "id": "0d4492ad-9483-4500-a646-0afccc71691d",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": " [\n {\n  \"productCategory\": \"Live Corals\",\n  \"categoryDescription\": \"A wide variety of corals including Acans & Bowers, Blasto, Chalice & Favia, Elegance, Euphyllia, Flowerpots, Fungia, Lobo & Symphyllia, Meat Coral, Mushrooms, Other LPS, Scoly, Softies, SPS, Trachy, Wilsoni, and Zoanthids.\"\n },\n {\n  \"productCategory\": \"Marine Fish\",\n  \"categoryDescription\": \"A diverse selection of saltwater fish such as Angels, Anthias, Basslets & Dottybacks, Blenny & Goby, Clownfish, Damsels & Chromis, Filefish & Pipefish, Groupers & Snappers, Hawkfish, Puffer & Boxfish, Scorpianfish, Seahorses, Tangs & Rabbitfish, Triggerfish, and Wrasses.\"\n },\n {\n  \"productCategory\": \"Other Marine Life\",\n  \"categoryDescription\": \"Includes invertebrates, predators, and anemones.\"\n },\n {\n  \"productCategory\": \"Aquarium Equipment\",\n  \"categoryDescription\": \"A comprehensive range of supplies including accessories, additives & supplements, dosers & ATO, food, heaters & chillers, lighting, pumps & wavemakers, salt, sand & rock, skimmers & reactors, tanks & cabinets, and testing kits.\"\n }\n]"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        32,
+        960
+      ],
+      "id": "c15cff54-f5a7-4c1a-baf1-d14806a21e64",
+      "name": "Structured Output Parser5"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "mn471p99c1i4nth",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Get many rows4').item.json.Id }}"
+            },
+            {
+              "fieldName": "Target Products",
+              "fieldValue": "={{ $json.output }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        160,
+        784
+      ],
+      "id": "bfb99e36-b7fa-4c8a-8aa5-e2cd5aa5d8e7",
+      "name": "Update a row1",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json['Core Products'][0] }}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=# Role\nYou are a marketing research and analyist specialist who are able to analyze and identify the marketing specification and marketing segementation based on the research and case studies.\n\n# Task\nYou are tasked to identify and segment from the list of business or brand's core products that provided by the user. Based on the business or brand's core products listing, you are required to identify and segment the core products into a structured data structure.\n\n# Output\nThe output generated shuold be formatted in JSON structured data format that must also follow the JSON structure or schema from the JSON output structure example below:\n```\njson: [\n {\n  \"productCategory\": \"Live Corals\",\n  \"categoryDescription\": \"A wide variety of corals including Acans & Bowers, Blasto, Chalice & Favia, Elegance, Euphyllia, Flowerpots, Fungia, Lobo & Symphyllia, Meat Coral, Mushrooms, Other LPS, Scoly, Softies, SPS, Trachy, Wilsoni, and Zoanthids.\"\n },\n {\n  \"productCategory\": \"Marine Fish\",\n  \"categoryDescription\": \"A diverse selection of saltwater fish such as Angels, Anthias, Basslets & Dottybacks, Blenny & Goby, Clownfish, Damsels & Chromis, Filefish & Pipefish, Groupers & Snappers, Hawkfish, Puffer & Boxfish, Scorpianfish, Seahorses, Tangs & Rabbitfish, Triggerfish, and Wrasses.\"\n },\n {\n  \"productCategory\": \"Other Marine Life\",\n  \"categoryDescription\": \"Includes invertebrates, predators, and anemones.\"\n },\n {\n  \"productCategory\": \"Aquarium Equipment\",\n  \"categoryDescription\": \"A comprehensive range of supplies including accessories, additives & supplements, dosers & ATO, food, heaters & chillers, lighting, pumps & wavemakers, salt, sand & rock, skimmers & reactors, tanks & cabinets, and testing kits.\"\n }\n]\n```"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        -192,
+        784
+      ],
+      "id": "c593a1bf-1891-4d72-b091-8cf6b1bac9ee",
+      "name": "Target Products Generator",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "mn471p99c1i4nth",
+        "options": {
+          "where": "=(Date Created,eq,exactDate,{{ $json.body.data.rows[0]['Date Created'] }})~and(Target Products,is,null)~and(Target Services,is,null)"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -400,
+        1152
+      ],
+      "id": "9c31eb46-af13-496e-a284-5eae6fd41f8d",
+      "name": "Get many rows5",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-5-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -288,
+        1312
+      ],
+      "id": "90ed2c61-3831-4473-b99b-029f830e12dc",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": " [\n {\n  \"serviceCategory\": \"Quarantined Marine Livestock\",\n  \"categoryDescription\": \"Specializes in sourcing rare and exotic fish that are fully quarantined and medicated before being sold. This ensures healthy, disease-free animals for customers' aquariums.\"\n },\n {\n  \"serviceCategory\": \"Nationwide Shipping\",\n  \"categoryDescription\": \"Delivers livestock and products across Australia with an overnight door-to-door service.\"\n },\n {\n  \"serviceCategory\": \"Custom Aquarium Design\",\n  \"categoryDescription\": \"Provides services for designing and curating bespoke aquariums tailored to client needs, whether for homes or businesses.\"\n },\n {\n  \"serviceCategory\": \"Aquarium Maintenance\",\n  \"categoryDescription\": \"Offers ongoing aquarium maintenance to ensure the longevity and health of the marine ecosystems they help create.\"\n },\n {\n  \"serviceCategory\": \"Water Delivery\",\n  \"categoryDescription\": \"Provides water delivery services for aquarium needs.\"\n }\n]"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        32,
+        1328
+      ],
+      "id": "1ab9db61-7431-4834-9b33-ffb82d90c3d0",
+      "name": "Structured Output Parser6"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "mn471p99c1i4nth",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Get many rows5').item.json.Id }}"
+            },
+            {
+              "fieldName": "Target Services",
+              "fieldValue": "={{ $json.output }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        160,
+        1152
+      ],
+      "id": "a9e1d0bb-0d68-4382-8b28-934ea2974168",
+      "name": "Update a row6",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json['Core Services'][0] }}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=# Role\nYou are a marketing research and analyist specialist who are able to analyze and identify the marketing specification and marketing segementation based on the research and case studies.\n\n# Task\nYou are tasked to identify and segment from the list of business or brand's core services that provided by the user. Based on the business or brand's core services listing, you are required to identify and segment the core services into a structured data structure.\n\n# Output\nThe output generated shuold be formatted in JSON structured data format that must also follow the JSON structure or schema from the JSON output structure example below:\n```\njson: [\n {\n  \"serviceCategory\": \"Quarantined Marine Livestock\",\n  \"categoryDescription\": \"Specializes in sourcing rare and exotic fish that are fully quarantined and medicated before being sold. This ensures healthy, disease-free animals for customers' aquariums.\"\n },\n {\n  \"serviceCategory\": \"Nationwide Shipping\",\n  \"categoryDescription\": \"Delivers livestock and products across Australia with an overnight door-to-door service.\"\n },\n {\n  \"serviceCategory\": \"Custom Aquarium Design\",\n  \"categoryDescription\": \"Provides services for designing and curating bespoke aquariums tailored to client needs, whether for homes or businesses.\"\n },\n {\n  \"serviceCategory\": \"Aquarium Maintenance\",\n  \"categoryDescription\": \"Offers ongoing aquarium maintenance to ensure the longevity and health of the marine ecosystems they help create.\"\n },\n {\n  \"serviceCategory\": \"Water Delivery\",\n  \"categoryDescription\": \"Provides water delivery services for aquarium needs.\"\n }\n]\n```"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        -192,
+        1152
+      ],
+      "id": "70b932cf-6572-458b-8d1f-5947df887079",
+      "name": "Target Services Generator",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "content": "## Generate Target Products and Target Services",
+        "height": 736,
+        "width": 2048,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1504,
+        720
+      ],
+      "typeVersion": 1,
+      "id": "c05694fc-6e98-43d5-81e8-f1e61f9f7825",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "generate-ad-hooks-btn-trigger",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -1392,
+        1696
+      ],
+      "id": "e3ed131a-6c3d-489a-9819-bf90d24c6051",
+      "name": "Generate Ad Hooks",
+      "webhookId": "2f20cdb3-61ea-42d9-8802-19c63232bcd1"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to extract the previous published ad posts from ad library and extract the important ad posts details such as ad texts, headlines, link description, call-to-action text and other details.",
+        "workflowId": {
+          "__rl": true,
+          "value": "soRMIz5IAaDIz4Sb",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - APIFY MetaAds Library Scraper"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "fbPageUrl": "={{ $json.facebookPageUrl }}"
+          },
+          "matchingColumns": [
+            "fbPageUrl"
+          ],
+          "schema": [
+            {
+              "id": "fbPageUrl",
+              "displayName": "fbPageUrl",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -320,
+        2000
+      ],
+      "id": "06c3d781-dfec-4e54-b11d-54a08d51cda8",
+      "name": "ad_library_scraper"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to scrape Facebook page post through provided Facebook page url and extract the posts details such as post text, post url, image URLs etc.",
+        "workflowId": {
+          "__rl": true,
+          "value": "L63Xf9FMH8gQsZZU",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - APIFY FB Page Posts Scraper"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "fbPageUrl": "={{ $json.facebookPageUrl }}"
+          },
+          "matchingColumns": [
+            "fbPageUrl"
+          ],
+          "schema": [
+            {
+              "id": "fbPageUrl",
+              "displayName": "fbPageUrl",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -160,
+        1984
+      ],
+      "id": "4a09a76c-e005-4b46-81a3-c2860a319ff1",
+      "name": "fb_page_posts_scraper"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-5-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -720,
+        1904
+      ],
+      "id": "1dc02da0-5898-4188-b1a8-540af6c59e32",
+      "name": "OpenAI Chat Model3",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to extract the previous published ad posts from ad library and extract the important ad posts details such as ad texts, headlines, link description, call-to-action text and other details.",
+        "workflowId": {
+          "__rl": true,
+          "value": "soRMIz5IAaDIz4Sb",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - APIFY MetaAds Library Scraper"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "fbPageUrl": "={{ $('Edit Fields').item.json.facebookPageUrl }}"
+          },
+          "matchingColumns": [
+            "fbPageUrl"
+          ],
+          "schema": [
+            {
+              "id": "fbPageUrl",
+              "displayName": "fbPageUrl",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -112,
+        2496
+      ],
+      "id": "bb352477-fd2f-409a-a8e7-06b59853b0b7",
+      "name": "ad_library_scraper1"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to scrape Facebook page post through provided Facebook page url and extract the posts details such as post text, post url, image URLs etc.",
+        "workflowId": {
+          "__rl": true,
+          "value": "L63Xf9FMH8gQsZZU",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - APIFY FB Page Posts Scraper"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "fbPageUrl": "={{ $('Edit Fields').item.json.facebookPageUrl }}"
+          },
+          "matchingColumns": [
+            "fbPageUrl"
+          ],
+          "schema": [
+            {
+              "id": "fbPageUrl",
+              "displayName": "fbPageUrl",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        16,
+        2480
+      ],
+      "id": "1c1add60-a729-4407-b0c8-597b93a66d43",
+      "name": "fb_page_posts_scraper1"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n \"version\": \"The version of ad copy to generate\",\n \"headlineSection\": \"The eye-catching headline to get the attention\",\n \"problemAgitatedSection\": \"User get agitated and frustrated with current user situation\",\n \"problemAwareSection\": \"Problem Aware based on current user situation\",\n \"solutionShowcasingSection\": \"What are the solutions is offering to fix or eliminate the current user problem and showcase the benifits can obtain after using the products or services\",\n \"callToAction\": \"Call-to-action to get the user to take action\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        416,
+        2928
+      ],
+      "id": "898459db-276e-4bf7-8a57-405f7f7e4cf8",
+      "name": "Structured Output Parser7"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        144,
+        2928
+      ],
+      "id": "a1d5620b-e47b-4470-b4db-712103ffd148",
+      "name": "OpenAI Chat Model4",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "mpkdf5e310m9ps3",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Update a row3').item.json.Id }}"
+            },
+            {
+              "fieldName": "Version",
+              "fieldValue": "={{ $json.output.version }}"
+            },
+            {
+              "fieldName": "Ad Copy Structure",
+              "fieldValue": "=Headline Section:  {{ $json.output.headlineSection }}\n\nProblem Agitated Section: {{ $json.output.problemAgitatedSection }}\n\nProblem Aware Section: {{ $json.output.problemAwareSection }}\n\nSolution Showcasing Section: {{ $json.output.solutionShowcasingSection }}\n\nCall-to-action: {{ $json.output.callToAction }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        944,
+        2752
+      ],
+      "id": "af1bbb85-fa4a-4ec3-ab2a-4fafa36b7c6f",
+      "name": "Update a row7",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        608,
+        2736
+      ],
+      "id": "24e9e76e-37f2-44d1-b305-94e4995b5c14",
+      "name": "Loop Over Items3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3615438d-0d3f-4b19-a895-6fdd2f9987df",
+              "name": "Id",
+              "value": "={{ $json['Id'] }}",
+              "type": "string"
+            },
+            {
+              "id": "8de18a39-ae62-431f-a92b-921b55d2de13",
+              "name": "version",
+              "value": "={{ $json['Version'] }}",
+              "type": "string"
+            },
+            {
+              "id": "297e6f8b-db5b-453d-9638-e60d6f4c1b0e",
+              "name": "adCopyStructure",
+              "value": "={{ $json['Ad Copy Structure'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        912,
+        2592
+      ],
+      "id": "c7af7130-5dd0-4831-8391-eb93ae234885",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Version: {{ $json.version }}\nTarget Products: {{ JSON.stringify($json.targetProducts) }}\nTarget Services: {{ JSON.stringify($json.targetServices) }}\nTarget Audience: {{ $json.targetAudience }}\nAd Hook Generated: {{ $json.adHook }}\nAd Angle Generated: {{ $json.adAngle }}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=# Role\nYou are a professional ad copy writter and ad campaign strategies who are able to craft a professional multile variants of ad copies for various businesses and industries speciality.\n\n# Task\nYou are tasked to generate a ad copy structure as high level backbone before generate a full, proper, convincing and high conversion actual ad copy.\n\n# Ad Copy Structure\nThe structure of ad copy must be consist of the following sections or scenes below:\n1. **Headline Section**: The eye-catching headline to get the attention\n2. **Problem Agitated Section**: User get agitated and frustrated with current user situation\n3. **Problem Aware Section**: Problem Aware based on current user situation\n4. **Solution Showcasing Section**: What are the solutions is offering to fix or eliminate the current user problem and showcase the benifits can obtain after using the products or services\n5. **Call-to-action Section: Call-to-action to get the user to take action\n\n# JSON Structure Output\nAll the generated output must be in JSON format and must be follow the JSON structure below:\n```\njson: {\n \"version\": \"The version of ad copy to generate\",\n \"headlineSection\": \"The eye-catching headline to get the attention\",\n \"problemAgitatedSection\": \"User get agitated and frustrated with current user situation\",\n \"problemAwareSection\": \"Problem Aware based on current user situation\",\n \"solutionShowcasingSection\": \"What are the solutions is offering to fix or eliminate the current user problem and showcase the benifits can obtain after using the products or services\",\n \"callToAction\": \"Call-to-action to get the user to take action\"\n}\n```"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        208,
+        2720
+      ],
+      "id": "3b0b5631-288e-4f85-8486-b1b694c30849",
+      "name": "Ad Copy Structure Generator"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"version\": \"Version 1\",\n  \"adCopy\": \"👁️ Are blurry days holding you back? Struggling with glasses that slip down, contacts that irritate, or simply feeling like you're missing out on life’s vibrant details? 🌈 It doesn’t have to be this way.\\n\\n At KPJ Ipoh Specialist Hospital 🏥, we offer a second chance for your eyes—a safe and trusted LASIK procedure designed just for YOU. 💎 Imagine waking up each morning refreshed ✨—seeing every sunrise clearly without fumbling for glasses or lenses.\\n ✅ Affordable & Accessible – Quality care at prices you can trust \\n ✅ Safe Technology – Advanced equipment handled by experts 👩‍⚕️ \\n ✅ Life-Changing Results – Freedom from eyewear starts now 🎉 \\n\\n 💡 Don’t let poor vision hold you back another day. This is YOUR opportunity to rejuvenate your eyesight—and reclaim all those precious missed moments! Book a consultation today 📆 and take the first step toward freedom. Call us now! 📞\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1344,
+        2800
+      ],
+      "id": "0312591f-8427-4465-b66a-e647fcc2a0ce",
+      "name": "Structured Output Parser8"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        896,
+        3056
+      ],
+      "id": "fd2c1194-49e5-44e3-9af8-bd267ba1e079",
+      "name": "OpenAI Chat Model6",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Version: {{ $json.version }}\nAd Copy Structure:\n{{ $json.adCopyStructure }}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=# Role\nYou are a professional ad copywriter who are knowing how to generate an effective and high conversion ad copies in various industries or niches compatible with also fluent in multiple languages.\n\n# Task\nYou are tasked with crafting multiple versions of ad copies for the specific ad campaign in Meta Ads based on the user's provided inputs. \n\n# Output\n- The generated output must be follow the structured JSON format and only wrapped the actual output in the right JSON structure without any additional information and explaination.\n- Don not include the ad copy structure description such as \"Headline Section\", \"Problem Agitated Section\", \"Problem Aware Section\", \"Solution Showcasing Section\", \"Call-to-action Section\" and other unrelated information.\n\n## Example JSON Output\n```\njson: {\n  \"version\": \"Version 1\",\n  \"adCopy\": \"👁️ Are blurry days holding you back? Struggling with glasses that slip down, contacts that irritate, or simply feeling like you're missing out on life’s vibrant details? 🌈 It doesn’t have to be this way.\\n\\n At KPJ Ipoh Specialist Hospital 🏥, we offer a second chance for your eyes—a safe and trusted LASIK procedure designed just for YOU. 💎 Imagine waking up each morning refreshed ✨—seeing every sunrise clearly without fumbling for glasses or lenses.\\n ✅ Affordable & Accessible – Quality care at prices you can trust \\n ✅ Safe Technology – Advanced equipment handled by experts 👩‍⚕️ \\n ✅ Life-Changing Results – Freedom from eyewear starts now 🎉 \\n\\n 💡 Don’t let poor vision hold you back another day. This is YOUR opportunity to rejuvenate your eyesight—and reclaim all those precious missed moments! Book a consultation today 📆 and take the first step toward freedom. Call us now! 📞\"\n}\n```"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        1200,
+        2592
+      ],
+      "id": "b95f0954-331c-4109-8109-25868d5beb7d",
+      "name": "Full Ad Copy Generator"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "mpkdf5e310m9ps3",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Edit Fields2').item.json.Id }}"
+            },
+            {
+              "fieldName": "Version",
+              "fieldValue": "={{ $json.output.version }}"
+            },
+            {
+              "fieldName": "Full Ad Copy",
+              "fieldValue": "={{ $json.output.adCopy }}"
+            },
+            {
+              "fieldName": "Status",
+              "fieldValue": "Completed"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1648,
+        2592
+      ],
+      "id": "9a6b89c2-a743-4057-ac57-769cede3a3ae",
+      "name": "Update a row8",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Get many rows": {
+      "main": [
+        [
+          {
+            "node": "Brand Research Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brand Research Agent": {
+      "main": [
+        [
+          {
+            "node": "Update a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Brand Research Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_web_research_tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Brand Research Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Brand Research Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission2": {
+      "main": [
+        [
+          {
+            "node": "Get many rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Business Research Overview Info1": {
+      "main": [
+        [
+          {
+            "node": "Brand Social Media Profiles Finder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser2": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Brand Social Media Profiles Finder",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Brand Social Media Profiles Finder",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out2": {
+      "main": [
+        [
+          {
+            "node": "Update Social Media Profiles Links",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "webpage_crawler": {
+      "ai_tool": [
+        [
+          {
+            "node": "Brand Social Media Profiles Finder",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brand Social Media Profiles Finder": {
+      "main": [
+        [
+          {
+            "node": "Split Out2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "client_info_searcher": {
+      "ai_tool": [
+        [
+          {
+            "node": "Brand Social Media Profiles Finder",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Ad Angle Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute If Action Type=generateAdHooks": {
+      "main": [
+        [
+          {
+            "node": "Get a row",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Ad Hook Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a row": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Ad Hook Generator",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "web_search": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Hook Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Hook Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Ad Angle Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "Download file": {
+      "main": [
+        []
+      ]
+    },
+    "Ad Hook Generator": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "company_research_fetcher": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Hook Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a row2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows1": {
+      "main": [
+        [
+          {
+            "node": "Update a row2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get many rows1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser3": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Ad Angle Generator",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "web_search1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Angle Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Angle Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "company_research_fetcher1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Angle Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ad Angle Generator": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields5": {
+      "main": [
+        [
+          {
+            "node": "Ad Copy Structure Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a row3": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows2": {
+      "main": [
+        [
+          {
+            "node": "Update a row3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get many rows2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser4": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Meta Ad Angle Generator",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "web_search2": {
+      "ai_tool": [
+        [
+          {
+            "node": "Meta Ad Angle Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think2": {
+      "ai_tool": [
+        [
+          {
+            "node": "Meta Ad Angle Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "company_research_fetcher2": {
+      "ai_tool": [
+        [
+          {
+            "node": "Meta Ad Angle Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Meta Ad Angle Generator": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser4",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Meta Ad Angle Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields6": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a row4": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows3": {
+      "main": [
+        [
+          {
+            "node": "Update a row4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items2": {
+      "main": [
+        [
+          {
+            "node": "Update a row5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get many rows3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Triggered Social Profile Finder Action Button": {
+      "main": [
+        [
+          {
+            "node": "Get Business Research Overview Info1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Target Products": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Target Services": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Get many rows4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get many rows5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows4": {
+      "main": [
+        [
+          {
+            "node": "Target Products Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Target Products Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser5": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Target Products Generator",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Target Products Generator": {
+      "main": [
+        [
+          {
+            "node": "Update a row1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows5": {
+      "main": [
+        [
+          {
+            "node": "Target Services Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Target Services Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser6": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Target Services Generator",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Target Services Generator": {
+      "main": [
+        [
+          {
+            "node": "Update a row6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Ad Hooks": {
+      "main": [
+        [
+          {
+            "node": "Execute If Action Type=generateAdHooks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ad_library_scraper": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Hook Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "fb_page_posts_scraper": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Hook Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Ad Hook Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ad_library_scraper1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Angle Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "fb_page_posts_scraper1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Angle Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Full Ad Copy Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser7": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Ad Copy Structure Generator",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Ad Copy Structure Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a row7": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update a row7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Full Ad Copy Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ad Copy Structure Generator": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser8": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Full Ad Copy Generator",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model6": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "Full Ad Copy Generator": {
+      "main": [
+        [
+          {
+            "node": "Update a row8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "On form submission2": [
+      {
+        "json": {
+          "Brand Name": "Reef Haven",
+          "Brand Website": "https://reefhaven.com.au/",
+          "Social Media Platforms": [
+            "Facebook",
+            "Instagram",
+            "Youtube"
+          ],
+          "Business Type": "Premier Aquarium Store",
+          "Brand Location": "Victoria Australia",
+          "submittedAt": "2025-09-04T12:26:47.061+08:00",
+          "formMode": "test"
+        }
+      }
+    ],
+    "Brand Social Media Profiles Finder": [
+      {
+        "json": {
+          "output": {
+            "clientName": "Reef Haven Aquarium",
+            "clientWebsite": "https://reefhaven.com.au/",
+            "clientSocialMediaPlatforms": [
+              "Facebook",
+              "Instagram"
+            ],
+            "clientSocialMediaProfiles": [
+              {
+                "Facebook": "https://www.facebook.com/ReefHavenAU/",
+                "Instagram": "https://www.instagram.com/reefhavenau/",
+                "TikTok": "Not Available",
+                "Youtube": "Not Available"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "Triggered Social Profile Finder Action Button": [
+      {
+        "json": {
+          "headers": {
+            "x-forwarded-host": "n8n.automessenger.me",
+            "x-forwarded-server": "n8n.automessenger.me",
+            "x-real-ip": "52.15.226.51",
+            "x-forwarded-for": "52.15.226.51",
+            "x-forwarded-proto": "https",
+            "host": "n8n.automessenger.me",
+            "connection": "Upgrade",
+            "content-length": "2992",
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "user-agent": "axios/1.11.0",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "sentry-trace": "8149e46899664285b418949a6998ecf7-83368eb90765d0a7",
+            "baggage": "sentry-environment=production,sentry-release=0.111.4,sentry-public_key=545692f1a4c6783d1ebb54fa5c095dc8,sentry-trace_id=8149e46899664285b418949a6998ecf7,sentry-org_id=4505953073889280"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "type": "records.manual.trigger",
+            "id": "7c2be17e-d8ca-4b51-a038-329fe8553f3b",
+            "version": "v3",
+            "data": {
+              "table_id": "m6f2rfg4z0p7vsx",
+              "table_name": "ReefHaven_CompetitorResearch&Analysis",
+              "rows": [
+                {
+                  "Id": 1,
+                  "Brand Name": "Reef Haven Aquarium",
+                  "Current Month": "2025-09-01",
+                  "Business Overview": "Reef Haven Aquarium, established in 2020 by marine life enthusiast Hazel, is a premier aquarium store located in Victoria, Australia. The business is dedicated to providing high-quality, healthy, and ethically sourced marine life. A key feature of their operation is a meticulous quarantine process for all fish, treating them with copper, prazi, and formalin for at least two weeks before sale to ensure their well-being. This commitment to quality has resulted in a near 0% Dead on Arrival (DOA) rate for their nationwide shipping. The company also emphasizes conservation, preservation, and educating customers on responsible aquarium ownership.",
+                  "Brand Website": null,
+                  "Core Services": "1. **Quarantined Marine Livestock**: Specializes in sourcing rare and exotic fish that are fully quarantined and medicated before being sold. This ensures healthy, disease-free animals for customers' aquariums.\n2. **Aquarium Supplies**: Offers a range of top-quality aquarium supplies from leading brands to help customers create and maintain healthy aquatic environments.\n3. **Custom Aquarium Design**: Provides services for designing and curating bespoke aquariums tailored to client needs, whether for homes or businesses.\n4. **Maintenance Services**: Offers ongoing aquarium maintenance to ensure the longevity and health of the marine ecosystems they help create.\n5. **Nationwide Shipping**: Delivers livestock and products across Australia with an overnight door-to-door service.",
+                  "Business Location": null,
+                  "Target Audience": "- **Marine Aquarium Hobbyists**: From seasoned enthusiasts to beginners who are passionate about marine life and seek high-quality, healthy fish and corals.\n- **Homeowners**: Individuals and families looking to enhance their homes with the aesthetic beauty of a custom-designed aquarium as a luxury decor feature.\n- **Business Owners**: Commercial establishments such as offices, restaurants, and hotels that wish to install and maintain aquariums to create a unique and calming ambiance for their clients and employees.\n- **Ethical Consumers**: Customers who prioritize the health and ethical treatment of marine animals and are willing to invest in properly quarantined livestock.",
+                  "Social Media Used": null,
+                  "Social Media Profiles": null,
+                  "Business Research Status": null,
+                  "Is Competitors": false,
+                  "Competitor Analysis Status": null,
+                  "Company & Brand Research Scraping_id": null,
+                  "CreatedAt": "2025-09-04 05:02:13+00:00",
+                  "UpdatedAt": "2025-09-04 05:02:43+00:00",
+                  "Search Social Profiles": {
+                    "type": "webhook",
+                    "label": "Search Social Profiles",
+                    "fk_webhook_id": "hkmwrfla2yrnwzvs"
+                  },
+                  "Company & Brand Research Scraping": null,
+                  "_nc_m2m_Sementra_Compet_AdsCampaign_VSLs": [],
+                  "AdsCampaign_VSLGenerators": 0
+                }
+              ]
+            }
+          },
+          "webhookUrl": "https://n8n.automessenger.me/webhook-test/reef-haven-social-media-profiles-finder",
+          "executionMode": "test"
+        }
+      }
+    ],
+    "Generate Target Services": [
+      {
+        "json": {
+          "headers": {
+            "x-forwarded-host": "n8n.automessenger.me",
+            "x-forwarded-server": "n8n.automessenger.me",
+            "x-real-ip": "52.15.226.51",
+            "x-forwarded-for": "52.15.226.51",
+            "x-forwarded-proto": "https",
+            "host": "n8n.automessenger.me",
+            "connection": "Upgrade",
+            "content-length": "3961",
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "user-agent": "axios/1.11.0",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "sentry-trace": "9578dbd3bbf946e5a7e1f24b32334fa4-b3b086d2197ba3c8",
+            "baggage": "sentry-environment=production,sentry-release=0.111.4,sentry-public_key=545692f1a4c6783d1ebb54fa5c095dc8,sentry-trace_id=9578dbd3bbf946e5a7e1f24b32334fa4,sentry-org_id=4505953073889280"
+          },
+          "params": {},
+          "query": {
+            "action": "generateTargetServices"
+          },
+          "body": {
+            "type": "records.manual.trigger",
+            "id": "43565357-2984-45dc-bced-24b646868e17",
+            "version": "v3",
+            "data": {
+              "table_id": "mn471p99c1i4nth",
+              "table_name": "Ad Hooks & Angles Generator",
+              "rows": [
+                {
+                  "Id": 1,
+                  "Date Created": "2025-09-04",
+                  "Target Products": [
+                    {
+                      "productCategory": "Live Corals",
+                      "categoryDescription": "A wide variety of corals including Acans & Bowers, Blasto, Chalice & Favia, Elegance, Euphyllia, Flowerpots, Fungia, Lobo & Symphyllia, Meat Coral, Mushrooms, Other LPS, Scoly, Softies, SPS, Trachy, Wilsoni, and Zoanthids."
+                    },
+                    {
+                      "productCategory": "Marine Fish",
+                      "categoryDescription": "A diverse selection of saltwater fish such as Angels, Anthias, Basslets & Dottybacks, Blenny & Goby, Clownfish, Damsels & Chromis, Filefish & Pipefish, Groupers & Snappers, Hawkfish, Puffer & Boxfish, Scorpianfish, Seahorses, Tangs & Rabbitfish, Triggerfish, and Wrasses."
+                    },
+                    {
+                      "productCategory": "Other Marine Life",
+                      "categoryDescription": "Includes invertebrates, predators, and anemones."
+                    },
+                    {
+                      "productCategory": "Aquarium Equipment",
+                      "categoryDescription": "A comprehensive range of supplies including accessories, additives & supplements, dosers & ATO, food, heaters & chillers, lighting, pumps & wavemakers, salt, sand & rock, skimmers & reactors, tanks & cabinets, and testing kits."
+                    }
+                  ],
+                  "Target Services": null,
+                  "CreatedAt": "2025-09-04 07:52:44+00:00",
+                  "UpdatedAt": "2025-09-04 09:17:07+00:00",
+                  "1️⃣Generate Target Products": {
+                    "type": "webhook",
+                    "label": "Generate Target Products",
+                    "fk_webhook_id": "hk61ktj0a7wp3lar"
+                  },
+                  "2️⃣Generate Target Services": {
+                    "type": "webhook",
+                    "label": "Generate Target Services",
+                    "fk_webhook_id": "hkaosqo1zyqo4flg"
+                  },
+                  "Target Audience": [
+                    "- **Marine Aquarium Hobbyists**: Individuals who are passionate about saltwater aquariums, ranging from beginners to experienced reef keepers.\n- **Collectors of Rare Species**: Enthusiasts looking for exotic, unique, and high-quality marine fish and corals.\n- **First-time Aquarium Owners**: Beginners who benefit from the fully quarantined and healthy livestock, which increases their chances of success.\n- **Residential and Commercial Clients**: Homeowners and businesses seeking custom-designed, high-end aquariums and professional maintenance services."
+                  ],
+                  "Core Products": [
+                    "1. **Live Corals**: A wide variety of corals including Acans & Bowers, Blasto, Chalice & Favia, Elegance, Euphyllia, Flowerpots, Fungia, Lobo & Symphyllia, Meat Coral, Mushrooms, Other LPS, Scoly, Softies, SPS, Trachy, Wilsoni, and Zoanthids.\n2. **Marine Fish**: A diverse selection of saltwater fish such as Angels, Anthias, Basslets & Dottybacks, Blenny & Goby, Clownfish, Damsels & Chromis, Filefish & Pipefish, Groupers & Snappers, Hawkfish, Puffer & Boxfish, Scorpianfish, Seahorses, Tangs & Rabbitfish, Triggerfish, and Wrasses.\n3. **Other Marine Life**: Includes invertebrates, predators, and anemones.\n4. **Aquarium Equipment**: A comprehensive range of supplies including accessories, additives & supplements, dosers & ATO, food, heaters & chillers, lighting, pumps & wavemakers, salt, sand & rock, skimmers & reactors, tanks & cabinets, and testing kits."
+                  ],
+                  "Core Services": [
+                    "1. **Quarantined Marine Livestock**: Specializes in sourcing rare and exotic fish that are fully quarantined and medicated before being sold. This ensures healthy, disease-free animals for customers' aquariums.\n2. **Nationwide Shipping**: Delivers livestock and products across Australia with an overnight door-to-door service.\n3. **Custom Aquarium Design**: Provides services for designing and curating bespoke aquariums tailored to client needs, whether for homes or businesses.\n4. **Aquarium Maintenance**: Offers ongoing aquarium maintenance to ensure the longevity and health of the marine ecosystems they help create.\n5. **Water Delivery**: Provides water delivery services for aquarium needs."
+                  ],
+                  "_nc_m2m_Ad Hooks & Angl_ReefHaven_Compes": [
+                    {
+                      "Ad Hooks & Angles Generator_id": 1,
+                      "ReefHaven_CompetitorResearch&A_id": 1
+                    }
+                  ],
+                  "ReefHaven_CompetitorResearch&Analyses": 1
+                }
+              ]
+            }
+          },
+          "webhookUrl": "https://n8n.automessenger.me/webhook-test/generate-target-services-for-ad-campaign",
+          "executionMode": "test"
+        }
+      }
+    ],
+    "Generate Ad Hooks": [
+      {
+        "json": {
+          "headers": {
+            "x-forwarded-host": "n8n.automessenger.me",
+            "x-forwarded-server": "n8n.automessenger.me",
+            "x-real-ip": "52.15.226.51",
+            "x-forwarded-for": "52.15.226.51",
+            "x-forwarded-proto": "https",
+            "host": "n8n.automessenger.me",
+            "connection": "Upgrade",
+            "content-length": "4871",
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "user-agent": "axios/1.11.0",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "sentry-trace": "51aa8728dc844762a5bc4111fb0234c3-a08beaeac6b7101f",
+            "baggage": "sentry-environment=production,sentry-release=0.111.4,sentry-public_key=545692f1a4c6783d1ebb54fa5c095dc8,sentry-trace_id=51aa8728dc844762a5bc4111fb0234c3,sentry-org_id=4505953073889280"
+          },
+          "params": {},
+          "query": {
+            "actionType": "generateAdHooks"
+          },
+          "body": {
+            "type": "records.manual.trigger",
+            "id": "f8da5252-d4c2-45e6-a116-543ce8c0f5de",
+            "version": "v3",
+            "data": {
+              "table_id": "mn471p99c1i4nth",
+              "table_name": "Ad Hooks & Angles Generator",
+              "rows": [
+                {
+                  "Id": 1,
+                  "Date Created": "2025-09-04",
+                  "Target Products": [
+                    {
+                      "productCategory": "Live Corals",
+                      "categoryDescription": "A wide variety of corals including Acans & Bowers, Blasto, Chalice & Favia, Elegance, Euphyllia, Flowerpots, Fungia, Lobo & Symphyllia, Meat Coral, Mushrooms, Other LPS, Scoly, Softies, SPS, Trachy, Wilsoni, and Zoanthids."
+                    },
+                    {
+                      "productCategory": "Marine Fish",
+                      "categoryDescription": "A diverse selection of saltwater fish such as Angels, Anthias, Basslets & Dottybacks, Blenny & Goby, Clownfish, Damsels & Chromis, Filefish & Pipefish, Groupers & Snappers, Hawkfish, Puffer & Boxfish, Scorpianfish, Seahorses, Tangs & Rabbitfish, Triggerfish, and Wrasses."
+                    },
+                    {
+                      "productCategory": "Other Marine Life",
+                      "categoryDescription": "Includes invertebrates, predators, and anemones."
+                    },
+                    {
+                      "productCategory": "Aquarium Equipment",
+                      "categoryDescription": "A comprehensive range of supplies including accessories, additives & supplements, dosers & ATO, food, heaters & chillers, lighting, pumps & wavemakers, salt, sand & rock, skimmers & reactors, tanks & cabinets, and testing kits."
+                    }
+                  ],
+                  "Target Services": [
+                    {
+                      "serviceCategory": "Quarantined Marine Livestock",
+                      "categoryDescription": "Specializes in sourcing rare and exotic fish that are fully quarantined and medicated before being sold. This ensures healthy, disease-free animals for customers' aquariums."
+                    },
+                    {
+                      "serviceCategory": "Nationwide Shipping",
+                      "categoryDescription": "Delivers livestock and products across Australia with an overnight door-to-door service."
+                    },
+                    {
+                      "serviceCategory": "Custom Aquarium Design",
+                      "categoryDescription": "Provides services for designing and curating bespoke aquariums tailored to client needs, whether for homes or businesses."
+                    },
+                    {
+                      "serviceCategory": "Aquarium Maintenance",
+                      "categoryDescription": "Offers ongoing aquarium maintenance to ensure the longevity and health of the marine ecosystems they help create."
+                    },
+                    {
+                      "serviceCategory": "Water Delivery",
+                      "categoryDescription": "Provides water delivery services for aquarium needs."
+                    }
+                  ],
+                  "Versions Ad Hooks To Generate": 3,
+                  "CreatedAt": "2025-09-04 07:52:44+00:00",
+                  "UpdatedAt": "2025-09-04 09:39:23+00:00",
+                  "1️⃣Generate Target Products": {
+                    "type": "webhook",
+                    "label": "Generate Target Products",
+                    "fk_webhook_id": "hk61ktj0a7wp3lar"
+                  },
+                  "2️⃣Generate Target Services": {
+                    "type": "webhook",
+                    "label": "Generate Target Services",
+                    "fk_webhook_id": "hkaosqo1zyqo4flg"
+                  },
+                  "3️⃣Generate Ad Hooks": {
+                    "type": "webhook",
+                    "label": "Generate Ad Hooks",
+                    "fk_webhook_id": "hkj0xqdpxnxmv7h8"
+                  },
+                  "Target Audience": [
+                    "- **Marine Aquarium Hobbyists**: Individuals who are passionate about saltwater aquariums, ranging from beginners to experienced reef keepers.\n- **Collectors of Rare Species**: Enthusiasts looking for exotic, unique, and high-quality marine fish and corals.\n- **First-time Aquarium Owners**: Beginners who benefit from the fully quarantined and healthy livestock, which increases their chances of success.\n- **Residential and Commercial Clients**: Homeowners and businesses seeking custom-designed, high-end aquariums and professional maintenance services."
+                  ],
+                  "Core Products": [
+                    "1. **Live Corals**: A wide variety of corals including Acans & Bowers, Blasto, Chalice & Favia, Elegance, Euphyllia, Flowerpots, Fungia, Lobo & Symphyllia, Meat Coral, Mushrooms, Other LPS, Scoly, Softies, SPS, Trachy, Wilsoni, and Zoanthids.\n2. **Marine Fish**: A diverse selection of saltwater fish such as Angels, Anthias, Basslets & Dottybacks, Blenny & Goby, Clownfish, Damsels & Chromis, Filefish & Pipefish, Groupers & Snappers, Hawkfish, Puffer & Boxfish, Scorpianfish, Seahorses, Tangs & Rabbitfish, Triggerfish, and Wrasses.\n3. **Other Marine Life**: Includes invertebrates, predators, and anemones.\n4. **Aquarium Equipment**: A comprehensive range of supplies including accessories, additives & supplements, dosers & ATO, food, heaters & chillers, lighting, pumps & wavemakers, salt, sand & rock, skimmers & reactors, tanks & cabinets, and testing kits."
+                  ],
+                  "Core Services": [
+                    "1. **Quarantined Marine Livestock**: Specializes in sourcing rare and exotic fish that are fully quarantined and medicated before being sold. This ensures healthy, disease-free animals for customers' aquariums.\n2. **Nationwide Shipping**: Delivers livestock and products across Australia with an overnight door-to-door service.\n3. **Custom Aquarium Design**: Provides services for designing and curating bespoke aquariums tailored to client needs, whether for homes or businesses.\n4. **Aquarium Maintenance**: Offers ongoing aquarium maintenance to ensure the longevity and health of the marine ecosystems they help create.\n5. **Water Delivery**: Provides water delivery services for aquarium needs."
+                  ],
+                  "ReefHaven_CompetitorResearch&Analyses": 1
+                }
+              ]
+            }
+          },
+          "webhookUrl": "https://n8n.automessenger.me/webhook-test/generate-ad-hooks-btn-trigger",
+          "executionMode": "test"
+        }
+      }
+    ],
+    "Ad Hook Generator": [
+      {
+        "json": {
+          "output": [
+            {
+              "version": "Version 1",
+              "adHook": "Healthy reef, happy home — rare live corals, exotic marine fish, other marine life and premium aquarium gear, all fully quarantined and expertly packed. Australia‑wide overnight shipping with an industry‑leading low DOA record. Ready to bring the reef home?"
+            },
+            {
+              "version": "Version 2",
+              "adHook": "Want a show‑stopping tank without the stress? Reef Haven offers custom aquarium design, ongoing maintenance and tank‑ready water delivery — plus quarantined marine livestock and top‑quality equipment shipped nationwide. Book a free consult and we’ll make it reef‑ready."
+            },
+            {
+              "version": "Version 3",
+              "adHook": "From vibrant corals and designer clownfish to specialist inverts and all the gear you need — every animal is quarantined and treated before shipping door‑to‑door across Australia. Add expert packing, overnight delivery and hassle‑free maintenance for reef success."
+            }
+          ]
+        }
+      }
+    ],
+    "Ad Angle Generator": [
+      {
+        "json": {
+          "output": {
+            "version": "Version 1",
+            "adAngle": "Imagine transforming your home into a vibrant underwater paradise without the stress of sick fish or dying corals. At Reef Haven, we've revolutionised marine aquarium keeping with our industry-leading quarantine process that treats every single fish with Copper+Prazi+Formalin - ensuring they arrive disease-free and ready to thrive. Our 6-month ZERO DOA record speaks volumes, even through freezing 2°C Aussie winters, thanks to our expert packing skills. From rare Acan corals and exotic Clownfish to premium aquarium equipment, everything is meticulously quarantined and shipped overnight Australia-wide. Whether you're a beginner seeking healthy starter fish or a seasoned collector hunting rare specimens, we handle the hard work so you can simply enjoy your slice of the reef. Ready to experience the peace of mind that comes with truly healthy marine life? Your thriving aquarium adventure starts here."
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "version": "Version 2",
+            "adAngle": "Stop stressing about your dream reef tank and start enjoying it! Reef Haven takes the hassle out of aquarium ownership with our complete end-to-end service. We'll design your custom show-stopper tank, handle all the ongoing maintenance, and even deliver tank-ready water right to your door. Plus, all our marine livestock is properly quarantined and treated with copper+prazi+formalin, so you get healthy fish that actually survive. With nationwide shipping and expert packing that's achieved 6 months straight with zero DOAs, we make reef-keeping easy and stress-free. Book a free consult today and we'll handle everything - from design to delivery and beyond!"
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "version": "Version 3",
+            "adAngle": "Experience the ultimate reef-keeping confidence with Reef Haven's complete ecosystem solution. We don't just sell you marine life - we deliver guaranteed reef success through our industry-leading quarantine protocol that treats every single animal with copper, prazi, and formalin. From stunning designer clownfish and vibrant rare corals to specialist inverts and premium aquarium equipment, everything arrives at your door disease-free and thriving. Our expert packing skills have achieved 6 months straight of zero DOAs, even through Australia's toughest weather conditions. Combined with overnight nationwide shipping, custom aquarium design services, and hassle-free maintenance support, we provide everything you need for a thriving marine environment. Stop worrying about sick fish and failed shipments - join hundreds of successful reef keepers who trust Reef Haven for their complete marine solution."
+          }
+        }
+      }
+    ],
+    "Ad Copy Structure Generator": [
+      {
+        "json": {
+          "output": {
+            "version": "Version 1",
+            "headlineSection": "Healthy Reef, Happy Home — Discover Rare Corals & Exotic Marine Life with Confidence!",
+            "problemAgitatedSection": "Struggling with sick fish, dying corals, or unreliable aquarium supplies? It’s frustrating watching your marine hobby suffer due to unhealthy livestock or delayed deliveries.",
+            "problemAwareSection": "Many marine aquarium enthusiasts face challenges sourcing fully quarantined, disease-free marine life and premium equipment. Without proper care before arrival, fish and corals often arrive stressed, increasing mortality and aquarium instability.",
+            "solutionShowcasingSection": "At Reef Haven, we’ve perfected quarantine protocols using Copper+Prazi+Formalin to ensure every fish and coral is healthy and vibrant before it reaches you. With a 6-month ZERO DOA record, expert overnight Australia-wide shipping, and an extensive selection of rare live corals, exotic marine fish, invertebrates, and top-tier aquarium gear, we make marine aquarium keeping worry-free. Plus, our custom aquarium design and professional maintenance services help your underwater paradise thrive effortlessly.",
+            "callToAction": "Ready to bring the reef home and enjoy a thriving, stress-free aquarium? Shop now or contact Reef Haven to start your vibrant marine journey today!"
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "version": "Version 2",
+            "headlineSection": "Create a Stunning Reef Aquarium Without the Stress!",
+            "problemAgitatedSection": "Are you overwhelmed by the complexities of setting up and maintaining a saltwater aquarium? Struggling with unhealthy livestock, unclear equipment choices, or time-consuming upkeep can turn your dream reef into a source of frustration.",
+            "problemAwareSection": "Many reef enthusiasts face challenges like unhealthy fish due to unquarantined livestock, complicated aquarium setups, and the hassle of sourcing quality marine life and equipment. Without expert support, maintaining a vibrant, thriving tank can feel impossible.",
+            "solutionShowcasingSection": "Reef Haven offers a complete, end-to-end solution: custom aquarium design tailored to your space and style, ongoing professional maintenance to keep your ecosystem healthy, and convenient tank-ready water delivery. Our quarantined and medicated marine livestock ensure you receive healthy, stress-free fish and corals. Plus, with nationwide overnight shipping, premium equipment, and expert packing, we make creating and enjoying your dream reef tank easy and reliable.",
+            "callToAction": "Book your free consultation with Reef Haven today and let us take the hassle out of reef keeping, from design to delivery and beyond!"
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "version": "Version 3",
+            "headlineSection": "Unlock Vibrant Reef Success with Reef Haven’s Complete Marine Ecosystem Solution!",
+            "problemAgitatedSection": "Tired of losing precious fish and corals to disease or poor shipment conditions? Frustrated with costly DOAs and unreliable aquarium supplies that threaten your marine ecosystem’s health and beauty?",
+            "problemAwareSection": "Without proper quarantine, treatment, and secure packaging, marine livestock often arrive stressed, sick, or dead—putting your entire reef at risk and crushing your enthusiasm for saltwater aquariums.",
+            "solutionShowcasingSection": "Reef Haven guarantees healthier, disease-free marine life through rigorous quarantine protocols using copper, praziquantel, and formalin treatments. Every vibrant coral, designer clownfish, and specialist invert we offer comes fully treated and shipped with expert overnight nationwide delivery—ensuring zero DOAs even in Australia’s toughest weather. Plus, our extensive range includes premium aquarium equipment, custom aquarium design, hassle-free maintenance, and water delivery services. Experience peace of mind and a thriving reef right at your doorstep.",
+            "callToAction": "Join hundreds of successful reef keepers—shop Reef Haven today and transform your saltwater aquarium into a flourishing masterpiece with guaranteed reef success!"
+          }
+        }
+      }
+    ]
+  },
+  "versionId": "6f602390-8818-4532-8ad1-0562befbb769",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-09-04T04:22:06.361Z",
+      "createdAt": "2025-09-04T04:22:06.361Z",
+      "role": "workflow:owner",
+      "workflowId": "12FruiUeQdeF84RI",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
