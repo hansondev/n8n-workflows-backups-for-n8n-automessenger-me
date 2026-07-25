@@ -1,0 +1,74 @@
+{
+  "updatedAt": "2025-05-24T15:53:19.000Z",
+  "createdAt": "2025-05-24T10:53:45.264Z",
+  "id": "gzUWBz3PYxlPyYgH",
+  "name": "My workflow 10",
+  "active": false,
+  "isArchived": true,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "00d47317-1ee5-422c-b511-b27e932cf096",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "getSlides",
+        "presentationId": "1h_QIjIlfopBjd-gRyw0735IFBBKhzVGO5bJppCSXR7k"
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "dda80b21-7083-4c46-a317-00628099c0dd",
+      "name": "Google Slides",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Slides",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "6ebe75f3-9a21-489d-8337-c81ec224d429",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-05-24T10:53:45.269Z",
+      "createdAt": "2025-05-24T10:53:45.269Z",
+      "role": "workflow:owner",
+      "workflowId": "gzUWBz3PYxlPyYgH",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
