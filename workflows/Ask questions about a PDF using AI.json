@@ -1,0 +1,387 @@
+{
+  "updatedAt": "2024-02-09T14:44:30.000Z",
+  "createdAt": "2024-02-09T11:15:19.060Z",
+  "id": "wCplsRCpYHwYSaGZ",
+  "name": "Ask questions about a PDF using AI",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "296a935f-bd02-44bc-9e1e-3e4d6a307e38",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "position": [
+        380,
+        240
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1KnaeIx56DencC0yQGAqr67CliNqnChmkB30JXZW8ffU",
+          "mode": "list",
+          "cachedResultName": "Langchain_DocLoader-AI SEO Tools 2023 The Ultimate Guide",
+          "cachedResultUrl": "https://docs.google.com/document/d/1KnaeIx56DencC0yQGAqr67CliNqnChmkB30JXZW8ffU/edit?usp=drivesdk"
+        },
+        "options": {}
+      },
+      "id": "ab3131d5-4b04-48b4-b5d5-787e3ed18917",
+      "name": "Google Drive",
+      "type": "n8n-nodes-base.googleDrive",
+      "position": [
+        800,
+        260
+      ],
+      "typeVersion": 3,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "ZZtfpdmhfdrjjM7Z",
+          "name": "GDrive-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "loader": "docxLoader",
+        "options": {}
+      },
+      "id": "7493db03-ba85-4295-a6e7-8b0dd1cfa5ad",
+      "name": "Binary to Document",
+      "type": "@n8n/n8n-nodes-langchain.documentBinaryInputLoader",
+      "position": [
+        1200,
+        420
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "chunkSize": 4000,
+        "chunkOverlap": 300
+      },
+      "id": "5b822b35-9501-4cf9-8034-d978c7fd2c83",
+      "name": "Recursive Character Text Splitter",
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "position": [
+        1280,
+        620
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "61a38c00-f196-4b01-9274-c5e0f4c511bc",
+      "name": "Embeddings OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "position": [
+        1020,
+        440
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAi account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "gpt-3.5-turbo-16k",
+        "options": {
+          "temperature": 0
+        }
+      },
+      "id": "dde5ab3f-d81a-45d7-9db8-b6ccda7f75cc",
+      "name": "Chat OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "position": [
+        1800,
+        460
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAi account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "a3826f1e-4e42-43e9-b327-1db43fadb8af",
+      "name": "Embeddings OpenAI1",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "position": [
+        1960,
+        820
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAi account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "ee32ca72-5b9a-4a6d-ab97-3978cc4966f1",
+      "name": "On new manual Chat Message",
+      "type": "@n8n/n8n-nodes-langchain.manualChatTrigger",
+      "position": [
+        1620,
+        240
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "### Fetch file from Google Drive, split it into chunks and insert into Pinecone index",
+        "height": 226.00539083557965,
+        "width": 770.0416995758376
+      },
+      "id": "816066bd-02e8-4de2-bcee-ab81d890435a",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        660,
+        179.99999999999994
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "content": "### Embed the incoming chat message and use it retrieve relevant chunks from the vector store. These are passed to LM to formulate an answer ",
+        "height": 224.80862533692715,
+        "width": 654.1028019808174
+      },
+      "id": "b0373573-cd17-4ea9-855d-e8d073f73aef",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1580,
+        180
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {},
+      "id": "058c393a-d6d1-48bf-8735-0bc57a58dbf6",
+      "name": "Retrieval QA Chain",
+      "type": "@n8n/n8n-nodes-langchain.chainRetrievalQa",
+      "position": [
+        1880,
+        240
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {},
+      "id": "2c593d9f-0bcf-41b5-9ad5-ff16f5e1097a",
+      "name": "Vector Store Retriever",
+      "type": "@n8n/n8n-nodes-langchain.retrieverVectorStore",
+      "position": [
+        1980,
+        460
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "options": {
+          "queryName": "match_documents"
+        }
+      },
+      "id": "dbce02e7-24bf-4f9a-9e5e-169a8a308bf0",
+      "name": "Supabase Vector Store",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1,
+      "position": [
+        1080,
+        220
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "yov7On8fy5Gs5ldh",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableName": {
+          "__rl": true,
+          "value": "documents",
+          "mode": "list",
+          "cachedResultName": "documents"
+        },
+        "options": {
+          "queryName": "match_documents"
+        }
+      },
+      "id": "8d80b390-b328-480b-bc19-468e81c5661c",
+      "name": "Supabase Vector Store1",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1,
+      "position": [
+        1960,
+        660
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "yov7On8fy5Gs5ldh",
+          "name": "Supabase account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Chat OpenAI": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Retrieval QA Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vector Store Retriever": {
+      "ai_retriever": [
+        [
+          {
+            "node": "Retrieval QA Chain",
+            "type": "ai_retriever",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On new manual Chat Message": {
+      "main": [
+        [
+          {
+            "node": "Retrieval QA Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Binary to Document",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Binary to Document": {
+      "ai_document": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase Vector Store1": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Vector Store Retriever",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateId": "1960",
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "baee3454-f004-47dd-beee-85e11003f787",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-02-09T11:15:19.077Z",
+      "createdAt": "2024-02-09T11:15:19.077Z",
+      "role": "workflow:owner",
+      "workflowId": "wCplsRCpYHwYSaGZ",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
