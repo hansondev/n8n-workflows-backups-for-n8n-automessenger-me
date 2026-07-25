@@ -1,0 +1,836 @@
+{
+  "updatedAt": "2025-06-17T10:49:10.000Z",
+  "createdAt": "2025-04-26T02:01:32.697Z",
+  "id": "2EUmcn9BgSLyBPGe",
+  "name": "[Creo_Project: SementraResort] - FB Page Post Scraper - V1",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c",
+          "mode": "list",
+          "cachedResultName": "[2025] - ReadyCare - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "FB Post Scraper Input",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "7d78a014-19fb-49c0-87f7-a52651b1f4e3",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "oMHjbut2VzVQ0VcS",
+          "name": "GSheet Trigger- boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://facebook-scraper-api4.p.rapidapi.com/get_facebook_page_id",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "link",
+              "value": "={{ $json['FB Page URL'] }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-rapidapi-host",
+              "value": "facebook-scraper-api4.p.rapidapi.com"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "efcb85e6-3911-4a33-a09d-28cbe10dbb51",
+      "name": "GET FB Page ID",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "RhcMhaqem5mohNc1",
+          "name": "RapidAPI Header Auth(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c",
+          "mode": "list",
+          "cachedResultName": "[2025] - ReadyCare - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "FB Post Scraper Input",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "FB Page Name": "={{ $('Google Sheets Trigger').first().json['FB Page Name'] }}",
+            "FB Page ID": "={{ $json.facebook_id }}"
+          },
+          "matchingColumns": [
+            "FB Page Name"
+          ],
+          "schema": [
+            {
+              "id": "FB Page Name",
+              "displayName": "FB Page Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "FB Page URL",
+              "displayName": "FB Page URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "FB Page ID",
+              "displayName": "FB Page ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Posts After Date",
+              "displayName": "Posts After Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Posts Before Date",
+              "displayName": "Posts Before Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Data Scraped Date",
+              "displayName": "Data Scraped Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        440,
+        0
+      ],
+      "id": "7b45175f-33cf-4089-82db-305c12f7878c",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://facebook-scraper-api4.p.rapidapi.com/get_facebook_page_posts_details_from_id",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "profile_id",
+              "value": "={{ $json.fbPageId }}"
+            },
+            {
+              "name": "after_time",
+              "value": "={{ $json.afterDatePosts }}"
+            },
+            {
+              "name": "before_time",
+              "value": "={{ $json.beforeDatePosts }}"
+            },
+            {
+              "name": "timezone",
+              "value": "UTC"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-rapidapi-host",
+              "value": "facebook-scraper-api4.p.rapidapi.com"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        880,
+        -420
+      ],
+      "id": "f3028adf-99c6-4e6c-ba9a-6641fdcca24a",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "RhcMhaqem5mohNc1",
+          "name": "RapidAPI Header Auth(info.hansondev@gmail.com)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c",
+          "mode": "list",
+          "cachedResultName": "[2025] - ReadyCare - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "FB Post Scraper Input",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        660,
+        0
+      ],
+      "id": "c8c7c885-c86a-40e7-8727-935af5ed696a",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data.posts",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        -420
+      ],
+      "id": "9e78eb69-37d0-4772-bdbd-39ef0c44939f",
+      "name": "Split Out",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/actor-runs/{{ $json.data.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "waitForFinish",
+              "value": "60"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1460,
+        0
+      ],
+      "id": "f8f4ff91-260f-4e3b-a591-6250885925df",
+      "name": "Get Actor Run",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1240,
+        0
+      ],
+      "id": "1b820c90-a26d-4375-8fe1-7f102e537223",
+      "name": "Wait",
+      "webhookId": "c619b5fe-e9ba-46b4-be6c-b3fe4fa81eed"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.data.defaultDatasetId }}/items ",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2060,
+        -20
+      ],
+      "id": "7061e2e1-fea8-4e12-981f-2f34cd670a0e",
+      "name": "Get Datasets",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/actor-tasks/immense_grasshopper~facebook-posts-scraper-task/runs",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"input\": [\n        {\n            \"url\": \"{{ $json['FB Page URL'] }}\",\n            \"maxPosts\": {{ $json['Max Scrape Posts'] }}\n        }\n    ]\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        920,
+        0
+      ],
+      "id": "9e4a1485-e8e4-4176-b7ac-ff202e60d79b",
+      "name": "HTTP Request1",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ed570b1b-7813-4061-a8c6-fff5e4d43aa4",
+              "name": "numRow",
+              "value": "={{ $itemIndex+1 }}",
+              "type": "string"
+            },
+            {
+              "id": "37e5b5be-aec7-4377-87e3-8941c6302423",
+              "name": "datePublished",
+              "value": "={{ $json.creationDate }}",
+              "type": "string"
+            },
+            {
+              "id": "094014be-d849-4620-9a1b-900d3f4ece69",
+              "name": "postText",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "1c542148-722b-4c44-89bb-d8a8f3fac310",
+              "name": "postID",
+              "value": "={{ $json.postId }}",
+              "type": "string"
+            },
+            {
+              "id": "78fe163a-62d8-4d97-b9f8-70aa937fb0d4",
+              "name": "postURL",
+              "value": "={{ $json.postUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "19b3d5ae-028f-4040-a3ee-94f49f9ae7c2",
+              "name": "reactionCount",
+              "value": "={{ $json.reactionCount }}",
+              "type": "number"
+            },
+            {
+              "id": "644d9b4e-6b50-4c44-a933-65e2e5a4515b",
+              "name": "shareCount",
+              "value": "={{ $json.shareCount }}",
+              "type": "string"
+            },
+            {
+              "id": "f743818d-0527-4de1-9ca1-c41dae2644aa",
+              "name": "commentCount",
+              "value": "={{ $json.commentComment }}",
+              "type": "string"
+            },
+            {
+              "id": "a0725947-9049-442e-bdd7-b0972d0f638a",
+              "name": "videoViewCount",
+              "value": "={{ $json.videoViewCount }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        40,
+        420
+      ],
+      "id": "838f01d8-a88c-4f61-852b-797d3002d635",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c",
+          "mode": "list",
+          "cachedResultName": "[2025] - ReadyCare - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1438649008,
+          "mode": "list",
+          "cachedResultName": "FB Posts Scraped Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c/edit#gid=1438649008"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Num": "={{ $json.numRow }}",
+            "Published Date": "={{ $json.datePublished }}",
+            "Text Post": "={{ $json.postText }}",
+            "Post URL": "={{ $json.postURL }}",
+            "Reaction Count": "={{ $json.reactionCount }}",
+            "Share Count": "={{ $json.shareCount }}",
+            "Comment Count": "={{ $json.commentCount }}",
+            "Video View Count": "={{ $json.videoViewCount }}"
+          },
+          "matchingColumns": [
+            "Num"
+          ],
+          "schema": [
+            {
+              "id": "Num",
+              "displayName": "Num",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Published Date",
+              "displayName": "Published Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Text Post",
+              "displayName": "Text Post",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Post URL",
+              "displayName": "Post URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Reaction Count",
+              "displayName": "Reaction Count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Share Count",
+              "displayName": "Share Count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Comment Count",
+              "displayName": "Comment Count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Video View Count",
+              "displayName": "Video View Count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        260,
+        420
+      ],
+      "id": "4c32a56f-968c-4537-ae86-d9eb96521d1c",
+      "name": "Google Sheets2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "575cc607-2b70-4323-b268-995590595b10",
+              "leftValue": "={{ $json.data.status }}",
+              "rightValue": "SUCCEEDED",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1720,
+        0
+      ],
+      "id": "ae0d8ecf-9b67-49e4-80f4-0ebc5804666f",
+      "name": "If1"
+    }
+  ],
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "GET FB Page ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET FB Page ID": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Actor Run": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get Actor Run",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Datasets": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Get Datasets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "eb52d17c-3a31-447d-afbc-52997f9e6cbc",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-04-26T02:01:32.705Z",
+      "createdAt": "2025-04-26T02:01:32.705Z",
+      "role": "workflow:owner",
+      "workflowId": "2EUmcn9BgSLyBPGe",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2025-04-25T07:31:07.022Z",
+      "createdAt": "2025-04-25T07:31:07.022Z",
+      "id": "9Gp47jN1RS49GmsF",
+      "name": "CREO_PROJECT"
+    },
+    {
+      "updatedAt": "2025-04-26T04:25:52.442Z",
+      "createdAt": "2025-04-26T04:25:52.442Z",
+      "id": "v4flmjP5hdyH5E40",
+      "name": "Creo-SementraResort"
+    }
+  ]
+}
