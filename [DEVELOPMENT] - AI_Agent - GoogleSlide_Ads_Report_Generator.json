@@ -1,0 +1,4382 @@
+{
+  "updatedAt": "2025-05-30T16:47:55.000Z",
+  "createdAt": "2025-05-24T03:17:25.388Z",
+  "id": "4XSmYH89bQgSjmJq",
+  "name": "[DEVELOPMENT] - AI_Agent - GoogleSlide_Ads_Report_Generator",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "triggerOn": "specificFolder",
+        "folderToWatch": {
+          "__rl": true,
+          "value": "1mBy2ObYsaqe3_s4qjJ-8k4RsE3jQud6q",
+          "mode": "list",
+          "cachedResultName": "N8N_AI_Agent_GSlides_Generator",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1mBy2ObYsaqe3_s4qjJ-8k4RsE3jQud6q"
+        },
+        "event": "fileUpdated",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "e8983e5d-58b0-473a-a017-786ff6035fed",
+      "name": "Google Drive Trigger",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b7ca52b5-f56e-49cb-ad87-6d14d63e453a",
+              "leftValue": "={{ $json.mimeType }}",
+              "rightValue": "spreadsheet",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "e00a2721-a19b-4433-83fe-b61054dc6370",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        400,
+        900
+      ],
+      "id": "0f1b6899-9240-4e3f-964d-2d04d5af2a87",
+      "name": "DeepSeek Chat Model",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "8Hvjw0JNKmbO191K",
+          "name": "DeepSeekAPI - info.hansondev@gmail.com"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "KPJ_LOGO_IPOH_Horizontal_Gold",
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "1mBy2ObYsaqe3_s4qjJ-8k4RsE3jQud6q",
+            "mode": "list",
+            "cachedResultName": "N8N_AI_Agent_GSlides_Generator",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/1mBy2ObYsaqe3_s4qjJ-8k4RsE3jQud6q"
+          }
+        },
+        "options": {
+          "fields": [
+            "*"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1120,
+        -20
+      ],
+      "id": "ed894376-32ae-44f5-a614-bd09e3dd26a8",
+      "name": "Search For Client Logo",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "Meta Ads Monthly Performance Report Template",
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "1mBy2ObYsaqe3_s4qjJ-8k4RsE3jQud6q",
+            "mode": "list",
+            "cachedResultName": "N8N_AI_Agent_GSlides_Generator",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/1mBy2ObYsaqe3_s4qjJ-8k4RsE3jQud6q"
+          }
+        },
+        "options": {
+          "fields": [
+            "id",
+            "mimeType",
+            "name"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        680,
+        -20
+      ],
+      "id": "c9af0ba5-ceb5-4c28-ba92-076d539aab0a",
+      "name": "Search For Report Deck Template",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1RPgpsthUj-Bq9bNChiF22tysJbAdq1qxL5yoobaLQTE",
+          "mode": "list",
+          "cachedResultName": "N8N_AI_Agent-MetaAds_GSlide_Report_Deck_Demo",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RPgpsthUj-Bq9bNChiF22tysJbAdq1qxL5yoobaLQTE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Agent Input",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RPgpsthUj-Bq9bNChiF22tysJbAdq1qxL5yoobaLQTE/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        440,
+        -20
+      ],
+      "id": "4bf3a3a2-879f-4711-9869-9c85f2e43f61",
+      "name": "Read Agent Input",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c560892b-6aae-4fc5-a308-3cfb038d6f7a",
+              "name": "month",
+              "value": "={{ $('Read Agent Input').first().json.Month }}",
+              "type": "string"
+            },
+            {
+              "id": "bd83c6d3-0009-4f96-b5de-c595f702f08e",
+              "name": "year",
+              "value": "={{ $('Read Agent Input').first().json.Year }}",
+              "type": "string"
+            },
+            {
+              "id": "5f5312a8-7679-46dc-ba53-32f247bef97e",
+              "name": "client_name",
+              "value": "={{ $('Read Agent Input').first().json['Client Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "535fe090-54ea-4c73-8194-907ee0bcdce9",
+              "name": "client_logo_url",
+              "value": "={{ $('Search For Client Logo').first().json.webContentLink }}",
+              "type": "string"
+            },
+            {
+              "id": "77da7ebf-5183-4040-baed-90bbda878c84",
+              "name": "deck_report_id",
+              "value": "={{ $('Duplicate New Deck From Template').first().json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "a577d953-143c-42b0-b533-cb2fdeb4fda3",
+              "name": "deck_filename",
+              "value": "={{ $('Duplicate New Deck From Template').first().json.name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        40,
+        260
+      ],
+      "id": "f525a927-0141-48f4-a077-bedbc9a5a159",
+      "name": "Set All Agent Inputs"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to retrieve current month of overview report data stats that ready for mapping all these retrieved data to replace all text placeholder in the Meta Ads Campaign Report deck.",
+        "documentId": {
+          "__rl": true,
+          "value": "1RPgpsthUj-Bq9bNChiF22tysJbAdq1qxL5yoobaLQTE",
+          "mode": "list",
+          "cachedResultName": "N8N_AI_Agent-MetaAds_GSlide_Report_Deck_Demo",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RPgpsthUj-Bq9bNChiF22tysJbAdq1qxL5yoobaLQTE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1555344847,
+          "mode": "list",
+          "cachedResultName": "Overview Report",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RPgpsthUj-Bq9bNChiF22tysJbAdq1qxL5yoobaLQTE/edit#gid=1555344847"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.6,
+      "position": [
+        340,
+        600
+      ],
+      "id": "ef2e162a-c8e7-4e09-8540-dbc3e341b1b4",
+      "name": "overview_report_retriever",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to retrieve current month of ad level report data stats ready for mapping all these retrieved ad level based data stats to replace all text placeholder in the Meta Ads Campaign Report deck.",
+        "documentId": {
+          "__rl": true,
+          "value": "1RPgpsthUj-Bq9bNChiF22tysJbAdq1qxL5yoobaLQTE",
+          "mode": "list",
+          "cachedResultName": "N8N_AI_Agent-MetaAds_GSlide_Report_Deck_Demo",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RPgpsthUj-Bq9bNChiF22tysJbAdq1qxL5yoobaLQTE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1470057495,
+          "mode": "list",
+          "cachedResultName": "Ad Report",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RPgpsthUj-Bq9bNChiF22tysJbAdq1qxL5yoobaLQTE/edit#gid=1470057495"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.6,
+      "position": [
+        780,
+        620
+      ],
+      "id": "146afdd4-fdbd-457a-8a59-7a003bc2ec96",
+      "name": "ad_level_data_retriever",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to retrieve current month of campaign level report data stats ready for mapping all these retrieved campaign level based data stats to replace all text placeholder in the Meta Ads Campaign Report deck.",
+        "documentId": {
+          "__rl": true,
+          "value": "1RPgpsthUj-Bq9bNChiF22tysJbAdq1qxL5yoobaLQTE",
+          "mode": "list",
+          "cachedResultName": "N8N_AI_Agent-MetaAds_GSlide_Report_Deck_Demo",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RPgpsthUj-Bq9bNChiF22tysJbAdq1qxL5yoobaLQTE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1723254137,
+          "mode": "list",
+          "cachedResultName": "Campaign Report",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RPgpsthUj-Bq9bNChiF22tysJbAdq1qxL5yoobaLQTE/edit#gid=1723254137"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.6,
+      "position": [
+        480,
+        640
+      ],
+      "id": "f982876a-1992-4fa2-815f-b4ffbf42996b",
+      "name": "campaign_level_data_retriever",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to retrieve current month of adset level report data stats ready for mapping all these retrieved adset level based data stats to replace all text placeholder in the Meta Ads Campaign Report deck.",
+        "documentId": {
+          "__rl": true,
+          "value": "1RPgpsthUj-Bq9bNChiF22tysJbAdq1qxL5yoobaLQTE",
+          "mode": "list",
+          "cachedResultName": "N8N_AI_Agent-MetaAds_GSlide_Report_Deck_Demo",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RPgpsthUj-Bq9bNChiF22tysJbAdq1qxL5yoobaLQTE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 674498164,
+          "mode": "list",
+          "cachedResultName": "Adset Report",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RPgpsthUj-Bq9bNChiF22tysJbAdq1qxL5yoobaLQTE/edit#gid=674498164"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.6,
+      "position": [
+        620,
+        600
+      ],
+      "id": "cf84e3d5-b7c5-4844-a79b-f2ece0441c36",
+      "name": "adset_level_data_retriever",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-mini"
+        },
+        "options": {
+          "responseFormat": "json_object"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        180,
+        500
+      ],
+      "id": "a3b093f3-681a-4a9d-a5d8-f209ca32b6ef",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "copy",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "name": "=[{{ $('Read Agent Input').first().json.Month }} {{ $('Read Agent Input').first().json.Year }}]- {{ $('Read Agent Input').first().json['Client Name'] }} - MetaAds - Monthly Ad Report",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        900,
+        -20
+      ],
+      "id": "ed50bbf5-412a-46d0-a510-78eb530471b8",
+      "name": "Duplicate New Deck From Template",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=1. Month: {{ $json.month }}\n2. Year: {{ $json.year }}\n3. Client Name: {{ $json.client_name }}\n4. Client Logo URL: {{ $json.client_logo_url }}\n5. Deck Report Id: {{ $json.deck_report_id }}",
+        "options": {
+          "systemMessage": "={{ $('Read Agent Input').first().json[\"Report Data Restructuring Agent Sys Prompt\"] }}",
+          "passthroughBinaryImages": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        460,
+        260
+      ],
+      "id": "098d7cc8-6ff5-4957-9112-d6ebb541b7d0",
+      "name": "Report Data Restructuring Agent"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to retrieve the slide id, `objectId` and ready for data mapping for text replacement based on the slide id identification.",
+        "workflowId": {
+          "__rl": true,
+          "value": "8WriMxLORrN2AZaA",
+          "mode": "list",
+          "cachedResultName": "[DEVELOPMENT] [Sub-workflow] - GSlides Find Slide Object Ids"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "presentation_id": "={{ $json.deck_report_id }}"
+          },
+          "matchingColumns": [
+            "presentation_id"
+          ],
+          "schema": [
+            {
+              "id": "presentation_id",
+              "displayName": "presentation_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        900,
+        520
+      ],
+      "id": "767c62f5-effa-48df-bb7c-8017deaf8a69",
+      "name": "slide_object_id_retriever"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9d3519d8-1e49-42e6-bc82-4539e034b22b",
+              "name": "data_restructured",
+              "value": "={{ $json.output.parseJson().json }}",
+              "type": "array"
+            },
+            {
+              "id": "4b6eb3d1-d139-4ece-9340-922648a5d185",
+              "name": "presentation_id",
+              "value": "={{ $('Set All Agent Inputs').first().json.deck_report_id }}",
+              "type": "string"
+            },
+            {
+              "id": "be5179f0-bde5-4d28-9ad6-81556f3755f3",
+              "name": "object_ids",
+              "value": "={{ $json.output.parseJson().json.map(item => item.objectId) }}",
+              "type": "array"
+            },
+            {
+              "id": "710df1d8-d1d2-4f90-88b0-16609e70e653",
+              "name": "total_slides",
+              "value": "={{ $json.output.parseJson().json.length }}",
+              "type": "number"
+            },
+            {
+              "id": "b93d72f5-46d1-4b8d-94c4-56094821dfa6",
+              "name": "ad_level",
+              "value": "={{ $jmespath($json.output.parseJson().json, \"[4].ads\") }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        940,
+        260
+      ],
+      "id": "511a2c28-bb58-4df3-9d00-c1bbaa4cdcd0",
+      "name": "Data Mapping Agent Input"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data_restructured",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1260,
+        260
+      ],
+      "id": "61c00c02-eb8f-4043-a550-8570e805b480",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.slideNumber }}",
+                    "rightValue": 1,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    },
+                    "id": "0b7c91c2-d4e6-4d53-bcb5-6494974315fa"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Slide 1"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "c1cc738a-2530-4dd2-a2bf-8ac93e85982d",
+                    "leftValue": "={{ $json.slideNumber }}",
+                    "rightValue": 2,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Slide 2"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "99ac47ea-0294-4254-b480-fe06661a3ca5",
+                    "leftValue": "={{ $json.slideNumber }}",
+                    "rightValue": 3,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Slide 3"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "5a81a31d-9020-4e74-a862-7cf5c3a3c2ea",
+                    "leftValue": "={{ $json.slideNumber }}",
+                    "rightValue": 4,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Slide 4"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "6eee797a-55e6-4a0c-9c09-0ecc6dbc6171",
+                    "leftValue": "={{ $json.slideNumber }}",
+                    "rightValue": 5,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Slide 5"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1480,
+        200
+      ],
+      "id": "460583a4-3799-4c1a-92e2-ccd778b458f5",
+      "name": "Switch Slides"
+    },
+    {
+      "parameters": {
+        "operation": "replaceText",
+        "presentationId": "={{ $('Data Mapping Agent Input').first().json.presentation_id }}",
+        "textUi": {
+          "textValues": [
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Month]",
+              "replaceText": "={{ $('Switch Slides').first().json.month }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Year]",
+              "replaceText": "={{ $('Switch Slides').first().json.year }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Clicks 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.campaigns[0].linkClicks.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Click CTR 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.campaigns[0].linkClickCtr.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Impressions 1]",
+              "replaceText": "={{ $('Switch Slides').item.json.campaigns[0].impressions.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Reach 1]",
+              "replaceText": "={{ $('Switch Slides').item.json.campaigns[0].reach.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Leads 1]",
+              "replaceText": "={{ $('Switch Slides').item.json.campaigns[0].totalLeads.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Lead 1]",
+              "replaceText": "={{ $('Switch Slides').item.json.campaigns[0].costPerLead.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Amount Spend 1]",
+              "replaceText": "={{ $('Switch Slides').item.json.campaigns[0].amountSpend.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Campaign Name 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.campaigns[0].campaignName }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        2280,
+        -360
+      ],
+      "id": "419ec968-c28a-437f-8b13-cc870f394eb7",
+      "name": "Google Slides5",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Switch Slides').item.json.campaigns.length  }}",
+                    "rightValue": 1,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    },
+                    "id": "a0e192c9-621f-4723-9e6d-1e5f9430e26d"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "1 Campaign"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "5de03932-fd2f-4bfa-adb5-08736aa023d6",
+                    "leftValue": "={{ $('Switch Slides').item.json.campaigns.length  }}",
+                    "rightValue": 2,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "2 Campaigns"
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        2000,
+        -100
+      ],
+      "id": "e756abbf-efb9-4461-bd5c-947d52ab0ff7",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "operation": "replaceText",
+        "presentationId": "={{ $('Data Mapping Agent Input').first().json.presentation_id }}",
+        "textUi": {
+          "textValues": [
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Month]",
+              "replaceText": "={{ $('Switch Slides').first().json.month }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Year]",
+              "replaceText": "={{ $('Switch Slides').first().json.year }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Clicks 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.campaigns[0].linkClicks.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Click CTR 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.campaigns[0].linkClickCtr.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Impressions 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.campaigns[0].impressions.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Reach 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.campaigns[0].reach.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Leads 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.campaigns[0].totalLeads.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Lead 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.campaigns[0].costPerLead.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Amount Spend 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.campaigns[0].amountSpend.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Clicks 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.campaigns[1].linkClicks.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Click CTR 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.campaigns[1].linkClickCtr.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Impressions 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.campaigns[1].impressions.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Reach 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.campaigns[1].reach.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Leads 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.campaigns[1].totalLeads.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Lead 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.campaigns[1].costPerLead.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Amount Spend 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.campaigns[1].amountSpend.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Campaign Name 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.campaigns[0].campaignName }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Campaign Name 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.campaigns[1].campaignName }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        2300,
+        -140
+      ],
+      "id": "197ad5d1-e72b-48e5-88ec-d2dea1670344",
+      "name": "Google Slides10",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "replaceText",
+        "presentationId": "={{ $('Data Mapping Agent Input').first().json.presentation_id }}",
+        "textUi": {
+          "textValues": [
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Month]",
+              "replaceText": "={{ $('Switch Slides').first().json.month }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Year]",
+              "replaceText": "={{ $('Switch Slides').first().json.year }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Clicks 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].linkClicks.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Click CTR 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].linkClickCtr.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Impressions 1]",
+              "replaceText": "={{ $('Switch Slides').item.json.campaigns[0].impressions.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Reach 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].reach.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Leads 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].totalLeads.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Lead 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].costPerLead.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Amount Spend 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].amountSpend.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Adset Name 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].adsetName }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        2320,
+        60
+      ],
+      "id": "f015bb57-450c-4c4b-91c3-ee6e8582db89",
+      "name": "Google Slides7",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Switch Slides').first().json.adsets.length  }}",
+                    "rightValue": 1,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    },
+                    "id": "a0e192c9-621f-4723-9e6d-1e5f9430e26d"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "1 Adset"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "5de03932-fd2f-4bfa-adb5-08736aa023d6",
+                    "leftValue": "={{ $('Switch Slides').first().json.adsets.length  }}",
+                    "rightValue": 2,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "2 Adsets"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e90fb9c9-65ce-43c4-8cc9-7bb6b327ca04",
+                    "leftValue": "={{ $('Switch Slides').first().json.adsets.length  }}",
+                    "rightValue": 3,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "3 Adsets"
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1940,
+        340
+      ],
+      "id": "86ba4490-5b7a-470b-8c1d-956871dcf097",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "operation": "replaceText",
+        "presentationId": "={{ $('Data Mapping Agent Input').first().json.presentation_id }}",
+        "textUi": {
+          "textValues": [
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Month]",
+              "replaceText": "={{ $('Switch Slides').first().json.month }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Year]",
+              "replaceText": "={{ $('Switch Slides').first().json.year }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Clicks 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].linkClicks.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Click CTR 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].linkClickCtr.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Impressions 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].impressions.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Reach 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].reach.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Leads 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].totalLeads.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Lead 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].costPerLead.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Amount Spend 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].amountSpend.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Clicks 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].linkClicks.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Click CTR 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].linkClickCtr.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Impressions 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].impressions.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Reach 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].reach.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Leads 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].totalLeads.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Lead 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].costPerLead.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Amount Spend 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].amountSpend.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Adset Name 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].adsetName }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Adset Name 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].adsetName }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Link Click 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].costPerLinkClick.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Link Click 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].costPerLinkClick.toString() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        2320,
+        340
+      ],
+      "id": "af21c443-202d-4b2f-ac9a-189d9a0bb522",
+      "name": "Google Slides11",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "replaceText",
+        "presentationId": "={{ $('Data Mapping Agent Input').first().json.presentation_id }}",
+        "textUi": {
+          "textValues": [
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Month]",
+              "replaceText": "={{ $('Switch Slides').first().json.month }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Year]",
+              "replaceText": "={{ $('Switch Slides').first().json.year }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Clicks 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].linkClicks.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Click CTR 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].linkClickCtr.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Impressions 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].impressions.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Reach 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].reach.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Leads 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].totalLeads.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Lead 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].costPerLead.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Amount Spend 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].amountSpend.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Clicks 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].linkClicks.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Click CTR 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].linkClickCtr.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Impressions 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].impressions.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Reach 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].reach.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Leads 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].totalLeads.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Lead 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].costPerLead.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Amount Spend 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].amountSpend.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Adset Name 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].adsetName }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Adset Name 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].adsetName }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Link Click 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].costPerLinkClick.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Link Click 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].costPerLinkClick.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Adset Name 3]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[2].adsetName }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Clicks 3]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[2].linkClicks.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Click CTR 3]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[2].linkClickCtr.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Link Click 3]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[2].costPerLinkClick.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Impressions 3]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[2].impressions.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Reach 3]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[2].reach.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Leads 3]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[2].totalLeads.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Lead 3]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[2].costPerLead.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Amount Spend 3]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[2].amountSpend.toString() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        2340,
+        540
+      ],
+      "id": "2de4a0d3-065a-4d69-a412-98dc0d5c4ad0",
+      "name": "Google Slides12",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "page",
+        "presentationId": "={{ $('Data Mapping Agent Input').first().json.presentation_id }}",
+        "pageObjectId": "={{ $json.objectId }}"
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        1780,
+        -520
+      ],
+      "id": "20f095f1-d992-485f-9431-550f87b6f98a",
+      "name": "Slide 1 Page Object ID",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "page",
+        "presentationId": "={{ $('Data Mapping Agent Input').first().json.presentation_id }}",
+        "pageObjectId": "={{ $json.objectId }}"
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        1780,
+        -320
+      ],
+      "id": "4ad2390b-32c9-4460-bb76-6f983d320a22",
+      "name": "Slide 2 Page Object ID",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "page",
+        "presentationId": "={{ $('Data Mapping Agent Input').first().json.presentation_id }}",
+        "pageObjectId": "={{ $json.objectId }}"
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        1780,
+        -100
+      ],
+      "id": "2e4f96a0-f87f-4c68-9871-35c87d6bbfa1",
+      "name": "Slide 3 Page Object ID",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "page",
+        "presentationId": "={{ $('Data Mapping Agent Input').first().json.presentation_id }}",
+        "pageObjectId": "={{ $json.objectId }}"
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        340
+      ],
+      "id": "8787bb7c-fd62-4892-84eb-9313c684c710",
+      "name": "Slide 4 Page Object ID",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "page",
+        "presentationId": "={{ $('Data Mapping Agent Input').first().json.presentation_id }}",
+        "pageObjectId": "={{ $json.objectId }}"
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        1020,
+        1080
+      ],
+      "id": "2aed56bb-6b7a-40c3-84f6-e3ecdf5caef7",
+      "name": "Slide 5 Page Object ID",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "replaceText",
+        "presentationId": "={{ $('Data Mapping Agent Input').first().json.presentation_id }}",
+        "textUi": {
+          "textValues": [
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Month]",
+              "replaceText": "={{ $('Switch Slides').first().json.month }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Year]",
+              "replaceText": "={{ $('Switch Slides').first().json.year }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Clicks 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].linkClicks.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Click CTR 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].linkClickCtr.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Impressions 1]",
+              "replaceText": "={{ $('Switch Slides').item.json.campaigns[0].impressions.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Reach 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].reach.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Leads 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].totalLeads.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Lead 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].costPerLead.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Amount Spend 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].amountSpend.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Adset Name 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].adsetName }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        1660,
+        900
+      ],
+      "id": "c5b06e51-f570-4be1-abf8-b5fbf2707b3a",
+      "name": "Google Slides",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Switch Slides').first().json.ads.length  }}",
+                    "rightValue": 1,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    },
+                    "id": "a0e192c9-621f-4723-9e6d-1e5f9430e26d"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "1 Ad"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "5de03932-fd2f-4bfa-adb5-08736aa023d6",
+                    "leftValue": "={{ $('Switch Slides').first().json.ads.length  }}",
+                    "rightValue": 2,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "2 Ads"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e90fb9c9-65ce-43c4-8cc9-7bb6b327ca04",
+                    "leftValue": "={{ $('Switch Slides').first().json.ads.length  }}",
+                    "rightValue": 3,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "3 Ads"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "96a45288-eb7a-48a4-b650-233fe223774e",
+                    "leftValue": "={{ $('Switch Slides').first().json.ads.length  }}",
+                    "rightValue": 4,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "4 Ads"
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1280,
+        1080
+      ],
+      "id": "b4405b09-7e0f-47ce-a8b3-1643bb694b6d",
+      "name": "Switch2"
+    },
+    {
+      "parameters": {
+        "operation": "replaceText",
+        "presentationId": "={{ $('Data Mapping Agent Input').first().json.presentation_id }}",
+        "textUi": {
+          "textValues": [
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Month]",
+              "replaceText": "={{ $('Switch Slides').first().json.month }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Year]",
+              "replaceText": "={{ $('Switch Slides').first().json.year }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Clicks 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].linkClicks.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Click CTR 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].linkClickCtr.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Impressions 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].impressions.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Reach 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].reach.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Leads 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].totalLeads.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Lead 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].costPerLead.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Amount Spend 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].amountSpend.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Clicks 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].linkClicks.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Click CTR 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].linkClickCtr.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Impressions 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].impressions.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Reach 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].reach.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Leads 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].totalLeads.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Lead 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].costPerLead.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Amount Spend 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].amountSpend.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Adset Name 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].adsetName }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Adset Name 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].adsetName }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Link Click 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].costPerLinkClick.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Link Click 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].costPerLinkClick.toString() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        1660,
+        1100
+      ],
+      "id": "e46a33b1-8fd1-41c4-9db3-3c9e8547f1b4",
+      "name": "Google Slides13",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "replaceText",
+        "presentationId": "={{ $('Data Mapping Agent Input').first().json.presentation_id }}",
+        "textUi": {
+          "textValues": [
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Month]",
+              "replaceText": "={{ $('Switch Slides').first().json.month }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Year]",
+              "replaceText": "={{ $('Switch Slides').first().json.year }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Clicks 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].linkClicks.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Click CTR 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].linkClickCtr.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Impressions 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].impressions.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Reach 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].reach.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Leads 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].totalLeads.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Lead 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].costPerLead.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Amount Spend 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].amountSpend.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Clicks 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].linkClicks.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Click CTR 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].linkClickCtr.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Impressions 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].impressions.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Reach 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].reach.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Leads 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].totalLeads.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Lead 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].costPerLead.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Amount Spend 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].amountSpend.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Adset Name 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].adsetName }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Adset Name 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].adsetName }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Link Click 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[0].costPerLinkClick.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Link Click 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[1].costPerLinkClick.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Adset Name 3]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[2].adsetName }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Clicks 3]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[2].linkClicks.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Click CTR 3]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[2].linkClickCtr.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Link Click 3]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[2].costPerLinkClick.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Impressions 3]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[2].impressions.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Reach 3]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[2].reach.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Leads 3]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[2].totalLeads.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Lead 3]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[2].costPerLead.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Amount Spend 3]",
+              "replaceText": "={{ $('Switch Slides').first().json.adsets[2].amountSpend.toString() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        1660,
+        1300
+      ],
+      "id": "de76cb47-dc58-415e-8bd6-c0c8ac6c5e1c",
+      "name": "Google Slides14",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "replaceText",
+        "presentationId": "={{ $('Data Mapping Agent Input').first().json.presentation_id }}",
+        "textUi": {
+          "textValues": [
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Month]",
+              "replaceText": "={{ $('Switch Slides').first().json.month }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Year]",
+              "replaceText": "={{ $('Switch Slides').first().json.year }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Client Name]",
+              "replaceText": "={{ $('Switch Slides').first().json.clientName }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "client_logo",
+              "replaceText": "={{ $('Switch Slides').first().json.clientLogo }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        2020,
+        -520
+      ],
+      "id": "d5b93c47-c37f-4dd2-b52d-d694491fcdec",
+      "name": "Text Replacement For Slide 1",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "replaceText",
+        "presentationId": "={{ $('Data Mapping Agent Input').first().json.presentation_id }}",
+        "textUi": {
+          "textValues": [
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Month]",
+              "replaceText": "={{ $('Switch Slides').first().json.month }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Year]",
+              "replaceText": "={{ $('Switch Slides').first().json.year }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Clicks]",
+              "replaceText": "={{ $('Switch Slides').first().json.engagement.linkClick.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Click CTR]",
+              "replaceText": "={{ $('Switch Slides').first().json.engagement.LinkClickCtr.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Link Click]",
+              "replaceText": "={{ $('Switch Slides').first().json.engagement.costPerLinkClick.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Impressions]",
+              "replaceText": "={{ $('Switch Slides').first().json.visibility.impressions.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Reach]",
+              "replaceText": "={{ $('Switch Slides').first().json.visibility.reach.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[CPM]",
+              "replaceText": "={{ $('Switch Slides').first().json.visibility.avgCpm.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Leads]",
+              "replaceText": "={{ $('Switch Slides').first().json.conversion.totalLeads.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Lead]",
+              "replaceText": "={{ $('Switch Slides').first().json.conversion.costPerLead.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Amount Spend]",
+              "replaceText": "={{ $('Switch Slides').first().json.conversion.amountSpend.toString() }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        2000,
+        -320
+      ],
+      "id": "a50d3988-7b9d-4ef9-8da2-55d979d72e08",
+      "name": "Text Replacement For Slide 2",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "replaceText",
+        "presentationId": "={{ $('Data Mapping Agent Input').first().json.presentation_id }}",
+        "textUi": {
+          "textValues": [
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Month]",
+              "replaceText": "={{ $('Switch Slides').first().json.month }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Year]",
+              "replaceText": "={{ $('Switch Slides').first().json.year }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Clicks 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.ads[0].linkClicks.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Click CTR 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.ads[0].linkClickCtr.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Impressions 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.ads[0].impressions.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Reach 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.ads[0].reach.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Clicks 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.ads[1].linkClicks.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Click CTR 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.ads[1].linkClickCtr.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Impressions 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.ads[1].impressions.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Reach 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.ads[1].reach.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Ad Name 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.ads[0].adName }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Ad Name 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.ads[1].adName }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Link Click 1]",
+              "replaceText": "={{ $('Switch Slides').first().json.ads[0].costPerLinkClick.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Link Click 2]",
+              "replaceText": "={{ $('Switch Slides').first().json.ads[1].costPerLinkClick.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Ad Name 3]",
+              "replaceText": "={{ $('Switch Slides').first().json.ads[2].adName }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Clicks 3]",
+              "replaceText": "={{ $('Switch Slides').first().json.ads[2].linkClicks.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Click CTR 3]",
+              "replaceText": "={{ $('Switch Slides').first().json.ads[2].linkClickCtr.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Link Click 3]",
+              "replaceText": "={{ $('Switch Slides').first().json.ads[2].costPerLinkClick.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Impressions 3]",
+              "replaceText": "={{ $('Switch Slides').first().json.ads[2].impressions.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Reach 3]",
+              "replaceText": "={{ $('Switch Slides').first().json.ads[2].reach.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Ad Name 4]",
+              "replaceText": "={{ $('Switch Slides').first().json.ads[3].adName }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Clicks 4]",
+              "replaceText": "={{ $('Switch Slides').first().json.ads[3].linkClicks.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Link Click CTR 4]",
+              "replaceText": "={{ $('Switch Slides').first().json.ads[3].linkClicks.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Cost Per Link Click 4]",
+              "replaceText": "={{ $('Switch Slides').first().json.ads[3].costPerLinkClick.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Impressions 4]",
+              "replaceText": "={{ $('Switch Slides').first().json.ads[3].impressions.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Reach 4]",
+              "replaceText": "={{ $('Switch Slides').first().json.ads[3].reach.toString() }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Ad Text 1]",
+              "replaceText": "={{ $('Switch Slides').item.json.ads[0].adText }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Ad Text 2]",
+              "replaceText": "={{ $('Switch Slides').item.json.ads[1].adText }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Ad Text 3]",
+              "replaceText": "={{ $('Switch Slides').item.json.ads[2].adText }}"
+            },
+            {
+              "pageObjectIds": "={{ $('Switch Slides').first().json.objectId }}",
+              "text": "[Ad Text 4]",
+              "replaceText": "={{ $('Switch Slides').item.json.ads[3].adText }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        1680,
+        1520
+      ],
+      "id": "54bde63f-7113-46fc-892c-c530eb2886ca",
+      "name": "Google Slides15",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "54145e0b-7c67-42df-ad74-72874f5df044",
+              "name": "adsetKey",
+              "value": "={{ $json.adsetNameObj.keys().join(\"\").replaceAll('\"','') }}",
+              "type": "string"
+            },
+            {
+              "id": "0a5bac88-ac68-4f27-a4a3-30611f16e2ac",
+              "name": "adsetNameValue",
+              "value": "={{ $json.adsetNameObj.adsetName }}",
+              "type": "array"
+            },
+            {
+              "id": "10c1f7e0-4ba1-41f4-8fe5-e09cf683e7f2",
+              "name": "impressionsKey",
+              "value": "={{ $json.impressionsObj.keys().join(\"\").replaceAll('\"','') }}",
+              "type": "string"
+            },
+            {
+              "id": "6f46aec8-80e7-46a6-911d-1594a9620547",
+              "name": "impressionsValue",
+              "value": "={{ $json.impressionsObj.impressions }}",
+              "type": "array"
+            },
+            {
+              "id": "9c06cfce-eec8-475a-9438-7aefebcfc067",
+              "name": "reachKey",
+              "value": "={{ $json.reachObj.keys().join(\"\").replaceAll('\"','') }}",
+              "type": "string"
+            },
+            {
+              "id": "524b39c2-1d8b-483c-b8da-5b328aee3a2d",
+              "name": "reachValue",
+              "value": "={{ $json.reachObj.reach }}",
+              "type": "array"
+            },
+            {
+              "id": "c8c7af0f-c699-4581-b893-b219686fad92",
+              "name": "linkClicksKey",
+              "value": "={{ $json.linkClicksObj.keys().join(\"\").replaceAll('\"','') }}",
+              "type": "string"
+            },
+            {
+              "id": "3190cd16-59b4-4aa5-bad1-13e462133d32",
+              "name": "linkClicksValue",
+              "value": "={{ $json.linkClicksObj.linkClicks }}",
+              "type": "array"
+            },
+            {
+              "id": "336ba6aa-a035-4c31-8e6b-894625deb859",
+              "name": "costPerLinkClicksKey",
+              "value": "={{ $json.costPerLinkClickObj.keys().join(\"\").replaceAll('\"','') }}",
+              "type": "string"
+            },
+            {
+              "id": "b1d2554b-fad0-45f1-9559-a42cadea4362",
+              "name": "costPerLinkClickValue",
+              "value": "={{ $json.costPerLinkClickObj.costPerLinkClick }}",
+              "type": "array"
+            },
+            {
+              "id": "24aa55bc-1231-4d8f-9364-51ffb875bf35",
+              "name": "avgCpmKey",
+              "value": "={{ $json.avgCpmObj.keys().join(\"\").replaceAll('\"','') }}",
+              "type": "string"
+            },
+            {
+              "id": "90ed2af3-3793-451d-a20e-f458e1a64dbe",
+              "name": "avgCpmValue",
+              "value": "={{ $json.avgCpmObj.avgCpm }}",
+              "type": "array"
+            },
+            {
+              "id": "28a9cae7-a4e0-41f8-81ae-b5059175afba",
+              "name": "totalLeadsKey",
+              "value": "={{ $json.totalLeadsObj.keys().join(\"\").replaceAll('\"','') }}",
+              "type": "string"
+            },
+            {
+              "id": "2307066d-c286-47a9-a066-0eb3c331368e",
+              "name": "totalLeadsValue",
+              "value": "={{ $json.totalLeadsObj.totalLeads }}",
+              "type": "array"
+            },
+            {
+              "id": "42534423-ff11-445f-afef-9832ca860634",
+              "name": "costPerLeadKey",
+              "value": "={{ $json.costPerLeadObj.keys().join(\"\").replaceAll('\"','') }}",
+              "type": "string"
+            },
+            {
+              "id": "79e3785e-4b15-448b-baf4-8a844de61680",
+              "name": "costPerLeadValue",
+              "value": "={{ $json.costPerLeadObj.costPerLead }}",
+              "type": "array"
+            },
+            {
+              "id": "337f8acc-2acb-43ab-abd7-28dcc2a9eab9",
+              "name": "amountSpendKey",
+              "value": "={{ $json.amountSpendObj.keys().join(\"\").replaceAll('\"','') }}",
+              "type": "string"
+            },
+            {
+              "id": "d03e3d20-03f4-4354-a32f-ea4e69cd7a27",
+              "name": "amountSpendValue",
+              "value": "={{ $json.amountSpendObj.amountSpend }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3320,
+        340
+      ],
+      "id": "f2e67103-607e-4444-b915-03efd0edee41",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7bcd6d17-caca-4393-9069-006118c3cf20",
+              "name": "adsetNameObj",
+              "value": "={\n \"adsetName\": [{{ JSON.stringify($json.output.adsetName1) }}, {{ JSON.stringify($json.output.adsetName2) }}]\n}",
+              "type": "object"
+            },
+            {
+              "id": "e6ac0bf3-a30b-4bf0-85ad-0def2d46b796",
+              "name": "impressionsObj",
+              "value": "={\n \"impressions\": {{ JSON.stringify($('Switch Slides').first().json.adsets.map(item => item.impressions)) }}\n}",
+              "type": "object"
+            },
+            {
+              "id": "740af1d0-49fa-4e32-b1fb-2b3ed16a5bc9",
+              "name": "reachObj",
+              "value": "={\n \"reach\": {{ JSON.stringify($('Switch Slides').first().json.adsets.map(item => item.reach)) }}\n}",
+              "type": "object"
+            },
+            {
+              "id": "cca1a786-657d-4cba-8d71-317cc12c9bbe",
+              "name": "linkClicksObj",
+              "value": "={\n \"linkClicks\": {{ JSON.stringify($('Switch Slides').first().json.adsets.map(item => item.linkClicks)) }}\n}",
+              "type": "object"
+            },
+            {
+              "id": "9c289cc9-026f-40cf-a353-d704a1b95dbf",
+              "name": "costPerLinkClickObj",
+              "value": "={\n \"costPerLinkClick\": {{ JSON.stringify($('Switch Slides').first().json.adsets.map(item => item.costPerLinkClick)) }}\n}",
+              "type": "object"
+            },
+            {
+              "id": "1adb4482-29d6-4aab-9be6-56cd39493afe",
+              "name": "avgCpmObj",
+              "value": "={\n \"avgCpm\": {{ JSON.stringify($('Switch Slides').first().json.adsets.map(item => item.avgCpm)) }}\n}",
+              "type": "object"
+            },
+            {
+              "id": "c8d2d8c7-7a23-4858-8e6d-5a4c57168c0a",
+              "name": "totalLeadsObj",
+              "value": "={\n \"totalLeads\": {{ JSON.stringify($('Switch Slides').first().json.adsets.map(item => item.totalLeads)) }}\n}",
+              "type": "object"
+            },
+            {
+              "id": "f2b94a3b-4fda-46d2-adc2-acb17f777056",
+              "name": "costPerLeadObj",
+              "value": "={\n \"costPerLead\": {{ JSON.stringify($('Switch Slides').first().json.adsets.map(item => item.costPerLead)) }}\n}",
+              "type": "object"
+            },
+            {
+              "id": "99320294-7ed0-40ce-8933-207e45ac3bf9",
+              "name": "amountSpendObj",
+              "value": "={\n \"amountSpend\": {{ JSON.stringify($('Switch Slides').first().json.adsets.map(item => item.amountSpend)) }}\n}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3100,
+        340
+      ],
+      "id": "dd27f3ae-ae31-4dcb-9761-53b382549f48",
+      "name": "Dimension & Metrics Array Wrapped Into Object1"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    \"type\": \"bar\",\n    \"data\": {\n      \"labels\": $input.first().json.adsetNameValue,\n      \"datasets\": [\n        {\n          \"type\": \"bar\",\n          \"label\": $input.first().json.impressionsKey,\n          \"borderColor\": \"rgb(54, 162, 235)\",\n          \"borderWidth\": 2,\n          \"fill\": false,\n          \"data\": $input.first().json.impressionsValue\n        },\n        {\n          \"type\": \"bar\",\n          \"label\": $input.first().json.reachKey,\n          \"backgroundColor\": \"rgb(255, 99, 132)\",\n          \"data\": $input.first().json.reachValue,\n          \"borderColor\": \"white\",\n          \"borderWidth\": 2\n        },\n        {\n          \"type\": \"bar\",\n          \"label\": $input.first().json.linkClicksKey,\n          \"backgroundColor\": \"rgb(75, 192, 192)\",\n          \"data\": $input.first().json.linkClicksValue,\n          \"borderColor\": \"white\",\n          \"borderWidth\": 2\n        }        \n      ]\n    },\n    \"options\": {\n      \"responsive\": true,\n      \"title\": {\n        \"display\": true,\n        \"text\": \"ADSET LEVEL \" + $input.first().json.impressionsKey.toUpperCase() + \" - \" + $input.first().json.reachKey.toLocaleUpperCase() + \" - \" + $input.first().json.linkClicksKey.toLocaleUpperCase() + \" COMPARISON CHART\"\n      },\n      \"tooltips\": {\n        \"mode\": \"index\",\n        \"intersect\": true\n      }\n    }\n  }\n];"
+      },
+      "id": "d8038434-4cdb-4b4c-b4a1-1b1264629d5d",
+      "name": "Plotting1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3640,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://quickchart.io/chart?chart={{ $json[\"plot\"] }}&backgroundColor=white&width=600&height=400&devicePixelRatio=1.0&format=png&version=2.9.3&encoding=base64",
+        "options": {}
+      },
+      "id": "140976d4-f4b8-4060-9aa4-e7298471fb79",
+      "name": "HTTP Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        4080,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const plot = JSON.stringify($input.first().json);\n\nreturn {\n  plot: Buffer.from(plot).toString('base64')\n};"
+      },
+      "id": "85907dd8-16f6-4bb8-bb80-18dad85eb59e",
+      "name": "Base64 encoded plot1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3840,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2840,
+        560
+      ],
+      "id": "99d14200-5c0a-415d-b8b2-4f3b50236fa0",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "text": "=Query for the array of `adsetName` value and shorten the string value with the last phrase that spited with the \"-\" separator.\n {{ $('Switch Slides').item.json.adsets.map(item => item.adsetName) }}",
+        "attributes": {
+          "attributes": [
+            {
+              "name": "adsetName1",
+              "description": "The shorten adsetName1 generated"
+            },
+            {
+              "name": "adsetName2",
+              "description": "The shorten adsetName2 generated"
+            }
+          ]
+        },
+        "options": {
+          "systemPromptTemplate": "You are an expert extraction algorithm.\nOnly extract relevant information from the text.\nIf you do not know the value of an attribute asked to extract, you may omit the attribute's value."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.1,
+      "position": [
+        2760,
+        340
+      ],
+      "id": "574a8cef-1ed3-41e4-b77e-ac7cd0e09f22",
+      "name": "Information Extractor1"
+    },
+    {
+      "parameters": {
+        "name": "={{ $now.format('yyyy-MM-dd') }} - {{ $('Switch Slides').item.json.month }}{{ $('Switch Slides').item.json.year }} - {{ $('Switch Slides').item.json.slideName }} {{ $('Edit Fields').item.json.impressionsKey.toSentenceCase() }} & {{ $('Edit Fields').item.json.reachKey.toSentenceCase() }}{{ $binary.data.fileName.toSentenceCase() }}.{{ $binary.data.fileExtension }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1mBy2ObYsaqe3_s4qjJ-8k4RsE3jQud6q",
+          "mode": "list",
+          "cachedResultName": "N8N_AI_Agent_GSlides_Generator",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1mBy2ObYsaqe3_s4qjJ-8k4RsE3jQud6q"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        4300,
+        160
+      ],
+      "id": "b57ebe30-f16d-45a6-8433-ffbbeba3ef8c",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    \"type\": \"bar\",\n    \"data\": {\n      \"labels\": $input.first().json.adsetNameValue,\n      \"datasets\": [\n        {\n          \"type\": \"bar\",\n          \"label\": $input.first().json.avgCpmKey,\n          \"borderColor\": \"rgb(54, 162, 235)\",\n          \"borderWidth\": 2,\n          \"fill\": false,\n          \"data\": $input.first().json.avgCpmValue\n        },\n        {\n          \"type\": \"bar\",\n          \"label\": $input.first().json.totalLeadsKey,\n          \"backgroundColor\": \"rgb(255, 99, 132)\",\n          \"data\": $input.first().json.totalLeadsValue,\n          \"borderColor\": \"white\",\n          \"borderWidth\": 2\n        },\n        {\n          \"type\": \"bar\",\n          \"label\": $input.first().json.costPerLeadKey,\n          \"backgroundColor\": \"rgb(75, 192, 192)\",\n          \"data\": $input.first().json.costPerLeadValue,\n          \"borderColor\": \"white\",\n          \"borderWidth\": 2\n        }\n      ]\n    },\n    \"options\": {\n      \"responsive\": true,\n      \"title\": {\n        \"display\": true,\n        \"text\": \"ADSET LEVEL \" + $input.first().json.avgCpmKey.toUpperCase() + \" - \" + $input.first().json.totalLeadsKey.toLocaleUpperCase() + \" - \" + $input.first().json.costPerLeadKey.toLocaleUpperCase() + \" COMPARISON CHART\"\n      },\n      \"tooltips\": {\n        \"mode\": \"index\",\n        \"intersect\": true\n      }\n    }\n  }\n];"
+      },
+      "id": "ca72d522-fa9e-43a9-ba33-f5b8756370f9",
+      "name": "Plotting",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3620,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://quickchart.io/chart?chart={{ $json[\"plot\"] }}&backgroundColor=white&width=600&height=400&devicePixelRatio=1.0&format=png&version=2.9.3&encoding=base64",
+        "options": {}
+      },
+      "id": "77a33941-2a95-42af-a9b1-a704a87b95c8",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        4060,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const plot = JSON.stringify($input.first().json);\n\nreturn {\n  plot: Buffer.from(plot).toString('base64')\n};"
+      },
+      "id": "72237495-c7aa-4b12-8ec0-722beabaa5e4",
+      "name": "Base64 encoded plot",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3820,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "name": "={{ $now.format('yyyy-MM-dd') }} - {{ $('Switch Slides').first().json.month }}{{ $('Switch Slides').first().json.year }} - {{ $('Switch Slides').first().json.slideName }} {{ $('Edit Fields').first().json.avgCpmKey.toSentenceCase() }} - {{ $('Edit Fields').first().json.totalLeadsKey.toSentenceCase() }} - {{ $('Edit Fields').first().json.costPerLeadKey.toSentenceCase() }} {{ $binary.data.fileName.toSentenceCase() }}.{{ $binary.data.fileExtension }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1mBy2ObYsaqe3_s4qjJ-8k4RsE3jQud6q",
+          "mode": "list",
+          "cachedResultName": "N8N_AI_Agent_GSlides_Generator",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1mBy2ObYsaqe3_s4qjJ-8k4RsE3jQud6q"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        4320,
+        420
+      ],
+      "id": "7f632e45-d3a9-4057-83ed-1f1eba3cce4a",
+      "name": "Google Drive1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "54145e0b-7c67-42df-ad74-72874f5df044",
+              "name": "adsetKey",
+              "value": "={{ $json.adsetNameObj.keys().join(\"\").replaceAll('\"','') }}",
+              "type": "string"
+            },
+            {
+              "id": "0a5bac88-ac68-4f27-a4a3-30611f16e2ac",
+              "name": "adsetNameValue",
+              "value": "={{ $json.adsetNameObj.adsetName }}",
+              "type": "array"
+            },
+            {
+              "id": "10c1f7e0-4ba1-41f4-8fe5-e09cf683e7f2",
+              "name": "impressionsKey",
+              "value": "={{ $json.impressionsObj.keys().join(\"\").replaceAll('\"','') }}",
+              "type": "string"
+            },
+            {
+              "id": "6f46aec8-80e7-46a6-911d-1594a9620547",
+              "name": "impressionsValue",
+              "value": "={{ $json.impressionsObj.impressions }}",
+              "type": "array"
+            },
+            {
+              "id": "9c06cfce-eec8-475a-9438-7aefebcfc067",
+              "name": "reachKey",
+              "value": "={{ $json.reachObj.keys().join(\"\").replaceAll('\"','') }}",
+              "type": "string"
+            },
+            {
+              "id": "524b39c2-1d8b-483c-b8da-5b328aee3a2d",
+              "name": "reachValue",
+              "value": "={{ $json.reachObj.reach }}",
+              "type": "array"
+            },
+            {
+              "id": "c8c7af0f-c699-4581-b893-b219686fad92",
+              "name": "linkClicksKey",
+              "value": "={{ $json.linkClicksObj.keys().join(\"\").replaceAll('\"','') }}",
+              "type": "string"
+            },
+            {
+              "id": "3190cd16-59b4-4aa5-bad1-13e462133d32",
+              "name": "linkClicksValue",
+              "value": "={{ $json.linkClicksObj.linkClicks }}",
+              "type": "array"
+            },
+            {
+              "id": "336ba6aa-a035-4c31-8e6b-894625deb859",
+              "name": "costPerLinkClicksKey",
+              "value": "={{ $json.costPerLinkClickObj.keys().join(\"\").replaceAll('\"','') }}",
+              "type": "string"
+            },
+            {
+              "id": "b1d2554b-fad0-45f1-9559-a42cadea4362",
+              "name": "costPerLinkClickValue",
+              "value": "={{ $json.costPerLinkClickObj.costPerLinkClick }}",
+              "type": "array"
+            },
+            {
+              "id": "24aa55bc-1231-4d8f-9364-51ffb875bf35",
+              "name": "avgCpmKey",
+              "value": "={{ $json.avgCpmObj.keys().join(\"\").replaceAll('\"','') }}",
+              "type": "string"
+            },
+            {
+              "id": "90ed2af3-3793-451d-a20e-f458e1a64dbe",
+              "name": "avgCpmValue",
+              "value": "={{ $json.avgCpmObj.avgCpm }}",
+              "type": "array"
+            },
+            {
+              "id": "28a9cae7-a4e0-41f8-81ae-b5059175afba",
+              "name": "totalLeadsKey",
+              "value": "={{ $json.totalLeadsObj.keys().join(\"\").replaceAll('\"','') }}",
+              "type": "string"
+            },
+            {
+              "id": "2307066d-c286-47a9-a066-0eb3c331368e",
+              "name": "totalLeadsValue",
+              "value": "={{ $json.totalLeadsObj.totalLeads }}",
+              "type": "array"
+            },
+            {
+              "id": "42534423-ff11-445f-afef-9832ca860634",
+              "name": "costPerLeadKey",
+              "value": "={{ $json.costPerLeadObj.keys().join(\"\").replaceAll('\"','') }}",
+              "type": "string"
+            },
+            {
+              "id": "79e3785e-4b15-448b-baf4-8a844de61680",
+              "name": "costPerLeadValue",
+              "value": "={{ $json.costPerLeadObj.costPerLead }}",
+              "type": "array"
+            },
+            {
+              "id": "337f8acc-2acb-43ab-abd7-28dcc2a9eab9",
+              "name": "amountSpendKey",
+              "value": "={{ $json.amountSpendObj.keys().join(\"\").replaceAll('\"','') }}",
+              "type": "string"
+            },
+            {
+              "id": "d03e3d20-03f4-4354-a32f-ea4e69cd7a27",
+              "name": "amountSpendValue",
+              "value": "={{ $json.amountSpendObj.amountSpend }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3240,
+        -140
+      ],
+      "id": "472cbbb9-27e9-47ee-be38-de9cdbc5c23c",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7bcd6d17-caca-4393-9069-006118c3cf20",
+              "name": "adsetNameObj",
+              "value": "={\n \"adsetName\": [{{ JSON.stringify($json.output.adsetName1) }}, {{ JSON.stringify($json.output.adsetName2) }}]\n}",
+              "type": "object"
+            },
+            {
+              "id": "e6ac0bf3-a30b-4bf0-85ad-0def2d46b796",
+              "name": "impressionsObj",
+              "value": "={\n \"impressions\": {{ JSON.stringify($('Switch Slides').first().json.adsets.map(item => item.impressions)) }}\n}",
+              "type": "object"
+            },
+            {
+              "id": "740af1d0-49fa-4e32-b1fb-2b3ed16a5bc9",
+              "name": "reachObj",
+              "value": "={\n \"reach\": {{ JSON.stringify($('Switch Slides').first().json.adsets.map(item => item.reach)) }}\n}",
+              "type": "object"
+            },
+            {
+              "id": "cca1a786-657d-4cba-8d71-317cc12c9bbe",
+              "name": "linkClicksObj",
+              "value": "={\n \"linkClicks\": {{ JSON.stringify($('Switch Slides').first().json.adsets.map(item => item.linkClicks)) }}\n}",
+              "type": "object"
+            },
+            {
+              "id": "9c289cc9-026f-40cf-a353-d704a1b95dbf",
+              "name": "costPerLinkClickObj",
+              "value": "={\n \"costPerLinkClick\": {{ JSON.stringify($('Switch Slides').first().json.adsets.map(item => item.costPerLinkClick)) }}\n}",
+              "type": "object"
+            },
+            {
+              "id": "1adb4482-29d6-4aab-9be6-56cd39493afe",
+              "name": "avgCpmObj",
+              "value": "={\n \"avgCpm\": {{ JSON.stringify($('Switch Slides').first().json.adsets.map(item => item.avgCpm)) }}\n}",
+              "type": "object"
+            },
+            {
+              "id": "c8d2d8c7-7a23-4858-8e6d-5a4c57168c0a",
+              "name": "totalLeadsObj",
+              "value": "={\n \"totalLeads\": {{ JSON.stringify($('Switch Slides').first().json.adsets.map(item => item.totalLeads)) }}\n}",
+              "type": "object"
+            },
+            {
+              "id": "f2b94a3b-4fda-46d2-adc2-acb17f777056",
+              "name": "costPerLeadObj",
+              "value": "={\n \"costPerLead\": {{ JSON.stringify($('Switch Slides').first().json.adsets.map(item => item.costPerLead)) }}\n}",
+              "type": "object"
+            },
+            {
+              "id": "99320294-7ed0-40ce-8933-207e45ac3bf9",
+              "name": "amountSpendObj",
+              "value": "={\n \"amountSpend\": {{ JSON.stringify($('Switch Slides').first().json.adsets.map(item => item.amountSpend)) }}\n}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3020,
+        -140
+      ],
+      "id": "e766c19f-2fd1-404d-946b-9b01b4d7e162",
+      "name": "Dimension & Metrics Array Wrapped Into Object"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    \"type\": \"bar\",\n    \"data\": {\n      \"labels\": $input.first().json.adsetNameValue,\n      \"datasets\": [\n        {\n          \"type\": \"bar\",\n          \"label\": $input.first().json.impressionsKey,\n          \"borderColor\": \"rgb(54, 162, 235)\",\n          \"borderWidth\": 2,\n          \"fill\": false,\n          \"data\": $input.first().json.impressionsValue\n        },\n        {\n          \"type\": \"bar\",\n          \"label\": $input.first().json.reachKey,\n          \"backgroundColor\": \"rgb(255, 99, 132)\",\n          \"data\": $input.first().json.reachValue,\n          \"borderColor\": \"white\",\n          \"borderWidth\": 2\n        },\n        {\n          \"type\": \"bar\",\n          \"label\": $input.first().json.linkClicksKey,\n          \"backgroundColor\": \"rgb(75, 192, 192)\",\n          \"data\": $input.first().json.linkClicksValue,\n          \"borderColor\": \"white\",\n          \"borderWidth\": 2\n        }        \n      ]\n    },\n    \"options\": {\n      \"responsive\": true,\n      \"title\": {\n        \"display\": true,\n        \"text\": \"ADSET LEVEL \" + $input.first().json.impressionsKey.toUpperCase() + \" - \" + $input.first().json.reachKey.toLocaleUpperCase() + \" - \" + $input.first().json.linkClicksKey.toLocaleUpperCase() + \" COMPARISON CHART\"\n      },\n      \"tooltips\": {\n        \"mode\": \"index\",\n        \"intersect\": true\n      }\n    }\n  }\n];"
+      },
+      "id": "7a2146c2-49f2-48c1-95d5-2e8ceb3bbf59",
+      "name": "Plotting2",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3560,
+        -320
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://quickchart.io/chart?chart={{ $json[\"plot\"] }}&backgroundColor=white&width=600&height=400&devicePixelRatio=1.0&format=png&version=2.9.3&encoding=base64",
+        "options": {}
+      },
+      "id": "11a2814b-647b-44d8-9b1c-32ac064ac964",
+      "name": "HTTP Request2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        4000,
+        -320
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const plot = JSON.stringify($input.first().json);\n\nreturn {\n  plot: Buffer.from(plot).toString('base64')\n};"
+      },
+      "id": "0ba74d9e-f50a-4a43-8cd2-42578b79af0d",
+      "name": "Base64 encoded plot2",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3760,
+        -320
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2760,
+        80
+      ],
+      "id": "99d94b1f-f6c3-411b-b8da-089e2618963f",
+      "name": "OpenAI Chat Model3",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "text": "=Query for the array of `adsetName` value and shorten the string value with the last phrase that spited with the \"-\" separator.\n {{ $('Switch Slides').item.json.adsets.map(item => item.adsetName) }}",
+        "attributes": {
+          "attributes": [
+            {
+              "name": "adsetName1",
+              "description": "The shorten adsetName1 generated"
+            },
+            {
+              "name": "adsetName2",
+              "description": "The shorten adsetName2 generated"
+            }
+          ]
+        },
+        "options": {
+          "systemPromptTemplate": "You are an expert extraction algorithm.\nOnly extract relevant information from the text.\nIf you do not know the value of an attribute asked to extract, you may omit the attribute's value."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.1,
+      "position": [
+        2680,
+        -140
+      ],
+      "id": "bafb22c8-0d6b-4cff-8bcb-3e4bfa377f72",
+      "name": "Information Extractor"
+    },
+    {
+      "parameters": {
+        "name": "={{ $now.format('yyyy-MM-dd') }} - {{ $('Switch Slides').item.json.month }}{{ $('Switch Slides').item.json.year }} - {{ $('Switch Slides').item.json.slideName }} {{ $('Edit Fields1').item.json.impressionsKey.toSentenceCase() }} & {{ $('Edit Fields1').item.json.reachKey.toSentenceCase() }}{{ $binary.data.fileName.toSentenceCase() }}.{{ $binary.data.fileExtension }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1mBy2ObYsaqe3_s4qjJ-8k4RsE3jQud6q",
+          "mode": "list",
+          "cachedResultName": "N8N_AI_Agent_GSlides_Generator",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1mBy2ObYsaqe3_s4qjJ-8k4RsE3jQud6q"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        4220,
+        -320
+      ],
+      "id": "2823427a-1cbb-4dc5-b679-8540bd57d4a2",
+      "name": "Google Drive2",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    \"type\": \"bar\",\n    \"data\": {\n      \"labels\": $input.first().json.adsetNameValue,\n      \"datasets\": [\n        {\n          \"type\": \"bar\",\n          \"label\": $input.first().json.avgCpmKey,\n          \"borderColor\": \"rgb(54, 162, 235)\",\n          \"borderWidth\": 2,\n          \"fill\": false,\n          \"data\": $input.first().json.avgCpmValue\n        },\n        {\n          \"type\": \"bar\",\n          \"label\": $input.first().json.totalLeadsKey,\n          \"backgroundColor\": \"rgb(255, 99, 132)\",\n          \"data\": $input.first().json.totalLeadsValue,\n          \"borderColor\": \"white\",\n          \"borderWidth\": 2\n        },\n        {\n          \"type\": \"bar\",\n          \"label\": $input.first().json.costPerLeadKey,\n          \"backgroundColor\": \"rgb(75, 192, 192)\",\n          \"data\": $input.first().json.costPerLeadValue,\n          \"borderColor\": \"white\",\n          \"borderWidth\": 2\n        }\n      ]\n    },\n    \"options\": {\n      \"responsive\": true,\n      \"title\": {\n        \"display\": true,\n        \"text\": \"ADSET LEVEL \" + $input.first().json.avgCpmKey.toUpperCase() + \" - \" + $input.first().json.totalLeadsKey.toLocaleUpperCase() + \" - \" + $input.first().json.costPerLeadKey.toLocaleUpperCase() + \" COMPARISON CHART\"\n      },\n      \"tooltips\": {\n        \"mode\": \"index\",\n        \"intersect\": true\n      }\n    }\n  }\n];"
+      },
+      "id": "5264805a-efe1-40ce-9a1e-a77a983b72bb",
+      "name": "Plotting3",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3540,
+        -60
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://quickchart.io/chart?chart={{ $json[\"plot\"] }}&backgroundColor=white&width=600&height=400&devicePixelRatio=1.0&format=png&version=2.9.3&encoding=base64",
+        "options": {}
+      },
+      "id": "93ae9757-7de8-4dc8-9581-ef118b39f0f4",
+      "name": "HTTP Request3",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        3980,
+        -60
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const plot = JSON.stringify($input.first().json);\n\nreturn {\n  plot: Buffer.from(plot).toString('base64')\n};"
+      },
+      "id": "480c8ca7-bd1f-46bc-bac7-fb1281cce0d6",
+      "name": "Base64 encoded plot3",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3740,
+        -60
+      ]
+    },
+    {
+      "parameters": {
+        "name": "={{ $now.format('yyyy-MM-dd') }} - {{ $('Switch Slides').first().json.month }}{{ $('Switch Slides').first().json.year }} - {{ $('Switch Slides').first().json.slideName }} {{ $('Edit Fields1').first().json.avgCpmKey.toSentenceCase() }} - {{ $('Edit Fields1').first().json.totalLeadsKey.toSentenceCase() }} - {{ $('Edit Fields1').first().json.costPerLeadKey.toSentenceCase() }} {{ $binary.data.fileName.toSentenceCase() }}.{{ $binary.data.fileExtension }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1mBy2ObYsaqe3_s4qjJ-8k4RsE3jQud6q",
+          "mode": "list",
+          "cachedResultName": "N8N_AI_Agent_GSlides_Generator",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1mBy2ObYsaqe3_s4qjJ-8k4RsE3jQud6q"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        4240,
+        -60
+      ],
+      "id": "86d2fba8-bcd2-478a-af99-288849ba9da4",
+      "name": "Google Drive3",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "54145e0b-7c67-42df-ad74-72874f5df044",
+              "name": "adsetKey",
+              "value": "={{ $json.adsetNameObj.keys().join(\"\").replaceAll('\"','') }}",
+              "type": "string"
+            },
+            {
+              "id": "0a5bac88-ac68-4f27-a4a3-30611f16e2ac",
+              "name": "adsetNameValue",
+              "value": "={{ $json.adsetNameObj.adsetName }}",
+              "type": "array"
+            },
+            {
+              "id": "10c1f7e0-4ba1-41f4-8fe5-e09cf683e7f2",
+              "name": "impressionsKey",
+              "value": "={{ $json.impressionsObj.keys().join(\"\").replaceAll('\"','') }}",
+              "type": "string"
+            },
+            {
+              "id": "6f46aec8-80e7-46a6-911d-1594a9620547",
+              "name": "impressionsValue",
+              "value": "={{ $json.impressionsObj.impressions }}",
+              "type": "array"
+            },
+            {
+              "id": "9c06cfce-eec8-475a-9438-7aefebcfc067",
+              "name": "reachKey",
+              "value": "={{ $json.reachObj.keys().join(\"\").replaceAll('\"','') }}",
+              "type": "string"
+            },
+            {
+              "id": "524b39c2-1d8b-483c-b8da-5b328aee3a2d",
+              "name": "reachValue",
+              "value": "={{ $json.reachObj.reach }}",
+              "type": "array"
+            },
+            {
+              "id": "c8c7af0f-c699-4581-b893-b219686fad92",
+              "name": "linkClicksKey",
+              "value": "={{ $json.linkClicksObj.keys().join(\"\").replaceAll('\"','') }}",
+              "type": "string"
+            },
+            {
+              "id": "3190cd16-59b4-4aa5-bad1-13e462133d32",
+              "name": "linkClicksValue",
+              "value": "={{ $json.linkClicksObj.linkClicks }}",
+              "type": "array"
+            },
+            {
+              "id": "336ba6aa-a035-4c31-8e6b-894625deb859",
+              "name": "costPerLinkClicksKey",
+              "value": "={{ $json.costPerLinkClickObj.keys().join(\"\").replaceAll('\"','') }}",
+              "type": "string"
+            },
+            {
+              "id": "b1d2554b-fad0-45f1-9559-a42cadea4362",
+              "name": "costPerLinkClickValue",
+              "value": "={{ $json.costPerLinkClickObj.costPerLinkClick }}",
+              "type": "array"
+            },
+            {
+              "id": "24aa55bc-1231-4d8f-9364-51ffb875bf35",
+              "name": "avgCpmKey",
+              "value": "={{ $json.avgCpmObj.keys().join(\"\").replaceAll('\"','') }}",
+              "type": "string"
+            },
+            {
+              "id": "90ed2af3-3793-451d-a20e-f458e1a64dbe",
+              "name": "avgCpmValue",
+              "value": "={{ $json.avgCpmObj.avgCpm }}",
+              "type": "array"
+            },
+            {
+              "id": "28a9cae7-a4e0-41f8-81ae-b5059175afba",
+              "name": "totalLeadsKey",
+              "value": "={{ $json.totalLeadsObj.keys().join(\"\").replaceAll('\"','') }}",
+              "type": "string"
+            },
+            {
+              "id": "2307066d-c286-47a9-a066-0eb3c331368e",
+              "name": "totalLeadsValue",
+              "value": "={{ $json.totalLeadsObj.totalLeads }}",
+              "type": "array"
+            },
+            {
+              "id": "42534423-ff11-445f-afef-9832ca860634",
+              "name": "costPerLeadKey",
+              "value": "={{ $json.costPerLeadObj.keys().join(\"\").replaceAll('\"','') }}",
+              "type": "string"
+            },
+            {
+              "id": "79e3785e-4b15-448b-baf4-8a844de61680",
+              "name": "costPerLeadValue",
+              "value": "={{ $json.costPerLeadObj.costPerLead }}",
+              "type": "array"
+            },
+            {
+              "id": "337f8acc-2acb-43ab-abd7-28dcc2a9eab9",
+              "name": "amountSpendKey",
+              "value": "={{ $json.amountSpendObj.keys().join(\"\").replaceAll('\"','') }}",
+              "type": "string"
+            },
+            {
+              "id": "d03e3d20-03f4-4354-a32f-ea4e69cd7a27",
+              "name": "amountSpendValue",
+              "value": "={{ $json.amountSpendObj.amountSpend }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3440,
+        780
+      ],
+      "id": "63f7961f-6b4a-45c1-bf8a-812d9384f5e8",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7bcd6d17-caca-4393-9069-006118c3cf20",
+              "name": "adsetNameObj",
+              "value": "={\n \"adsetName\": [{{ JSON.stringify($json.output.adsetName1) }}, {{ JSON.stringify($json.output.adsetName2) }}]\n}",
+              "type": "object"
+            },
+            {
+              "id": "e6ac0bf3-a30b-4bf0-85ad-0def2d46b796",
+              "name": "impressionsObj",
+              "value": "={\n \"impressions\": {{ JSON.stringify($('Switch Slides').first().json.adsets.map(item => item.impressions)) }}\n}",
+              "type": "object"
+            },
+            {
+              "id": "740af1d0-49fa-4e32-b1fb-2b3ed16a5bc9",
+              "name": "reachObj",
+              "value": "={\n \"reach\": {{ JSON.stringify($('Switch Slides').first().json.adsets.map(item => item.reach)) }}\n}",
+              "type": "object"
+            },
+            {
+              "id": "cca1a786-657d-4cba-8d71-317cc12c9bbe",
+              "name": "linkClicksObj",
+              "value": "={\n \"linkClicks\": {{ JSON.stringify($('Switch Slides').first().json.adsets.map(item => item.linkClicks)) }}\n}",
+              "type": "object"
+            },
+            {
+              "id": "9c289cc9-026f-40cf-a353-d704a1b95dbf",
+              "name": "costPerLinkClickObj",
+              "value": "={\n \"costPerLinkClick\": {{ JSON.stringify($('Switch Slides').first().json.adsets.map(item => item.costPerLinkClick)) }}\n}",
+              "type": "object"
+            },
+            {
+              "id": "1adb4482-29d6-4aab-9be6-56cd39493afe",
+              "name": "avgCpmObj",
+              "value": "={\n \"avgCpm\": {{ JSON.stringify($('Switch Slides').first().json.adsets.map(item => item.avgCpm)) }}\n}",
+              "type": "object"
+            },
+            {
+              "id": "c8d2d8c7-7a23-4858-8e6d-5a4c57168c0a",
+              "name": "totalLeadsObj",
+              "value": "={\n \"totalLeads\": {{ JSON.stringify($('Switch Slides').first().json.adsets.map(item => item.totalLeads)) }}\n}",
+              "type": "object"
+            },
+            {
+              "id": "f2b94a3b-4fda-46d2-adc2-acb17f777056",
+              "name": "costPerLeadObj",
+              "value": "={\n \"costPerLead\": {{ JSON.stringify($('Switch Slides').first().json.adsets.map(item => item.costPerLead)) }}\n}",
+              "type": "object"
+            },
+            {
+              "id": "99320294-7ed0-40ce-8933-207e45ac3bf9",
+              "name": "amountSpendObj",
+              "value": "={\n \"amountSpend\": {{ JSON.stringify($('Switch Slides').first().json.adsets.map(item => item.amountSpend)) }}\n}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3220,
+        780
+      ],
+      "id": "5a665224-acf7-45ef-a767-d8ef91bcc82c",
+      "name": "Dimension & Metrics Array Wrapped Into Object2"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    \"type\": \"bar\",\n    \"data\": {\n      \"labels\": $input.first().json.adsetNameValue,\n      \"datasets\": [\n        {\n          \"type\": \"bar\",\n          \"label\": $input.first().json.impressionsKey,\n          \"borderColor\": \"rgb(54, 162, 235)\",\n          \"borderWidth\": 2,\n          \"fill\": false,\n          \"data\": $input.first().json.impressionsValue\n        },\n        {\n          \"type\": \"bar\",\n          \"label\": $input.first().json.reachKey,\n          \"backgroundColor\": \"rgb(255, 99, 132)\",\n          \"data\": $input.first().json.reachValue,\n          \"borderColor\": \"white\",\n          \"borderWidth\": 2\n        },\n        {\n          \"type\": \"bar\",\n          \"label\": $input.first().json.linkClicksKey,\n          \"backgroundColor\": \"rgb(75, 192, 192)\",\n          \"data\": $input.first().json.linkClicksValue,\n          \"borderColor\": \"white\",\n          \"borderWidth\": 2\n        }        \n      ]\n    },\n    \"options\": {\n      \"responsive\": true,\n      \"title\": {\n        \"display\": true,\n        \"text\": \"ADSET LEVEL \" + $input.first().json.impressionsKey.toUpperCase() + \" - \" + $input.first().json.reachKey.toLocaleUpperCase() + \" - \" + $input.first().json.linkClicksKey.toLocaleUpperCase() + \" COMPARISON CHART\"\n      },\n      \"tooltips\": {\n        \"mode\": \"index\",\n        \"intersect\": true\n      }\n    }\n  }\n];"
+      },
+      "id": "244e44bd-f642-4f74-8dad-bdb39834928a",
+      "name": "Plotting4",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3760,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://quickchart.io/chart?chart={{ $json[\"plot\"] }}&backgroundColor=white&width=600&height=400&devicePixelRatio=1.0&format=png&version=2.9.3&encoding=base64",
+        "options": {}
+      },
+      "id": "0fd39ecc-21bf-43b5-bf74-9002c5812d41",
+      "name": "HTTP Request4",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        4200,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const plot = JSON.stringify($input.first().json);\n\nreturn {\n  plot: Buffer.from(plot).toString('base64')\n};"
+      },
+      "id": "926e7557-7f68-4228-ab85-e3db72386300",
+      "name": "Base64 encoded plot4",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3960,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2960,
+        1000
+      ],
+      "id": "3c8cf1ee-75f4-466b-b40c-00025d0370e0",
+      "name": "OpenAI Chat Model4",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "text": "=Query for the array of `adsetName` value and shorten the string value with the last phrase that spited with the \"-\" separator.\n {{ $('Switch Slides').item.json.adsets.map(item => item.adsetName) }}",
+        "attributes": {
+          "attributes": [
+            {
+              "name": "adsetName1",
+              "description": "The shorten adsetName1 generated"
+            },
+            {
+              "name": "adsetName2",
+              "description": "The shorten adsetName2 generated"
+            }
+          ]
+        },
+        "options": {
+          "systemPromptTemplate": "You are an expert extraction algorithm.\nOnly extract relevant information from the text.\nIf you do not know the value of an attribute asked to extract, you may omit the attribute's value."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.1,
+      "position": [
+        2880,
+        780
+      ],
+      "id": "b11f2e29-63b3-445a-b3fe-20c0d7fd2d6d",
+      "name": "Information Extractor2"
+    },
+    {
+      "parameters": {
+        "name": "={{ $now.format('yyyy-MM-dd') }} - {{ $('Switch Slides').item.json.month }}{{ $('Switch Slides').item.json.year }} - {{ $('Switch Slides').item.json.slideName }} {{ $('Edit Fields2').item.json.impressionsKey.toSentenceCase() }} & {{ $('Edit Fields2').item.json.reachKey.toSentenceCase() }}{{ $binary.data.fileName.toSentenceCase() }}.{{ $binary.data.fileExtension }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1mBy2ObYsaqe3_s4qjJ-8k4RsE3jQud6q",
+          "mode": "list",
+          "cachedResultName": "N8N_AI_Agent_GSlides_Generator",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1mBy2ObYsaqe3_s4qjJ-8k4RsE3jQud6q"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        4420,
+        600
+      ],
+      "id": "e26ce27e-bac2-4314-8468-2cf59f1c5dc1",
+      "name": "Google Drive4",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    \"type\": \"bar\",\n    \"data\": {\n      \"labels\": $input.first().json.adsetNameValue,\n      \"datasets\": [\n        {\n          \"type\": \"bar\",\n          \"label\": $input.first().json.avgCpmKey,\n          \"borderColor\": \"rgb(54, 162, 235)\",\n          \"borderWidth\": 2,\n          \"fill\": false,\n          \"data\": $input.first().json.avgCpmValue\n        },\n        {\n          \"type\": \"bar\",\n          \"label\": $input.first().json.totalLeadsKey,\n          \"backgroundColor\": \"rgb(255, 99, 132)\",\n          \"data\": $input.first().json.totalLeadsValue,\n          \"borderColor\": \"white\",\n          \"borderWidth\": 2\n        },\n        {\n          \"type\": \"bar\",\n          \"label\": $input.first().json.costPerLeadKey,\n          \"backgroundColor\": \"rgb(75, 192, 192)\",\n          \"data\": $input.first().json.costPerLeadValue,\n          \"borderColor\": \"white\",\n          \"borderWidth\": 2\n        }\n      ]\n    },\n    \"options\": {\n      \"responsive\": true,\n      \"title\": {\n        \"display\": true,\n        \"text\": \"ADSET LEVEL \" + $input.first().json.avgCpmKey.toUpperCase() + \" - \" + $input.first().json.totalLeadsKey.toLocaleUpperCase() + \" - \" + $input.first().json.costPerLeadKey.toLocaleUpperCase() + \" COMPARISON CHART\"\n      },\n      \"tooltips\": {\n        \"mode\": \"index\",\n        \"intersect\": true\n      }\n    }\n  }\n];"
+      },
+      "id": "694678e8-8c9b-42d1-8feb-bd62aafbbba4",
+      "name": "Plotting5",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3740,
+        860
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://quickchart.io/chart?chart={{ $json[\"plot\"] }}&backgroundColor=white&width=600&height=400&devicePixelRatio=1.0&format=png&version=2.9.3&encoding=base64",
+        "options": {}
+      },
+      "id": "c5221a44-7284-46dc-965d-968e2a55e381",
+      "name": "HTTP Request5",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        4180,
+        860
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const plot = JSON.stringify($input.first().json);\n\nreturn {\n  plot: Buffer.from(plot).toString('base64')\n};"
+      },
+      "id": "bd874713-53b7-47d1-a8c7-e1e60b429bef",
+      "name": "Base64 encoded plot5",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3940,
+        860
+      ]
+    },
+    {
+      "parameters": {
+        "name": "={{ $now.format('yyyy-MM-dd') }} - {{ $('Switch Slides').first().json.month }}{{ $('Switch Slides').first().json.year }} - {{ $('Switch Slides').first().json.slideName }} {{ $('Edit Fields2').first().json.avgCpmKey.toSentenceCase() }} - {{ $('Edit Fields2').first().json.totalLeadsKey.toSentenceCase() }} - {{ $('Edit Fields2').first().json.costPerLeadKey.toSentenceCase() }} {{ $binary.data.fileName.toSentenceCase() }}.{{ $binary.data.fileExtension }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1mBy2ObYsaqe3_s4qjJ-8k4RsE3jQud6q",
+          "mode": "list",
+          "cachedResultName": "N8N_AI_Agent_GSlides_Generator",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1mBy2ObYsaqe3_s4qjJ-8k4RsE3jQud6q"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        4440,
+        860
+      ],
+      "id": "07fe2b28-c4a9-4045-8ed3-4ad2ed7a49fa",
+      "name": "Google Drive5",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Google Drive Trigger": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Read Agent Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "Search For Client Logo": {
+      "main": [
+        [
+          {
+            "node": "Set All Agent Inputs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search For Report Deck Template": {
+      "main": [
+        [
+          {
+            "node": "Duplicate New Deck From Template",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Agent Input": {
+      "main": [
+        [
+          {
+            "node": "Search For Report Deck Template",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set All Agent Inputs": {
+      "main": [
+        [
+          {
+            "node": "Report Data Restructuring Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "overview_report_retriever": {
+      "ai_tool": [
+        [
+          {
+            "node": "Report Data Restructuring Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ad_level_data_retriever": {
+      "ai_tool": [
+        [
+          {
+            "node": "Report Data Restructuring Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "campaign_level_data_retriever": {
+      "ai_tool": [
+        [
+          {
+            "node": "Report Data Restructuring Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "adset_level_data_retriever": {
+      "ai_tool": [
+        [
+          {
+            "node": "Report Data Restructuring Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Report Data Restructuring Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Duplicate New Deck From Template": {
+      "main": [
+        [
+          {
+            "node": "Search For Client Logo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Report Data Restructuring Agent": {
+      "main": [
+        [
+          {
+            "node": "Data Mapping Agent Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "slide_object_id_retriever": {
+      "ai_tool": [
+        [
+          {
+            "node": "Report Data Restructuring Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Data Mapping Agent Input": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Switch Slides",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Slides": {
+      "main": [
+        [
+          {
+            "node": "Slide 1 Page Object ID",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Slide 2 Page Object ID",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Slide 3 Page Object ID",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Slide 4 Page Object ID",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Slide 5 Page Object ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Google Slides5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Slides10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Google Slides7",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Slides11",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Slides12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slide 1 Page Object ID": {
+      "main": [
+        [
+          {
+            "node": "Text Replacement For Slide 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slide 2 Page Object ID": {
+      "main": [
+        [
+          {
+            "node": "Text Replacement For Slide 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slide 3 Page Object ID": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slide 4 Page Object ID": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slide 5 Page Object ID": {
+      "main": [
+        [
+          {
+            "node": "Switch2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch2": {
+      "main": [
+        [
+          {
+            "node": "Google Slides",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Slides13",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Slides14",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Slides15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Slides11": {
+      "main": [
+        [
+          {
+            "node": "Information Extractor1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Slides5": {
+      "main": [
+        []
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Plotting1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Plotting",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dimension & Metrics Array Wrapped Into Object1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Plotting1": {
+      "main": [
+        [
+          {
+            "node": "Base64 encoded plot1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Base64 encoded plot1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Information Extractor1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Information Extractor1": {
+      "main": [
+        [
+          {
+            "node": "Dimension & Metrics Array Wrapped Into Object1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Plotting": {
+      "main": [
+        [
+          {
+            "node": "Base64 encoded plot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Google Drive1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Base64 encoded plot": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Plotting2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Plotting3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dimension & Metrics Array Wrapped Into Object": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Plotting2": {
+      "main": [
+        [
+          {
+            "node": "Base64 encoded plot2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "Google Drive2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Base64 encoded plot2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Information Extractor": {
+      "main": [
+        [
+          {
+            "node": "Dimension & Metrics Array Wrapped Into Object",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Plotting3": {
+      "main": [
+        [
+          {
+            "node": "Base64 encoded plot3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "Google Drive3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Base64 encoded plot3": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Slides7": {
+      "main": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Plotting4",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Plotting5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Dimension & Metrics Array Wrapped Into Object2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Plotting4": {
+      "main": [
+        [
+          {
+            "node": "Base64 encoded plot4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request4": {
+      "main": [
+        [
+          {
+            "node": "Google Drive4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Base64 encoded plot4": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Information Extractor2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Information Extractor2": {
+      "main": [
+        [
+          {
+            "node": "Dimension & Metrics Array Wrapped Into Object2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Plotting5": {
+      "main": [
+        [
+          {
+            "node": "Base64 encoded plot5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request5": {
+      "main": [
+        [
+          {
+            "node": "Google Drive5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Base64 encoded plot5": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Slides12": {
+      "main": [
+        [
+          {
+            "node": "Information Extractor2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Google Drive Trigger": [
+      {
+        "json": {
+          "exportLinks": {
+            "application/x-vnd.oasis.opendocument.spreadsheet": "https://docs.google.com/spreadsheets/export?id=1RPgpsthUj-Bq9bNChiF22tysJbAdq1qxL5yoobaLQTE&exportFormat=ods",
+            "text/tab-separated-values": "https://docs.google.com/spreadsheets/export?id=1RPgpsthUj-Bq9bNChiF22tysJbAdq1qxL5yoobaLQTE&exportFormat=tsv",
+            "application/pdf": "https://docs.google.com/spreadsheets/export?id=1RPgpsthUj-Bq9bNChiF22tysJbAdq1qxL5yoobaLQTE&exportFormat=pdf",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "https://docs.google.com/spreadsheets/export?id=1RPgpsthUj-Bq9bNChiF22tysJbAdq1qxL5yoobaLQTE&exportFormat=xlsx",
+            "text/csv": "https://docs.google.com/spreadsheets/export?id=1RPgpsthUj-Bq9bNChiF22tysJbAdq1qxL5yoobaLQTE&exportFormat=csv",
+            "application/zip": "https://docs.google.com/spreadsheets/export?id=1RPgpsthUj-Bq9bNChiF22tysJbAdq1qxL5yoobaLQTE&exportFormat=zip",
+            "application/vnd.oasis.opendocument.spreadsheet": "https://docs.google.com/spreadsheets/export?id=1RPgpsthUj-Bq9bNChiF22tysJbAdq1qxL5yoobaLQTE&exportFormat=ods"
+          },
+          "parents": [
+            "1mBy2ObYsaqe3_s4qjJ-8k4RsE3jQud6q"
+          ],
+          "lastModifyingUser": {
+            "displayName": "Boon Hong Tan",
+            "kind": "drive#user",
+            "me": true,
+            "permissionId": "16119974313260223319",
+            "emailAddress": "boonhong.tan0309@gmail.com",
+            "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocIf1V9EvJ526ndZ554mrrklqNW83nxRWYacRmG9tQizXajS7w=s64"
+          },
+          "owners": [
+            {
+              "displayName": "Boon Hong Tan",
+              "kind": "drive#user",
+              "me": true,
+              "permissionId": "16119974313260223319",
+              "emailAddress": "boonhong.tan0309@gmail.com",
+              "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocIf1V9EvJ526ndZ554mrrklqNW83nxRWYacRmG9tQizXajS7w=s64"
+            }
+          ],
+          "permissions": [
+            {
+              "kind": "drive#permission",
+              "id": "16119974313260223319",
+              "type": "user",
+              "emailAddress": "boonhong.tan0309@gmail.com",
+              "role": "owner",
+              "displayName": "Boon Hong Tan",
+              "photoLink": "https://lh3.googleusercontent.com/a/ACg8ocIf1V9EvJ526ndZ554mrrklqNW83nxRWYacRmG9tQizXajS7w=s64",
+              "deleted": false,
+              "pendingOwner": false
+            }
+          ],
+          "spaces": [
+            "drive"
+          ],
+          "capabilities": {
+            "canAcceptOwnership": false,
+            "canAddChildren": false,
+            "canAddMyDriveParent": false,
+            "canChangeCopyRequiresWriterPermission": true,
+            "canChangeSecurityUpdateEnabled": false,
+            "canChangeViewersCanCopyContent": true,
+            "canComment": true,
+            "canCopy": true,
+            "canDelete": true,
+            "canDisableInheritedPermissions": false,
+            "canDownload": true,
+            "canEdit": true,
+            "canEnableInheritedPermissions": true,
+            "canListChildren": false,
+            "canModifyContent": true,
+            "canModifyContentRestriction": true,
+            "canModifyEditorContentRestriction": true,
+            "canModifyOwnerContentRestriction": true,
+            "canModifyLabels": false,
+            "canMoveChildrenWithinDrive": false,
+            "canMoveItemIntoTeamDrive": true,
+            "canMoveItemOutOfDrive": true,
+            "canMoveItemWithinDrive": true,
+            "canReadLabels": false,
+            "canReadRevisions": true,
+            "canRemoveChildren": false,
+            "canRemoveContentRestriction": false,
+            "canRemoveMyDriveParent": true,
+            "canRename": true,
+            "canShare": true,
+            "canTrash": true,
+            "canUntrash": true
+          },
+          "permissionIds": [
+            "16119974313260223319"
+          ],
+          "linkShareMetadata": {
+            "securityUpdateEligible": false,
+            "securityUpdateEnabled": true
+          },
+          "kind": "drive#file",
+          "id": "1RPgpsthUj-Bq9bNChiF22tysJbAdq1qxL5yoobaLQTE",
+          "name": "N8N_AI_Agent-MetaAds_GSlide_Report_Deck_Demo",
+          "mimeType": "application/vnd.google-apps.spreadsheet",
+          "starred": false,
+          "trashed": false,
+          "explicitlyTrashed": false,
+          "version": "23",
+          "webViewLink": "https://docs.google.com/spreadsheets/d/1RPgpsthUj-Bq9bNChiF22tysJbAdq1qxL5yoobaLQTE/edit?usp=drivesdk",
+          "iconLink": "https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.google-apps.spreadsheet",
+          "hasThumbnail": true,
+          "thumbnailLink": "https://lh3.googleusercontent.com/drive-storage/AJQWtBNP3rxeAHLBzRj4d8qAeKXJE4c-CWMGiU7CyMVz2uy4a6iA4Q7RfmptZDK379UWiHgzHFp3T75G63uFgh5cdkJfqhhqt9Nf9aEs5-SmVVQB3wqj6Vwbz1ijUEIs=s220",
+          "thumbnailVersion": "11",
+          "viewedByMe": true,
+          "viewedByMeTime": "2025-05-24T03:24:44.784Z",
+          "createdTime": "2025-05-23T10:22:40.949Z",
+          "modifiedTime": "2025-05-24T03:24:44.784Z",
+          "modifiedByMeTime": "2025-05-24T03:24:44.784Z",
+          "modifiedByMe": true,
+          "shared": false,
+          "ownedByMe": true,
+          "viewersCanCopyContent": true,
+          "copyRequiresWriterPermission": false,
+          "writersCanShare": true,
+          "size": "1024",
+          "quotaBytesUsed": "1024",
+          "isAppAuthorized": false,
+          "inheritedPermissionsDisabled": false
+        }
+      }
+    ],
+    "Duplicate New Deck From Template": [
+      {
+        "json": {
+          "kind": "drive#file",
+          "id": "19QXowrB0bwJ0DFSmIr_3S-IR2if1GTtjjGW2O7Bd35M",
+          "name": "[May 2025]- KPJ Ipoh Specialist - MetaAds - Monthly Ad Report",
+          "mimeType": "application/vnd.google-apps.presentation"
+        }
+      }
+    ],
+    "Report Data Restructuring Agent": [
+      {
+        "json": {
+          "output": "{\n  \"json\": [\n    {\n      \"slideNumber\": 1,\n      \"objectId\": \"g35d1721b722_0_437\",\n      \"slideName\": \"Introduction\",\n      \"month\": \"May\",\n      \"year\": \"2025\",\n      \"clientName\": \"KPJ Ipoh Specialist\",\n      \"clientLogo\": \"https://drive.google.com/uc?id=1AgnhBwK34z7V_2VBpRBdX3loNa5zi2vf&export=download\"\n    },\n    {\n      \"slideNumber\": 2,\n      \"objectId\": \"g35d1721b722_0_1336\",\n      \"slideName\": \"Overview Report\",\n      \"month\": \"May\",\n      \"year\": \"2025\",\n      \"engagement\": {\n        \"linkClick\": 1298,\n        \"LinkClickCtr\": 2.66,\n        \"costPerLinkClick\": 0.6\n      },\n      \"visibility\": {\n        \"impressions\": 48768,\n        \"reach\": 21052,\n        \"avgCpm\": 15.96\n      },\n      \"conversion\": {\n        \"totalLeads\": 81,\n        \"costPerLead\": 9.61,\n        \"amountSpend\": 778.41\n      }\n    },\n    {\n      \"slideNumber\": 3,\n      \"objectId\": \"g35d1721b722_0_1410\",\n      \"slideName\": \"Campaign Level Report\",\n      \"month\": \"May\",\n      \"year\": \"2025\",\n      \"campaigns\": [\n        {\n          \"campaignName\": \"13052025 - May25 - KPJ Ipoh - LeadGen - EyeSpecialist - V1\",\n          \"impressions\": 48768,\n          \"reach\": 21052,\n          \"linkClicks\": 1298,\n          \"linkClickCtr\": 2.66,\n          \"avgCpm\": 15.96,\n          \"totalLeads\": 81,\n          \"costPerLead\": 9.61,\n          \"amountSpend\": 778.41\n        }\n      ],\n      \"campaignStatsChartUrl\": \"https://quickchart.io/chart?c={type:'bar',data:{labels:['May'],datasets:[{label:'Amount Spent',data:[778.41]},{label:'Impressions',data:[48768]},{label:'Leads',data:[81]}]}}\"\n    },\n    {\n      \"slideNumber\": 4,\n      \"objectId\": \"g35d28488740_0_1\",\n      \"slideName\": \"Adset Level Report\",\n      \"month\": \"May\",\n      \"year\": \"2025\",\n      \"adsets\": [\n        {\n          \"adsetName\": \"[TOFU] LOC-Perak(Taiping,Ipoh,TelukIntan) - Generic - Healthcare&Wellness\",\n          \"impressions\": 19899,\n          \"reach\": 11042,\n          \"linkClicks\": 608,\n          \"linkClickCtr\": 3.06,\n          \"costPerLinkClick\": 0.57,\n          \"avgCpm\": 17.34,\n          \"totalLeads\": 30,\n          \"costPerLead\": 11.5,\n          \"amountSpend\": 345.04\n        },\n        {\n          \"adsetName\": \"[TOFU] LOC-Perak(Taiping+Ipoh+TelukIntan) - ENG - Modern Healthcare(Interest)\",\n          \"impressions\": 21348,\n          \"reach\": 11954,\n          \"linkClicks\": 558,\n          \"linkClickCtr\": 2.61,\n          \"costPerLinkClick\": 0.63,\n          \"avgCpm\": 16.49,\n          \"totalLeads\": 36,\n          \"costPerLead\": 9.78,\n          \"amountSpend\": 352.11\n        }\n      ],\n      \"adsetStatsChartUrl\": \"https://quickchart.io/chart?c={type:'bar',data:{labels:['Generic','Modern Healthcare'],datasets:[{label:'Impressions',data:[19899,21348]},{label:'Leads',data:[30,36]}]}}\"\n    },\n    {\n      \"slideNumber\": 5,\n      \"objectId\": \"g35d28488740_0_10\",\n      \"slideName\": \"Ad Level Report\",\n      \"month\": \"May\",\n      \"year\": \"2025\",\n      \"ads\": [\n        {\n          \"adName\": \"Single Image - Elderly Patient Cataract Surgery\",\n          \"adImage\": \"https://scontent-fra3-1.xx.fbcdn.net/v/t45.1600-4/497347664_2495155420882997_8855483160795429023_n.jpg?_nc_cat=105&ccb=1-7&_nc_ohc=00EC5S6vpm4Q7kNvwFR4vyC&_nc_oc=Adkmq0RkG9uXwGoyj4gYZc4IReySGpIMM0CnxRiWx1Jthb2DGExAsMy95B7Yuv_WFUg&_nc_zt=1&_nc_ht=scontent-fra3-1.xx&edm=AAT1rw8EAAAA&_nc_gid=2EH2ggfd4jfYvCcpYq5Gpg&stp=c0.5000x0.5000f_dst-emg0_p500x500_q75_tt6&ur=4c02d7&_nc_sid=58080a&oh=00_AfIKIggJaM2Pny2tP-VS3TuKLB5G1g38KMClYCMRu7yMrw&oe=68352A4F\",\n          \"adText\": \"Help Your Aging Parents Regain Independence! 🌞 \\n\\n Cataracts affecting their daily life? KPJ Ipoh Specialist offers safe & affordable cataract lens placement surgery. \\n ✅Trusted expertise \\n ✅Advanced procedures \\n ✅Affordable options \\n\\n Give them the gift of clear vision & a brighter future. Book a consultation today!\",\n          \"impressions\": 3829,\n          \"reach\": 3047,\n          \"linkClicks\": 160,\n          \"linkClickCtr\": 4.18,\n          \"costPerLinkClick\": 0.52,\n          \"avgCpm\": 21.90\n        },\n        {\n          \"adName\": \"Single Image - Elderly Patient Cataract Surgery – Copy\",\n          \"adImage\": \"https://scontent-fra3-1.xx.fbcdn.net/v/t45.1600-4/497347664_2495155420882997_8855483160795429023_n.jpg?_nc_cat=105&ccb=1-7&_nc_ohc=00EC5S6vpm4Q7kNvwFR4vyC&_nc_oc=Adkmq0RkG9uXwGoyj4gYZc4IReySGpIMM0CnxRiWx1Jthb2DGExAsMy95B7Yuv_WFUg&_nc_zt=1&_nc_ht=scontent-fra3-1.xx&edm=AAT1rw8EAAAA&_nc_gid=W_NFBQkHpce0X-39wgkrlw&stp=c0.5000x0.5000f_dst-emg0_p500x500_q75_tt6&ur=4c02d7&_nc_sid=58080a&oh=00_AfIajh9JkkOYqttMNkWAtuAzs4vVFUeh2Vp6aj0f-OiFgw&oe=68352A4F\",\n          \"adText\": \"Is your elderly parent struggling with cataracts? \\nEveryday life can be a challenge, impacting their independence & well-being. \\n\\nKPJ Ipoh Specialist offers safe & affordable lens placement surgery to restore clear vision! \\n• Trusted expertise\\n• Advanced procedures\\n• Affordable options\\n\\nGive them the gift of clear vision - book a consultation today and brighten their future\",\n          \"impressions\": 4207,\n          \"reach\": 2940,\n          \"linkClicks\": 170,\n          \"linkClickCtr\": 4.04,\n          \"costPerLinkClick\": 0.64,\n          \"avgCpm\": 25.87\n        },\n        {\n          \"adName\": \"Single Image - Female Patient LASIK Surgery\",\n          \"adImage\": \"https://external-fra3-2.xx.fbcdn.net/emg1/v/t13/12191663784641058689?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQLqdeess7sTXD8Kkz7uPXD0hsr4xVTwEvDhuBXY83E79MdF5Nu_-GNAgSPIIWYLlCd07gJjwhggw5cJxEeoADVLui3jo_PDAuZSXY_ij9ijW4oufoepO6Z9lQVPIAU8MukJJf0ZWAQHU0IxBIb1utRH&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p500x500_q75_tt6&edm=AAT1rw8EAAAA&_nc_gid=3m_SHzszBxxZcibJcWzbnA&_nc_oc=Adm8spgJqOsSG9b5cG8FUIV_tP73H3s_EYP-5XDk-2NEtgGOhbsSbN5d_W2bdE2sKos&ccb=13-1&oh=06_Q3-zAaDzrXyNhC3_XUSaxC4KpP_C_OwkRvtdezzKr2pAfKVs&oe=683105A2&_nc_sid=58080a\",\n          \"adText\": \"👁️ Are blurry days holding you back? Struggling with glasses that slip down, contacts that irritate, or simply feeling like you're missing out on life’s vibrant details? 🌈 It doesn’t have to be this way. \\n\\n At KPJ Ipoh Specialist Hospital 🏥, we offer a second chance for your eyes—a safe and trusted LASIK procedure designed just for YOU.  \\n ✅ Affordable & Accessible – Quality care at prices you can trust \\n ✅ Safe Technology – Advanced equipment handled by experts 👩‍⚕️\\n ✅ Life-Changing Results – Freedom from eyewear starts now 🎉 \\n\\n 💡 Don’t let poor vision hold you back another day. This is YOUR opportunity to rejuvenate your eyesight—and reclaim all those precious missed moments!\",\n          \"impressions\": 17519,\n          \"reach\": 9688,\n          \"linkClicks\": 398,\n          \"linkClickCtr\": 2.27,\n          \"costPerLinkClick\": 0.67,\n          \"avgCpm\": 15.31\n        },\n        {\n          \"adName\": \"Single Image - Female Patient LASIK Surgery – Copy\",\n          \"adImage\": \"https://external-fra3-2.xx.fbcdn.net/emg1/v/t13/3053361011152595358?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQLZhNaJSMXSIQyMCflphQoIEbcfL63Lj6zie5iX3XJRm2DuerDMFZ2XGyZZiO3RbyAXcpwYcF5nCowAqMSV2UWRCe_CoL28BliwG3ELKQ3MI6zzICIJaNFU7P3OC7b9ZjC8SzGYhiqLNicviG7pGrQ2&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p500x500_q75_tt6&edm=AAT1rw8EAAAA&_nc_gid=MbzNPQvBNtzGgIOVy0Ng3w&_nc_oc=AdmOTEn7ZBkUw2PGAiJZkS5y6cTFCM2ubEAvMnWwaEAQP04dTkRQLaSkcWAVTj3veiY&ccb=13-1&oh=06_Q3-zAUg4bHTx9gLkTt2ssWFvaVHFlU4njVMC47A4-QOZpjlb&oe=68312A18&_nc_sid=58080a\",\n          \"adText\": \"Are blurry screens 📱📺 and squinting struggles keeping you stuck in frustration? \\nDo slippery glasses 😖 or endless contact lens routines feel like they’ve taken over your daily life?\\n\\nIt’s time for something better—it’s time to REJUVENATE 🔄✨ what you've been missing!\\n🔬 At KPJ Ipoh Specialist Hospital:\\nWe deliver expert-guided LASIK surgery tailored uniquely FOR YOU.\\n\\n💪 Imagine this SECOND CHANCE—you’ll wake up tomorrow seeing sharper edges ✂️\",\n          \"impressions\": 15692,\n          \"reach\": 8801,\n          \"linkClicks\": 438,\n          \"linkClickCtr\": 2.79,\n          \"costPerLinkClick\": 0.54,\n          \"avgCpm\": 15.05\n        }\n      ]\n    }\n  ]\n}"
+        }
+      }
+    ]
+  },
+  "versionId": "c52a86eb-e4b9-403f-9939-2e3d9e9a94fa",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-05-24T03:17:25.399Z",
+      "createdAt": "2025-05-24T03:17:25.399Z",
+      "role": "workflow:owner",
+      "workflowId": "4XSmYH89bQgSjmJq",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
