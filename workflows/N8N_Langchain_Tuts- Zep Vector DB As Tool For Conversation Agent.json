@@ -1,0 +1,221 @@
+{
+  "updatedAt": "2024-03-16T14:21:11.000Z",
+  "createdAt": "2024-03-16T09:20:24.611Z",
+  "id": "L7s4Q1wR9yOEBIYn",
+  "name": "N8N_Langchain_Tuts- Zep Vector DB As Tool For Conversation Agent",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.query }}"
+      },
+      "id": "2d96a1e9-9518-4dfe-bb21-8c7918b73cf0",
+      "name": "Question and Answer Chain",
+      "type": "@n8n/n8n-nodes-langchain.chainRetrievalQa",
+      "typeVersion": 1.3,
+      "position": [
+        980,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "options": {
+          "maxTokens": 600,
+          "temperature": 0.6
+        }
+      },
+      "id": "23184711-1bac-4d16-956b-dafa0bd43990",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        980,
+        380
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAi account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "70554677-268b-42d4-94bb-c9a0a374c06e",
+      "name": "Vector Store Retriever",
+      "type": "@n8n/n8n-nodes-langchain.retrieverVectorStore",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "modelName": "sentence-transformers/sentence-t5-large",
+        "options": {}
+      },
+      "id": "43064a1a-1013-4b3b-9803-37303cd90bb9",
+      "name": "HuggingFace Embeddings1",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsHuggingFaceInference",
+      "typeVersion": 1,
+      "position": [
+        1400,
+        760
+      ],
+      "credentials": {
+        "huggingFaceApi": {
+          "id": "VJTEwDYcrZRgt7pf",
+          "name": "HuggingFaceApi - info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "collectionName": "n8ntuts1",
+        "options": {
+          "embeddingDimensions": 768
+        }
+      },
+      "id": "82b65e7f-0cf3-4b40-91da-250d17eba7bc",
+      "name": "Zep Vector Store (Load)",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreZep",
+      "typeVersion": 1,
+      "position": [
+        1240,
+        580
+      ],
+      "credentials": {
+        "zepApi": {
+          "id": "zCsbfnAJO9E7Q6b9",
+          "name": "Zep API Key-zep.automessenger.me"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "660a0821-a56c-4a6f-81ad-75a4eae843ec",
+      "name": "Execute Workflow",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        720,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7982b444-8a94-4bc6-a8af-426e7578a9c0",
+              "name": "response",
+              "value": "={{ $json.response.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "39924c26-738e-4e47-8efe-8280e67d2fd8",
+      "name": "Get ChatModel Response",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1380,
+        140
+      ]
+    }
+  ],
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Question and Answer Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vector Store Retriever": {
+      "ai_retriever": [
+        [
+          {
+            "node": "Question and Answer Chain",
+            "type": "ai_retriever",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HuggingFace Embeddings1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Zep Vector Store (Load)",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Zep Vector Store (Load)": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Vector Store Retriever",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Workflow": {
+      "main": [
+        [
+          {
+            "node": "Question and Answer Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Question and Answer Chain": {
+      "main": [
+        [
+          {
+            "node": "Get ChatModel Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "eddb3aff-d207-41f3-829c-1e502b8f183d",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-03-16T09:20:24.634Z",
+      "createdAt": "2024-03-16T09:20:24.634Z",
+      "role": "workflow:owner",
+      "workflowId": "L7s4Q1wR9yOEBIYn",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
