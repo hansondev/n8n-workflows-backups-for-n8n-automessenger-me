@@ -1,0 +1,441 @@
+{
+  "updatedAt": "2025-06-12T02:39:37.000Z",
+  "createdAt": "2025-06-11T15:34:53.087Z",
+  "id": "7NXXpiyf4DLXggv0",
+  "name": "[DEVELOPMENT] - Using UploadPost API Publish Posts In Tiktok & Facebook from Google Drive",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "bacd65fd-22bb-4cfd-87b4-3749b50c0753",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "TikTok Demo Videos",
+        "filter": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        220,
+        0
+      ],
+      "id": "010c65e6-0cb0-41d1-a72e-f6a97d0d8b46",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "SMT",
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "={{ $json.id }}",
+            "mode": "id"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        440,
+        0
+      ],
+      "id": "38c55071-eda1-4fb0-94c4-6d87903e7287",
+      "name": "Google Drive1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        660,
+        0
+      ],
+      "id": "805c1215-42b5-4e55-b2c9-1132423a6f41",
+      "name": "Google Drive2",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "id": "6d88be93-4af4-45fb-8269-c8c117ca9955",
+      "name": "Get Audio from Video",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "position": [
+        1220,
+        0
+      ],
+      "notesInFlow": true,
+      "retryOnFail": true,
+      "typeVersion": 1,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      },
+      "notes": "Extract the audio from video for generate the description"
+    },
+    {
+      "parameters": {
+        "fileName": "={{ $json.id || $json.data[0].id }}",
+        "options": {}
+      },
+      "id": "4ea97dea-a765-4322-8368-70f9328fd698",
+      "name": "Read video from Google Drive",
+      "type": "n8n-nodes-base.writeBinaryFile",
+      "position": [
+        940,
+        0
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o",
+          "cachedResultName": "GPT-4O"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "You are an expert assistant in creating engaging social media video titles.",
+              "role": "system"
+            },
+            {
+              "content": "=I'm going to upload a video to social media. Here are some examples of descriptions that have worked well on Instagram:\n\nFollow and save for later. Discover InfluencersDe, the AI tool that automates TikTok creation and publishing to drive traffic to your website. Perfect for entrepreneurs and brands.\n#digitalmarketing #ugc #tiktok #ai #influencersde #contentcreation\n\nDiscover the video marketing revolution with InfluencersDe!\n.\n.\n.\n#socialmedia #videomarketing #ai #tiktok #influencersde #growthhacking\n\nDon't miss InfluencersDe, the tool that transforms your marketing strategy with just one click!\n.\n.\n.\n#ugc #ai #tiktok #digitalmarketing #influencersde #branding\n\nCan you create another title for the Instagram post based on this recognized audio from the video?\n\nAudio: {{ $('Get Audio from Video').item.json.text }}\n\nIMPORTANT: Reply only with the description, don't add anything else."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "27c77049-9215-4de4-a644-eb99d2085c42",
+      "name": "Generate Description for Videos  in Tiktok and Instagram",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "position": [
+        1420,
+        0
+      ],
+      "notesInFlow": true,
+      "retryOnFail": true,
+      "typeVersion": 1.4,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      },
+      "notes": "Request to OpenAi for generate description with the audio extracted from the video"
+    },
+    {
+      "parameters": {
+        "filePath": "={{ $('Read video from Google Drive').first().json.fileName.replaceAll(\" \", \"_\") }}",
+        "dataPropertyName": "datavideo"
+      },
+      "id": "b824feae-ea57-4b75-bb6d-51c035fbcc39",
+      "name": "Read Video from Google Drive",
+      "type": "n8n-nodes-base.readBinaryFile",
+      "position": [
+        1860,
+        0
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.upload-post.com/api/upload",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "title",
+              "value": "={{ $('Generate Description for Videos  in Tiktok and Instagram').item.json.message.content.replaceAll(\"\\\"\", \"\") }}"
+            },
+            {
+              "name": "platform[]",
+              "value": "tiktok"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "video",
+              "inputDataFieldName": "datavideo"
+            },
+            {
+              "name": "user",
+              "value": "hansontan"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "24dcc6ea-bf27-4dd6-8211-d1552e6bfc1a",
+      "name": "Upload Video and Description to Tiktok",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        2240,
+        -220
+      ],
+      "notesInFlow": true,
+      "typeVersion": 4.2,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "sUAQFeOYksssVhyr",
+          "name": "UploadPost API Header Auth (info.hansondev@gmail.com)"
+        }
+      },
+      "disabled": true,
+      "notes": "Generate in upload-post.com the token and add to the credentials in the header-> Authorization: Apikey (token here)"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.upload-post.com/api/upload",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "title",
+              "value": "={{ $('Generate Description for Videos  in Tiktok and Instagram').item.json.message.content.replaceAll(\"\\\"\", \"\") }}"
+            },
+            {
+              "name": "platform[]",
+              "value": "facebook"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "video",
+              "inputDataFieldName": "datavideo"
+            },
+            {
+              "name": "user",
+              "value": "hansontan"
+            },
+            {
+              "name": "facebook_page_id",
+              "value": "572771929263086"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7b2842ce-1e1e-414c-835a-9b9fae206bbf",
+      "name": "Upload Video and Description to Facebook Page",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        2240,
+        80
+      ],
+      "notesInFlow": true,
+      "typeVersion": 4.2,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "sUAQFeOYksssVhyr",
+          "name": "UploadPost API Header Auth (info.hansondev@gmail.com)"
+        }
+      },
+      "notes": "Generate in upload-post.com the token and add to the credentials in the header-> Authorization: Apikey (token here)"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Google Drive1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive1": {
+      "main": [
+        [
+          {
+            "node": "Google Drive2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive2": {
+      "main": [
+        [
+          {
+            "node": "Read video from Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Audio from Video": {
+      "main": [
+        [
+          {
+            "node": "Generate Description for Videos  in Tiktok and Instagram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read video from Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Get Audio from Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Description for Videos  in Tiktok and Instagram": {
+      "main": [
+        [
+          {
+            "node": "Read Video from Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Video from Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Upload Video and Description to Facebook Page",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Upload Video and Description to Tiktok",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Get Audio from Video": [
+      {
+        "json": {
+          "text": "You"
+        }
+      }
+    ],
+    "Generate Description for Videos  in Tiktok and Instagram": [
+      {
+        "json": {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "Revolutionize Your Content Strategy with InfluencersDe! 🚀 #AI #TikTok #DigitalMarketing #InfluencersDe #ContentCreation",
+            "refusal": null,
+            "annotations": []
+          },
+          "logprobs": null,
+          "finish_reason": "stop"
+        }
+      }
+    ]
+  },
+  "versionId": "833f9918-f440-4095-852e-7eb64309f482",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-06-11T15:34:53.097Z",
+      "createdAt": "2025-06-11T15:34:53.097Z",
+      "role": "workflow:owner",
+      "workflowId": "7NXXpiyf4DLXggv0",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2025-06-12T02:39:35.455Z",
+      "createdAt": "2025-06-12T02:39:35.455Z",
+      "id": "djsNntgfWuQ9c0Am",
+      "name": "N8N Template"
+    },
+    {
+      "updatedAt": "2025-06-12T02:39:30.295Z",
+      "createdAt": "2025-06-12T02:39:30.295Z",
+      "id": "iDfaleJIuNFjipDs",
+      "name": "Development Workflow"
+    }
+  ]
+}
