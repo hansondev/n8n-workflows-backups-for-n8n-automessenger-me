@@ -1,0 +1,179 @@
+{
+  "updatedAt": "2025-01-09T09:38:00.000Z",
+  "createdAt": "2025-01-09T08:49:18.633Z",
+  "id": "4xtYtt5BDtlttY3c",
+  "name": "N8N_Template - Get Top 5 Products Product Hunt Every Hour",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "number": [
+            {
+              "name": "Votes",
+              "value": "={{$json[\"posts\"][\"node\"][\"votesCount\"]}}"
+            }
+          ],
+          "string": [
+            {
+              "name": "Name",
+              "value": "={{$json[\"posts\"][\"node\"][\"name\"]}}"
+            },
+            {
+              "name": "Description",
+              "value": "={{$json[\"posts\"][\"node\"][\"description\"]}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Set",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        300,
+        -60
+      ],
+      "typeVersion": 1,
+      "id": "d014698e-19f5-4ee7-a888-aa9d674366ff"
+    },
+    {
+      "parameters": {
+        "endpoint": "https://api.producthunt.com/v2/api/graphql",
+        "requestFormat": "json",
+        "query": "=query PostRanking{\n  posts(postedAfter:\"{{new Date(new Date(Date.now()).getTime() - (1000*60*60*1*24)).toUTCString()}}\", order:RANKING, first:5, postedBefore:\"{{new Date(Date.now()).toUTCString()}}\"){\n    edges {\n      node {\n        name\n        tagline\n        description\n        votesCount\n        reviewsRating\n      }\n    }\n  }\n}",
+        "headerParametersUi": {
+          "parameter": [
+            {
+              "name": "Authorization",
+              "value": "Bearer YOUR-TOKEN"
+            }
+          ]
+        }
+      },
+      "name": "GraphQL",
+      "type": "n8n-nodes-base.graphql",
+      "position": [
+        -120,
+        -60
+      ],
+      "typeVersion": 1,
+      "id": "3b2613c0-b45d-41f3-8690-006c94ed5405"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data.posts.edges",
+        "options": {
+          "destinationFieldName": "posts"
+        }
+      },
+      "name": "Item Lists",
+      "type": "n8n-nodes-base.itemLists",
+      "position": [
+        80,
+        -60
+      ],
+      "typeVersion": 1,
+      "id": "be14bf31-c4e0-4a38-9ba8-487bcd78d48f"
+    },
+    {
+      "parameters": {
+        "webhookUri": "DISCORD WEBHOOK URL",
+        "text": "=Here are the top 5 PH projects:\n**Name:** {{$json[\"Name\"]}}\n**Description:** {{$json[\"Description\"]}}\n**Vote:** {{$json[\"Votes\"]}}\n-------",
+        "options": {}
+      },
+      "name": "Discord",
+      "type": "n8n-nodes-base.discord",
+      "position": [
+        500,
+        -60
+      ],
+      "typeVersion": 1,
+      "id": "8b2754a6-94de-45f5-adf3-c559999cf6d1"
+    },
+    {
+      "parameters": {
+        "triggerTimes": {
+          "item": [
+            {
+              "mode": "everyHour"
+            }
+          ]
+        }
+      },
+      "name": "Cron",
+      "type": "n8n-nodes-base.cron",
+      "position": [
+        -360,
+        -60
+      ],
+      "typeVersion": 1,
+      "id": "8f2ff8ea-2ba7-4293-a3b0-1738ea1550c0"
+    }
+  ],
+  "connections": {
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "Discord",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GraphQL": {
+      "main": [
+        [
+          {
+            "node": "Item Lists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cron": {
+      "main": [
+        [
+          {
+            "node": "GraphQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "6ee34742-1c0f-4afb-958d-5b7b0628c2c6",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-01-09T08:49:18.660Z",
+      "createdAt": "2025-01-09T08:49:18.660Z",
+      "role": "workflow:owner",
+      "workflowId": "4xtYtt5BDtlttY3c",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
