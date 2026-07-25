@@ -1,0 +1,242 @@
+{
+  "updatedAt": "2025-04-03T15:31:51.000Z",
+  "createdAt": "2025-04-03T15:11:39.952Z",
+  "id": "ksBKC51ulernIJ29",
+  "name": "[FlowAds_Project] - AUS - GAdsSearch - EcommDropshipping - APIFY_GAdsTransparency -> GSheet",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Google Ads Advertiser Ad Search",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "GAds Advertiser ID"
+            },
+            {
+              "fieldLabel": "GAds Advertiser Domain URL"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -240,
+        0
+      ],
+      "id": "e44e39b8-b3c3-4242-a3d5-d26fd259f9f4",
+      "name": "On form submission",
+      "webhookId": "9b1da080-ff0e-47d2-a55e-efbae53b848a"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/actor-tasks/immense_grasshopper~google-ad-transparency-scraper-task/runs",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"adPlatform\": \"3\",\n    \"searchInputs\": [\n        \"{{ $json['GAds Advertiser ID'] }}\",\n        \"{{ $json['GAds Advertiser Domain URL'] }}\"\n    ]\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -20,
+        0
+      ],
+      "id": "7d8000ec-0d37-401a-b414-c27dec7fd354",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/actor-runs/{{ $json.data.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "waitForFinish",
+              "value": "60"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        440,
+        0
+      ],
+      "id": "0d2078f8-e8ef-4e61-a40c-aa5539275aac",
+      "name": "Get Actor Run",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        200,
+        0
+      ],
+      "id": "9e24bdff-6b7c-4ae6-ada3-515ca1793064",
+      "name": "Wait",
+      "webhookId": "c619b5fe-e9ba-46b4-be6c-b3fe4fa81eed"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.data.defaultDatasetId }}/items ",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        680,
+        0
+      ],
+      "id": "12ccd762-4cbb-4279-a9cb-1b0848911563",
+      "name": "Get Datasets",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get Actor Run",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Actor Run": {
+      "main": [
+        [
+          {
+            "node": "Get Datasets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "On form submission": [
+      {
+        "json": {
+          "GAds Advertiser ID": "AR08236223453691117569",
+          "GAds Advertiser Domain URL": "theyardacademy.com",
+          "submittedAt": "2025-04-03T23:17:08.642+08:00",
+          "formMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "794c8646-2c3a-4b43-bad6-30bcd7c12d46",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-04-03T15:11:39.986Z",
+      "createdAt": "2025-04-03T15:11:39.986Z",
+      "role": "workflow:owner",
+      "workflowId": "ksBKC51ulernIJ29",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
