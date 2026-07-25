@@ -1,0 +1,384 @@
+{
+  "updatedAt": "2025-09-13T07:50:07.000Z",
+  "createdAt": "2025-07-11T10:54:45.421Z",
+  "id": "rtsqyVr8GYD6ekfP",
+  "name": "My workflow 16",
+  "active": false,
+  "isArchived": true,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        -240
+      ],
+      "id": "54c2c5b2-a8b0-4315-9c59-9d3b37cea0b0",
+      "name": "When clicking ‘Execute workflow’",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e7435c81-bded-4f98-b256-7286ad78823e",
+              "name": "brandName",
+              "value": "={{ $json.brandName }}",
+              "type": "string"
+            },
+            {
+              "id": "6b5de945-3af3-485a-83ad-413d6bab9706",
+              "name": "fbPageUrl",
+              "value": "={{ $json.fbPageUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "4f4b5ac2-caed-4bb5-8e3a-adc7f1618bd7",
+              "name": "country",
+              "value": "MY",
+              "type": "string"
+            },
+            {
+              "id": "332d31e6-fa64-46fe-8c41-40169f148da0",
+              "name": "status",
+              "value": "ALL",
+              "type": "string"
+            },
+            {
+              "id": "47b01fc2-fc3e-4f58-a4d2-395e8465fcee",
+              "name": "start_date",
+              "value": "={{ $now.minus(2, 'months').format('yyyy-MM-dd') }}",
+              "type": "string"
+            },
+            {
+              "id": "bd84ff95-90e3-43c0-bef0-a1b1a2d7442a",
+              "name": "end_date",
+              "value": "={{ $now.format('yyyy-MM-dd') }}",
+              "type": "string"
+            },
+            {
+              "id": "77c660d9-8040-4958-8cfc-f3ed2b19a3da",
+              "name": "media_type",
+              "value": "VIDEO",
+              "type": "string"
+            },
+            {
+              "id": "17ff8ed0-f3b4-4b16-83b1-659b7721d167",
+              "name": "pageId",
+              "value": "={{ $json.fbpageId }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        40,
+        -240
+      ],
+      "id": "1eb35368-07f4-4d0f-8498-3b010e863f45",
+      "name": "Extract ONLY FB Page Url",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "url": "https://api.scrapecreators.com/v1/facebook/adLibrary/company/ads",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "companyName",
+              "value": "={{ $json.brandName }}"
+            },
+            {
+              "name": "ad_type",
+              "value": "all"
+            },
+            {
+              "name": "country",
+              "value": "={{ $json.country }}"
+            },
+            {
+              "name": "status",
+              "value": "={{ $json.status }}"
+            },
+            {
+              "name": "media_type",
+              "value": "={{ $json.media_type }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        260,
+        -240
+      ],
+      "id": "4c83d864-6b86-4e9e-96f2-c4c04d5b3741",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "lbYsJmB8D8TVGbFL",
+          "name": "HeaderAuth(scrapecreators.com_acc-boonhong.tan0309@gmail.com)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "results",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        480,
+        -240
+      ],
+      "id": "9551d5ab-18f7-48b0-91f7-08b2f7a18356",
+      "name": "Split Out",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "maxItems": 10
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        700,
+        -240
+      ],
+      "id": "461baa37-c68c-4dc7-ba1d-bf5a9bf1b4b1",
+      "name": "Limit",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "78fe163a-62d8-4d97-b9f8-70aa937fb0d4",
+              "name": "adArchiveId",
+              "value": "={{ $json.ad_archive_id }}",
+              "type": "string"
+            },
+            {
+              "id": "19b3d5ae-028f-4040-a3ee-94f49f9ae7c2",
+              "name": "textPostArray",
+              "value": "={{ $jmespath($json.snapshot.cards,\"[*].body\") }}",
+              "type": "array"
+            },
+            {
+              "id": "f743818d-0527-4de1-9ca1-c41dae2644aa",
+              "name": "titlePostArray",
+              "value": "={{ $jmespath($json.snapshot.cards,\"[*].title\") }}",
+              "type": "array"
+            },
+            {
+              "id": "644d9b4e-6b50-4c44-a933-65e2e5a4515b",
+              "name": "videoUrlArray",
+              "value": "={{ $jmespath($json.snapshot.cards,\"[*].video_hd_url\") }}",
+              "type": "array"
+            },
+            {
+              "id": "a0725947-9049-442e-bdd7-b0972d0f638a",
+              "name": "videoPreviewUrlArray",
+              "value": "={{ $jmespath($json.snapshot.cards,\"[*].video_preview_image_url\") }}",
+              "type": "array"
+            },
+            {
+              "id": "e7454b63-5367-43bc-99ee-23966b318cff",
+              "name": "destinationUrlArray",
+              "value": "={{ $jmespath($json.snapshot.cards,\"[*].link_url\") }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        920,
+        -240
+      ],
+      "id": "5949d657-4dba-4c51-acfc-6f679458bb2b",
+      "name": "Extrall Important Info In Array Based on Ad Id",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "715d806e-7a6b-427c-8682-9ee18e5849a7",
+              "name": "brandName",
+              "value": "={{ $('Extract ONLY FB Page Url').item.json.brandName }}",
+              "type": "string"
+            },
+            {
+              "id": "75e8c6ad-b993-4d9c-ad37-30d161c8190b",
+              "name": "textPost",
+              "value": "={{ $json.textPostArray.first() }}",
+              "type": "string"
+            },
+            {
+              "id": "1e6fa65a-8924-44ee-8d7e-c98338d4e430",
+              "name": "titlePost",
+              "value": "={{ $json.titlePostArray.first() }}",
+              "type": "string"
+            },
+            {
+              "id": "92ac1319-b00f-41f3-b80e-1e2165382a06",
+              "name": "videoUrl",
+              "value": "={{ $json.videoUrlArray.first() }}",
+              "type": "string"
+            },
+            {
+              "id": "d16ba6de-3d46-46f4-9a3e-09e52a47dfc7",
+              "name": "videoPreviewLink",
+              "value": "={{ $json.videoPreviewUrlArray.first() }}",
+              "type": "string"
+            },
+            {
+              "id": "f0a7193f-6b09-4ca9-82b5-566de0cf22ae",
+              "name": "destinationUrl",
+              "value": "={{ $json.destinationUrlArray.first() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1140,
+        -240
+      ],
+      "id": "1fef793d-adae-4fd7-ac5b-7553436fc24b",
+      "name": "Cleaned List Extraction",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "path": "1ce6b2b0-1f17-40a5-8cc1-f4b0a71e00dd",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -440,
+        40
+      ],
+      "id": "5b6ba244-99ab-4c30-a820-675eaf4865ca",
+      "name": "Webhook",
+      "webhookId": "1ce6b2b0-1f17-40a5-8cc1-f4b0a71e00dd"
+    }
+  ],
+  "connections": {
+    "Extract ONLY FB Page Url": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Extract ONLY FB Page Url",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Extrall Important Info In Array Based on Ad Id",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extrall Important Info In Array Based on Ad Id": {
+      "main": [
+        [
+          {
+            "node": "Cleaned List Extraction",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "When clicking ‘Execute workflow’": [
+      {
+        "json": {
+          "brandName": "Berjaya Langkawi Resort",
+          "fbPageUrl": "https://www.facebook.com/blrlgk",
+          "fbpageId": "100064330584011"
+        }
+      }
+    ]
+  },
+  "versionId": "cdd56eaf-f615-492d-8423-ee4f30e00906",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-07-11T10:54:45.426Z",
+      "createdAt": "2025-07-11T10:54:45.426Z",
+      "role": "workflow:owner",
+      "workflowId": "rtsqyVr8GYD6ekfP",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
