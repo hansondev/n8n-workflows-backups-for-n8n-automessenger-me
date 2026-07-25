@@ -1,0 +1,1763 @@
+{
+  "updatedAt": "2025-07-26T09:34:25.000Z",
+  "createdAt": "2025-07-02T02:33:34.494Z",
+  "id": "JrbTH5W7BYMLdhIU",
+  "name": "[JULY2025] [Creo_Project - ReadyCare] - TikTok KOL Collab SMM Post Scheduling",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3f65b6c6-0313-4935-a2d7-a82d34cd81ce",
+              "name": "row_num",
+              "value": "={{ $json.row_number }}",
+              "type": "string"
+            },
+            {
+              "id": "e9c163dd-7563-415b-8f25-3e398781ad49",
+              "name": "productName",
+              "value": "={{ $json['Product Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "036a8a43-ae41-4968-af83-05966aead45b",
+              "name": "ctaPostCaption",
+              "value": "={{ $json['CTA Post Caption'] }}",
+              "type": "string"
+            },
+            {
+              "id": "04621fa4-1b9e-4cb5-b637-61a3f3412dc8",
+              "name": "tiktokUsername",
+              "value": "=@{{ $json['TikTok Username'] }}",
+              "type": "string"
+            },
+            {
+              "id": "cfea11fe-f43b-4702-9c2f-25ea22c47528",
+              "name": "videoWebviewLink",
+              "value": "={{ $json['Video Download Link'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1328,
+        -176
+      ],
+      "id": "48e65106-90ae-4c63-8f54-a889a4653de3",
+      "name": "Extract Only Visual File ID"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "={{ $binary.data.fileName.replaceAll(\" \", \"_\") }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        2432,
+        -160
+      ],
+      "id": "11e47025-7a9a-45a8-a119-13feafe9d621",
+      "name": "Read/Write Files from Disk"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.upload-post.com/api/upload",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "title",
+              "value": "={{ $('Edit Fields8').first().json.fullPostContent }}"
+            },
+            {
+              "name": "platform[]",
+              "value": "tiktok"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "video",
+              "inputDataFieldName": "data"
+            },
+            {
+              "name": "user",
+              "value": "creo-readycare"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8144f2f5-fee2-4e94-b037-01701cd18501",
+      "name": "Upload Video and Description to Tiktok",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        2752,
+        -176
+      ],
+      "notesInFlow": true,
+      "typeVersion": 4.2,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "sUAQFeOYksssVhyr",
+          "name": "UploadPost API Header Auth (info.hansondev@gmail.com)"
+        }
+      },
+      "notes": "Generate in upload-post.com the token and add to the credentials in the header-> Authorization: Apikey (token here)"
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $json.timestamp }}",
+        "format": "custom",
+        "customFormat": "d LLLL yyyy",
+        "outputFieldName": "scheduleDate",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        320,
+        -176
+      ],
+      "id": "27dd19c4-31a5-43ba-8dd2-d56a9e573e7b",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "16qxEz6Oo0jZI3OeZzYQnmuXoParMhVUEyePNE6J11Gc",
+          "mode": "list",
+          "cachedResultName": "[July2025] - RC KOL Collab Tiktok Posts Scheduling Tracker",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/16qxEz6Oo0jZI3OeZzYQnmuXoParMhVUEyePNE6J11Gc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/16qxEz6Oo0jZI3OeZzYQnmuXoParMhVUEyePNE6J11Gc/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        608,
+        -176
+      ],
+      "id": "29fa9fa6-e2a2-49e6-875e-44947f209f36",
+      "name": "Read TikTok Posts Sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f0d2e3b9-eded-4412-9e29-a0b7e110745c",
+              "leftValue": "={{ $json['Date Posting'] }}",
+              "rightValue": "={{ $('Date & Time').item.json.scheduleDate }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        864,
+        -176
+      ],
+      "id": "c5550aa7-a448-4894-8516-2f0ee1787d5a",
+      "name": "Filter TikTok Schedule Date"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.videoFileId }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2160,
+        -176
+      ],
+      "id": "a1ef394d-6d8c-4a7a-8d4e-db982d2367e4",
+      "name": "Download TikTok Visual From Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "16qxEz6Oo0jZI3OeZzYQnmuXoParMhVUEyePNE6J11Gc",
+          "mode": "list",
+          "cachedResultName": "[July2025] - RC KOL Collab Tiktok Posts Scheduling Tracker",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/16qxEz6Oo0jZI3OeZzYQnmuXoParMhVUEyePNE6J11Gc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/16qxEz6Oo0jZI3OeZzYQnmuXoParMhVUEyePNE6J11Gc/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $('Extract Only Visual File ID').first().json.row_num }}",
+            "Post Scheduled Link": "={{ $json.results.tiktok.url }}",
+            "Status": "Scheduled",
+            "Post Description": "={{ $('AI Agent').item.json.output.postDescription }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Date Posting",
+              "displayName": "Date Posting",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "TikTok Username",
+              "displayName": "TikTok Username",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Product Name",
+              "displayName": "Product Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Post Description",
+              "displayName": "Post Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "CTA Post Caption",
+              "displayName": "CTA Post Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Video Download Link",
+              "displayName": "Video Download Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Post Scheduled Link",
+              "displayName": "Post Scheduled Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1424,
+        -464
+      ],
+      "id": "143aa3e0-52dc-4833-b8d9-0a396a1d34d8",
+      "name": "Update Tiktok Schedule Status To Scheduled",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 16 * * *"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        48,
+        -176
+      ],
+      "id": "7c77b9e8-d0a0-4999-849b-d77aae812a49",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "hour": 12
+            }
+          ]
+        },
+        "triggerOn": "specificFile",
+        "fileToWatch": {
+          "__rl": true,
+          "value": "1gWKx49d9BTDdwDhDhWFHbcoGRw5cYcW30RyE7OI35GU",
+          "mode": "list",
+          "cachedResultName": "READYCARE KOLS LIST",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gWKx49d9BTDdwDhDhWFHbcoGRw5cYcW30RyE7OI35GU/edit?usp=drivesdk"
+        }
+      },
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        48,
+        -1056
+      ],
+      "id": "ace7a824-770f-4170-be64-4f13427ef6e3",
+      "name": "Google Drive Trigger",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f432050f-ee9f-4b14-8890-a19bcf85e9dd",
+              "leftValue": "={{ $('Search files and folders').item.json.mimeType }}",
+              "rightValue": "application/vnd.google-apps.spreadsheet",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "eb037a43-d4c6-4afa-b439-97bada7b0097",
+              "leftValue": "={{ $('Search files and folders').item.json.name }}",
+              "rightValue": "READYCARE KOLS LIST",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        800,
+        -1056
+      ],
+      "id": "221c77a6-b23b-4dd8-a0ec-f5b9516b2fd7",
+      "name": "Execute True If Is Spreadsheet Type"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        704,
+        -800
+      ],
+      "id": "315f0fef-68aa-4968-afd7-d5f822626652",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b741d731-f2cf-484f-b5ce-8c1e39e9d0b7",
+              "name": "datePosting",
+              "value": "={{ $json['Suggest Posting Date '] }}",
+              "type": "string"
+            },
+            {
+              "id": "32adc551-4b66-4985-a312-e367e8e59381",
+              "name": "productName",
+              "value": "={{ $json['Suitable Product'] }}",
+              "type": "string"
+            },
+            {
+              "id": "6f3ca2b5-c61a-4432-b78d-59e3e73a82fb",
+              "name": "tiktokUsername",
+              "value": "={{ $json['TikTok Username'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1664,
+        -1216
+      ],
+      "id": "0bc0f538-b884-4ceb-98fd-399085bd2c4c",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "READYCARE KOLS LIST",
+        "filter": {
+          "driveId": {
+            "mode": "list",
+            "value": "My Drive"
+          },
+          "whatToSearch": "files"
+        },
+        "options": {
+          "fields": [
+            "name",
+            "mimeType",
+            "id"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        272,
+        -1056
+      ],
+      "id": "cbe95f61-2920-433c-b01d-1eb2b30684f4",
+      "name": "Search files and folders",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "fe87c4e1-5f6e-4f7a-8b0b-dcf62cff90c8",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "READYCARE KOLS LIST",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        528,
+        -1056
+      ],
+      "id": "8ed46014-b954-4773-9826-e0e566fd089b",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $('Filter').first().json.id }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "SELECTED KOLS LIST",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gWKx49d9BTDdwDhDhWFHbcoGRw5cYcW30RyE7OI35GU/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1152,
+        -1088
+      ],
+      "id": "f1d732fb-7b78-4dde-9d4e-9764c408c761",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "fe87c4e1-5f6e-4f7a-8b0b-dcf62cff90c8",
+              "leftValue": "={{ $json.NO.toString() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "373e2c01-2160-426d-9b1e-67747e5807e9",
+              "leftValue": "={{ $json['Suggest Posting Date '] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "a7c69f29-0837-409c-879d-d0527abed2cc",
+              "leftValue": "={{ $json['Suitable Product'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1408,
+        -1216
+      ],
+      "id": "60f600e8-11ce-40b7-a643-639d0b2ab8d7",
+      "name": "Filter1"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $('Execute True If Is Spreadsheet Type').first().json.id }}",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "SELECTED KOLS LIST",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1gWKx49d9BTDdwDhDhWFHbcoGRw5cYcW30RyE7OI35GU/edit#gid=0"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRangeA1",
+              "range": "C29:C30"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1184,
+        -848
+      ],
+      "id": "31ebac83-d4b0-4608-b70f-1aa629416de6",
+      "name": "Get row(s) in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1984,
+        -1104
+      ],
+      "id": "91a0d355-3770-4dab-9fbe-868b521c8439",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a0bb05a9-2956-4364-bef1-a48a1ccf5f56",
+              "name": "ctaPostCaption",
+              "value": "={{ $json['Remark: Please include below at bottom of each of the caption'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1408,
+        -848
+      ],
+      "id": "7fb06901-f4c0-4c6d-a14a-9caa0df15eb0",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "={{ $json.tiktokUsername }}",
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "1fPGXEX-txoXKDCIDz9plYpoVJguL2rgH",
+            "mode": "list",
+            "cachedResultName": "RC DRAFT FOLDER",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/1fPGXEX-txoXKDCIDz9plYpoVJguL2rgH"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2224,
+        -1104
+      ],
+      "id": "bd7843a1-c337-4ebd-b5c7-de3f0d1a0b8f",
+      "name": "Search files and folders4",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "={{ $json.videoFolderId }}",
+            "mode": "id"
+          }
+        },
+        "options": {
+          "fields": [
+            "id",
+            "name",
+            "mimeType"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2960,
+        -928
+      ],
+      "id": "9af4df58-4730-47a9-84ab-3f3d67c1317b",
+      "name": "Search files and folders5",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "4da52ff0-8df4-4533-809f-cb032dffcd27",
+              "leftValue": "={{ $json.mimeType }}",
+              "rightValue": "video",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        3184,
+        -928
+      ],
+      "id": "2464234c-3131-4a04-ba18-8ec3219bced4",
+      "name": "Filter3"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        2704,
+        -1104
+      ],
+      "id": "be763977-4051-40b1-82c7-460cdd176da0",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "45d118d9-6b15-4773-89fe-704c905274e9",
+              "name": "datePosting",
+              "value": "={{ $('Edit Fields7').item.json.datePosting }}",
+              "type": "string"
+            },
+            {
+              "id": "474591ac-070d-49bc-93b4-6e3a94429fbc",
+              "name": "tiktokUsername",
+              "value": "={{ $('Edit Fields7').item.json.tiktokUsername }}",
+              "type": "string"
+            },
+            {
+              "id": "2408604b-a64b-417f-b114-c5289faa9f6d",
+              "name": "productName",
+              "value": "={{ $('Edit Fields7').item.json.productName }}",
+              "type": "string"
+            },
+            {
+              "id": "f28c4692-f89a-4ae6-8c34-df1672cbdfd0",
+              "name": "ctaPostCaption",
+              "value": "={{ $('Edit Fields7').item.json.ctaPostCaption }}",
+              "type": "string"
+            },
+            {
+              "id": "0f5fddc6-9774-4821-838e-39cf5f23a3a6",
+              "name": "videoFolderName",
+              "value": "={{ $('Edit Fields7').item.json.videoFolderName }}",
+              "type": "string"
+            },
+            {
+              "id": "162811ed-d839-4d19-b428-a08695e650f7",
+              "name": "videoFolderId",
+              "value": "={{ $('Edit Fields7').item.json.videoFolderId }}",
+              "type": "string"
+            },
+            {
+              "id": "97f0f31c-e012-4b76-a3bc-6d865cdb103e",
+              "name": "videoName",
+              "value": "={{ $('Edit Fields6').item.json.videoName }}",
+              "type": "string"
+            },
+            {
+              "id": "1be628fe-0a0c-4232-aa9e-e638c415c541",
+              "name": "webViewLink",
+              "value": "={{ $('Search files and folders2').item.json.webViewLink }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2960,
+        -1200
+      ],
+      "id": "291b91ae-9a9f-49f7-90d1-9c61101127ef",
+      "name": "Edit Fields5"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bf0d25e6-e651-4e12-ac09-51ff9d4488b8",
+              "name": "datePosting",
+              "value": "={{ $('Loop Over Items').first().json.datePosting }}",
+              "type": "string"
+            },
+            {
+              "id": "eef8495b-7e29-4cad-b37e-d61779a5f12f",
+              "name": "tiktokUsername",
+              "value": "={{ $('Loop Over Items').first().json.tiktokUsername }}",
+              "type": "string"
+            },
+            {
+              "id": "aad39cdd-94a0-4607-9031-c8420d20c572",
+              "name": "productName",
+              "value": "={{ $('Loop Over Items').first().json.productName }}",
+              "type": "string"
+            },
+            {
+              "id": "a4544fa5-5f46-49b2-a291-718ea92541f5",
+              "name": "ctaPostCaption",
+              "value": "={{ $('Loop Over Items').first().json.ctaPostCaption }}",
+              "type": "string"
+            },
+            {
+              "id": "7065acf5-1546-441d-97d6-08e5a79c786e",
+              "name": "videoId",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "4b7bffd4-ab44-469b-b653-5e51b5dc1701",
+              "name": "videoName",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3408,
+        -928
+      ],
+      "id": "dc11bdb9-c48c-4bfd-93b6-604b3b55230f",
+      "name": "Edit Fields6"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9c41dc24-fe41-4d9a-ab17-beccece749d7",
+              "name": "datePosting",
+              "value": "={{ $('Merge').item.json.datePosting }}",
+              "type": "string"
+            },
+            {
+              "id": "2c008dcd-9070-4ada-a93e-aaf8a2c3f6c4",
+              "name": "tiktokUsername",
+              "value": "={{ $('Merge').item.json.tiktokUsername }}",
+              "type": "string"
+            },
+            {
+              "id": "e9288d6c-dccd-4eec-88ce-bd661adcf95b",
+              "name": "productName",
+              "value": "={{ $('Merge').item.json.productName }}",
+              "type": "string"
+            },
+            {
+              "id": "9ab2db92-f7d9-4d85-b263-5b5e64a6928c",
+              "name": "ctaPostCaption",
+              "value": "={{ $('Merge').item.json.ctaPostCaption }}",
+              "type": "string"
+            },
+            {
+              "id": "aafa482b-0c4d-432d-a18f-5d892fbb6fc3",
+              "name": "videoFolderName",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "bab557c7-4d9c-4b8e-a145-048ae314386b",
+              "name": "videoFolderId",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2448,
+        -1104
+      ],
+      "id": "99f9147f-dc07-438b-b273-27a61fdd76e6",
+      "name": "Edit Fields7"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "={{ $json.videoName }}",
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "={{ $('Edit Fields7').item.json.videoFolderId }}",
+            "mode": "id"
+          }
+        },
+        "options": {
+          "fields": [
+            "id",
+            "name",
+            "mimeType",
+            "webViewLink"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        3632,
+        -928
+      ],
+      "id": "7771eba2-c2a7-48e4-9dcb-88690bbace56",
+      "name": "Search files and folders2",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "16qxEz6Oo0jZI3OeZzYQnmuXoParMhVUEyePNE6J11Gc",
+          "mode": "list",
+          "cachedResultName": "[July2025] - RC KOL Collab Tiktok Posts Scheduling Tracker",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/16qxEz6Oo0jZI3OeZzYQnmuXoParMhVUEyePNE6J11Gc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/16qxEz6Oo0jZI3OeZzYQnmuXoParMhVUEyePNE6J11Gc/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date Posting": "={{ $json.datePosting }}",
+            "TikTok Username": "={{ $json.tiktokUsername }}",
+            "Product Name": "={{ $json.productName }}",
+            "CTA Post Caption": "={{ $json.ctaPostCaption }}",
+            "Video Download Link": "={{ $json.webViewLink }}"
+          },
+          "matchingColumns": [
+            "Date Posting"
+          ],
+          "schema": [
+            {
+              "id": "Date Posting",
+              "displayName": "Date Posting",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "TikTok Username",
+              "displayName": "TikTok Username",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Product Name",
+              "displayName": "Product Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CTA Post Caption",
+              "displayName": "CTA Post Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Video Download Link",
+              "displayName": "Video Download Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        3184,
+        -1200
+      ],
+      "id": "19efbe82-9d67-4b97-9bf3-f2fa08becb95",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1088,
+        -176
+      ],
+      "id": "7f595ebc-79ca-4bcc-8237-cda5800e84c3",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1408,
+        48
+      ],
+      "id": "26a3dfbd-bb77-480a-a9fd-3e93a29b3976",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=1. Product Name: {{ $json.productName }}\n2. TikTok Collaborator Username: {{ $json.tiktokUsername }}\n3. CTA Post Caption: {{ $json.ctaPostCaption }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a social media content specialist who have extensive experiences in handling multiple client's account through social media platforms such as Meta (Facebook & Instagram), TikTok and Youtube.\n\n# Task\nYou are tasked to generate the TikTok video posts in User Generated Contents (UGCs) type for one of my client who had collaborated with Key Opinion Consumers (KOCs) that showing the experience or showcasing my client's range of products.\n\n# Tools\nIn order to generate the right User Generated Content (UGC) type for the TikTok video post, you are required to use the following tool(s) as below:\n- `product_details_retriever`: Call this tool to retrieve and fetch my client's product listing details where the list provided the information such as product name, product description, product features and product variation.\n- `knowledge_searcher`: Call this tool to search and query some specific terms or terminologies that you feel not sure about to elaborate the product features or benefits in User Generated Content(UGC) post content.\n\n# User Context\nYou are require to follow the user provided inputs in order to generate the right information and content post such as:\n- Product Name\n- TikTok Collaborator Username\n- CTA Post Caption\n\n# Post Output Structure\nIn order to generate the right TikTok text content post structure, you are require to follow the post sections in sequence as below:\n1. Post Header: A short and sweet title hook to get audience attention with at least 1 emoji included.\n2. Post Description: The actual User Generated Content (UCG) that including the details such as:\n - Use Case: Tell a short use case or storyline that related to the product as the solution.\n - Product Introduction: Here is where the product had introduced based on the use case or storyline. \n - Prodcut Description: Here is where showing the product description (features or benefits) based on the product had introduced. \n - Credit Or Appreciation: Here is where you need to mention and give a credit to the Key Opinion Consumer(KOC) who sharing the experience or showcasing the product that allow client to use the content in video format by using TikTok collaborator tagging post feature. Make sure that the post tagging must be starting with `@` following by their TikTok's account username.\n3. Post Call-to-action (CTA): Here is the last section where address the audience to take action that showing the interest and direct the direction or destination on where to make the purchase.\n\n# Output\nThe output must be generate in JSON structured format. Do not come out any other unnecessary information or additionation explaination, only generate the actual output.\n\n## Example JSON Structure Output\n```\njson:{\n   \"postHeader\": \"✨ Keeping Fun Clean, Naturally! 👧🎨\",\n   \"postDescription\": \"Last night's amazing dinner shouldn't leave a greasy reminder.\\n\\nIntroducing our ReadyCare Biobased Dishwashing Liquid.\\n\\nEmpowered with USDA Certified Biobased formulation with food grade baking soda.\\n✅Easy to rinse off.\\n✅Neutral pH\\n✅ Non-chemical or plants-derived fragrance.\\n✅No added petrochemical surfactants\\n✅Gentle to skin\\n✅Suitable for Skin allergic person.\\n\\n Credit to: @qhairunnajwaa who is one of our consumer who have a great experinece in using our Biobased Dishwashing Liquid\",\n   \"postCTA\": \"Now available at more stores — and online too! 🛒👇\\n🛍️ Official Store: rcsignature.com.my\\n🛍️ Shopee: shp.ee/TLxXzdx\\n🛍️ Lazada: s.lazada.com.my/s.J8cfc\\n🛍️ TikTok Shop: tiktok.com/@readycaresignature\\n\\n#myvillagegrocer #bensindependentgrocer #TheFoodMerchant #AeonMaxValuPrime #thepasar #masleeexpress #NSKGrocer #HeroMarket #UrbanMarketplace #UrbanfreshSetiaCityMall #MeMiZoooZoooGrocer #ReadyCareSignature #SensitiveSkin #Biobased #PlantBased #VeganCertified #Halal #GentleClean #DermatologistTested #FamilySafe #TrustedBrand #Sustainability\"\n}\n\n```"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        1552,
+        -176
+      ],
+      "id": "0499d8c4-fb91-4fd2-b5ea-1e21ca4db9f4",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n   \"postHeader\": \"✨ Keeping Fun Clean, Naturally! 👧🎨\",\n   \"postDescription\": \"Last night's amazing dinner shouldn't leave a greasy reminder.\\n\\nIntroducing our ReadyCare Biobased Dishwashing Liquid.\\n\\nEmpowered with USDA Certified Biobased formulation with food grade baking soda.\\n✅Easy to rinse off.\\n✅Neutral pH\\n✅ Non-chemical or plants-derived fragrance.\\n✅No added petrochemical surfactants\\n✅Gentle to skin\\n✅Suitable for Skin allergic person.\\n\\n Credit to: @qhairunnajwaa who is one of our consumer who have a great experinece in using our Biobased Dishwashing Liquid\",\n   \"postCTA\": \"Now available at more stores — and online too! 🛒👇\\n🛍️ Official Store: rcsignature.com.my\\n🛍️ Shopee: shp.ee/TLxXzdx\\n🛍️ Lazada: s.lazada.com.my/s.J8cfc\\n🛍️ TikTok Shop: tiktok.com/@readycaresignature\\n\\n#myvillagegrocer #bensindependentgrocer #TheFoodMerchant #AeonMaxValuPrime #thepasar #masleeexpress #NSKGrocer #HeroMarket #UrbanMarketplace #UrbanfreshSetiaCityMall #MeMiZoooZoooGrocer #ReadyCareSignature #SensitiveSkin #Biobased #PlantBased #VeganCertified #Halal #GentleClean #DermatologistTested #FamilySafe #TrustedBrand #Sustainability\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1904,
+        64
+      ],
+      "id": "e6af4c55-2411-436e-97fb-7c1a82fd4821",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to retrieve and fetch my client's product listing details where the list provided the information such as product name, product description, product features and product variation.",
+        "documentId": {
+          "__rl": true,
+          "value": "1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s",
+          "mode": "list",
+          "cachedResultName": "ReadyCare Signature Ecommerce Store Product Listing(Apr2025_Update)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1871117814,
+          "mode": "list",
+          "cachedResultName": "Product Details",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit#gid=1871117814"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.6,
+      "position": [
+        1584,
+        48
+      ],
+      "id": "2ba20134-9275-42dd-9306-25fcc198d57d",
+      "name": "product_details_retriever",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to search and query some specific terms or terminologies that you feel not sure about to elaborate the product features or benefits in User Generated Content(UGC) post content.",
+        "workflowId": {
+          "__rl": true,
+          "value": "tfyIBxAjFGmiaES6",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow]  - Exa.ai AI Research Answer + Crawl4AI Citation Crawler"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [
+            "search_query"
+          ],
+          "schema": [
+            {
+              "id": "search_query",
+              "displayName": "search_query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1744,
+        80
+      ],
+      "id": "6e770395-9be2-49b9-94be-650f232f18f7",
+      "name": "knowledge_searcher"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "07b1034b-f37f-495e-b85e-0f123a132757",
+              "name": "fullPostContent",
+              "value": "={{ $json.output.postDescription }}\n\n{{ $json.output.postCTA }}",
+              "type": "string"
+            },
+            {
+              "id": "244cc73b-1282-406e-8dc1-a295acf9f2fb",
+              "name": "videoFileId",
+              "value": "={{ $('Extract Only Visual File ID').item.json.videoWebviewLink.replaceAll(\"https://drive.google.com/file/d/\",\"\").replaceAll(\"/view?usp=sharing\",\"\").replaceAll(\"/view?usp=drive_link\",\"\").replaceAll(\"/view?usp=drivesdk\",\"\",).replaceAll(\"\\n\",\"\") }}",
+              "type": "string"
+            },
+            {
+              "id": "70c7e87c-5678-4d6e-9b40-34c78025de8a",
+              "name": "postizIntegrationId",
+              "value": "cmd7k64sw0001jja60n43yocy",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1904,
+        -176
+      ],
+      "id": "cd575778-e11f-4ac1-abfc-9e212ba01741",
+      "name": "Edit Fields8"
+    }
+  ],
+  "connections": {
+    "Extract Only Visual File ID": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk": {
+      "main": [
+        [
+          {
+            "node": "Upload Video and Description to Tiktok",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Video and Description to Tiktok": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Read TikTok Posts Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read TikTok Posts Sheet": {
+      "main": [
+        [
+          {
+            "node": "Filter TikTok Schedule Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter TikTok Schedule Date": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download TikTok Visual From Drive": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive Trigger": {
+      "main": [
+        [
+          {
+            "node": "Search files and folders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute True If Is Spreadsheet Type": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get row(s) in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search files and folders": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Execute True If Is Spreadsheet Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Filter1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Search files and folders4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search files and folders4": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search files and folders5": {
+      "main": [
+        [
+          {
+            "node": "Filter3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Search files and folders5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields7": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields6": {
+      "main": [
+        [
+          {
+            "node": "Search files and folders2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields5": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search files and folders2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [
+          {
+            "node": "Update Tiktok Schedule Status To Scheduled",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Extract Only Visual File ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "product_details_retriever": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "knowledge_searcher": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields8": {
+      "main": [
+        [
+          {
+            "node": "Download TikTok Visual From Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrenceRules": []
+    },
+    "node:Google Drive Trigger": {
+      "lastTimeChecked": "2025-07-26T04:00:35Z"
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "4f6492dc-4843-4ca0-aa02-385d83337c8d",
+  "triggerCount": 2,
+  "shared": [
+    {
+      "updatedAt": "2025-07-02T02:33:34.499Z",
+      "createdAt": "2025-07-02T02:33:34.499Z",
+      "role": "workflow:owner",
+      "workflowId": "JrbTH5W7BYMLdhIU",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2025-04-25T07:31:25.019Z",
+      "createdAt": "2025-04-25T07:31:25.019Z",
+      "id": "d0GbgHO5mVb8EyMk",
+      "name": "Creo-ReadyCare"
+    }
+  ]
+}
