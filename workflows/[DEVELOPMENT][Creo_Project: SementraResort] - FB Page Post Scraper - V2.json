@@ -1,0 +1,2354 @@
+{
+  "updatedAt": "2025-09-04T16:18:48.000Z",
+  "createdAt": "2025-06-17T10:49:24.676Z",
+  "id": "EvvKtMOGEG3DeyZR",
+  "name": "[DEVELOPMENT][Creo_Project: SementraResort] - FB Page Post Scraper - V2",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "url": "https://facebook-scraper-api4.p.rapidapi.com/get_facebook_page_id",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "link",
+              "value": "={{ $json['FB Page URL'] }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-rapidapi-host",
+              "value": "facebook-scraper-api4.p.rapidapi.com"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        128,
+        0
+      ],
+      "id": "053454aa-6b6a-4536-a71b-68b6fc70cc65",
+      "name": "GET FB Page ID",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "RhcMhaqem5mohNc1",
+          "name": "RapidAPI Header Auth(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://facebook-scraper-api4.p.rapidapi.com/get_facebook_page_posts_details_from_id",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "profile_id",
+              "value": "={{ $json.fbPageId }}"
+            },
+            {
+              "name": "after_time",
+              "value": "={{ $json.afterDatePosts }}"
+            },
+            {
+              "name": "before_time",
+              "value": "={{ $json.beforeDatePosts }}"
+            },
+            {
+              "name": "timezone",
+              "value": "UTC"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-rapidapi-host",
+              "value": "facebook-scraper-api4.p.rapidapi.com"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        880,
+        -416
+      ],
+      "id": "ed23ff2e-c899-48ea-8d0a-73da9bdd68f7",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "RhcMhaqem5mohNc1",
+          "name": "RapidAPI Header Auth(info.hansondev@gmail.com)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data.posts",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1104,
+        -416
+      ],
+      "id": "fd66cc03-20e9-4f64-a5d3-4e9dae06bb2c",
+      "name": "Split Out",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/actor-runs/{{ $json.data.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "waitForFinish",
+              "value": "60"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1408,
+        0
+      ],
+      "id": "c7bfe5d2-8272-4afe-b9ac-6f721729a127",
+      "name": "Get Actor Run",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1168,
+        0
+      ],
+      "id": "ab966804-fdd1-4616-8093-b976de8d727a",
+      "name": "Wait",
+      "webhookId": "a3216efe-abbd-429b-b905-9afced96f8d4"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.data.defaultDatasetId }}/items ",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2000,
+        -16
+      ],
+      "id": "944fd84f-4f5d-4ea6-900f-a70e3731cd1b",
+      "name": "Get Datasets",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c",
+          "mode": "list",
+          "cachedResultName": "[2025] - ReadyCare - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1438649008,
+          "mode": "list",
+          "cachedResultName": "FB Posts Scraped Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c/edit#gid=1438649008"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Num": "={{ $json.numRow }}",
+            "Published Date": "={{ $json.datePublished }}",
+            "Text Post": "={{ $json.postText }}",
+            "Post URL": "={{ $json.postURL }}",
+            "Reaction Count": "={{ $json.reactionCount }}",
+            "Share Count": "={{ $json.shareCount }}",
+            "Comment Count": "={{ $json.commentCount }}",
+            "Video View Count": "={{ $json.videoViewCount }}"
+          },
+          "matchingColumns": [
+            "Num"
+          ],
+          "schema": [
+            {
+              "id": "Num",
+              "displayName": "Num",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Published Date",
+              "displayName": "Published Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Text Post",
+              "displayName": "Text Post",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Post URL",
+              "displayName": "Post URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Reaction Count",
+              "displayName": "Reaction Count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Share Count",
+              "displayName": "Share Count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Comment Count",
+              "displayName": "Comment Count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Video View Count",
+              "displayName": "Video View Count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -448,
+        400
+      ],
+      "id": "ac96da31-7710-45a4-8474-2e3f78b15395",
+      "name": "Google Sheets2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "575cc607-2b70-4323-b268-995590595b10",
+              "leftValue": "={{ $json.data.status }}",
+              "rightValue": "SUCCEEDED",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1664,
+        0
+      ],
+      "id": "169cf9db-8ad1-4bf5-ab8c-29bf5bf8d6b3",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c",
+          "mode": "list",
+          "cachedResultName": "[2025] - ReadyCare - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "FB Post Scraper Input",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/187b2EFQlU-NRwuC7J_4-EDMoviHqvMbQLhMv32LPT0c/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        112,
+        -416
+      ],
+      "id": "b54b91aa-7ba0-4e94-a17a-839858bee5bc",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "oMHjbut2VzVQ0VcS",
+          "name": "GSheet Trigger- boonhong.tan0309@gmail.com"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "path": "fb-sementra-post-scraper",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -256,
+        -448
+      ],
+      "id": "28565f09-258b-41b0-a408-e20e6ae24184",
+      "name": "Webhook",
+      "webhookId": "86cb5320-49b3-4d5b-b40a-9b41a2edbe38",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "formTitle": "fb-sementra-posts-scraping",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "FB Page Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Sementra Hot Spring Nature Resort Gopeng"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "FB Page URL",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "https://www.facebook.com/sementrahotspringnatureresortgopeng"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Max Posts Scrape",
+              "fieldType": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -320,
+        0
+      ],
+      "id": "77573c78-620e-4475-b279-a7c776573486",
+      "name": "On form submission",
+      "webhookId": "9a909819-2f21-448d-9734-986d19b6bf11"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d34a454b-8ca5-484d-8497-a9b21dc01027",
+              "name": "fbPageID",
+              "value": "={{ $json.facebook_id }}",
+              "type": "string"
+            },
+            {
+              "id": "5abdcb31-b02b-4fe4-8012-431bf344b1f8",
+              "name": "fbPageURL",
+              "value": "={{ $('On form submission').first().json['FB Page URL'] }}",
+              "type": "string"
+            },
+            {
+              "id": "289e120f-34ba-43db-b1a0-e76f24755de3",
+              "name": "maxPosts",
+              "value": "={{ $('On form submission').first().json['Max Posts Scrape'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        464,
+        0
+      ],
+      "id": "49df848f-709c-498c-891b-927666762199",
+      "name": "SET Inputs For APIFY FB Scraper"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/actor-tasks/immense_grasshopper~facebook-posts-scraper-task/runs",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"input\": [\n        {\n            \"url\": \"{{ $json.fbPageURL }}\",\n            \"maxPosts\": {{ $json.maxPosts }}\n        }\n    ]\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        848,
+        0
+      ],
+      "id": "be77b38c-02b1-42e9-b193-b1cd80a4ca7e",
+      "name": "APIFY FB Posts Scraper Actor Start",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ed570b1b-7813-4061-a8c6-fff5e4d43aa4",
+              "name": "numRow",
+              "value": "={{ $itemIndex+1 }}",
+              "type": "string"
+            },
+            {
+              "id": "37e5b5be-aec7-4377-87e3-8941c6302423",
+              "name": "datePublished",
+              "value": "={{ $json.creationDate }}",
+              "type": "string"
+            },
+            {
+              "id": "094014be-d849-4620-9a1b-900d3f4ece69",
+              "name": "postText",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "1c542148-722b-4c44-89bb-d8a8f3fac310",
+              "name": "postID",
+              "value": "={{ $json.postId }}",
+              "type": "string"
+            },
+            {
+              "id": "78fe163a-62d8-4d97-b9f8-70aa937fb0d4",
+              "name": "postURL",
+              "value": "={{ $json.postUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "19b3d5ae-028f-4040-a3ee-94f49f9ae7c2",
+              "name": "reactionCount",
+              "value": "={{ $json.reactionCount }}",
+              "type": "number"
+            },
+            {
+              "id": "644d9b4e-6b50-4c44-a933-65e2e5a4515b",
+              "name": "shareCount",
+              "value": "={{ $json.shareCount }}",
+              "type": "string"
+            },
+            {
+              "id": "f743818d-0527-4de1-9ca1-c41dae2644aa",
+              "name": "commentCount",
+              "value": "={{ $json.commentComment }}",
+              "type": "string"
+            },
+            {
+              "id": "a0725947-9049-442e-bdd7-b0972d0f638a",
+              "name": "videoViewCount",
+              "value": "={{ $json.videoViewCount }}",
+              "type": "string"
+            },
+            {
+              "id": "6bb8f671-ded0-469c-8e65-0044051f2aad",
+              "name": "imagePostList",
+              "value": "={{ $json.imageUrlList }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -144,
+        464
+      ],
+      "id": "18bbefa5-6ea7-4192-a2ff-3c292a26864b",
+      "name": "Mapped Important Fields With Scraped Data"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        144,
+        480
+      ],
+      "id": "06fe3d01-2179-4759-951c-b9719e2bc0d5",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "create",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mpxvf44uk5svwsm",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Row Num",
+              "fieldValue": "={{ $json.numRow }}"
+            },
+            {
+              "fieldName": "Date Published",
+              "fieldValue": "={{ $json.datePublished }}"
+            },
+            {
+              "fieldName": "Post ID",
+              "fieldValue": "={{ $json.postID }}"
+            },
+            {
+              "fieldName": "Text Post",
+              "fieldValue": "={{ $json.postText }}"
+            },
+            {
+              "fieldName": "Post URL",
+              "fieldValue": "={{ $json.postURL }}"
+            },
+            {
+              "fieldName": "Post Image List",
+              "fieldValue": "={{ $json.imagePostList }}"
+            },
+            {
+              "fieldName": "Reaction Counts",
+              "fieldValue": "={{ $json.reactionCount }}"
+            },
+            {
+              "fieldName": "Share Counts",
+              "fieldValue": "={{ $json.shareCount }}"
+            },
+            {
+              "fieldName": "Comment Counts",
+              "fieldValue": "={{ $json.commentCount }}"
+            },
+            {
+              "fieldName": "Video View Counts",
+              "fieldValue": "={{ $json.videoViewCount }}"
+            },
+            {
+              "fieldName": "Scraped Date Updates",
+              "fieldValue": "={{ $now.format('yyyy-MM-dd') }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        768,
+        528
+      ],
+      "id": "16909f64-6876-4c78-bb1d-f8d45579d9ee",
+      "name": "NocoDB2",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p2gghwqoq61d79d",
+        "table": "mpxvf44uk5svwsm",
+        "limit": 40,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        768,
+        352
+      ],
+      "id": "186cced9-6503-4228-83c3-f095ce5b08a4",
+      "name": "NocoDB",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        464,
+        352
+      ],
+      "id": "ba52413e-00a4-4c7c-a996-e9eabb37602c",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "={{ $now.format('yyyy-MM-dd-hh-mm-ss') }}_FB-Sementra-Post-Scraped",
+          "mode": "id"
+        },
+        "embeddingBatchSize": 500,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "typeVersion": 1.3,
+      "position": [
+        1120,
+        352
+      ],
+      "id": "b51ec6d2-3cdf-4e3c-8ab5-b5a83104a7d8",
+      "name": "Qdrant Vector Store",
+      "credentials": {
+        "qdrantApi": {
+          "id": "JHGJ4OS8az0ug9lO",
+          "name": "QdrantCluster[creo_sementra_fb_posts](boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "text-embedding-3-large",
+        "options": {
+          "dimensions": 1536,
+          "batchSize": 500
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1008,
+        592
+      ],
+      "id": "85bb804c-2d31-4e56-b807-665a40e667a0",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        1328,
+        608
+      ],
+      "id": "b5366f72-de38-4af0-91ac-432970226cb5",
+      "name": "Default Data Loader"
+    }
+  ],
+  "connections": {
+    "GET FB Page ID": {
+      "main": [
+        [
+          {
+            "node": "SET Inputs For APIFY FB Scraper",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Actor Run": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get Actor Run",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Datasets": {
+      "main": [
+        [
+          {
+            "node": "Mapped Important Fields With Scraped Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Get Datasets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets Trigger": {
+      "main": [
+        []
+      ]
+    },
+    "Webhook": {
+      "main": [
+        []
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "GET FB Page ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SET Inputs For APIFY FB Scraper": {
+      "main": [
+        [
+          {
+            "node": "APIFY FB Posts Scraper Actor Start",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "APIFY FB Posts Scraper Actor Start": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mapped Important Fields With Scraped Data": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "NocoDB2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NocoDB2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "NocoDB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NocoDB": {
+      "main": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "x-forwarded-host": "n8n.automessenger.me",
+            "x-forwarded-server": "n8n.automessenger.me",
+            "x-real-ip": "52.15.226.51",
+            "x-forwarded-for": "52.15.226.51",
+            "x-forwarded-proto": "https",
+            "host": "n8n.automessenger.me",
+            "connection": "Upgrade",
+            "content-length": "478",
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "user-agent": "axios/1.10.0",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "sentry-trace": "06cbd574c18a4d999c9fcb4716e42d6d-be72bd387aee0374",
+            "baggage": "sentry-environment=production,sentry-release=0.111.4,sentry-public_key=545692f1a4c6783d1ebb54fa5c095dc8,sentry-trace_id=06cbd574c18a4d999c9fcb4716e42d6d,sentry-org_id=4505953073889280"
+          },
+          "params": {},
+          "query": {
+            "input-form-submit-status": "submitted"
+          },
+          "body": {
+            "type": "records.after.insert",
+            "id": "d5e47198-b0b4-41b9-852d-a75433feedc3",
+            "data": {
+              "table_id": "mpxvf44uk5svwsm",
+              "table_name": "FB Posts Scraping",
+              "rows": [
+                {
+                  "Id": 1,
+                  "CreatedAt": "2025-06-17T10:56:08.640Z",
+                  "UpdatedAt": "2025-06-17T10:56:08.640Z",
+                  "FB Page Name": "Sementra Hot Spring Nature Resort Gopeng",
+                  "FB Page URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng",
+                  "FB Page ID": 100076504356869,
+                  "Max Posts To Scrape": 30,
+                  "Data Scraped Date": "2025-06-17T10:56:08.640Z"
+                }
+              ]
+            }
+          },
+          "webhookUrl": "https://n8n.automessenger.me/webhook-test/fb-sementra-post-scraper",
+          "executionMode": "test"
+        }
+      }
+    ],
+    "On form submission": [
+      {
+        "json": {
+          "FB Page Name": "Sementra Hot Spring Nature Resort Gopeng",
+          "FB Page URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng",
+          "Max Posts Scrape": 40,
+          "submittedAt": "2025-06-17T19:06:30.607+08:00",
+          "formMode": "test"
+        }
+      }
+    ],
+    "GET FB Page ID": [
+      {
+        "json": {
+          "facebook_id": "100076504356869"
+        }
+      }
+    ],
+    "Mapped Important Fields With Scraped Data": [
+      {
+        "json": {
+          "numRow": "1",
+          "datePublished": "Tuesday, June 17, 2025 at 02:01 AM",
+          "postText": "Keep an eye out for this beauty near the hot springs — it’s called the Pagoda Flower, and it’s just one of Sementra’s many hidden botanical treasures.\n\n#PagodaFlower #ClerodendrumPaniculatum #SementraNatureWalk #SementraHotSpringNatureResort #HotSpringMalaysia #WildflowersOfMalaysia #TropicalBotany #EcoRetreat",
+          "postID": "736684662225006",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid0t9jAH6rMLyV2VPujkcswjDTztkgwnzRNGmktGntVRKJM4atRPT4k9Km2zkLKYGu4l",
+          "reactionCount": 3,
+          "shareCount": "1",
+          "commentCount": "0",
+          "videoViewCount": "0",
+          "imagePostList": [
+            "https://scontent-ssn1-1.xx.fbcdn.net/v/t39.30808-6/506454402_736015342291938_922599093644431431_n.jpg?stp=cp6_dst-jpg_p960x960_tt6&_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=kY4Lka4bP58Q7kNvwE0o_km&_nc_oc=AdlH3iArqCFggp-wbCWUXXOMxD7dvUtsml743EnLMULW357Dz5J9qX_gwUufhHLEkM4&_nc_zt=23&_nc_ht=scontent-ssn1-1.xx&_nc_gid=pom90nEwqHKYZKMzYUEUoQ&oh=00_AfNbhxU83-MxrQyQFbE6TeUugOnm83TmT6fYjvEh3Azz0A&oe=68571514",
+            "https://scontent-ssn1-1.xx.fbcdn.net/v/t39.30808-6/507129046_736015338958605_6297102148854161127_n.jpg?stp=cp6_dst-jpg_p960x960_tt6&_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_ohc=NZtWUWn78PwQ7kNvwGVU9Sp&_nc_oc=AdmJ2eKPVcVAUCEd4Qr501jnKqZiDGeMxEohip07V-JPgWJmzjQpZiO7qtLUGtn5DD0&_nc_zt=23&_nc_ht=scontent-ssn1-1.xx&_nc_gid=pom90nEwqHKYZKMzYUEUoQ&oh=00_AfMkzGcQ89pcFQayz5ydRXJ1XRlgpGVaJkSqS52Xb6dQSw&oe=68572DC3",
+            "https://scontent-ssn1-1.xx.fbcdn.net/v/t39.30808-6/506494749_736015362291936_4346153182832133880_n.jpg?stp=cp6_dst-jpg_p960x960_tt6&_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_ohc=IAAne8YIziMQ7kNvwEb1yhp&_nc_oc=Adn05tW1J8-I107ku2g7zlKyyMcGoG-jAswzHCccvzJiUE2jDBSvlVfwBsExpotOVVA&_nc_zt=23&_nc_ht=scontent-ssn1-1.xx&_nc_gid=pom90nEwqHKYZKMzYUEUoQ&oh=00_AfMHL6f0sZZmcobM7VIW4OSaLbDaD-t4d6BevkgoT7SeHQ&oe=68571FCE"
+          ]
+        }
+      },
+      {
+        "json": {
+          "numRow": "2",
+          "datePublished": "Saturday, June 14, 2025 at 01:00 PM",
+          "postText": "Happy Father’s Day from the heart of Sementra 💚\nTo the quiet protector and heart of the family ❤️ — let nature celebrate you today 🌿🌸\n\n🏨 Book your stay now 👉 https://bit.ly/BookingSMT\n\n#FathersDayAtSementra #CelebrateDad #SementraHotSprings #NatureRetreat #WellnessWithDad",
+          "postID": "734673059092833",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid0UQojss9rTsjT4ukq8etPdLiyETgoyTyjAF36LNXYmc9a7gQ9fs7owSUxNSZmwE4tl",
+          "reactionCount": 2,
+          "shareCount": "1",
+          "commentCount": "0",
+          "videoViewCount": "0",
+          "imagePostList": [
+            "https://scontent-icn2-1.xx.fbcdn.net/v/t39.30808-6/506457009_733723969187742_2637572348081424095_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_ohc=47UcgxzWYt4Q7kNvwF6YkyX&_nc_oc=AdkW0_ZsVojmK4b_QEjBk8pMBjI_Fa89C09oLVsE27FmvBGL3mnSn8LLt9JdJ3sYrN4&_nc_zt=23&_nc_ht=scontent-icn2-1.xx&_nc_gid=a046zBlTL4zHsMJ8dIPzwg&oh=00_AfNUJNh4pLoHItZtslML5hdymtWBISVCJ5rpWWSSUJpj3g&oe=68573174"
+          ]
+        }
+      },
+      {
+        "json": {
+          "numRow": "3",
+          "datePublished": "Tuesday, June 10, 2025 at 08:43 AM",
+          "postText": "Did you know about the Rajah Brooke’s Birdwing? 🦋✨\n\nOne of the largest and most beautiful butterflies in the world — and you can spot it here at Sementra! 🌿\n\n🦋 Bold black wings with striking metallic green bands\n🦋 Named after James Brooke, the first White Rajah of Sarawak\n🦋 A protected national icon in Malaysia\n🦋 Found in rainforests of Peninsular Malaysia, Borneo & Sumatra — especially around Ulu Geroh near Gopeng (and yes, often seen right here in Sementra too!)\n\nAt #SementraNatureHotSpringResort, you might just catch these stunning butterflies gathering near our hot spring area — a magical sight not to be missed.\n\n#SementraVibes #RajahBrooke #NatureInMalaysia #WeekendEscape #ButterflySpotting #HiddenGemsMalaysia",
+          "postID": "731289072764565",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid025neS1b7Yfp1CCxQBR7zdU5egz8KjaC3YMgANSNLSUpqpTdt8APepwP1F1nV3SnARl",
+          "reactionCount": 3,
+          "shareCount": "1",
+          "commentCount": "0",
+          "videoViewCount": "0",
+          "imagePostList": [
+            "https://scontent-icn2-1.xx.fbcdn.net/v/t39.30808-6/504248869_731289049431234_8497407615974059619_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=833d8c&_nc_ohc=kgUl5Zlyhg8Q7kNvwFFRRWu&_nc_oc=AdnlEwTu29021EHsbPFYDrDykSbhktFCnodKjn-z8C1lx_uPdZIniI1KEenCEG7r1JQ&_nc_zt=23&_nc_ht=scontent-icn2-1.xx&_nc_gid=a046zBlTL4zHsMJ8dIPzwg&oh=00_AfPR8ZIHsWQYZgPhwhWIOCh7Nl0VXCW92AbfSqW9hDuYCw&oe=68571BE7"
+          ]
+        }
+      },
+      {
+        "json": {
+          "numRow": "4",
+          "datePublished": "Saturday, June 7, 2025 at 02:01 AM",
+          "postText": "Happy Hari Raya Haji! 🌙\n\nWishing you peace, joy, and blessings this festive season. Celebrate with a serene retreat at Sementra.\n\n🏨Book your stay at Sementra Resort now👉 https://bit.ly/BookingSMT\n\n#HariRayaHaji #FestiveGreetings #NaturePeace #Malaysia",
+          "postID": "728853979674741",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid0bkqQCUNg2n7EyzKXgMgLjKSuDmv1xB4QhpooigynJ9PatWuPtaiVUJi9zg98kBTfl",
+          "reactionCount": 3,
+          "shareCount": "1",
+          "commentCount": "0",
+          "videoViewCount": "0",
+          "imagePostList": [
+            "https://scontent-icn2-1.xx.fbcdn.net/v/t39.30808-6/504186489_728362209723918_8673619510018906265_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_ohc=Yupv1qYWtecQ7kNvwFjorOh&_nc_oc=AdkVRr4d6ge9Zwn-Vh6Xr-IKs4mR7d8qGl4R01ulJVc0AOl0H3a_B295sJmz5Q4eD-Q&_nc_zt=23&_nc_ht=scontent-icn2-1.xx&_nc_gid=a046zBlTL4zHsMJ8dIPzwg&oh=00_AfPgHjYvFUauz-uI90rE7WOOfvJx7sJK4Eim-mWTpnX8Lw&oe=68573E38"
+          ]
+        }
+      },
+      {
+        "json": {
+          "numRow": "5",
+          "datePublished": "Wednesday, June 4, 2025 at 02:01 AM",
+          "postText": "Here at Sementra, we treat our guests the way nature treats us — gently, kindly, and with open arms. Whether you’re here to unwind, recharge, or just breathe, our team is here to make you feel cared for every step of the way.\n\nBook your stay here: https://bit.ly/BookingSMT\n\n#SementraRetreat #ForestEscape #NatureLovers #SlowLiving #MindfulTravel #HiddenGem #EcoRetreat #TravelWithHeart #WanderWell #RetreatIntoNature #BoutiqueStay #NatureHeals #ReconnectInNature #SereneGetaway #HeartfeltHospitality",
+          "postID": "726688853224587",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/1382118676429331/",
+          "reactionCount": 3,
+          "shareCount": "0",
+          "commentCount": "0",
+          "videoViewCount": "67",
+          "imagePostList": []
+        }
+      },
+      {
+        "json": {
+          "numRow": "6",
+          "datePublished": "Monday, June 2, 2025 at 01:51 AM",
+          "postText": "Selamat Hari Keputeraan to Yang di-Pertuan Agong Sultan Ibrahim Ibni Almarhum Sultan Iskandar.\n\nMay His Majesty be blessed with enduring health, boundless joy, and great wisdom in continuing to lead and inspire our beloved nation.\n\n#DaulatTuanku \n#sementrahotspringnatureresort",
+          "postID": "725187430041396",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid02Q7ojcZTYM4yW9xd2mZ387ptTt9vQSAVKfHz5T7C1AWDY6usXZwf7UDDVSz7y9Wugl",
+          "reactionCount": 3,
+          "shareCount": "1",
+          "commentCount": "0",
+          "videoViewCount": "0",
+          "imagePostList": [
+            "https://scontent-atl3-2.xx.fbcdn.net/v/t39.30808-6/503127076_725187313374741_3448609979885496847_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=127cfc&_nc_ohc=fJLp30mAYNAQ7kNvwF7Yub8&_nc_oc=AdndyN4O5Q1CuLXRDWQ1tyUfqdcSdMX1IiegwgX11fHzzW6Z9m_lSge7ZH7R_mqOYjigyYFNxhkkFLhA3G45CHjM&_nc_zt=23&_nc_ht=scontent-atl3-2.xx&_nc_gid=EKUMlXrTs6VZk3his-Q_IQ&oh=00_AfMSAtT4wpVCRr3-z0O_3VkPM_8gNSABJ84Bp81MZbgWMw&oe=685735BE"
+          ]
+        }
+      },
+      {
+        "json": {
+          "numRow": "7",
+          "datePublished": "Thursday, May 29, 2025 at 06:13 AM",
+          "postText": "Thank you for sharing your stay with us ☺️",
+          "postID": "722339336992872",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid02jMpovrjZCKyBMtGp1STxDvRrKi1zaMHVRv2V5PJUtXGtyvmRjdiMZLH4zA23pPTKl",
+          "reactionCount": 4,
+          "shareCount": "0",
+          "commentCount": "0",
+          "videoViewCount": "0",
+          "imagePostList": [
+            "https://external-atl3-2.xx.fbcdn.net/emg1/v/t13/17225068922271385934?url=https%3A%2F%2Fi.ytimg.com%2Fvi%2FO0B_9bzkuXU%2Fmaxresdefault.jpg&fb_obo=1&utld=ytimg.com&stp=c0.5000x0.5000f_dst-jpg_flffffff_p1000x522_q75_tt6&_nc_gid=EKUMlXrTs6VZk3his-Q_IQ&_nc_oc=AdkETZkzLcyr1tkFdHY1rav0MKchovStydEAWAvfmUj4zVoenKKA3IEbh6oLMhMtjfs60lZVlZJX1BLE-32nfJbR&ccb=13-1&oh=06_Q3-0AWCVUiSiHRq82jC23imh8vqopImTNN3GEgiyMp9dnMhS&oe=6853398F&_nc_sid=c97757"
+          ]
+        }
+      },
+      {
+        "json": {
+          "numRow": "8",
+          "datePublished": "Thursday, May 29, 2025 at 02:01 AM",
+          "postText": "Just a grasshopper vibin’ at Sementra 🌴☀️ munchin’ leaves, catching rays, and serving looks for the 'Gram 📸 🦗\n\nSpotted any cool bugs at Sementra? Share them with us—we wanna see your wild finds! 🐞🦋🕷️\n\n#SementraVibes #BugLifeButMakeItLuxury #NatureRetreat #StayWild #JungleMood #HiddenGemMalaysia #InsectInfluencer #SoftLifeInTheWild #ecotourism #ExploreNature",
+          "postID": "722207993672673",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/722207993672673",
+          "reactionCount": 3,
+          "shareCount": "1",
+          "commentCount": "0",
+          "videoViewCount": "0",
+          "imagePostList": [
+            "https://scontent.fsrg4-1.fna.fbcdn.net/v/t39.30808-6/500437004_721754593718013_1344571469355399447_n.jpg?stp=cp6_dst-jpg_s1080x2048_tt6&_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_ohc=fTW3ogIYltIQ7kNvwFVbzDg&_nc_oc=Adm7xFNYQ2B-TSRx6nXf2x2BZgq2XDZEwtLy-vZbFFkFCq7yvgzDh--qOXyJcog6yQA&_nc_zt=23&_nc_ht=scontent.fsrg4-1.fna&_nc_gid=SgzJY_g52QF4W4jUIC-foQ&oh=00_AfPmMLTh_1efMAh8KFlquPD0L17P0m-x2dOwkEMTbT1-UQ&oe=68573AEF"
+          ]
+        }
+      },
+      {
+        "json": {
+          "numRow": "9",
+          "datePublished": "Monday, May 26, 2025 at 05:02 AM",
+          "postText": "Sementra’s guided hiking tour is more than just a walk — it’s a chance to slow down, listen to the whispers of the rainforest, and learn about the rich biodiversity that surrounds us. Led by our passionate team, every step brings a new discovery.\n\n#SementraRetreat #ForestEscape #EcoTourismMalaysia #NatureLovers #GopengAdventure #RainforestHike #ReconnectWithNature #MalaysiaNature #SustainableTravel #HikingMalaysia #HiddenGemsMalaysia #TravelPerak #HotSpringRetreat",
+          "postID": "720149300545209",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/720149300545209",
+          "reactionCount": 4,
+          "shareCount": "2",
+          "commentCount": "0",
+          "videoViewCount": "0",
+          "imagePostList": [
+            "https://scontent.fsrg4-1.fna.fbcdn.net/v/t39.30808-6/500227652_720149227211883_7308089634527243099_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=sZ6RA7J1M3wQ7kNvwEPefZC&_nc_oc=AdkbSFyt4_kR5luNKQPtqbXaQ9bHKG5l8pmqiuZU0CdzDz2xTby6n-ZzoI0NYy-5LY0&_nc_zt=23&_nc_ht=scontent.fsrg4-1.fna&_nc_gid=SgzJY_g52QF4W4jUIC-foQ&oh=00_AfNNF1dXjMPVfLN_l0KOwvq9u6hM_M-yDlh993wzJv5CkQ&oe=68573F75",
+            "https://scontent.fsrg4-1.fna.fbcdn.net/v/t39.30808-6/500476358_720149247211881_8691302631963783764_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_ohc=7mEFpDS3qUAQ7kNvwGBVD2-&_nc_oc=AdmRA5N75rIP9KzPYzIyzQugWPYMfbMpyr9Yn7S25k0NGJvtZHNYEjasaxtxbMaWFBI&_nc_zt=23&_nc_ht=scontent.fsrg4-1.fna&_nc_gid=SgzJY_g52QF4W4jUIC-foQ&oh=00_AfPRXgW1OVw0NOxgSLl0xjY_PgJPi5lgtO7Y4GN-kyhnbw&oe=6857195F",
+            "https://scontent.fsrg4-1.fna.fbcdn.net/v/t39.30808-6/498670065_720149260545213_5393536300788446728_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_ohc=ET3yD2jQZa0Q7kNvwG8Czei&_nc_oc=Adnhmj6evsySVb75Z-uizsVrPyTIXnFUzhL_sq0XGkYgI4x2aYUmmWEvhtaV2qH8RCc&_nc_zt=23&_nc_ht=scontent.fsrg4-1.fna&_nc_gid=SgzJY_g52QF4W4jUIC-foQ&oh=00_AfOzxyhjjTICBd5qDlI0I8TxtGfWsHWH3Mbpa3oRoCGSrA&oe=68571E45"
+          ]
+        }
+      },
+      {
+        "json": {
+          "numRow": "10",
+          "datePublished": "Thursday, May 22, 2025 at 10:28 AM",
+          "postText": "🏞 Adventure Awaits at Sementra! 🏞\n\nFrom hiking to waterfall swimming, there’s something for everyone. Plan your next adventure with us and create unforgettable memories.\n\nBook your stay here: https://bit.ly/BookingSMT\n\n#AdventureTime #SementraResort #OutdoorFun #ExploreNature #WeekendGetaway",
+          "postID": "717423094151163",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/1419802098920266/",
+          "reactionCount": 3,
+          "shareCount": "1",
+          "commentCount": "0",
+          "videoViewCount": "153",
+          "imagePostList": []
+        }
+      },
+      {
+        "json": {
+          "numRow": "11",
+          "datePublished": "Sunday, May 18, 2025 at 02:01 AM",
+          "postText": "A trip to nature isn’t just a getaway—it’s a journey to rediscover yourself. Write your next chapter with us. 🌿✨",
+          "postID": "714280441132095",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/982273123756234/",
+          "reactionCount": 4,
+          "shareCount": "1",
+          "commentCount": "0",
+          "videoViewCount": "245",
+          "imagePostList": []
+        }
+      },
+      {
+        "json": {
+          "numRow": "12",
+          "datePublished": "Friday, May 16, 2025 at 02:00 AM",
+          "postText": "🌅 Wake Up to Nature’s Beauty 🌅\n\nStart your day with breathtaking views and fresh mountain air at Sementra Hot Spring Nature Resort. Perfect for a peaceful morning retreat.\n\nBook your stay: https://bit.ly/BookingSMT\n\n#MorningBliss #SementraResort #NatureViews #TranquilEscape #MalaysiaTravel",
+          "postID": "712894277937378",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid02neccFgcjDf2kSvVmkf3dARzcc9JB5kvqZNvEYoQ3CRfDSZ4LamCUXjAFyVH1MXXsl",
+          "reactionCount": 7,
+          "shareCount": "1",
+          "commentCount": "1",
+          "videoViewCount": "0",
+          "imagePostList": [
+            "https://scontent-iad3-1.xx.fbcdn.net/v/t39.30808-6/495122906_708404411719698_4524824186680703559_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_ohc=NkBlz8sO3jMQ7kNvwFu2jSS&_nc_oc=AdlraXjc6alCcWdfVEZXR2enOstIVi9RWtveBA1svF6al3YuBQB7GJzjOEpPwYB7LqBt4xpxN4NGsyBJIjXp5cR-&_nc_zt=23&_nc_ht=scontent-iad3-1.xx&_nc_gid=jOvWYetsZduRczoCOA4Xow&oh=00_AfPI5vIhPyx7sbbNJ-RjR0Vm2tF4flNPiM4vG3LIK_VI5Q&oe=68572B84"
+          ]
+        }
+      },
+      {
+        "json": {
+          "numRow": "13",
+          "datePublished": "Wednesday, May 14, 2025 at 02:00 AM",
+          "postText": "Sometimes, happiness is as simple as fresh air, warm sun, and good company. Cherish it. 💚\n\nBook now: https://bit.ly/BookingSMT\n\n#CutiCutiMalaysia #NatureLoversMY #TenangDiAlam #JomHealing #SuasanaHijau #SinarMatahari #MasaBersama #IpohVibes #MalaysiaTrulyAsia #DetikIndah",
+          "postID": "711599918066814",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid0KvVFdUSwDA9oPAnydSZMw4t9fuLUKdjCnotjG5JABXSxFrQncgeRPBrcoY9LBzaml",
+          "reactionCount": 2,
+          "shareCount": "2",
+          "commentCount": "0",
+          "videoViewCount": "0",
+          "imagePostList": [
+            "https://scontent-iad3-1.xx.fbcdn.net/v/t39.30808-6/496128341_708401521719987_4417460114816240284_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_ohc=PHDaB7FJNaoQ7kNvwFMxItR&_nc_oc=Admnr2bKmDPip1r5Hoq52LwGyz0SQjEbQl-x8uqt5vlpq1jyk1_epRw4sFkXzOUZ8tfGmSwNPB5yCaUOnJWL3mf3&_nc_zt=23&_nc_ht=scontent-iad3-1.xx&_nc_gid=jOvWYetsZduRczoCOA4Xow&oh=00_AfOvby8VDCAQ44O8USzumipOkI2nWMvysRbydtPd0Nqpzg&oe=68572671"
+          ]
+        }
+      },
+      {
+        "json": {
+          "numRow": "14",
+          "datePublished": "Monday, May 12, 2025 at 02:00 AM",
+          "postText": "✨ Happy Wesak Day! ✨\n\nCelebrate this auspicious day with peace and tranquility at Sementra Hot Spring Nature Resort. Reflect and rejuvenate in nature’s embrace.\n\nBook now: https://bit.ly/BookingSMT\n\n#WesakDay #SementraResort #PeacefulRetreat #NatureSerenity #SpiritualJourney",
+          "postID": "710331751526964",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/710331751526964",
+          "reactionCount": 0,
+          "shareCount": "1",
+          "commentCount": "0",
+          "videoViewCount": "0",
+          "imagePostList": [
+            "https://scontent.fach1-1.fna.fbcdn.net/v/t39.30808-6/495392560_708400321720107_8113611313753094412_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=jO8LzAR_MKAQ7kNvwGrQPqU&_nc_oc=Adn4RZaLw4eoUM_dkoB5V9r4rKkGrFfFdBT2L1_lCTpXsRVRF4_35xAeMyl4Zu2sDyY&_nc_zt=23&_nc_ht=scontent.fach1-1.fna&_nc_gid=xKG1qUXC2AxrTzo_K3kVlg&oh=00_AfOrJj4WLBLVj8HYuzSuT9lyX2FX7F0sLGx235BOEeExLw&oe=68571CDF"
+          ]
+        }
+      },
+      {
+        "json": {
+          "numRow": "15",
+          "datePublished": "Sunday, May 11, 2025 at 12:15 AM",
+          "postText": "To the hearts that nurture, the hands that heal, and the love that never ends — Happy Mother’s Day from all of us at Sementra.",
+          "postID": "709588564934616",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/664464516499661/",
+          "reactionCount": 2,
+          "shareCount": "0",
+          "commentCount": "0",
+          "videoViewCount": "78",
+          "imagePostList": []
+        }
+      },
+      {
+        "json": {
+          "numRow": "16",
+          "datePublished": "Wednesday, May 7, 2025 at 02:00 AM",
+          "postText": "Teamwork, trust, and memories that stick 🌿\n\nExperience team-building like never before — surrounded by nature, laughter, and a whole lot of good vibes. 🏕✨\n\nAt Sementra, bonding feels real.\n\n#SementraResort #TeamBuildingRetreat #NatureVibes #WorkHardBondHarder #RainforestEscape #GopengAdventure #UnplugAndConnect #TeamworkInNature #CorporateRetreatMalaysia",
+          "postID": "707025338524272",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/3032254810272473/",
+          "reactionCount": 2,
+          "shareCount": "0",
+          "commentCount": "0",
+          "videoViewCount": "173",
+          "imagePostList": []
+        }
+      },
+      {
+        "json": {
+          "numRow": "17",
+          "datePublished": "Monday, May 5, 2025 at 01:00 AM",
+          "postText": "A hidden rainforest sanctuary 🌿✨\n\nTucked away in Gopeng, Sementra is your escape into nature — hot springs, waterfalls, and pure forest peace.\n\nCome for the view, stay for the calm.\n\n#RainforestSanctuary #SementraResort #NatureLoversRetreat #GopengEscape",
+          "postID": "705546328672173",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/618877714517713/",
+          "reactionCount": 8,
+          "shareCount": "3",
+          "commentCount": "0",
+          "videoViewCount": "488",
+          "imagePostList": []
+        }
+      },
+      {
+        "json": {
+          "numRow": "18",
+          "datePublished": "Sunday, May 4, 2025 at 02:00 AM",
+          "postText": "Spot the beauty of the rainforest—meet the Rajah Brooke! 🌿🦋\n\nThis striking butterfly is a true symbol of Malaysia’s natural wonders. Catch a glimpse of its vibrant wings fluttering around Sementra and let nature’s colors brighten your day.\n\n#RajahBrooke #RainforestBeauty #sementranaturehotspringresort #ButterflySpotting #NatureMalaysia #PerakNature #WildlifeMalaysia #DiscoverNature #HiddenGemsMY #NatureLovers #MalaysiaWildlife #ButterflyLovers #JewelOfTheRainforest #ExplorePerak #EcoTourism",
+          "postID": "704829148743891",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid034t1J2gS1mAqUawRiE97viW8yTQtk2HMg5FtYqoMqF26guV6rTHuhGUFQyPvxfP5nl",
+          "reactionCount": 6,
+          "shareCount": "2",
+          "commentCount": "0",
+          "videoViewCount": "0",
+          "imagePostList": [
+            "https://scontent-fra3-2.xx.fbcdn.net/v/t39.30808-6/493872489_700572182502921_94530547552923869_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=127cfc&_nc_ohc=6u5rkDvAbD8Q7kNvwFR_7G3&_nc_oc=AdmFOW2czGczdB5_RE_d8rkYLi7Mo57-8Unls2-U5EwaluBNntlqZk0I3qz2-zJm3ZI&_nc_zt=23&_nc_ht=scontent-fra3-2.xx&_nc_gid=bAIb1HO-L3RjI8wIOKNVvg&oh=00_AfOI1B5g8wfYfVN9a3o3Nm667kK1cjkmQDymcfQJc2hSew&oe=68572A19"
+          ]
+        }
+      },
+      {
+        "json": {
+          "numRow": "19",
+          "datePublished": "Sunday, May 4, 2025 at 01:00 AM",
+          "postText": "Challenge yourself with an unforgettable adventure—rafting, hiking, and exploring the wild. Your next adventure starts here! 🏞️✨\n\n#AdventureAwaits #FeelTheThrill #ExploreTheWild #RaftingMalaysia #HikingAdventure #NatureEscape #SementraResort #OutdoorExperience #UnforgettableMoments #LiveForAdventure #EcoTourismMY #DiscoverPerak #WildAtHeart #NatureLovers #JomAdventure",
+          "postID": "704793152080824",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/1344617130098986/",
+          "reactionCount": 4,
+          "shareCount": "0",
+          "commentCount": "0",
+          "videoViewCount": "237",
+          "imagePostList": []
+        }
+      },
+      {
+        "json": {
+          "numRow": "20",
+          "datePublished": "Saturday, May 3, 2025 at 01:00 AM",
+          "postText": "Set your phones aside and make real connections—heartfelt conversations, big laughs, and unforgettable moments. 🌿✨\n\nExperience the joy of Congkak games at Sementra!\n\n#Congkak\n#ReconnectTogether\n#UnplugAndPlay\n#SementraMoments\n#TraditionalGames\n#KampungVibes\n#RealConnections\n#FamilyBonding\n#BigLaughs\n#NatureRetreat\n#HeritageGames\n#UnforgettableMoments\n#BackToBasics\n#MalaysiaTradition\n#PlayTogether",
+          "postID": "704057015487771",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid02ZBKqfoF3fQfnUi8nCqkzJ56LkpV6ywYc4Aa98RztRMo4LgXRDmGnMxzEAYcdYvDql",
+          "reactionCount": 4,
+          "shareCount": "1",
+          "commentCount": "0",
+          "videoViewCount": "0",
+          "imagePostList": [
+            "https://scontent.fluh3-3.fna.fbcdn.net/v/t39.30808-6/494515452_700562169170589_6368892629922581772_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_ohc=XLKyADrk6EoQ7kNvwGskWvc&_nc_oc=AdmqUZ-AeAAZLGhkNHnmqp4wmFt-AtM8-8GmHFKUzR0MBK293O5DXULqMtPgpp8fGko&_nc_zt=23&_nc_ht=scontent.fluh3-3.fna&_nc_gid=-2gXVbGWUJ8oKYGIIkKPiA&oh=00_AfO0S5lq3n9lf08iFV0-h023CumbURq2zqYtymxLGW0DIA&oe=68571AB6"
+          ]
+        }
+      },
+      {
+        "json": {
+          "numRow": "21",
+          "datePublished": "Thursday, May 1, 2025 at 01:00 AM",
+          "postText": "🌿 Happy Labour Day from Sementra 🌿\n\nTo all the hardworking souls who keep the world turning — today, we celebrate you. 💪\nTake a well-deserved break, soak in nature’s peace, and let your spirit recharge with us. 🌊🌴\n\n#LabourDay #SementraResort #NatureRetreat #DeservedBreak #GopengEscape #HotSpringHealing",
+          "postID": "702552612304878",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid02auoHrFbhmE5Tdm52HSfQpMaRFmmpmQuYhDqBWkxW98ptzdvVTNhVYJ9Zsy9pAQgol",
+          "reactionCount": 8,
+          "shareCount": "2",
+          "commentCount": "0",
+          "videoViewCount": "0",
+          "imagePostList": [
+            "https://scontent.fluh3-3.fna.fbcdn.net/v/t39.30808-6/494351184_701952105698262_6520973576921916159_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_ohc=GJmo6ZycA3IQ7kNvwEeali_&_nc_oc=Adm2UWz6HVL1ZGevCYU_hQuDOYedO80g3FxA268_NChLq3qzvrkUV8H2oG4yp3C-aes&_nc_zt=23&_nc_ht=scontent.fluh3-3.fna&_nc_gid=-2gXVbGWUJ8oKYGIIkKPiA&oh=00_AfPAt0AH_3hgRGK-T5vEivu20BPr_J-wBN6BWfwg2Iu3mQ&oe=685738F0"
+          ]
+        }
+      },
+      {
+        "json": {
+          "numRow": "22",
+          "datePublished": "Wednesday, April 30, 2025 at 02:00 AM",
+          "postText": "From refreshing morning hikes to cozy late-night bonfires, Sementra is where memories are made and bonds grow stronger. Plan your next family holiday and experience togetherness like never before. 🏡✨\n\n#FamilyHoliday\n#SementraResort\n#TogetherAtSementra\n#FamilyGetaway\n#NatureRetreat\n#BondingMoments\n#UnwindTogether\n#CreateMemories\n#HolidayInNature\n#FamilyTime\n#ReconnectInNature\n#MalaysiaStaycation\n#EscapeToNature",
+          "postID": "701849695708503",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/627111793660852/",
+          "reactionCount": 3,
+          "shareCount": "0",
+          "commentCount": "0",
+          "videoViewCount": "176",
+          "imagePostList": []
+        }
+      },
+      {
+        "json": {
+          "numRow": "23",
+          "datePublished": "Monday, April 28, 2025 at 07:59 AM",
+          "postText": "The best lessons come from nature—teamwork, patience, and adventure. Bring your team, students, or friends for an experience beyond four walls. 🌿✨\n\nCome and discover your perfect escape!\n[ Sementra Nature Resort ]\n📍 Lot 15918, Kampung Ulu Geroh, 31600, Gopeng, Perak\n📅 Book now: https://bit.ly/BookingSMT\n💬 WhatsApp: +6016 952 0363 https://bit.ly/3CluqGG\n🌐 www.sementra.my\n📧 booking@sementra.com.my\n\n#TeamBuilding\n#LearnFromNature\n#OutdoorExperience\n#NatureAdventure\n#BeyondTheClassroom\n#NatureLessons\n#TeamworkGoals\n#ExploreTogether\n#AdventureAwaits\n#UnleashPotential\n#NatureInspired\n#GrowTogether\n#NatureVibes\n#OutdoorsForAll\n#LearningOutdoors",
+          "postID": "700559479170858",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/701280809055939/",
+          "reactionCount": 1,
+          "shareCount": "0",
+          "commentCount": "0",
+          "videoViewCount": "266",
+          "imagePostList": []
+        }
+      },
+      {
+        "json": {
+          "numRow": "24",
+          "datePublished": "Monday, April 28, 2025 at 07:52 AM",
+          "postText": "A breathtaking fireworks show illuminated the night at our resort. Video credit to @rightcubeasia",
+          "postID": "463491700187481",
+          "postURL": "https://www.facebook.com/reel/463491700187481/",
+          "reactionCount": 1,
+          "shareCount": "0",
+          "commentCount": "1",
+          "videoViewCount": "162",
+          "imagePostList": []
+        }
+      },
+      {
+        "json": {
+          "numRow": "25",
+          "datePublished": "Monday, April 28, 2025 at 07:49 AM",
+          "postText": "",
+          "postID": "700554725838000",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/1502538180719196/",
+          "reactionCount": 2,
+          "shareCount": "0",
+          "commentCount": "0",
+          "videoViewCount": "48",
+          "imagePostList": []
+        }
+      },
+      {
+        "json": {
+          "numRow": "26",
+          "datePublished": "Thursday, April 24, 2025 at 11:39 AM",
+          "postText": "A place where your mind slows down, and your heart feels lighter. \n\nWelcome to your sanctuary. 💆‍♂️✨\n\n#sementrahotspringnatureresort #NatureSanctuary #HotSpringEscape #WellnessInNature #YourSanctuary\n #YourSanctuaryAwaits",
+          "postID": "697657002794439",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/661766796470152/",
+          "reactionCount": 1,
+          "shareCount": "0",
+          "commentCount": "0",
+          "videoViewCount": "150",
+          "imagePostList": []
+        }
+      },
+      {
+        "json": {
+          "numRow": "27",
+          "datePublished": "Saturday, April 19, 2025 at 04:05 AM",
+          "postText": "🌿 Escape & Recharge at Sementra Nature Hot Spring Resort! 🌿\n\nUnwind with our rejuvenating getaways:\n✅ 2D1N from RM279/pax (3 meals included) | 3D2N from RM558/pax (6 meals included)\n📅 Book now for a nature-filled escape!\n\nOver 10 Fun-Filled Activities Await:\n♨️ Dip into natural hot springs\n🏊 Plunge into a waterfall pool\n👀 Explore Rajah Brooke’s Sightseeing spots\n🕹️ Challenge your skills at the mini arcade\n🎤 Rock out at our karaoke sessions\n🐟 Enjoy fish feeding moments\n🥾 Traverse scenic hiking trails\n🚣 Embark on a thrilling water rafting adventure\n🚴 Cycle along nature trails\n🏍️ Conquer ATV rides\n💦 Experience water rafting excitement\n\nPerfect for:\n👨‍👩‍👧‍👦 Family bonding weekends\n👭 Best friend adventures\n💑 Romantic mini-getaways\n🏢 Corporate retreats\n\nCome and discover your perfect escape!\n\n[ Sementra Nature Resort ]\n📍 Lot 15918, Kampung Ulu Geroh, 31600, Gopeng, Perak\n📅 Book now: https://bit.ly/BookingSMT\n💬 WhatsApp: +6016 952 0363 https://bit.ly/3CluqGG\n🌐 www.sementra.my\n📧 booking@sementra.com.my\n\n#AdventureAwaits #QualityTime #OutdoorFun #MalaysiaHoliday #TropicalEscape #ChillVibes #Wanderlust #TravelMore #StaycationIdeas #ReconnectWithNature",
+          "postID": "693590643201075",
+          "postURL": "https://www.facebook.com/reel/9837408116297977/",
+          "reactionCount": 251,
+          "shareCount": "47",
+          "commentCount": "9",
+          "videoViewCount": "30521",
+          "imagePostList": []
+        }
+      },
+      {
+        "json": {
+          "numRow": "28",
+          "datePublished": "Thursday, April 17, 2025 at 02:09 PM",
+          "postText": "Escape to serenity—where natural hot springs meet lush greenery at Sementra",
+          "postID": "692408766652596",
+          "postURL": "https://www.facebook.com/reel/1342628513711626/",
+          "reactionCount": 9,
+          "shareCount": "0",
+          "commentCount": "0",
+          "videoViewCount": "232",
+          "imagePostList": []
+        }
+      },
+      {
+        "json": {
+          "numRow": "29",
+          "datePublished": "Monday, April 14, 2025 at 02:28 AM",
+          "postText": "",
+          "postID": "689725756920897",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/1488101565890852:1488101565890852",
+          "reactionCount": 6,
+          "shareCount": "0",
+          "commentCount": "0",
+          "videoViewCount": "0",
+          "imagePostList": [
+            "https://scontent.fmla3-1.fna.fbcdn.net/v/t39.30808-6/469685170_650571884069530_3825365423203916012_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=S353jbT4VKAQ7kNvwGNcelt&_nc_oc=AdkAtehgpqQoBmjN4Tbugs8INSdEPiSxj9ntyZBEXMeKpbMSvzM9VwGyFI90PvLv6PI&_nc_zt=23&_nc_ht=scontent.fmla3-1.fna&_nc_gid=W8czHXh1k_bg1OD6SKhuLQ&oh=00_AfPDVgKxRVTbfFadQhjCWfNEHhssG5o8U2YhAF81y3bmIg&oe=685735D0"
+          ]
+        }
+      },
+      {
+        "json": {
+          "numRow": "30",
+          "datePublished": "Monday, April 14, 2025 at 02:22 AM",
+          "postText": "Wake up to the sound of birds, fresh mountain air, and the warmth of nature. \n\nThis is how mornings should feel. 🌿💛",
+          "postID": "689722973587842",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid0vhGeSuVsaE3bdLCvaWRBwtkiZ9XtTXssrATxUMGrZqusCNn7WyP8MYCyGavdqdGUl",
+          "reactionCount": 1,
+          "shareCount": "1",
+          "commentCount": "0",
+          "videoViewCount": "0",
+          "imagePostList": [
+            "https://scontent.fmla3-1.fna.fbcdn.net/v/t39.30808-6/490182143_689722956921177_8792843340847664006_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_ohc=6zfqJqmTAhEQ7kNvwH6bFO0&_nc_oc=AdncxJdF9W68JTolcJrIcFcu5weZUgTzYi73RrkA4aGCjXEwxyLEaID38CGdWaaUw1Y&_nc_zt=23&_nc_ht=scontent.fmla3-1.fna&_nc_gid=W8czHXh1k_bg1OD6SKhuLQ&oh=00_AfMp1JykGSfQUdwc7RP7Spd8D90Lp5XW3fOJn2P8hcVuzQ&oe=68571193"
+          ]
+        }
+      },
+      {
+        "json": {
+          "numRow": "31",
+          "datePublished": "Friday, April 11, 2025 at 02:00 AM",
+          "postText": "Turn your weekend into a mini-vacation filled with adventure, relaxation, and good company.\n\nBecause you deserve it! 🌊✨ \n\n# Sementra #WeekendWellSpent",
+          "postID": "687322313827908",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/707577804937454/",
+          "reactionCount": 3,
+          "shareCount": "1",
+          "commentCount": "0",
+          "videoViewCount": "274",
+          "imagePostList": []
+        }
+      },
+      {
+        "json": {
+          "numRow": "32",
+          "datePublished": "Thursday, April 10, 2025 at 08:32 AM",
+          "postText": "You just spotted the royal of the rainforest — Rajah Brooke’s Birdwing. Nature’s flex. #SementraNatureHotspringResort #ButterflyTok #RajahBrooke #NatureVibes #WildlifeWonder #MalaysiaMagic",
+          "postID": "686754417218031",
+          "postURL": "https://www.facebook.com/reel/1697612510859534/",
+          "reactionCount": 8,
+          "shareCount": "0",
+          "commentCount": "0",
+          "videoViewCount": "142",
+          "imagePostList": []
+        }
+      },
+      {
+        "json": {
+          "numRow": "33",
+          "datePublished": "Tuesday, April 8, 2025 at 03:04 AM",
+          "postText": "From team-building adventures to cozy bonfires, Sementra is where friendships grow stronger and new bonds are formed. 🔥🌿\n\n#Sementra #MomentsThatMatter",
+          "postID": "685047120722094",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/1425933168778925/",
+          "reactionCount": 2,
+          "shareCount": "0",
+          "commentCount": "0",
+          "videoViewCount": "79",
+          "imagePostList": []
+        }
+      },
+      {
+        "json": {
+          "numRow": "34",
+          "datePublished": "Sunday, April 6, 2025 at 12:56 PM",
+          "postText": "April Reset: Breathe & Begin Again 🌿\n\nLet nature refresh your mind, body, and soul.\nEscape the city and find peace at Sementra. 🌊✨",
+          "postID": "683814614178678",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/1731145111083310/",
+          "reactionCount": 6,
+          "shareCount": "0",
+          "commentCount": "0",
+          "videoViewCount": "178",
+          "imagePostList": []
+        }
+      },
+      {
+        "json": {
+          "numRow": "35",
+          "datePublished": "Wednesday, April 2, 2025 at 02:00 AM",
+          "postText": "Breathe in fresh air, move your body, and let go of stress. \n\nWellness starts with taking time for yourself. 🌞\n\n #RefreshYourSoul",
+          "postID": "680161541210652",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/700973239025395/",
+          "reactionCount": 3,
+          "shareCount": "0",
+          "commentCount": "0",
+          "videoViewCount": "138",
+          "imagePostList": []
+        }
+      },
+      {
+        "json": {
+          "numRow": "36",
+          "datePublished": "Monday, March 31, 2025 at 05:19 AM",
+          "postText": "🌙✨ Selamat Hari Raya Aidilfitri! ✨🌙\n\nWishing you and your loved ones joy, peace, and blessings this festive season. 💚🏡 Enjoy the celebrations and cherish every moment!\n\n#SelamatHariRaya #EidMubarak #SementraResort",
+          "postID": "678670768026396",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid025sZUEi5QSxhcroDoNAFUtAM1dk7ec1arLjcc6kafLPra8Q4LGwSBbNuT7X9j3bD4l",
+          "reactionCount": 2,
+          "shareCount": "0",
+          "commentCount": "0",
+          "videoViewCount": "0",
+          "imagePostList": [
+            "https://scontent-ssn1-1.xx.fbcdn.net/v/t39.30808-6/487219540_678670741359732_3967090476811457170_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=833d8c&_nc_ohc=yhHpfqBsWzcQ7kNvwEi0tkU&_nc_oc=AdmUmJHDbsnML8vMp05dZBBjL0lfcz3QnWTYwhCzxfifzTtoAHE8LefmDdH_orOHMfs&_nc_zt=23&_nc_ht=scontent-ssn1-1.xx&_nc_gid=DDKVFYc0NIZJeSHS2nuRpg&oh=00_AfNkhCwWKJd_zIqrPyLu7zY2HtRHPenLCUC6Xiz8_iHQ7g&oe=68572135"
+          ]
+        }
+      },
+      {
+        "json": {
+          "numRow": "37",
+          "datePublished": "Sunday, March 30, 2025 at 12:00 PM",
+          "postText": "Trade screen time for scenic views, long talks, and laughter with friends. \n\nThe best connections are made in nature. 🌿✨ \n\n#MomentsOverThings",
+          "postID": "678088478084625",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/700763332377009/",
+          "reactionCount": 5,
+          "shareCount": "0",
+          "commentCount": "0",
+          "videoViewCount": "308",
+          "imagePostList": []
+        }
+      },
+      {
+        "json": {
+          "numRow": "38",
+          "datePublished": "Friday, March 28, 2025 at 02:00 AM",
+          "postText": "Did you know? \n\nSementra’s natural hot springs are rich in minerals that promote relaxation and well-being.\nA soak a day keeps the stress away! ✨\n\n#Nature’sTherapy",
+          "postID": "676264701600336",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid0addtfUoDo8eBcgyZFb2nhi58FB82pXLH1TSUf2cy2i4nFC74h4b3XNxkeA6Kbykyl",
+          "reactionCount": 2,
+          "shareCount": "1",
+          "commentCount": "0",
+          "videoViewCount": "0",
+          "imagePostList": [
+            "https://scontent-cph2-1.xx.fbcdn.net/v/t39.30808-6/486320571_674101755149964_636691976343292830_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_ohc=yx6os_NQTVEQ7kNvwGFkTdq&_nc_oc=AdkYmX54lXB3pPfYW8au-UJe2k6YclLyETho9l9-EzZFoDKJHhEWUoU15jcXpl7qJbU&_nc_zt=23&_nc_ht=scontent-cph2-1.xx&_nc_gid=RAZ4HLOzqH1tzs2GtDWMBw&oh=00_AfMa-We1EUmY8tbZNFhoRVumRejCN7GaiA7jdLCSqy132w&oe=68570BD2"
+          ]
+        }
+      },
+      {
+        "json": {
+          "numRow": "39",
+          "datePublished": "Wednesday, March 26, 2025 at 01:00 AM",
+          "postText": "There’s nothing like opening your eyes to the sound of birds, a fresh morning breeze, and the calming view of nature. \n\n🌳 #GoodMorningNature",
+          "postID": "674772258416247",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/653470630968626/",
+          "reactionCount": 2,
+          "shareCount": "1",
+          "commentCount": "0",
+          "videoViewCount": "130",
+          "imagePostList": []
+        }
+      },
+      {
+        "json": {
+          "numRow": "40",
+          "datePublished": "Monday, March 24, 2025 at 02:33 AM",
+          "postText": "Nature has a way of grounding us. \nFind your peace, clear your mind, and embrace the beauty of the moment. 🌄🧘‍♀️ \n\n#sementranaturehotspringresort #MindfulMoments",
+          "postID": "673349568558516",
+          "postURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/1296340008326911/",
+          "reactionCount": 2,
+          "shareCount": "1",
+          "commentCount": "0",
+          "videoViewCount": "128",
+          "imagePostList": []
+        }
+      }
+    ],
+    "SET Inputs For APIFY FB Scraper": [
+      {
+        "json": {
+          "fbPageID": "100076504356869",
+          "fbPageURL": "https://www.facebook.com/sementrahotspringnatureresortgopeng",
+          "maxPosts": "40"
+        }
+      }
+    ],
+    "NocoDB2": [
+      {
+        "json": {
+          "Row Num": "1",
+          "Date Published": "Tuesday, June 17, 2025 at 02:01 AM",
+          "Post ID": "736684662225006",
+          "Text Post": "Keep an eye out for this beauty near the hot springs — it’s called the Pagoda Flower, and it’s just one of Sementra’s many hidden botanical treasures.\n\n#PagodaFlower #ClerodendrumPaniculatum #SementraNatureWalk #SementraHotSpringNatureResort #HotSpringMalaysia #WildflowersOfMalaysia #TropicalBotany #EcoRetreat",
+          "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid0t9jAH6rMLyV2VPujkcswjDTztkgwnzRNGmktGntVRKJM4atRPT4k9Km2zkLKYGu4l",
+          "Post Image List": [
+            "https://scontent-ssn1-1.xx.fbcdn.net/v/t39.30808-6/506454402_736015342291938_922599093644431431_n.jpg?stp=cp6_dst-jpg_p960x960_tt6&_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=kY4Lka4bP58Q7kNvwE0o_km&_nc_oc=AdlH3iArqCFggp-wbCWUXXOMxD7dvUtsml743EnLMULW357Dz5J9qX_gwUufhHLEkM4&_nc_zt=23&_nc_ht=scontent-ssn1-1.xx&_nc_gid=pom90nEwqHKYZKMzYUEUoQ&oh=00_AfNbhxU83-MxrQyQFbE6TeUugOnm83TmT6fYjvEh3Azz0A&oe=68571514",
+            "https://scontent-ssn1-1.xx.fbcdn.net/v/t39.30808-6/507129046_736015338958605_6297102148854161127_n.jpg?stp=cp6_dst-jpg_p960x960_tt6&_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_ohc=NZtWUWn78PwQ7kNvwGVU9Sp&_nc_oc=AdmJ2eKPVcVAUCEd4Qr501jnKqZiDGeMxEohip07V-JPgWJmzjQpZiO7qtLUGtn5DD0&_nc_zt=23&_nc_ht=scontent-ssn1-1.xx&_nc_gid=pom90nEwqHKYZKMzYUEUoQ&oh=00_AfMkzGcQ89pcFQayz5ydRXJ1XRlgpGVaJkSqS52Xb6dQSw&oe=68572DC3",
+            "https://scontent-ssn1-1.xx.fbcdn.net/v/t39.30808-6/506494749_736015362291936_4346153182832133880_n.jpg?stp=cp6_dst-jpg_p960x960_tt6&_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_ohc=IAAne8YIziMQ7kNvwEb1yhp&_nc_oc=Adn05tW1J8-I107ku2g7zlKyyMcGoG-jAswzHCccvzJiUE2jDBSvlVfwBsExpotOVVA&_nc_zt=23&_nc_ht=scontent-ssn1-1.xx&_nc_gid=pom90nEwqHKYZKMzYUEUoQ&oh=00_AfMHL6f0sZZmcobM7VIW4OSaLbDaD-t4d6BevkgoT7SeHQ&oe=68571FCE"
+          ],
+          "Reaction Counts": 3,
+          "Share Counts": "1",
+          "Comment Counts": "0",
+          "Video View Counts": "0",
+          "Scraped Date Updates": "2025-06-17",
+          "Id": 121
+        }
+      }
+    ],
+    "Aggregate": [
+      {
+        "json": {
+          "data": [
+            {
+              "Row Num": "1",
+              "Date Published": "Tuesday, June 17, 2025 at 02:01 AM",
+              "Post ID": "736684662225006",
+              "Text Post": "Keep an eye out for this beauty near the hot springs — it’s called the Pagoda Flower, and it’s just one of Sementra’s many hidden botanical treasures.\n\n#PagodaFlower #ClerodendrumPaniculatum #SementraNatureWalk #SementraHotSpringNatureResort #HotSpringMalaysia #WildflowersOfMalaysia #TropicalBotany #EcoRetreat",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid0t9jAH6rMLyV2VPujkcswjDTztkgwnzRNGmktGntVRKJM4atRPT4k9Km2zkLKYGu4l",
+              "Post Image List": [
+                "https://scontent-ssn1-1.xx.fbcdn.net/v/t39.30808-6/506454402_736015342291938_922599093644431431_n.jpg?stp=cp6_dst-jpg_p960x960_tt6&_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=kY4Lka4bP58Q7kNvwE0o_km&_nc_oc=AdlH3iArqCFggp-wbCWUXXOMxD7dvUtsml743EnLMULW357Dz5J9qX_gwUufhHLEkM4&_nc_zt=23&_nc_ht=scontent-ssn1-1.xx&_nc_gid=pom90nEwqHKYZKMzYUEUoQ&oh=00_AfNbhxU83-MxrQyQFbE6TeUugOnm83TmT6fYjvEh3Azz0A&oe=68571514",
+                "https://scontent-ssn1-1.xx.fbcdn.net/v/t39.30808-6/507129046_736015338958605_6297102148854161127_n.jpg?stp=cp6_dst-jpg_p960x960_tt6&_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_ohc=NZtWUWn78PwQ7kNvwGVU9Sp&_nc_oc=AdmJ2eKPVcVAUCEd4Qr501jnKqZiDGeMxEohip07V-JPgWJmzjQpZiO7qtLUGtn5DD0&_nc_zt=23&_nc_ht=scontent-ssn1-1.xx&_nc_gid=pom90nEwqHKYZKMzYUEUoQ&oh=00_AfMkzGcQ89pcFQayz5ydRXJ1XRlgpGVaJkSqS52Xb6dQSw&oe=68572DC3",
+                "https://scontent-ssn1-1.xx.fbcdn.net/v/t39.30808-6/506494749_736015362291936_4346153182832133880_n.jpg?stp=cp6_dst-jpg_p960x960_tt6&_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_ohc=IAAne8YIziMQ7kNvwEb1yhp&_nc_oc=Adn05tW1J8-I107ku2g7zlKyyMcGoG-jAswzHCccvzJiUE2jDBSvlVfwBsExpotOVVA&_nc_zt=23&_nc_ht=scontent-ssn1-1.xx&_nc_gid=pom90nEwqHKYZKMzYUEUoQ&oh=00_AfMHL6f0sZZmcobM7VIW4OSaLbDaD-t4d6BevkgoT7SeHQ&oe=68571FCE"
+              ],
+              "Reaction Counts": 3,
+              "Share Counts": "1",
+              "Comment Counts": "0",
+              "Video View Counts": "0",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 121
+            },
+            {
+              "Row Num": "2",
+              "Date Published": "Saturday, June 14, 2025 at 01:00 PM",
+              "Post ID": "734673059092833",
+              "Text Post": "Happy Father’s Day from the heart of Sementra 💚\nTo the quiet protector and heart of the family ❤️ — let nature celebrate you today 🌿🌸\n\n🏨 Book your stay now 👉 https://bit.ly/BookingSMT\n\n#FathersDayAtSementra #CelebrateDad #SementraHotSprings #NatureRetreat #WellnessWithDad",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid0UQojss9rTsjT4ukq8etPdLiyETgoyTyjAF36LNXYmc9a7gQ9fs7owSUxNSZmwE4tl",
+              "Post Image List": [
+                "https://scontent-icn2-1.xx.fbcdn.net/v/t39.30808-6/506457009_733723969187742_2637572348081424095_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_ohc=47UcgxzWYt4Q7kNvwF6YkyX&_nc_oc=AdkW0_ZsVojmK4b_QEjBk8pMBjI_Fa89C09oLVsE27FmvBGL3mnSn8LLt9JdJ3sYrN4&_nc_zt=23&_nc_ht=scontent-icn2-1.xx&_nc_gid=a046zBlTL4zHsMJ8dIPzwg&oh=00_AfNUJNh4pLoHItZtslML5hdymtWBISVCJ5rpWWSSUJpj3g&oe=68573174"
+              ],
+              "Reaction Counts": 2,
+              "Share Counts": "1",
+              "Comment Counts": "0",
+              "Video View Counts": "0",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 122
+            },
+            {
+              "Row Num": "3",
+              "Date Published": "Tuesday, June 10, 2025 at 08:43 AM",
+              "Post ID": "731289072764565",
+              "Text Post": "Did you know about the Rajah Brooke’s Birdwing? 🦋✨\n\nOne of the largest and most beautiful butterflies in the world — and you can spot it here at Sementra! 🌿\n\n🦋 Bold black wings with striking metallic green bands\n🦋 Named after James Brooke, the first White Rajah of Sarawak\n🦋 A protected national icon in Malaysia\n🦋 Found in rainforests of Peninsular Malaysia, Borneo & Sumatra — especially around Ulu Geroh near Gopeng (and yes, often seen right here in Sementra too!)\n\nAt #SementraNatureHotSpringResort, you might just catch these stunning butterflies gathering near our hot spring area — a magical sight not to be missed.\n\n#SementraVibes #RajahBrooke #NatureInMalaysia #WeekendEscape #ButterflySpotting #HiddenGemsMalaysia",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid025neS1b7Yfp1CCxQBR7zdU5egz8KjaC3YMgANSNLSUpqpTdt8APepwP1F1nV3SnARl",
+              "Post Image List": [
+                "https://scontent-icn2-1.xx.fbcdn.net/v/t39.30808-6/504248869_731289049431234_8497407615974059619_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=833d8c&_nc_ohc=kgUl5Zlyhg8Q7kNvwFFRRWu&_nc_oc=AdnlEwTu29021EHsbPFYDrDykSbhktFCnodKjn-z8C1lx_uPdZIniI1KEenCEG7r1JQ&_nc_zt=23&_nc_ht=scontent-icn2-1.xx&_nc_gid=a046zBlTL4zHsMJ8dIPzwg&oh=00_AfPR8ZIHsWQYZgPhwhWIOCh7Nl0VXCW92AbfSqW9hDuYCw&oe=68571BE7"
+              ],
+              "Reaction Counts": 3,
+              "Share Counts": "1",
+              "Comment Counts": "0",
+              "Video View Counts": "0",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 123
+            },
+            {
+              "Row Num": "4",
+              "Date Published": "Saturday, June 7, 2025 at 02:01 AM",
+              "Post ID": "728853979674741",
+              "Text Post": "Happy Hari Raya Haji! 🌙\n\nWishing you peace, joy, and blessings this festive season. Celebrate with a serene retreat at Sementra.\n\n🏨Book your stay at Sementra Resort now👉 https://bit.ly/BookingSMT\n\n#HariRayaHaji #FestiveGreetings #NaturePeace #Malaysia",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid0bkqQCUNg2n7EyzKXgMgLjKSuDmv1xB4QhpooigynJ9PatWuPtaiVUJi9zg98kBTfl",
+              "Post Image List": [
+                "https://scontent-icn2-1.xx.fbcdn.net/v/t39.30808-6/504186489_728362209723918_8673619510018906265_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_ohc=Yupv1qYWtecQ7kNvwFjorOh&_nc_oc=AdkVRr4d6ge9Zwn-Vh6Xr-IKs4mR7d8qGl4R01ulJVc0AOl0H3a_B295sJmz5Q4eD-Q&_nc_zt=23&_nc_ht=scontent-icn2-1.xx&_nc_gid=a046zBlTL4zHsMJ8dIPzwg&oh=00_AfPgHjYvFUauz-uI90rE7WOOfvJx7sJK4Eim-mWTpnX8Lw&oe=68573E38"
+              ],
+              "Reaction Counts": 3,
+              "Share Counts": "1",
+              "Comment Counts": "0",
+              "Video View Counts": "0",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 124
+            },
+            {
+              "Row Num": "5",
+              "Date Published": "Wednesday, June 4, 2025 at 02:01 AM",
+              "Post ID": "726688853224587",
+              "Text Post": "Here at Sementra, we treat our guests the way nature treats us — gently, kindly, and with open arms. Whether you’re here to unwind, recharge, or just breathe, our team is here to make you feel cared for every step of the way.\n\nBook your stay here: https://bit.ly/BookingSMT\n\n#SementraRetreat #ForestEscape #NatureLovers #SlowLiving #MindfulTravel #HiddenGem #EcoRetreat #TravelWithHeart #WanderWell #RetreatIntoNature #BoutiqueStay #NatureHeals #ReconnectInNature #SereneGetaway #HeartfeltHospitality",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/1382118676429331/",
+              "Post Image List": [],
+              "Reaction Counts": 3,
+              "Share Counts": "0",
+              "Comment Counts": "0",
+              "Video View Counts": "67",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 125
+            },
+            {
+              "Row Num": "6",
+              "Date Published": "Monday, June 2, 2025 at 01:51 AM",
+              "Post ID": "725187430041396",
+              "Text Post": "Selamat Hari Keputeraan to Yang di-Pertuan Agong Sultan Ibrahim Ibni Almarhum Sultan Iskandar.\n\nMay His Majesty be blessed with enduring health, boundless joy, and great wisdom in continuing to lead and inspire our beloved nation.\n\n#DaulatTuanku \n#sementrahotspringnatureresort",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid02Q7ojcZTYM4yW9xd2mZ387ptTt9vQSAVKfHz5T7C1AWDY6usXZwf7UDDVSz7y9Wugl",
+              "Post Image List": [
+                "https://scontent-atl3-2.xx.fbcdn.net/v/t39.30808-6/503127076_725187313374741_3448609979885496847_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=127cfc&_nc_ohc=fJLp30mAYNAQ7kNvwF7Yub8&_nc_oc=AdndyN4O5Q1CuLXRDWQ1tyUfqdcSdMX1IiegwgX11fHzzW6Z9m_lSge7ZH7R_mqOYjigyYFNxhkkFLhA3G45CHjM&_nc_zt=23&_nc_ht=scontent-atl3-2.xx&_nc_gid=EKUMlXrTs6VZk3his-Q_IQ&oh=00_AfMSAtT4wpVCRr3-z0O_3VkPM_8gNSABJ84Bp81MZbgWMw&oe=685735BE"
+              ],
+              "Reaction Counts": 3,
+              "Share Counts": "1",
+              "Comment Counts": "0",
+              "Video View Counts": "0",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 126
+            },
+            {
+              "Row Num": "7",
+              "Date Published": "Thursday, May 29, 2025 at 06:13 AM",
+              "Post ID": "722339336992872",
+              "Text Post": "Thank you for sharing your stay with us ☺️",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid02jMpovrjZCKyBMtGp1STxDvRrKi1zaMHVRv2V5PJUtXGtyvmRjdiMZLH4zA23pPTKl",
+              "Post Image List": [
+                "https://external-atl3-2.xx.fbcdn.net/emg1/v/t13/17225068922271385934?url=https%3A%2F%2Fi.ytimg.com%2Fvi%2FO0B_9bzkuXU%2Fmaxresdefault.jpg&fb_obo=1&utld=ytimg.com&stp=c0.5000x0.5000f_dst-jpg_flffffff_p1000x522_q75_tt6&_nc_gid=EKUMlXrTs6VZk3his-Q_IQ&_nc_oc=AdkETZkzLcyr1tkFdHY1rav0MKchovStydEAWAvfmUj4zVoenKKA3IEbh6oLMhMtjfs60lZVlZJX1BLE-32nfJbR&ccb=13-1&oh=06_Q3-0AWCVUiSiHRq82jC23imh8vqopImTNN3GEgiyMp9dnMhS&oe=6853398F&_nc_sid=c97757"
+              ],
+              "Reaction Counts": 4,
+              "Share Counts": "0",
+              "Comment Counts": "0",
+              "Video View Counts": "0",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 127
+            },
+            {
+              "Row Num": "8",
+              "Date Published": "Thursday, May 29, 2025 at 02:01 AM",
+              "Post ID": "722207993672673",
+              "Text Post": "Just a grasshopper vibin’ at Sementra 🌴☀️ munchin’ leaves, catching rays, and serving looks for the 'Gram 📸 🦗\n\nSpotted any cool bugs at Sementra? Share them with us—we wanna see your wild finds! 🐞🦋🕷️\n\n#SementraVibes #BugLifeButMakeItLuxury #NatureRetreat #StayWild #JungleMood #HiddenGemMalaysia #InsectInfluencer #SoftLifeInTheWild #ecotourism #ExploreNature",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/722207993672673",
+              "Post Image List": [
+                "https://scontent.fsrg4-1.fna.fbcdn.net/v/t39.30808-6/500437004_721754593718013_1344571469355399447_n.jpg?stp=cp6_dst-jpg_s1080x2048_tt6&_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_ohc=fTW3ogIYltIQ7kNvwFVbzDg&_nc_oc=Adm7xFNYQ2B-TSRx6nXf2x2BZgq2XDZEwtLy-vZbFFkFCq7yvgzDh--qOXyJcog6yQA&_nc_zt=23&_nc_ht=scontent.fsrg4-1.fna&_nc_gid=SgzJY_g52QF4W4jUIC-foQ&oh=00_AfPmMLTh_1efMAh8KFlquPD0L17P0m-x2dOwkEMTbT1-UQ&oe=68573AEF"
+              ],
+              "Reaction Counts": 3,
+              "Share Counts": "1",
+              "Comment Counts": "0",
+              "Video View Counts": "0",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 128
+            },
+            {
+              "Row Num": "9",
+              "Date Published": "Monday, May 26, 2025 at 05:02 AM",
+              "Post ID": "720149300545209",
+              "Text Post": "Sementra’s guided hiking tour is more than just a walk — it’s a chance to slow down, listen to the whispers of the rainforest, and learn about the rich biodiversity that surrounds us. Led by our passionate team, every step brings a new discovery.\n\n#SementraRetreat #ForestEscape #EcoTourismMalaysia #NatureLovers #GopengAdventure #RainforestHike #ReconnectWithNature #MalaysiaNature #SustainableTravel #HikingMalaysia #HiddenGemsMalaysia #TravelPerak #HotSpringRetreat",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/720149300545209",
+              "Post Image List": [
+                "https://scontent.fsrg4-1.fna.fbcdn.net/v/t39.30808-6/500227652_720149227211883_7308089634527243099_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=sZ6RA7J1M3wQ7kNvwEPefZC&_nc_oc=AdkbSFyt4_kR5luNKQPtqbXaQ9bHKG5l8pmqiuZU0CdzDz2xTby6n-ZzoI0NYy-5LY0&_nc_zt=23&_nc_ht=scontent.fsrg4-1.fna&_nc_gid=SgzJY_g52QF4W4jUIC-foQ&oh=00_AfNNF1dXjMPVfLN_l0KOwvq9u6hM_M-yDlh993wzJv5CkQ&oe=68573F75",
+                "https://scontent.fsrg4-1.fna.fbcdn.net/v/t39.30808-6/500476358_720149247211881_8691302631963783764_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=110&ccb=1-7&_nc_sid=833d8c&_nc_ohc=7mEFpDS3qUAQ7kNvwGBVD2-&_nc_oc=AdmRA5N75rIP9KzPYzIyzQugWPYMfbMpyr9Yn7S25k0NGJvtZHNYEjasaxtxbMaWFBI&_nc_zt=23&_nc_ht=scontent.fsrg4-1.fna&_nc_gid=SgzJY_g52QF4W4jUIC-foQ&oh=00_AfPRXgW1OVw0NOxgSLl0xjY_PgJPi5lgtO7Y4GN-kyhnbw&oe=6857195F",
+                "https://scontent.fsrg4-1.fna.fbcdn.net/v/t39.30808-6/498670065_720149260545213_5393536300788446728_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_ohc=ET3yD2jQZa0Q7kNvwG8Czei&_nc_oc=Adnhmj6evsySVb75Z-uizsVrPyTIXnFUzhL_sq0XGkYgI4x2aYUmmWEvhtaV2qH8RCc&_nc_zt=23&_nc_ht=scontent.fsrg4-1.fna&_nc_gid=SgzJY_g52QF4W4jUIC-foQ&oh=00_AfOzxyhjjTICBd5qDlI0I8TxtGfWsHWH3Mbpa3oRoCGSrA&oe=68571E45"
+              ],
+              "Reaction Counts": 4,
+              "Share Counts": "2",
+              "Comment Counts": "0",
+              "Video View Counts": "0",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 129
+            },
+            {
+              "Row Num": "10",
+              "Date Published": "Thursday, May 22, 2025 at 10:28 AM",
+              "Post ID": "717423094151163",
+              "Text Post": "🏞 Adventure Awaits at Sementra! 🏞\n\nFrom hiking to waterfall swimming, there’s something for everyone. Plan your next adventure with us and create unforgettable memories.\n\nBook your stay here: https://bit.ly/BookingSMT\n\n#AdventureTime #SementraResort #OutdoorFun #ExploreNature #WeekendGetaway",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/1419802098920266/",
+              "Post Image List": [],
+              "Reaction Counts": 3,
+              "Share Counts": "1",
+              "Comment Counts": "0",
+              "Video View Counts": "153",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 130
+            },
+            {
+              "Row Num": "11",
+              "Date Published": "Sunday, May 18, 2025 at 02:01 AM",
+              "Post ID": "714280441132095",
+              "Text Post": "A trip to nature isn’t just a getaway—it’s a journey to rediscover yourself. Write your next chapter with us. 🌿✨",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/982273123756234/",
+              "Post Image List": [],
+              "Reaction Counts": 4,
+              "Share Counts": "1",
+              "Comment Counts": "0",
+              "Video View Counts": "245",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 131
+            },
+            {
+              "Row Num": "12",
+              "Date Published": "Friday, May 16, 2025 at 02:00 AM",
+              "Post ID": "712894277937378",
+              "Text Post": "🌅 Wake Up to Nature’s Beauty 🌅\n\nStart your day with breathtaking views and fresh mountain air at Sementra Hot Spring Nature Resort. Perfect for a peaceful morning retreat.\n\nBook your stay: https://bit.ly/BookingSMT\n\n#MorningBliss #SementraResort #NatureViews #TranquilEscape #MalaysiaTravel",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid02neccFgcjDf2kSvVmkf3dARzcc9JB5kvqZNvEYoQ3CRfDSZ4LamCUXjAFyVH1MXXsl",
+              "Post Image List": [
+                "https://scontent-iad3-1.xx.fbcdn.net/v/t39.30808-6/495122906_708404411719698_4524824186680703559_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_ohc=NkBlz8sO3jMQ7kNvwFu2jSS&_nc_oc=AdlraXjc6alCcWdfVEZXR2enOstIVi9RWtveBA1svF6al3YuBQB7GJzjOEpPwYB7LqBt4xpxN4NGsyBJIjXp5cR-&_nc_zt=23&_nc_ht=scontent-iad3-1.xx&_nc_gid=jOvWYetsZduRczoCOA4Xow&oh=00_AfPI5vIhPyx7sbbNJ-RjR0Vm2tF4flNPiM4vG3LIK_VI5Q&oe=68572B84"
+              ],
+              "Reaction Counts": 7,
+              "Share Counts": "1",
+              "Comment Counts": "1",
+              "Video View Counts": "0",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 132
+            },
+            {
+              "Row Num": "13",
+              "Date Published": "Wednesday, May 14, 2025 at 02:00 AM",
+              "Post ID": "711599918066814",
+              "Text Post": "Sometimes, happiness is as simple as fresh air, warm sun, and good company. Cherish it. 💚\n\nBook now: https://bit.ly/BookingSMT\n\n#CutiCutiMalaysia #NatureLoversMY #TenangDiAlam #JomHealing #SuasanaHijau #SinarMatahari #MasaBersama #IpohVibes #MalaysiaTrulyAsia #DetikIndah",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid0KvVFdUSwDA9oPAnydSZMw4t9fuLUKdjCnotjG5JABXSxFrQncgeRPBrcoY9LBzaml",
+              "Post Image List": [
+                "https://scontent-iad3-1.xx.fbcdn.net/v/t39.30808-6/496128341_708401521719987_4417460114816240284_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_ohc=PHDaB7FJNaoQ7kNvwFMxItR&_nc_oc=Admnr2bKmDPip1r5Hoq52LwGyz0SQjEbQl-x8uqt5vlpq1jyk1_epRw4sFkXzOUZ8tfGmSwNPB5yCaUOnJWL3mf3&_nc_zt=23&_nc_ht=scontent-iad3-1.xx&_nc_gid=jOvWYetsZduRczoCOA4Xow&oh=00_AfOvby8VDCAQ44O8USzumipOkI2nWMvysRbydtPd0Nqpzg&oe=68572671"
+              ],
+              "Reaction Counts": 2,
+              "Share Counts": "2",
+              "Comment Counts": "0",
+              "Video View Counts": "0",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 133
+            },
+            {
+              "Row Num": "14",
+              "Date Published": "Monday, May 12, 2025 at 02:00 AM",
+              "Post ID": "710331751526964",
+              "Text Post": "✨ Happy Wesak Day! ✨\n\nCelebrate this auspicious day with peace and tranquility at Sementra Hot Spring Nature Resort. Reflect and rejuvenate in nature’s embrace.\n\nBook now: https://bit.ly/BookingSMT\n\n#WesakDay #SementraResort #PeacefulRetreat #NatureSerenity #SpiritualJourney",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/710331751526964",
+              "Post Image List": [
+                "https://scontent.fach1-1.fna.fbcdn.net/v/t39.30808-6/495392560_708400321720107_8113611313753094412_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=127cfc&_nc_ohc=jO8LzAR_MKAQ7kNvwGrQPqU&_nc_oc=Adn4RZaLw4eoUM_dkoB5V9r4rKkGrFfFdBT2L1_lCTpXsRVRF4_35xAeMyl4Zu2sDyY&_nc_zt=23&_nc_ht=scontent.fach1-1.fna&_nc_gid=xKG1qUXC2AxrTzo_K3kVlg&oh=00_AfOrJj4WLBLVj8HYuzSuT9lyX2FX7F0sLGx235BOEeExLw&oe=68571CDF"
+              ],
+              "Reaction Counts": 0,
+              "Share Counts": "1",
+              "Comment Counts": "0",
+              "Video View Counts": "0",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 134
+            },
+            {
+              "Row Num": "15",
+              "Date Published": "Sunday, May 11, 2025 at 12:15 AM",
+              "Post ID": "709588564934616",
+              "Text Post": "To the hearts that nurture, the hands that heal, and the love that never ends — Happy Mother’s Day from all of us at Sementra.",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/664464516499661/",
+              "Post Image List": [],
+              "Reaction Counts": 2,
+              "Share Counts": "0",
+              "Comment Counts": "0",
+              "Video View Counts": "78",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 135
+            },
+            {
+              "Row Num": "16",
+              "Date Published": "Wednesday, May 7, 2025 at 02:00 AM",
+              "Post ID": "707025338524272",
+              "Text Post": "Teamwork, trust, and memories that stick 🌿\n\nExperience team-building like never before — surrounded by nature, laughter, and a whole lot of good vibes. 🏕✨\n\nAt Sementra, bonding feels real.\n\n#SementraResort #TeamBuildingRetreat #NatureVibes #WorkHardBondHarder #RainforestEscape #GopengAdventure #UnplugAndConnect #TeamworkInNature #CorporateRetreatMalaysia",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/3032254810272473/",
+              "Post Image List": [],
+              "Reaction Counts": 2,
+              "Share Counts": "0",
+              "Comment Counts": "0",
+              "Video View Counts": "173",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 136
+            },
+            {
+              "Row Num": "17",
+              "Date Published": "Monday, May 5, 2025 at 01:00 AM",
+              "Post ID": "705546328672173",
+              "Text Post": "A hidden rainforest sanctuary 🌿✨\n\nTucked away in Gopeng, Sementra is your escape into nature — hot springs, waterfalls, and pure forest peace.\n\nCome for the view, stay for the calm.\n\n#RainforestSanctuary #SementraResort #NatureLoversRetreat #GopengEscape",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/618877714517713/",
+              "Post Image List": [],
+              "Reaction Counts": 8,
+              "Share Counts": "3",
+              "Comment Counts": "0",
+              "Video View Counts": "488",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 137
+            },
+            {
+              "Row Num": "18",
+              "Date Published": "Sunday, May 4, 2025 at 02:00 AM",
+              "Post ID": "704829148743891",
+              "Text Post": "Spot the beauty of the rainforest—meet the Rajah Brooke! 🌿🦋\n\nThis striking butterfly is a true symbol of Malaysia’s natural wonders. Catch a glimpse of its vibrant wings fluttering around Sementra and let nature’s colors brighten your day.\n\n#RajahBrooke #RainforestBeauty #sementranaturehotspringresort #ButterflySpotting #NatureMalaysia #PerakNature #WildlifeMalaysia #DiscoverNature #HiddenGemsMY #NatureLovers #MalaysiaWildlife #ButterflyLovers #JewelOfTheRainforest #ExplorePerak #EcoTourism",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid034t1J2gS1mAqUawRiE97viW8yTQtk2HMg5FtYqoMqF26guV6rTHuhGUFQyPvxfP5nl",
+              "Post Image List": [
+                "https://scontent-fra3-2.xx.fbcdn.net/v/t39.30808-6/493872489_700572182502921_94530547552923869_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=127cfc&_nc_ohc=6u5rkDvAbD8Q7kNvwFR_7G3&_nc_oc=AdmFOW2czGczdB5_RE_d8rkYLi7Mo57-8Unls2-U5EwaluBNntlqZk0I3qz2-zJm3ZI&_nc_zt=23&_nc_ht=scontent-fra3-2.xx&_nc_gid=bAIb1HO-L3RjI8wIOKNVvg&oh=00_AfOI1B5g8wfYfVN9a3o3Nm667kK1cjkmQDymcfQJc2hSew&oe=68572A19"
+              ],
+              "Reaction Counts": 6,
+              "Share Counts": "2",
+              "Comment Counts": "0",
+              "Video View Counts": "0",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 138
+            },
+            {
+              "Row Num": "19",
+              "Date Published": "Sunday, May 4, 2025 at 01:00 AM",
+              "Post ID": "704793152080824",
+              "Text Post": "Challenge yourself with an unforgettable adventure—rafting, hiking, and exploring the wild. Your next adventure starts here! 🏞️✨\n\n#AdventureAwaits #FeelTheThrill #ExploreTheWild #RaftingMalaysia #HikingAdventure #NatureEscape #SementraResort #OutdoorExperience #UnforgettableMoments #LiveForAdventure #EcoTourismMY #DiscoverPerak #WildAtHeart #NatureLovers #JomAdventure",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/1344617130098986/",
+              "Post Image List": [],
+              "Reaction Counts": 4,
+              "Share Counts": "0",
+              "Comment Counts": "0",
+              "Video View Counts": "237",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 139
+            },
+            {
+              "Row Num": "20",
+              "Date Published": "Saturday, May 3, 2025 at 01:00 AM",
+              "Post ID": "704057015487771",
+              "Text Post": "Set your phones aside and make real connections—heartfelt conversations, big laughs, and unforgettable moments. 🌿✨\n\nExperience the joy of Congkak games at Sementra!\n\n#Congkak\n#ReconnectTogether\n#UnplugAndPlay\n#SementraMoments\n#TraditionalGames\n#KampungVibes\n#RealConnections\n#FamilyBonding\n#BigLaughs\n#NatureRetreat\n#HeritageGames\n#UnforgettableMoments\n#BackToBasics\n#MalaysiaTradition\n#PlayTogether",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid02ZBKqfoF3fQfnUi8nCqkzJ56LkpV6ywYc4Aa98RztRMo4LgXRDmGnMxzEAYcdYvDql",
+              "Post Image List": [
+                "https://scontent.fluh3-3.fna.fbcdn.net/v/t39.30808-6/494515452_700562169170589_6368892629922581772_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_ohc=XLKyADrk6EoQ7kNvwGskWvc&_nc_oc=AdmqUZ-AeAAZLGhkNHnmqp4wmFt-AtM8-8GmHFKUzR0MBK293O5DXULqMtPgpp8fGko&_nc_zt=23&_nc_ht=scontent.fluh3-3.fna&_nc_gid=-2gXVbGWUJ8oKYGIIkKPiA&oh=00_AfO0S5lq3n9lf08iFV0-h023CumbURq2zqYtymxLGW0DIA&oe=68571AB6"
+              ],
+              "Reaction Counts": 4,
+              "Share Counts": "1",
+              "Comment Counts": "0",
+              "Video View Counts": "0",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 140
+            },
+            {
+              "Row Num": "21",
+              "Date Published": "Thursday, May 1, 2025 at 01:00 AM",
+              "Post ID": "702552612304878",
+              "Text Post": "🌿 Happy Labour Day from Sementra 🌿\n\nTo all the hardworking souls who keep the world turning — today, we celebrate you. 💪\nTake a well-deserved break, soak in nature’s peace, and let your spirit recharge with us. 🌊🌴\n\n#LabourDay #SementraResort #NatureRetreat #DeservedBreak #GopengEscape #HotSpringHealing",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid02auoHrFbhmE5Tdm52HSfQpMaRFmmpmQuYhDqBWkxW98ptzdvVTNhVYJ9Zsy9pAQgol",
+              "Post Image List": [
+                "https://scontent.fluh3-3.fna.fbcdn.net/v/t39.30808-6/494351184_701952105698262_6520973576921916159_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_ohc=GJmo6ZycA3IQ7kNvwEeali_&_nc_oc=Adm2UWz6HVL1ZGevCYU_hQuDOYedO80g3FxA268_NChLq3qzvrkUV8H2oG4yp3C-aes&_nc_zt=23&_nc_ht=scontent.fluh3-3.fna&_nc_gid=-2gXVbGWUJ8oKYGIIkKPiA&oh=00_AfPAt0AH_3hgRGK-T5vEivu20BPr_J-wBN6BWfwg2Iu3mQ&oe=685738F0"
+              ],
+              "Reaction Counts": 8,
+              "Share Counts": "2",
+              "Comment Counts": "0",
+              "Video View Counts": "0",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 141
+            },
+            {
+              "Row Num": "22",
+              "Date Published": "Wednesday, April 30, 2025 at 02:00 AM",
+              "Post ID": "701849695708503",
+              "Text Post": "From refreshing morning hikes to cozy late-night bonfires, Sementra is where memories are made and bonds grow stronger. Plan your next family holiday and experience togetherness like never before. 🏡✨\n\n#FamilyHoliday\n#SementraResort\n#TogetherAtSementra\n#FamilyGetaway\n#NatureRetreat\n#BondingMoments\n#UnwindTogether\n#CreateMemories\n#HolidayInNature\n#FamilyTime\n#ReconnectInNature\n#MalaysiaStaycation\n#EscapeToNature",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/627111793660852/",
+              "Post Image List": [],
+              "Reaction Counts": 3,
+              "Share Counts": "0",
+              "Comment Counts": "0",
+              "Video View Counts": "176",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 142
+            },
+            {
+              "Row Num": "23",
+              "Date Published": "Monday, April 28, 2025 at 07:59 AM",
+              "Post ID": "700559479170858",
+              "Text Post": "The best lessons come from nature—teamwork, patience, and adventure. Bring your team, students, or friends for an experience beyond four walls. 🌿✨\n\nCome and discover your perfect escape!\n[ Sementra Nature Resort ]\n📍 Lot 15918, Kampung Ulu Geroh, 31600, Gopeng, Perak\n📅 Book now: https://bit.ly/BookingSMT\n💬 WhatsApp: +6016 952 0363 https://bit.ly/3CluqGG\n🌐 www.sementra.my\n📧 booking@sementra.com.my\n\n#TeamBuilding\n#LearnFromNature\n#OutdoorExperience\n#NatureAdventure\n#BeyondTheClassroom\n#NatureLessons\n#TeamworkGoals\n#ExploreTogether\n#AdventureAwaits\n#UnleashPotential\n#NatureInspired\n#GrowTogether\n#NatureVibes\n#OutdoorsForAll\n#LearningOutdoors",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/701280809055939/",
+              "Post Image List": [],
+              "Reaction Counts": 1,
+              "Share Counts": "0",
+              "Comment Counts": "0",
+              "Video View Counts": "266",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 143
+            },
+            {
+              "Row Num": "24",
+              "Date Published": "Monday, April 28, 2025 at 07:52 AM",
+              "Post ID": "463491700187481",
+              "Text Post": "A breathtaking fireworks show illuminated the night at our resort. Video credit to @rightcubeasia",
+              "Post URL": "https://www.facebook.com/reel/463491700187481/",
+              "Post Image List": [],
+              "Reaction Counts": 1,
+              "Share Counts": "0",
+              "Comment Counts": "1",
+              "Video View Counts": "162",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 144
+            },
+            {
+              "Row Num": "25",
+              "Date Published": "Monday, April 28, 2025 at 07:49 AM",
+              "Post ID": "700554725838000",
+              "Text Post": "",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/1502538180719196/",
+              "Post Image List": [],
+              "Reaction Counts": 2,
+              "Share Counts": "0",
+              "Comment Counts": "0",
+              "Video View Counts": "48",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 145
+            },
+            {
+              "Row Num": "26",
+              "Date Published": "Thursday, April 24, 2025 at 11:39 AM",
+              "Post ID": "697657002794439",
+              "Text Post": "A place where your mind slows down, and your heart feels lighter. \n\nWelcome to your sanctuary. 💆‍♂️✨\n\n#sementrahotspringnatureresort #NatureSanctuary #HotSpringEscape #WellnessInNature #YourSanctuary\n #YourSanctuaryAwaits",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/661766796470152/",
+              "Post Image List": [],
+              "Reaction Counts": 1,
+              "Share Counts": "0",
+              "Comment Counts": "0",
+              "Video View Counts": "150",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 146
+            },
+            {
+              "Row Num": "27",
+              "Date Published": "Saturday, April 19, 2025 at 04:05 AM",
+              "Post ID": "693590643201075",
+              "Text Post": "🌿 Escape & Recharge at Sementra Nature Hot Spring Resort! 🌿\n\nUnwind with our rejuvenating getaways:\n✅ 2D1N from RM279/pax (3 meals included) | 3D2N from RM558/pax (6 meals included)\n📅 Book now for a nature-filled escape!\n\nOver 10 Fun-Filled Activities Await:\n♨️ Dip into natural hot springs\n🏊 Plunge into a waterfall pool\n👀 Explore Rajah Brooke’s Sightseeing spots\n🕹️ Challenge your skills at the mini arcade\n🎤 Rock out at our karaoke sessions\n🐟 Enjoy fish feeding moments\n🥾 Traverse scenic hiking trails\n🚣 Embark on a thrilling water rafting adventure\n🚴 Cycle along nature trails\n🏍️ Conquer ATV rides\n💦 Experience water rafting excitement\n\nPerfect for:\n👨‍👩‍👧‍👦 Family bonding weekends\n👭 Best friend adventures\n💑 Romantic mini-getaways\n🏢 Corporate retreats\n\nCome and discover your perfect escape!\n\n[ Sementra Nature Resort ]\n📍 Lot 15918, Kampung Ulu Geroh, 31600, Gopeng, Perak\n📅 Book now: https://bit.ly/BookingSMT\n💬 WhatsApp: +6016 952 0363 https://bit.ly/3CluqGG\n🌐 www.sementra.my\n📧 booking@sementra.com.my\n\n#AdventureAwaits #QualityTime #OutdoorFun #MalaysiaHoliday #TropicalEscape #ChillVibes #Wanderlust #TravelMore #StaycationIdeas #ReconnectWithNature",
+              "Post URL": "https://www.facebook.com/reel/9837408116297977/",
+              "Post Image List": [],
+              "Reaction Counts": 251,
+              "Share Counts": "47",
+              "Comment Counts": "9",
+              "Video View Counts": "30521",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 147
+            },
+            {
+              "Row Num": "28",
+              "Date Published": "Thursday, April 17, 2025 at 02:09 PM",
+              "Post ID": "692408766652596",
+              "Text Post": "Escape to serenity—where natural hot springs meet lush greenery at Sementra",
+              "Post URL": "https://www.facebook.com/reel/1342628513711626/",
+              "Post Image List": [],
+              "Reaction Counts": 9,
+              "Share Counts": "0",
+              "Comment Counts": "0",
+              "Video View Counts": "232",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 148
+            },
+            {
+              "Row Num": "29",
+              "Date Published": "Monday, April 14, 2025 at 02:28 AM",
+              "Post ID": "689725756920897",
+              "Text Post": "",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/1488101565890852:1488101565890852",
+              "Post Image List": [
+                "https://scontent.fmla3-1.fna.fbcdn.net/v/t39.30808-6/469685170_650571884069530_3825365423203916012_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=S353jbT4VKAQ7kNvwGNcelt&_nc_oc=AdkAtehgpqQoBmjN4Tbugs8INSdEPiSxj9ntyZBEXMeKpbMSvzM9VwGyFI90PvLv6PI&_nc_zt=23&_nc_ht=scontent.fmla3-1.fna&_nc_gid=W8czHXh1k_bg1OD6SKhuLQ&oh=00_AfPDVgKxRVTbfFadQhjCWfNEHhssG5o8U2YhAF81y3bmIg&oe=685735D0"
+              ],
+              "Reaction Counts": 6,
+              "Share Counts": "0",
+              "Comment Counts": "0",
+              "Video View Counts": "0",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 149
+            },
+            {
+              "Row Num": "30",
+              "Date Published": "Monday, April 14, 2025 at 02:22 AM",
+              "Post ID": "689722973587842",
+              "Text Post": "Wake up to the sound of birds, fresh mountain air, and the warmth of nature. \n\nThis is how mornings should feel. 🌿💛",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid0vhGeSuVsaE3bdLCvaWRBwtkiZ9XtTXssrATxUMGrZqusCNn7WyP8MYCyGavdqdGUl",
+              "Post Image List": [
+                "https://scontent.fmla3-1.fna.fbcdn.net/v/t39.30808-6/490182143_689722956921177_8792843340847664006_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=833d8c&_nc_ohc=6zfqJqmTAhEQ7kNvwH6bFO0&_nc_oc=AdncxJdF9W68JTolcJrIcFcu5weZUgTzYi73RrkA4aGCjXEwxyLEaID38CGdWaaUw1Y&_nc_zt=23&_nc_ht=scontent.fmla3-1.fna&_nc_gid=W8czHXh1k_bg1OD6SKhuLQ&oh=00_AfMp1JykGSfQUdwc7RP7Spd8D90Lp5XW3fOJn2P8hcVuzQ&oe=68571193"
+              ],
+              "Reaction Counts": 1,
+              "Share Counts": "1",
+              "Comment Counts": "0",
+              "Video View Counts": "0",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 150
+            },
+            {
+              "Row Num": "31",
+              "Date Published": "Friday, April 11, 2025 at 02:00 AM",
+              "Post ID": "687322313827908",
+              "Text Post": "Turn your weekend into a mini-vacation filled with adventure, relaxation, and good company.\n\nBecause you deserve it! 🌊✨ \n\n# Sementra #WeekendWellSpent",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/707577804937454/",
+              "Post Image List": [],
+              "Reaction Counts": 3,
+              "Share Counts": "1",
+              "Comment Counts": "0",
+              "Video View Counts": "274",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 151
+            },
+            {
+              "Row Num": "32",
+              "Date Published": "Thursday, April 10, 2025 at 08:32 AM",
+              "Post ID": "686754417218031",
+              "Text Post": "You just spotted the royal of the rainforest — Rajah Brooke’s Birdwing. Nature’s flex. #SementraNatureHotspringResort #ButterflyTok #RajahBrooke #NatureVibes #WildlifeWonder #MalaysiaMagic",
+              "Post URL": "https://www.facebook.com/reel/1697612510859534/",
+              "Post Image List": [],
+              "Reaction Counts": 8,
+              "Share Counts": "0",
+              "Comment Counts": "0",
+              "Video View Counts": "142",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 152
+            },
+            {
+              "Row Num": "33",
+              "Date Published": "Tuesday, April 8, 2025 at 03:04 AM",
+              "Post ID": "685047120722094",
+              "Text Post": "From team-building adventures to cozy bonfires, Sementra is where friendships grow stronger and new bonds are formed. 🔥🌿\n\n#Sementra #MomentsThatMatter",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/1425933168778925/",
+              "Post Image List": [],
+              "Reaction Counts": 2,
+              "Share Counts": "0",
+              "Comment Counts": "0",
+              "Video View Counts": "79",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 153
+            },
+            {
+              "Row Num": "34",
+              "Date Published": "Sunday, April 6, 2025 at 12:56 PM",
+              "Post ID": "683814614178678",
+              "Text Post": "April Reset: Breathe & Begin Again 🌿\n\nLet nature refresh your mind, body, and soul.\nEscape the city and find peace at Sementra. 🌊✨",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/1731145111083310/",
+              "Post Image List": [],
+              "Reaction Counts": 6,
+              "Share Counts": "0",
+              "Comment Counts": "0",
+              "Video View Counts": "178",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 154
+            },
+            {
+              "Row Num": "35",
+              "Date Published": "Wednesday, April 2, 2025 at 02:00 AM",
+              "Post ID": "680161541210652",
+              "Text Post": "Breathe in fresh air, move your body, and let go of stress. \n\nWellness starts with taking time for yourself. 🌞\n\n #RefreshYourSoul",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/700973239025395/",
+              "Post Image List": [],
+              "Reaction Counts": 3,
+              "Share Counts": "0",
+              "Comment Counts": "0",
+              "Video View Counts": "138",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 155
+            },
+            {
+              "Row Num": "36",
+              "Date Published": "Monday, March 31, 2025 at 05:19 AM",
+              "Post ID": "678670768026396",
+              "Text Post": "🌙✨ Selamat Hari Raya Aidilfitri! ✨🌙\n\nWishing you and your loved ones joy, peace, and blessings this festive season. 💚🏡 Enjoy the celebrations and cherish every moment!\n\n#SelamatHariRaya #EidMubarak #SementraResort",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid025sZUEi5QSxhcroDoNAFUtAM1dk7ec1arLjcc6kafLPra8Q4LGwSBbNuT7X9j3bD4l",
+              "Post Image List": [
+                "https://scontent-ssn1-1.xx.fbcdn.net/v/t39.30808-6/487219540_678670741359732_3967090476811457170_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=833d8c&_nc_ohc=yhHpfqBsWzcQ7kNvwEi0tkU&_nc_oc=AdmUmJHDbsnML8vMp05dZBBjL0lfcz3QnWTYwhCzxfifzTtoAHE8LefmDdH_orOHMfs&_nc_zt=23&_nc_ht=scontent-ssn1-1.xx&_nc_gid=DDKVFYc0NIZJeSHS2nuRpg&oh=00_AfNkhCwWKJd_zIqrPyLu7zY2HtRHPenLCUC6Xiz8_iHQ7g&oe=68572135"
+              ],
+              "Reaction Counts": 2,
+              "Share Counts": "0",
+              "Comment Counts": "0",
+              "Video View Counts": "0",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 156
+            },
+            {
+              "Row Num": "37",
+              "Date Published": "Sunday, March 30, 2025 at 12:00 PM",
+              "Post ID": "678088478084625",
+              "Text Post": "Trade screen time for scenic views, long talks, and laughter with friends. \n\nThe best connections are made in nature. 🌿✨ \n\n#MomentsOverThings",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/700763332377009/",
+              "Post Image List": [],
+              "Reaction Counts": 5,
+              "Share Counts": "0",
+              "Comment Counts": "0",
+              "Video View Counts": "308",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 157
+            },
+            {
+              "Row Num": "38",
+              "Date Published": "Friday, March 28, 2025 at 02:00 AM",
+              "Post ID": "676264701600336",
+              "Text Post": "Did you know? \n\nSementra’s natural hot springs are rich in minerals that promote relaxation and well-being.\nA soak a day keeps the stress away! ✨\n\n#Nature’sTherapy",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/posts/pfbid0addtfUoDo8eBcgyZFb2nhi58FB82pXLH1TSUf2cy2i4nFC74h4b3XNxkeA6Kbykyl",
+              "Post Image List": [
+                "https://scontent-cph2-1.xx.fbcdn.net/v/t39.30808-6/486320571_674101755149964_636691976343292830_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=127cfc&_nc_ohc=yx6os_NQTVEQ7kNvwGFkTdq&_nc_oc=AdkYmX54lXB3pPfYW8au-UJe2k6YclLyETho9l9-EzZFoDKJHhEWUoU15jcXpl7qJbU&_nc_zt=23&_nc_ht=scontent-cph2-1.xx&_nc_gid=RAZ4HLOzqH1tzs2GtDWMBw&oh=00_AfMa-We1EUmY8tbZNFhoRVumRejCN7GaiA7jdLCSqy132w&oe=68570BD2"
+              ],
+              "Reaction Counts": 2,
+              "Share Counts": "1",
+              "Comment Counts": "0",
+              "Video View Counts": "0",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 158
+            },
+            {
+              "Row Num": "39",
+              "Date Published": "Wednesday, March 26, 2025 at 01:00 AM",
+              "Post ID": "674772258416247",
+              "Text Post": "There’s nothing like opening your eyes to the sound of birds, a fresh morning breeze, and the calming view of nature. \n\n🌳 #GoodMorningNature",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/653470630968626/",
+              "Post Image List": [],
+              "Reaction Counts": 2,
+              "Share Counts": "1",
+              "Comment Counts": "0",
+              "Video View Counts": "130",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 159
+            },
+            {
+              "Row Num": "40",
+              "Date Published": "Monday, March 24, 2025 at 02:33 AM",
+              "Post ID": "673349568558516",
+              "Text Post": "Nature has a way of grounding us. \nFind your peace, clear your mind, and embrace the beauty of the moment. 🌄🧘‍♀️ \n\n#sementranaturehotspringresort #MindfulMoments",
+              "Post URL": "https://www.facebook.com/sementrahotspringnatureresortgopeng/videos/1296340008326911/",
+              "Post Image List": [],
+              "Reaction Counts": 2,
+              "Share Counts": "1",
+              "Comment Counts": "0",
+              "Video View Counts": "128",
+              "Scraped Date Updates": "2025-06-17",
+              "Id": 160
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "versionId": "58652bde-0f4c-4ec9-b903-a54ec91a49a5",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-06-17T10:49:24.688Z",
+      "createdAt": "2025-06-17T10:49:24.688Z",
+      "role": "workflow:owner",
+      "workflowId": "EvvKtMOGEG3DeyZR",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2025-04-25T07:31:07.022Z",
+      "createdAt": "2025-04-25T07:31:07.022Z",
+      "id": "9Gp47jN1RS49GmsF",
+      "name": "CREO_PROJECT"
+    },
+    {
+      "updatedAt": "2025-04-26T04:25:52.442Z",
+      "createdAt": "2025-04-26T04:25:52.442Z",
+      "id": "v4flmjP5hdyH5E40",
+      "name": "Creo-SementraResort"
+    }
+  ]
+}
