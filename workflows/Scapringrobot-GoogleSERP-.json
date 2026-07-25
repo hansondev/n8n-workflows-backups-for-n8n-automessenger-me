@@ -1,0 +1,622 @@
+{
+  "updatedAt": "2023-12-27T13:40:19.000Z",
+  "createdAt": "2023-12-27T08:11:51.831Z",
+  "id": "k3lpPBRPC0hcrt0v",
+  "name": "Scapringrobot-GoogleSERP-",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "e17b7af0-25f6-417a-958e-b0a3380a9c1f",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        820,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "ads",
+        "options": {}
+      },
+      "id": "3699c93c-7121-41f1-8749-8e60c2bebd2b",
+      "name": "Split Paid Results",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3.1,
+      "position": [
+        2120,
+        280
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "80710eff-e84d-4d1b-b1a1-34594a0d0808",
+      "name": "No Operation, do nothing",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1960,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "adHeadline",
+              "stringValue": "={{ $json.title }}"
+            },
+            {
+              "name": "adDescription",
+              "stringValue": "={{ $json.description }}"
+            },
+            {
+              "name": "adDisplayURL",
+              "stringValue": "={{ $json.link }}"
+            },
+            {
+              "name": "sitelinks",
+              "stringValue": "=1.  {{ $json.sitelinks[0].title }}\n2.  {{ $json.sitelinks[1].title }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "6fee9cbd-addd-4548-88d6-c090a6ee3d92",
+      "name": "Edit Fields1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2380,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1HU9wtH6HnBkz60boUTsrs5UsoZnsNPH5IRp216Z4BZk",
+          "mode": "list",
+          "cachedResultName": "SERP KW Top 10 Organic & Paid Results",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1HU9wtH6HnBkz60boUTsrs5UsoZnsNPH5IRp216Z4BZk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1528140979,
+          "mode": "list",
+          "cachedResultName": "seminar emcee  ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1HU9wtH6HnBkz60boUTsrs5UsoZnsNPH5IRp216Z4BZk/edit#gid=1528140979"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Paid Headline": "={{ $json.adHeadline }}",
+            "Paid Description": "={{ $json.adDescription }}",
+            "Sitelinks": "={{ $json.sitelinks }}",
+            "Paid Display URL": "={{ $json.adDisplayURL }}"
+          },
+          "matchingColumns": [
+            "Paid Headline"
+          ],
+          "schema": [
+            {
+              "id": "Organic Headline",
+              "displayName": "Organic Headline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Organic Description",
+              "displayName": "Organic Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Organic Display URL",
+              "displayName": "Organic Display URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Paid Headline",
+              "displayName": "Paid Headline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Paid Description",
+              "displayName": "Paid Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Sitelinks",
+              "displayName": "Sitelinks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Paid Display URL",
+              "displayName": "Paid Display URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "65eee64e-1478-4587-b423-f5b672fd7fd5",
+      "name": "Google Sheets1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        2620,
+        220
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "search",
+              "stringValue": "emcee for corporate events"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "b5de443a-b255-4df4-872a-90f32c2945ec",
+      "name": "Set Search Keywords",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1040,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.valueserp.com/search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "api_key",
+              "value": "DF61B6793B5E46298F91F5D1D3AD80A7"
+            },
+            {
+              "name": "q",
+              "value": "={{ $json.search }}"
+            },
+            {
+              "name": "hl",
+              "value": "en"
+            },
+            {
+              "name": "include_advertiser_info",
+              "value": "true"
+            },
+            {
+              "name": "num",
+              "value": "10"
+            },
+            {
+              "name": "output",
+              "value": "json"
+            },
+            {
+              "name": "flatten_results",
+              "value": "true"
+            },
+            {
+              "name": "time_period",
+              "value": "last_week"
+            },
+            {
+              "name": "gl",
+              "value": "sg"
+            },
+            {
+              "name": "device",
+              "value": "mobile"
+            },
+            {
+              "name": "max_page",
+              "value": "2"
+            },
+            {
+              "name": "include_answer_box",
+              "value": "false"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "5fa7d444-fb22-4c79-a1a1-f474b55db198",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1300,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.ads }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "e71377e3-1820-48fb-8aaa-9d1f33b77607",
+      "name": "IF",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1680,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "organic_results",
+        "include": "selectedOtherFields",
+        "fieldsToInclude": "title,link,snippet",
+        "options": {}
+      },
+      "id": "9632cd6e-1b69-4a55-931c-1aca586e139d",
+      "name": "Split Organic Results",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3.1,
+      "position": [
+        1600,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "serpHeadline",
+              "stringValue": "={{ $json.organic_results.title }}"
+            },
+            {
+              "name": "serpDescription",
+              "stringValue": "={{ $json.organic_results.snippet }}"
+            },
+            {
+              "name": "serpDisplayURL",
+              "stringValue": "={{ $json.organic_results.link }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "a516ce8c-d0e6-4ca8-873e-b8b291c0604c",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1880,
+        -20
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.serpHeadline }}",
+              "operation": "isNotEmpty"
+            }
+          ]
+        }
+      },
+      "id": "cf8370fc-458c-4b90-bffc-727ba874aeb6",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 1,
+      "position": [
+        2100,
+        -20
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1HU9wtH6HnBkz60boUTsrs5UsoZnsNPH5IRp216Z4BZk",
+          "mode": "list",
+          "cachedResultName": "SERP KW Top 10 Organic & Paid Results",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1HU9wtH6HnBkz60boUTsrs5UsoZnsNPH5IRp216Z4BZk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 876137733,
+          "mode": "list",
+          "cachedResultName": "emcee for corporate events  ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1HU9wtH6HnBkz60boUTsrs5UsoZnsNPH5IRp216Z4BZk/edit#gid=876137733"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Organic Headline": "={{ $json.serpHeadline }}",
+            "Organic Description": "={{ $json.serpDescription }}",
+            "Organic Display URL": "={{ $json.serpDisplayURL }}"
+          },
+          "matchingColumns": [
+            "Organic Headline"
+          ],
+          "schema": [
+            {
+              "id": "Organic Headline",
+              "displayName": "Organic Headline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Organic Description",
+              "displayName": "Organic Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Organic Display URL",
+              "displayName": "Organic Display URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Paid Headline",
+              "displayName": "Paid Headline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Paid Description",
+              "displayName": "Paid Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Sitelinks",
+              "displayName": "Sitelinks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Paid Display URL",
+              "displayName": "Paid Display URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6258ae34-f67a-41c6-84f6-39ef07d62913",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        2400,
+        -60
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      },
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "connections": {
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Set Search Keywords",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Paid Results": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Search Keywords": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Split Organic Results",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "IF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF": {
+      "main": [
+        [
+          {
+            "node": "Split Paid Results",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Organic Results": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "20c683c4-d918-43e4-9e7e-089ad5f864f0",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2023-12-27T08:11:51.860Z",
+      "createdAt": "2023-12-27T08:11:51.860Z",
+      "role": "workflow:owner",
+      "workflowId": "k3lpPBRPC0hcrt0v",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
