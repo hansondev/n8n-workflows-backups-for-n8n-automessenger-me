@@ -1,0 +1,361 @@
+{
+  "updatedAt": "2023-12-27T05:20:55.000Z",
+  "createdAt": "2023-12-27T03:16:05.263Z",
+  "id": "NTkfzQXbAN2hzolb",
+  "name": "APIFY-GAds Scraper-First Page Digital copy",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "gads-scraper-emceemelvin",
+        "options": {}
+      },
+      "id": "4fcdde08-0f51-4fc5-ab96-18eb68833ef8",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        800,
+        320
+      ],
+      "webhookId": "1c7ab566-ab04-4f29-aad1-e07ad60092dc"
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "APItoken",
+              "stringValue": "RMcnCuQuPp4AAsEwZjt5FNDF4"
+            },
+            {
+              "name": "datasetID",
+              "stringValue": "={{ $json.body.resource.defaultDatasetId }}"
+            },
+            {
+              "name": "actorRunID",
+              "stringValue": "={{ $json.body.eventData.actorRunId }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "a8dca342-2ca0-47d5-893f-10aaa0e45f1f",
+      "name": "Set Datadset HTTP Request Variable",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1080,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.datasetID }}/items?token={{ $json.APItoken }}&format=json&clean=false",
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 3000
+            }
+          }
+        }
+      },
+      "id": "b94672fd-022c-48f9-a05a-bfa560a9f385",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1400,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "adType",
+              "stringValue": "={{ $('HTTP Request').item.json.format }}"
+            },
+            {
+              "name": "targetCountry",
+              "stringValue": "={{ $('HTTP Request').item.json.creativeRegions[0] }}"
+            },
+            {
+              "name": "adScreenshot",
+              "stringValue": "={{ $('HTTP Request').item.json.previewUrl }}"
+            },
+            {
+              "name": "adHeadline",
+              "stringValue": "={{ $json.headline }}"
+            },
+            {
+              "name": "adDescription",
+              "stringValue": "={{ $json.description }}"
+            },
+            {
+              "name": "adCTA",
+              "stringValue": "={{ $json.clickUrl }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {
+          "includeBinary": true,
+          "ignoreConversionErrors": true
+        }
+      },
+      "id": "d4b9fa0e-8781-4d66-a7b8-92b1775d879d",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1980,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "variations",
+        "options": {}
+      },
+      "id": "c4a72bc5-bc67-49fe-b810-e682c3468cc6",
+      "name": "Item Lists",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3.1,
+      "position": [
+        1620,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1j1ZVfX_5O6MZ8KP3ZI0UQWqDXbEO5dhlBKshPxZcdHA",
+          "mode": "list",
+          "cachedResultName": "GAdsScraper-emceemelvin.com_Last30Days(27Dec2023)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1j1ZVfX_5O6MZ8KP3ZI0UQWqDXbEO5dhlBKshPxZcdHA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1j1ZVfX_5O6MZ8KP3ZI0UQWqDXbEO5dhlBKshPxZcdHA/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Ad Type": "={{ $json.adType }}",
+            "Target Country": "={{ $json.targetCountry }}",
+            "Ad Screeshot": "={{ $json.adScreenshot }}",
+            "Ad Headline": "={{ $json.adHeadline }}",
+            "Ad Description": "={{ $json.adDescription }}",
+            "Ad Call To Action": "={{ $json.adCTA }}"
+          },
+          "matchingColumns": [
+            "Ad Type"
+          ],
+          "schema": [
+            {
+              "id": "Ad Type",
+              "displayName": "Ad Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Target Country",
+              "displayName": "Target Country",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Screeshot",
+              "displayName": "Ad Screeshot",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Headline",
+              "displayName": "Ad Headline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Description",
+              "displayName": "Ad Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Call To Action",
+              "displayName": "Ad Call To Action",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c297298b-b8ba-43ff-9fea-cf129bacb8ec",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        2460,
+        40
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Set Datadset HTTP Request Variable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Datadset HTTP Request Variable": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Item Lists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "HTTP Request": [
+      {
+        "json": {
+          "advertiserId": "AR00782834480632037377",
+          "creativeId": "CR18205226380344426497",
+          "creativeRegions": [
+            "Singapore"
+          ],
+          "format": "TEXT",
+          "previewUrl": "https://tpc.googlesyndication.com/archive/simgad/10606744213867028898",
+          "variations": [
+            {
+              "clickUrl": "www.emceemelvin.com/",
+              "description": "Elevate Your Event with Emcee Melvin Ho. Trusted by Fortune 500, Govt, Brands. Contact Now",
+              "headline": "Emcee Melvin HO"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "advertiserId": "AR00782834480632037377",
+          "creativeId": "CR07861930144905035777",
+          "creativeRegions": [
+            "Singapore"
+          ],
+          "format": "TEXT",
+          "previewUrl": "https://tpc.googlesyndication.com/archive/simgad/10517021131338344864",
+          "variations": [
+            {
+              "clickUrl": "www.emceemelvin.com/",
+              "description": "Event Planning is Tough Work. Let Me Help You Make Events Easier! Contact Me Now.",
+              "headline": "Emcee Melvin HO"
+            }
+          ]
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "f616fc5c-fc50-416d-bd4b-9e79b83437ad",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2023-12-27T03:16:05.369Z",
+      "createdAt": "2023-12-27T03:16:05.369Z",
+      "role": "workflow:owner",
+      "workflowId": "NTkfzQXbAN2hzolb",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
