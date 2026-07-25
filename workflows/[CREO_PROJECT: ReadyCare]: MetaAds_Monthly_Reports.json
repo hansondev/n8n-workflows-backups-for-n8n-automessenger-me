@@ -1,10 +1,10 @@
 {
-  "updatedAt": "2025-07-31T10:35:16.000Z",
-  "createdAt": "2025-06-04T04:45:52.381Z",
-  "id": "BADKmm2Law4MTzaE",
+  "updatedAt": "2025-08-06T02:05:58.000Z",
+  "createdAt": "2025-07-31T10:34:32.279Z",
+  "id": "wqeuQb44Ghd5YOI1",
   "name": "[CREO_PROJECT: ReadyCare]: MetaAds_Monthly_Reports",
   "active": false,
-  "isArchived": true,
+  "isArchived": false,
   "nodes": [
     {
       "parameters": {
@@ -34,12 +34,12 @@
           "queryParameters": {
             "parameter": [
               {
-                "name": "effective_status",
-                "value": "[\"ACTIVE\"]"
-              },
-              {
                 "name": "time_range",
                 "value": "={\n  'since':{{ JSON.stringify($('On form submission').item.json['Start Date']) }},\n  'until':{{ JSON.stringify($('On form submission').item.json['End Date']) }}\n}"
+              },
+              {
+                "name": "effective_status",
+                "value": "[\"ACTIVE\"]"
               }
             ]
           },
@@ -49,15 +49,15 @@
       "type": "n8n-nodes-base.facebookGraphApi",
       "typeVersion": 1,
       "position": [
-        -5020,
-        -600
+        -2640,
+        608
       ],
-      "id": "d99f4e5a-0739-4978-8cef-e51698c81bfa",
+      "id": "5c5f1711-89b2-459f-a458-7152848e90e6",
       "name": "List All Ad Campaigns",
       "credentials": {
         "facebookGraphApi": {
-          "id": "6Ubpg26JSILclSIn",
-          "name": "FB Graph API - boonhong.tan0309@gmail.com"
+          "id": "2Kp3sMOYXJcixajO",
+          "name": "FBGraphAPI_AccessToken-boonhong0309@gmail.com"
         }
       }
     },
@@ -69,10 +69,10 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        -4780,
-        -600
+        -2400,
+        608
       ],
-      "id": "8c414bcf-a1d7-45a3-8cdc-2848bc4e984d",
+      "id": "661e044f-4e6e-4d7c-bee8-c9ef1f182a62",
       "name": "Split Out"
     },
     {
@@ -87,8 +87,8 @@
           "conditions": [
             {
               "id": "baba9589-8e32-4f37-8318-555fdc0decb7",
-              "leftValue": "={{ $json.name }}",
-              "rightValue": "={{ $('Get Campaign Edge Input').item.json['Client Name'] }}",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "=ACTIVE",
               "operator": {
                 "type": "string",
                 "operation": "contains"
@@ -102,24 +102,11 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        -4520,
-        -600
+        -2144,
+        608
       ],
-      "id": "d2a07585-58d1-460b-8c81-da975b4ac0c4",
+      "id": "dee1348b-3e7b-4bad-8bb4-01eefdf8996a",
       "name": "Get Only Active Campaigns"
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitInBatches",
-      "typeVersion": 3,
-      "position": [
-        -3020,
-        -900
-      ],
-      "id": "6b2bfc64-bc8a-487f-90f7-a6465a90614d",
-      "name": "Loop Over Items"
     },
     {
       "parameters": {
@@ -129,10 +116,10 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        -2520,
-        -880
+        -32,
+        240
       ],
-      "id": "f6a8c471-5403-440c-b259-6c52061a1535",
+      "id": "8fa108c9-6b45-4d95-bd38-05874f30eec5",
       "name": "Split Out1"
     },
     {
@@ -164,10 +151,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -2900,
-        -680
+        -272,
+        576
       ],
-      "id": "286abfdf-fa70-43b6-b374-357523eeffb9",
+      "id": "855559ba-b2b4-4c8a-bfb0-969c2408c8b2",
       "name": "Edit Fields1"
     },
     {
@@ -178,10 +165,10 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        -2440,
-        -680
+        160,
+        576
       ],
-      "id": "fb86a873-2175-4a56-b15b-52e85ba57bec",
+      "id": "1e6fb17e-d296-4a8c-9716-2d36b7434384",
       "name": "Split Out2"
     },
     {
@@ -192,10 +179,10 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        -3320,
-        40
+        -1184,
+        1264
       ],
-      "id": "067890d1-1a51-4996-8526-7c8aa34a8378",
+      "id": "57a09535-4487-4400-ae93-6f83057b34be",
       "name": "Split Out4"
     },
     {
@@ -205,10 +192,10 @@
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
       "position": [
-        -2600,
-        -220
+        0,
+        992
       ],
-      "id": "5fc7e5f9-5e84-45de-8e75-5c7622f82367",
+      "id": "6d6c4ebc-2938-4abe-8df0-29ae7588395c",
       "name": "Loop Over Items1"
     },
     {
@@ -219,10 +206,10 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        -2120,
-        -20
+        608,
+        1184
       ],
-      "id": "2ee0fc30-9a53-440c-8c4c-0d274a3a7bda",
+      "id": "82599cf0-bcf4-44cb-a83f-7b013629a1d9",
       "name": "Split Out5"
     },
     {
@@ -232,10 +219,10 @@
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
       "position": [
-        -3100,
-        -200
+        -864,
+        1024
       ],
-      "id": "1fb8c94f-9329-4c8d-a924-78ef859d8dce",
+      "id": "06d28828-251e-4e23-958c-3f29563c3f0e",
       "name": "Loop Over Items2"
     },
     {
@@ -247,10 +234,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.1,
       "position": [
-        -1880,
-        -740
+        480,
+        384
       ],
-      "id": "07f77b87-b8e5-456d-be42-9288f4e27582",
+      "id": "8fbfdbc3-3085-422b-b791-6b5e9443b121",
       "name": "Merge"
     },
     {
@@ -296,74 +283,76 @@
             {
               "id": "684cb8e7-aeea-447d-b249-3ef59f7a13df",
               "name": "impressions",
-              "value": "={{ $json.impressions.toNumber() }}",
+              "value": "={{ $json.impressions?.toNumber() || 0 }}",
               "type": "number"
             },
             {
               "id": "98ee84e4-067d-40b1-9a49-fe15c82b696a",
               "name": "reach",
-              "value": "={{ $json.reach.toNumber() }}",
+              "value": "={{ $json.reach?.toNumber() || 0 }}",
               "type": "number"
             },
             {
               "id": "50e7fe15-e43f-4904-a5c8-79466fee024e",
-              "name": "clicks",
-              "value": "={{ $json.inline_link_clicks }}",
-              "type": "string"
+              "name": "link_clicks",
+              "value": "={{ $json.inline_link_clicks?.toNumber() || 0 }}",
+              "type": "number"
             },
             {
               "id": "e277cafa-c2bd-437d-bee6-6f2da7526c48",
               "name": "cpm",
-              "value": "={{ $json.cpm.toNumber().round(2) }}",
+              "value": "={{ $json.cpm?.toNumber().round(2) || 0 }}",
               "type": "number"
             },
             {
               "id": "3e4bd344-28f8-42f9-979e-9daa089999ed",
-              "name": "cost_per_click",
-              "value": "={{ $json.cost_per_inline_link_click.toNumber().round(2) }}",
+              "name": "cost_per_link_click",
+              "value": "={{ $json.cost_per_inline_link_click?.toNumber().round(2) }}",
               "type": "number"
             },
             {
               "id": "0b7492dc-d75f-4098-85b3-d53829c81bd1",
-              "name": "click_ctr",
-              "value": "={{ $json.inline_link_click_ctr.toNumber().round(2) }}",
+              "name": "link_click_ctr",
+              "value": "={{ $json.inline_link_click_ctr?.toNumber().round(2) || 0 }}",
               "type": "number"
             },
             {
               "id": "d59fa217-eac6-4397-90eb-d9377a4464f0",
               "name": "results",
-              "value": "={{ $json.results[0].values[0].value.toNumber() }}",
+              "value": "={{ $json.results[0].values[0].value?.toNumber() || 0 }}",
               "type": "number"
             },
             {
               "id": "6ec7efcf-ed68-4e7b-a744-27d568040d76",
               "name": "cost_per_results",
-              "value": "={{ $json.cost_per_result[0].values[0].value.toNumber().format(\"en-US\").toNumber().round(2) }}",
+              "value": "={{ $json.cost_per_result[0].values[0].value?.toNumber().format(\"en-US\").toNumber().round(2) || 0 }}",
               "type": "number"
             },
             {
               "id": "4cb620ce-1810-42be-92e3-c81578910cea",
-              "name": "ad_spent",
-              "value": "={{ $json.spend.toNumber().round(2) }}",
+              "name": "ad_spend",
+              "value": "={{ $json.spend?.toNumber().round(2) || 0 }}",
               "type": "number"
             }
           ]
         },
-        "options": {}
+        "options": {
+          "ignoreConversionErrors": true
+        }
       },
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -3820,
-        -880
+        -1520,
+        352
       ],
-      "id": "ab90f3f8-38a1-4e61-b91d-8734511fd018",
+      "id": "6e9e35f9-641e-46a2-afdb-2fa8a38e116b",
       "name": "Set Campaign Lvl Dimension & Metrics"
     },
     {
       "parameters": {
         "graphApiVersion": "v22.0",
-        "node": "={{ $('Set Campaign Lvl Dimension & Metrics').item.json.campaign_id }}",
+        "node": "={{ $('Set Campaign Lvl Dimension & Metrics1').item.json.campaign_id }}",
         "edge": "adsets",
         "options": {
           "queryParameters": {
@@ -377,10 +366,6 @@
                 "value": "={\"since\":{{ JSON.stringify($('On form submission').item.json['Start Date']) }},\"until\":{{ JSON.stringify($('On form submission').item.json['End Date']) }}}"
               },
               {
-                "name": "effective_status",
-                "value": "[\"ACTIVE\"]"
-              },
-              {
                 "name": "level",
                 "value": "adset"
               }
@@ -391,11 +376,17 @@
       "type": "n8n-nodes-base.facebookGraphApi",
       "typeVersion": 1,
       "position": [
-        -2780,
-        -880
+        -256,
+        240
       ],
-      "id": "ad280910-b5d3-4970-83e8-4f6d10841bf4",
-      "name": "Get All Adsets Dimension"
+      "id": "80696b3d-3b63-42ad-bb22-ebeaa1f0f576",
+      "name": "Get All Adsets Dimension",
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "2Kp3sMOYXJcixajO",
+          "name": "FBGraphAPI_AccessToken-boonhong0309@gmail.com"
+        }
+      }
     },
     {
       "parameters": {
@@ -431,11 +422,17 @@
       "type": "n8n-nodes-base.facebookGraphApi",
       "typeVersion": 1,
       "position": [
-        -2660,
-        -680
+        -48,
+        576
       ],
-      "id": "6ba53216-73ba-4b56-9aab-7904604f398a",
-      "name": "Get Adset Insights"
+      "id": "f2f13bc7-8087-46b1-834e-9c20315705c9",
+      "name": "Get Adset Insights",
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "2Kp3sMOYXJcixajO",
+          "name": "FBGraphAPI_AccessToken-boonhong0309@gmail.com"
+        }
+      }
     },
     {
       "parameters": {
@@ -444,7 +441,7 @@
             {
               "id": "9f37f0e3-e6f0-4eac-8d9e-6e4c0702e13a",
               "name": "campaignName",
-              "value": "={{ $('Loop Over Items').item.json['Campaign Name'] }}",
+              "value": "={{ $('Campaign Level Report').item.json['Campaign Name'] }}",
               "type": "string"
             },
             {
@@ -462,13 +459,13 @@
             {
               "id": "a545f2e8-76e2-429e-a102-9a238490a125",
               "name": "start_date",
-              "value": "={{ $('Loop Over Items').first().json['Start Date'] }}",
+              "value": "={{ $('Campaign Level Report').item.json['Start Date'] }}",
               "type": "string"
             },
             {
               "id": "ef22bc9f-45b1-46b8-bd3a-5be74daed214",
               "name": "end_date",
-              "value": "={{ $('Loop Over Items').first().json['End Date'] }}",
+              "value": "={{ $('Campaign Level Report').item.json['End Date'] }}",
               "type": "string"
             },
             {
@@ -476,12 +473,6 @@
               "name": "adset_status",
               "value": "={{ $json.status }}",
               "type": "string"
-            },
-            {
-              "id": "5434784c-1d48-4285-8f99-2e4c77abdd96",
-              "name": "daily_budget",
-              "value": "={{ $json.daily_budget.slice(0,2).toNumber() }}.{{ $json.daily_budget.substring(2,3).toNumber() }}",
-              "type": "number"
             },
             {
               "id": "a5b6a7ea-d56f-476e-a7a6-ec1156b78644",
@@ -502,10 +493,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -2240,
-        -880
+        256,
+        256
       ],
-      "id": "8ab3b682-0875-493d-a821-d79db3cc3e2e",
+      "id": "c6dc2f5b-5003-4796-bf77-f3e3b7bdb1cb",
       "name": "Set All Adsets Dimensions"
     },
     {
@@ -513,10 +504,10 @@
         "operation": "appendOrUpdate",
         "documentId": {
           "__rl": true,
-          "value": "12cLTRiiXEtTbeidz7ULsNpmVUxI4ioM0HPXZdif-6p4",
+          "value": "1ved1dK7g2ru5z12biwzSFBWFxyWNmzC9B8QoWcQn_vc",
           "mode": "list",
-          "cachedResultName": "[2025] - ImperialChamber - MetaAds - MonthlyCampaignReportSheet",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/12cLTRiiXEtTbeidz7ULsNpmVUxI4ioM0HPXZdif-6p4/edit?usp=drivesdk"
+          "cachedResultName": "[2025] - ReadyCare - MetaAds - MonthlyCampaignReportSheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ved1dK7g2ru5z12biwzSFBWFxyWNmzC9B8QoWcQn_vc/edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
@@ -705,11 +696,17 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
       "position": [
-        -2680,
-        -1060
+        832,
+        272
       ],
-      "id": "7d866f57-05e7-4472-9378-c8702057f94b",
-      "name": "Update Adset Level Report"
+      "id": "3f5e622a-1c1e-4a7e-8055-3af093bf6aa1",
+      "name": "Update Adset Level Report",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
     },
     {
       "parameters": {
@@ -718,13 +715,13 @@
             {
               "id": "6a3f4b29-82c4-42f9-9fcd-f65935be3f95",
               "name": "adName",
-              "value": "={{ $('Loop Over Items1').first().json.ad_name }}",
+              "value": "={{ $json.ad_name }}",
               "type": "string"
             },
             {
               "id": "f4377753-7402-4f2b-87e9-dbb7041ffcee",
               "name": "adsetName",
-              "value": "={{ $('Loop Over Items1').first().json.adset_name }}",
+              "value": "={{ $('Merge All Ad Creative Dimensions').item.json.adset_name }}",
               "type": "string"
             },
             {
@@ -740,74 +737,62 @@
               "type": "string"
             },
             {
-              "id": "c8306502-42e5-4cd0-bc7c-68246cde85be",
-              "name": "adStatus",
-              "value": "={{ $('Loop Over Items1').first().json.ad_status }}",
-              "type": "string"
-            },
-            {
-              "id": "52780c52-6b4e-4134-9391-0267415aeb85",
-              "name": "adThumbnail",
-              "value": "={{ $('Loop Over Items1').first().json.ad_thumbnail }}",
-              "type": "string"
-            },
-            {
               "id": "04bb64ad-0fe7-4874-ae47-402c3e9398f9",
               "name": "adText",
-              "value": "={{ $('Loop Over Items1').first().json.ad_text }}",
+              "value": "={{ $('Merge All Ad Creative Dimensions').item.json.ad_text }}",
               "type": "string"
             },
             {
               "id": "d6d92598-5a7a-4ec7-8179-cd1419a33544",
               "name": "adPreviewLink",
-              "value": "={{ $('Loop Over Items1').first().json.ad_preview_link }}",
+              "value": "={{ $('Merge All Ad Creative Dimensions').item.json.ad_preview_link }}",
               "type": "string"
             },
             {
               "id": "36935140-fd58-4196-85a6-9d1f3a36171c",
               "name": "costPerLinkClick",
-              "value": "={{ $json.cost_per_inline_link_click.toNumber().round(2) }}",
+              "value": "={{ $json.cost_per_inline_link_click?.toNumber().round(2) }}",
               "type": "number"
             },
             {
               "id": "8044da90-ccc9-438e-bd96-f8c419c9c6af",
               "name": "impressions",
-              "value": "={{ $json.impressions.toNumber() }}",
+              "value": "={{ $json.impressions?.toNumber() }}",
               "type": "number"
             },
             {
               "id": "ccf16a6b-3ab8-404b-9385-f957b5182896",
               "name": "reach",
-              "value": "={{ $json.reach.toNumber() }}",
+              "value": "={{ $json.reach?.toNumber() }}",
               "type": "number"
             },
             {
               "id": "8d8dcc36-0638-45f6-b4cf-a729188e81d3",
               "name": "cpm",
-              "value": "={{ $json.cpm.toNumber().round(2) }}",
+              "value": "={{ $json.cpm?.toNumber().round(2) }}",
               "type": "number"
             },
             {
               "id": "7a8fa8b1-b674-4846-bf21-4b6df0513e3e",
               "name": "linkClicks",
-              "value": "={{ $json.inline_link_clicks.toNumber() }}",
+              "value": "={{ $json.inline_link_clicks?.toNumber() }}",
               "type": "number"
             },
             {
               "id": "e982fa9f-a67a-4ff5-a2c5-e1f661d0630f",
               "name": "linkClickCtr",
-              "value": "={{ $json.inline_link_click_ctr.toNumber().round(2) }}",
+              "value": "={{ $json.inline_link_click_ctr?.toNumber().round(2) }}",
               "type": "number"
             },
             {
-              "id": "09c119de-86bf-4c0c-ab36-044d18b41906",
+              "id": "00e48a96-a65a-4c97-8624-295ceae8323a",
               "name": "results",
-              "value": "={{ $json.results[0].values[0].value.toNumber().round(2) }}",
+              "value": "={{ $json.results[0].values[0].value?.toNumber().round(2) }}",
               "type": "number"
             },
             {
-              "id": "62b3625b-8b3d-4058-8133-cb76add9a623",
-              "name": "costPerLead",
+              "id": "4bb265bd-e8a2-4370-8757-852867492f18",
+              "name": "costPerResult",
               "value": "={{ $json.cost_per_result[0].values[0].value.toNumber().round(2) }}",
               "type": "number"
             },
@@ -824,10 +809,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -1920,
-        -20
+        992,
+        1184
       ],
-      "id": "f3f4533d-09b6-49a3-bcf2-1c9136556825",
+      "id": "ad58cd93-dea5-4bff-a348-7d984510ea25",
       "name": "Set Ad Insights Metrics"
     },
     {
@@ -865,11 +850,17 @@
       "type": "n8n-nodes-base.facebookGraphApi",
       "typeVersion": 1,
       "position": [
-        -2840,
-        120
+        -624,
+        1200
       ],
-      "id": "45eff353-ce8f-4614-af3a-31e24c77aa2e",
-      "name": "GET Ad Creative Details"
+      "id": "250f1a1e-eff6-4ffb-a075-8491c31eee8a",
+      "name": "GET Ad Creative Details",
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "2Kp3sMOYXJcixajO",
+          "name": "FBGraphAPI_AccessToken-boonhong0309@gmail.com"
+        }
+      }
     },
     {
       "parameters": {
@@ -878,19 +869,19 @@
             {
               "id": "864b2cd7-acdb-40b1-8f0f-7e63a6ba57a6",
               "name": "adset_name",
-              "value": "={{ $('Loop Over Items2').first().json.adset_name }}",
+              "value": "={{ $('Edit Fields').first().json.adset_name }}",
               "type": "string"
             },
             {
               "id": "1383c8c0-fb71-451e-a04b-0d544467b791",
               "name": "ad_id",
-              "value": "={{ $('Loop Over Items2').first().json.ad_id }}",
+              "value": "={{ $('Edit Fields').first().json.ad_id }}",
               "type": "string"
             },
             {
               "id": "7fe309be-6f0e-4d2d-bd33-0c68501dc414",
               "name": "ad_name",
-              "value": "={{ $('Loop Over Items2').first().json.ad_name }}",
+              "value": "={{ $('Edit Fields').first().json.ad_name }}",
               "type": "string"
             },
             {
@@ -930,216 +921,11 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -2500,
-        180
+        -448,
+        1200
       ],
-      "id": "1290ac13-2517-4127-bb45-f9ba7ee8df0a",
+      "id": "b6c74996-8cbb-42b0-924e-0a5f65a48cae",
       "name": "Set Ad Creatives Dimensions"
-    },
-    {
-      "parameters": {
-        "operation": "appendOrUpdate",
-        "documentId": {
-          "__rl": true,
-          "value": "12cLTRiiXEtTbeidz7ULsNpmVUxI4ioM0HPXZdif-6p4",
-          "mode": "list",
-          "cachedResultName": "[2025] - ImperialChamber - MetaAds - MonthlyCampaignReportSheet",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/12cLTRiiXEtTbeidz7ULsNpmVUxI4ioM0HPXZdif-6p4/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": 1417860681,
-          "mode": "list",
-          "cachedResultName": "Ad Overall Report",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ODlj4xklZJIqSu8Be3kixsE2-gZ715mX7vNEuSP-ebk/edit#gid=1417860681"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Impressions": "={{ $json.impressions }}",
-            "Reach": "={{ $json.reach }}",
-            "Adset Name": "={{ $json.adsetName }}",
-            "Ad Name": "={{ $json.adName }}",
-            "Start Date": "={{ $json.dateStart }}",
-            "End Date": "={{ $json.dateStop }}",
-            "Ad Text": "={{ $json.adText }}",
-            "Ad Preview Links": "={{ $json.adPreviewLink }}",
-            "CPM (RM)": "={{ $json.cpm }}",
-            "Link Clicks": "={{ $json.linkClicks }}",
-            "Cost Per Link Click (RM)": "={{ $json.costPerLinkClick }}",
-            "Link Click CTR %": "={{ $json.linkClickCtr }}",
-            "Results": "={{ $json.results }}",
-            "Cost Per Result": "={{ $json.costPerLead }}",
-            "Ad Spend (RM)": "={{ $json.adSpend }}"
-          },
-          "matchingColumns": [
-            "Ad Name"
-          ],
-          "schema": [
-            {
-              "id": "Ad Name",
-              "displayName": "Ad Name",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Adset Name",
-              "displayName": "Adset Name",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Start Date",
-              "displayName": "Start Date",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "End Date",
-              "displayName": "End Date",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Ad Text",
-              "displayName": "Ad Text",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Ad Preview Links",
-              "displayName": "Ad Preview Links",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Impressions",
-              "displayName": "Impressions",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Reach",
-              "displayName": "Reach",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "CPM (RM)",
-              "displayName": "CPM (RM)",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Link Clicks",
-              "displayName": "Link Clicks",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Cost Per Link Click (RM)",
-              "displayName": "Cost Per Link Click (RM)",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Link Click CTR %",
-              "displayName": "Link Click CTR %",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Results",
-              "displayName": "Results",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Cost Per Result",
-              "displayName": "Cost Per Result",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Ad Spend (RM)",
-              "displayName": "Ad Spend (RM)",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {
-          "cellFormat": "USER_ENTERED"
-        }
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.5,
-      "position": [
-        -2380,
-        -340
-      ],
-      "id": "00cb7e2d-981d-4522-ad17-4665a9fb4257",
-      "name": "Google Sheets1"
     },
     {
       "parameters": {
@@ -1171,62 +957,68 @@
       "type": "n8n-nodes-base.facebookGraphApi",
       "typeVersion": 1,
       "position": [
-        -2360,
-        -20
+        240,
+        1184
       ],
-      "id": "6da0f9a5-cb61-4a29-867a-3f2adee7602e",
-      "name": "Get Ad Level Insights"
+      "id": "2cc1f6d8-8341-4e5e-9a66-57add3213c36",
+      "name": "Get Ad Level Insights",
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "2Kp3sMOYXJcixajO",
+          "name": "FBGraphAPI_AccessToken-boonhong0309@gmail.com"
+        }
+      }
     },
     {
       "parameters": {
         "content": "# Adset Level\n**1. First flow will down to Adset dimensions such as Adset Name, Campaign Name, TA Age Range and TA Interest Setup**\n**2. Second flow will retrive to Adsets metrics such as impressions, reach, clicks, cpm, cpc, ctr, ad spend etc.**",
         "height": 780,
-        "width": 1740
+        "width": 1824
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -3160,
-        -1180
+        -448,
+        32
       ],
       "typeVersion": 1,
-      "id": "437be4e2-b57b-454c-ad10-f25afc1a25ec",
+      "id": "933f7095-25e8-4c35-b0c1-1307d10f3f2f",
       "name": "Sticky Note"
     },
     {
       "parameters": {
         "content": "# Campaign Level\n**Get campaign level dimensions such as Campaign Name, Campaign Status, Campaign Objective and Goal Optimization and retrieve to Adsets metrics such as impressions, reach, clicks, cpm, cpc, ctr, ad spend etc.**",
         "height": 660,
-        "width": 1120,
+        "width": 1460,
         "color": 6
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -4280,
-        -1060
+        -1904,
+        144
       ],
       "typeVersion": 1,
-      "id": "0e046d9f-34c2-4389-b6ae-ecfce996ec01",
+      "id": "027c9810-cbf8-4fb3-984c-9c87051e8818",
       "name": "Sticky Note1"
     },
     {
       "parameters": {
         "content": "# Ad Level\n**1. First flow will down to Ad dimensions such as Ad Name, Creative Id and Creative Name**\n**2. Second flow will retrieve to each Ad metrics such as impressions, reach, clicks, cpm, cpc, ctr, ad spend etc.**",
         "height": 960,
-        "width": 2860,
+        "width": 3160,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        -4280,
-        -400
+        -1904,
+        800
       ],
       "typeVersion": 1,
-      "id": "f534655d-6de2-494c-b0a9-0f68567419ca",
+      "id": "0059214a-44f5-4701-bba5-b910e049f446",
       "name": "Sticky Note2"
     },
     {
       "parameters": {
-        "formTitle": "Imperial Chamber Meta Ads Report Updates",
+        "formTitle": "Sementra Resort Meta Ads Report Updates",
         "formFields": {
           "values": [
             {
@@ -1245,12 +1037,12 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.2,
       "position": [
-        -5540,
-        -600
+        -3168,
+        608
       ],
-      "id": "fc3701d0-5fc0-4c2f-9a4a-2558002c7ea8",
+      "id": "7c044dae-7cfd-4653-bd83-8b981d01637f",
       "name": "On form submission",
-      "webhookId": "1a5a548c-9b9f-4e9b-9bc7-0a19a0373797"
+      "webhookId": "ddb51ed0-6498-4dba-a2ae-a6b12d9d4eb5"
     },
     {
       "parameters": {
@@ -1260,10 +1052,10 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        -4000,
-        -880
+        -1664,
+        352
       ],
-      "id": "2d840c8b-0847-428d-89a1-31edebb75941",
+      "id": "784dbd4f-512f-41f2-9314-6788d1b1d3de",
       "name": "Split Out3"
     },
     {
@@ -1278,25 +1070,25 @@
         },
         "sheetName": {
           "__rl": true,
-          "value": 793428501,
+          "value": 890625571,
           "mode": "list",
           "cachedResultName": "Overview Report",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ODlj4xklZJIqSu8Be3kixsE2-gZ715mX7vNEuSP-ebk/edit#gid=793428501"
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ved1dK7g2ru5z12biwzSFBWFxyWNmzC9B8QoWcQn_vc/edit#gid=890625571"
         },
         "columns": {
           "mappingMode": "defineBelow",
           "value": {
-            "Date Since": "={{ $json.date_start }}",
-            "Date Until": "={{ $json.date_stop }}",
-            "Impressions": "={{ $json.impressions }}",
-            "Reach": "={{ $json.reach }}",
-            "CPM": "={{ $json.cpm }}",
-            "Link Clicks": "={{ $json.link_clicks }}",
-            "Cost Per Link Click": "={{ $json.cost_per_link_click }}",
-            "Link Click CTR (%)": "={{ $json.link_click_ctr }}",
-            "Results": "={{ $json.results }}",
-            "Cost Per Result": "={{ $json.cost_per_results }}",
-            "Amount Spent": "={{ $json.ad_spend }}"
+            "Date Since": "={{ $('Set Campaign Lvl Dimension & Metrics1').first().json.date_start }}",
+            "Date Until": "={{ $('Set Campaign Lvl Dimension & Metrics1').first().json.date_stop }}",
+            "Impressions": "==IFERROR(SUM({{ $json.data.map(item => item.impressions).join(\"+\") }}),0)",
+            "Reach": "==IFERROR(SUM({{ $json.data.map(item => item.reach).join(\"+\") }}),0)",
+            "CPM (RM)": "==IFERROR(ROUND(({{ $json.data.map(item => item.ad_spend || 0).join(\"+\") }})/({{ $json.data.map(item => item.impressions || 0).join(\"+\") }})*1000,2),0)",
+            "Clicks": "==IFERROR(SUM({{ $json.data.map(item => item.link_clicks || 0).join(\"+\") }}),0)",
+            "Cost Per Click (RM)": "==IFERROR(ROUND(({{ $json.data.map(item => item.ad_spend || 0).join(\"+\") }})/({{ $json.data.map(item => item.link_clicks || 0).join(\"+\") }}),2),0)",
+            "Click CTR (%)": "==IFERROR(ROUND(({{ $json.data.map(item => item.link_clicks || 0).join(\"+\") }})/({{ $json.data.map(item => item.impressions || 0).join(\"+\") }})*100,2),0)",
+            "Results": "==IFERROR(SUM({{ $json.data.map(item => item.results || 0).join(\"+\") }}),0)",
+            "Cost Per Results (RM)": "==IFERROR(ROUND(({{ $json.data.map(item => item.ad_spend || 0).join(\"+\") }})/({{ $json.data.map(item => item.results || 0).join(\"+\") }}),2),0)",
+            "Ad Spent (RM)": "==SUM({{ $json.data.map(item => item.ad_spend || 0).join(\"+\") }})"
           },
           "matchingColumns": [
             "Date Since"
@@ -1340,8 +1132,8 @@
               "canBeUsedToMatch": true
             },
             {
-              "id": "CPM",
-              "displayName": "CPM",
+              "id": "CPM (RM)",
+              "displayName": "CPM (RM)",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -1349,34 +1141,31 @@
               "canBeUsedToMatch": true
             },
             {
-              "id": "Link Clicks",
-              "displayName": "Link Clicks",
+              "id": "Clicks",
+              "displayName": "Clicks",
               "required": false,
               "defaultMatch": false,
               "display": true,
               "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
+              "canBeUsedToMatch": true
             },
             {
-              "id": "Cost Per Link Click",
-              "displayName": "Cost Per Link Click",
+              "id": "Cost Per Click (RM)",
+              "displayName": "Cost Per Click (RM)",
               "required": false,
               "defaultMatch": false,
               "display": true,
               "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
+              "canBeUsedToMatch": true
             },
             {
-              "id": "Link Click CTR (%)",
-              "displayName": "Link Click CTR (%)",
+              "id": "Click CTR (%)",
+              "displayName": "Click CTR (%)",
               "required": false,
               "defaultMatch": false,
               "display": true,
               "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
+              "canBeUsedToMatch": true
             },
             {
               "id": "Results",
@@ -1385,42 +1174,41 @@
               "defaultMatch": false,
               "display": true,
               "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
+              "canBeUsedToMatch": true
             },
             {
-              "id": "Cost Per Result",
-              "displayName": "Cost Per Result",
+              "id": "Cost Per Results (RM)",
+              "displayName": "Cost Per Results (RM)",
               "required": false,
               "defaultMatch": false,
               "display": true,
               "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
+              "canBeUsedToMatch": true
             },
             {
-              "id": "Amount Spent",
-              "displayName": "Amount Spent",
+              "id": "Ad Spent (RM)",
+              "displayName": "Ad Spent (RM)",
               "required": false,
               "defaultMatch": false,
               "display": true,
               "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
+              "canBeUsedToMatch": true
             }
           ],
           "attemptToConvertTypes": false,
           "convertFieldsToString": false
         },
-        "options": {}
+        "options": {
+          "cellFormat": "USER_ENTERED"
+        }
       },
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        -3600,
-        -880
+        -640,
+        256
       ],
-      "id": "b4f55d74-63ac-4945-be1d-4192b5c59760",
+      "id": "7f988e7c-3964-41f2-b395-858a411158a2",
       "name": "Overview Metrics",
       "credentials": {
         "googleSheetsOAuth2Api": {
@@ -1431,179 +1219,6 @@
     },
     {
       "parameters": {
-        "operation": "appendOrUpdate",
-        "documentId": {
-          "__rl": true,
-          "value": "12cLTRiiXEtTbeidz7ULsNpmVUxI4ioM0HPXZdif-6p4",
-          "mode": "list",
-          "cachedResultName": "[2025] - ImperialChamber - MetaAds - MonthlyCampaignReportSheet",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/12cLTRiiXEtTbeidz7ULsNpmVUxI4ioM0HPXZdif-6p4/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": "gid=0",
-          "mode": "list",
-          "cachedResultName": "Campaign Overall Report",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ODlj4xklZJIqSu8Be3kixsE2-gZ715mX7vNEuSP-ebk/edit#gid=0"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Campaign Name": "={{ $('Set Campaign Lvl Dimension & Metrics').item.json.campaign_name }}",
-            "Campaign Objective": "={{ $('Set Campaign Lvl Dimension & Metrics').item.json.campaign_objective }}",
-            "Start Date": "={{ $('Set Campaign Lvl Dimension & Metrics').item.json.date_start }}",
-            "End Date": "={{ $('Set Campaign Lvl Dimension & Metrics').item.json.date_stop }}",
-            "Impressions": "={{ $('Set Campaign Lvl Dimension & Metrics').item.json.impressions }}",
-            "Reach": "={{ $('Set Campaign Lvl Dimension & Metrics').item.json.reach }}",
-            "CPM (RM)": "={{ $('Set Campaign Lvl Dimension & Metrics').item.json.cpm }}",
-            "Link Clicks": "={{ $('Set Campaign Lvl Dimension & Metrics').item.json.link_clicks }}",
-            "Cost Per Link Click (RM)": "={{ $('Set Campaign Lvl Dimension & Metrics').item.json.cost_per_link_click }}",
-            "Link Click CTR %": "={{ $('Set Campaign Lvl Dimension & Metrics').item.json.link_click_ctr }}",
-            "Results": "={{ $('Set Campaign Lvl Dimension & Metrics').item.json.results }}",
-            "Cost Per Result": "={{ $('Set Campaign Lvl Dimension & Metrics').item.json.cost_per_results }}",
-            "Ad Spend (RM)": "={{ $('Set Campaign Lvl Dimension & Metrics').item.json.ad_spend }}"
-          },
-          "matchingColumns": [
-            "Campaign Name"
-          ],
-          "schema": [
-            {
-              "id": "Campaign Name",
-              "displayName": "Campaign Name",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Campaign Objective",
-              "displayName": "Campaign Objective",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Start Date",
-              "displayName": "Start Date",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "End Date",
-              "displayName": "End Date",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Impressions",
-              "displayName": "Impressions",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Reach",
-              "displayName": "Reach",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "CPM (RM)",
-              "displayName": "CPM (RM)",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Link Clicks",
-              "displayName": "Link Clicks",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Cost Per Link Click (RM)",
-              "displayName": "Cost Per Link Click (RM)",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Link Click CTR %",
-              "displayName": "Link Click CTR %",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Results",
-              "displayName": "Results",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Cost Per Result",
-              "displayName": "Cost Per Result",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": false
-            },
-            {
-              "id": "Ad Spend (RM)",
-              "displayName": "Ad Spend (RM)",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.6,
-      "position": [
-        -3360,
-        -900
-      ],
-      "id": "2898f9d2-04f0-4260-965f-c470b15b524e",
-      "name": "Campaign Level Report"
-    },
-    {
-      "parameters": {
         "graphApiVersion": "v22.0",
         "node": "={{ $json.id }}",
         "edge": "insights",
@@ -1611,7 +1226,7 @@
           "fields": {
             "field": [
               {
-                "name": "impressions,reach,cpm,clicks,cpc,ctr,results,cost_per_result,spend"
+                "name": "impressions,reach,cpm,inline_link_clicks,cost_per_inline_link_click,inline_link_click_ctr,results,cost_per_result,spend"
               }
             ]
           },
@@ -1632,10 +1247,10 @@
       "type": "n8n-nodes-base.facebookGraphApi",
       "typeVersion": 1,
       "position": [
-        -4200,
-        -880
+        -1856,
+        352
       ],
-      "id": "1ef1a442-a4b0-4cfe-8d77-2f37fc83bfa4",
+      "id": "df9c6945-3cca-40d7-bdb7-142ab44d81b1",
       "name": "Get Campaign Lvl Insights",
       "credentials": {
         "facebookGraphApi": {
@@ -1709,10 +1324,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -2200,
-        -680
+        320,
+        544
       ],
-      "id": "6639d7d8-8087-4dd8-9ffa-82d169c50e48",
+      "id": "4e434de5-11b6-407e-9f8a-c4d3a264b5ae",
       "name": "Set Adset Lvl Metrics"
     },
     {
@@ -1734,10 +1349,6 @@
           "queryParameters": {
             "parameter": [
               {
-                "name": "effective_status",
-                "value": "[\"ACTIVE\"]"
-              },
-              {
                 "name": "time_range",
                 "value": "={   \n  'since':{{ JSON.stringify($('On form submission').item.json['Start Date']) }},   \n  'until':{{ JSON.stringify($('On form submission').item.json['End Date']) }} \n}"
               }
@@ -1748,11 +1359,17 @@
       "type": "n8n-nodes-base.facebookGraphApi",
       "typeVersion": 1,
       "position": [
-        -3540,
-        40
+        -1376,
+        1264
       ],
-      "id": "aec404d4-73ab-45d1-8b95-abb1867ac198",
-      "name": "Get Ad Creative Dimension"
+      "id": "b3617433-1c45-4360-9fc9-fe6ceee9e80d",
+      "name": "Get Ad Creative Dimension",
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "2Kp3sMOYXJcixajO",
+          "name": "FBGraphAPI_AccessToken-boonhong0309@gmail.com"
+        }
+      }
     },
     {
       "parameters": {
@@ -1761,49 +1378,37 @@
             {
               "id": "dafbec59-1380-4396-bff7-2fc22eee7f60",
               "name": "adset_name",
-              "value": "={{ $json.adset_name }}",
+              "value": "={{ $('Edit Fields').item.json.adset_name }}",
               "type": "string"
             },
             {
               "id": "f2018158-79e8-470c-8aa9-9821f15b934a",
               "name": "ad_id",
-              "value": "={{ $json.ad_id }}",
+              "value": "={{ $('Edit Fields').item.json.ad_id }}",
               "type": "string"
             },
             {
               "id": "9809c84f-1330-4f2b-9459-1abdbd2d2666",
               "name": "ad_name",
-              "value": "={{ $json.ad_name }}",
-              "type": "string"
-            },
-            {
-              "id": "e7e35d16-f2e6-4339-9aeb-531af04ec267",
-              "name": "ad_status",
-              "value": "={{ $json.ad_status }}",
+              "value": "={{ $('Edit Fields').item.json.ad_name }}",
               "type": "string"
             },
             {
               "id": "3843e470-60dd-4380-b4a0-c02774b8c2e7",
               "name": "creative_id",
-              "value": "={{ $json.creative_id }}",
-              "type": "string"
-            },
-            {
-              "id": "f1d6bdea-f62a-4c1b-8e33-351559622192",
-              "name": "ad_thumbnail",
-              "value": "={{ $json.ad_thumbnail }}",
+              "value": "={{ $('Edit Fields').item.json.creative_id }}",
               "type": "string"
             },
             {
               "id": "f8109a7d-b597-419d-ac7a-9a94627da0ba",
               "name": "ad_text",
-              "value": "={{ $json.ad_text }}",
+              "value": "={{ $('Set Ad Creatives Dimensions').item.json.ad_text }}",
               "type": "string"
             },
             {
               "id": "aeb23e99-7034-41a5-8390-8922a3be7f02",
               "name": "ad_preview_link",
-              "value": "={{ $json.preview_shareable_link }}",
+              "value": "={{ $('Set Ad Creatives Dimensions').item.json.preview_shareable_link }}",
               "type": "string"
             }
           ]
@@ -1813,318 +1418,11 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -2840,
-        -220
+        -480,
+        992
       ],
-      "id": "837a8016-5f03-4904-9806-6a3c406890f8",
+      "id": "8c8f5842-2407-4240-92b5-9b10a821225f",
       "name": "Merge All Ad Creative Dimensions"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "14928536-2127-4272-a11d-18197943d3d4",
-              "name": "campaignName",
-              "value": "={{ $json.campaignName }}",
-              "type": "string"
-            },
-            {
-              "id": "ae66fdb7-d985-482c-a5a5-75620c403210",
-              "name": "adsetName",
-              "value": "={{ $json.adset_name }}",
-              "type": "string"
-            },
-            {
-              "id": "fc2dfa94-ddf4-4ddb-8c2c-ac05420aec8d",
-              "name": "adsetStatus",
-              "value": "={{ $json.adset_status }}",
-              "type": "string"
-            },
-            {
-              "id": "a48f081a-8ba7-48c9-9aec-cc4a3b766244",
-              "name": "startDate",
-              "value": "={{ $json.start_date }}",
-              "type": "string"
-            },
-            {
-              "id": "db7f9b6b-eb35-4574-bd58-13b94aa6aec1",
-              "name": "endDate",
-              "value": "={{ $json.end_date }}",
-              "type": "string"
-            },
-            {
-              "id": "03aeecc3-2188-446d-ae06-7e16e4611382",
-              "name": "dailyBudget",
-              "value": "={{ $json.daily_budget }}",
-              "type": "number"
-            },
-            {
-              "id": "924b9a68-7f4a-41a8-a64a-76244f4da49f",
-              "name": "basicTargetingAge",
-              "value": "={{ $json.basic_targeting_age }}",
-              "type": "string"
-            },
-            {
-              "id": "4bfef6e5-e7a9-4144-b298-9976b9d3ac72",
-              "name": "basicTargetingInterest",
-              "value": "={{ $json.basic_targeting_interest }}",
-              "type": "string"
-            },
-            {
-              "id": "0be61f92-3a2e-49ff-8de1-e6f7a2db2ce9",
-              "name": "impressions",
-              "value": "={{ $json.impressions }}",
-              "type": "number"
-            },
-            {
-              "id": "45dd8498-4f85-4b6a-9549-63f74f82d868",
-              "name": "reach",
-              "value": "={{ $json.reach }}",
-              "type": "number"
-            },
-            {
-              "id": "b1ea6a55-e2aa-49f1-9478-bea961ea1079",
-              "name": "cpm",
-              "value": "={{ $json.cpm }}",
-              "type": "number"
-            },
-            {
-              "id": "127a7ef1-0d42-434c-b92f-e738f44b0164",
-              "name": "linkClicks",
-              "value": "={{ $json.link_clicks }}",
-              "type": "number"
-            },
-            {
-              "id": "b585787a-c91e-4ea0-9135-ac7c3d4a7f09",
-              "name": "costPerLinkClick",
-              "value": "={{ $json.cost_per_link_click }}",
-              "type": "string"
-            },
-            {
-              "id": "10ee13d5-ef85-4826-b6be-a4273dccbe1f",
-              "name": "linkClickCtr",
-              "value": "={{ $json.link_click_ctr }}",
-              "type": "number"
-            },
-            {
-              "id": "487663dd-6a13-4767-878e-4a698f301c22",
-              "name": "results",
-              "value": "={{ $json.results }}",
-              "type": "number"
-            },
-            {
-              "id": "dc37a692-5769-4ead-ad2b-f659ea551f4b",
-              "name": "costPerResult",
-              "value": "={{ $json.cost_per_result }}",
-              "type": "number"
-            },
-            {
-              "id": "b512dc61-09b2-458c-8789-dbe15419a1c8",
-              "name": "adSpend",
-              "value": "={{ $json.ad_spend }}",
-              "type": "number"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -1640,
-        -680
-      ],
-      "id": "0ed02bdc-adb8-4cb0-aa02-88ab7d124432",
-      "name": "MERGE All Active Adsets"
-    },
-    {
-      "parameters": {
-        "operation": "append",
-        "documentId": {
-          "__rl": true,
-          "value": "12cLTRiiXEtTbeidz7ULsNpmVUxI4ioM0HPXZdif-6p4",
-          "mode": "list",
-          "cachedResultName": "[2025] - ImperialChamber - MetaAds - MonthlyCampaignReportSheet",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/12cLTRiiXEtTbeidz7ULsNpmVUxI4ioM0HPXZdif-6p4/edit?usp=drivesdk"
-        },
-        "sheetName": {
-          "__rl": true,
-          "value": 1417860681,
-          "mode": "list",
-          "cachedResultName": "Ad Overall Report",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/12cLTRiiXEtTbeidz7ULsNpmVUxI4ioM0HPXZdif-6p4/edit#gid=1417860681"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Ad Preview Links": "Total",
-            "Impressions": "==SUM({{ $json.data.map(item => item.Impressions).join(\"+\") }})",
-            "Reach": "==SUM({{ $json.data.map(item => item.Reach).join(\"+\") }})",
-            "CPM (RM)": "==ROUND(({{ $json.data.map(item => item['Ad Spend (RM)']).join(\"+\") }})/({{ $json.data.map(item => item.Impressions).join(\"+\") }})*1000,2)",
-            "Link Clicks": "==SUM({{ $json.data.map(item => item['Link Clicks']).join(\"+\") }})",
-            "Cost Per Link Click (RM)": "==ROUND(({{ $json.data.map(item => item['Ad Spend (RM)']).join(\"+\") }})/({{ $json.data.map(item => item['Link Clicks']).join(\"+\") }}),2)",
-            "Link Click CTR %": "==ROUND(({{ $json.data.map(item => item['Link Clicks']).join(\"+\") }})/({{ $json.data.map(item => item.Impressions).join(\"+\") }})*100,2)",
-            "Results": "==SUM({{ $json.data.map(item => item['Results']).join(\"+\") }})",
-            "Cost Per Result": "==ROUND(({{ $json.data.map(item => item['Ad Spend (RM)']).join(\"+\") }})/({{ $json.data.map(item => item['Results']).join(\"+\") }}),2)",
-            "Ad Spend (RM)": "==SUM({{ $json.data.map(item => item['Ad Spend (RM)']).join(\"+\") }})"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "Ad Name",
-              "displayName": "Ad Name",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Adset Name",
-              "displayName": "Adset Name",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Start Date",
-              "displayName": "Start Date",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "End Date",
-              "displayName": "End Date",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Ad Text",
-              "displayName": "Ad Text",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true,
-              "removed": true
-            },
-            {
-              "id": "Ad Preview Links",
-              "displayName": "Ad Preview Links",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Impressions",
-              "displayName": "Impressions",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Reach",
-              "displayName": "Reach",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "CPM (RM)",
-              "displayName": "CPM (RM)",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Link Clicks",
-              "displayName": "Link Clicks",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Cost Per Link Click (RM)",
-              "displayName": "Cost Per Link Click (RM)",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Link Click CTR %",
-              "displayName": "Link Click CTR %",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Results",
-              "displayName": "Results",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Cost Per Result",
-              "displayName": "Cost Per Result",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            },
-            {
-              "id": "Ad Spend (RM)",
-              "displayName": "Ad Spend (RM)",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "type": "string",
-              "canBeUsedToMatch": true
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.5,
-      "position": [
-        -1880,
-        -340
-      ],
-      "id": "e5f9e9fe-dcfa-4978-805c-b3c19323541f",
-      "name": "Google Sheets"
     },
     {
       "parameters": {
@@ -2134,10 +1432,10 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        -2140,
-        -340
+        928,
+        912
       ],
-      "id": "c68cf3af-a40a-40f7-9917-00406baee058",
+      "id": "8940cdee-2bff-4e95-b744-e6693bdc49ad",
       "name": "Aggregate"
     },
     {
@@ -2148,10 +1446,10 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        -2460,
-        -1060
+        1040,
+        272
       ],
-      "id": "fe481cf5-da4e-4c9f-bfac-35f4c097d1e1",
+      "id": "dff85272-542c-41ec-9907-0b4c7188975d",
       "name": "Aggregate1"
     },
     {
@@ -2175,10 +1473,10 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.6,
       "position": [
-        -5280,
-        -600
+        -2896,
+        608
       ],
-      "id": "d1f95fd2-b36f-44fa-9ef0-823877caf839",
+      "id": "78c4e5fb-541e-448f-89f6-25b788a8cb4f",
       "name": "Get Campaign Edge Input",
       "credentials": {
         "googleSheetsOAuth2Api": {
@@ -2192,10 +1490,10 @@
         "operation": "append",
         "documentId": {
           "__rl": true,
-          "value": "12cLTRiiXEtTbeidz7ULsNpmVUxI4ioM0HPXZdif-6p4",
+          "value": "1ved1dK7g2ru5z12biwzSFBWFxyWNmzC9B8QoWcQn_vc",
           "mode": "list",
-          "cachedResultName": "[2025] - ImperialChamber - MetaAds - MonthlyCampaignReportSheet",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/12cLTRiiXEtTbeidz7ULsNpmVUxI4ioM0HPXZdif-6p4/edit?usp=drivesdk"
+          "cachedResultName": "[2025] - ReadyCare - MetaAds - MonthlyCampaignReportSheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ved1dK7g2ru5z12biwzSFBWFxyWNmzC9B8QoWcQn_vc/edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
@@ -2208,15 +1506,15 @@
           "mappingMode": "defineBelow",
           "value": {
             "Basic Targeting (Interest)": "Total",
-            "Impressions": "==SUM({{ $json.data.map(item => item.Impressions).join(\"+\") }})",
-            "Reach": "==SUM({{ $json.data.map(item => item.Reach).join(\"+\") }})",
-            "CPM (RM)": "==ROUND(({{ $json.data.map(item => item['Ad Spend (RM)']).join(\"+\") }})/({{ $json.data.map(item => item.Impressions).join(\"+\") }})*1000,2)",
-            "Link Clicks": "==SUM({{ $json.data.map(item => item['Link Clicks']).join(\"+\") }})",
-            "Cost Per Link Click (RM)": "==ROUND(({{ $json.data.map(item => item['Ad Spend (RM)']).join(\"+\") }})/({{ $json.data.map(item => item['Link Clicks']).join(\"+\") }}),2)",
-            "Link Click CTR %": "==ROUND(({{ $json.data.map(item => item['Link Clicks']).join(\"+\") }})/({{ $json.data.map(item => item.Impressions).join(\"+\") }})*100,2)",
-            "Results": "==SUM({{ $json.data.map(item => item['Results']).join(\"+\") }})",
-            "Cost Per Result": "==ROUND(({{ $json.data.map(item => item['Ad Spend (RM)']).join(\"+\") }})/({{ $json.data.map(item => item['Results']).join(\"+\") }}),2)",
-            "Ad Spend (RM)": "==SUM({{ $json.data.map(item => item['Ad Spend (RM)']).join(\"+\") }})"
+            "Impressions": "==IFERROR(SUM({{ $json.data.map(item => item['Impressions'] || 0).join(\"+\") }}),0)",
+            "Reach": "==IFERROR(SUM({{ $json.data.map(item => item['Reach'] || 0).join(\"+\") }}),0)",
+            "CPM (RM)": "==IFERROR(ROUND(({{ $json.data.map(item => item['Ad Spend (RM)'] || 0).join(\"+\") }})/({{ $json.data.map(item => item.Impressions || 0).join(\"+\") }})*1000,2),0)",
+            "Link Clicks": "==IFERROR(SUM({{ $json.data.map(item => item['Link Clicks'] || 0).join(\"+\") }}),0)",
+            "Cost Per Link Click (RM)": "==IFERROR(ROUND(({{ $json.data.map(item => item['Ad Spend (RM)'] || 0).join(\"+\") }})/({{ $json.data.map(item => item['Link Clicks'] || 0).join(\"+\") }}),2),0)",
+            "Link Click CTR %": "==IFERROR(ROUND(({{ $json.data.map(item => item['Link Clicks'] || 0).join(\"+\") }})/({{ $json.data.map(item => item.Impressions || 0).join(\"+\") }})*100,2),0)",
+            "Results": "==IFERROR(SUM({{ $json.data.map(item => item['Results'] || 0).join(\"+\") }}),0)",
+            "Cost Per Result": "==IFERROR(ROUND(({{ $json.data.map(item => item['Ad Spend (RM)'] || 0).join(\"+\") }})/({{ $json.data.map(item => item['Results'] || 0).join(\"+\") }}),2),0)",
+            "Ad Spend (RM)": "==SUM({{ $json.data.map(item => item['Ad Spend (RM)'] || 0).join(\"+\") }})"
           },
           "matchingColumns": [],
           "schema": [
@@ -2378,11 +1676,17 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
       "position": [
-        -2200,
-        -1060
+        1216,
+        272
       ],
-      "id": "cf92c982-5e0e-4393-b1c7-96a3bc432527",
-      "name": "Calculate All Adset Metrics Values"
+      "id": "b5ca3da6-0202-4a56-b69e-1863a6032fe0",
+      "name": "Calculate All Adset Metrics Values",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
     },
     {
       "parameters": {
@@ -2415,11 +1719,17 @@
       "type": "n8n-nodes-base.facebookGraphApi",
       "typeVersion": 1,
       "position": [
-        -4240,
-        -180
+        -1856,
+        1040
       ],
-      "id": "6b9c390f-e4f1-405d-b722-769e2cdb5ba6",
-      "name": "Get All Adsets Dimension1"
+      "id": "128247bf-7d90-471f-aa8c-33828f981f07",
+      "name": "Get All Adsets Dimension1",
+      "credentials": {
+        "facebookGraphApi": {
+          "id": "2Kp3sMOYXJcixajO",
+          "name": "FBGraphAPI_AccessToken-boonhong0309@gmail.com"
+        }
+      }
     },
     {
       "parameters": {
@@ -2462,10 +1772,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -3460,
-        -200
+        -1184,
+        1024
       ],
-      "id": "82109707-aaa7-4412-a09a-e9e201bfa092",
+      "id": "21ff4c7a-a8af-4bd2-9bb7-b28f2ca3918e",
       "name": "Edit Fields"
     },
     {
@@ -2476,10 +1786,10 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        -4000,
-        -180
+        -1664,
+        1040
       ],
-      "id": "0c8e4965-4f5e-4b4a-84da-2e845f95b519",
+      "id": "83aae1fe-3cd7-4734-a388-e830f74f8360",
       "name": "Split Out6"
     },
     {
@@ -2489,11 +1799,1168 @@
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
       "position": [
-        -3760,
-        -40
+        -1424,
+        1040
       ],
-      "id": "7176a4cc-3775-411b-9767-0774be840086",
+      "id": "24b7fa89-b1b0-4125-92d5-4813ee319638",
       "name": "Loop Over Items3"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "documentId": {
+          "__rl": true,
+          "value": "1ved1dK7g2ru5z12biwzSFBWFxyWNmzC9B8QoWcQn_vc",
+          "mode": "list",
+          "cachedResultName": "[2025] - ReadyCare - MetaAds - MonthlyCampaignReportSheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ved1dK7g2ru5z12biwzSFBWFxyWNmzC9B8QoWcQn_vc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1421545407,
+          "mode": "list",
+          "cachedResultName": "Adset Overall Report",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ved1dK7g2ru5z12biwzSFBWFxyWNmzC9B8QoWcQn_vc/edit#gid=1421545407"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        848,
+        544
+      ],
+      "id": "fe4a4d0d-4afc-4b81-b66f-f0122374a611",
+      "name": "Delete rows or columns from sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "773848b3-0c78-456f-8fd7-bed1c4e40ad7",
+              "leftValue": "={{ $json.impressions }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            },
+            {
+              "id": "5c80f725-7f44-4c38-b797-4967cacfdbf5",
+              "leftValue": "={{ $json.cost_per_link_click }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -1344,
+        352
+      ],
+      "id": "903dba70-fdec-4b77-8dc2-db73b2d59758",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1ved1dK7g2ru5z12biwzSFBWFxyWNmzC9B8QoWcQn_vc",
+          "mode": "list",
+          "cachedResultName": "[2025] - ReadyCare - MetaAds - MonthlyCampaignReportSheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ved1dK7g2ru5z12biwzSFBWFxyWNmzC9B8QoWcQn_vc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1417860681,
+          "mode": "list",
+          "cachedResultName": "Ad Overall Report",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ODlj4xklZJIqSu8Be3kixsE2-gZ715mX7vNEuSP-ebk/edit#gid=1417860681"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Impressions": "={{ $json.impressions }}",
+            "Reach": "={{ $json.reach }}",
+            "Adset Name": "={{ $json.adsetName }}",
+            "Ad Name": "={{ $json.adName }}",
+            "Start Date": "={{ $json.dateStart }}",
+            "End Date": "={{ $json.dateStop }}",
+            "Ad Text": "={{ $json.adText }}",
+            "Ad Preview Links": "={{ $json.adPreviewLink }}",
+            "CPM (RM)": "={{ $json.cpm }}",
+            "Link Clicks": "={{ $json.linkClicks }}",
+            "Cost Per Link Click (RM)": "={{ $json.costPerLinkClick }}",
+            "Link Click CTR %": "={{ $json.linkClickCtr }}",
+            "Results": "={{ $json.results }}",
+            "Cost Per Result": "={{ $json.costPerResult }}",
+            "Ad Spend (RM)": "={{ $json.adSpend }}"
+          },
+          "matchingColumns": [
+            "Ad Name"
+          ],
+          "schema": [
+            {
+              "id": "Adset Name",
+              "displayName": "Adset Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ad Name",
+              "displayName": "Ad Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Start Date",
+              "displayName": "Start Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "End Date",
+              "displayName": "End Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ad Text",
+              "displayName": "Ad Text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ad Preview Links",
+              "displayName": "Ad Preview Links",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Impressions",
+              "displayName": "Impressions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Reach",
+              "displayName": "Reach",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CPM (RM)",
+              "displayName": "CPM (RM)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Link Clicks",
+              "displayName": "Link Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Cost Per Link Click (RM)",
+              "displayName": "Cost Per Link Click (RM)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Link Click CTR %",
+              "displayName": "Link Click CTR %",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Results",
+              "displayName": "Results",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Cost Per Result",
+              "displayName": "Cost Per Result",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ad Spend (RM)",
+              "displayName": "Ad Spend (RM)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "cellFormat": "USER_ENTERED"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        752,
+        912
+      ],
+      "id": "81a3d864-63b6-4f03-be36-d427b4ecec0e",
+      "name": "Update Ad Level Report",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "documentId": {
+          "__rl": true,
+          "value": "1ved1dK7g2ru5z12biwzSFBWFxyWNmzC9B8QoWcQn_vc",
+          "mode": "list",
+          "cachedResultName": "[2025] - ReadyCare - MetaAds - MonthlyCampaignReportSheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ved1dK7g2ru5z12biwzSFBWFxyWNmzC9B8QoWcQn_vc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1417860681,
+          "mode": "list",
+          "cachedResultName": "Ad Overall Report",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ved1dK7g2ru5z12biwzSFBWFxyWNmzC9B8QoWcQn_vc/edit#gid=1417860681"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -208,
+        1200
+      ],
+      "id": "1622f0da-f34a-43fd-ba54-1feb00ff0348",
+      "name": "Delete Ad Level Rows",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1ved1dK7g2ru5z12biwzSFBWFxyWNmzC9B8QoWcQn_vc",
+          "mode": "list",
+          "cachedResultName": "[2025] - ReadyCare - MetaAds - MonthlyCampaignReportSheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ved1dK7g2ru5z12biwzSFBWFxyWNmzC9B8QoWcQn_vc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1417860681,
+          "mode": "list",
+          "cachedResultName": "Ad Overall Report",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/12cLTRiiXEtTbeidz7ULsNpmVUxI4ioM0HPXZdif-6p4/edit#gid=1417860681"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Ad Preview Links": "Total",
+            "Impressions": "==IFERROR(SUM({{ $json.data.map(item => item['Impressions'] || 0).join(\"+\") }}),0)",
+            "Reach": "==IFERROR(SUM({{ $json.data.map(item => item['Reach'] || 0).join(\"+\") }}),0)",
+            "CPM (RM)": "==IFERROR(ROUND(({{ $json.data.map(item => item['Ad Spend (RM)'] || 0).join(\"+\") }})/({{ $json.data.map(item => item.Impressions || 0).join(\"+\") }})*1000,2),0)",
+            "Link Clicks": "==IFERROR(SUM({{ $json.data.map(item => item['Link Clicks']).join(\"+\") }}),0)",
+            "Cost Per Link Click (RM)": "==IFERROR(ROUND(({{ $json.data.map(item => item['Ad Spend (RM)' || 0]).join(\"+\") }})/({{ $json.data.map(item => item['Link Clicks'] || 0).join(\"+\") }}),2),0)",
+            "Link Click CTR %": "==IFERROR(ROUND(({{ $json.data.map(item => item['Link Clicks'] || 0).join(\"+\") }})/({{ $json.data.map(item => item.Impressions || 0).join(\"+\") }})*100,2),0)",
+            "Results": "==IFERROR(SUM({{ $json.data.map(item => item['Results'] || 0).join(\"+\") }}),0)",
+            "Cost Per Result": "==IFERROR(ROUND(({{ $json.data.map(item => item['Ad Spend (RM)']).join(\"+\") }})/({{ $json.data.map(item => item['Results']).join(\"+\") }}),2),0)",
+            "Ad Spend (RM)": "==IFERROR(SUM({{ $json.data.map(item => item['Ad Spend (RM)'] || 0).join(\"+\") }}),0)"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Adset Name",
+              "displayName": "Adset Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Name",
+              "displayName": "Ad Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Start Date",
+              "displayName": "Start Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "End Date",
+              "displayName": "End Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Text",
+              "displayName": "Ad Text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Preview Links",
+              "displayName": "Ad Preview Links",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Impressions",
+              "displayName": "Impressions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Reach",
+              "displayName": "Reach",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CPM (RM)",
+              "displayName": "CPM (RM)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Link Clicks",
+              "displayName": "Link Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Cost Per Link Click (RM)",
+              "displayName": "Cost Per Link Click (RM)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Link Click CTR %",
+              "displayName": "Link Click CTR %",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Results",
+              "displayName": "Results",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Cost Per Result",
+              "displayName": "Cost Per Result",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Spend (RM)",
+              "displayName": "Ad Spend (RM)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1104,
+        912
+      ],
+      "id": "a3f321ca-cb60-4c5d-96b6-5909efc4a5d9",
+      "name": "Calculate All Ad Metrics Values",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "773848b3-0c78-456f-8fd7-bed1c4e40ad7",
+              "leftValue": "={{ $json.impressions }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            },
+            {
+              "id": "5c80f725-7f44-4c38-b797-4967cacfdbf5",
+              "leftValue": "={{ $json.costPerLinkClick }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        512,
+        912
+      ],
+      "id": "4c3d5641-b56d-4f5c-8ef4-856bb11c9411",
+      "name": "Filter1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6a3f4b29-82c4-42f9-9fcd-f65935be3f95",
+              "name": "adName",
+              "value": "={{ $json.adName }}",
+              "type": "string"
+            },
+            {
+              "id": "f4377753-7402-4f2b-87e9-dbb7041ffcee",
+              "name": "adsetName",
+              "value": "={{ $json.adsetName }}",
+              "type": "string"
+            },
+            {
+              "id": "7a09eac7-042d-4229-9fc4-e225b2ffadab",
+              "name": "dateStart",
+              "value": "={{ $json.dateStart }}",
+              "type": "string"
+            },
+            {
+              "id": "8e6d60b5-1ea6-489c-afde-e29d65870dd9",
+              "name": "dateStop",
+              "value": "={{ $json.dateStop }}",
+              "type": "string"
+            },
+            {
+              "id": "04bb64ad-0fe7-4874-ae47-402c3e9398f9",
+              "name": "adText",
+              "value": "={{ $json.adText }}",
+              "type": "string"
+            },
+            {
+              "id": "d6d92598-5a7a-4ec7-8179-cd1419a33544",
+              "name": "adPreviewLink",
+              "value": "={{ $json.adPreviewLink }}",
+              "type": "string"
+            },
+            {
+              "id": "36935140-fd58-4196-85a6-9d1f3a36171c",
+              "name": "costPerLinkClick",
+              "value": "={{ $json.costPerLinkClick }}",
+              "type": "number"
+            },
+            {
+              "id": "8044da90-ccc9-438e-bd96-f8c419c9c6af",
+              "name": "impressions",
+              "value": "={{ $json.impressions || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "ccf16a6b-3ab8-404b-9385-f957b5182896",
+              "name": "reach",
+              "value": "={{ $json.reach || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "8d8dcc36-0638-45f6-b4cf-a729188e81d3",
+              "name": "cpm",
+              "value": "={{ $json.cpm || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "7a8fa8b1-b674-4846-bf21-4b6df0513e3e",
+              "name": "linkClicks",
+              "value": "={{ $json.linkClicks || 0}}",
+              "type": "number"
+            },
+            {
+              "id": "e982fa9f-a67a-4ff5-a2c5-e1f661d0630f",
+              "name": "linkClickCtr",
+              "value": "={{ $json.linkClickCtr || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "00e48a96-a65a-4c97-8624-295ceae8323a",
+              "name": "results",
+              "value": "={{ $json.results || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "4bb265bd-e8a2-4370-8757-852867492f18",
+              "name": "costPerResult",
+              "value": "={{ $json.costPerResult || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "2aba9965-edec-49a4-b065-b420a1510ca7",
+              "name": "adSpend",
+              "value": "={{ $json.adSpend || 0 }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        288,
+        912
+      ],
+      "id": "d69e2d5c-5534-4c3d-aa1d-b06dbee6444b",
+      "name": "Set Ad Insights Metrics1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d30ddcd4-90ee-421a-8fae-1ff30c0de14c",
+              "name": "campaign_id",
+              "value": "={{ $('Get Only Active Campaigns').item.json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "41926a1a-a62c-44bc-b1ce-954b107e0f71",
+              "name": "campaign_name",
+              "value": "={{ $('Get Only Active Campaigns').item.json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "30f5e202-1213-4dd8-b0c2-94d27a40631d",
+              "name": "campaign_status",
+              "value": "={{ $('Get Only Active Campaigns').item.json.status }}",
+              "type": "string"
+            },
+            {
+              "id": "9f52573d-5732-4c25-a5ae-e0518759c691",
+              "name": "campaign_objective",
+              "value": "={{ $('Get Only Active Campaigns').item.json.objective }}",
+              "type": "string"
+            },
+            {
+              "id": "e552ce60-ca93-44fc-8d80-8b551cb319b2",
+              "name": "date_start",
+              "value": "={{ $json.date_start }}",
+              "type": "string"
+            },
+            {
+              "id": "1c801b74-1716-4e30-b8c6-d71ce3272afe",
+              "name": "date_stop",
+              "value": "={{ $json.date_stop }}",
+              "type": "string"
+            },
+            {
+              "id": "684cb8e7-aeea-447d-b249-3ef59f7a13df",
+              "name": "impressions",
+              "value": "={{ $json.impressions || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "98ee84e4-067d-40b1-9a49-fe15c82b696a",
+              "name": "reach",
+              "value": "={{ $json.reach || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "50e7fe15-e43f-4904-a5c8-79466fee024e",
+              "name": "link_clicks",
+              "value": "={{ $json.link_clicks || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "e277cafa-c2bd-437d-bee6-6f2da7526c48",
+              "name": "cpm",
+              "value": "={{ $json.cpm || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "3e4bd344-28f8-42f9-979e-9daa089999ed",
+              "name": "cost_per_link_click",
+              "value": "={{ $json.cost_per_link_click || 0  }}",
+              "type": "number"
+            },
+            {
+              "id": "0b7492dc-d75f-4098-85b3-d53829c81bd1",
+              "name": "link_click_ctr",
+              "value": "={{ $json.link_click_ctr || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "d59fa217-eac6-4397-90eb-d9377a4464f0",
+              "name": "results",
+              "value": "={{ $json.results || 0  }}",
+              "type": "number"
+            },
+            {
+              "id": "6ec7efcf-ed68-4e7b-a744-27d568040d76",
+              "name": "cost_per_results",
+              "value": "={{ $json.cost_per_results || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "4cb620ce-1810-42be-92e3-c81578910cea",
+              "name": "ad_spend",
+              "value": "={{ $json.ad_spend || 0 }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {
+          "ignoreConversionErrors": true
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1168,
+        352
+      ],
+      "id": "2091c682-7062-491e-84d2-29f65a97b129",
+      "name": "Set Campaign Lvl Dimension & Metrics1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        640,
+        384
+      ],
+      "id": "8fb718ff-317b-4d40-8204-81b7ecd2eec6",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "14928536-2127-4272-a11d-18197943d3d4",
+              "name": "campaignName",
+              "value": "={{ $('Merge').item.json.campaignName }}",
+              "type": "string"
+            },
+            {
+              "id": "ae66fdb7-d985-482c-a5a5-75620c403210",
+              "name": "adsetName",
+              "value": "={{ $('Merge').item.json.adset_name }}",
+              "type": "string"
+            },
+            {
+              "id": "fc2dfa94-ddf4-4ddb-8c2c-ac05420aec8d",
+              "name": "adsetStatus",
+              "value": "={{ $('Merge').item.json.adset_status }}",
+              "type": "string"
+            },
+            {
+              "id": "a48f081a-8ba7-48c9-9aec-cc4a3b766244",
+              "name": "startDate",
+              "value": "={{ $('Merge').item.json.start_date }}",
+              "type": "string"
+            },
+            {
+              "id": "db7f9b6b-eb35-4574-bd58-13b94aa6aec1",
+              "name": "endDate",
+              "value": "={{ $('Merge').item.json.end_date }}",
+              "type": "string"
+            },
+            {
+              "id": "924b9a68-7f4a-41a8-a64a-76244f4da49f",
+              "name": "basicTargetingAge",
+              "value": "={{ $('Merge').item.json.basic_targeting_age }}",
+              "type": "string"
+            },
+            {
+              "id": "4bfef6e5-e7a9-4144-b298-9976b9d3ac72",
+              "name": "basicTargetingInterest",
+              "value": "={{ $('Merge').item.json.basic_targeting_interest }}",
+              "type": "string"
+            },
+            {
+              "id": "0be61f92-3a2e-49ff-8de1-e6f7a2db2ce9",
+              "name": "impressions",
+              "value": "={{ $('Merge').item.json.impressions || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "45dd8498-4f85-4b6a-9549-63f74f82d868",
+              "name": "reach",
+              "value": "={{ $('Merge').item.json.reach || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "b1ea6a55-e2aa-49f1-9478-bea961ea1079",
+              "name": "cpm",
+              "value": "={{ $('Merge').item.json.cpm || 0}}",
+              "type": "number"
+            },
+            {
+              "id": "127a7ef1-0d42-434c-b92f-e738f44b0164",
+              "name": "linkClicks",
+              "value": "={{ $('Merge').item.json.link_clicks || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "b585787a-c91e-4ea0-9135-ac7c3d4a7f09",
+              "name": "costPerLinkClick",
+              "value": "={{ $('Merge').item.json.cost_per_link_click || 0 }}",
+              "type": "string"
+            },
+            {
+              "id": "10ee13d5-ef85-4826-b6be-a4273dccbe1f",
+              "name": "linkClickCtr",
+              "value": "={{ $('Merge').item.json.link_click_ctr || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "487663dd-6a13-4767-878e-4a698f301c22",
+              "name": "results",
+              "value": "={{ $('Merge').item.json.results || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "dc37a692-5769-4ead-ad2b-f659ea551f4b",
+              "name": "costPerResult",
+              "value": "={{ $('Merge').item.json.cost_per_result || 0 }}",
+              "type": "number"
+            },
+            {
+              "id": "b512dc61-09b2-458c-8789-dbe15419a1c8",
+              "name": "adSpend",
+              "value": "={{ $('Merge').item.json.ad_spend || 0 }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1088,
+        544
+      ],
+      "id": "33470655-927c-4cf4-b39d-805440808174",
+      "name": "MERGE All Active Adsets"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -880,
+        256
+      ],
+      "id": "c4ad5a87-bb6b-4e2b-8b0b-37c69d9bd687",
+      "name": "Aggregate2"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -448,
+        368
+      ],
+      "id": "e14dce59-1381-419f-ab20-94d4d51cebc3",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1ved1dK7g2ru5z12biwzSFBWFxyWNmzC9B8QoWcQn_vc",
+          "mode": "list",
+          "cachedResultName": "[2025] - ReadyCare - MetaAds - MonthlyCampaignReportSheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ved1dK7g2ru5z12biwzSFBWFxyWNmzC9B8QoWcQn_vc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Campaign Overall Report",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ODlj4xklZJIqSu8Be3kixsE2-gZ715mX7vNEuSP-ebk/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Campaign Name": "={{ $('Set Campaign Lvl Dimension & Metrics1').item.json.campaign_name }}",
+            "Campaign Objective": "={{ $('Set Campaign Lvl Dimension & Metrics1').item.json.campaign_objective }}",
+            "Start Date": "={{ $('Set Campaign Lvl Dimension & Metrics1').item.json.date_start }}",
+            "End Date": "={{ $('Set Campaign Lvl Dimension & Metrics1').item.json.date_stop }}",
+            "Impressions": "={{ $('Set Campaign Lvl Dimension & Metrics1').item.json.impressions }}",
+            "Reach": "={{ $('Set Campaign Lvl Dimension & Metrics1').item.json.reach }}",
+            "CPM (RM)": "={{ $('Set Campaign Lvl Dimension & Metrics1').item.json.cpm }}",
+            "Results": "={{ $('Set Campaign Lvl Dimension & Metrics1').item.json.results }}",
+            "Link Clicks": "={{ $('Set Campaign Lvl Dimension & Metrics1').item.json.link_clicks }}",
+            "Cost Per Link Click (RM)": "={{ $('Set Campaign Lvl Dimension & Metrics1').item.json.cost_per_link_click }}",
+            "Link Click CTR %": "={{ $('Set Campaign Lvl Dimension & Metrics1').item.json.link_click_ctr }}",
+            "Cost Per Result": "={{ $('Set Campaign Lvl Dimension & Metrics1').item.json.cost_per_results }}",
+            "Ad Spend (RM)": "={{ $('Set Campaign Lvl Dimension & Metrics1').item.json.ad_spend }}"
+          },
+          "matchingColumns": [
+            "Campaign Name"
+          ],
+          "schema": [
+            {
+              "id": "Campaign Name",
+              "displayName": "Campaign Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Campaign Objective",
+              "displayName": "Campaign Objective",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Start Date",
+              "displayName": "Start Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "End Date",
+              "displayName": "End Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Impressions",
+              "displayName": "Impressions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Reach",
+              "displayName": "Reach",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CPM (RM)",
+              "displayName": "CPM (RM)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Link Clicks",
+              "displayName": "Link Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Cost Per Link Click (RM)",
+              "displayName": "Cost Per Link Click (RM)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Link Click CTR %",
+              "displayName": "Link Click CTR %",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Results",
+              "displayName": "Results",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Cost Per Result",
+              "displayName": "Cost Per Result",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ad Spend (RM)",
+              "displayName": "Ad Spend (RM)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -672,
+        464
+      ],
+      "id": "21652eb5-2c80-455d-84fc-4e51955e838e",
+      "name": "Campaign Level Report",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "documentId": {
+          "__rl": true,
+          "value": "1ved1dK7g2ru5z12biwzSFBWFxyWNmzC9B8QoWcQn_vc",
+          "mode": "list",
+          "cachedResultName": "[2025] - ReadyCare - MetaAds - MonthlyCampaignReportSheet",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ved1dK7g2ru5z12biwzSFBWFxyWNmzC9B8QoWcQn_vc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Campaign Overall Report",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ved1dK7g2ru5z12biwzSFBWFxyWNmzC9B8QoWcQn_vc/edit#gid=0"
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        -688,
+        640
+      ],
+      "id": "68fc635a-98d5-4177-a7fb-27d6c3a0577e",
+      "name": "Delete rows or columns from sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -1104,
+        560
+      ],
+      "id": "3b6fa819-70de-4aaa-a7ed-488092875662",
+      "name": "Loop Over Items4"
     }
   ],
   "connections": {
@@ -2529,24 +2996,6 @@
           },
           {
             "node": "Get All Adsets Dimension1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Loop Over Items": {
-      "main": [
-        [
-          {
-            "node": "Update Adset Level Report",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Get All Adsets Dimension",
             "type": "main",
             "index": 0
           }
@@ -2606,7 +3055,7 @@
       "main": [
         [
           {
-            "node": "Google Sheets1",
+            "node": "Set Ad Insights Metrics1",
             "type": "main",
             "index": 0
           }
@@ -2653,7 +3102,7 @@
       "main": [
         [
           {
-            "node": "MERGE All Active Adsets",
+            "node": "Loop Over Items",
             "type": "main",
             "index": 0
           }
@@ -2664,7 +3113,7 @@
       "main": [
         [
           {
-            "node": "Overview Metrics",
+            "node": "Filter",
             "type": "main",
             "index": 0
           }
@@ -2741,18 +3190,7 @@
       "main": [
         [
           {
-            "node": "Loop Over Items2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Google Sheets1": {
-      "main": [
-        [
-          {
-            "node": "Aggregate",
+            "node": "Delete Ad Level Rows",
             "type": "main",
             "index": 0
           }
@@ -2786,28 +3224,6 @@
         [
           {
             "node": "Set Campaign Lvl Dimension & Metrics",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Overview Metrics": {
-      "main": [
-        [
-          {
-            "node": "Campaign Level Report",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Campaign Level Report": {
-      "main": [
-        [
-          {
-            "node": "Loop Over Items",
             "type": "main",
             "index": 0
           }
@@ -2858,22 +3274,11 @@
         ]
       ]
     },
-    "MERGE All Active Adsets": {
-      "main": [
-        [
-          {
-            "node": "Loop Over Items",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Aggregate": {
       "main": [
         [
           {
-            "node": "Google Sheets",
+            "node": "Calculate All Ad Metrics Values",
             "type": "main",
             "index": 0
           }
@@ -2952,6 +3357,190 @@
           }
         ]
       ]
+    },
+    "Delete rows or columns from sheet": {
+      "main": [
+        [
+          {
+            "node": "MERGE All Active Adsets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Set Campaign Lvl Dimension & Metrics1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Ad Level Report": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete Ad Level Rows": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter1": {
+      "main": [
+        [
+          {
+            "node": "Update Ad Level Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Ad Insights Metrics1": {
+      "main": [
+        [
+          {
+            "node": "Filter1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Campaign Lvl Dimension & Metrics1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Loop Over Items4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Update Adset Level Report",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Delete rows or columns from sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MERGE All Active Adsets": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate2": {
+      "main": [
+        [
+          {
+            "node": "Overview Metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Overview Metrics": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Get All Adsets Dimension",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Campaign Level Report": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Delete rows or columns from sheet1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items4": {
+      "main": [
+        [
+          {
+            "node": "Campaign Level Report",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Delete rows or columns from sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -2961,36 +3550,19 @@
   "meta": {
     "templateCredsSetupCompleted": true
   },
-  "pinData": {
-    "On form submission": [
-      {
-        "json": {
-          "Start Date": "2025-05-01",
-          "End Date": "2025-05-30",
-          "submittedAt": "2025-06-03T12:22:37.712+08:00",
-          "formMode": "test"
-        }
-      }
-    ]
-  },
-  "versionId": "55b410b1-19f2-4d12-9d8b-3391a5077e7f",
+  "pinData": {},
+  "versionId": "f1557ecb-91de-40dc-9221-76dff691fed7",
   "triggerCount": 0,
   "shared": [
     {
-      "updatedAt": "2025-06-04T04:45:52.431Z",
-      "createdAt": "2025-06-04T04:45:52.431Z",
+      "updatedAt": "2025-07-31T10:34:32.290Z",
+      "createdAt": "2025-07-31T10:34:32.290Z",
       "role": "workflow:owner",
-      "workflowId": "BADKmm2Law4MTzaE",
+      "workflowId": "wqeuQb44Ghd5YOI1",
       "projectId": "qPrZL5I25Uy3N5u7"
     }
   ],
   "tags": [
-    {
-      "updatedAt": "2025-04-25T07:31:07.022Z",
-      "createdAt": "2025-04-25T07:31:07.022Z",
-      "id": "9Gp47jN1RS49GmsF",
-      "name": "CREO_PROJECT"
-    },
     {
       "updatedAt": "2025-06-02T02:40:57.909Z",
       "createdAt": "2025-06-02T02:40:57.909Z",
