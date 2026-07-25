@@ -1,0 +1,506 @@
+{
+  "updatedAt": "2025-04-03T12:03:43.000Z",
+  "createdAt": "2025-04-03T09:40:56.953Z",
+  "id": "B92T9PUBH5qybFrB",
+  "name": "[FlowAds_Project] - KW_Research - ResultsFrom RapidAPI",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1tzL8TZMmm8JxzIFm13k8nQgn6MDQUGlTmLIbCe8FImY",
+          "mode": "list",
+          "cachedResultName": "Apr25 -  [Ecommerce Dropshipping] KW Research",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1tzL8TZMmm8JxzIFm13k8nQgn6MDQUGlTmLIbCe8FImY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1tzL8TZMmm8JxzIFm13k8nQgn6MDQUGlTmLIbCe8FImY/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -640,
+        40
+      ],
+      "id": "04d0cc40-0eac-481a-852b-2c01a930652d",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "oMHjbut2VzVQ0VcS",
+          "name": "GSheet Trigger- boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "62b7b48a-7c37-4092-872a-2a78ce9cf2d9",
+              "name": "keywordQuery",
+              "value": "={{ $json.Keywords }}",
+              "type": "string"
+            },
+            {
+              "id": "2651ca51-052a-483b-9f49-6b18f785b6cb",
+              "name": "countryCode",
+              "value": "={{ $json['Country Code'] }}",
+              "type": "string"
+            },
+            {
+              "id": "f28352e2-8d48-4fb6-8208-001900a98255",
+              "name": "researchStatus",
+              "value": "={{ $json['Research Status'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -380,
+        40
+      ],
+      "id": "b0ad4f4b-f7b9-417a-be9a-897b4455afad",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        240,
+        40
+      ],
+      "id": "ed76cc67-3034-4d16-913f-1a15dd163e0d",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "url": "https://google-seo-keyword-research-ai.p.rapidapi.com/keyword-research",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "keyword",
+              "value": "={{ $json.keywordQuery }}"
+            },
+            {
+              "name": "country",
+              "value": "={{ $json.countryCode }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-rapidapi-host",
+              "value": "google-seo-keyword-research-ai.p.rapidapi.com"
+            },
+            {
+              "name": "x-rapidapi-key",
+              "value": "bba2d43494msheb61c0112305090p16270bjsna70952eefac2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        740,
+        140
+      ],
+      "id": "1eb02d66-5b9c-48eb-ab9b-912d2ab14e50",
+      "name": "HTTP Request",
+      "retryOnFail": true,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d9883649-12f1-4a75-bcfc-13b3804e8c89",
+              "name": "keyword",
+              "value": "={{ $json.result[0].keyword }}",
+              "type": "string"
+            },
+            {
+              "id": "e8e6f488-ac8b-49fa-be81-f595c78319e3",
+              "name": "mthSearchVol",
+              "value": "={{ $json.result[0].avg_monthly_searches }}",
+              "type": "string"
+            },
+            {
+              "id": "a1931951-4aca-41d2-8ce4-fb6c7b4deb88",
+              "name": "kwDifficulty",
+              "value": "={{ $json.result[0].competition_index }}",
+              "type": "string"
+            },
+            {
+              "id": "2441f8ea-0318-4ed4-81d6-584a379497c9",
+              "name": "competition",
+              "value": "={{ $json.result[0].competition_value }}",
+              "type": "string"
+            },
+            {
+              "id": "1b844fb4-2d85-4f90-96ec-62aed77e5b88",
+              "name": "lowCPC",
+              "value": "={{ $json.result[0]['Low CPC'] }}",
+              "type": "string"
+            },
+            {
+              "id": "512bd849-b4d6-41b2-8b5a-1082394b3ad5",
+              "name": "highCPC",
+              "value": "={{ $json.result[0]['High CPC'] }}",
+              "type": "string"
+            },
+            {
+              "id": "83e6a424-f45e-4752-8e80-d4fc1be79312",
+              "name": "historySearchVol",
+              "value": "={{ JSON.stringify($json.result[0].monthly_search_volumes).replaceAll(\"[{\",\"\").replaceAll(\"{\",\"\").replaceAll(\"},\",\"\\n\").replaceAll(\"}]\",\"\").replaceAll('\"month\":','') }}",
+              "type": "string"
+            },
+            {
+              "id": "fc663d57-ba00-4a10-99a1-724ff5935439",
+              "name": "researchStatus",
+              "value": "Complete",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1040,
+        140
+      ],
+      "id": "582cb7d8-c7b5-4793-99db-8ecaccd200ec",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1tzL8TZMmm8JxzIFm13k8nQgn6MDQUGlTmLIbCe8FImY",
+          "mode": "list",
+          "cachedResultName": "Apr25 - AU -  [Ecommerce Dropshipping] KW Research",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1tzL8TZMmm8JxzIFm13k8nQgn6MDQUGlTmLIbCe8FImY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "All_Keywords",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1tzL8TZMmm8JxzIFm13k8nQgn6MDQUGlTmLIbCe8FImY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Keywords": "={{ $json.keyword }}",
+            "Monthly Search Vol.": "={{ $json.mthSearchVol }}",
+            "KW Difficulty": "={{ $json.kwDifficulty }}",
+            "Competiton": "={{ $json.competition }}",
+            "Low CPC": "={{ $json.lowCPC }}",
+            "High CPC": "={{ $json.highCPC }}",
+            "History Search Vol": "={{ $json.historySearchVol }}",
+            "Research Status": "={{ $json.researchStatus }}"
+          },
+          "matchingColumns": [
+            "Keywords"
+          ],
+          "schema": [
+            {
+              "id": "Keywords",
+              "displayName": "Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Country Code",
+              "displayName": "Country Code",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Monthly Search Vol.",
+              "displayName": "Monthly Search Vol.",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "KW Difficulty",
+              "displayName": "KW Difficulty",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Competiton",
+              "displayName": "Competiton",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Low CPC",
+              "displayName": "Low CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "High CPC",
+              "displayName": "High CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "History Search Vol",
+              "displayName": "History Search Vol",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Research Status",
+              "displayName": "Research Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        700,
+        -120
+      ],
+      "id": "a65a9f6e-b4f7-4a3a-864a-234b05883b1d",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        460,
+        140
+      ],
+      "id": "41efc979-7322-4c8c-94ef-766befd5bb3a",
+      "name": "Wait",
+      "webhookId": "f5b0ef58-65ad-41e6-8100-fbf49c9048fb"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "31844f7c-7fc5-4e69-a430-7f76898549f0",
+              "leftValue": "={{ $json.researchStatus }}",
+              "rightValue": "Pending",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -160,
+        40
+      ],
+      "id": "6aaad752-bd66-4968-bdcc-80308fa84d68",
+      "name": "Filter"
+    }
+  ],
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "fab17ec8-70ba-430e-a640-6cc277016935",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-04-03T09:40:56.979Z",
+      "createdAt": "2025-04-03T09:40:56.979Z",
+      "role": "workflow:owner",
+      "workflowId": "B92T9PUBH5qybFrB",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
