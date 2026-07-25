@@ -1,0 +1,4463 @@
+{
+  "updatedAt": "2025-07-15T07:03:16.000Z",
+  "createdAt": "2025-06-19T08:45:34.135Z",
+  "id": "oYAl3ngV58uVXlfl",
+  "name": "[Creo_Project: AbiMotors][MAIN Workflow] - FB Content Planner AI Agent (LATEST)",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        976,
+        608
+      ],
+      "id": "058dd714-2ec2-48c0-8ae3-01c2326ef5f6",
+      "name": "DeepSeek Chat Model",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "8Hvjw0JNKmbO191K",
+          "name": "DeepSeekAPI - info.hansondev@gmail.com"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        2096,
+        512
+      ],
+      "id": "d1d58dad-b8f4-4600-9ac5-22e87045ee22",
+      "name": "Think"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[\n  {\n    \"datePosting\": \"27 Apr 2025\",\n    \"textPostV1\": \"🚗 Ever wondered how to maximize fuel efficiency on your daily commute? Here are 5 simple tips to save fuel and money! Drop your favorite fuel-saving trick in the comments! 👇\\n\\n 📍 Showroom (Beside Parkson, Ipoh Parade) \\n 🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5 \\n ☎️ 05-242 4888 / 012-750 0527 #AbiMotors #FuelEfficiency #DriveSmart #Perodua #Ipoh\",\n    \"textPostV2\": \"Keeping your ride in top shape is easier than you think! ✨ When was the last time you checked your car's essential fluids like coolant and wiper fluid? A quick check can make a world of difference for a smooth drive.\\n Got car care questions? Drop them below! 👇\\n\\n 𝐒𝐡𝐨𝐰𝐫𝐨𝐨𝐦 ( 𝐁𝐞𝐬𝐢𝐝𝐞 𝐏𝐚𝐫𝐤𝐬𝐨𝐧, 𝐈𝐩𝐨𝐡 𝐏𝐚𝐫𝐚𝐝𝐞 )\\n 📍 No. 2, Jalan Selamat, Greentown, 30450 Ipoh, Perak.\\n 🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5 \\n ☎️ 05-242 4888 / 012-750 0527\\n #AbiMotors #CarCareTips #DIYMaintenance #PeroduaService #IpohCars\",\n    \"visualIdea\": \"A clean, high-quality static image of an open car hood. Use bright, clear arrows pointing specifically to the coolant reservoir and the windshield washer fluid cap, with simple icons for each. The overall aesthetic should be clean and informative.\",\n    \"targetLanguage\": \"English\"\n  },\n  {\n    \"datePosting\": \"29 Apr 2025\",\n    \"textPostV1\": \"🚗🔧 Quiz Time! How often should you change your car’s engine oil?\\n A) Every 3,000 km B) Every 5,000 km C) Every 10,000 km\\n Drop your answer below and let’s see who gets it right!📍\\n\\n  No. 2, Jalan Selamat, Greentown, 30450 Ipoh, Perak.\\n 🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5 \\n ☎️ 05-242 4888 / 012-750 0527 \\n #CarQuiz #PeroduaMaintenance #TestYourKnowledge\",\n   \"textPostV2\": \"Look sharp! 👀 We've changed 3 things inside the new Perodua Ativa. Can you spot them all?\\n\\n Pause the GIF and circle the differences! Let us know if you found them in the comments. 😉 \\n\\n 𝐒𝐡𝐨𝐰𝐫𝐨𝐨𝐦 ( 𝐁𝐞𝐬𝐢𝐝𝐞 𝐏𝐚𝐫𝐤𝐬𝐨𝐧, 𝐈𝐩𝐨𝐡 𝐏𝐚𝐫𝐚𝐝𝐞 ) \\n 📍 No. 2, Jalan Selamat, Greentown, 30450 Ipoh, Perak. \\n 🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5 \\n ☎️ 05-242 4888 / 012-750 0527 \\n #AbiMotors #SpotTheDifference #CarGames #PeroduaAtiva #FunWithPerodua #IpohMali\",\n    \"visualIdea\": \"An animated GIF that rapidly switches between two almost identical images of a Perodua Ativa's modern interior. The three differences should be subtle, for example: the time on the digital clock is different, an item in the cupholder is missing, and the gear shifter is in a different position. The animation should be fast enough to be a fun challenge.\",\n    \"targetLanguage\": \"English\"\n  }\n]",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1904,
+        624
+      ],
+      "id": "62144a25-fafe-460c-ad2a-fb758fb38108",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1856,
+        304
+      ],
+      "id": "71e38e5a-a220-4bd1-a5b8-46e290b49526",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "formTitle": "Creo Client: Abi Motors Monthly Social Media Posting Form",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Month of Year",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "January"
+                  },
+                  {
+                    "option": "February"
+                  },
+                  {
+                    "option": "March"
+                  },
+                  {
+                    "option": "April"
+                  },
+                  {
+                    "option": "May"
+                  },
+                  {
+                    "option": "June"
+                  },
+                  {
+                    "option": "July"
+                  },
+                  {
+                    "option": "August"
+                  },
+                  {
+                    "option": "september"
+                  },
+                  {
+                    "option": "October"
+                  },
+                  {
+                    "option": "November"
+                  },
+                  {
+                    "option": "December"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Start Posting Date",
+              "fieldType": "date"
+            },
+            {
+              "fieldLabel": "End Posting Date",
+              "fieldType": "date"
+            },
+            {
+              "fieldLabel": "Tone And Voice",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Conversational"
+                  },
+                  {
+                    "option": "Friendly"
+                  },
+                  {
+                    "option": "Formal"
+                  },
+                  {
+                    "option": "Informal"
+                  },
+                  {
+                    "option": "Aggressive"
+                  },
+                  {
+                    "option": "Persuasive"
+                  },
+                  {
+                    "option": "Informative"
+                  }
+                ]
+              },
+              "multiselect": true
+            },
+            {
+              "fieldLabel": "Target Language",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "English"
+                  },
+                  {
+                    "option": "Malay (Malaysian Native)"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Total Posts Generator",
+              "fieldType": "number"
+            },
+            {
+              "fieldLabel": "Total Posts Per Language",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "8"
+                  },
+                  {
+                    "option": "6"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Visual Types Posts Segmentation",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Animated GIFs: 4 Posts "
+                  },
+                  {
+                    "option": "Static Image/Image Carousel: 4 Posts"
+                  },
+                  {
+                    "option": "Animated GIFs: 3 Posts"
+                  },
+                  {
+                    "option": "Static Image/Image Carousel: 3 Posts"
+                  }
+                ]
+              },
+              "multiselect": true
+            },
+            {
+              "fieldLabel": "Visual Ideation",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Current Perodua brand car models"
+                  },
+                  {
+                    "option": "Sharing driving satety tips and guidelines"
+                  },
+                  {
+                    "option": "Sharing car maintenance and service tips or guidelines"
+                  },
+                  {
+                    "option": "Engaging mini-games for audience having fun and engage"
+                  },
+                  {
+                    "option": "Mini quiz or poll for audience having interaction and engagement"
+                  }
+                ]
+              },
+              "multiselect": true
+            }
+          ]
+        },
+        "options": {
+          "path": "abi-motors-fb-post-generator"
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        320,
+        -1616
+      ],
+      "id": "9c7e8791-d77f-4f09-8960-a9ea4f9244a7",
+      "name": "On form submission",
+      "webhookId": "96899b02-77f3-4344-ab09-e99d8fb95c38",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "create",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pn83rt95epwfhjl",
+        "table": "mag5m45nmem2fmi",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Month",
+              "fieldValue": "={{ $json['Month of Year'] }}"
+            },
+            {
+              "fieldName": "Start Posting Date",
+              "fieldValue": "={{ $json['Start Posting Date'] }}"
+            },
+            {
+              "fieldName": "End Posting Date",
+              "fieldValue": "={{ $json['End Posting Date'] }}"
+            },
+            {
+              "fieldName": "Tone And Voice",
+              "fieldValue": "=- {{ $json['Tone And Voice'].join(\"\\n - \") }}"
+            },
+            {
+              "fieldName": "Total Posts Generate",
+              "fieldValue": "={{ $json['Total Posts Generator'] }}"
+            },
+            {
+              "fieldName": "Post Type Segmentation",
+              "fieldValue": "=- {{ $json['Visual Types Posts Segmentation'].join(\"\\n -\") }}"
+            },
+            {
+              "fieldName": "Visual Ideation",
+              "fieldValue": "=- {{ $json['Visual Ideation'].join(\"\\n- \") }}"
+            },
+            {
+              "fieldName": "Status",
+              "fieldValue": "Pending"
+            },
+            {
+              "fieldName": "Target Language",
+              "fieldValue": "={{ $json['Target Language'] }}"
+            },
+            {
+              "fieldName": "Total Posts Per Language",
+              "fieldValue": "={{ $json['Total Posts Per Language'] }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        640,
+        -1616
+      ],
+      "id": "f527c30e-9a72-4ae8-a9e6-662edf4803cc",
+      "name": "NocoDB",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=- {{ $json['Visual Ideation'].join(\"\\n -\") }}"
+            },
+            {
+              "content": "=<Role>\nYou are a social media content planning specialist who familiarized with most trending social media platforms including Facebook, Instagram, TikTok, X.com, LinkedIn etc that knowing about the content posting structure is different based on the social media platforms.\n</Role>\n<Task>\nYou are tasked to come out at least 4 to 5 target audience list based on provided user details and provided tool to fetch the company background and research details.\n</Task>\n<Tools>\nYou are require to use the listed tool(s) in order for well-understand about the company background, brand, product and services before come out the list of target audience as below:\n- research_data_fetcher: Use this tool to read and fetch the data needed such as company name, company website, company location, industry types and research output.\n</Tools>\n<Output>\nYou should only generate what the user requested as output without any other explaination and extra information about the requested task in text based.",
+              "role": "system"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        928,
+        -1616
+      ],
+      "id": "5ec79519-5687-4ad1-b036-8ce8fc721a2e",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pn83rt95epwfhjl",
+        "table": "mag5m45nmem2fmi",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('NocoDB').item.json.Id }}"
+            },
+            {
+              "fieldName": "Target Audience",
+              "fieldValue": "={{ $json.message.content }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1312,
+        -1616
+      ],
+      "id": "e4cab4c2-1331-405e-9de9-2fd49f1aadc0",
+      "name": "NocoDB2",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        928,
+        336
+      ],
+      "id": "d83c77f2-c3cc-45ea-b114-118f82a26045",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1764e9a9-8a3f-4101-93e2-2641f4c33b74",
+              "name": "month",
+              "value": "={{ $json.Month }}",
+              "type": "string"
+            },
+            {
+              "id": "aff2545b-fbf6-4138-8b75-399a086c821c",
+              "name": "startDate",
+              "value": "={{ $json['Start Posting Date'] }}",
+              "type": "string"
+            },
+            {
+              "id": "0c53bcea-8520-40b1-997e-6bb9a1c51355",
+              "name": "endDate",
+              "value": "={{ $json['End Posting Date'] }}",
+              "type": "string"
+            },
+            {
+              "id": "4fb9d3d7-2613-4dd7-83d7-e206fdd81ef8",
+              "name": "amountOfVersions",
+              "value": "={{ $json['Amount of Versions'] }}",
+              "type": "number"
+            },
+            {
+              "id": "b3be5873-0e93-498b-9fd8-056070050119",
+              "name": "brandName",
+              "value": "={{ $json['Brand Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "08d881d7-3113-4280-b0df-62843e80263c",
+              "name": "businessOverview",
+              "value": "={{ $json['Business Overview'] }}",
+              "type": "string"
+            },
+            {
+              "id": "43efa54e-d6f9-4e33-a396-894c5cd891d2",
+              "name": "companyUrl",
+              "value": "={{ $json['Brand Website'] }}",
+              "type": "string"
+            },
+            {
+              "id": "b235bac2-0188-4462-ae8e-d0be95dcadc4",
+              "name": "coreProductServices",
+              "value": "={{ $json['Core Products & Services'] }}",
+              "type": "string"
+            },
+            {
+              "id": "37be8db4-3c00-42b2-81e0-f2443b72bad1",
+              "name": "targetAudience",
+              "value": "={{ $json['Target Audience'] }}",
+              "type": "string"
+            },
+            {
+              "id": "f8f111a4-67d4-4af8-90f1-c41f66382a74",
+              "name": "callToAction",
+              "value": "={{ $json['Call To Action'] }}",
+              "type": "string"
+            },
+            {
+              "id": "87b128d6-a343-4543-9585-6175975be481",
+              "name": "visualIdeation",
+              "value": "={{ $json['Visual Ideation'] }}",
+              "type": "string"
+            },
+            {
+              "id": "b1ffaaff-a7e2-44d4-a34c-9d3c31889ec7",
+              "name": "toneAndVoice",
+              "value": "={{ $json['Tone And Voice'] }}",
+              "type": "string"
+            },
+            {
+              "id": "217bc4f1-75fe-45b4-978e-8697ef75ea6e",
+              "name": "targetLanguage",
+              "value": "={{ $json['Target Language'] }}",
+              "type": "string"
+            },
+            {
+              "id": "06a872aa-71b5-4989-806d-db5fa1667e5d",
+              "name": "totalPostsPerLanguage",
+              "value": "={{ $json['Total Posts Per Language'] }}",
+              "type": "number"
+            },
+            {
+              "id": "82f59f68-203a-44e0-9caa-3988eace777e",
+              "name": "postTypeSegmentation",
+              "value": "={{ $json['Post Type Segmentation'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1200,
+        304
+      ],
+      "id": "74d21a61-bb07-4c9b-9105-59a868328aef",
+      "name": "Merge Both AI Agent Input + Company Research Details"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Generate the Facebook Content Posting Planner for the month,{{ $json.month }}{{ $now.format('yyyy') }}:\n1. Start Date: {{ $json.startDate }}\n2. End Date: {{ $json.endDate }}\n3. Brand Name: {{ $json.brandName }}\n4. Business Overview: {{ $json.businessOverview }}\n5. Target Audience: {{ $json.targetAudience }}\n6. Target Language: {{ $json.targetLanguage }}\n7. Total Posts Per Language: {{ $json.totalPostsPerLanguage }}\n8. Tone And Voice: {{ $json.toneAndVoice }}\n9. Call-to-action: {{ $json.callToAction }}\n10. Visual Ideation: {{ $json.visualIdeation }}\n11. Post Types Segmentation: {{ $json.postTypeSegmentation }}\n12. Amount Versions To Generate: {{ $json.amountOfVersions }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a social media content planning specialist who familiarized with most trending social media platforms including Facebook, Instagram, TikTok, X.com, LinkedIn etc which knowing well about the content posting structure and outline differently based on the various social media platforms. \n\n# Task\n- You are tasked to come out a monthly proper Facebook post content planner for my client's Facebook business page. The post content must be relate to target audience and showcase how the brand's services can give their audience feel and experience the brand service fulfillment.\n- Don't not come out pushy or hardsell intent phrases or less using these words such as \"Our [Company Name]\", \"Our [Brand Name]\" or \"Our [Product Name]\", following by the selected tone and voice to make the content more engaging and interactive.\n\n# Tools\nYou are require to use the listed tools in order for well-understand about the the writing style, the product and services and post content structure before come out the full content post. Here is the list of the tools require based on the sequence as below:\n1. `fb_posts_data_table`: Call this tool to retrieve all the previous scraped Facebook Page Posts in table format. This allows you to capture and analyze the style from the previous post content published before generate the new post content output.\n2. `company_research_retriever`: Call this tool to fetch and retrieve the scraped company, brand and industry research data. By getting this data, you are able to understand my client business background, products and services details in overview information for post content crafting.\n3. `ai_search_query`: Call this tool to query region or local based information such as general knowledge about the geolocation, industry knowledge, guidelines, tips or any queries related to the company, brands and products.\n4. `get_public_holidays`: Call this tool to get the upcoming regional public holidays in order to create general festival greetings or story history of some regional festives posting to match the festives appreciation or holiday celebration for content post.\n5. `Think`: Call this tool to do some reasoning and thinking about what are steps to take next in order to accomplish the requested task. It will not obtain new information or change the database, but just append the thought to the log. Use it when complex reasoning or some cache memory is needed.\n\n# Input Context\nIn order to come out a proper Facebook posts content planner, I will provide the inputs for you such as:\n- Month\n- Start Date\n- End Date\n- Brand Name\n- Target Audience\n- Target Language\n- Total Posts Per Language\n- Tone And Voice\n- Call To Action (CTA)\n- Visual Ideation\n- Post Types Segmentation\n\n# Text Post Content Structure\n- The ideal output for text post content(textPost) structure based on the following sequence should be in like this:\n -- Headline: The use case of the day\n -- Description: Illustrate the audience's use case about what problem had benn raised and how to solve it\n -- Call-to-action: Simple call-to-action that can lead the audience to the brand or product details destination link\n -- 4 to 6 Suitable Hashtags\n\n# Output\n- The output must be follow the JSON structured schema and output response must not include any unnecessary explanations, definitions and other unrelated information.\n- The output of post content must be unique and should not repeated from the previous post content.\n- The output should not include the the label of content structure such as `Headline`, `Description` and `Call-to-action`\n- For `visualIdea` should crafting out based on \"Visual Ideation\" and \"Post Types Segmentation\" input context. This can be ensure that the visual idea description can be more insightful for graphic visual designer reference to come out the right creative formats and artworks.\n\n## Example Output\n```\njson:[\n  {\n    \"datePosting\": \"27 Apr 2025\",\n    \"textPostV1\": \"🚗 Ever wondered how to maximize fuel efficiency on your daily commute? Here are 5 simple tips to save fuel and money! Drop your favorite fuel-saving trick in the comments! 👇\\n\\n 📍 Showroom (Beside Parkson, Ipoh Parade)\n🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5 \\n ☎️ 05-242 4888 / 012-750 0527 #AbiMotors #FuelEfficiency #DriveSmart #Perodua #Ipoh\",\n    \"textPostV2\": \"Keeping your ride in top shape is easier than you think! ✨ When was the last time you checked your car's essential fluids like coolant and wiper fluid? A quick check can make a world of difference for a smooth drive.\\n Got car care questions? Drop them below! 👇\\n\\n 𝐒𝐡𝐨𝐰𝐫𝐨𝐨𝐦 ( 𝐁𝐞𝐬𝐢𝐝𝐞 𝐏𝐚𝐫𝐤𝐬𝐨𝐧, 𝐈𝐩𝐨𝐡 𝐏𝐚𝐫𝐚𝐝𝐞 )\\n 📍 No. 2, Jalan Selamat, Greentown, 30450 Ipoh, Perak.\\n 🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5 \\n ☎️ 05-242 4888 / 012-750 0527\\n #AbiMotors #CarCareTips #DIYMaintenance #PeroduaService #IpohCars\",\n    \"visualIdea\": \"A clean, high-quality static image of an open car hood. Use bright, clear arrows pointing specifically to the coolant reservoir and the windshield washer fluid cap, with simple icons for each. The overall aesthetic should be clean and informative.\",\n    \"targetLanguage\": \"English\"\n  },\n  {\n    \"datePosting\": \"29 Apr 2025\",\n    \"textPostV1\": \"🚗🔧 Quiz Time! How often should you change your car’s engine oil?\\n A) Every 3,000 km B) Every 5,000 km C) Every 10,000 km\\n Drop your answer below and let’s see who gets it right!📍\\n\\n  No. 2, Jalan Selamat, Greentown, 30450 Ipoh, Perak.\\n 🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5 \\n ☎️ 05-242 4888 / 012-750 0527 \\n #CarQuiz #PeroduaMaintenance #TestYourKnowledge\",\n   \"textPostV2\": \"Look sharp! 👀 We've changed 3 things inside the new Perodua Ativa. Can you spot them all?\\n\\n Pause the GIF and circle the differences! Let us know if you found them in the comments. 😉 \\n\\n 𝐒𝐡𝐨𝐰𝐫𝐨𝐨𝐦 ( 𝐁𝐞𝐬𝐢𝐝𝐞 𝐏𝐚𝐫𝐤𝐬𝐨𝐧, 𝐈𝐩𝐨𝐡 𝐏𝐚𝐫𝐚𝐝𝐞 ) \\n 📍 No. 2, Jalan Selamat, Greentown, 30450 Ipoh, Perak. \\n 🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5 \\n ☎️ 05-242 4888 / 012-750 0527 \\n\n#AbiMotors #SpotTheDifference #CarGames #PeroduaAtiva #FunWithPerodua #IpohMali\",\n    \"visualIdea\": \"An animated GIF that rapidly switches between two almost identical images of a Perodua Ativa's modern interior. The three differences should be subtle, for example: the time on the digital clock is different, an item in the cupholder is missing, and the gear shifter is in a different position. The animation should be fast enough to be a fun challenge.\",\n    \"targetLanguage\": \"English\"\n  }\n  ...\n]\n```\n\n## Definition of JSON Output Fields\n- datePosting: The date for scheduling and publishing the post to the Facebook business page.\n- textPostV1: The version 1 of text content post to describing and telling the storylines to their audience based on their audience daily real life events or use cases that can relate to the selected Brand products or core services features and how the brand's products or services can help the targeted audience to solve the use cases or challenges as solution to them.\n- textPostV2: The version 2 of text content post to describing and telling the storylines to their audience based on their audience daily real life events or use cases that can relate to the selected Brand products or core services features and how the brand's products or services can help the targeted audience to solve the use cases or challenges as solution to them.\n- visualIdea: The description of the visual idea for creative team as the reference or starting point that what kind of storyboard or elements to illustrate and support the generated text content (copywriting). The longer description, the creative team will easier to understand they want to do."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        1456,
+        304
+      ],
+      "id": "845ccfe5-f4ba-4d4f-a902-8b691ee1b695",
+      "name": "FB Post Content Agent",
+      "retryOnFail": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to retrieve all the previous scraped Facebook Page Posts in table format. This allows you to capture and analyze the style from the previous post content published before generate the new post content output.",
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pn83rt95epwfhjl",
+        "table": "mjc19ihit33kj7f",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDbTool",
+      "typeVersion": 3,
+      "position": [
+        1296,
+        544
+      ],
+      "id": "96517d91-5865-4fe0-85c8-823fa5e7ea3d",
+      "name": "fb_posts_data_table",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to fetch and retrieve the scraped company, brand and industry research data. By getting this data, you are able to understand my client business background, products and services details in overview information for post content crafting.",
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pn83rt95epwfhjl",
+        "table": "mwxmhqoxey3tw9y",
+        "options": {
+          "fields": []
+        }
+      },
+      "type": "n8n-nodes-base.nocoDbTool",
+      "typeVersion": 3,
+      "position": [
+        1488,
+        576
+      ],
+      "id": "4a4e384e-defc-4884-9e4b-7b82839b4cce",
+      "name": "company_research_retriever",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to query region or local based information such as general knowledge about the geolocation, industry knowledge, guidelines, tips or any queries related to the company, brands and products.",
+        "workflowId": {
+          "__rl": true,
+          "value": "Ek66VfFhjAWBSb3v",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Tavily AI Research Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ $fromAI(\"query\",\"The unsure search query or unknown information need to ask for search engine\", string) }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1616,
+        656
+      ],
+      "id": "1cc1c2e5-819c-47ce-b602-00558b6cbb06",
+      "name": "ai_search_query"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2288,
+        304
+      ],
+      "id": "7647e0c2-7d55-4205-b7d5-a1fa7748df5d",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pn83rt95epwfhjl",
+        "table": "mag5m45nmem2fmi",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        2256,
+        528
+      ],
+      "id": "8f46161d-6da6-4ac0-909e-1b8f686c5ac2",
+      "name": "NocoDB6",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "bb08b5e4-562d-42c8-b6c3-fefbc58acb70",
+              "leftValue": "={{ $('Merge Both AI Agent Input + Company Research Details').first().json.month }}",
+              "rightValue": "={{ $json.Month }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        2480,
+        528
+      ],
+      "id": "81993798-a177-4680-a142-6c6ebb5c9602",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pn83rt95epwfhjl",
+        "table": "mag5m45nmem2fmi",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $json.Id }}"
+            },
+            {
+              "fieldName": "Status",
+              "fieldValue": "Completed"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        2704,
+        528
+      ],
+      "id": "f7dd0ed7-271f-4772-bf22-b2e71461ead5",
+      "name": "NocoDB7",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "fb-abi-motors-content-google-doc-generator",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        144,
+        1536
+      ],
+      "id": "ec97e2cd-df4f-4eec-b83b-ca7ec8dbdd9a",
+      "name": "Webhook1",
+      "webhookId": "3098f031-338b-4ea5-a991-7dfc1435e98b"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "Abi Motors Sdn Bhd - Monthly FB Content Creation Planner",
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "1fokTP_tEJzYMyasVtn4yXU3jZ0ebjp1t",
+            "mode": "list",
+            "cachedResultName": "Monthly FB Posting",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/1fokTP_tEJzYMyasVtn4yXU3jZ0ebjp1t"
+          }
+        },
+        "options": {
+          "fields": [
+            "name",
+            "mimeType",
+            "id"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        368,
+        1536
+      ],
+      "id": "ee7e8107-e7d9-42ab-9b99-1696dab74ba3",
+      "name": "Google Drive1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to read and fetch the data needed such as company name, company website, company location, industry types and research output.",
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pn83rt95epwfhjl",
+        "table": "mxtwgdsa7z00l69",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDbTool",
+      "typeVersion": 3,
+      "position": [
+        960,
+        -1408
+      ],
+      "id": "ab627007-b0fa-4074-aaa8-1429ceee95cb",
+      "name": "research_data_fetcher",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2016,
+        784
+      ],
+      "id": "e9068e25-3ccd-4217-8cbe-7abd261a9e5d",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "As6tgCfGdOjAFLSK",
+          "name": "OpenRouterAPI"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Webhook1').first().json.body.data.rows[0]['Target Language'] }}",
+                    "rightValue": "English",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "96c8c930-370b-4c44-a82d-0d003f4f6176"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "English"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "d3a1fbfd-33a8-44ec-bfdf-248ce4df31d0",
+                    "leftValue": "={{ $('Webhook1').first().json.body.data.rows[0]['Target Language'] }}",
+                    "rightValue": "Malay (Malaysian Native)",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Malay"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        592,
+        1536
+      ],
+      "id": "9ce01106-b648-4b9b-9bbd-1cbda3e27a59",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1104,
+        544
+      ],
+      "id": "0866dd41-9cb0-4e51-8e6c-6b7f867f569c",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://facebook-scraper-api4.p.rapidapi.com/get_facebook_page_id",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "link",
+              "value": "={{ $json['FB Page URL'] }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-rapidapi-host",
+              "value": "facebook-scraper-api4.p.rapidapi.com"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        656,
+        -560
+      ],
+      "id": "9a305b5a-c23e-466d-9061-e7d7e03160e1",
+      "name": "GET FB Page ID",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "RhcMhaqem5mohNc1",
+          "name": "RapidAPI Header Auth(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/actor-runs/{{ $json.data.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "waitForFinish",
+              "value": "60"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1936,
+        -560
+      ],
+      "id": "b603c26d-28aa-4449-afcc-faa6bd34da25",
+      "name": "Get Actor Run",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1696,
+        -560
+      ],
+      "id": "86675425-d0fc-48a0-9535-6e786b44995b",
+      "name": "Wait",
+      "webhookId": "a3216efe-abbd-429b-b905-9afced96f8d4"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.data.defaultDatasetId }}/items ",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2544,
+        -576
+      ],
+      "id": "faf0fca9-3e3c-463d-bf26-4b2952c76d43",
+      "name": "Get Datasets",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "575cc607-2b70-4323-b268-995590595b10",
+              "leftValue": "={{ $json.data.status }}",
+              "rightValue": "SUCCEEDED",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2192,
+        -560
+      ],
+      "id": "02481785-8413-4836-8031-fb628a8a0499",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d34a454b-8ca5-484d-8497-a9b21dc01027",
+              "name": "fbPageID",
+              "value": "={{ $json.facebook_id }}",
+              "type": "string"
+            },
+            {
+              "id": "5abdcb31-b02b-4fe4-8012-431bf344b1f8",
+              "name": "fbPageURL",
+              "value": "={{ $('On form submission1').first().json['FB Page URL'] }}",
+              "type": "string"
+            },
+            {
+              "id": "289e120f-34ba-43db-b1a0-e76f24755de3",
+              "name": "maxPosts",
+              "value": "={{ $('On form submission1').first().json['Max Posts Scrape'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        992,
+        -560
+      ],
+      "id": "ca574548-e4b3-4a23-a02f-ae5bca5f2dd7",
+      "name": "SET Inputs For APIFY FB Scraper"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/actor-tasks/immense_grasshopper~facebook-posts-scraper-task/runs",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"input\": [\n        {\n            \"url\": \"{{ $json.fbPageURL }}\",\n            \"maxPosts\": {{ $json.maxPosts }}\n        }\n    ]\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1376,
+        -560
+      ],
+      "id": "5f05313f-12aa-40e6-ba70-3595734bd8ab",
+      "name": "APIFY FB Posts Scraper Actor Start",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ed570b1b-7813-4061-a8c6-fff5e4d43aa4",
+              "name": "numRow",
+              "value": "={{ $itemIndex+1 }}",
+              "type": "string"
+            },
+            {
+              "id": "37e5b5be-aec7-4377-87e3-8941c6302423",
+              "name": "datePublished",
+              "value": "={{ $json.creationDate }}",
+              "type": "string"
+            },
+            {
+              "id": "094014be-d849-4620-9a1b-900d3f4ece69",
+              "name": "postText",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "1c542148-722b-4c44-89bb-d8a8f3fac310",
+              "name": "postID",
+              "value": "={{ $json.postId }}",
+              "type": "string"
+            },
+            {
+              "id": "78fe163a-62d8-4d97-b9f8-70aa937fb0d4",
+              "name": "postURL",
+              "value": "={{ $json.postUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "19b3d5ae-028f-4040-a3ee-94f49f9ae7c2",
+              "name": "reactionCount",
+              "value": "={{ $json.reactionCount }}",
+              "type": "number"
+            },
+            {
+              "id": "644d9b4e-6b50-4c44-a933-65e2e5a4515b",
+              "name": "shareCount",
+              "value": "={{ $json.shareCount }}",
+              "type": "string"
+            },
+            {
+              "id": "f743818d-0527-4de1-9ca1-c41dae2644aa",
+              "name": "commentCount",
+              "value": "={{ $json.commentComment }}",
+              "type": "string"
+            },
+            {
+              "id": "a0725947-9049-442e-bdd7-b0972d0f638a",
+              "name": "videoViewCount",
+              "value": "={{ $json.videoViewCount }}",
+              "type": "string"
+            },
+            {
+              "id": "6bb8f671-ded0-469c-8e65-0044051f2aad",
+              "name": "imagePostList",
+              "value": "={{ $json.imageUrlList }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        352,
+        -80
+      ],
+      "id": "7422a60e-6e9c-4d7b-ac73-bed765fbce47",
+      "name": "Mapped Important Fields With Scraped Data"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "={{ $now.format('yyyy-MM-dd-hh-mm-ss') }}_FB-AbiMotors-Posts-Scraped",
+          "mode": "id"
+        },
+        "embeddingBatchSize": 500,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "typeVersion": 1.3,
+      "position": [
+        1872,
+        -224
+      ],
+      "id": "4e19da60-c213-4660-a81e-25d299ae063c",
+      "name": "Qdrant Vector Store",
+      "credentials": {
+        "qdrantApi": {
+          "id": "JHGJ4OS8az0ug9lO",
+          "name": "QdrantCluster[creo_sementra_fb_posts](boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "text-embedding-3-large",
+        "options": {
+          "dimensions": 1536,
+          "batchSize": 500
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1760,
+        16
+      ],
+      "id": "2f5c8c52-cc18-4848-9b25-efd43ba68ed6",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        2080,
+        32
+      ],
+      "id": "08703337-716c-4298-83b4-e876e1db5d2b",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "formTitle": "Abi Motors FB Page Posts Scraping",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "FB Page Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Sementra Hot Spring Nature Resort Gopeng"
+                  },
+                  {
+                    "option": "Readycare Signature"
+                  },
+                  {
+                    "option": "Abi Motors Sdn Bhd"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "FB Page URL",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "https://www.facebook.com/sementrahotspringnatureresortgopeng"
+                  },
+                  {
+                    "option": "https://www.facebook.com/readycaresignature"
+                  },
+                  {
+                    "option": "https://www.facebook.com/peroduoabimotors"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Max Posts Scrape",
+              "fieldType": "number"
+            }
+          ]
+        },
+        "options": {
+          "path": "fb-readycare-posts-scraping"
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        384,
+        -560
+      ],
+      "id": "b1193353-b815-4533-9022-e0b0b81b3f47",
+      "name": "On form submission1",
+      "webhookId": "9a909819-2f21-448d-9734-986d19b6bf11"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        672,
+        -80
+      ],
+      "id": "7fc08f03-83f6-41fd-bc2c-68a515753832",
+      "name": "Loop Over Items4"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "create",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pn83rt95epwfhjl",
+        "table": "mjc19ihit33kj7f",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Row Num",
+              "fieldValue": "={{ $json.numRow }}"
+            },
+            {
+              "fieldName": "Date Published",
+              "fieldValue": "={{ $json.datePublished }}"
+            },
+            {
+              "fieldName": "Post ID",
+              "fieldValue": "={{ $json.postID }}"
+            },
+            {
+              "fieldName": "Text Post",
+              "fieldValue": "={{ $json.postText }}"
+            },
+            {
+              "fieldName": "Post URL",
+              "fieldValue": "={{ $json.postURL }}"
+            },
+            {
+              "fieldName": "Post Image List",
+              "fieldValue": "={{ $json.imagePostList }}"
+            },
+            {
+              "fieldName": "Reaction Counts",
+              "fieldValue": "={{ $json.reactionCount }}"
+            },
+            {
+              "fieldName": "Share Counts",
+              "fieldValue": "={{ $json.shareCount }}"
+            },
+            {
+              "fieldName": "Comment Counts",
+              "fieldValue": "={{ $json.commentCount }}"
+            },
+            {
+              "fieldName": "Video View Counts",
+              "fieldValue": "={{ $json.videoViewCount }}"
+            },
+            {
+              "fieldName": "Scraped Date Updates",
+              "fieldValue": "={{ $now.format('yyyy-MM-dd') }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1520,
+        -48
+      ],
+      "id": "7fadc753-4e80-47ee-ad81-b1a9b81d598a",
+      "name": "NocoDB10",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pn83rt95epwfhjl",
+        "table": "mjc19ihit33kj7f",
+        "limit": 40,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1520,
+        -224
+      ],
+      "id": "3242214b-b30c-42fa-8dbc-1188dbb3b0bd",
+      "name": "NocoDB1",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1216,
+        -224
+      ],
+      "id": "5802fc44-d5ac-451c-b114-fcb5d6fa2186",
+      "name": "Aggregate1"
+    },
+    {
+      "parameters": {
+        "content": "## Step 1: Abi Motors FB Posting Scraping + Store in Nocodb + Qdrant Vector DB",
+        "height": 832,
+        "width": 2544
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        224,
+        -640
+      ],
+      "typeVersion": 1,
+      "id": "4f43eaf3-0499-4b73-9967-6cd417176437",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pn83rt95epwfhjl",
+        "table": "mwxmhqoxey3tw9y",
+        "options": {
+          "viewId": "vwvamkh1xvjieooi"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        480,
+        -1136
+      ],
+      "id": "a6b84d1b-bc12-4235-966b-a2ac8276ed08",
+      "name": "Get many rows",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Brand Name: {{ $json['Brand Name'] }}\nBusiness Location: {{ $json['Business Location'] }}\nBrand Website: {{ $json['Brand Website'] }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a web research specialist who familiarized on scraping the web content from the user search query and summarizing what the company, brand and products details.  \n\n# Task\n- You are tasked to come out a simple but comprehensive details of client's business research overview based on user provided information such as client's brand name, client official business website url and client's business location.\n- The tasks to be fulfill including generating for business overview, core service and target audience.\n\n# Tool\nIn order able to scrape the web content based on user provided brand website url to generate the require output such as the business overview, core service and target audience. You are require to use the following tool:\n- `**ai_web_research_tool**` : Call this tool to get the search query through the ai search engine, gather the sources and results such as the business overview, core service and target audience. as the output.\n\n# User Context\nYou are require to input the provided user context as reference in order to come out the right output. The user context information will be provided by the user as such:\n- Brand Name\n- Business Location\n- Brand Website\n\n# Output\nThe output should be in structured JSON format where the output had been generated will be allocate based on the require JSON structure or schema without any task explaination and other unnecessary details.\n\n## Example of JSON structure\n```\njson: {\n \"businessOverview\": \"ReadyCare Signature is a company based in Ipoh, Perak, Malaysia, specializing in bio-based cleaning solutions with a strong emphasis on environmental sustainability. The company operates primarily from two locations: its main factory at Lot 222429, Hala Industri Bercham 3, Kawasan Industri Ringan Bercham, and a retail outlet at Lot G5, No 39 Ipoh Garden Square, Jalan Sultan Azlan Shah Utara.\\n\\n Under the leadership of Mr. Yeoh Eng Foo, ReadyCare has developed the Signature Selection Biobased Series, which comprises plant-based cleaning products that are dermatologist-tested, vegan, USDA Certified Biobased, and Halal Certified. The focus is on creating effective cleaning solutions that pose minimal risk to families and the environment. Their manufacturing facility employs advanced robotic technology, with about one robot for every five workers, to enhance quality control and precision.\\n\\n ReadyCare Signature stands out for its commitment to sustainability, utilizing solar energy and recyclable materials in its operations. They have also launched initiatives such as Refill Stations for their products, promoting sustainable consumption practices. Their products are marketed as being gentle on the skin and effective without harmful chemicals, suitable for families, including those with babies and pets.\",\n  \"coreProductsServices\": \"1. Biobased Veggie Wash\\n -The vegan residue free, and easy rinse off formulation dissolves quickly, leaving the fruits and vegetables clean and safe to consume. Main Ingredients: Aqua, Plant Based Surfactant, Glycerine, Baking Soda, Citric Acid, Food additive grade disinfectant, Salt, Food Grade Preservative, Food Additive Grade Disinfectant. Cautions: Store in cool and dry place. Keep out of reach of children. For external use only. In case of contact with eyes, rinse immediately with plenty of water for several minutes and seek medical advice if irritation persists.\\n\\n 2. Biobased Laundry Liquid Detergent\\n -USDA Certified Biobased, food grade baking soda, low pH, no optical brightener, dye, parabens, or perfume, gentle on skin, vegan friendly, low-suds formula.\\n\\n 3.Biobased Dishwashing Liquid: Eucalyptus\\n -USDA Certified Biobased formulation, food grade baking soda, prevents bacterial growth, easy to rinse off, neutral pH, biobased and Vegan formulation, no added petrochemical surfactants, gentle to skin.\",\n  \"targetAudience\": \"- For household who are looking for non-chemical based household cleaning products. \\n- For families who have skin sensitive and allergic concern on heavy and mid chemical-based clearning products.\\n - For parent who have children have skin sensitive and allergic concern on heavy and mid chemical-based clearning products\"\n}\n\n```"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        752,
+        -1136
+      ],
+      "id": "c10bbc40-4c3f-4569-b5f8-35fe552f6db2",
+      "name": "Brand Research Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        448,
+        -928
+      ],
+      "id": "e4d144ba-3089-4fdc-9304-21e6b574843b",
+      "name": "DeepSeek Chat Model1",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "8Hvjw0JNKmbO191K",
+          "name": "DeepSeekAPI - info.hansondev@gmail.com"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n \"businessOverview\": \"ReadyCare Signature is a company based in Ipoh, Perak, Malaysia, specializing in bio-based cleaning solutions with a strong emphasis on environmental sustainability. The company operates primarily from two locations: its main factory at Lot 222429, Hala Industri Bercham 3, Kawasan Industri Ringan Bercham, and a retail outlet at Lot G5, No 39 Ipoh Garden Square, Jalan Sultan Azlan Shah Utara.\\n\\n Under the leadership of Mr. Yeoh Eng Foo, ReadyCare has developed the Signature Selection Biobased Series, which comprises plant-based cleaning products that are dermatologist-tested, vegan, USDA Certified Biobased, and Halal Certified. The focus is on creating effective cleaning solutions that pose minimal risk to families and the environment. Their manufacturing facility employs advanced robotic technology, with about one robot for every five workers, to enhance quality control and precision.\\n\\n ReadyCare Signature stands out for its commitment to sustainability, utilizing solar energy and recyclable materials in its operations. They have also launched initiatives such as Refill Stations for their products, promoting sustainable consumption practices. Their products are marketed as being gentle on the skin and effective without harmful chemicals, suitable for families, including those with babies and pets.\",\n  \"coreProductsServices\": \"1. Biobased Veggie Wash\\n -The vegan residue free, and easy rinse off formulation dissolves quickly, leaving the fruits and vegetables clean and safe to consume. Main Ingredients: Aqua, Plant Based Surfactant, Glycerine, Baking Soda, Citric Acid, Food additive grade disinfectant, Salt, Food Grade Preservative, Food Additive Grade Disinfectant. Cautions: Store in cool and dry place. Keep out of reach of children. For external use only. In case of contact with eyes, rinse immediately with plenty of water for several minutes and seek medical advice if irritation persists.\\n\\n 2. Biobased Laundry Liquid Detergent\\n -USDA Certified Biobased, food grade baking soda, low pH, no optical brightener, dye, parabens, or perfume, gentle on skin, vegan friendly, low-suds formula.\\n\\n 3.Biobased Dishwashing Liquid: Eucalyptus\\n -USDA Certified Biobased formulation, food grade baking soda, prevents bacterial growth, easy to rinse off, neutral pH, biobased and Vegan formulation, no added petrochemical surfactants, gentle to skin.\",\n  \"targetAudience\": \"- For household who are looking for non-chemical based household cleaning products. \\n- For families who have skin sensitive and allergic concern on heavy and mid chemical-based clearning products.\\n - For parent who have children have skin sensitive and allergic concern on heavy and mid chemical-based clearning products\"\n}",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1072,
+        -976
+      ],
+      "id": "a3bd7fb1-880d-48fa-8463-1c592d0c0b8b",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1232,
+        -848
+      ],
+      "id": "0194d3c3-c473-4985-957b-1f562dd88949",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to get the search query through the ai search engine, gather the sources and results such as the business overview, core service and target audience. as the output.",
+        "workflowId": {
+          "__rl": true,
+          "value": "Ek66VfFhjAWBSb3v",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Tavily AI Research Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        928,
+        -928
+      ],
+      "id": "0380f55d-8007-4204-a26e-517f68df229e",
+      "name": "ai_web_research_tool"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        704,
+        -976
+      ],
+      "id": "cf1bdd55-3c07-44bf-9080-f1686ed43b9f",
+      "name": "Google Gemini Chat Model3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pn83rt95epwfhjl",
+        "table": "mwxmhqoxey3tw9y",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Business Overview",
+              "fieldValue": "={{ $json.output.businessOverview }}"
+            },
+            {
+              "fieldName": "Core Products & Services",
+              "fieldValue": "={{ $json.output.coreProductsServices }}"
+            },
+            {
+              "fieldName": "Target Audience",
+              "fieldValue": "={{ $json.output.targetAudience }}"
+            },
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Get many rows').item.json.Id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1216,
+        -1136
+      ],
+      "id": "3fbde409-3839-45d0-a170-ad54ebeac198",
+      "name": "Update a row",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formTitle": "Creo Client - Sementra Resort Business Overview Research",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Brand Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Sementra Resort & Hot Spring Gopeng"
+                  },
+                  {
+                    "option": "Readycare Signature"
+                  },
+                  {
+                    "option": "Abi Motors Sdn Bhd"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Brand Website",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "https://sementra.my/"
+                  },
+                  {
+                    "option": "https://rcsignature.com.my/"
+                  },
+                  {
+                    "option": "https://www.facebook.com/peroduoabimotors"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Social Media Platforms",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Facebook"
+                  },
+                  {
+                    "option": "Instagram"
+                  },
+                  {
+                    "option": "TikTok"
+                  }
+                ]
+              },
+              "multiselect": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        240,
+        -1136
+      ],
+      "id": "cd0618c0-41d8-4c1c-bbe2-f82141d8ea61",
+      "name": "On form submission2",
+      "webhookId": "81f1be26-ddb1-47c7-90e9-30ff8d771b76"
+    },
+    {
+      "parameters": {
+        "content": "## Scanning For Abi Motors Business Overview Research (Update Record When You needed it only)",
+        "height": 500,
+        "width": 1200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        208,
+        -1216
+      ],
+      "typeVersion": 1,
+      "id": "5d3cc024-d9d0-486e-b46f-adafbc540ba2",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "nocodb-abimotors-biz-research-done",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        1664,
+        -1376
+      ],
+      "id": "03a1d646-22b5-4e62-ba15-dfb3fdcd1942",
+      "name": "Webhook2",
+      "webhookId": "cb9099cd-963b-44c2-9e54-78698fc663b9"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pn83rt95epwfhjl",
+        "table": "mwxmhqoxey3tw9y",
+        "options": {
+          "viewId": "vwvamkh1xvjieooi"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1888,
+        -1376
+      ],
+      "id": "159112c4-a552-47f2-b22a-b678db7471dc",
+      "name": "Get Business Research Overview Info1",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "  {\n   \"clientName\": \"The client's brand name\",\n   \"clientWebsite\": \"The client's brand website\",\n   \"clientSocialMediaPlatforms\": [\"Facebook\", \"Instagram\", \"TikTok\", \"Youtube\"],\n   \"clientSocialMediaProfiles\": [\n      {\n      \"Facebook\": \"https://facebook.com/client-page\",\n      \"Instagram\": \"https://instagram.com/client-username\",\n      \"TikTok\": \"https://tiktok.com/@client-username\",\n      \"Youtube\": \"https://youtube.com/@client-username\"\n     }\n    ]\n  }",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        2608,
+        -1184
+      ],
+      "id": "ceaa2ed4-adf7-4d0d-8fca-3c951f7fe7cb",
+      "name": "Structured Output Parser2"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        2208,
+        -1200
+      ],
+      "id": "d567b0ac-1d1d-459d-a127-84a8dfe5122f",
+      "name": "Google Gemini Chat Model4",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2816,
+        -1056
+      ],
+      "id": "911c41ab-131d-4dcb-a390-ef1c8f62b0b7",
+      "name": "OpenAI Chat Model5",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output.clientSocialMediaProfiles",
+        "options": {
+          "destinationFieldName": "socialMediaProfiles"
+        }
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1632,
+        -896
+      ],
+      "id": "f066d902-9b23-4f6a-b826-b9c8467e6d52",
+      "name": "Split Out2"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to crawl the listed client's brand website to scrape and return the raw webpage content as context in order to complete the task requested.",
+        "workflowId": {
+          "__rl": true,
+          "value": "QeHEewsZGYiAUIfz",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Crawl4AI Single Webpage Crawler"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "url": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('url', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "url"
+          ],
+          "schema": [
+            {
+              "id": "url",
+              "displayName": "url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        2352,
+        -1184
+      ],
+      "id": "f51ff413-074c-4c39-9135-44b602fb9358",
+      "name": "webpage_crawler"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2064,
+        -1184
+      ],
+      "id": "bf718f3d-9264-4eb8-94be-2b4745866bf0",
+      "name": "OpenAI Chat Model6",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "text": "={{ $json[\"Business Overview\"] }}",
+        "attributes": {
+          "attributes": [
+            {
+              "name": "industryType",
+              "description": "Categorize the suitable resort type based on the provided user input"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        2112,
+        -1376
+      ],
+      "id": "1e837f01-84c2-438f-a189-b3cbe76af6ca",
+      "name": "Industry Type Segementation"
+    },
+    {
+      "parameters": {
+        "content": "## Abi Motors Business Research & Social Media Profiles Finder(Update Record When You needed it only)\n",
+        "height": 760,
+        "width": 1640
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1472,
+        -1440
+      ],
+      "typeVersion": 1,
+      "id": "237f54f3-f787-45cf-a60b-a5d289dcf401",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Client Brand Name: {{ $('Get Business Research Overview Info1').item.json[\"Brand Name\"] }}\nClient Business Overview: {{ $('Get Business Research Overview Info1').item.json['Business Overview'] }}\nClient Brand Website: {{ $('Get Business Research Overview Info1').item.json['Brand Website'] }}\nClient Core Product & Services: \n{{ $('Get Business Research Overview Info1').item.json['Core Products & Services'] }}\nClient Target Audience: \n{{ $('Get Business Research Overview Info1').item.json[\"Target Audience\"] }}\nTarget Location: {{ $('Get Business Research Overview Info1').item.json[\"Business Location\"].split(\", \").last() }}\nIndustry Type: {{ $json.output.industryType }}\n",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a market research and analysis specialist who are able to do web scraping based on client name, and client website.\n\n# Task\n- You are tasked to do web scraping to lookout my client's {{ $('Get Business Research Overview Info1').item.json['Brand Name'] }} social media profiles before strategize on crafting the ad creative and ad content for upcoming ads campaign.\n\n# User Context\nYou are require to follow the provided user input as context and references for you to generate the right output and avoid any hallucination or any misinformation occurred. The user context will be providing such as:\n- Client Brand Name\n- Client Business Overview\n- Client Brand Website\n- Client Core Products & Services\n- Client Target Audience\n\n# Tools To Use\nYou are require to use the following tools in order to accomplish the requesting task and generate the right outputs are listed as below:\n- `webpage_crawler`: Call this tool to crawl the listed client's brand website to scrape and return the raw webpage content as context in order to complete the task requested.\n- `client_info_searcher`: Call this tool to query the client's require information such as business overview, business location, core products and target audience based on the listed client brand name.\n\n# Output\nThe output generated must be in structured JSON data format without any explanation and unneccessary information. Only come out the output that what had been require above and following the example of JSON structure output or schema as refenrence below.\n\n## Example of JSON Output\n```\njson:\n  {\n   \"clientName\": \"The client's brand name\",\n   \"clientWebsite\": \"The client's brand website\",\n   \"clientSocialMediaPlatforms\": [\"Facebook\", \"Instagram\", \"TikTok\", \"Youtube\"],\n   \"clientSocialMediaProfiles\": [\n      {\n      \"Facebook\": \"https://facebook.com/client-page\",\n      \"Instagram\": \"https://instagram.com/client-username\",\n      \"TikTok\": \"https://tiktok.com/@client-username\",\n      \"Youtube\": \"https://youtube.com/@client-username\"\n     }\n    ]\n  }\n\n\n\n```"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        2432,
+        -1376
+      ],
+      "id": "96cdb249-c001-4357-a9e8-9359be93e6ee",
+      "name": "Brand Social Media Profiles Finder"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to query the client's require information such as business overview, business location, core products and target audience based on the listed client brand name.",
+        "workflowId": {
+          "__rl": true,
+          "value": "Ek66VfFhjAWBSb3v",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Tavily AI Research Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        2496,
+        -1168
+      ],
+      "id": "a05abf6e-3161-43f4-94d4-851260a4eb0a",
+      "name": "client_info_searcher"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pn83rt95epwfhjl",
+        "table": "mwxmhqoxey3tw9y",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Get Business Research Overview Info1').item.json.Id }}"
+            },
+            {
+              "fieldName": "Social Media Used",
+              "fieldValue": "={{ $('Brand Social Media Profiles Finder').item.json.output.clientSocialMediaPlatforms }}"
+            },
+            {
+              "fieldName": "Social Media Profiles",
+              "fieldValue": "={{ $json.socialMediaProfiles }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1904,
+        -896
+      ],
+      "id": "aaf5bf10-55fb-4420-b6c7-32722421d96a",
+      "name": "Update Social Media Profiles Links",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pn83rt95epwfhjl",
+        "table": "mag5m45nmem2fmi",
+        "options": {
+          "fields": [],
+          "where": "=(Target Language,eq,{{ $json.body.data.rows[0]['Target Language'] }})~and(Month,eq,{{ $now.plus(1,'month').format('LLLL') }})"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        576,
+        256
+      ],
+      "id": "82fac346-c4cb-465b-9bcf-22b499edabd0",
+      "name": "Get many rows1",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pn83rt95epwfhjl",
+        "table": "mwxmhqoxey3tw9y",
+        "options": {
+          "viewId": "vwvamkh1xvjieooi"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        576,
+        512
+      ],
+      "id": "45daca73-0b76-4db0-8e61-ac45271542da",
+      "name": "Get many rows2",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to get the upcoming regional public holidays in order to create general festival greetings or story history of some regional festive posting to match the festive appreciation or holiday celebration for content post.",
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "en.malaysia#holiday@group.v.calendar.google.com",
+          "mode": "list",
+          "cachedResultName": "Holidays in Malaysia"
+        },
+        "returnAll": true,
+        "timeMin": "={{ $now.plus(17, 'days') }}",
+        "timeMax": "={{ $now.plus(7,'weeks') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        1776,
+        656
+      ],
+      "id": "6e4b343d-2f31-4d97-a2cb-3ca657f3a5ed",
+      "name": "get_public_holidays",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "UZglpsDrPwduER7r",
+          "name": "GCalendar(boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "create",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pn83rt95epwfhjl",
+        "table": "m44vx846c2xudpj",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Date Posting",
+              "fieldValue": "={{ $json.datePosting }}"
+            },
+            {
+              "fieldName": "Month Year",
+              "fieldValue": "={{ $('Merge Both AI Agent Input + Company Research Details').first().json.month }} {{ $now.format('yyyy') }}"
+            },
+            {
+              "fieldName": "Text Post V1",
+              "fieldValue": "={{ $json.textPostV1 }}"
+            },
+            {
+              "fieldName": "Text Post V2",
+              "fieldValue": "={{ $json.textPostV2 }}"
+            },
+            {
+              "fieldName": "Visual Idea",
+              "fieldValue": "={{ $json.visualIdea }}"
+            },
+            {
+              "fieldName": "Target Language",
+              "fieldValue": "={{ $json.targetLanguage }} (Malaysian Native)"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        2064,
+        304
+      ],
+      "id": "10c006e7-bdbf-4c33-b54b-3f216d61c2e4",
+      "name": "Create a row",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pn83rt95epwfhjl",
+        "table": "m44vx846c2xudpj",
+        "options": {
+          "fields": [],
+          "where": "=(Target Language,eq,English)~and(Month Year,eq,{{ $now.plus(3,'weeks').format('LLLL yyyy') }})"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1408,
+        1264
+      ],
+      "id": "86201812-85f0-4a3f-87ab-1b2dc54179cb",
+      "name": "Get many rows3",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $('Copy Last Month Content Planner GDocs').first().json.id }}",
+        "simple": false
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2144,
+        1344
+      ],
+      "id": "5b38b54b-be73-4397-bde6-8c5df54e71de",
+      "name": "Google Docs",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1664,
+        1264
+      ],
+      "id": "f297160d-8a77-4aa1-86d4-f2260d00ac52",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3bd4c732-4a26-4638-81c9-36034ca9a617",
+              "name": "tableCells",
+              "value": "={{ $jmespath($json.body.content, '[?table].table.tableRows[-1].tableCells')[0] }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3344,
+        1072
+      ],
+      "id": "88266d46-640e-4ab3-a422-2117df1abd8c",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "11368f3e-434a-4cb9-a1c8-cb7d3a7f8daf",
+              "name": "table",
+              "value": "={{ $jmespath($json.body.content, '[?table]')[0] }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2320,
+        1344
+      ],
+      "id": "455cdea7-2d74-44ec-a280-0360043b8ae7",
+      "name": "Get Table"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $('Copy Last Month Content Planner GDocs').first().json.id }}",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "object": "tableRow",
+              "action": "insert",
+              "index": "={{ $('Get Table1').item.json.table.startIndex }}",
+              "rowIndex": "={{ $('Get Table1').item.json.table.table.tableRows.length - 1 }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2928,
+        1072
+      ],
+      "id": "d2465acc-4cb3-4832-b579-7594e366f1aa",
+      "name": "Insert table row at bottom",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $('Copy Last Month Content Planner GDocs').first().json.id }}",
+        "simple": false
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        3136,
+        1072
+      ],
+      "id": "e0f89de5-863b-41e3-8dc5-6e8b69906abe",
+      "name": "Get updated document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $('Copy Last Month Content Planner GDocs').first().json.id }}",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "object": "tableRow",
+              "action": "delete",
+              "index": "={{ $json[\"table\"][\"startIndex\"] }}",
+              "rowIndex": "={{ $json[\"table\"][\"table\"][\"tableRows\"].length - 1 }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2496,
+        1344
+      ],
+      "id": "72e60d0e-83a2-4d3d-8aa5-8ee327920eba",
+      "name": "Google Docs1",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $('Copy Last Month Content Planner GDocs').first().json.id }}",
+        "simple": false
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2496,
+        1072
+      ],
+      "id": "ddf4fcc4-ad0b-47f1-a567-f7fe90b524e2",
+      "name": "Google Docs2",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "11368f3e-434a-4cb9-a1c8-cb7d3a7f8daf",
+              "name": "table",
+              "value": "={{ $jmespath($json.body.content, '[?table]')[0] }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2720,
+        1072
+      ],
+      "id": "c84e5c33-6656-432e-a533-8ed46baf0fc7",
+      "name": "Get Table1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bae18e06-1a31-4a2d-99c0-a1bfb201dc9e",
+              "name": "Month Year",
+              "value": "={{ $json['Month Year'] }}",
+              "type": "string"
+            },
+            {
+              "id": "74aa8c3f-48e3-4c72-ba2c-b35155464b9d",
+              "name": "datePosting",
+              "value": "={{ $json['Date Posting'] }}",
+              "type": "string"
+            },
+            {
+              "id": "d2e4f52e-d396-4361-9cce-b7e7623cb2fb",
+              "name": "textPostV1",
+              "value": "={{ $json['Text Post V1'] }}",
+              "type": "string"
+            },
+            {
+              "id": "0ecff522-dcba-4822-8c6c-4aff3d8afcea",
+              "name": "textPostV2",
+              "value": "={{ $json['Text Post V2'] }}",
+              "type": "string"
+            },
+            {
+              "id": "9917245f-d1ac-4329-a039-4d0f95f732e6",
+              "name": "visualIdea",
+              "value": "={{ $json['Visual Idea'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1904,
+        1344
+      ],
+      "id": "696fcef3-e557-4663-a8e8-b8dc88dfc6eb",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "74aa8c3f-48e3-4c72-ba2c-b35155464b9d",
+              "name": "datePosting",
+              "value": "={{ $('Edit Fields3').first().json.datePosting }}",
+              "type": "string"
+            },
+            {
+              "id": "d2e4f52e-d396-4361-9cce-b7e7623cb2fb",
+              "name": "textPostV1",
+              "value": "={{ $('Edit Fields3').first().json.textPostV1 }}",
+              "type": "string"
+            },
+            {
+              "id": "7df15573-fb54-4d42-95d8-c7d17048076f",
+              "name": "textPostV2",
+              "value": "={{ $('Edit Fields3').first().json.textPostV2 }}",
+              "type": "string"
+            },
+            {
+              "id": "9917245f-d1ac-4329-a039-4d0f95f732e6",
+              "name": "visualIdea",
+              "value": "={{ $('Edit Fields3').first().json.visualIdea }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1984,
+        1056
+      ],
+      "id": "e76cf401-f4c2-43cf-b57a-7c13cd314aca",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        2256,
+        1056
+      ],
+      "id": "819e124f-6407-4284-8423-b18f4b26c9ed",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $('Copy Last Month Content Planner GDocs').first().json.id }}",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "locationChoice": "location",
+              "index": "={{ $json.tableCells[3].content[0].startIndex }}",
+              "text": "={{ $('Edit Fields3').item.json.visualIdea }}"
+            },
+            {
+              "action": "insert",
+              "locationChoice": "location",
+              "index": "={{ $json.tableCells[2].content[0].startIndex }}",
+              "text": "={{ $('Edit Fields3').item.json.textPostV2 }}"
+            },
+            {
+              "action": "insert",
+              "locationChoice": "location",
+              "index": "={{ $json.tableCells[1].content[0].startIndex }}",
+              "text": "={{ $('Edit Fields3').item.json.textPostV1 }}"
+            },
+            {
+              "action": "insert",
+              "locationChoice": "location",
+              "index": "={{ $json.tableCells[0].content[0].startIndex }}",
+              "text": "={{ $('Edit Fields3').item.json.datePosting }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "={{ $('Get updated document').item.json.body.content[1].paragraph.elements[0].textRun.content }}",
+              "replaceText": "=ABI MOTORS - {{ $now.plus({week:3}).format('LLLL').toUpperCase() }} 2025 ENGLISH SOCIAL MEDIA POST"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        3536,
+        1072
+      ],
+      "id": "2d831625-aa03-4c75-acd9-aca4b41c45a3",
+      "name": "Update a document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "copy",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "name": "=[{{ $now.plus({week:3}).format('LLLL yyyy') }}] - [{{ $('Webhook1').first().json.body.data.rows[0]['Target Language'].toUpperCase() }}] - Abi Motors Sdn Bhd - Monthly FB Content Creation Planner",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1232,
+        1264
+      ],
+      "id": "cc56452e-f718-4af3-b0fe-56dee42eb172",
+      "name": "Copy Last Month Content Planner GDocs",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5d70667e-a21c-4117-84e5-d958e752622b",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "={{ $now.format('LLLL yyyy') }}",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "de05a392-9b47-4202-bf16-1a944557db27",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "[ENGLISH]",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1008,
+        1264
+      ],
+      "id": "b1ec09ac-7d52-427d-8196-77a1b93690e2",
+      "name": "Filtered Last Month GDocs Content Planner"
+    },
+    {
+      "parameters": {
+        "operation": "copy",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "name": "=[{{ $now.plus({week:3}).format('LLLL yyyy') }}] [{{ $('Webhook1').first().json.body.data.rows[0]['Target Language'].replace(\"Malay (Malaysian Native)\",\"Malay\").toUpperCase() }}] - Abi Motors Sdn Bhd - Monthly FB Content Creation Planner",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1200,
+        1792
+      ],
+      "id": "235bbe04-b9ef-4291-9b43-e496138e66d4",
+      "name": "Copy Last Month Content Planner GDocs1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5d70667e-a21c-4117-84e5-d958e752622b",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "={{ $now.format('LLLL yyyy') }}",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "de05a392-9b47-4202-bf16-1a944557db27",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "[MALAY]",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        960,
+        1792
+      ],
+      "id": "9a1d7f09-5447-4b49-baa7-ef6a9943ba58",
+      "name": "Filtered Last Month GDocs Content Planner1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1616,
+        1792
+      ],
+      "id": "b55426a8-c19d-4919-b09f-aad5b7a7a61e",
+      "name": "Loop Over Items2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3bd4c732-4a26-4638-81c9-36034ca9a617",
+              "name": "tableCells",
+              "value": "={{ $jmespath($json.body.content, '[?table].table.tableRows[-1].tableCells')[0] }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3296,
+        1616
+      ],
+      "id": "315f94e3-02a0-47ce-9517-7646289e2c16",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "11368f3e-434a-4cb9-a1c8-cb7d3a7f8daf",
+              "name": "table",
+              "value": "={{ $jmespath($json.body.content, '[?table]')[0] }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2272,
+        1888
+      ],
+      "id": "f666d1d1-5d00-470a-94de-c870e3ec3d5b",
+      "name": "Get Table2"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $('Copy Last Month Content Planner GDocs1').first().json.id }}",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "object": "tableRow",
+              "action": "insert",
+              "index": "={{ $('Get Table3').item.json.table.startIndex }}",
+              "rowIndex": "={{ $('Get Table3').item.json.table.table.tableRows.length - 1 }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2880,
+        1616
+      ],
+      "id": "dd3e3acb-9a87-4115-a105-022371175b36",
+      "name": "Insert table row at bottom1",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $('Copy Last Month Content Planner GDocs1').first().json.id }}",
+        "simple": false
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        3088,
+        1616
+      ],
+      "id": "e81e50f3-e9c4-4c20-9f7e-fd4f0ff98c16",
+      "name": "Get updated document1",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "11368f3e-434a-4cb9-a1c8-cb7d3a7f8daf",
+              "name": "table",
+              "value": "={{ $jmespath($json.body.content, '[?table]')[0] }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2672,
+        1616
+      ],
+      "id": "44e41c8c-8b96-43a4-b588-7639386d0823",
+      "name": "Get Table3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bae18e06-1a31-4a2d-99c0-a1bfb201dc9e",
+              "name": "Month Year",
+              "value": "={{ $json['Month Year'] }}",
+              "type": "string"
+            },
+            {
+              "id": "74aa8c3f-48e3-4c72-ba2c-b35155464b9d",
+              "name": "datePosting",
+              "value": "={{ $json['Date Posting'] }}",
+              "type": "string"
+            },
+            {
+              "id": "d2e4f52e-d396-4361-9cce-b7e7623cb2fb",
+              "name": "textPostV1",
+              "value": "={{ $json['Text Post V1'] }}",
+              "type": "string"
+            },
+            {
+              "id": "0ecff522-dcba-4822-8c6c-4aff3d8afcea",
+              "name": "textPostV2",
+              "value": "={{ $json['Text Post V2'] }}",
+              "type": "string"
+            },
+            {
+              "id": "9917245f-d1ac-4329-a039-4d0f95f732e6",
+              "name": "visualIdea",
+              "value": "={{ $json['Visual Idea'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1856,
+        1888
+      ],
+      "id": "a7b306a0-bae7-4e04-bec4-e8dd8feac704",
+      "name": "Edit Fields5"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "74aa8c3f-48e3-4c72-ba2c-b35155464b9d",
+              "name": "datePosting",
+              "value": "={{ $('Edit Fields5').first().json.datePosting }}",
+              "type": "string"
+            },
+            {
+              "id": "d2e4f52e-d396-4361-9cce-b7e7623cb2fb",
+              "name": "textPostV1",
+              "value": "={{ $('Edit Fields5').first().json.textPostV1 }}",
+              "type": "string"
+            },
+            {
+              "id": "7df15573-fb54-4d42-95d8-c7d17048076f",
+              "name": "textPostV2",
+              "value": "={{ $('Edit Fields5').first().json.textPostV2 }}",
+              "type": "string"
+            },
+            {
+              "id": "9917245f-d1ac-4329-a039-4d0f95f732e6",
+              "name": "visualIdea",
+              "value": "={{ $('Edit Fields5').first().json.visualIdea }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1936,
+        1600
+      ],
+      "id": "bf5c3ff9-e67d-4c1f-888e-c5454c18eb89",
+      "name": "Edit Fields6"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        2208,
+        1600
+      ],
+      "id": "0c5f7b86-6a49-42a6-93b9-da3fec16c430",
+      "name": "Loop Over Items3"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $('Copy Last Month Content Planner GDocs1').first().json.id }}",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "locationChoice": "location",
+              "index": "={{ $json.tableCells[3].content[0].startIndex }}",
+              "text": "={{ $('Edit Fields5').item.json.visualIdea }}"
+            },
+            {
+              "action": "insert",
+              "locationChoice": "location",
+              "index": "={{ $json.tableCells[2].content[0].startIndex }}",
+              "text": "={{ $('Edit Fields5').item.json.textPostV2 }}"
+            },
+            {
+              "action": "insert",
+              "locationChoice": "location",
+              "index": "={{ $json.tableCells[1].content[0].startIndex }}",
+              "text": "={{ $('Edit Fields5').item.json.textPostV1 }}"
+            },
+            {
+              "action": "insert",
+              "locationChoice": "location",
+              "index": "={{ $json.tableCells[0].content[0].startIndex }}",
+              "text": "={{ $('Edit Fields5').item.json.datePosting }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "={{ $('Get updated document1').item.json.body.content[1].paragraph.elements[0].textRun.content }}",
+              "replaceText": "=ABI MOTORS - {{ $now.plus({week:3}).format('LLLL').toUpperCase() }} 2025 MALAY SOCIAL MEDIA POST"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        3488,
+        1616
+      ],
+      "id": "c97ca248-1a84-4074-a521-44fb4fa72a05",
+      "name": "Update a document1",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pn83rt95epwfhjl",
+        "table": "m44vx846c2xudpj",
+        "options": {
+          "where": "=(Target Language,eq,{{ $('Webhook1').item.json.body.data.rows[0]['Target Language'] }})~and(Month Year,eq,{{ $now.plus(3,'weeks').format('LLLL yyyy') }})"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1392,
+        1792
+      ],
+      "id": "530eb776-31b0-4878-bc5e-f46e4674a225",
+      "name": "Get many rows4",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $('Copy Last Month Content Planner GDocs1').first().json.id }}",
+        "simple": false
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2096,
+        1888
+      ],
+      "id": "439faf2b-3ada-46cb-bf5f-b3b5ca18df91",
+      "name": "Get a document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $('Copy Last Month Content Planner GDocs1').first().json.id }}",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "object": "tableRow",
+              "action": "delete",
+              "index": "={{ $json[\"table\"][\"startIndex\"] }}",
+              "rowIndex": "={{ $json[\"table\"][\"table\"][\"tableRows\"].length - 1 }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2448,
+        1888
+      ],
+      "id": "f7992701-0e5a-4bbd-8a26-fa8873cd597f",
+      "name": "Update a document2",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $('Copy Last Month Content Planner GDocs1').first().json.id }}",
+        "simple": false
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2448,
+        1616
+      ],
+      "id": "ea1e2dee-8098-4b89-b21b-4e3e0a8a24d9",
+      "name": "Get a document1",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Step 2: Generate Monthly FB Posts Content & Import Data Back to Nocodb Table",
+        "height": 704,
+        "width": 2688,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        144,
+        208
+      ],
+      "typeVersion": 1,
+      "id": "416ed649-ea3f-4154-a6b9-a61e50781bb7",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "abi-motors-fb-post-generator",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        192,
+        384
+      ],
+      "id": "feabda7c-9f23-4d9b-baef-ced78dbeddb5",
+      "name": "Triggered When Clicked \"Generate Text Post\" Button",
+      "webhookId": "7877e78d-081d-41dc-a1ae-daf2102c8e7b"
+    },
+    {
+      "parameters": {
+        "content": "## Step 3: Export To Generated FB Text Post From Nocodb To Google Docs",
+        "height": 1216,
+        "width": 3744,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        96,
+        960
+      ],
+      "typeVersion": 1,
+      "id": "a16269c3-820c-4f62-8fba-552103ce2a31",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "## Target Language: English",
+        "height": 528,
+        "width": 2832,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        896,
+        1024
+      ],
+      "typeVersion": 1,
+      "id": "c722c617-fbba-4233-a4d5-aec57fac266b",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## Target Language: Malay",
+        "height": 528,
+        "width": 2832,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        896,
+        1584
+      ],
+      "typeVersion": 1,
+      "id": "bedad3a7-af06-45b0-9180-877d6f9171f9",
+      "name": "Sticky Note6"
+    }
+  ],
+  "connections": {
+    "Think": {
+      "ai_tool": [
+        [
+          {
+            "node": "FB Post Content Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "FB Post Content Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Create a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "NocoDB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NocoDB": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "NocoDB2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Merge Both AI Agent Input + Company Research Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Both AI Agent Input + Company Research Details": {
+      "main": [
+        [
+          {
+            "node": "FB Post Content Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FB Post Content Agent": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "fb_posts_data_table": {
+      "ai_tool": [
+        [
+          {
+            "node": "FB Post Content Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "company_research_retriever": {
+      "ai_tool": [
+        [
+          {
+            "node": "FB Post Content Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_search_query": {
+      "ai_tool": [
+        [
+          {
+            "node": "FB Post Content Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "NocoDB6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NocoDB6": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "NocoDB7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Google Drive1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive1": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "research_data_fetcher": {
+      "ai_tool": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Filtered Last Month GDocs Content Planner",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Filtered Last Month GDocs Content Planner1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "FB Post Content Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "GET FB Page ID": {
+      "main": [
+        [
+          {
+            "node": "SET Inputs For APIFY FB Scraper",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Actor Run": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get Actor Run",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Datasets": {
+      "main": [
+        [
+          {
+            "node": "Mapped Important Fields With Scraped Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Get Datasets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SET Inputs For APIFY FB Scraper": {
+      "main": [
+        [
+          {
+            "node": "APIFY FB Posts Scraper Actor Start",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "APIFY FB Posts Scraper Actor Start": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mapped Important Fields With Scraped Data": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission1": {
+      "main": [
+        [
+          {
+            "node": "GET FB Page ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items4": {
+      "main": [
+        [
+          {
+            "node": "Aggregate1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "NocoDB10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NocoDB10": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NocoDB1": {
+      "main": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate1": {
+      "main": [
+        [
+          {
+            "node": "NocoDB1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows": {
+      "main": [
+        [
+          {
+            "node": "Brand Research Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brand Research Agent": {
+      "main": [
+        [
+          {
+            "node": "Update a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Brand Research Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_web_research_tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Brand Research Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Brand Research Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission2": {
+      "main": [
+        [
+          {
+            "node": "Get many rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook2": {
+      "main": [
+        [
+          {
+            "node": "Get Business Research Overview Info1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Business Research Overview Info1": {
+      "main": [
+        [
+          {
+            "node": "Industry Type Segementation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser2": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Brand Social Media Profiles Finder",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Brand Social Media Profiles Finder",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out2": {
+      "main": [
+        [
+          {
+            "node": "Update Social Media Profiles Links",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "webpage_crawler": {
+      "ai_tool": [
+        [
+          {
+            "node": "Brand Social Media Profiles Finder",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model6": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Industry Type Segementation",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Industry Type Segementation": {
+      "main": [
+        [
+          {
+            "node": "Brand Social Media Profiles Finder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brand Social Media Profiles Finder": {
+      "main": [
+        [
+          {
+            "node": "Split Out2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "client_info_searcher": {
+      "ai_tool": [
+        [
+          {
+            "node": "Brand Social Media Profiles Finder",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows2": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "get_public_holidays": {
+      "ai_tool": [
+        [
+          {
+            "node": "FB Post Content Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a row": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows3": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs": {
+      "main": [
+        [
+          {
+            "node": "Get Table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Update a document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Table": {
+      "main": [
+        [
+          {
+            "node": "Google Docs1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert table row at bottom": {
+      "main": [
+        [
+          {
+            "node": "Get updated document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get updated document": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs2": {
+      "main": [
+        [
+          {
+            "node": "Get Table1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Table1": {
+      "main": [
+        [
+          {
+            "node": "Insert table row at bottom",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Google Docs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Google Docs2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a document": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Copy Last Month Content Planner GDocs": {
+      "main": [
+        [
+          {
+            "node": "Get many rows3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filtered Last Month GDocs Content Planner": {
+      "main": [
+        [
+          {
+            "node": "Copy Last Month Content Planner GDocs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Copy Last Month Content Planner GDocs1": {
+      "main": [
+        [
+          {
+            "node": "Get many rows4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filtered Last Month GDocs Content Planner1": {
+      "main": [
+        [
+          {
+            "node": "Copy Last Month Content Planner GDocs1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields6",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Update a document1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Table2": {
+      "main": [
+        [
+          {
+            "node": "Update a document2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert table row at bottom1": {
+      "main": [
+        [
+          {
+            "node": "Get updated document1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get updated document1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Table3": {
+      "main": [
+        [
+          {
+            "node": "Insert table row at bottom1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields5": {
+      "main": [
+        [
+          {
+            "node": "Get a document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields6": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items3": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Get a document1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a document1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows4": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a document": {
+      "main": [
+        [
+          {
+            "node": "Get Table2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a document2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get a document1": {
+      "main": [
+        [
+          {
+            "node": "Get Table3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Triggered When Clicked \"Generate Text Post\" Button": {
+      "main": [
+        [
+          {
+            "node": "Get many rows1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get many rows2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "On form submission": [
+      {
+        "json": {
+          "Month of Year": "July",
+          "Start Posting Date": "2025-07-01",
+          "End Posting Date": "2025-07-31",
+          "Tone And Voice": [
+            "Conversational",
+            "Friendly",
+            "Informal",
+            "Informative"
+          ],
+          "Target Language": "Malay (Malaysian Native)",
+          "Total Posts Generator": 14,
+          "Total Posts Per Language": "6",
+          "Visual Types Posts Segmentation": [
+            "Animated GIFs: 3 Posts",
+            "Static Image/Image Carousel: 3 Posts"
+          ],
+          "Visual Ideation": [
+            "Current Perodua brand car models",
+            "Sharing driving satety tips and guidelines",
+            "Sharing car maintenance and service tips or guidelines",
+            "Engaging mini-games for audience having fun and engage",
+            "Mini quiz or poll for audience having interaction and engagement"
+          ],
+          "submittedAt": "2025-06-20T00:08:15.812+08:00",
+          "formMode": "test"
+        }
+      }
+    ],
+    "Webhook2": [
+      {
+        "json": {
+          "headers": {
+            "x-forwarded-host": "n8n.automessenger.me",
+            "x-forwarded-server": "n8n.automessenger.me",
+            "x-real-ip": "52.15.226.51",
+            "x-forwarded-for": "52.15.226.51",
+            "x-forwarded-proto": "https",
+            "host": "n8n.automessenger.me",
+            "connection": "Upgrade",
+            "content-length": "616",
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "user-agent": "axios/1.10.0",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "sentry-trace": "9b55fc6def70436fb5e2cdd5e45e0f78-8bb1782d725394aa",
+            "baggage": "sentry-environment=production,sentry-release=0.111.4,sentry-public_key=545692f1a4c6783d1ebb54fa5c095dc8,sentry-trace_id=9b55fc6def70436fb5e2cdd5e45e0f78,sentry-org_id=4505953073889280"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "type": "records.after.insert",
+            "id": "84f999ee-eb20-4f0e-ac4f-b9621d47e969",
+            "version": "v3",
+            "data": {
+              "table_id": "mwxmhqoxey3tw9y",
+              "table_name": "AbiMotors_Business&CompetitorResearch",
+              "rows": [
+                {
+                  "Id": 1,
+                  "CreatedAt": "2025-07-14T15:23:51.553Z",
+                  "UpdatedAt": "2025-07-14T15:23:51.553Z",
+                  "Brand Name": "Sample Text",
+                  "Is Competitors": true,
+                  "Business Location": "Sample Text",
+                  "Brand Website": "https://nocodb.com",
+                  "Business Overview": "Sample Long text",
+                  "Social Media Used": "Facebook",
+                  "Social Media Profiles": "{}",
+                  "Core Products & Services": "Sample Long text",
+                  "Target Audience": "Sample Long text",
+                  "Business Research Status": "Pending"
+                }
+              ]
+            }
+          },
+          "webhookUrl": "https://n8n.automessenger.me/webhook-test/nocodb-abimotors-biz-research-done",
+          "executionMode": "test"
+        }
+      }
+    ],
+    "FB Post Content Agent": [
+      {
+        "json": {
+          "output": [
+            {
+              "datePosting": "05 Aug 2025",
+              "textPostV1": "Siapa cepat dia dapat! Agak-agak, model Perodua mana yang tersembunyi ni? Laju komen jawapan korang kat bawah! 😉\n\n𝐒𝐡𝐨𝐰𝐫𝐨𝐨𝐦 ( 𝐁𝐞𝐬𝐢𝐝𝐞 𝐏𝐚𝐫𝐤𝐬𝐨𝐧, 𝐈𝐩𝐨𝐡 𝐏𝐚𝐫𝐚𝐝𝐞 )\n📍 No. 2, Jalan Selamat, Greentown, 30450 Ipoh, Perak.\n🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5\n☎️ 05-242 4888 / 012-750 0527\n\n#TekaPerodua #JomMain #AbiMotorsIpoh #PeroduaMalaysia #IpohMali",
+              "textPostV2": "Game on! Cuba teka model Perodua yang popular ni. Bentuk dia pun dah tahu kan? Cepat teka, jangan lambat! 😁\n\n𝐒𝐡𝐨𝐰𝐫𝐨𝐨𝐦 ( 𝐁𝐞𝐬𝐢𝐝𝐞 𝐏𝐚𝐫𝐤𝐬𝐨𝐧, 𝐈𝐩𝐨𝐡 𝐏𝐚𝐫𝐚𝐝𝐞 )\n📍 No. 2, Jalan Selamat, Greentown, 30450 Ipoh, Perak.\n🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5\n☎️ 05-242 4888 / 012-750 0527\n\n#PeroduaGames #FunWithAbi #AbiMotors #IpohDriver #KeretaIdaman",
+              "visualIdea": "An animated GIF that starts with a heavily blurred silhouette of a Perodua Axia against a vibrant, abstract background. The blurriness gradually decreases over a few seconds, slowly revealing the car's distinctive shape. The text 'Teka Siapa Saya?' (Guess Who I Am?) is overlaid on the animation. The GIF ends with a crystal-clear image of the Perodua Axia and the text 'Saya lah Perodua Axia! Jimat dan bergaya!' (I am the Perodua Axia! Economical and stylish!).",
+              "targetLanguage": "Malay"
+            },
+            {
+              "datePosting": "11 Aug 2025",
+              "textPostV1": "Nak jimat minyak dan pandu lebih selamat? Pastikan tekanan angin tayar sentiasa cukup. Senang je nak periksa, tapi impak dia besar! Bila last korang check tayar? Kongsi sikit.\n\n𝐒𝐡𝐨𝐰𝐫𝐨𝐨𝐦 ( 𝐁𝐞𝐬𝐢𝐝𝐞 𝐏𝐚𝐫𝐤𝐬𝐨𝐧, 𝐈𝐩𝐨𝐡 𝐏𝐚𝐫𝐚𝐝𝐞 )\n📍 No. 2, Jalan Selamat, Greentown, 30450 Ipoh, Perak.\n🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5\n☎️ 05-242 4888 / 012-750 0527\n\n#TipsTayar #JagaKereta #SelamatDiJalanRaya #AbiMotorsService #PeroduaIpoh",
+              "textPostV2": "Jangan pandang remeh! Tekanan tayar yang betul bukan saja panjangkan hayat tayar, tapi boleh elak bahaya di jalan raya. Jom amalkan periksa tayar setiap bulan. Kereta sihat, poket pun selamat!\n\n𝐒𝐡𝐨𝐰𝐫𝐨𝐨𝐦 ( 𝐁𝐞𝐬𝐢𝐝𝐞 𝐏𝐚𝐫𝐤𝐬𝐨𝐧, 𝐈𝐩𝐨𝐡 𝐏𝐚𝐫𝐚𝐝𝐞 )\n📍 No. 2, Jalan Selamat, Greentown, 30450 Ipoh, Perak.\n🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5\n☎️ 05-242 4888 / 012-750 0527\n\n#PenjagaanKereta #TipsMemandu #AbiMotors #PeroduaService #Ipoh",
+              "visualIdea": "A clean and simple image carousel. The first image has a bold headline: 'Tayar Kereta Anda Cukup Angin? 💨' (Is Your Car's Tire Pressure Enough?). Subsequent images in the carousel will show: 1. A clear, close-up shot of a pressure gauge on a tire valve. 2. An icon-based graphic illustrating the benefits of correct tire pressure (better fuel economy, longer tire life, safer handling). 3. A photo of the Abi Motors service center with a friendly technician smiling.",
+              "targetLanguage": "Malay"
+            },
+            {
+              "datePosting": "18 Aug 2025",
+              "textPostV1": "Nak tukar lane? Ingat 3 langkah penting ni: periksa cermin, periksa cermin sisi, dan paling penting, toleh kepala untuk periksa blind spot! Amalkan selalu, baru selamat. Tag kawan-kawan yang perlu tahu!\n\n𝐒𝐡𝐨𝐰𝐫𝐨𝐨𝐦 ( 𝐁𝐞𝐬𝐢𝐝𝐞 𝐏𝐚𝐫𝐤𝐬𝐨𝐧, 𝐈𝐩𝐨𝐡 𝐏𝐚𝐫𝐚𝐝𝐞 )\n📍 No. 2, Jalan Selamat, Greentown, 30450 Ipoh, Perak.\n🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5\n☎️ 05-242 4888 / 012-750 0527\n\n#PanduCermat #TipsKeselamatan #JalanRayaMalaysia #AbiMotors #PeroduaMalaysia",
+              "textPostV2": "Satu saat toleh kepala boleh selamatkan nyawa. Jangan harap cermin je bila nak tukar lane. Titik buta tu bahaya! Jom jadi pemandu berhemah. Siapa setuju? 👍\n\n𝐒𝐡𝐨𝐰𝐫𝐨𝐨𝐦 ( 𝐁𝐞𝐬𝐢𝐝𝐞 𝐏𝐚𝐫𝐤𝐬𝐨𝐧, 𝐈𝐩𝐨𝐡 𝐏𝐚𝐫𝐚𝐝𝐞 )\n📍 No. 2, Jalan Selamat, Greentown, 30450 Ipoh, Perak.\n🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5\n☎️ 05-242 4888 / 012-750 0527\n\n#SelamatMemandu #BlindSpot #SayangiNyawa #AbiMotorsIpoh #IpohMali",
+              "visualIdea": "An animated GIF from a driver's perspective. It shows the driver checking the rearview mirror, then the side mirror, and then turning their head to check the blind spot before signaling and changing lanes smoothly. Simple text overlays like 'Cermin Pandang Belakang,' 'Cermin Sisi,' and 'Periksa Titik Buta' appear at each step. The animation should be smooth and easy to follow.",
+              "targetLanguage": "Malay"
+            },
+            {
+              "datePosting": "25 Aug 2025",
+              "textPostV1": "Ruang luas, selesa untuk satu keluarga! Perodua Aruz memang pilihan tepat untuk yang suka berjalan jauh atau balik kampung. Siapa dah ada plan cuti-cuti Malaysia? 🙋‍♂️\n\n𝐒𝐡𝐨𝐰𝐫𝐨𝐨𝐦 ( 𝐁𝐞𝐬𝐢𝐝𝐞 𝐏𝐚𝐫𝐤𝐬𝐨𝐧, 𝐈𝐩𝐨𝐡 𝐏𝐚𝐫𝐚𝐝𝐞 )\n📍 No. 2, Jalan Selamat, Greentown, 30450 Ipoh, Perak.\n🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5\n☎️ 05-242 4888 / 012-750 0527\n\n#PeroduaAruz #KeretaKeluarga #JomJalan #CutiCutiMalaysia #AbiMotors",
+              "textPostV2": "Balik kampung atau pergi berkelah, semua muat dalam Perodua Aruz ni. Ruang dalaman yang fleksibel, nak letak barang banyak pun takde hal. Praktikal dan bergaya! Apa lagi korang cari dalam sebuah SUV?\n\n𝐒𝐡𝐨𝐰𝐫𝐨𝐨𝐦 ( 𝐁𝐞𝐬𝐢𝐝𝐞 𝐏𝐚𝐫𝐤𝐬𝐨𝐧, 𝐈𝐩𝐨𝐡 𝐏𝐚𝐫𝐚𝐝𝐞 )\n📍 No. 2, Jalan Selamat, Greentown, 30450 Ipoh, Perak.\n🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5\n☎️ 05-242 4888 / 012-750 0527\n\n#Aruz7Seater #SUVMalaysia #KeluargaBahagia #AbiMotorsIpoh #PeroduaLovers",
+              "visualIdea": "A high-quality image carousel of the Perodua Aruz. The first image is a stunning exterior shot of the Aruz in a scenic location in Perak, like a park or near a lake. The following images showcase its spacious 7-seater interior, the flexible seating arrangement (folded seats), the large boot space with luggage, and a close-up of the dashboard's modern features.",
+              "targetLanguage": "Malay"
+            },
+            {
+              "datePosting": "28 Aug 2025",
+              "textPostV1": "Jom uji pengetahuan korang! Tahu tak apa fungsi 'Eco Idle' yang ada pada model-model Perodua sekarang? Pilih jawapan yang betul dan komen di bawah!\n\n𝐒𝐡𝐨𝐰𝐫𝐨𝐨𝐦 ( 𝐁𝐞𝐬𝐢𝐝𝐞 𝐏𝐚𝐫𝐤𝐬𝐨𝐧, 𝐈𝐩𝐨𝐡 𝐏𝐚𝐫𝐚𝐝𝐞 )\n📍 No. 2, Jalan Selamat, Greentown, 30450 Ipoh, Perak.\n🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5\n☎️ 05-242 4888 / 012-750 0527\n\n#KuizPerodua #EcoIdle #TeknologiPerodua #JomBelajar #AbiMotors",
+              "textPostV2": "Power tak korang bab kereta? Cuba jawab kuiz ni. Fungsi 'Eco Idle' ni memang best, tapi korang tahu tak untuk apa? Jangan google, cuba teka dulu! 😁\n\n𝐒𝐡𝐨𝐰𝐫𝐨𝐨𝐦 ( 𝐁𝐞𝐬𝐢𝐝𝐞 𝐏𝐚𝐫𝐤𝐬𝐨𝐧, 𝐈𝐩𝐨𝐡 𝐏𝐚𝐫𝐚𝐝𝐞 )\n📍 No. 2, Jalan Selamat, Greentown, 30450 Ipoh, Perak.\n🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5\n☎️ 05-242 4888 / 012-750 0527\n\n#UjiMinda #PeroduaFans #AbiMotorsIpoh #JimatMinyak #Ipoh",
+              "visualIdea": "A fun, animated GIF that poses a question: 'Apakah fungsi 'Eco Idle' dalam kereta Perodua?' (What is the function of 'Eco Idle' in a Perodua car?). Three answer options (A, B, C) pop up one by one. After a few seconds, the correct answer is highlighted with a green checkmark and a celebratory animation (like confetti). A) Menjimatkan penggunaan minyak (Saves fuel), B) Menambah kelajuan (Increases speed), C) Menyejukkan enjin (Cools the engine).",
+              "targetLanguage": "Malay"
+            },
+            {
+              "datePosting": "31 Aug 2025",
+              "textPostV1": "Selamat Hari Merdeka ke-68! Semoga semangat kemerdekaan terus membara di hati kita semua. Pandu cermat di jalan raya dan raikan hari yang penuh bermakna ini dengan selamat. 🇲🇾\n\n𝐒𝐡𝐨𝐰𝐫𝐨𝐨𝐦 ( 𝐁𝐞𝐬𝐢𝐝𝐞 𝐏𝐚𝐫𝐤𝐬𝐨𝐧, 𝐈𝐩𝐨𝐡 𝐏𝐚𝐫𝐚𝐝𝐞 )\n📍 No. 2, Jalan Selamat, Greentown, 30450 Ipoh, Perak.\n🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5\n☎️ 05-242 4888 / 012-750 0527\n\n#Merdeka68 #MalaysiaMadani #HariKebangsaan #PeroduaDiHatiku #AbiMotors",
+              "textPostV2": "Di hari yang bersejarah ini, mari kita raikan keharmonian dan perpaduan yang kita kecapi. Selamat menyambut Hari Kemerdekaan yang ke-68, Malaysia! Terus maju dan makmur.\n\n𝐒𝐡𝐨𝐰𝐫𝐨𝐨𝐦 ( 𝐁𝐞𝐬𝐢𝐝𝐞 𝐏𝐚𝐫𝐤𝐬𝐨𝐧, 𝐈𝐩𝐨𝐡 𝐏𝐚𝐫𝐚𝐝𝐞 )\n📍 No. 2, Jalan Selamat, Greentown, 30450 Ipoh, Perak.\n🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5\n☎️ 05-242 4888 / 012-750 0527\n\n#SelamatHariMerdeka #MalaysiaPrihatin #AnakMalaysia #PeroduaIpoh #IpohMali",
+              "visualIdea": "A powerful and patriotic static image. The design features a silhouette of a Perodua Myvi, often called the 'King of the Road,' against a backdrop of the Malaysian flag (Jalur Gemilang) waving gracefully. The text 'Selamat Hari Merdeka ke-68' (Happy 68th Independence Day) is written in a bold, modern font. Include subtle traditional Malaysian patterns in the corners of the image to add a cultural touch.",
+              "targetLanguage": "Malay"
+            }
+          ]
+        }
+      }
+    ],
+    "Copy Last Month Content Planner GDocs": [
+      {
+        "json": {
+          "kind": "drive#file",
+          "id": "10CkpShPzaZSqBM-lMm7itZtg3UYcqStn10Ssq73MHic",
+          "name": "[August 2025] - [ENGLISH] - Abi Motors Sdn Bhd - Monthly FB Content Creation Planner",
+          "mimeType": "application/vnd.google-apps.document"
+        }
+      }
+    ],
+    "Copy Last Month Content Planner GDocs1": [
+      {
+        "json": {
+          "kind": "drive#file",
+          "id": "1KHr_ppTXp2co6B1EtfY7E7DA0A24cq0WXJumJLQE6B4",
+          "name": "[August 2025] [MALAY] - Abi Motors Sdn Bhd - Monthly FB Content Creation Planner",
+          "mimeType": "application/vnd.google-apps.document"
+        }
+      }
+    ]
+  },
+  "versionId": "da85cc70-ac74-4de7-992a-76f58896754d",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-06-19T08:45:34.149Z",
+      "createdAt": "2025-06-19T08:45:34.149Z",
+      "role": "workflow:owner",
+      "workflowId": "oYAl3ngV58uVXlfl",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
