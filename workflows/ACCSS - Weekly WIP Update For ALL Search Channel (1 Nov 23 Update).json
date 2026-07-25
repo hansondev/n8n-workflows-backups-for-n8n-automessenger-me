@@ -1,0 +1,2684 @@
+{
+  "updatedAt": "2023-11-21T02:55:19.000Z",
+  "createdAt": "2023-10-19T09:58:50.613Z",
+  "id": "seoUwz5zjKIbIIvx",
+  "name": "ACCSS - Weekly WIP Update For ALL Search Channel (1 Nov 23 Update)",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "509f9bf9-a16d-4c2f-a58a-37900e876d20",
+      "name": "No Operation, do nothing1",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1920,
+        -680
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.Advertiser }}",
+              "value2": "Craftcare - Arch Angel"
+            },
+            {
+              "value1": "={{ $json.Channel }}",
+              "value2": "Search"
+            }
+          ]
+        }
+      },
+      "id": "38ecd4f0-9ffe-45e7-a1e7-6a87381b6f82",
+      "name": "Filter Out Advertiser Name(Craftcare - Arch Angel) & Search Channel",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1500,
+        -760
+      ]
+    },
+    {
+      "parameters": {
+        "content": "# Client Name: Craftcare(Arch Angel)\n## 1. **Spreadsheet Name**: Craftcare(Arch Angel) GAds Campaign Monthly Report(Daily Schedule Nov23 Update)\n## 2. **Report Sheet URL**: https://docs.google.com/spreadsheets/d/15eeojINp4rOptrwmYlIhsz_E0RScE-beHxiktecAl3k/edit#gid=1646247121\n## 3. **WIP Sheet URL**: https://docs.google.com/spreadsheets/d/19U9fZTLHIePeM2auHDuv6Lm0_Tm_7dYqh8AAMQc4k_M/edit#gid=1697763529",
+        "height": 611.1111111111115,
+        "width": 2926.363980325388
+      },
+      "id": "ca697c0a-40e4-4afb-9efb-cbd462c595c3",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        360,
+        -1000
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                1
+              ],
+              "triggerAtHour": 12
+            }
+          ]
+        }
+      },
+      "id": "062f1c37-ec78-408e-8ee2-fb627c0fed3a",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        420,
+        -660
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "15eeojINp4rOptrwmYlIhsz_E0RScE-beHxiktecAl3k",
+          "mode": "list",
+          "cachedResultName": "Craftcare(Arch Angel) GAds Campaign Monthly Report(Daily Schedule Nov23 Update)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15eeojINp4rOptrwmYlIhsz_E0RScE-beHxiktecAl3k/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1646247121,
+          "mode": "list",
+          "cachedResultName": "Nov23",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15eeojINp4rOptrwmYlIhsz_E0RScE-beHxiktecAl3k/edit#gid=1646247121"
+        },
+        "options": {}
+      },
+      "id": "d0acdb22-d668-475d-9a53-94413d60f5a0",
+      "name": "Read Through Craftcare GAds Search Campaign Daily Update",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        700,
+        -700
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "concatenateItems",
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "row_number"
+            },
+            {
+              "fieldToAggregate": "Week"
+            },
+            {
+              "fieldToAggregate": "Cost"
+            },
+            {
+              "fieldToAggregate": "['Average cpc']",
+              "renameField": true,
+              "outputFieldName": "CPC"
+            },
+            {
+              "fieldToAggregate": "Conversions"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e8932b52-008f-4969-9536-4d8ed7044077",
+      "name": "Turn Row Number,Date & Cost Into Item List",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        920,
+        -700
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "19U9fZTLHIePeM2auHDuv6Lm0_Tm_7dYqh8AAMQc4k_M",
+          "mode": "list",
+          "cachedResultName": "WIP_Apr 2023_Final",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19U9fZTLHIePeM2auHDuv6Lm0_Tm_7dYqh8AAMQc4k_M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 638870684,
+          "mode": "list",
+          "cachedResultName": "Boon Hong",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19U9fZTLHIePeM2auHDuv6Lm0_Tm_7dYqh8AAMQc4k_M/edit#gid=638870684"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRange",
+              "headerRow": 3,
+              "firstDataRow": 4
+            }
+          }
+        }
+      },
+      "id": "31add42e-abe9-4cbf-a271-a3f6cf12353f",
+      "name": "Read All WIP Sheet Rows-Boon Hong Tab",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [
+        1220,
+        -720
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://sheets.googleapis.com/v4/spreadsheets/{{ $json.SpreadsheetID }}/values/Boon Hong!{{ $json.MediaCostRow }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleSheetsOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "valueInputOption",
+              "value": "RAW"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "range",
+              "value": "=Boon Hong!{{ $json.MediaCostRow }}"
+            },
+            {
+              "name": "values",
+              "value": "={{ [[$json.MediaCostValue]] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d756093a-734b-4488-8d3a-683d5bbc33dd",
+      "name": "PUT Request To Update Current Media Cost",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2960,
+        -960
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "4675bd1d-d978-461d-9498-a5e157bd4089",
+      "name": "No Operation, do nothing",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1920,
+        175
+      ]
+    },
+    {
+      "parameters": {
+        "content": "# Client Name: BenSEA(Benjamin Moore)\n## 1. **Spreadsheet Name**: BenSEA(Benjamin Moore) GAds Campaign Monthly Report(Daily Schedule Nov23 Update)\n## 2. **Report Sheet URL**: https://docs.google.com/spreadsheets/d/1kfFTQkevQBI1hcDLGXZmPUStFVMDQTYqYX4kXXTVTsY/edit#gid=1720336464\n## 3. **WIP Sheet URL**: https://docs.google.com/spreadsheets/d/19U9fZTLHIePeM2auHDuv6Lm0_Tm_7dYqh8AAMQc4k_M/edit#gid=1697763529",
+        "height": 646.1111111111115,
+        "width": 2926.363980325388
+      },
+      "id": "3f1e1541-50dc-41e5-a433-e9f74771c164",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        340,
+        -220
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "19U9fZTLHIePeM2auHDuv6Lm0_Tm_7dYqh8AAMQc4k_M",
+          "mode": "list",
+          "cachedResultName": "WIP_Apr 2023_Final",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19U9fZTLHIePeM2auHDuv6Lm0_Tm_7dYqh8AAMQc4k_M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 638870684,
+          "mode": "list",
+          "cachedResultName": "Boon Hong",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19U9fZTLHIePeM2auHDuv6Lm0_Tm_7dYqh8AAMQc4k_M/edit#gid=638870684"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRange",
+              "headerRow": 3,
+              "firstDataRow": 4
+            }
+          }
+        }
+      },
+      "id": "264808a3-2d7a-4862-b27c-626390b2314d",
+      "name": "Read All WIP Sheet Rows-Boon Hong Tab1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [
+        1220,
+        135
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1kfFTQkevQBI1hcDLGXZmPUStFVMDQTYqYX4kXXTVTsY",
+          "mode": "list",
+          "cachedResultName": "BenSEA(Benjamin Moore) GAds Campaign Monthly Report(Daily Schedule Nov23 Update)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kfFTQkevQBI1hcDLGXZmPUStFVMDQTYqYX4kXXTVTsY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1720336464,
+          "mode": "list",
+          "cachedResultName": "Nov23",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kfFTQkevQBI1hcDLGXZmPUStFVMDQTYqYX4kXXTVTsY/edit#gid=1720336464"
+        },
+        "options": {}
+      },
+      "id": "3bb98455-7e57-4484-9186-bfe3c72e067d",
+      "name": "Read Through BenSEA GAds Search Campaign Daily Update",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        700,
+        155
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.Advertiser }}",
+              "value2": "BenSEA Paint Pte Ltd"
+            },
+            {
+              "value1": "={{ $json.Channel }}",
+              "value2": "Search"
+            }
+          ]
+        }
+      },
+      "id": "f04d59d2-2840-4e64-9dc5-7ec0befbb322",
+      "name": "Filter Out Advertiser: BenSEA Paint Pte Ltd) & Search Channel1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1500,
+        95
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json['Days Left'] }}",
+              "operation": "largerEqual"
+            }
+          ]
+        }
+      },
+      "id": "939d6219-710f-4673-ba65-a97dc47e3f3d",
+      "name": "Filter Out Row Days Left >= 0 Day2",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 1,
+      "position": [
+        2120,
+        835
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {},
+      "id": "4f1ef5d5-e9f2-4c84-85fd-b17472dddea4",
+      "name": "No Operation, do nothing2",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1900,
+        1055
+      ]
+    },
+    {
+      "parameters": {
+        "content": "# Client Name: Bedok Transport\n## 1. **Spreadsheet Name**: Bedok Transport GAds Search Campaign Monthly Report(Daily Schedule Nov23 Update)\n## 2. **Report Sheet URL**: https://docs.google.com/spreadsheets/d/1XItm2RI8PjoVYBm4691T1PxIr3XUouLobqMLw5UElkg/edit#gid=995303101\n## 3. **WIP Sheet URL**: https://docs.google.com/spreadsheets/d/19U9fZTLHIePeM2auHDuv6Lm0_Tm_7dYqh8AAMQc4k_M/edit#gid=1697763529",
+        "height": 646.1111111111115,
+        "width": 2926.363980325388
+      },
+      "id": "8f613554-eb20-402b-89d3-2ceb93ffedd4",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        340,
+        640
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                1
+              ],
+              "triggerAtHour": 12
+            }
+          ]
+        }
+      },
+      "id": "95ab34e8-cb29-4dd5-a0b1-be27a09c6f3c",
+      "name": "Schedule Trigger2",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        400,
+        1075
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "concatenateItems",
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "row_number"
+            },
+            {
+              "fieldToAggregate": "Week"
+            },
+            {
+              "fieldToAggregate": "Cost"
+            },
+            {
+              "fieldToAggregate": "['Cost per conversion']",
+              "renameField": true,
+              "outputFieldName": "CostPerConv"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b44ad96f-72b2-4f01-ae05-b9be81dbe37f",
+      "name": "Turn Row Number,Date & Cost Into Item List2",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        900,
+        1035
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "19U9fZTLHIePeM2auHDuv6Lm0_Tm_7dYqh8AAMQc4k_M",
+          "mode": "list",
+          "cachedResultName": "WIP_Apr 2023_Final",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19U9fZTLHIePeM2auHDuv6Lm0_Tm_7dYqh8AAMQc4k_M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 638870684,
+          "mode": "list",
+          "cachedResultName": "Boon Hong",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19U9fZTLHIePeM2auHDuv6Lm0_Tm_7dYqh8AAMQc4k_M/edit#gid=638870684"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRange",
+              "headerRow": 3,
+              "firstDataRow": 4
+            }
+          }
+        }
+      },
+      "id": "3e8cb44b-64aa-4cfc-8281-5f8e9c9aad57",
+      "name": "Read All WIP Sheet Rows-Boon Hong Tab2",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [
+        1200,
+        1015
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "rowNumber",
+              "stringValue": "={{ $json.row_number }}"
+            },
+            {
+              "name": "ClientName",
+              "stringValue": "={{ $json.Advertiser }}"
+            },
+            {
+              "name": "StarDate",
+              "stringValue": "={{ $json['Start Date'] }}"
+            },
+            {
+              "name": "EndDate",
+              "stringValue": "={{ $json['End Date'] }}"
+            },
+            {
+              "name": "Days Left",
+              "stringValue": "={{ $json['Days Left'] }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {
+          "dotNotation": true
+        }
+      },
+      "id": "ee0ade28-d19b-4dab-b2ae-e3c33cfb39be",
+      "name": "Column Fields To Search2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.1,
+      "position": [
+        1900,
+        855
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.Advertiser }}",
+              "value2": "Bedok Transport"
+            },
+            {
+              "value1": "={{ $json.Channel }}",
+              "value2": "Search"
+            }
+          ]
+        }
+      },
+      "id": "4a3a3046-6ff2-477b-97f6-9f080fe8b3e4",
+      "name": "Filter Out Advertiser: BenSEA Paint Pte Ltd) & Search Channel",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1480,
+        975
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1XItm2RI8PjoVYBm4691T1PxIr3XUouLobqMLw5UElkg",
+          "mode": "list",
+          "cachedResultName": "Bedok Transport GAds Search Campaign Monthly Report(Daily Schedule Nov23 Update)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XItm2RI8PjoVYBm4691T1PxIr3XUouLobqMLw5UElkg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 995303101,
+          "mode": "list",
+          "cachedResultName": "Nov23",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XItm2RI8PjoVYBm4691T1PxIr3XUouLobqMLw5UElkg/edit#gid=995303101"
+        },
+        "options": {}
+      },
+      "id": "1e1c69fa-f70c-4a14-81f7-9747e4853ed3",
+      "name": "Read Through Bedok Transport GAds Search Campaign Daily Update",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        680,
+        1035
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.DaysLeft }}",
+              "operation": "largerEqual"
+            }
+          ]
+        }
+      },
+      "id": "3a7ad2c9-51a4-4364-9249-cb699aa6512d",
+      "name": "Filter Out Row Days Left >= 0 Day3",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 1,
+      "position": [
+        2120,
+        1815
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {},
+      "id": "87720bed-8e24-45a9-94c7-7bfb32e5dbaf",
+      "name": "No Operation, do nothing3",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1900,
+        2035
+      ]
+    },
+    {
+      "parameters": {
+        "content": "# Client Name: Nam Ho Travel\n## 1. **Spreadsheet Name**: Bedok Transport GAds Search Campaign Monthly Report(Daily Schedule Nov23 Update)\n## 2. **Report Sheet URL**: https://docs.google.com/spreadsheets/d/1XItm2RI8PjoVYBm4691T1PxIr3XUouLobqMLw5UElkg/edit#gid=995303101\n## 3. **WIP Sheet URL**: https://docs.google.com/spreadsheets/d/19U9fZTLHIePeM2auHDuv6Lm0_Tm_7dYqh8AAMQc4k_M/edit#gid=1697763529",
+        "height": 646.1111111111115,
+        "width": 2926.363980325388
+      },
+      "id": "3ad9ce44-133e-4417-914c-4a1d752a8cc5",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        320,
+        1580
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                1
+              ],
+              "triggerAtHour": 12
+            }
+          ]
+        }
+      },
+      "id": "033fa8eb-dff4-4cfb-9310-7b5de2ce755d",
+      "name": "Schedule Trigger3",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        400,
+        2055
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "concatenateItems",
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "row_number"
+            },
+            {
+              "fieldToAggregate": "Week"
+            },
+            {
+              "fieldToAggregate": "Cost"
+            },
+            {
+              "fieldToAggregate": "Ctr"
+            },
+            {
+              "fieldToAggregate": "['Cost per conversion']",
+              "renameField": true,
+              "outputFieldName": "CostPerConv"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "766be212-ca95-4952-87e9-8d74dd44d6b0",
+      "name": "Turn Row Number,Date & Cost Into Item List3",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        900,
+        2015
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "19U9fZTLHIePeM2auHDuv6Lm0_Tm_7dYqh8AAMQc4k_M",
+          "mode": "list",
+          "cachedResultName": "WIP_Apr 2023_Final",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19U9fZTLHIePeM2auHDuv6Lm0_Tm_7dYqh8AAMQc4k_M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 638870684,
+          "mode": "list",
+          "cachedResultName": "Boon Hong",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19U9fZTLHIePeM2auHDuv6Lm0_Tm_7dYqh8AAMQc4k_M/edit#gid=638870684"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRange",
+              "headerRow": 3,
+              "firstDataRow": 4
+            }
+          }
+        }
+      },
+      "id": "2bbe3d84-d91d-49e0-8d06-42ce46bfa992",
+      "name": "Read All WIP Sheet Rows-Boon Hong Tab3",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [
+        1200,
+        2000
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "rowNumber",
+              "stringValue": "={{ $json.row_number }}"
+            },
+            {
+              "name": "ClientName",
+              "stringValue": "={{ $json.Advertiser }}"
+            },
+            {
+              "name": "StarDate",
+              "stringValue": "={{ $json['Start Date'] }}"
+            },
+            {
+              "name": "EndDate",
+              "stringValue": "={{ $json['End Date'] }}"
+            },
+            {
+              "name": "DaysLeft",
+              "stringValue": "={{ $json['Days Left'] }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {
+          "dotNotation": true
+        }
+      },
+      "id": "7958b1fa-81ab-4d9f-a7a1-549bc84e330f",
+      "name": "Column Fields To Search3",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.1,
+      "position": [
+        1900,
+        1835
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.Advertiser }}",
+              "value2": "Nam Ho"
+            },
+            {
+              "value1": "={{ $json.Channel }}",
+              "value2": "Search"
+            }
+          ]
+        }
+      },
+      "id": "66862857-0142-4fba-adbf-c6c1889eac69",
+      "name": "Filter Out Advertiser: BenSEA Paint Pte Ltd) & Search Channel2",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1480,
+        1960
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "13rBTq_yd9WHAptvFIXx3Bd7bISyVceZaLGoLGb3KRZg",
+          "mode": "list",
+          "cachedResultName": "Nam Ho-GAds Campaign Monthly Report(Daily Schedule Nov23 Update)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13rBTq_yd9WHAptvFIXx3Bd7bISyVceZaLGoLGb3KRZg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 252584034,
+          "mode": "list",
+          "cachedResultName": "Nov23",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/13rBTq_yd9WHAptvFIXx3Bd7bISyVceZaLGoLGb3KRZg/edit#gid=252584034"
+        },
+        "options": {}
+      },
+      "id": "27ef7740-8869-4b13-816e-1892004a418d",
+      "name": "Read Through Nam Ho GAds Search Campaign Daily Update",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        680,
+        2015
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json['Days Left'] }}",
+              "operation": "largerEqual"
+            }
+          ]
+        }
+      },
+      "id": "82fe1ce5-67c5-49b4-80f1-0eac3ec03b01",
+      "name": "Filter Out Row Days Left >= 0 Day1",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 1,
+      "position": [
+        2140,
+        -900
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "SpreadsheetID",
+              "stringValue": "19U9fZTLHIePeM2auHDuv6Lm0_Tm_7dYqh8AAMQc4k_M"
+            },
+            {
+              "name": "currentRowNumber",
+              "type": "numberValue",
+              "numberValue": "={{ $json.rowNumber }}"
+            },
+            {
+              "name": "KPIAchievedColumn",
+              "stringValue": "S"
+            },
+            {
+              "name": "MediaCostColumn",
+              "stringValue": "X"
+            },
+            {
+              "name": "MediaCostValue",
+              "type": "numberValue",
+              "numberValue": "={{ $('Turn Row Number,Date & Cost Into Item List').item.json.Cost.last().round(2) }}"
+            },
+            {
+              "name": "WeeklyCPC_Aggregated",
+              "stringValue": "={{ $('Turn Row Number,Date & Cost Into Item List').item.json[\"CPC\"][1] }},{{ $('Turn Row Number,Date & Cost Into Item List').item.json[\"CPC\"][2] }},{{ $('Turn Row Number,Date & Cost Into Item List').item.json[\"CPC\"][3] }},{{ $('Turn Row Number,Date & Cost Into Item List').item.json[\"CPC\"][4] }},{{ $('Turn Row Number,Date & Cost Into Item List').item.json[\"CPC\"][5] }}"
+            },
+            {
+              "name": "WeeklyConversion_Aggregated",
+              "stringValue": "={{ $('Turn Row Number,Date & Cost Into Item List').item.json[\"Conversions\"][1] }},{{ $('Turn Row Number,Date & Cost Into Item List').item.json[\"Conversions\"][2] }},{{ $('Turn Row Number,Date & Cost Into Item List').item.json[\"Conversions\"][3] }},{{ $('Turn Row Number,Date & Cost Into Item List').item.json[\"Conversions\"][4] }},{{ $('Turn Row Number,Date & Cost Into Item List').item.json[\"Conversions\"][5] }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "81fc6e31-f889-4f0f-9c5f-539b3b199aaf",
+      "name": "Set SpreadsheetID, Current Row  Number & Sheet Column",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.1,
+      "position": [
+        2460,
+        -880
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "MediaCostRow",
+              "stringValue": "={{ $json.MediaCostColumn }}{{ $json.currentRowNumber }}"
+            },
+            {
+              "name": "MediaCostValue",
+              "type": "numberValue",
+              "numberValue": "={{ $json.MediaCostValue }}"
+            },
+            {
+              "name": "KPIAchievedRow",
+              "stringValue": "={{ $json.KPIAchievedColumn }}{{ $json.currentRowNumber }}"
+            },
+            {
+              "name": "KPIAchievedValue",
+              "stringValue": "=1. CPC: {{ $json[\"WeeklyCPC_Aggregated\"] }}\n\n2. Conversion: {{ $json[\"WeeklyConversion_Aggregated\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "27e1ba10-f320-4b8d-b7ea-e671f09e3bb8",
+      "name": "Set Actual Row Range To Update Cell",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.1,
+      "position": [
+        2700,
+        -880
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://sheets.googleapis.com/v4/spreadsheets/{{ $json.SpreadsheetID }}/values/Boon Hong!{{ $json.KPIAchievedRow }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleSheetsOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "valueInputOption",
+              "value": "RAW"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "range",
+              "value": "=Boon Hong!{{ $json.KPIAchievedRow }}"
+            },
+            {
+              "name": "values",
+              "value": "={{ [[$json.KPIAchievedValue]] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3ba135e2-dcfb-498c-a978-f5ad3f73fac9",
+      "name": "PUT Request To Update Current Media Cost4",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2980,
+        -720
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "rowNumber",
+              "stringValue": "={{ $json.row_number }}"
+            },
+            {
+              "name": "ClientName",
+              "stringValue": "={{ $json.Advertiser }}"
+            },
+            {
+              "name": "StarDate",
+              "stringValue": "={{ $json['Start Date'] }}"
+            },
+            {
+              "name": "EndDate",
+              "stringValue": "={{ $json['End Date'] }}"
+            },
+            {
+              "name": "Days Left",
+              "stringValue": "={{ $json['Days Left'] }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {
+          "ignoreConversionErrors": true,
+          "dotNotation": false
+        }
+      },
+      "id": "39cd1788-9d29-4d07-b322-52238ba01275",
+      "name": "Column Fields To Search",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.1,
+      "position": [
+        1920,
+        -880
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://sheets.googleapis.com/v4/spreadsheets/{{ $json.SpreadsheetID }}/values/Boon Hong!{{ $json.MediaCostRow }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleSheetsOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "valueInputOption",
+              "value": "RAW"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "range",
+              "value": "=Boon Hong!{{ $json.MediaCostRow }}"
+            },
+            {
+              "name": "values",
+              "value": "={{ [[$json.MediaCostValue]] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2b839301-7e22-4ade-931e-88458709e8c0",
+      "name": "PUT Request To Update Current Media Cost5",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2920,
+        -140
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "MediaCostRow",
+              "stringValue": "={{ $json.MediaCostColumn }}{{ $json.currentRowNumber }}"
+            },
+            {
+              "name": "MediaCostValue",
+              "type": "numberValue",
+              "numberValue": "={{ $json.MediaCostValue }}"
+            },
+            {
+              "name": "KPIAchievedRow",
+              "stringValue": "={{ $json.KPIAchievedColumn }}{{ $json.currentRowNumber }}"
+            },
+            {
+              "name": "KPIAchievedValue",
+              "stringValue": "=1. CPC: {{ $json[\"WeeklyCPC_Aggregated\"] }}\n\n2. Conversion: {{ $json[\"WeeklyConversion_Aggregated\"] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b9507ce9-a81f-495f-b614-b83153d716fa",
+      "name": "Set Actual Row Range To Update Cell4",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.1,
+      "position": [
+        2660,
+        -60
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://sheets.googleapis.com/v4/spreadsheets/{{ $json.SpreadsheetID }}/values/Boon Hong!{{ $json.KPIAchievedRow }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleSheetsOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "valueInputOption",
+              "value": "RAW"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "range",
+              "value": "=Boon Hong!{{ $json.KPIAchievedRow }}"
+            },
+            {
+              "name": "values",
+              "value": "={{ [[$json.KPIAchievedValue]] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "13b8c1b4-a710-41cc-92c1-c7c6144fac3a",
+      "name": "PUT Request To Update Current Media Cost6",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2940,
+        100
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "rowNumber",
+              "stringValue": "={{ $json.row_number }}"
+            },
+            {
+              "name": "ClientName",
+              "stringValue": "={{ $json.Advertiser }}"
+            },
+            {
+              "name": "StarDate",
+              "stringValue": "={{ $json['Start Date'] }}"
+            },
+            {
+              "name": "EndDate",
+              "stringValue": "={{ $json['End Date'] }}"
+            },
+            {
+              "name": "Days Left",
+              "stringValue": "={{ $json['Days Left'] }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {
+          "dotNotation": true
+        }
+      },
+      "id": "d6a45e5d-a6f5-4291-bdd9-02879055df75",
+      "name": "Column Fields To Search1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.1,
+      "position": [
+        1920,
+        -25
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json['Days Left'] }}",
+              "operation": "largerEqual"
+            }
+          ]
+        }
+      },
+      "id": "67bc552d-13c6-4e4c-a188-49d4cb73fda3",
+      "name": "Filter Out Row Days Left >= 0 Day",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 1,
+      "position": [
+        2140,
+        -45
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "SpreadsheetID",
+              "stringValue": "19U9fZTLHIePeM2auHDuv6Lm0_Tm_7dYqh8AAMQc4k_M"
+            },
+            {
+              "name": "currentRowNumber",
+              "type": "numberValue",
+              "numberValue": "={{ $json.rowNumber }}"
+            },
+            {
+              "name": "KPIAchievedColumn",
+              "stringValue": "S"
+            },
+            {
+              "name": "MediaCostColumn",
+              "stringValue": "X"
+            },
+            {
+              "name": "MediaCostValue",
+              "type": "numberValue",
+              "numberValue": "={{ $('Turn Row Number,Date & Cost Into Item List1').item.json.Cost.last().round(2) }}"
+            },
+            {
+              "name": "WeeklyCPC_Aggregated",
+              "stringValue": "={{ $('Turn Row Number,Date & Cost Into Item List1').item.json[\"CPC\"][1] }},{{ $('Turn Row Number,Date & Cost Into Item List1').item.json[\"CPC\"][2] }},{{ $('Turn Row Number,Date & Cost Into Item List1').item.json[\"CPC\"][3] }},{{ $('Turn Row Number,Date & Cost Into Item List1').item.json[\"CPC\"][4] }},{{ $('Turn Row Number,Date & Cost Into Item List1').item.json[\"CPC\"][5] }}"
+            },
+            {
+              "name": "WeeklyConversion_Aggregated",
+              "stringValue": "={{ $('Turn Row Number,Date & Cost Into Item List1').item.json[\"Conversions\"][1] }},{{ $('Turn Row Number,Date & Cost Into Item List1').item.json[\"Conversions\"][2] }},{{ $('Turn Row Number,Date & Cost Into Item List1').item.json[\"Conversions\"][3] }},{{ $('Turn Row Number,Date & Cost Into Item List1').item.json[\"Conversions\"][4] }},{{ $('Turn Row Number,Date & Cost Into Item List1').item.json[\"Conversions\"][5] }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "c658bc05-20dd-402a-af23-32e3e418d9a1",
+      "name": "Set SpreadsheetID, Current Row  Number & Sheet Column4",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.1,
+      "position": [
+        2400,
+        20
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "operation": "concatenateItems",
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "row_number"
+            },
+            {
+              "fieldToAggregate": "Week"
+            },
+            {
+              "fieldToAggregate": "Cost"
+            },
+            {
+              "fieldToAggregate": "['Average cpc']",
+              "renameField": true,
+              "outputFieldName": "CPC"
+            },
+            {
+              "fieldToAggregate": "Conversions"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "177bf619-ffa4-4f74-818b-0a693d0c2dad",
+      "name": "Turn Row Number,Date & Cost Into Item List1",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        920,
+        155
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                1
+              ],
+              "triggerAtHour": 12
+            }
+          ]
+        }
+      },
+      "id": "94ffd1c0-b486-4e8c-8a50-e2a8ecc7623b",
+      "name": "Schedule Trigger1",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        420,
+        195
+      ]
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://sheets.googleapis.com/v4/spreadsheets/{{ $json.SpreadsheetID }}/values/Boon Hong!{{ $json.MediaCostRow }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleSheetsOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "valueInputOption",
+              "value": "RAW"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "range",
+              "value": "=Boon Hong!{{ $json.MediaCostRow }}"
+            },
+            {
+              "name": "values",
+              "value": "={{ [[$json.MediaCostValue]] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2daac545-ae17-4315-bee8-8918433c3b47",
+      "name": "PUT Request To Update Current Media Cost7",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2940,
+        700
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "MediaCostRow",
+              "stringValue": "={{ $json.MediaCostColumn }}{{ $json.currentRowNumber }}"
+            },
+            {
+              "name": "MediaCostValue",
+              "type": "numberValue",
+              "numberValue": "={{ $json.MediaCostValue }}"
+            },
+            {
+              "name": "KPIAchievedRow",
+              "stringValue": "={{ $json.KPIAchievedColumn }}{{ $json.currentRowNumber }}"
+            },
+            {
+              "name": "KPIAchievedValue",
+              "stringValue": "=Cost Per Conv.: {{ $json[\"WeeklyCostPerConv_Aggregated\"] }}\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6ca556bc-eb74-4a94-9613-ec45c7c47c45",
+      "name": "Set Actual Row Range To Update Cell5",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.1,
+      "position": [
+        2680,
+        760
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://sheets.googleapis.com/v4/spreadsheets/{{ $json.SpreadsheetID }}/values/Boon Hong!{{ $json.KPIAchievedRow }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleSheetsOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "valueInputOption",
+              "value": "RAW"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "range",
+              "value": "=Boon Hong!{{ $json.KPIAchievedRow }}"
+            },
+            {
+              "name": "values",
+              "value": "={{ [[$json.KPIAchievedValue]] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8ea90cf3-ca6a-4a05-85de-70ed126ee46b",
+      "name": "PUT Request To Update Current Media Cost8",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2960,
+        920
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "SpreadsheetID",
+              "stringValue": "19U9fZTLHIePeM2auHDuv6Lm0_Tm_7dYqh8AAMQc4k_M"
+            },
+            {
+              "name": "currentRowNumber",
+              "type": "numberValue",
+              "numberValue": "={{ $json.rowNumber }}"
+            },
+            {
+              "name": "KPIAchievedColumn",
+              "stringValue": "S"
+            },
+            {
+              "name": "MediaCostColumn",
+              "stringValue": "X"
+            },
+            {
+              "name": "MediaCostValue",
+              "type": "numberValue",
+              "numberValue": "={{ $('Turn Row Number,Date & Cost Into Item List2').item.json.Cost.last().round(2) }}"
+            },
+            {
+              "name": "WeeklyCostPerConv_Aggregated",
+              "stringValue": "={{ $('Turn Row Number,Date & Cost Into Item List2').item.json[\"CostPerConv\"][1] }},{{ $('Turn Row Number,Date & Cost Into Item List2').item.json[\"CostPerConv\"][2] }},{{ $('Turn Row Number,Date & Cost Into Item List2').item.json[\"CostPerConv\"][3] }},{{ $('Turn Row Number,Date & Cost Into Item List2').item.json[\"CostPerConv\"][4] }},{{ $('Turn Row Number,Date & Cost Into Item List2').item.json[\"CostPerConv\"][5] }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "5d95d0fc-9f09-4ca0-9a3f-7ace20339aca",
+      "name": "Set SpreadsheetID, Current Row  Number & Sheet Column5",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.1,
+      "position": [
+        2420,
+        900
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://sheets.googleapis.com/v4/spreadsheets/{{ $json.SpreadsheetID }}/values/Boon Hong!{{ $json.MediaCostRow }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleSheetsOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "valueInputOption",
+              "value": "RAW"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "range",
+              "value": "=Boon Hong!{{ $json.MediaCostRow }}"
+            },
+            {
+              "name": "values",
+              "value": "={{ [[$json.MediaCostValue]] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "60667568-4443-4b34-9f0f-005318fd1478",
+      "name": "PUT Request To Update Current Media Cost9",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2980,
+        1640
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "MediaCostRow",
+              "stringValue": "={{ $json.MediaCostColumn }}{{ $json.currentRowNumber }}"
+            },
+            {
+              "name": "MediaCostValue",
+              "type": "numberValue",
+              "numberValue": "={{ $json.MediaCostValue }}"
+            },
+            {
+              "name": "KPIAchievedRow",
+              "stringValue": "={{ $json.KPIAchievedColumn }}{{ $json.currentRowNumber }}"
+            },
+            {
+              "name": "KPIAchievedValue",
+              "stringValue": "=1. CTR: {{ $json[\"WeeklyCTR_Aggregated\"] }}\n\n2.Cost Per Conv.: {{ $json[\"WeeklyCostPerConv_Aggregated\"] }}\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9e86b870-51c4-4e33-a11f-4127dfd4e3b5",
+      "name": "Set Actual Row Range To Update Cell6",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.1,
+      "position": [
+        2680,
+        1740
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://sheets.googleapis.com/v4/spreadsheets/{{ $json.SpreadsheetID }}/values/Boon Hong!{{ $json.KPIAchievedRow }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleSheetsOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "valueInputOption",
+              "value": "RAW"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "range",
+              "value": "=Boon Hong!{{ $json.KPIAchievedRow }}"
+            },
+            {
+              "name": "values",
+              "value": "={{ [[$json.KPIAchievedValue]] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "039e105b-dac8-4ce4-91e5-ee10dab7655d",
+      "name": "PUT Request To Update Current Media Cost10",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2960,
+        1900
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "SpreadsheetID",
+              "stringValue": "19U9fZTLHIePeM2auHDuv6Lm0_Tm_7dYqh8AAMQc4k_M"
+            },
+            {
+              "name": "currentRowNumber",
+              "type": "numberValue",
+              "numberValue": "={{ $json.rowNumber }}"
+            },
+            {
+              "name": "KPIAchievedColumn",
+              "stringValue": "S"
+            },
+            {
+              "name": "MediaCostColumn",
+              "stringValue": "X"
+            },
+            {
+              "name": "MediaCostValue",
+              "type": "numberValue",
+              "numberValue": "={{ $('Turn Row Number,Date & Cost Into Item List3').item.json.Cost.last().round(2) }}"
+            },
+            {
+              "name": "WeeklyCTR_Aggregated",
+              "stringValue": "={{ $('Turn Row Number,Date & Cost Into Item List3').item.json[\"Ctr\"][0] }},{{ $('Turn Row Number,Date & Cost Into Item List3').item.json[\"Ctr\"][1] }},{{ $('Turn Row Number,Date & Cost Into Item List3').item.json[\"Ctr\"][2] }},{{ $('Turn Row Number,Date & Cost Into Item List3').item.json[\"Ctr\"][3] }},{{ $('Turn Row Number,Date & Cost Into Item List3').item.json[\"Ctr\"][4] }}"
+            },
+            {
+              "name": "WeeklyCostPerConv_Aggregated",
+              "stringValue": "={{ $('Turn Row Number,Date & Cost Into Item List3').item.json[\"CostPerConv\"][0] }},{{ $('Turn Row Number,Date & Cost Into Item List3').item.json[\"CostPerConv\"][1] }},{{ $('Turn Row Number,Date & Cost Into Item List3').item.json[\"CostPerConv\"][2] }},{{ $('Turn Row Number,Date & Cost Into Item List3').item.json[\"CostPerConv\"][3] }},{{ $('Turn Row Number,Date & Cost Into Item List3').item.json[\"CostPerConv\"][4] }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "0eb4388a-aea8-4d40-9203-2b7cf309f4d1",
+      "name": "Set SpreadsheetID, Current Row  Number & Sheet Column6",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.1,
+      "position": [
+        2420,
+        1820
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json['Days Left'] }}",
+              "operation": "largerEqual"
+            }
+          ]
+        }
+      },
+      "id": "5b72f1cb-eef0-4632-a3e9-185e764dd2c0",
+      "name": "Filter Out Row Days Left >= 0 Day4",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 1,
+      "position": [
+        2120,
+        2795
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {},
+      "id": "34daedbe-163b-48c1-a6e1-01ad9f4093bc",
+      "name": "No Operation, do nothing4",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1900,
+        3015
+      ]
+    },
+    {
+      "parameters": {
+        "content": "# Client Name: Bedok Transport\n## 1. **Spreadsheet Name**: Bedok Transport GAds Search Campaign Monthly Report(Daily Schedule Nov23 Update)\n## 2. **Report Sheet URL**: https://docs.google.com/spreadsheets/d/1XItm2RI8PjoVYBm4691T1PxIr3XUouLobqMLw5UElkg/edit#gid=995303101\n## 3. **WIP Sheet URL**: https://docs.google.com/spreadsheets/d/19U9fZTLHIePeM2auHDuv6Lm0_Tm_7dYqh8AAMQc4k_M/edit#gid=1697763529",
+        "height": 646.1111111111115,
+        "width": 2926.363980325388
+      },
+      "id": "4516dc52-6e50-45bf-a428-dc1c5db3cbe0",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        320,
+        2560
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtDay": [
+                1
+              ],
+              "triggerAtHour": 12
+            }
+          ]
+        }
+      },
+      "id": "ea4f7743-e3e6-432e-8c67-059986645ed2",
+      "name": "Schedule Trigger4",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        400,
+        3035
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "concatenateItems",
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "row_number"
+            },
+            {
+              "fieldToAggregate": "Week"
+            },
+            {
+              "fieldToAggregate": "Cost"
+            },
+            {
+              "fieldToAggregate": "Ctr"
+            },
+            {
+              "fieldToAggregate": "['Cost per conversion']",
+              "renameField": true,
+              "outputFieldName": "CostPerConv"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "dbb1f95a-51e4-40da-97a5-3bde0c788dfe",
+      "name": "Turn Row Number,Date & Cost Into Item List4",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        900,
+        2995
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "19U9fZTLHIePeM2auHDuv6Lm0_Tm_7dYqh8AAMQc4k_M",
+          "mode": "list",
+          "cachedResultName": "WIP_Apr 2023_Final",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19U9fZTLHIePeM2auHDuv6Lm0_Tm_7dYqh8AAMQc4k_M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 638870684,
+          "mode": "list",
+          "cachedResultName": "Boon Hong",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19U9fZTLHIePeM2auHDuv6Lm0_Tm_7dYqh8AAMQc4k_M/edit#gid=638870684"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRange",
+              "headerRow": 3,
+              "firstDataRow": 4
+            }
+          }
+        }
+      },
+      "id": "ea385ba2-9a0d-427c-9a04-421313329cff",
+      "name": "Read All WIP Sheet Rows-Boon Hong Tab4",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [
+        1200,
+        2980
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "rowNumber",
+              "stringValue": "={{ $json.row_number }}"
+            },
+            {
+              "name": "ClientName",
+              "stringValue": "={{ $json.Advertiser }}"
+            },
+            {
+              "name": "StarDate",
+              "stringValue": "={{ $json['Start Date'] }}"
+            },
+            {
+              "name": "EndDate",
+              "stringValue": "={{ $json['End Date'] }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {
+          "dotNotation": true
+        }
+      },
+      "id": "d0adc3f6-7424-4418-906f-b7d6320c34c6",
+      "name": "Column Fields To Search4",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.1,
+      "position": [
+        1900,
+        2815
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.Advertiser }}",
+              "value2": "Nam Ho"
+            },
+            {
+              "value1": "={{ $json.Channel }}",
+              "value2": "Search"
+            }
+          ]
+        }
+      },
+      "id": "bd007b13-6b25-4f1d-b440-94743fba25d8",
+      "name": "Filter Out Advertiser: BenSEA Paint Pte Ltd) & Search Channel3",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1480,
+        2940
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1XItm2RI8PjoVYBm4691T1PxIr3XUouLobqMLw5UElkg",
+          "mode": "list",
+          "cachedResultName": "Bedok Transport GAds Search Campaign Monthly Report(Daily Schedule Nov23 Update)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XItm2RI8PjoVYBm4691T1PxIr3XUouLobqMLw5UElkg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 995303101,
+          "mode": "list",
+          "cachedResultName": "Nov23",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XItm2RI8PjoVYBm4691T1PxIr3XUouLobqMLw5UElkg/edit#gid=995303101"
+        },
+        "options": {}
+      },
+      "id": "5d8d15eb-2c84-427b-ab54-7ecb78a66ee0",
+      "name": "Read Through Nam Ho GAds Search Campaign Daily Update1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        680,
+        3000
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://sheets.googleapis.com/v4/spreadsheets/{{ $json.SpreadsheetID }}/values/Boon Hong!{{ $json.MediaCostRow }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleSheetsOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "valueInputOption",
+              "value": "RAW"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "range",
+              "value": "=Boon Hong!{{ $json.MediaCostRow }}"
+            },
+            {
+              "name": "values",
+              "value": "={{ [[$json.MediaCostValue]] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4d36f765-8c32-4b5b-aa0e-5fa1c94b05fd",
+      "name": "PUT Request To Update Current Media Cost11",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2980,
+        2620
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "MediaCostRow",
+              "stringValue": "={{ $json.MediaCostColumn }}{{ $json.currentRowNumber }}"
+            },
+            {
+              "name": "MediaCostValue",
+              "type": "numberValue",
+              "numberValue": "={{ $json.MediaCostValue }}"
+            },
+            {
+              "name": "KPIAchievedRow",
+              "stringValue": "={{ $json.KPIAchievedColumn }}{{ $json.currentRowNumber }}"
+            },
+            {
+              "name": "KPIAchievedValue",
+              "stringValue": "=1. CTR: {{ $json[\"WeeklyCTR_Aggregated\"] }}\n\n2.Cost Per Conv.: {{ $json[\"WeeklyCostPerConv_Aggregated\"] }}\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "656d0d92-652d-441c-8b74-3c9b615dc112",
+      "name": "Set Actual Row Range To Update Cell7",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.1,
+      "position": [
+        2680,
+        2720
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://sheets.googleapis.com/v4/spreadsheets/{{ $json.SpreadsheetID }}/values/Boon Hong!{{ $json.KPIAchievedRow }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleSheetsOAuth2Api",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "valueInputOption",
+              "value": "RAW"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "range",
+              "value": "=Boon Hong!{{ $json.KPIAchievedRow }}"
+            },
+            {
+              "name": "values",
+              "value": "={{ [[$json.KPIAchievedValue]] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "78d23ac6-e889-403c-b47f-1d346f64fe91",
+      "name": "PUT Request To Update Current Media Cost12",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2960,
+        2880
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "SpreadsheetID",
+              "stringValue": "19U9fZTLHIePeM2auHDuv6Lm0_Tm_7dYqh8AAMQc4k_M"
+            },
+            {
+              "name": "currentRowNumber",
+              "type": "numberValue",
+              "numberValue": "={{ $json.rowNumber }}"
+            },
+            {
+              "name": "KPIAchievedColumn",
+              "stringValue": "S"
+            },
+            {
+              "name": "MediaCostColumn",
+              "stringValue": "X"
+            },
+            {
+              "name": "MediaCostValue",
+              "type": "numberValue",
+              "numberValue": "={{ $('Turn Row Number,Date & Cost Into Item List4').item.json.Cost.last().round(2) }}"
+            },
+            {
+              "name": "WeeklyCTR_Aggregated",
+              "stringValue": "={{ $('Turn Row Number,Date & Cost Into Item List4').item.json[\"Ctr\"][0] }},{{ $('Turn Row Number,Date & Cost Into Item List4').item.json[\"Ctr\"][1] }},{{ $('Turn Row Number,Date & Cost Into Item List4').item.json[\"Ctr\"][2] }},{{ $('Turn Row Number,Date & Cost Into Item List4').item.json[\"Ctr\"][3] }},{{ $('Turn Row Number,Date & Cost Into Item List4').item.json[\"Ctr\"][4] }}"
+            },
+            {
+              "name": "WeeklyCostPerConv_Aggregated",
+              "stringValue": "={{ $('Turn Row Number,Date & Cost Into Item List4').item.json[\"CostPerConv\"][0] }},{{ $('Turn Row Number,Date & Cost Into Item List4').item.json[\"CostPerConv\"][1] }},{{ $('Turn Row Number,Date & Cost Into Item List4').item.json[\"CostPerConv\"][2] }},{{ $('Turn Row Number,Date & Cost Into Item List4').item.json[\"CostPerConv\"][3] }},{{ $('Turn Row Number,Date & Cost Into Item List4').item.json[\"CostPerConv\"][4] }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "b6ac77c3-4788-4549-b3e0-c516b354c52a",
+      "name": "Set SpreadsheetID, Current Row  Number & Sheet Column7",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.1,
+      "position": [
+        2420,
+        2800
+      ],
+      "alwaysOutputData": true
+    }
+  ],
+  "connections": {
+    "Filter Out Advertiser Name(Craftcare - Arch Angel) & Search Channel": {
+      "main": [
+        [
+          {
+            "node": "Column Fields To Search",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Read Through Craftcare GAds Search Campaign Daily Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Through Craftcare GAds Search Campaign Daily Update": {
+      "main": [
+        [
+          {
+            "node": "Turn Row Number,Date & Cost Into Item List",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Turn Row Number,Date & Cost Into Item List": {
+      "main": [
+        [
+          {
+            "node": "Read All WIP Sheet Rows-Boon Hong Tab",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read All WIP Sheet Rows-Boon Hong Tab": {
+      "main": [
+        [
+          {
+            "node": "Filter Out Advertiser Name(Craftcare - Arch Angel) & Search Channel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read All WIP Sheet Rows-Boon Hong Tab1": {
+      "main": [
+        [
+          {
+            "node": "Filter Out Advertiser: BenSEA Paint Pte Ltd) & Search Channel1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Through BenSEA GAds Search Campaign Daily Update": {
+      "main": [
+        [
+          {
+            "node": "Turn Row Number,Date & Cost Into Item List1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Out Advertiser: BenSEA Paint Pte Ltd) & Search Channel1": {
+      "main": [
+        [
+          {
+            "node": "Column Fields To Search1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Out Row Days Left >= 0 Day2": {
+      "main": [
+        [
+          {
+            "node": "Set SpreadsheetID, Current Row  Number & Sheet Column5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger2": {
+      "main": [
+        [
+          {
+            "node": "Read Through Bedok Transport GAds Search Campaign Daily Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Turn Row Number,Date & Cost Into Item List2": {
+      "main": [
+        [
+          {
+            "node": "Read All WIP Sheet Rows-Boon Hong Tab2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read All WIP Sheet Rows-Boon Hong Tab2": {
+      "main": [
+        [
+          {
+            "node": "Filter Out Advertiser: BenSEA Paint Pte Ltd) & Search Channel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Column Fields To Search2": {
+      "main": [
+        [
+          {
+            "node": "Filter Out Row Days Left >= 0 Day2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Out Advertiser: BenSEA Paint Pte Ltd) & Search Channel": {
+      "main": [
+        [
+          {
+            "node": "Column Fields To Search2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Through Bedok Transport GAds Search Campaign Daily Update": {
+      "main": [
+        [
+          {
+            "node": "Turn Row Number,Date & Cost Into Item List2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Out Row Days Left >= 0 Day3": {
+      "main": [
+        [
+          {
+            "node": "Set SpreadsheetID, Current Row  Number & Sheet Column6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger3": {
+      "main": [
+        [
+          {
+            "node": "Read Through Nam Ho GAds Search Campaign Daily Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Turn Row Number,Date & Cost Into Item List3": {
+      "main": [
+        [
+          {
+            "node": "Read All WIP Sheet Rows-Boon Hong Tab3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read All WIP Sheet Rows-Boon Hong Tab3": {
+      "main": [
+        [
+          {
+            "node": "Filter Out Advertiser: BenSEA Paint Pte Ltd) & Search Channel2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Column Fields To Search3": {
+      "main": [
+        [
+          {
+            "node": "Filter Out Row Days Left >= 0 Day3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Out Advertiser: BenSEA Paint Pte Ltd) & Search Channel2": {
+      "main": [
+        [
+          {
+            "node": "Column Fields To Search3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Through Nam Ho GAds Search Campaign Daily Update": {
+      "main": [
+        [
+          {
+            "node": "Turn Row Number,Date & Cost Into Item List3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Out Row Days Left >= 0 Day1": {
+      "main": [
+        [
+          {
+            "node": "Set SpreadsheetID, Current Row  Number & Sheet Column",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set SpreadsheetID, Current Row  Number & Sheet Column": {
+      "main": [
+        [
+          {
+            "node": "Set Actual Row Range To Update Cell",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Actual Row Range To Update Cell": {
+      "main": [
+        [
+          {
+            "node": "PUT Request To Update Current Media Cost",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "PUT Request To Update Current Media Cost4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Column Fields To Search": {
+      "main": [
+        [
+          {
+            "node": "Filter Out Row Days Left >= 0 Day1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Actual Row Range To Update Cell4": {
+      "main": [
+        [
+          {
+            "node": "PUT Request To Update Current Media Cost5",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "PUT Request To Update Current Media Cost6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Column Fields To Search1": {
+      "main": [
+        [
+          {
+            "node": "Filter Out Row Days Left >= 0 Day",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Out Row Days Left >= 0 Day": {
+      "main": [
+        [
+          {
+            "node": "Set SpreadsheetID, Current Row  Number & Sheet Column4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set SpreadsheetID, Current Row  Number & Sheet Column4": {
+      "main": [
+        [
+          {
+            "node": "Set Actual Row Range To Update Cell4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Turn Row Number,Date & Cost Into Item List1": {
+      "main": [
+        [
+          {
+            "node": "Read All WIP Sheet Rows-Boon Hong Tab1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Read Through BenSEA GAds Search Campaign Daily Update",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Actual Row Range To Update Cell5": {
+      "main": [
+        [
+          {
+            "node": "PUT Request To Update Current Media Cost7",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "PUT Request To Update Current Media Cost8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set SpreadsheetID, Current Row  Number & Sheet Column5": {
+      "main": [
+        [
+          {
+            "node": "Set Actual Row Range To Update Cell5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Actual Row Range To Update Cell6": {
+      "main": [
+        [
+          {
+            "node": "PUT Request To Update Current Media Cost9",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "PUT Request To Update Current Media Cost10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set SpreadsheetID, Current Row  Number & Sheet Column6": {
+      "main": [
+        [
+          {
+            "node": "Set Actual Row Range To Update Cell6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Out Row Days Left >= 0 Day4": {
+      "main": [
+        [
+          {
+            "node": "Set SpreadsheetID, Current Row  Number & Sheet Column7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger4": {
+      "main": [
+        [
+          {
+            "node": "Read Through Nam Ho GAds Search Campaign Daily Update1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Turn Row Number,Date & Cost Into Item List4": {
+      "main": [
+        [
+          {
+            "node": "Read All WIP Sheet Rows-Boon Hong Tab4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read All WIP Sheet Rows-Boon Hong Tab4": {
+      "main": [
+        [
+          {
+            "node": "Filter Out Advertiser: BenSEA Paint Pte Ltd) & Search Channel3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Column Fields To Search4": {
+      "main": [
+        [
+          {
+            "node": "Filter Out Row Days Left >= 0 Day4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Out Advertiser: BenSEA Paint Pte Ltd) & Search Channel3": {
+      "main": [
+        [
+          {
+            "node": "Column Fields To Search4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Through Nam Ho GAds Search Campaign Daily Update1": {
+      "main": [
+        [
+          {
+            "node": "Turn Row Number,Date & Cost Into Item List4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Actual Row Range To Update Cell7": {
+      "main": [
+        [
+          {
+            "node": "PUT Request To Update Current Media Cost11",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "PUT Request To Update Current Media Cost12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set SpreadsheetID, Current Row  Number & Sheet Column7": {
+      "main": [
+        [
+          {
+            "node": "Set Actual Row Range To Update Cell7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrencyRules": []
+    },
+    "node:Schedule Trigger2": {
+      "recurrencyRules": []
+    },
+    "node:Schedule Trigger3": {
+      "recurrencyRules": []
+    },
+    "node:Schedule Trigger1": {
+      "recurrencyRules": []
+    },
+    "node:Schedule Trigger4": {
+      "recurrencyRules": []
+    }
+  },
+  "meta": null,
+  "pinData": {},
+  "versionId": "afd74f77-b28a-4e78-9777-53457c9c34d6",
+  "triggerCount": 5,
+  "shared": [
+    {
+      "updatedAt": "2023-10-19T09:58:50.644Z",
+      "createdAt": "2023-10-19T09:58:50.644Z",
+      "role": "workflow:owner",
+      "workflowId": "seoUwz5zjKIbIIvx",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2023-11-01T07:15:32.767Z",
+      "createdAt": "2023-11-01T07:15:32.767Z",
+      "id": "DG2uXVFvLDEnH34q",
+      "name": "ACCSS"
+    }
+  ]
+}
