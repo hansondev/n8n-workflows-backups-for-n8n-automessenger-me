@@ -1,0 +1,286 @@
+{
+  "updatedAt": "2025-07-11T09:14:30.000Z",
+  "createdAt": "2025-07-10T15:36:28.809Z",
+  "id": "mPq1V6Xf1rpAbueq",
+  "name": "[Sub-workflow] - Crawl4AI- External Links - Single Webpage Crawler",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "url"
+            }
+          ]
+        }
+      },
+      "id": "d990eb97-ac22-496e-af14-671b820dd080",
+      "typeVersion": 1.1,
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        -1440,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://crawl4ai.automessenger.me/crawl",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"urls\": {{ JSON.stringify($json.url) }},\n  \"extraction_config\": {\n    \"type\": \"basic\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1200,
+        240
+      ],
+      "id": "00d374e4-f10b-4ea3-ab4e-31ae3d6f37be",
+      "name": "Crawl4AI Basic POST Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Sxyip2DbXxp8AQIB",
+          "name": "Craw4Ai Header Auth(crawl4ai.automessenger.me)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -940,
+        240
+      ],
+      "id": "70d3f533-d03d-4ba0-961f-1d7de25f1e48",
+      "name": "Wait1",
+      "webhookId": "75c74b5b-96bc-41bc-a259-dec4548938a9"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"task_id\": \"{{ $('Crawl4AI Basic POST Request').item.json.task_id }}\",\n  \"status\": \"{{ $json.status }}\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -520,
+        240
+      ],
+      "id": "7ecfaacb-3547-4677-bec8-0ea3e7b27625",
+      "name": "Task ID Field1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f07a7b5c-71e5-4aca-adce-e01b0d6c7fde",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "=pending",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "7f622642-d24c-47de-b4be-93ce15948db3",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "=processing",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -300,
+        240
+      ],
+      "id": "7976378c-9b4e-4c41-8677-92331a97d750",
+      "name": "If In Process1"
+    },
+    {
+      "parameters": {
+        "url": "=https://crawl4ai.automessenger.me/task/{{ $json.task_id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -720,
+        240
+      ],
+      "id": "5a84a60c-5cc7-44ae-baa6-e6d81b2f715c",
+      "name": "Get Markdown Result1",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Sxyip2DbXxp8AQIB",
+          "name": "Craw4Ai Header Auth(crawl4ai.automessenger.me)"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1340,
+        -100
+      ],
+      "id": "399334e8-6efd-44b1-9e1d-6b77c4337496",
+      "name": "When clicking ‘Execute workflow’",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"url\": {{ JSON.stringify($('Get Markdown Result1').item.json.result.url) }},\n  \"externalLinks\": {{ JSON.stringify($('Get Markdown Result1').item.json[\"result\"][\"links\"][\"external\"]) }}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -60,
+        220
+      ],
+      "id": "087436ab-7a10-48e5-8f6f-fe4a03eba078",
+      "name": "URL + External Links Response"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Crawl4AI Basic POST Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crawl4AI Basic POST Request": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Get Markdown Result1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Task ID Field1": {
+      "main": [
+        [
+          {
+            "node": "If In Process1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If In Process1": {
+      "main": [
+        [
+          {
+            "node": "URL + External Links Response",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Markdown Result1": {
+      "main": [
+        [
+          {
+            "node": "Task ID Field1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        []
+      ]
+    },
+    "URL + External Links Response": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "When clicking ‘Execute workflow’": [
+      {
+        "json": {
+          "url": "https://www.sunwayhotels.com/the-banjaran"
+        }
+      }
+    ]
+  },
+  "versionId": "ca5f368d-425c-4c4b-8c99-26f311d9c98f",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-07-10T15:36:28.813Z",
+      "createdAt": "2025-07-10T15:36:28.813Z",
+      "role": "workflow:owner",
+      "workflowId": "mPq1V6Xf1rpAbueq",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
