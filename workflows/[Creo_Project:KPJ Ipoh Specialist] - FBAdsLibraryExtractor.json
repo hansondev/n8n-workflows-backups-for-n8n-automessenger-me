@@ -1,0 +1,557 @@
+{
+  "updatedAt": "2025-07-11T02:19:44.000Z",
+  "createdAt": "2025-04-20T07:52:34.590Z",
+  "id": "zE4h4nVTkaw9U32I",
+  "name": "[Creo_Project:KPJ Ipoh Specialist] - FBAdsLibraryExtractor",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": " https://api.apify.com/v2/actor-tasks/immense_grasshopper~facebook-ads-scraper-task/runs",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"isDetailsPerAd\": true,\n    \"onlyTotal\": false,\n    \"resultsLimit\": 10,\n    \"startUrls\": [\n        {\n            \"url\": \"{{ $json['FB Ads Url'] }}\"\n        }\n    ]\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        480,
+        -60
+      ],
+      "id": "9f34bc6f-3a66-4a1d-9b23-c1ed17fbe118",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/actor-runs/{{ $json.data.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "waitForFinish",
+              "value": "60"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        920,
+        -60
+      ],
+      "id": "97c277b6-b652-4141-8ce7-a58c120a7b1a",
+      "name": "Get Actor Run",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        680,
+        -60
+      ],
+      "id": "365fe32e-8e36-49f5-a184-4b1aaef68ea3",
+      "name": "Wait",
+      "webhookId": "c619b5fe-e9ba-46b4-be6c-b3fe4fa81eed"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.data.defaultDatasetId }}/items ",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1420,
+        -80
+      ],
+      "id": "17c2d3b9-12c9-468a-ac50-12271960e48c",
+      "name": "Get Datasets",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1TRElc5uO1Y6PnqeWpe4PiherDNyIyHOLHpgk1Jnga-E",
+          "mode": "list",
+          "cachedResultName": "KPJ Ipoh Specialist & Competitors MetaAds Library Active Ads Records",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TRElc5uO1Y6PnqeWpe4PiherDNyIyHOLHpgk1Jnga-E/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Advertiser Query",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TRElc5uO1Y6PnqeWpe4PiherDNyIyHOLHpgk1Jnga-E/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -60,
+        -140
+      ],
+      "id": "7661dffd-1101-46fc-b9a8-7b5246063499",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "oMHjbut2VzVQ0VcS",
+          "name": "GSheet Trigger- boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        160,
+        -140
+      ],
+      "id": "e0e50950-5238-4822-a169-ac7e180b3dec",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a26e4676-bab1-4eef-bf22-21d966d62a48",
+              "leftValue": "={{ $json.data.status }}",
+              "rightValue": "SUCCEEDED",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1140,
+        -60
+      ],
+      "id": "598ed67d-c49c-4cb6-98e2-5048e5e99773",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "79068abf-1cac-49af-8d36-b027623642c7",
+              "name": "competitorName",
+              "value": "={{ $json.pageInfo.adLibraryPageInfo.pageInfo.pageName }}",
+              "type": "string"
+            },
+            {
+              "id": "cd21f4f7-94be-4eeb-805d-eca6adcf3f7d",
+              "name": "adBodyText",
+              "value": "={{ $json.snapshot.body.text || $json.snapshot.cards[0].body }}",
+              "type": "string"
+            },
+            {
+              "id": "892b54ec-2ec3-4b83-92a9-1be470dbcb68",
+              "name": "adImageURL",
+              "value": "={{ $if($json.snapshot.images.isNotEmpty(),$json.snapshot.images[0].originalImageUrl,\"NA\") }}",
+              "type": "string"
+            },
+            {
+              "id": "59916e5d-45f1-41c4-a25a-5c33598d0841",
+              "name": "videoURL",
+              "value": "={{ $if($json.snapshot.videos.isNotEmpty(),$json.snapshot.videos[0].videoSdUrl,\"NA\") }}",
+              "type": "string"
+            },
+            {
+              "id": "442db41b-eeda-40fa-8ec9-0cf2e84bd44e",
+              "name": "ctaText",
+              "value": "={{ $json.snapshot.ctaText }}",
+              "type": "string"
+            },
+            {
+              "id": "0448aeb3-c2ec-4fe3-bd5b-2545250abe3a",
+              "name": "destinationURLs",
+              "value": "={{ $json.snapshot.extraLinks.toJsonString().replaceAll(\"[\",\"\").replaceAll(\"]\",\"\").replaceAll('\"','').replaceAll(\",\",\"\\n\\n\") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1760,
+        -80
+      ],
+      "id": "5f99a315-bd7f-4113-917a-39958c807b14",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "79068abf-1cac-49af-8d36-b027623642c7",
+              "name": "competitorName",
+              "value": "={{ $json.competitorName }}",
+              "type": "string"
+            },
+            {
+              "id": "cd21f4f7-94be-4eeb-805d-eca6adcf3f7d",
+              "name": "adBodyText",
+              "value": "={{ $json.adBodyText }}",
+              "type": "string"
+            },
+            {
+              "id": "892b54ec-2ec3-4b83-92a9-1be470dbcb68",
+              "name": "adImageURL",
+              "value": "={{ $json.adImageURL }}",
+              "type": "string"
+            },
+            {
+              "id": "59916e5d-45f1-41c4-a25a-5c33598d0841",
+              "name": "videoURL",
+              "value": "={{ $json.videoURL }}",
+              "type": "string"
+            },
+            {
+              "id": "442db41b-eeda-40fa-8ec9-0cf2e84bd44e",
+              "name": "ctaText",
+              "value": "={{ $json.ctaText }}",
+              "type": "string"
+            },
+            {
+              "id": "0448aeb3-c2ec-4fe3-bd5b-2545250abe3a",
+              "name": "destinationURLs",
+              "value": "={{ $json.destinationURLs }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        380,
+        -240
+      ],
+      "id": "44ae2f9b-37aa-48b6-92b3-3327487eee57",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1TRElc5uO1Y6PnqeWpe4PiherDNyIyHOLHpgk1Jnga-E",
+          "mode": "list",
+          "cachedResultName": "KPJ Ipoh Specialist & Competitors MetaAds Library Active Ads Records",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TRElc5uO1Y6PnqeWpe4PiherDNyIyHOLHpgk1Jnga-E/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 992517558,
+          "mode": "list",
+          "cachedResultName": "Ads Query Output",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XHTTCJi5G8Aw3VjBoxkIOd-8zhkEmnW_XriuNX12r44/edit#gid=992517558"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Competitor Name": "={{ $json.competitorName }}",
+            "Ad Body Text": "={{ $json.adBodyText }}",
+            "Ad Image URL": "={{ $json.adImageURL }}",
+            "Video URL": "={{ $json.videoURL }}"
+          },
+          "matchingColumns": [
+            "Competitor Name"
+          ],
+          "schema": [
+            {
+              "id": "Competitor Name",
+              "displayName": "Competitor Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ad Body Text",
+              "displayName": "Ad Body Text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Image URL",
+              "displayName": "Ad Image URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Video URL",
+              "displayName": "Video URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        620,
+        -240
+      ],
+      "id": "53871515-62f4-4570-b98d-f17c6bf245d5",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Actor Run": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get Actor Run",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Get Datasets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Datasets": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "571ef019-d1a5-44a2-a4f3-dea35050b234",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-04-20T07:52:34.594Z",
+      "createdAt": "2025-04-20T07:52:34.594Z",
+      "role": "workflow:owner",
+      "workflowId": "zE4h4nVTkaw9U32I",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
