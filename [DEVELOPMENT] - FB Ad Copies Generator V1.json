@@ -1,0 +1,4585 @@
+{
+  "updatedAt": "2025-09-13T03:15:38.000Z",
+  "createdAt": "2025-09-13T03:15:38.170Z",
+  "id": "BCs0bvYb7RmYA9Sd",
+  "name": "[DEVELOPMENT] - FB Ad Copies Generator V1",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"version\": \"Version 1\",\n  \"adHook\": \"The generated descriptive and detailed ad hook version 1\"\n }"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1776,
+        2560
+      ],
+      "id": "44ea4f71-1969-47a4-9df3-1c15fd7bc28a",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        256,
+        2192
+      ],
+      "id": "58df2a7f-396f-4047-90ae-9913354658ea",
+      "name": "Google Gemini Chat Model",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Craft ad ad hook of {{ $json.version }} in {{ $json.targetLanguage }} based on the details as below:\n1. Selected focus product:{{ $json.focusProduct }}\n2. Selected focus ingredient: {{ $json.focusIngredients }} \n3. Selected Campaign Use Case: {{ $json.campaignUseCase }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a professional ad copywriter who are knowing how to generate an effective and high conversion ad copies in various industries or niches compatible with also fluent in multiple languages.\n\n# Task\nYou are tasked with generate specific version of ad hook for the specific ad campaign in Meta Ads based on the user's provided campaign use case as well as other related user inputs. \n\n# Tools\nYou are required to use the following tools to generate the right and accurate ad hook and avoid any hallucinations:\n- `product_data_fetcher`: Call this tool to fetch the focus product related details including product description, product main functionalities and product main ingredients etc.\n- `ad_library_analyzer`: Call this tool to fetched the collected own campaign ad post and competitor's ad posts from ad library and analyze the important elements details of ad structure such as ad texts, ad title, ad caption, link description, ad cta text and other details.\n- `ai_web_search`: Call this tool to get in depth information about the unsure knowledge if you think that the query is not really in your scope.\n\n# User Context\nThe user will provide several important inputs to ensure that you are able to generate the right output such as:\n- Focus Product\n- Focus Ingredients\n- Target Language\n- Campaign Use Case\n- Current Promotion\n\n\n# Context Definition\n- Focus Product: The selected focus product would like to generate the ad hook for Meta ads campaign.\n- Focus Ingredients: The selected focus ingredients like to generate the ad hook for Meta ads campaign.\n- Target Language: The selected target language would like to generate the ad hook to deliver to the right target audience.\n- Campaign Use Case: The selected campaign use case like to generate the ad hook to deliver to the right target audience.\n\n# Output\nThe generated output must be follow the structured JSON format.\n\n## Example JSON Output\n```\njson: {\n  \"version\": \"Version 1\",\n  \"adHook\": \"The generated descriptive and detailed ad hook version 1\"\n }\n```"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        1392,
+        2336
+      ],
+      "id": "5def87e5-c10a-4447-96a8-91faa9ddb9e6",
+      "name": "Ad Hook Generator"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "mpkdf5e310m9ps3",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $json.Id }}"
+            },
+            {
+              "fieldName": "Ad Hooks",
+              "fieldValue": "={{ $('Loop Over Items').item.json.adHook }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        5792,
+        1520
+      ],
+      "id": "d520a68b-772b-430f-94bb-6ce1e4f7066a",
+      "name": "Update a row2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "mpkdf5e310m9ps3",
+        "options": {
+          "fields": [],
+          "where": "=(Date Created,eq,exactDate,{{ $('Get Date Filtered Ad Hooks & Angle Generator').item.json['Date Created'] }})~and(Version,eq,{{ $json.version }})"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        5584,
+        1520
+      ],
+      "id": "c2b2a7ef-cd7f-40d8-8bf1-ffdb0ecd8ccc",
+      "name": "Get many rows1",
+      "retryOnFail": true,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        5328,
+        1456
+      ],
+      "id": "1f33848f-5da0-4a2d-9a14-32fe59e8ea17",
+      "name": "Loop Over Items",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"version\": \"Version 1\",\n  \"adAngle\": \"The generated descriptive and detailed ad angle 1 based on the selected ad hook 1\"\n }"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        3056,
+        2544
+      ],
+      "id": "ec4084a8-0df3-4f17-9d8f-4d5066878a03",
+      "name": "Structured Output Parser3"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        2912,
+        2608
+      ],
+      "id": "28c10c41-3d3d-4b81-9881-8d9447f217c0",
+      "name": "Think1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Craft an ad angle for {{ $json.version }} based on the generated ad hook: \n{{ $json.adHook }} in {{ $json.targetLanguage.toLowerCase() }}.\n\nWhile crafting the an ad angle, always need to refer back to the following: \n1. Focus product: {{ $json.focusProducts }}\n2. Focus inredients: {{ $json.focusIngredients }}\n3. Current Promotion: {{ $json.currentPromotion }}\n",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a professional ad copywriter who are knowing how to generate an effective and high conversion ad copies in various industries or niches compatible with also fluent in multiple languages.\n\n# Task\nYou are tasked with generate specific version of ad angle based on the specific campaign use case and campaign promotion for Meta Ads campaign which are provided by the user as your context inputs. \n\n# Tools\nYou are required to use the following tools to generate the right and accurate ad hook and avoid any hallucinations:\n- `product_data_fetcher`: Call this tool to fetch the focus product related details including product description, product main functionalities and product main ingredients etc.\n- `ad_library_scraper`: Call this tool to fetched the collected own campaign ad post and competitor's ad posts from ad library and analyze the important elements details of ad structure such as ad texts, ad title, ad caption, link description, ad cta text and other details.\n- `ai_web_search`: Call this tool to get in depth information about the unsure knowledge if you think that the query is not really in your scope.\n\n# User Context\nThe user will provide several important inputs to ensure that you are able to generate the right output such as:\n- Focus Product\n- Focus Ingredients\n- Target Language\n- Campaign Use Case\n- Current Promotion\n\n\n# Context Definition\n- Focus Product: The selected focus product would like to generate the ad hook for Meta ads campaign.\n- Focus Ingredients: The selected focus ingredients like to generate the ad hook for Meta ads campaign.\n- Target Language: The selected target language would like to generate the ad hook to deliver to the right target audience.\n- Campaign Use Case: The selected campaign use case like to generate the ad hook to deliver to the right target audience.\n- Current Promotion: The current promotion that would like to run the ads campaign for the selected focus product \n\n# Output\nThe generated output must be follow the structured JSON format.\n\n## Example JSON Output\n```\njson: {\n  \"version\": \"Version 1\",\n  \"adAngle\": \"The generated descriptive and detailed ad hook version 1\"\n }\n```\n```"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        2480,
+        2336
+      ],
+      "id": "bd95311c-ceae-476d-b096-ab64e91db4e8",
+      "name": "Ad Angle Generator"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3f4c87a6-efeb-4ac4-9a21-7fdaf7dc4602",
+              "name": "version",
+              "value": "={{ $('Get many rows2').item.json.Version }}",
+              "type": "string"
+            },
+            {
+              "id": "fce65f63-6496-49b3-852f-402ccc671cea",
+              "name": "targetProducts",
+              "value": "={{ $('Get many rows2').item.json['Target Products'][0] }}",
+              "type": "array"
+            },
+            {
+              "id": "2848d3df-e747-4843-b343-646312cf2797",
+              "name": "targetServices",
+              "value": "={{ $('Get many rows2').item.json['Target Services'][0] }}",
+              "type": "array"
+            },
+            {
+              "id": "152c15f2-3027-46c4-b578-4db12ecfd94c",
+              "name": "adHook",
+              "value": "={{ $('Get many rows2').item.json['Ad Hooks'] }}",
+              "type": "string"
+            },
+            {
+              "id": "bdde978a-0270-477c-9cdd-b36cbc713604",
+              "name": "adAngle",
+              "value": "={{ $('Update a row3').item.json['Ad Angles'] }}",
+              "type": "string"
+            },
+            {
+              "id": "45310992-283d-42bf-9e5c-34530c33b9d2",
+              "name": "targetAudience",
+              "value": "={{ $('Get many rows2').item.json['Target Audience (from Ad Hooks & Angles Generator)'][0] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        6368,
+        1888
+      ],
+      "id": "9361efe5-3791-4a4d-92b1-0ea8132d53db",
+      "name": "Edit Fields5",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "mpkdf5e310m9ps3",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $json.Id }}"
+            },
+            {
+              "fieldName": "Version",
+              "fieldValue": "={{ $('Loop Over Items1').item.json.version }}"
+            },
+            {
+              "fieldName": "Ad Angles",
+              "fieldValue": "={{ $('Loop Over Items1').item.json.adAngle }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        6464,
+        2064
+      ],
+      "id": "8bc67890-0042-43d3-bce3-53e39a3b82ea",
+      "name": "Update a row3",
+      "executeOnce": false,
+      "retryOnFail": true,
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "mpkdf5e310m9ps3",
+        "options": {
+          "fields": [],
+          "where": "=(Date Created,eq,exactDate,{{ $('Get Date Filtered Ad Hooks & Angle Generator').item.json['Date Created'] }})~and(Version,eq,{{ $json.version }})"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        6256,
+        2064
+      ],
+      "id": "fae90c3c-2123-4f77-b936-60aa2bd9eb32",
+      "name": "Get many rows2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        6000,
+        2000
+      ],
+      "id": "7551a4aa-5919-4f0d-8fb4-a4a9f2ebb68b",
+      "name": "Loop Over Items1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"version\": \"Version 1\",\n  \"adCopy\": \"👁️ Are blurry days holding you back? Struggling with glasses that slip down, contacts that irritate, or simply feeling like you're missing out on life’s vibrant details? 🌈 It doesn’t have to be this way.\\n\\n At KPJ Ipoh Specialist Hospital 🏥, we offer a second chance for your eyes—a safe and trusted LASIK procedure designed just for YOU. 💎 Imagine waking up each morning refreshed ✨—seeing every sunrise clearly without fumbling for glasses or lenses.\\n ✅ Affordable & Accessible – Quality care at prices you can trust \\n ✅ Safe Technology – Advanced equipment handled by experts 👩‍⚕️ \\n ✅ Life-Changing Results – Freedom from eyewear starts now 🎉 \\n\\n 💡 Don’t let poor vision hold you back another day. This is YOUR opportunity to rejuvenate your eyesight—and reclaim all those precious missed moments! Book a consultation today 📆 and take the first step toward freedom. Call us now! 📞\"\n}",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        8368,
+        1344
+      ],
+      "id": "1a032d71-22d3-4d04-8f14-ce30dd6317b8",
+      "name": "Structured Output Parser4",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "name": "web_search",
+        "description": "=Get the in depth information about the user's search query that is relevant to the search query, including web content, and other relevant sources",
+        "workflowId": {
+          "__rl": true,
+          "value": "Ek66VfFhjAWBSb3v",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Tavily AI Research Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        8080,
+        1424
+      ],
+      "id": "650fcb55-f170-430c-adea-db0e44f42ba2",
+      "name": "web_search2",
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        8256,
+        1408
+      ],
+      "id": "bff0cdc4-35ef-40e9-be20-79bb5830ea38",
+      "name": "Think2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to fetch and gather all the necessary company information such as company name, company website, company location, industry types, business overeview, core services and target audience.",
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pnsdsx5i8rktgjf",
+        "table": "mvz46p06j62lgs7",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDbTool",
+      "typeVersion": 3,
+      "position": [
+        7936,
+        1392
+      ],
+      "id": "b83fb65c-ca23-44c4-9b97-96385698a9eb",
+      "name": "company_research_fetcher2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Version: {{ $json.version }}\nAd Copy Structure:\n{{ $json.adCopyStructure }}\n",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a professional ad copywriter who are knowing how to generate an effective and high conversion ad copies in various industries or niches compatible with also fluent in multiple languages.\n\n# Task\nYou are tasked with crafting multiple versions of ad copies for the specific ad campaign in Meta Ads based on the user's provided inputs. \n\n\n\n# Output\n- The generated output must be follow the structured JSON format and only wrapped the actual output in the right JSON structure without any additional information and explaination.\n- Don not include the ad copy structure description such as \"Headline\", \"Paragraph 1\", \"Paragraph 2\", \"Paragraph 3\", \"Call-to-action\" etc.\n\n## Example JSON Output\n```\njson: {\n  \"version\": \"Version 1\",\n  \"adCopy\": \"👁️ Are blurry days holding you back? Struggling with glasses that slip down, contacts that irritate, or simply feeling like you're missing out on life’s vibrant details? 🌈 It doesn’t have to be this way.\\n\\n At KPJ Ipoh Specialist Hospital 🏥, we offer a second chance for your eyes—a safe and trusted LASIK procedure designed just for YOU. 💎 Imagine waking up each morning refreshed ✨—seeing every sunrise clearly without fumbling for glasses or lenses.\\n ✅ Affordable & Accessible – Quality care at prices you can trust \\n ✅ Safe Technology – Advanced equipment handled by experts 👩‍⚕️ \\n ✅ Life-Changing Results – Freedom from eyewear starts now 🎉 \\n\\n 💡 Don’t let poor vision hold you back another day. This is YOUR opportunity to rejuvenate your eyesight—and reclaim all those precious missed moments! Book a consultation today 📆 and take the first step toward freedom. Call us now! 📞\"\n}\n```"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        8016,
+        1104
+      ],
+      "id": "48993a32-4377-49c0-a6fe-eb639465fc7d",
+      "name": "Meta Ad Angle Generator",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        7712,
+        1952
+      ],
+      "id": "36230a9e-0fbd-4c6d-88f0-9966b248efda",
+      "name": "Google Gemini Chat Model2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        8304,
+        1552
+      ],
+      "id": "e9201a69-d0d3-46b0-80ae-84fa0336f119",
+      "name": "DeepSeek Chat Model",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        7856,
+        1264
+      ],
+      "id": "e4fcd72f-c79b-4941-abf5-e7568dbe13c3",
+      "name": "DeepSeek Chat Model2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fb4ccd1f-689a-438c-a269-3bd61dd6e8ad",
+              "name": "version",
+              "value": "={{ $json.output.version }}",
+              "type": "string"
+            },
+            {
+              "id": "05b230a7-f73b-420b-9ce5-435562a915ab",
+              "name": "adCopy",
+              "value": "={{ $json.output.adCopy }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        8400,
+        1104
+      ],
+      "id": "cd3b5c65-5d42-46cd-82ed-71a7fe9d0b7d",
+      "name": "Edit Fields6",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pnsdsx5i8rktgjf",
+        "table": "mqyhdmslzlf5bhj",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $json.Id }}"
+            },
+            {
+              "fieldName": "Version",
+              "fieldValue": "={{ $('Loop Over Items2').item.json.version }}"
+            },
+            {
+              "fieldName": "Ad Angle",
+              "fieldValue": "={{ $('Loop Over Items2').item.json.adCopy }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        9120,
+        1168
+      ],
+      "id": "d7bd0e72-0834-42c1-a292-3ee425ea2b14",
+      "name": "Update a row4",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pnsdsx5i8rktgjf",
+        "table": "mqyhdmslzlf5bhj",
+        "options": {
+          "fields": [],
+          "where": "=(Target Service,eq,{{ $('Get Date Filtered Ad Hooks & Angle Generator').item.json['Target Service'] }})~and(Version,eq,{{ $json.version }})"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        8912,
+        1168
+      ],
+      "id": "f94fab26-3b0c-4279-a968-35c27eeb119e",
+      "name": "Get many rows3",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        8656,
+        1104
+      ],
+      "id": "966287f7-2919-4bda-9849-dc8b17027975",
+      "name": "Loop Over Items2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "pnsdsx5i8rktgjf",
+        "table": "mqyhdmslzlf5bhj",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Status",
+              "fieldValue": "Completed"
+            },
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Update a row4').item.json.Id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        8944,
+        960
+      ],
+      "id": "b4521dfb-02c8-43f4-bdee-5eec95f42829",
+      "name": "Update a row5",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "generate-ads-campaign-ad-hooks",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        368,
+        2352
+      ],
+      "id": "b2a752bc-48f4-4bdc-9077-281fe019a4c9",
+      "name": "Generate Ad Hooks",
+      "webhookId": "2f20cdb3-61ea-42d9-8802-19c63232bcd1"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to extract the previous published ad posts from ad library and extract the important ad posts details such as ad texts, headlines, link description, call-to-action text and other details.",
+        "workflowId": {
+          "__rl": true,
+          "value": "soRMIz5IAaDIz4Sb",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - APIFY MetaAds Library Scraper"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "fbPageUrl": "={{ $json.facebookPageUrl }}"
+          },
+          "matchingColumns": [
+            "fbPageUrl"
+          ],
+          "schema": [
+            {
+              "id": "fbPageUrl",
+              "displayName": "fbPageUrl",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        896,
+        2544
+      ],
+      "id": "75485b84-7ff2-4fed-bce1-9223a7d16afe",
+      "name": "ad_library_scraper",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n \"version\": \"The version of ad copy to generate\",\n \"headlineSection\": \"The eye-catching headline to get the attention\",\n \"problemAgitatedSection\": \"User get agitated and frustrated with current user situation\",\n \"problemAwareSection\": \"Problem Aware based on current user situation\",\n \"solutionShowcasingSection\": \"What are the solutions is offering to fix or eliminate the current user problem and showcase the benifits can obtain after using the products or services\",\n \"callToAction\": \"Call-to-action to get the user to take action\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        6960,
+        2096
+      ],
+      "id": "61880930-106c-4621-9beb-a9cee30c86b3",
+      "name": "Structured Output Parser7",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        6688,
+        2096
+      ],
+      "id": "1ea2bcee-c5ec-4695-a3b9-167389456ef6",
+      "name": "OpenAI Chat Model4",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "mpkdf5e310m9ps3",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Update a row3').item.json.Id }}"
+            },
+            {
+              "fieldName": "Version",
+              "fieldValue": "={{ $json.output.version }}"
+            },
+            {
+              "fieldName": "Ad Copy Structure",
+              "fieldValue": "=Headline Section:  {{ $json.output.headlineSection }}\n\nProblem Agitated Section: {{ $json.output.problemAgitatedSection }}\n\nProblem Aware Section: {{ $json.output.problemAwareSection }}\n\nSolution Showcasing Section: {{ $json.output.solutionShowcasingSection }}\n\nCall-to-action: {{ $json.output.callToAction }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        7488,
+        1920
+      ],
+      "id": "a5fffd75-2fec-49cc-b4b7-29f902d7595a",
+      "name": "Update a row7",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        7152,
+        1904
+      ],
+      "id": "946034cf-0885-4104-b8c2-5c0a8b21dc9b",
+      "name": "Loop Over Items3",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3615438d-0d3f-4b19-a895-6fdd2f9987df",
+              "name": "Id",
+              "value": "={{ $json['Id'] }}",
+              "type": "string"
+            },
+            {
+              "id": "8de18a39-ae62-431f-a92b-921b55d2de13",
+              "name": "version",
+              "value": "={{ $json['Version'] }}",
+              "type": "string"
+            },
+            {
+              "id": "297e6f8b-db5b-453d-9638-e60d6f4c1b0e",
+              "name": "adCopyStructure",
+              "value": "={{ $json['Ad Copy Structure'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        7456,
+        1760
+      ],
+      "id": "9af22354-509f-4c0b-b4fc-347c4011b531",
+      "name": "Edit Fields2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Version: {{ $json.version }}\nTarget Products: {{ JSON.stringify($json.targetProducts) }}\nTarget Services: {{ JSON.stringify($json.targetServices) }}\nTarget Audience: {{ $json.targetAudience }}\nAd Hook Generated: {{ $json.adHook }}\nAd Angle Generated: {{ $json.adAngle }}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=# Role\nYou are a professional ad copy writter and ad campaign strategies who are able to craft a professional multile variants of ad copies for various businesses and industries speciality.\n\n# Task\nYou are tasked to generate a ad copy structure as high level backbone before generate a full, proper, convincing and high conversion actual ad copy.\n\n# Ad Copy Structure\nThe structure of ad copy must be consist of the following sections or scenes below:\n1. **Headline Section**: The eye-catching headline to get the attention\n2. **Problem Agitated Section**: User get agitated and frustrated with current user situation\n3. **Problem Aware Section**: Problem Aware based on current user situation\n4. **Solution Showcasing Section**: What are the solutions is offering to fix or eliminate the current user problem and showcase the benifits can obtain after using the products or services\n5. **Call-to-action Section: Call-to-action to get the user to take action\n\n# JSON Structure Output\nAll the generated output must be in JSON format and must be follow the JSON structure below:\n```\njson: {\n \"version\": \"The version of ad copy to generate\",\n \"headlineSection\": \"The eye-catching headline to get the attention\",\n \"problemAgitatedSection\": \"User get agitated and frustrated with current user situation\",\n \"problemAwareSection\": \"Problem Aware based on current user situation\",\n \"solutionShowcasingSection\": \"What are the solutions is offering to fix or eliminate the current user problem and showcase the benifits can obtain after using the products or services\",\n \"callToAction\": \"Call-to-action to get the user to take action\"\n}\n```"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        6752,
+        1888
+      ],
+      "id": "cd1ce82a-05fd-4c8d-bab9-d6d7164da0b9",
+      "name": "Ad Copy Structure Generator",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"version\": \"Version 1\",\n  \"adCopy\": \"👁️ Are blurry days holding you back? Struggling with glasses that slip down, contacts that irritate, or simply feeling like you're missing out on life’s vibrant details? 🌈 It doesn’t have to be this way.\\n\\n At KPJ Ipoh Specialist Hospital 🏥, we offer a second chance for your eyes—a safe and trusted LASIK procedure designed just for YOU. 💎 Imagine waking up each morning refreshed ✨—seeing every sunrise clearly without fumbling for glasses or lenses.\\n ✅ Affordable & Accessible – Quality care at prices you can trust \\n ✅ Safe Technology – Advanced equipment handled by experts 👩‍⚕️ \\n ✅ Life-Changing Results – Freedom from eyewear starts now 🎉 \\n\\n 💡 Don’t let poor vision hold you back another day. This is YOUR opportunity to rejuvenate your eyesight—and reclaim all those precious missed moments! Book a consultation today 📆 and take the first step toward freedom. Call us now! 📞\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        7888,
+        1968
+      ],
+      "id": "f27e3388-6afd-4446-a0ac-d73528263f8c",
+      "name": "Structured Output Parser8",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        7440,
+        2224
+      ],
+      "id": "5cc219b0-f66a-4ecc-bb3b-2308faa47aa0",
+      "name": "OpenAI Chat Model6",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Version: {{ $json.version }}\nAd Copy Structure:\n{{ $json.adCopyStructure }}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=# Role\nYou are a professional ad copywriter who are knowing how to generate an effective and high conversion ad copies in various industries or niches compatible with also fluent in multiple languages.\n\n# Task\nYou are tasked with crafting multiple versions of ad copies for the specific ad campaign in Meta Ads based on the user's provided inputs. \n\n# Output\n- The generated output must be follow the structured JSON format and only wrapped the actual output in the right JSON structure without any additional information and explaination.\n- Don not include the ad copy structure description such as \"Headline Section\", \"Problem Agitated Section\", \"Problem Aware Section\", \"Solution Showcasing Section\", \"Call-to-action Section\" and other unrelated information.\n\n## Example JSON Output\n```\njson: {\n  \"version\": \"Version 1\",\n  \"adCopy\": \"👁️ Are blurry days holding you back? Struggling with glasses that slip down, contacts that irritate, or simply feeling like you're missing out on life’s vibrant details? 🌈 It doesn’t have to be this way.\\n\\n At KPJ Ipoh Specialist Hospital 🏥, we offer a second chance for your eyes—a safe and trusted LASIK procedure designed just for YOU. 💎 Imagine waking up each morning refreshed ✨—seeing every sunrise clearly without fumbling for glasses or lenses.\\n ✅ Affordable & Accessible – Quality care at prices you can trust \\n ✅ Safe Technology – Advanced equipment handled by experts 👩‍⚕️ \\n ✅ Life-Changing Results – Freedom from eyewear starts now 🎉 \\n\\n 💡 Don’t let poor vision hold you back another day. This is YOUR opportunity to rejuvenate your eyesight—and reclaim all those precious missed moments! Book a consultation today 📆 and take the first step toward freedom. Call us now! 📞\"\n}\n```"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        7744,
+        1760
+      ],
+      "id": "2efe5811-083b-45b6-82d0-8a8942875026",
+      "name": "Full Ad Copy Generator",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p1ylb95zxqofbly",
+        "table": "mpkdf5e310m9ps3",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Edit Fields2').item.json.Id }}"
+            },
+            {
+              "fieldName": "Version",
+              "fieldValue": "={{ $json.output.version }}"
+            },
+            {
+              "fieldName": "Full Ad Copy",
+              "fieldValue": "={{ $json.output.adCopy }}"
+            },
+            {
+              "fieldName": "Status",
+              "fieldValue": "Completed"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        8192,
+        1760
+      ],
+      "id": "59f2e2c6-4b6d-455e-841b-68aa61843094",
+      "name": "Update a row8",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "fb-ads-posts-scraping-by-product",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        480,
+        416
+      ],
+      "id": "1fca16da-8b6c-42ce-b33a-a020f133d892",
+      "name": "Scrape FB Ads Posts By Product",
+      "webhookId": "f4bb02f2-a17c-4fc5-9d35-265e9b61089d"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "fb-ads-posts-scraping-by-url",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        480,
+        832
+      ],
+      "id": "9c9d98a4-2c83-45a7-9c83-4b0183f0edb7",
+      "name": "Scrape FB Ads Posts By URL",
+      "webhookId": "f4bb02f2-a17c-4fc5-9d35-265e9b61089d"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "fb-ads-posts-scraping-by-ingredients",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        480,
+        624
+      ],
+      "id": "c213f78d-4813-4a00-b764-efc6d096ce55",
+      "name": "Scrape FB Ads Posts By Ingredients",
+      "webhookId": "f4bb02f2-a17c-4fc5-9d35-265e9b61089d"
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        816,
+        608
+      ],
+      "id": "e1351c82-ff2e-4f59-9a5d-13f38cbc10fc",
+      "name": "Merge3"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.query.action }}",
+                    "rightValue": "scrapeFbAdsPostsByProducts",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "38c19313-3b7b-424b-8b30-e82ca1091723"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Scrape FB Ads By Product"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "42f60401-0f4a-47e6-86f4-bb5edd861e3e",
+                    "leftValue": "={{ $json.query.action }}",
+                    "rightValue": "scrapeFbAdsPostsByIngredients",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Scrape FB Ads By Ingredients"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "5fbf1079-5471-4f7f-8115-94246b749e82",
+                    "leftValue": "={{ $json.query.action }}",
+                    "rightValue": "scrapeFbAdPostsByUrl",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Scrape FB Ads By Url"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1024,
+        608
+      ],
+      "id": "e850002d-34f7-4d9c-a1fb-401e9072d2cd",
+      "name": "Switch2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6988a3ee-25cb-437b-ab7c-d75fc128f9ed",
+              "name": "focusProduct",
+              "value": "={{ $json.body.data.rows[0]['Focus Product'] }}",
+              "type": "string"
+            },
+            {
+              "id": "49cd8f06-e68d-491e-8f1a-36d1f52b5e5f",
+              "name": "maxPostsScraped",
+              "value": "={{ $json.body.data.rows[0]['Max. Posts Scraped'] }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1392,
+        160
+      ],
+      "id": "d04a4468-1052-4a2e-acd3-7fbdb484bda7",
+      "name": "Extract Focus Product"
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1920,
+        64
+      ],
+      "id": "ca96d16e-3e12-43be-a9dc-db8fbcc382ea",
+      "name": "Wait1",
+      "webhookId": "c619b5fe-e9ba-46b4-be6c-b3fe4fa81eed"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.data.defaultDatasetId }}/items ",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2640,
+        48
+      ],
+      "id": "88f90bb9-ecd7-4eaa-b07c-e06a3d916356",
+      "name": "Get Datasets1",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/actor-tasks/luminous_night~facebook-ads-scraper-pro-task/runs",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"activeStatus\": \"ALL\",\n    \"adType\": \"ALL\",\n    \"countries\": \"MY\",\n    \"maxResultsPerQuery\": {{ $json.maxPostsScraped }},\n    \"searchQueries\": [\n        {{ JSON.stringify($json.focusProduct) }}\n    ]\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1632,
+        160
+      ],
+      "id": "ef94948c-a4b8-43d4-9ca1-e99dfcf25b1c",
+      "name": "Actor - Run Task1",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/actor-runs/{{ $json.data.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "waitForFinish",
+              "value": "60"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2144,
+        64
+      ],
+      "id": "8fba3265-51dd-4221-ac63-69b2bb9cf6b1",
+      "name": "Get Actor Task ID1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "575cc607-2b70-4323-b268-995590595b10",
+              "leftValue": "={{ $json.data.status }}",
+              "rightValue": "SUCCEEDED",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2368,
+        64
+      ],
+      "id": "83c3d0c6-291d-445a-ae11-a1f9bc3192ee",
+      "name": "Check Task Status1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.media.type }}",
+                    "rightValue": "image",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "63348a44-925a-4dfc-b25c-f7f274c9f0be"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Image Ads Type"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "76576aa8-bcde-4eff-8d5e-42f1e94d469d",
+                    "leftValue": "={{ $json.media.type }}",
+                    "rightValue": "video",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Video Ads Type"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "5b29e947-9056-406b-9bb0-5f150269ed9a",
+                    "leftValue": "={{ $json.media.type }}",
+                    "rightValue": "card",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Carousel Ads Type"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        2928,
+        16
+      ],
+      "id": "a98e3588-6306-433b-8471-6aa2774dffef",
+      "name": "Segmenting Ad Types1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "31609329-17fc-4101-a81f-9a0a2e8decee",
+              "name": "queryBy",
+              "value": "Product Name",
+              "type": "string"
+            },
+            {
+              "id": "eacd9036-f2f5-4733-ab52-d1c3436db547",
+              "name": "fbPageName",
+              "value": "={{ $json.page_name }}",
+              "type": "string"
+            },
+            {
+              "id": "1e07002e-cd09-453e-8a89-55fa4d824378",
+              "name": "adType",
+              "value": "video",
+              "type": "string"
+            },
+            {
+              "id": "e1b8822d-98cf-417f-8b4f-017f317c036c",
+              "name": "adText",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "4f508696-d085-4189-8126-eaa4f0fa553c",
+              "name": "adTitle",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "adaa4bca-fc4b-47e8-a9e1-7c9073b59609",
+              "name": "adCaption",
+              "value": "={{ $json.caption }}",
+              "type": "string"
+            },
+            {
+              "id": "ab85037e-6004-4526-b6c3-5cce6c856f11",
+              "name": "adCtaText",
+              "value": "={{ $json.cta_text }}",
+              "type": "string"
+            },
+            {
+              "id": "babc2e88-e5e0-4b47-a877-9b3857cfe324",
+              "name": "adLinkDescription",
+              "value": "={{ $json.ad.snapshot.link_description }}",
+              "type": "string"
+            },
+            {
+              "id": "b95b29af-a0f2-44b2-bbc8-fe8ff631b261",
+              "name": "adCtaLink",
+              "value": "={{ $json.link_url }}",
+              "type": "string"
+            },
+            {
+              "id": "7135058a-ca0b-470f-973a-e4cd51286dea",
+              "name": "videoThumbnailUrl",
+              "value": "={{ $json.media.videos[0].video_preview_image_url }}",
+              "type": "string"
+            },
+            {
+              "id": "20de5a16-d1fa-4f7b-8f08-d9d5892521f7",
+              "name": "videoUrl",
+              "value": "={{ $json.media.videos[0].video_hd_url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3344,
+        32
+      ],
+      "id": "e5b43ccd-86ef-453f-875e-36ac938a0150",
+      "name": "Extract Only Important Ad Videos Post Fields"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "create",
+        "projectId": "prj6uve5wvj1snq",
+        "table": "mw4h6alahnmb4mf",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Date Created",
+              "fieldValue": "={{ $now.format('yyyy-MM-dd') }}"
+            },
+            {
+              "fieldName": "Query By",
+              "fieldValue": "Product Name"
+            },
+            {
+              "fieldName": "FB Page Name",
+              "fieldValue": "={{ $json.fbPageName }}"
+            },
+            {
+              "fieldName": "Ad Type",
+              "fieldValue": "={{ $json.adType.toTitleCase() }}"
+            },
+            {
+              "fieldName": "Ad Text",
+              "fieldValue": "={{ $json.adText }}"
+            },
+            {
+              "fieldName": "Ad Title",
+              "fieldValue": "={{ $json.adTitle }}"
+            },
+            {
+              "fieldName": "Ad Caption",
+              "fieldValue": "={{ $json.adCaption }}"
+            },
+            {
+              "fieldName": "Ad CTA Text",
+              "fieldValue": "={{ $json.adCtaText }}"
+            },
+            {
+              "fieldName": "Ad CTA Link",
+              "fieldValue": "={{ $json.adCtaLink }}"
+            },
+            {
+              "fieldName": "video Thumbnail URL",
+              "fieldValue": "={{ $json.videoThumbnailUrl }}"
+            },
+            {
+              "fieldName": "Video URL",
+              "fieldValue": "={{ $json.videoUrl }}"
+            },
+            {
+              "fieldName": "Status",
+              "fieldValue": "Completed"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        3648,
+        32
+      ],
+      "id": "be7475e7-c88a-47a1-86de-67be3b5faf70",
+      "name": "Add New Record"
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1984,
+        528
+      ],
+      "id": "156d7401-dabf-4b39-8678-2af9ba11c041",
+      "name": "Wait",
+      "webhookId": "c619b5fe-e9ba-46b4-be6c-b3fe4fa81eed"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.data.defaultDatasetId }}/items ",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2704,
+        512
+      ],
+      "id": "01731334-9557-4c02-b9a0-3c6ee8e48a39",
+      "name": "Get Datasets",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/actor-tasks/luminous_night~facebook-ads-scraper-pro-task/runs",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"activeStatus\": \"ALL\",\n    \"adType\": \"ALL\",\n    \"countries\": \"MY\",\n    \"maxResultsPerQuery\": {{ $json.maxPostsScraped }},\n    \"searchQueries\": {{ JSON.stringify($json.focusIngredients) }}\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1696,
+        624
+      ],
+      "id": "18d25fdd-ffc7-4b6e-88bb-3c797395d373",
+      "name": "Actor - Run Task",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/actor-runs/{{ $json.data.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "waitForFinish",
+              "value": "60"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2208,
+        528
+      ],
+      "id": "c9c96f34-e0c1-46e0-a557-9eefb1626c27",
+      "name": "Get Actor Task ID"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "575cc607-2b70-4323-b268-995590595b10",
+              "leftValue": "={{ $json.data.status }}",
+              "rightValue": "SUCCEEDED",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2432,
+        528
+      ],
+      "id": "67f89c66-8524-4c7b-b65d-a453ee656533",
+      "name": "Check Task Status"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.media.type }}",
+                    "rightValue": "image",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "63348a44-925a-4dfc-b25c-f7f274c9f0be"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Image Ads Type"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "76576aa8-bcde-4eff-8d5e-42f1e94d469d",
+                    "leftValue": "={{ $json.media.type }}",
+                    "rightValue": "video",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Video Ads Type"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "5b29e947-9056-406b-9bb0-5f150269ed9a",
+                    "leftValue": "={{ $json.media.type }}",
+                    "rightValue": "card",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Carousel Ads Type"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        2992,
+        480
+      ],
+      "id": "945d447c-e87d-496d-9316-c94627e57799",
+      "name": "Segmenting Ad Types"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "31609329-17fc-4101-a81f-9a0a2e8decee",
+              "name": "queryBy",
+              "value": "Product Name",
+              "type": "string"
+            },
+            {
+              "id": "eacd9036-f2f5-4733-ab52-d1c3436db547",
+              "name": "fbPageName",
+              "value": "={{ $json.page_name }}",
+              "type": "string"
+            },
+            {
+              "id": "1e07002e-cd09-453e-8a89-55fa4d824378",
+              "name": "adType",
+              "value": "video",
+              "type": "string"
+            },
+            {
+              "id": "e1b8822d-98cf-417f-8b4f-017f317c036c",
+              "name": "adText",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "4f508696-d085-4189-8126-eaa4f0fa553c",
+              "name": "adTitle",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "adaa4bca-fc4b-47e8-a9e1-7c9073b59609",
+              "name": "adCaption",
+              "value": "={{ $json.caption }}",
+              "type": "string"
+            },
+            {
+              "id": "ab85037e-6004-4526-b6c3-5cce6c856f11",
+              "name": "adCtaText",
+              "value": "={{ $json.cta_text }}",
+              "type": "string"
+            },
+            {
+              "id": "babc2e88-e5e0-4b47-a877-9b3857cfe324",
+              "name": "adLinkDescription",
+              "value": "={{ $json.ad.snapshot.link_description }}",
+              "type": "string"
+            },
+            {
+              "id": "b95b29af-a0f2-44b2-bbc8-fe8ff631b261",
+              "name": "adCtaLink",
+              "value": "={{ $json.link_url }}",
+              "type": "string"
+            },
+            {
+              "id": "7135058a-ca0b-470f-973a-e4cd51286dea",
+              "name": "videoThumbnailUrl",
+              "value": "={{ $json.media.videos[0].video_preview_image_url }}",
+              "type": "string"
+            },
+            {
+              "id": "20de5a16-d1fa-4f7b-8f08-d9d5892521f7",
+              "name": "videoUrl",
+              "value": "={{ $json.media.videos[0].video_hd_url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3392,
+        512
+      ],
+      "id": "da9efd02-2e1f-40f6-a127-ffe676d4c2a2",
+      "name": "Extract Only Important Ad Videos Post Fields1"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "create",
+        "projectId": "prj6uve5wvj1snq",
+        "table": "mw4h6alahnmb4mf",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Date Created",
+              "fieldValue": "={{ $now.format('yyyy-MM-dd') }}"
+            },
+            {
+              "fieldName": "Query By",
+              "fieldValue": "Product Name"
+            },
+            {
+              "fieldName": "FB Page Name",
+              "fieldValue": "={{ $json.fbPageName }}"
+            },
+            {
+              "fieldName": "Ad Type",
+              "fieldValue": "={{ $json.adType.toTitleCase() }}"
+            },
+            {
+              "fieldName": "Ad Text",
+              "fieldValue": "={{ $json.adText }}"
+            },
+            {
+              "fieldName": "Ad Title",
+              "fieldValue": "={{ $json.adTitle }}"
+            },
+            {
+              "fieldName": "Ad Caption",
+              "fieldValue": "={{ $json.adCaption }}"
+            },
+            {
+              "fieldName": "Ad CTA Text",
+              "fieldValue": "={{ $json.adCtaText }}"
+            },
+            {
+              "fieldName": "Ad CTA Link",
+              "fieldValue": "={{ $json.adCtaLink }}"
+            },
+            {
+              "fieldName": "Video Thumbnail URL",
+              "fieldValue": "={{ $json.videoThumbnailUrl }}"
+            },
+            {
+              "fieldName": "Video URL",
+              "fieldValue": "={{ $json.videoUrl }}"
+            },
+            {
+              "fieldName": "Status",
+              "fieldValue": "Completed"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        3696,
+        512
+      ],
+      "id": "b64e59b0-a907-4ed6-88cf-948b7105d7c9",
+      "name": "Add New Record1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6988a3ee-25cb-437b-ab7c-d75fc128f9ed",
+              "name": "focusIngredients",
+              "value": "={{ $json.body.data.rows[0]['Focus Ingredients'].split(\",\") }}",
+              "type": "array"
+            },
+            {
+              "id": "49cd8f06-e68d-491e-8f1a-36d1f52b5e5f",
+              "name": "maxPostsScraped",
+              "value": "={{ $json.body.data.rows[0]['Max. Posts Scraped'] }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1392,
+        624
+      ],
+      "id": "9ebec3ca-299e-4661-829f-a88b906b5c5f",
+      "name": "Extract Focus Ingredients"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "create",
+        "projectId": "prj6uve5wvj1snq",
+        "table": "mw4h6alahnmb4mf",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Date Created",
+              "fieldValue": "={{ $now.format('yyyy-MM-dd') }}"
+            },
+            {
+              "fieldName": "Query By",
+              "fieldValue": "Product Name"
+            },
+            {
+              "fieldName": "FB Page Name",
+              "fieldValue": "={{ $json.fbPageName }}"
+            },
+            {
+              "fieldName": "Ad Type",
+              "fieldValue": "={{ $json.adType.toTitleCase() }}"
+            },
+            {
+              "fieldName": "Ad Text",
+              "fieldValue": "={{ $json.adText }}"
+            },
+            {
+              "fieldName": "Ad Title",
+              "fieldValue": "={{ $json.adTitle }}"
+            },
+            {
+              "fieldName": "Ad Caption",
+              "fieldValue": "={{ $json.adCaption }}"
+            },
+            {
+              "fieldName": "Ad CTA Text",
+              "fieldValue": "={{ $json.adCtaText }}"
+            },
+            {
+              "fieldName": "Ad CTA Link",
+              "fieldValue": "={{ $json.adCtaLink }}"
+            },
+            {
+              "fieldName": "Image Thumbnail URL",
+              "fieldValue": "={{ $json.thumbnailImageUrl }}"
+            },
+            {
+              "fieldName": "Image URL",
+              "fieldValue": "={{ $json.imageUrl }}"
+            },
+            {
+              "fieldName": "Status",
+              "fieldValue": "Completed"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        3680,
+        320
+      ],
+      "id": "df1ba790-5371-473f-abfb-347b6d92c702",
+      "name": "Add New Record2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "31609329-17fc-4101-a81f-9a0a2e8decee",
+              "name": "queryBy",
+              "value": "Product Name",
+              "type": "string"
+            },
+            {
+              "id": "eacd9036-f2f5-4733-ab52-d1c3436db547",
+              "name": "fbPageName",
+              "value": "={{ $json.page_name }}",
+              "type": "string"
+            },
+            {
+              "id": "1e07002e-cd09-453e-8a89-55fa4d824378",
+              "name": "adType",
+              "value": "={{ $json.media.type }}",
+              "type": "string"
+            },
+            {
+              "id": "e1b8822d-98cf-417f-8b4f-017f317c036c",
+              "name": "adText",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "4f508696-d085-4189-8126-eaa4f0fa553c",
+              "name": "adTitle",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "adaa4bca-fc4b-47e8-a9e1-7c9073b59609",
+              "name": "adCaption",
+              "value": "={{ $json.caption }}",
+              "type": "string"
+            },
+            {
+              "id": "ab85037e-6004-4526-b6c3-5cce6c856f11",
+              "name": "adCtaText",
+              "value": "={{ $json.cta_text }}",
+              "type": "string"
+            },
+            {
+              "id": "babc2e88-e5e0-4b47-a877-9b3857cfe324",
+              "name": "adLinkDescription",
+              "value": "={{ $json.ad.snapshot.link_description }}",
+              "type": "string"
+            },
+            {
+              "id": "b95b29af-a0f2-44b2-bbc8-fe8ff631b261",
+              "name": "adCtaLink",
+              "value": "={{ $json.link_url }}",
+              "type": "string"
+            },
+            {
+              "id": "20de5a16-d1fa-4f7b-8f08-d9d5892521f7",
+              "name": "thumbnailImageUrl",
+              "value": "={{ $json.media.primary_thumbnail }}",
+              "type": "string"
+            },
+            {
+              "id": "b5922379-5b90-4168-a1d3-daa7183ffd0a",
+              "name": "imageUrl",
+              "value": "={{ $json.media.images[0].original_image_url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3376,
+        320
+      ],
+      "id": "6cafafe5-ebe7-4450-ae16-e3a097ac20b4",
+      "name": "Extract Only Important Ad Images Post Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6988a3ee-25cb-437b-ab7c-d75fc128f9ed",
+              "name": "fbPageUrl",
+              "value": "={{ $json.body.data.rows[0][\"FB Page Url\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "49cd8f06-e68d-491e-8f1a-36d1f52b5e5f",
+              "name": "maxPostsScraped",
+              "value": "={{ $json.body.data.rows[0]['Max. Posts Scraped'] }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1376,
+        1072
+      ],
+      "id": "a578f217-13cf-4a00-b5eb-7396dfd8e698",
+      "name": "Extract FB Page Url"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cfe71785-80d0-4ca1-82aa-e9d26fe98e1c",
+              "name": "displayFormat",
+              "value": "={{ $('Segmenting Ad Types2').item.json.snapshot.displayFormat }}",
+              "type": "string"
+            },
+            {
+              "id": "038abdc5-8293-4368-bff2-2f7ac00b4bc1",
+              "name": "originalImageUrl",
+              "value": "={{ $json.originalImageUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "c12d501a-8117-47d5-a7c9-c9bc18237368",
+              "name": "resizedImageUrl",
+              "value": "={{ $json.resizedImageUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "836e3dab-677c-4931-afd8-982b8b0634d5",
+              "name": "adText",
+              "value": "={{ $('Segmenting Ad Types2').item.json.snapshot.body.text }}",
+              "type": "string"
+            },
+            {
+              "id": "8c671084-c088-4736-802b-e36c163c6f56",
+              "name": "adheadline",
+              "value": "={{ $('Segmenting Ad Types2').item.json.snapshot.title }}",
+              "type": "string"
+            },
+            {
+              "id": "1ceba1e8-1261-451e-9c0c-5dd046fac740",
+              "name": "linkDescription",
+              "value": "={{ $('Segmenting Ad Types2').item.json.snapshot.linkDescription }}",
+              "type": "string"
+            },
+            {
+              "id": "fbc83aa6-a26f-4c5b-b6d3-78dcc7164e67",
+              "name": "linkUrl",
+              "value": "={{ $('Segmenting Ad Types2').item.json.snapshot.linkUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "a8b3c48b-2b7c-485b-822d-81c0eadab0f8",
+              "name": "ctaText",
+              "value": "={{ $('Segmenting Ad Types2').item.json.snapshot.ctaText }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3472,
+        800
+      ],
+      "id": "9e040812-c72c-4453-ad9e-c44c8356f588",
+      "name": "Extract Only Important Image Ad Details"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "snapshot.videos",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        3216,
+        1024
+      ],
+      "id": "d2880b44-fdf4-4ab7-a990-bbfc486650a2",
+      "name": "Split Out1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "95f6b368-b9e0-42d8-b820-2a961ffddc46",
+              "name": "displayFormat",
+              "value": "={{ $('Segmenting Ad Types2').item.json.snapshot.displayFormat }}",
+              "type": "string"
+            },
+            {
+              "id": "7cd9d673-11d6-431f-a5b2-8b7e6bfa9006",
+              "name": "videoHdUrl",
+              "value": "={{ $json.videoHdUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "ff5da4cf-c628-4ef4-851c-2bc9bbc2b6bd",
+              "name": "videoSdUrl",
+              "value": "={{ $json.videoSdUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "2dc5a92c-fcfb-4e0f-9b03-0e487428650e",
+              "name": "videoPreviewImageUrl",
+              "value": "={{ $json.videoPreviewImageUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "836e3dab-677c-4931-afd8-982b8b0634d5",
+              "name": "adText",
+              "value": "={{ $('Segmenting Ad Types2').item.json.snapshot.body.text }}",
+              "type": "string"
+            },
+            {
+              "id": "8c671084-c088-4736-802b-e36c163c6f56",
+              "name": "adheadline",
+              "value": "={{ $('Segmenting Ad Types2').item.json.snapshot.title }}",
+              "type": "string"
+            },
+            {
+              "id": "fbc83aa6-a26f-4c5b-b6d3-78dcc7164e67",
+              "name": "linkUrl",
+              "value": "={{ $('Segmenting Ad Types2').item.json.snapshot.linkUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "a8b3c48b-2b7c-485b-822d-81c0eadab0f8",
+              "name": "ctaText",
+              "value": "={{ $('Segmenting Ad Types2').item.json.snapshot.ctaText }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3472,
+        1024
+      ],
+      "id": "6c01b184-b99e-472e-9f8c-829f5fe2725b",
+      "name": "Extract Only Important Video Ad Details"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "snapshot.cards",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        3200,
+        1280
+      ],
+      "id": "e74e682c-88d2-4bcf-8bce-9703772e0219",
+      "name": "Split Out2"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.originalImageUrl }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "72d44ae5-5e22-412e-8fbf-4a8c5d0fb336"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Image Carousel Card"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "af30e663-0375-4e37-b814-914a281d2115",
+                    "leftValue": "={{ $json.videoHdUrl }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Video Carousel Card"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        3456,
+        1312
+      ],
+      "id": "508f87b8-e140-453d-b49f-ad956548c14c",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "25a8254b-b9ed-419b-87ef-2a0b36fda5cc",
+              "name": "displayFormat",
+              "value": "={{ $('Segmenting Ad Types2').item.json.snapshot.displayFormat }}",
+              "type": "string"
+            },
+            {
+              "id": "aeda76b1-7ca5-46f1-8a80-f1682638129c",
+              "name": "originalImageUrl",
+              "value": "={{ $json.originalImageUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "93fe08c5-a52b-4984-a328-cff860c00d06",
+              "name": "resizedImageUrl",
+              "value": "={{ $json.resizedImageUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "836e3dab-677c-4931-afd8-982b8b0634d5",
+              "name": "adText",
+              "value": "={{ $json.body }}",
+              "type": "string"
+            },
+            {
+              "id": "8c671084-c088-4736-802b-e36c163c6f56",
+              "name": "adheadline",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "fbc83aa6-a26f-4c5b-b6d3-78dcc7164e67",
+              "name": "linkUrl",
+              "value": "={{ $('Segmenting Ad Types2').item.json.snapshot.linkUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "a8b3c48b-2b7c-485b-822d-81c0eadab0f8",
+              "name": "ctaText",
+              "value": "={{ $('Segmenting Ad Types2').item.json.snapshot.ctaText }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3728,
+        1184
+      ],
+      "id": "07a63f54-4ee2-449c-8d00-330ff1cd3f1b",
+      "name": "Extract Only Important Image Carousel Ad Details"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "358dbe57-1f1f-4c0c-8600-c9a65d846ff1",
+              "name": "displayFormat",
+              "value": "={{ $('Segmenting Ad Types2').item.json.snapshot.displayFormat }}",
+              "type": "string"
+            },
+            {
+              "id": "7cd9d673-11d6-431f-a5b2-8b7e6bfa9006",
+              "name": "videoHdUrl",
+              "value": "={{ $json.videoHdUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "ff5da4cf-c628-4ef4-851c-2bc9bbc2b6bd",
+              "name": "videoSdUrl",
+              "value": "={{ $json.videoSdUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "2dc5a92c-fcfb-4e0f-9b03-0e487428650e",
+              "name": "videoPreviewImageUrl",
+              "value": "={{ $json.videoPreviewImageUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "836e3dab-677c-4931-afd8-982b8b0634d5",
+              "name": "adText",
+              "value": "={{ $json.body }}",
+              "type": "string"
+            },
+            {
+              "id": "8c671084-c088-4736-802b-e36c163c6f56",
+              "name": "adheadline",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "fbc83aa6-a26f-4c5b-b6d3-78dcc7164e67",
+              "name": "linkUrl",
+              "value": "={{ $('Segmenting Ad Types2').item.json.snapshot.linkUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "a8b3c48b-2b7c-485b-822d-81c0eadab0f8",
+              "name": "ctaText",
+              "value": "={{ $('Segmenting Ad Types2').item.json.snapshot.ctaText }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3728,
+        1456
+      ],
+      "id": "e1f9e9fd-3636-45b3-ae26-a09d31381768",
+      "name": "Extract Only Important Video Carousel Ad Details"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        4000,
+        1232
+      ],
+      "id": "27f653c9-a4f1-4d1b-8b5f-5c5fe485d6ee",
+      "name": "Merge"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        3840,
+        928
+      ],
+      "id": "4c22cf3b-b58d-4550-8c63-c6b2b08002f2",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        4208,
+        944
+      ],
+      "id": "36125b81-4d9a-456e-bd9b-de51c890bac7",
+      "name": "Merge2"
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1952,
+        1072
+      ],
+      "id": "e199f1c5-897d-4511-8dbd-892b94842776",
+      "name": "Wait2",
+      "webhookId": "c619b5fe-e9ba-46b4-be6c-b3fe4fa81eed"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.data.defaultDatasetId }}/items ",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2640,
+        1056
+      ],
+      "id": "920a6500-ce66-43f0-aee7-a95d119b89a2",
+      "name": "Get Datasets2",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/actor-tasks/luminous_night~facebook-ads-scraper-task/runs",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"isDetailsPerAd\": true,\n    \"onlyTotal\": false,\n    \"resultsLimit\": {{ $json.maxPostsScraped }},\n    \"startUrls\": [\n        {\n            \"url\": {{ JSON.stringify($json.fbPageUrl) }},\n            \"method\": \"GET\"\n        }\n    ]\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1664,
+        1072
+      ],
+      "id": "ee765d80-e419-48df-a2c9-020a0a445ff2",
+      "name": "Actor - Run Task2"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/actor-runs/{{ $json.data.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "waitForFinish",
+              "value": "60"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2176,
+        1072
+      ],
+      "id": "c1ea9e88-553a-4cba-a781-a597210c5573",
+      "name": "Get Actor Task ID2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "575cc607-2b70-4323-b268-995590595b10",
+              "leftValue": "={{ $json.data.status }}",
+              "rightValue": "SUCCEEDED",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2400,
+        1072
+      ],
+      "id": "5bc809b7-63e3-48c8-8f2e-93004ef53fe0",
+      "name": "Check Task Status2"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.snapshot.images }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "array",
+                      "operation": "notEmpty",
+                      "singleValue": true
+                    },
+                    "id": "63348a44-925a-4dfc-b25c-f7f274c9f0be"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Image Ads Type"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "76576aa8-bcde-4eff-8d5e-42f1e94d469d",
+                    "leftValue": "={{ $json.snapshot.videos }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "array",
+                      "operation": "notEmpty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Video Ads Type"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "5b29e947-9056-406b-9bb0-5f150269ed9a",
+                    "leftValue": "={{ $json.snapshot.cards }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "array",
+                      "operation": "notEmpty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Carousel Ads Type"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        2896,
+        1024
+      ],
+      "id": "76228ba4-5a25-4453-9abf-23faa147472d",
+      "name": "Segmenting Ad Types2"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "snapshot.images",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        3216,
+        800
+      ],
+      "id": "f224aa7e-1815-45ab-890d-b2a5ca095f1d",
+      "name": "Split Out3"
+    },
+    {
+      "parameters": {
+        "content": "## FB Ads Library Scraper - FB Ads Data Scraping",
+        "height": 1680,
+        "width": 4032
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        368,
+        -32
+      ],
+      "typeVersion": 1,
+      "id": "8f627682-5957-420b-b5d2-ed7d8d36bc37",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "get-ads-campaign-use-cases",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        368,
+        1904
+      ],
+      "id": "32f0da03-4ce7-48b2-8e99-288256bcf0a7",
+      "name": "Get Campaign Use Cases",
+      "webhookId": "2f20cdb3-61ea-42d9-8802-19c63232bcd1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "7d2f9157-92ea-4598-a1a1-21ca0bc220dd",
+              "leftValue": "={{ $json.query.action }}",
+              "rightValue": "getCampaignUseCases",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        576,
+        1904
+      ],
+      "id": "ad51c390-9835-4bcb-b64d-881a562f1a55",
+      "name": "Execute If Action Triggered = getCampaignUseCases"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        560,
+        2080
+      ],
+      "id": "1e1f1c4b-adb8-43e6-9f7d-5a5e8bbf797c",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.data.rows[0]['Target Language'] }}",
+                    "rightValue": "Chinese",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "id": "01a6c5b6-fe69-4875-a711-f934ca087ec4"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Chinese"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "02e42591-3df5-4d07-849f-193c5fd9c9e0",
+                    "leftValue": "={{ $json.body.data.rows[0]['Target Language'] }}",
+                    "rightValue": "Malay",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Malay"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        928,
+        1904
+      ],
+      "id": "2bbb892f-fdd0-4e87-8c9a-9560fb4e0c6d",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "projectId": "prj6uve5wvj1snq",
+        "table": "mgfh9ff6l8dq3ol",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Get Campaign Use Cases').item.json.body.data.rows[0].Id }}"
+            },
+            {
+              "fieldName": "Campaign Use Cases",
+              "fieldValue": "={{ $json['Audience Use Cases'] }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1728,
+        1744
+      ],
+      "id": "9cb4b39b-8016-4369-8fc3-53559919ccb5",
+      "name": "Update The Ad Hook & Angle Table For Use Cases"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "projectId": "pobx1meeegr7690",
+        "table": "msca070h2ttcz3j",
+        "options": {
+          "where": "=(Date Created,eq,exactDate,{{ $now.format('yyyy-MM-dd') }})~and(Focus Products,eq,{{ $json.body.data.rows[0]['Focus Product'][0] }})~and(Version,eq,{{ $json.body.data.rows[0].Version }})~and(Target Language,eq,{{ $json.body.data.rows[0]['Target Language'] }})"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1440,
+        1744
+      ],
+      "id": "263a39b7-6ae1-4966-9963-a6cd2eac756c",
+      "name": "Get Filtered CHI Language & Version Use Case"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "projectId": "prj6uve5wvj1snq",
+        "table": "mgfh9ff6l8dq3ol",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Get Campaign Use Cases').item.json.body.data.rows[0].Id }}"
+            },
+            {
+              "fieldName": "Campaign Use Cases",
+              "fieldValue": "={{ $json['Audience Use Cases'] }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1728,
+        1984
+      ],
+      "id": "a06eb8f6-5c30-4eea-acee-6d9b66d6c2e3",
+      "name": "Update The Ad Hook & Angle Table For Use Cases1"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "projectId": "pobx1meeegr7690",
+        "table": "msca070h2ttcz3j",
+        "options": {
+          "where": "=(Date Created,eq,exactDate,{{ $now.format('yyyy-MM-dd') }})~and(Focus Products,eq,{{ $json.body.data.rows[0]['Focus Product'][0] }})~and(Version,eq,{{ $json.body.data.rows[0].Version }})~and(Target Language,eq,{{ $json.body.data.rows[0]['Target Language'] }})"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1440,
+        1984
+      ],
+      "id": "96c00af3-54b6-42b4-87dc-69ffcb523565",
+      "name": "Get Filtered MLY Language & Version Use Case1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "7d2f9157-92ea-4598-a1a1-21ca0bc220dd",
+              "leftValue": "={{ $json.query.action }}",
+              "rightValue": "generateAdHooks",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        624,
+        2352
+      ],
+      "id": "19ce7302-aa2f-4ca6-a77a-0ab0b0bad935",
+      "name": "Execute If Action Triggered = getCampaignUseCases1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        464,
+        2608
+      ],
+      "id": "9657c4aa-f65d-40fc-9b5e-c1fd21dda66c",
+      "name": "No Operation, do nothing1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d20b3fe1-156e-4d33-8fee-f1db653bc068",
+              "name": "version",
+              "value": "={{ $json.Version }}",
+              "type": "string"
+            },
+            {
+              "id": "f2eda636-d1f0-4214-bbfd-c9bd7cc9fccf",
+              "name": "focusProduct",
+              "value": "={{ $json['Focus Product'][0] }}",
+              "type": "string"
+            },
+            {
+              "id": "b7956738-9fb6-4c24-8296-0498ca9125ee",
+              "name": "focusIngredients",
+              "value": "={{ $json['Focus Ingredients'][0] }}",
+              "type": "string"
+            },
+            {
+              "id": "a1e164dc-8371-49f9-bca0-f58ae4f06ac5",
+              "name": "targetLanguage",
+              "value": "={{ $json['Target Language'] }}",
+              "type": "string"
+            },
+            {
+              "id": "50d384ab-402a-4bdf-8525-0b40bf0387a9",
+              "name": "campaignUseCase",
+              "value": "={{ $json['Campaign Use Cases'] }}",
+              "type": "string"
+            },
+            {
+              "id": "dc82d3c0-b9a9-4d22-af6f-273ff079e813",
+              "name": "currentPromotion",
+              "value": "={{ $json['Current Promotion'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1168,
+        2336
+      ],
+      "id": "9e229345-0c73-4c59-82f4-3ae95a02b53d",
+      "name": "Extract Only Import Fields For Ad Hooks Generation"
+    },
+    {
+      "parameters": {
+        "name": "ai_web_search",
+        "description": "=Call this tool to get in depth information about the unsure knowledge if you think that the query is not really in your scope.",
+        "workflowId": {
+          "__rl": true,
+          "value": "yPiuHaYs19Sz99j9",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Tavily AI Research Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        1648,
+        2640
+      ],
+      "id": "1ba85ae7-81d3-4f6f-8145-a9a63321d7f5",
+      "name": "ai_web_search"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "=Call this tool to fetch the focus product related details including product description, product main functionalities and product main ingredients.",
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "projectId": "penvr074840k8bm",
+        "table": "mtccczbjhqssdbn",
+        "options": {
+          "where": "=(Product Name,eq,{{ $('Extract Only Import Fields For Ad Hooks Generation').item.json.focusProduct }})"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDbTool",
+      "typeVersion": 3,
+      "position": [
+        1280,
+        2608
+      ],
+      "id": "14d98a85-7b3e-4669-8b0c-bd11749164c6",
+      "name": "product_data_fetcher"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "= Call this tool to fetched the collected own campaign ad post and competitor's ad posts from ad library and analyze the important elements details of ad structure such as ad texts, ad title, ad caption, link description, ad cta text and other details.",
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "projectId": "prj6uve5wvj1snq",
+        "table": "mw4h6alahnmb4mf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDbTool",
+      "typeVersion": 3,
+      "position": [
+        1472,
+        2624
+      ],
+      "id": "f2773cea-80d6-4db3-b8dd-1a7a5293870d",
+      "name": "ad_library_analyzer"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "=Call this tool to fetched the collected own campaign ad post and competitor's ad posts from ad library and analyze the important elements details of ad structure such as ad texts, ad title, ad caption, link description, ad cta text and other details.",
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "projectId": "prj6uve5wvj1snq",
+        "table": "mw4h6alahnmb4mf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDbTool",
+      "typeVersion": 3,
+      "position": [
+        2560,
+        2592
+      ],
+      "id": "69cd74f9-3a83-4e43-a50b-db91a1ddd892",
+      "name": "ad_library_analyzer1"
+    },
+    {
+      "parameters": {
+        "name": "ai_web_search",
+        "description": "=Call this tool to get in depth information about the unsure knowledge if you think that the query is not really in your scope.",
+        "workflowId": {
+          "__rl": true,
+          "value": "yPiuHaYs19Sz99j9",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Tavily AI Research Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        2720,
+        2592
+      ],
+      "id": "45046684-6cb2-4a2b-8035-817c765e077c",
+      "name": "ai_web_search1"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "= Call this tool to fetch the focus product related details including product description, product main functionalities and product main ingredients etc.",
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "projectId": "penvr074840k8bm",
+        "table": "mtccczbjhqssdbn",
+        "options": {
+          "where": "=(Product Name,eq,{{ $('Extract Only Import Fields For Ad Hooks Generation').item.json.focusProduct }})"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDbTool",
+      "typeVersion": 3,
+      "position": [
+        2384,
+        2592
+      ],
+      "id": "b166d35b-9199-4657-8a43-4270a46b6539",
+      "name": "product_data_fetcher1"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "projectId": "prj6uve5wvj1snq",
+        "table": "mgfh9ff6l8dq3ol",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Update Ad Hook').item.json.Id }}"
+            },
+            {
+              "fieldName": "Ad Angle",
+              "fieldValue": "={{ $json.output.adAngle }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        2944,
+        2336
+      ],
+      "id": "2a70c4f4-eb11-4309-b2f6-8b96b6a1407d",
+      "name": "Update Ad Angle"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "projectId": "prj6uve5wvj1snq",
+        "table": "mgfh9ff6l8dq3ol",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Generate Ad Hooks').item.json.body.data.rows[0].Id }}"
+            },
+            {
+              "fieldName": "Ad Hook",
+              "fieldValue": "={{ $json.output.adHook }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1856,
+        2336
+      ],
+      "id": "02730bb5-b0b3-4788-af47-9535d3d2e11a",
+      "name": "Update Ad Hook"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2fbc23ed-5b57-49e2-b7ff-dfd5b110499d",
+              "name": "version",
+              "value": "={{ $('Extract Only Import Fields For Ad Hooks Generation').item.json.version }}",
+              "type": "string"
+            },
+            {
+              "id": "a41d4661-9902-4ba4-8883-797d6a7e50a1",
+              "name": "focusProducts",
+              "value": "={{ $('Extract Only Import Fields For Ad Hooks Generation').item.json.focusProduct }}",
+              "type": "string"
+            },
+            {
+              "id": "1ed18031-fe1c-455c-91b6-2f90ca9464a9",
+              "name": "focusIngredients",
+              "value": "={{ $('Extract Only Import Fields For Ad Hooks Generation').item.json.focusIngredients }}",
+              "type": "string"
+            },
+            {
+              "id": "5e9fcef9-a435-4a4e-b068-1deda15ece62",
+              "name": "targetLanguage",
+              "value": "={{ $('Extract Only Import Fields For Ad Hooks Generation').item.json.targetLanguage }}",
+              "type": "string"
+            },
+            {
+              "id": "1ea27589-7403-4535-9681-a9e2376bb22d",
+              "name": "currentPromotion",
+              "value": "={{ $('Extract Only Import Fields For Ad Hooks Generation').item.json.currentPromotion }}",
+              "type": "string"
+            },
+            {
+              "id": "152c15f2-3027-46c4-b578-4db12ecfd94c",
+              "name": "adHook",
+              "value": "={{ $json['Ad Hook'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2128,
+        2336
+      ],
+      "id": "24891afe-8a9d-4d59-b425-350817822657",
+      "name": "Retrieve All Field With Updated Ad Hook"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0f0b4d40-6285-4378-b090-95c4d9842ee9",
+              "name": "id",
+              "value": "={{ $json.Id }}",
+              "type": "string"
+            },
+            {
+              "id": "2fbc23ed-5b57-49e2-b7ff-dfd5b110499d",
+              "name": "version",
+              "value": "={{ $('Extract Only Import Fields For Ad Hooks Generation').item.json.version }}",
+              "type": "string"
+            },
+            {
+              "id": "a41d4661-9902-4ba4-8883-797d6a7e50a1",
+              "name": "focusProducts",
+              "value": "={{ $('Extract Only Import Fields For Ad Hooks Generation').item.json.focusProduct }}",
+              "type": "string"
+            },
+            {
+              "id": "1ed18031-fe1c-455c-91b6-2f90ca9464a9",
+              "name": "focusIngredients",
+              "value": "={{ $('Extract Only Import Fields For Ad Hooks Generation').item.json.focusIngredients }}",
+              "type": "string"
+            },
+            {
+              "id": "5e9fcef9-a435-4a4e-b068-1deda15ece62",
+              "name": "targetLanguage",
+              "value": "={{ $('Extract Only Import Fields For Ad Hooks Generation').item.json.targetLanguage }}",
+              "type": "string"
+            },
+            {
+              "id": "1ea27589-7403-4535-9681-a9e2376bb22d",
+              "name": "currentPromotion",
+              "value": "={{ $('Extract Only Import Fields For Ad Hooks Generation').item.json.currentPromotion }}",
+              "type": "string"
+            },
+            {
+              "id": "152c15f2-3027-46c4-b578-4db12ecfd94c",
+              "name": "adHook",
+              "value": "={{ $('Retrieve All Field With Updated Ad Hook').item.json.adHook }}",
+              "type": "string"
+            },
+            {
+              "id": "bf1e1d3b-754b-4c34-a5ff-a1dc7a7e6a00",
+              "name": "adAngle",
+              "value": "={{ $json['Ad Angle'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3184,
+        2336
+      ],
+      "id": "7c0d00c9-0e40-4b75-b1f6-b93f8b4d455a",
+      "name": "Retrieve All Field With Updated Ad Angle"
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-5-mini",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        2576
+      ],
+      "id": "9950fc23-d4c9-44c4-a3f3-0e74e95004ff",
+      "name": "OR GPT5-Mini"
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-5-mini",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        2208,
+        2576
+      ],
+      "id": "f75aaad4-6171-4854-b661-0180e055ae2a",
+      "name": "OR GPT5-Mini1"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "projectId": "prj6uve5wvj1snq",
+        "table": "mgfh9ff6l8dq3ol",
+        "options": {
+          "where": "=(Date Created,eq,exactDate,{{ $now.format('yyyy-MM-dd') }})~and(Focus Product,eq,{{ $json.body.data.rows[0]['Focus Product'][0] }})~and(Version,eq,{{ $json.body.data.rows[0].Version }})~and(Target Language,eq,{{ $json.body.data.rows[0]['Target Language'] }})"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        896,
+        2336
+      ],
+      "id": "0d25b563-34dd-4a02-b887-ea454b77e0a4",
+      "name": "Get Date Filtered Ad Hooks & Angle Generator"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Raw Message For Ad Image: {{ $json.adVisualDescription }}",
+        "options": {
+          "systemMessage": "=# Role\nYou are an ads campaign creative specialist who are familiar with visual graphic design specifically for Ad Campaigns.\n\n# Task\nYou are tasked to craft an ad creative or visual ideation draft to creative or graphic designer team as the guidelines to generate the right ad visual design based on the provided raw message for ad image.\n\n# Visual Ideation Structure \nYou are require to come out a proper visual ideation structure based on the following component description as below:\n**Core Subject**: Illustrate the main person, character or object based on the specific raw message of ad image.\n**Background**: Illustrate the background picture, colors or environment based on the specific raw message of ad image.\n**Style**: Illustrate the styles can be apply based on the specific raw message of ad image.\n**Medium**: Illustrate and specify describe the suitable artistic medium (e.g., Commercial product photography, 3D render, oil painting, analog film photo) based on the specific raw message of ad image.\n**Lighting**: Illustrate and specify describe the quality and source of the light (e.g., golden hour, studio lighting, neon glow) based on the specific raw message of ad image.\n\nMood: Describe the overall feeling or atmosphere (e.g., serene, energetic, futuristic, nostalgic) from the selected images.\n\nComposition: Describe the framing and camera angle (e.g., centered, eye-level, low-angle, top-down) from the selected images.\n\nColor Palette: List the dominant colors and overall color scheme from the selected images.\n\nText Overlay\nList and describe each distinct piece of text found from the selected images. If there is no text, simply write \"None.\"\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        3824,
+        2576
+      ],
+      "id": "db87dfab-0293-478c-8ac6-0723a4a4bbcd",
+      "name": "Ad Visual Ideation Generator",
+      "disabled": true
+    }
+  ],
+  "connections": {
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Ad Hook Generator",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ad Hook Generator": {
+      "main": [
+        [
+          {
+            "node": "Update Ad Hook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a row2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows1": {
+      "main": [
+        [
+          {
+            "node": "Update a row2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Get many rows1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser3": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Ad Angle Generator",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Angle Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ad Angle Generator": {
+      "main": [
+        [
+          {
+            "node": "Update Ad Angle",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields5": {
+      "main": [
+        [
+          {
+            "node": "Ad Copy Structure Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a row3": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows2": {
+      "main": [
+        [
+          {
+            "node": "Update a row3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get many rows2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser4": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Meta Ad Angle Generator",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "web_search2": {
+      "ai_tool": [
+        [
+          {
+            "node": "Meta Ad Angle Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think2": {
+      "ai_tool": [
+        [
+          {
+            "node": "Meta Ad Angle Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "company_research_fetcher2": {
+      "ai_tool": [
+        [
+          {
+            "node": "Meta Ad Angle Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Meta Ad Angle Generator": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Full Ad Copy Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser4",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Meta Ad Angle Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields6": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a row4": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows3": {
+      "main": [
+        [
+          {
+            "node": "Update a row4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items2": {
+      "main": [
+        [
+          {
+            "node": "Update a row5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get many rows3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Ad Hooks": {
+      "main": [
+        [
+          {
+            "node": "Execute If Action Triggered = getCampaignUseCases1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser7": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Ad Copy Structure Generator",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Ad Copy Structure Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a row7": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update a row7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Full Ad Copy Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ad Copy Structure Generator": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser8": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Full Ad Copy Generator",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Full Ad Copy Generator": {
+      "main": [
+        [
+          {
+            "node": "Update a row8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrape FB Ads Posts By Product": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrape FB Ads Posts By URL": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Scrape FB Ads Posts By Ingredients": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge3": {
+      "main": [
+        [
+          {
+            "node": "Switch2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch2": {
+      "main": [
+        [
+          {
+            "node": "Extract Focus Product",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Extract Focus Ingredients",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Extract FB Page Url",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Focus Product": {
+      "main": [
+        [
+          {
+            "node": "Actor - Run Task1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Get Actor Task ID1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Datasets1": {
+      "main": [
+        [
+          {
+            "node": "Segmenting Ad Types1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Actor - Run Task1": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Actor Task ID1": {
+      "main": [
+        [
+          {
+            "node": "Check Task Status1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Task Status1": {
+      "main": [
+        [
+          {
+            "node": "Get Datasets1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Segmenting Ad Types1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Extract Only Important Ad Videos Post Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Only Important Ad Videos Post Fields": {
+      "main": [
+        [
+          {
+            "node": "Add New Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get Actor Task ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Datasets": {
+      "main": [
+        [
+          {
+            "node": "Segmenting Ad Types",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Actor - Run Task": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Actor Task ID": {
+      "main": [
+        [
+          {
+            "node": "Check Task Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Task Status": {
+      "main": [
+        [
+          {
+            "node": "Get Datasets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Segmenting Ad Types": {
+      "main": [
+        [
+          {
+            "node": "Extract Only Important Ad Images Post Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Extract Only Important Ad Videos Post Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Only Important Ad Videos Post Fields1": {
+      "main": [
+        [
+          {
+            "node": "Add New Record1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Focus Ingredients": {
+      "main": [
+        [
+          {
+            "node": "Actor - Run Task",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Only Important Ad Images Post Fields": {
+      "main": [
+        [
+          {
+            "node": "Add New Record2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract FB Page Url": {
+      "main": [
+        [
+          {
+            "node": "Actor - Run Task2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Only Important Image Ad Details": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Extract Only Important Video Ad Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Only Important Video Ad Details": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Split Out2": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Extract Only Important Image Carousel Ad Details",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Extract Only Important Video Carousel Ad Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Only Important Image Carousel Ad Details": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Only Important Video Carousel Ad Details": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait2": {
+      "main": [
+        [
+          {
+            "node": "Get Actor Task ID2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Datasets2": {
+      "main": [
+        [
+          {
+            "node": "Segmenting Ad Types2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Actor - Run Task2": {
+      "main": [
+        [
+          {
+            "node": "Wait2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Actor Task ID2": {
+      "main": [
+        [
+          {
+            "node": "Check Task Status2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Task Status2": {
+      "main": [
+        [
+          {
+            "node": "Get Datasets2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Segmenting Ad Types2": {
+      "main": [
+        [
+          {
+            "node": "Split Out3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Split Out2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out3": {
+      "main": [
+        [
+          {
+            "node": "Extract Only Important Image Ad Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Campaign Use Cases": {
+      "main": [
+        [
+          {
+            "node": "Execute If Action Triggered = getCampaignUseCases",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute If Action Triggered = getCampaignUseCases": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Get Filtered CHI Language & Version Use Case",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Filtered MLY Language & Version Use Case1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Filtered CHI Language & Version Use Case": {
+      "main": [
+        [
+          {
+            "node": "Update The Ad Hook & Angle Table For Use Cases",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Filtered MLY Language & Version Use Case1": {
+      "main": [
+        [
+          {
+            "node": "Update The Ad Hook & Angle Table For Use Cases1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute If Action Triggered = getCampaignUseCases1": {
+      "main": [
+        [
+          {
+            "node": "Get Date Filtered Ad Hooks & Angle Generator",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Only Import Fields For Ad Hooks Generation": {
+      "main": [
+        [
+          {
+            "node": "Ad Hook Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_web_search": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Hook Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "product_data_fetcher": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Hook Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ad_library_analyzer": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Hook Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ad_library_analyzer1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Angle Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_web_search1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Angle Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "product_data_fetcher1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Angle Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Ad Angle": {
+      "main": [
+        [
+          {
+            "node": "Retrieve All Field With Updated Ad Angle",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Ad Hook": {
+      "main": [
+        [
+          {
+            "node": "Retrieve All Field With Updated Ad Hook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Retrieve All Field With Updated Ad Hook": {
+      "main": [
+        [
+          {
+            "node": "Ad Angle Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OR GPT5-Mini": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Ad Hook Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OR GPT5-Mini1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Ad Angle Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Date Filtered Ad Hooks & Angle Generator": {
+      "main": [
+        [
+          {
+            "node": "Extract Only Import Fields For Ad Hooks Generation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Ad Copy Structure Generator": [
+      {
+        "json": {
+          "output": {
+            "version": "Version 1",
+            "headlineSection": "Healthy Reef, Happy Home — Discover Rare Corals & Exotic Marine Life with Confidence!",
+            "problemAgitatedSection": "Struggling with sick fish, dying corals, or unreliable aquarium supplies? It’s frustrating watching your marine hobby suffer due to unhealthy livestock or delayed deliveries.",
+            "problemAwareSection": "Many marine aquarium enthusiasts face challenges sourcing fully quarantined, disease-free marine life and premium equipment. Without proper care before arrival, fish and corals often arrive stressed, increasing mortality and aquarium instability.",
+            "solutionShowcasingSection": "At Reef Haven, we’ve perfected quarantine protocols using Copper+Prazi+Formalin to ensure every fish and coral is healthy and vibrant before it reaches you. With a 6-month ZERO DOA record, expert overnight Australia-wide shipping, and an extensive selection of rare live corals, exotic marine fish, invertebrates, and top-tier aquarium gear, we make marine aquarium keeping worry-free. Plus, our custom aquarium design and professional maintenance services help your underwater paradise thrive effortlessly.",
+            "callToAction": "Ready to bring the reef home and enjoy a thriving, stress-free aquarium? Shop now or contact Reef Haven to start your vibrant marine journey today!"
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "version": "Version 2",
+            "headlineSection": "Create a Stunning Reef Aquarium Without the Stress!",
+            "problemAgitatedSection": "Are you overwhelmed by the complexities of setting up and maintaining a saltwater aquarium? Struggling with unhealthy livestock, unclear equipment choices, or time-consuming upkeep can turn your dream reef into a source of frustration.",
+            "problemAwareSection": "Many reef enthusiasts face challenges like unhealthy fish due to unquarantined livestock, complicated aquarium setups, and the hassle of sourcing quality marine life and equipment. Without expert support, maintaining a vibrant, thriving tank can feel impossible.",
+            "solutionShowcasingSection": "Reef Haven offers a complete, end-to-end solution: custom aquarium design tailored to your space and style, ongoing professional maintenance to keep your ecosystem healthy, and convenient tank-ready water delivery. Our quarantined and medicated marine livestock ensure you receive healthy, stress-free fish and corals. Plus, with nationwide overnight shipping, premium equipment, and expert packing, we make creating and enjoying your dream reef tank easy and reliable.",
+            "callToAction": "Book your free consultation with Reef Haven today and let us take the hassle out of reef keeping, from design to delivery and beyond!"
+          }
+        }
+      },
+      {
+        "json": {
+          "output": {
+            "version": "Version 3",
+            "headlineSection": "Unlock Vibrant Reef Success with Reef Haven’s Complete Marine Ecosystem Solution!",
+            "problemAgitatedSection": "Tired of losing precious fish and corals to disease or poor shipment conditions? Frustrated with costly DOAs and unreliable aquarium supplies that threaten your marine ecosystem’s health and beauty?",
+            "problemAwareSection": "Without proper quarantine, treatment, and secure packaging, marine livestock often arrive stressed, sick, or dead—putting your entire reef at risk and crushing your enthusiasm for saltwater aquariums.",
+            "solutionShowcasingSection": "Reef Haven guarantees healthier, disease-free marine life through rigorous quarantine protocols using copper, praziquantel, and formalin treatments. Every vibrant coral, designer clownfish, and specialist invert we offer comes fully treated and shipped with expert overnight nationwide delivery—ensuring zero DOAs even in Australia’s toughest weather. Plus, our extensive range includes premium aquarium equipment, custom aquarium design, hassle-free maintenance, and water delivery services. Experience peace of mind and a thriving reef right at your doorstep.",
+            "callToAction": "Join hundreds of successful reef keepers—shop Reef Haven today and transform your saltwater aquarium into a flourishing masterpiece with guaranteed reef success!"
+          }
+        }
+      }
+    ]
+  },
+  "versionId": "2364ef67-a3f8-4d73-95ea-edebc086341a",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-09-13T03:15:38.173Z",
+      "createdAt": "2025-09-13T03:15:38.173Z",
+      "role": "workflow:owner",
+      "workflowId": "BCs0bvYb7RmYA9Sd",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
