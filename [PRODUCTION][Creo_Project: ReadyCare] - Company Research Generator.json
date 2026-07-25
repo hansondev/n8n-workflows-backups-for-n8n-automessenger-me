@@ -1,0 +1,457 @@
+{
+  "updatedAt": "2025-06-18T14:51:23.000Z",
+  "createdAt": "2025-06-18T14:34:53.246Z",
+  "id": "0B6T1MjwIaUQXNhe",
+  "name": "[PRODUCTION][Creo_Project: ReadyCare] - Company Research Generator",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ddc53601-f3de-4f0e-9bac-4ad590891705",
+              "leftValue": "={{ $json['Research Output'] }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "string",
+                "operation": "notExists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -40,
+        20
+      ],
+      "id": "5f601f45-f475-4d91-954d-d46464a60263",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        160,
+        180
+      ],
+      "id": "5aeaef18-c232-41d1-874a-5728963848d4",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to get the search query through the search engine, gather the sources and summarize the web research as the output.",
+        "workflowId": {
+          "__rl": true,
+          "value": "Ek66VfFhjAWBSb3v",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Tavily AI Research Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ $('If').item.json['Company Name'] }} {{ $('If').item.json['Company Location'] }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        520,
+        180
+      ],
+      "id": "1f826b09-38e2-40b9-b5fc-5501ddc5445c",
+      "name": "ai_web_research_tool"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Company Name: {{ $json['Company Name'] }} {{ $json['Company Location'] }}\nIndustry Type: {{ $json['Industry Types'] }}\nWebsite URL: {{ $json['Company Website'] }}",
+        "options": {
+          "systemMessage": "=# Role\nYou are a web research specialist who familiarized on scraping the web content from the user search query and summarizing what the company, brand and products details.  \n\n# Task\nYou are tasked to scrape and summarize the web research output based on user provided information such as company name, website url and industry type.\n\n# Tool\nIn order able to scrape the web content based on user provided website url and summarize it as the web research summary, you are require to use the following tool:\n- **`ai_web_research_tool`** : Call this tool to get the search query through the ai search engine, gather the sources and summarize the web research as the output.\n\n# Output\nThe output should be in plain text based without any task explaination and other unnecessary details."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        280,
+        0
+      ],
+      "id": "c333afdf-d107-41ff-8967-461ad1b933d7",
+      "name": "Web Research Agent"
+    },
+    {
+      "parameters": {
+        "formTitle": "Creo Client: ReadyCare Company Research",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Sementra Hot Spring Nature Resort Gopeng"
+                  },
+                  {
+                    "option": "Readycare Signature"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Company Website",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "https://sementra.my/"
+                  },
+                  {
+                    "option": "https://rcsignature.com.my/"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Company Location",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Ipoh Perak, Malaysia"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Industry Types",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Fast Moving Consumer Goods"
+                  },
+                  {
+                    "option": "Non-chemical Products"
+                  },
+                  {
+                    "option": "Home & Office Cleaning solutions"
+                  },
+                  {
+                    "option": "Bio-based Cleaning Products"
+                  }
+                ]
+              },
+              "multiselect": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -800,
+        20
+      ],
+      "id": "4eb8d576-a1da-4a5d-9eb2-0acfe98431d2",
+      "name": "On form submission",
+      "webhookId": "e914690d-a7e1-40f4-9fac-72425addce82"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "create",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p7wajxjrsq5m1oi",
+        "table": "mige3921kfky65s",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Company Name",
+              "fieldValue": "={{ $json.Name }}"
+            },
+            {
+              "fieldName": "Company Website",
+              "fieldValue": "={{ $json['Company Website'] }}"
+            },
+            {
+              "fieldName": "Company Location",
+              "fieldValue": "={{ $json['Company Location'] }}"
+            },
+            {
+              "fieldName": "Industry Types",
+              "fieldValue": "={{ $json['Industry Types'] }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -540,
+        20
+      ],
+      "id": "6a85d851-ee1c-4a91-b420-9f1a886f8084",
+      "name": "Create Company Details Input",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p7wajxjrsq5m1oi",
+        "table": "mige3921kfky65s",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -320,
+        20
+      ],
+      "id": "645368db-7d51-4b50-b499-df5941b30004",
+      "name": "NocoDB",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "delete",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p7wajxjrsq5m1oi",
+        "table": "mz1o2jdyqtf2vy4",
+        "id": "={{ $json.Id }}"
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -120,
+        260
+      ],
+      "id": "b0c87f34-5ec7-4ff1-98b4-22d54f779659",
+      "name": "NocoDB1",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p7wajxjrsq5m1oi",
+        "table": "mige3921kfky65s",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('If').first().json.Id }}"
+            },
+            {
+              "fieldName": "Research Output",
+              "fieldValue": "={{ $json.output }}"
+            },
+            {
+              "fieldName": "Status",
+              "fieldValue": "Completed"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        640,
+        0
+      ],
+      "id": "b300e8c9-1803-4154-8299-3181d21179a5",
+      "name": "NocoDB2",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Web Research Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "NocoDB1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Web Research Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_web_research_tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Web Research Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Web Research Agent": {
+      "main": [
+        [
+          {
+            "node": "NocoDB2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Create Company Details Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Company Details Input": {
+      "main": [
+        [
+          {
+            "node": "NocoDB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NocoDB": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "On form submission": [
+      {
+        "json": {
+          "Name": "Readycare Signature",
+          "Company Website": "https://rcsignature.com.my/",
+          "Company Location": "Ipoh Perak, Malaysia",
+          "Industry Types": [
+            "Fast Moving Consumer Goods",
+            "Non-chemical Products",
+            "Home & Office Cleaning solutions",
+            "Bio-based Cleaning Products"
+          ],
+          "submittedAt": "2025-06-18T22:44:28.144+08:00",
+          "formMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "7cc5e7fc-2ec9-48ae-9a86-7d9675ed85c0",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-06-18T14:34:53.255Z",
+      "createdAt": "2025-06-18T14:34:53.255Z",
+      "role": "workflow:owner",
+      "workflowId": "0B6T1MjwIaUQXNhe",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
