@@ -1,0 +1,1140 @@
+{
+  "updatedAt": "2025-07-29T16:31:18.000Z",
+  "createdAt": "2025-07-15T10:07:20.660Z",
+  "id": "40wWWxoB2T9ZWj6A",
+  "name": "[Sub-workflow] - APIFY Google Search Scraper + Social Media Profile Extractor",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -1136,
+        144
+      ],
+      "id": "b0eec7e3-eed9-4548-bea2-2c2ddf61e044",
+      "name": "Wait",
+      "webhookId": "a8a601bc-0acb-483b-ba05-90c289f1455d"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.data.defaultDatasetId }}/items ",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          },
+          "timeout": 10000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -480,
+        128
+      ],
+      "id": "71d2e91a-650d-4f18-a325-91a73da9aab2",
+      "name": "Get Datasets",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "ka8mQTiaSBrnVUh2",
+          "name": "APIFYHeaderAuth(boonhong.tan0309@gmail.com)"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "errorMessage": "Error occurred. Please check the log."
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        -448,
+        384
+      ],
+      "id": "1849bd0d-936a-4c53-835c-05bccfb70a53",
+      "name": "Stop and Error"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.apify.com/v2/actor-tasks/{{ $json.apifyActorEndpoint }}/runs",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"focusOnPaidAds\": false,\n    \"forceExactMatch\": false,\n    \"includeIcons\": false,\n    \"includeUnfilteredResults\": false,\n    \"maxPagesPerQuery\": 1,\n    \"mobileResults\": false,\n    \"queries\": {{ JSON.stringify($json.queries) }},\n    \"resultsPerPage\": {{ JSON.stringify($json.resultsPerPage) }},\n    \"saveHtml\": false,\n    \"saveHtmlToKeyValueStore\": true\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -560,
+        -128
+      ],
+      "id": "dd625257-cdaf-43f3-834c-e59f7716ac84",
+      "name": "Actor - Run Task",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "ka8mQTiaSBrnVUh2",
+          "name": "APIFYHeaderAuth(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/actor-runs/{{ $json.data.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "waitForFinish",
+              "value": "60"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -928,
+        144
+      ],
+      "id": "11cef911-1ebe-48f6-9cdd-1e5539eb7b93",
+      "name": "Get Actor Task ID",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "ka8mQTiaSBrnVUh2",
+          "name": "APIFYHeaderAuth(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "575cc607-2b70-4323-b268-995590595b10",
+              "leftValue": "={{ $json.data.status }}",
+              "rightValue": "SUCCEEDED",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -704,
+        144
+      ],
+      "id": "14eaa9dd-6f84-4c74-864f-ea6df3a13c4b",
+      "name": "Check Task Status"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f06771db-4305-428b-b603-b6bd5f4a854d",
+              "name": "title",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            },
+            {
+              "id": "d7b0cc97-7341-43c1-912e-3eeccba26486",
+              "name": "description",
+              "value": "={{ $json.description }}",
+              "type": "string"
+            },
+            {
+              "id": "aa115142-98eb-46a7-b3e8-d6644499bcc5",
+              "name": "website",
+              "value": "={{ $json.url }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        128,
+        112
+      ],
+      "id": "bf01a15f-da4f-4266-a261-60ea6c3908cd",
+      "name": "Extract Import Fields and Values"
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "query"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -1264,
+        -128
+      ],
+      "id": "477fe606-94a8-42ec-b32b-679f54442eed",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -512,
+        -368
+      ],
+      "id": "3aac74e3-a421-4654-9475-1a8ef5f744dc",
+      "name": "When clicking ‘Execute workflow’",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "89d3799c-2f83-4700-bde4-790077d706d8",
+              "leftValue": "={{ $json.title }}",
+              "rightValue": "Sementra",
+              "operator": {
+                "type": "string",
+                "operation": "notContains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -16,
+        -96
+      ],
+      "id": "eab61bd7-7cb5-4fc0-bd34-15261940deb9",
+      "name": "Filter",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -368,
+        832
+      ],
+      "id": "1340f63f-9d51-4df9-856e-088c6994fd11",
+      "name": "Wait1",
+      "webhookId": "b10a110c-cebe-4889-815b-2a34f4b017a4",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"task_id\": \"{{ $('Crawl4AI Basic POST Request').item.json.task_id }}\",\n  \"status\": \"{{ $json.status }}\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        64,
+        832
+      ],
+      "id": "6bc96fe5-9375-4c9b-89fe-cb283ed8435f",
+      "name": "Task ID Field1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f07a7b5c-71e5-4aca-adce-e01b0d6c7fde",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "=pending",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "7f622642-d24c-47de-b4be-93ce15948db3",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "=processing",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        288,
+        832
+      ],
+      "id": "884ddb60-0b53-4646-ab75-b8031c836d51",
+      "name": "If In Process1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "url": "=https://crawl4ai.automessenger.me/task/{{ $json.task_id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -160,
+        832
+      ],
+      "id": "e744b19f-2e82-4792-9805-236dda7c6a26",
+      "name": "Get Markdown Result1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"response\": {{ JSON.stringify($('Get Markdown Result1').item.json[\"result\"][\"links\"][\"external\"]) }}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        528,
+        800
+      ],
+      "id": "3743c77d-ac2b-4810-9254-74a3910bc30e",
+      "name": "Markdown Result1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5d8f6dee-bc30-432c-98be-0428ce18e171",
+              "leftValue": "={{ $json.website }}",
+              "rightValue": "null",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        624,
+        112
+      ],
+      "id": "8335abfa-3b6e-4928-87a6-b8e3aca48097",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        944,
+        128
+      ],
+      "id": "fa935ec7-e575-41eb-ba73-457a2215bd2a",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "website",
+              "renameField": true,
+              "outputFieldName": "urls"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -560,
+        608
+      ],
+      "id": "ad340e6f-0e6d-4456-ae26-3fd037dcd789",
+      "name": "Aggregate",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://crawl4ai.automessenger.me/crawl",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"urls\": {{ JSON.stringify($json.website) }},\n  \"extraction_config\": {\n    \"type\": \"basic\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -576,
+        832
+      ],
+      "id": "ddb2feb3-debe-4070-8a48-109cc339f7b7",
+      "name": "Crawl4AI Basic POST Request",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Competitor Brand Name: {{ $json.title }}\nCompetitor Brand Website: {{ $json.website }}\nCompetitor Brand Website Domain Name: {{ $json.website.extractDomain() }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a market research and analysis specialist who are able to analyze the current market competition based on various industries and geolocation.\n\n# Task\n- You are tasked to do an insightful competitor research and analysis before strategize on crafting the ad creative and ad content for upcoming ads campaign.\n- You are require to find the listed competitor social media profiles that available in their brand website such as Facebook, Instagram, TikTok and Youtube.\n\n# User Context\nYou are require to follow the provided user input as context and references for you to generate the right output and avoid any hallucination or any misinformation occurred. The user context will be providing such as:\n- Competitor Brand Name\n- Competitor Brand Website\n- Competitor Brand Website Domain Name\n\n# Tools To Use\nYou are require to use the following tools in order to accomplish the requesting task and generate the right outputs are listed as below:\n- `external_link_scraper`: Call this tool to scrape the listed competitor's brand websites and return only the list of external links as context in order to find and identify the social media profile links such as Facebook, Instagram, LinkedIn, Youtube etc in the raw web content.\n\n# Output\nThe output generated must be in structured JSON data format without any explanation and unneccessary information. Only come out the output that what had been require above and following the example of JSON structure output or schema as refenrence below.\n\n## Example of JSON Output\n```\njson: {\n  \"brandName\": \"The A competitor's brand name\",\n  \"brandWebsite\": \"The A competitor's brand website\",\n  \"socialMediaPlatforms\": [\"Facebook\", \"Instagram\", \"TikTok\", \"Youtube\"],\n  \"socialMediaProfiles\": [\n   {\n    \"Facebook\": \"https://facebook.com/competitor-a-page\",\n    \"Instagram\": \"https://instagram.com/competitor-a-username\",\n    \"TikTok\": \"https://tiktok.com/@competitor-a-username\",\n    \"Youtube\": \"https://youtube.com/@competitor-a-username\"\n    }\n  ]\n}\n \n```"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -48,
+        368
+      ],
+      "id": "fe1dfc22-0264-4877-886b-e1325b51c2f3",
+      "name": "Competitor Social Media Profiles Finder"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {
+          "responseFormat": "json_object"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -304,
+        560
+      ],
+      "id": "49593395-9e26-4ff0-abb0-6e206e891d73",
+      "name": "OpenAI Chat Model7",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to scrape the listed competitor's brand websites and return only the list of external links as context in order to find and identify the social media profile links such as Facebook, Instagram, LinkedIn, Youtube etc in the raw web content.",
+        "workflowId": {
+          "__rl": true,
+          "value": "mPq1V6Xf1rpAbueq",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Crawl4AI- External Links - Single Webpage Crawler"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "url": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('url', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "url"
+          ],
+          "schema": [
+            {
+              "id": "url",
+              "displayName": "url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -64,
+        592
+      ],
+      "id": "5a617b63-23d7-49af-b6b5-cbda7ee07327",
+      "name": "external_link_scraper"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"brandName\": \"The A competitor's brand name\",\n  \"brandWebsite\": \"The A competitor's brand website\",\n  \"socialMediaPlatforms\": [\"Facebook\", \"Instagram\", \"TikTok\", \"Youtube\"],\n  \"socialMediaProfiles\": [\n   {\n    \"Facebook\": \"https://facebook.com/competitor-a-page\",\n    \"Instagram\": \"https://instagram.com/competitor-a-username\",\n    \"TikTok\": \"https://tiktok.com/@competitor-a-username\",\n    \"Youtube\": \"https://youtube.com/@competitor-a-username\"\n    }\n  ]\n}\n ",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        288,
+        544
+      ],
+      "id": "7da83662-d9ea-4fe3-b9cd-2f3a05cb68ee",
+      "name": "Structured Output Parser4"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        704
+      ],
+      "id": "42a1e8d7-0a08-4813-9602-54eed44f41af",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "b3eac8cc-5798-4991-b141-ef5831c0f3d0",
+              "leftValue": "={{ $json.socialMediaPlatforms }}",
+              "rightValue": "",
+              "operator": {
+                "type": "array",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "1a1a783a-8e8b-463f-960c-7012a8389e00",
+              "leftValue": "={{ $json.socialMediaProfiles }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        528,
+        368
+      ],
+      "id": "d0726607-f40f-4c08-8127-d410b8cae9c4",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7af83065-a5f9-4bf4-b2bd-4fc171a74895",
+              "name": "brandName",
+              "value": "={{ $json.output.brandName }}",
+              "type": "string"
+            },
+            {
+              "id": "3f954dde-9f89-459a-95c1-149af5f0acab",
+              "name": "brandWebsite",
+              "value": "={{ $json.output.brandWebsite }}",
+              "type": "string"
+            },
+            {
+              "id": "751ef3a5-0fb6-4340-ac6d-7bcf0599ea7e",
+              "name": "socialMediaPlatforms",
+              "value": "={{ $json.output.socialMediaPlatforms }}",
+              "type": "array"
+            },
+            {
+              "id": "4a04632f-b5e5-4a22-8f0c-0572ad957edf",
+              "name": "socialMediaProfiles",
+              "value": "={{ $json.output.socialMediaProfiles[0] }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        304,
+        368
+      ],
+      "id": "97a9d541-d97d-473b-a57c-76eebeb5a584",
+      "name": "Extract AI Output"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7af83065-a5f9-4bf4-b2bd-4fc171a74895",
+              "name": "brandName",
+              "value": "={{ $json.brandName }}",
+              "type": "string"
+            },
+            {
+              "id": "45f51fe6-1783-4929-a062-8f7f35e79c46",
+              "name": "brandWebsite",
+              "value": "={{ $json.brandWebsite }}",
+              "type": "string"
+            },
+            {
+              "id": "751ef3a5-0fb6-4340-ac6d-7bcf0599ea7e",
+              "name": "socialMediaPlatforms",
+              "value": "={{ $json.socialMediaPlatforms }}",
+              "type": "array"
+            },
+            {
+              "id": "4a04632f-b5e5-4a22-8f0c-0572ad957edf",
+              "name": "socialMediaProfiles",
+              "value": "={{ $json.socialMediaProfiles }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        768,
+        352
+      ],
+      "id": "f49f6d16-b286-4967-a676-dad9938df150",
+      "name": "Extract Only With Social Media Profiles"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to query the competitor's require information such as Facebook page link, Instagram link, TikTok link, or Youtube channel link or whatever social media profiles link available and relevant to the search results based on the listed competitor brand name.",
+        "workflowId": {
+          "__rl": true,
+          "value": "Ek66VfFhjAWBSb3v",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Tavily AI Research Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        960,
+        640
+      ],
+      "id": "2a30c88e-e105-440e-8a24-69d0d19bd687",
+      "name": "social_media_profile_query",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ddd95f92-ab34-4e29-9e1e-ed736338c1b4",
+              "name": "apifyActorEndpoint",
+              "value": "=boonhongtan0309~google-search-results-scraper-task",
+              "type": "string"
+            },
+            {
+              "id": "6cae9e62-8317-46a0-b27d-bf95470ffd6e",
+              "name": "queries",
+              "value": "={{ $json.query }}",
+              "type": "string"
+            },
+            {
+              "id": "b73473d0-f968-4ee9-bf68-51c6a242d1ec",
+              "name": "resultsPerPage",
+              "value": 20,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -864,
+        -128
+      ],
+      "id": "5c52b1cb-d4cd-48a3-ba86-39b3114f831d",
+      "name": "SET Google Search Scraper Input"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "organicResults",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -176,
+        112
+      ],
+      "id": "e37b26cc-1c1c-4606-8db7-9b0516d4556f",
+      "name": "Split Out"
+    }
+  ],
+  "connections": {
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get Actor Task ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Datasets": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Actor - Run Task": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Actor Task ID": {
+      "main": [
+        [
+          {
+            "node": "Check Task Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Task Status": {
+      "main": [
+        [
+          {
+            "node": "Get Datasets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "SET Google Search Scraper Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Import Fields and Values": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        []
+      ]
+    },
+    "Filter": {
+      "main": [
+        []
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Get Markdown Result1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Task ID Field1": {
+      "main": [
+        [
+          {
+            "node": "If In Process1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If In Process1": {
+      "main": [
+        [
+          {
+            "node": "Markdown Result1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Markdown Result1": {
+      "main": [
+        [
+          {
+            "node": "Task ID Field1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Competitor Social Media Profiles Finder",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        []
+      ]
+    },
+    "Crawl4AI Basic POST Request": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model7": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Competitor Social Media Profiles Finder",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "external_link_scraper": {
+      "ai_tool": [
+        [
+          {
+            "node": "Competitor Social Media Profiles Finder",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser4": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Competitor Social Media Profiles Finder",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Competitor Social Media Profiles Finder": {
+      "main": [
+        [
+          {
+            "node": "Extract AI Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser4",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Extract Only With Social Media Profiles",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract AI Output": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "social_media_profile_query": {
+      "ai_tool": [
+        []
+      ]
+    },
+    "SET Google Search Scraper Input": {
+      "main": [
+        [
+          {
+            "node": "Actor - Run Task",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Extract Import Fields and Values",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "6f9599ae-4547-46af-91fa-728ca0f88d43",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-07-15T10:07:20.663Z",
+      "createdAt": "2025-07-15T10:07:20.663Z",
+      "role": "workflow:owner",
+      "workflowId": "40wWWxoB2T9ZWj6A",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
