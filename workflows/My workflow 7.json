@@ -1,0 +1,114 @@
+{
+  "updatedAt": "2025-01-05T16:16:56.000Z",
+  "createdAt": "2025-01-05T16:14:16.430Z",
+  "id": "weM4Uz7BrOrIROhi",
+  "name": "My workflow 7",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "a047fcd9-f06a-46da-95fe-b1a48ca77616",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "3dabf062-ff7c-4935-8519-029160eddcbc",
+      "name": "Webhook",
+      "webhookId": "a047fcd9-f06a-46da-95fe-b1a48ca77616"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        220,
+        0
+      ],
+      "id": "f6e0e9dc-8b7b-4887-893d-ecee86b28962",
+      "name": "Edit Fields"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "x-forwarded-host": "n8n.automessenger.me",
+            "x-forwarded-server": "n8n.automessenger.me",
+            "x-real-ip": "45.134.39.184",
+            "x-forwarded-for": "45.134.39.184",
+            "x-forwarded-proto": "https",
+            "host": "n8n.automessenger.me",
+            "connection": "Upgrade",
+            "content-length": "361",
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "user-agent": "axios/1.7.9",
+            "accept-encoding": "gzip, compress, deflate, br"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "type": "records.after.insert",
+            "id": "b373c773-e031-4e1f-a4fd-5c3cda96a1b2",
+            "data": {
+              "table_id": "mijvv4nfojy0lgf",
+              "table_name": "Phase2_Stage1 - Section_Structure_Generator_Form",
+              "rows": [
+                {
+                  "Id": 2,
+                  "Main Search Intent": "WHat os aO",
+                  "CreatedAt": "2025-01-05 16:16:19+00:00",
+                  "UpdatedAt": null,
+                  "Focus Keyword": "at hhwe",
+                  "Total Headings": 4,
+                  "Total Subheadings/Section": 5
+                }
+              ]
+            }
+          },
+          "webhookUrl": "https://n8n.automessenger.me/webhook-test/a047fcd9-f06a-46da-95fe-b1a48ca77616",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "b4890504-b4e4-4ac2-abf8-d88c9dd07c85",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-01-05T16:14:16.455Z",
+      "createdAt": "2025-01-05T16:14:16.455Z",
+      "role": "workflow:owner",
+      "workflowId": "weM4Uz7BrOrIROhi",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
