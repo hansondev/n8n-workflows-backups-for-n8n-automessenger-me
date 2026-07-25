@@ -1,0 +1,361 @@
+{
+  "updatedAt": "2024-06-23T15:49:29.000Z",
+  "createdAt": "2024-06-22T14:57:24.273Z",
+  "id": "HPGMVx769CXFDUSE",
+  "name": "Langchain Tuts: AI Agent Calling Vs Basic LLM Chain",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "5ec342da-cdf7-47ce-8ec8-9470b4036f19",
+      "name": "Chat Trigger",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1,
+      "position": [
+        520,
+        580
+      ],
+      "webhookId": "84bfdbd0-e2ce-4bfa-b746-985e64a14484"
+    },
+    {
+      "parameters": {
+        "model": "gpt-4-turbo",
+        "options": {}
+      },
+      "id": "187272b3-bba0-4089-9896-c2e7277c7817",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        1020,
+        580
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "gpt-4-turbo",
+        "options": {}
+      },
+      "id": "4169ad6a-b5a6-4864-b419-c619f6696314",
+      "name": "OpenAI Chat Model1",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        980,
+        1040
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "8ab56e93-3f14-4701-b425-ff783741e81e",
+      "name": "Window Buffer Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.2,
+      "position": [
+        1280,
+        620
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "6ab48bfc-39fd-4044-a70b-093ce7e34610",
+      "name": "Wikipedia",
+      "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
+      "typeVersion": 1,
+      "position": [
+        1540,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "eb728596-1b66-4d37-a40f-c11a4dfd9bf6",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.5,
+      "position": [
+        1060,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "messages": {
+          "messageValues": [
+            {
+              "message": "Every time you respond, start your response with the sentence: \"This message came from the chain\"."
+            }
+          ]
+        }
+      },
+      "id": "5e897cea-74ac-43de-ad4e-6fbd848012a2",
+      "name": "Basic LLM Chain",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.4,
+      "position": [
+        1040,
+        840
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Try it out\n\nSelect **Chat**, and try out these queries:\n\n- Please show me a Wikipedia article about cats (agent)\n- Please show me a Wikipedia article about cats (chain)\n- What was my last question? (chain)\n- What was my last question? (agent)\n",
+        "height": 343.8587887368956,
+        "color": 4
+      },
+      "id": "a14f2efd-8d82-46bf-8c1b-5d40c1ccaa79",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        240,
+        580
+      ]
+    },
+    {
+      "parameters": {
+        "content": "**Set your credentials**",
+        "height": 193,
+        "width": 167,
+        "color": 2
+      },
+      "id": "4956bb50-2b02-4870-980a-0c8cfee39ad9",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        980,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "content": "**Set your credentials**",
+        "height": 193,
+        "width": 167,
+        "color": 2
+      },
+      "id": "0fe9cb1c-c966-4421-b19b-b2c60b5183b3",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        940,
+        980
+      ]
+    },
+    {
+      "parameters": {
+        "content": "**Memory allows the agent to access previous parts of the chat**\n",
+        "height": 244,
+        "color": 5
+      },
+      "id": "22b99bb3-f206-49ea-b714-60d04c970e55",
+      "name": "Sticky Note3",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "content": "**The agent can use the Wikipedia tool to access articles from Wikipedia**",
+        "height": 238,
+        "color": 5
+      },
+      "id": "4b12bf17-96e6-4c35-8ee0-0f5a095d19cf",
+      "name": "Sticky Note4",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1460,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Next steps\n\nLearn more about [Advanced AI in n8n](https://docs.n8n.io/advanced-ai/)"
+      },
+      "id": "d28e824e-800f-4446-9fd6-038c88a1c0e5",
+      "name": "Sticky Note5",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1560,
+        1000
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.chatInput }}",
+                    "rightValue": "agent",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": false,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "id": "248f4a34-89c1-4d1e-867a-daa024c8635a",
+                    "leftValue": "={{ $json.chatInput }}",
+                    "rightValue": "chain",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {
+          "ignoreCase": true
+        }
+      },
+      "id": "aa7763c1-5855-42a0-aeb6-e618b0dcba22",
+      "name": "Check user input for \"chain\" or \"agent\"",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        740,
+        580
+      ]
+    }
+  ],
+  "connections": {
+    "Chat Trigger": {
+      "main": [
+        [
+          {
+            "node": "Check user input for \"chain\" or \"agent\"",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wikipedia": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check user input for \"chain\" or \"agent\"": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "a9c93544-c79a-4c02-8845-117174440cf1",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-06-22T14:57:24.374Z",
+      "createdAt": "2024-06-22T14:57:24.374Z",
+      "role": "workflow:owner",
+      "workflowId": "HPGMVx769CXFDUSE",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
