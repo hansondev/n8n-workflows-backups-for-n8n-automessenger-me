@@ -1,0 +1,765 @@
+{
+  "updatedAt": "2025-01-13T05:29:45.000Z",
+  "createdAt": "2025-01-11T08:59:50.984Z",
+  "id": "R7vmYZfRYGCpZgPR",
+  "name": "Kaya Marketing Agency Assessment - GAds Keyword Research",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1jhLpB5tERLLwAnxx4YJ472AYQ8Tu-m96YVgo-keenys",
+          "mode": "list",
+          "cachedResultName": "Merge GAds Keyword Research Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jhLpB5tERLLwAnxx4YJ472AYQ8Tu-m96YVgo-keenys/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Query Keyword",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jhLpB5tERLLwAnxx4YJ472AYQ8Tu-m96YVgo-keenys/edit#gid=0"
+        },
+        "event": "rowUpdate",
+        "includeInOutput": "both",
+        "options": {
+          "columnsToWatch": [
+            "Keyword To Search"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "f0cd62bc-d81d-447a-9335-c7e75e307cc7",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "oMHjbut2VzVQ0VcS",
+          "name": "GSheet Trigger- boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c857894e-4554-4422-8607-5361b4bdfa82",
+              "leftValue": "={{ $json[\"Search Status\"] }}",
+              "rightValue": "Pending",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "51653fb9-0707-4fca-836a-50a9e7e10bc8",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "url": "https://google-seo-keyword-research-ai.p.rapidapi.com/keyword-research",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "keyword",
+              "value": "={{ $json[\"Keyword To Search\"] }}"
+            },
+            {
+              "name": "country",
+              "value": "={{ $json[\"Target GEO\"] }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-rapidapi-host",
+              "value": "google-seo-keyword-research-ai.p.rapidapi.com"
+            },
+            {
+              "name": "x-rapidapi-key",
+              "value": "bba2d43494msheb61c0112305090p16270bjsna70952eefac2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        920,
+        0
+      ],
+      "id": "a6756231-7eda-464f-b3b6-0402c9261e48",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "result",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1400,
+        -240
+      ],
+      "id": "241e8011-d0a8-4c4f-b70a-099ecc9cb5cf",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "15d4a5d5-8d01-4244-9fda-ef2fda04676b",
+              "leftValue": "={{ $json.avg_monthly_searches }}",
+              "rightValue": 20,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1620,
+        -240
+      ],
+      "id": "a775f25b-5bd9-40b2-adba-8cc79b8df94a",
+      "name": "Filter1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "24d3c7fa-467b-401f-a70e-04bc5a61d4fb",
+              "name": "search_keyword",
+              "value": "={{ $('Filter').first().json[\"Keyword To Search\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "490f75c9-4caf-4978-b242-0d3421a669ff",
+              "name": "related_keywords",
+              "value": "={{ $json.keyword }}",
+              "type": "string"
+            },
+            {
+              "id": "45827818-7bed-4a22-9025-98d2e4af706b",
+              "name": "competition_index",
+              "value": "={{ $json.competition_index }}",
+              "type": "number"
+            },
+            {
+              "id": "7a1efc25-985f-4208-bc64-e30fcecfdfb4",
+              "name": "competition_range",
+              "value": "={{ $json.competition_value }}",
+              "type": "string"
+            },
+            {
+              "id": "f80f70ea-441c-43b9-ae11-e0083f8a6677",
+              "name": "avg_monthly_vol",
+              "value": "={{ $json.avg_monthly_searches }}",
+              "type": "number"
+            },
+            {
+              "id": "6c945bc8-163d-410c-95e4-d7aee32a4a07",
+              "name": "lowest_cpc",
+              "value": "={{ $json[\"Low CPC\"].toNumber() }}",
+              "type": "number"
+            },
+            {
+              "id": "ec1bae84-226b-491d-90a3-21cf232bd82b",
+              "name": "highest_cpc",
+              "value": "={{ $json[\"High CPC\"].toNumber() }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1840,
+        -240
+      ],
+      "id": "ec88af7c-4315-4912-b40d-e4f4d51cd1b7",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1jhLpB5tERLLwAnxx4YJ472AYQ8Tu-m96YVgo-keenys",
+          "mode": "list",
+          "cachedResultName": "Merge GAds Keyword Research Raw Data Sync",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jhLpB5tERLLwAnxx4YJ472AYQ8Tu-m96YVgo-keenys/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 261830456,
+          "mode": "list",
+          "cachedResultName": "KW Search Results",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jhLpB5tERLLwAnxx4YJ472AYQ8Tu-m96YVgo-keenys/edit#gid=261830456"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Search Query": "={{ $json.search_keyword }}",
+            "Related Keywords": "={{ $json.related_keywords }}",
+            "Competition Index": "={{ $json.competition_index }}",
+            "Competition Range": "={{ $json.competition_range }}",
+            "Avg Search Vol": "={{ $json.avg_monthly_vol }}",
+            "Lowest CPC": "={{ $json.lowest_cpc }}",
+            "Highest CPC": "={{ $json.highest_cpc }}"
+          },
+          "matchingColumns": [
+            "Search Query"
+          ],
+          "schema": [
+            {
+              "id": "Search Query",
+              "displayName": "Search Query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Related Keywords",
+              "displayName": "Related Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Competition Index",
+              "displayName": "Competition Index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Competition Range",
+              "displayName": "Competition Range",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Avg Search Vol",
+              "displayName": "Avg Search Vol",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Lowest CPC",
+              "displayName": "Lowest CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Highest CPC",
+              "displayName": "Highest CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2060,
+        -240
+      ],
+      "id": "8fa88dba-bb18-4dcf-b674-ba6531692c84",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "35025683-268b-4b3a-a88f-e1f1aa75bb2c",
+              "leftValue": "={{ $json.result }}",
+              "rightValue": "",
+              "operator": {
+                "type": "array",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1140,
+        0
+      ],
+      "id": "6f20be83-d618-4140-9060-6fc25b56603b",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "15d4a5d5-8d01-4244-9fda-ef2fda04676b",
+              "leftValue": "={{ $json.avg_monthly_searches }}",
+              "rightValue": 20,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1420,
+        120
+      ],
+      "id": "81497d26-06c4-477d-9bd5-d1cee01064a8",
+      "name": "Filter2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "24d3c7fa-467b-401f-a70e-04bc5a61d4fb",
+              "name": "search_keyword",
+              "value": "={{ $('Filter').first().json[\"Keyword To Search\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "490f75c9-4caf-4978-b242-0d3421a669ff",
+              "name": "related_keywords",
+              "value": "={{ $json.keyword }}",
+              "type": "string"
+            },
+            {
+              "id": "45827818-7bed-4a22-9025-98d2e4af706b",
+              "name": "competition_index",
+              "value": "={{ $json.competition_index }}",
+              "type": "number"
+            },
+            {
+              "id": "7a1efc25-985f-4208-bc64-e30fcecfdfb4",
+              "name": "competition_range",
+              "value": "={{ $json.competition_value }}",
+              "type": "string"
+            },
+            {
+              "id": "f80f70ea-441c-43b9-ae11-e0083f8a6677",
+              "name": "avg_monthly_vol",
+              "value": "={{ $json.avg_monthly_searches }}",
+              "type": "number"
+            },
+            {
+              "id": "6c945bc8-163d-410c-95e4-d7aee32a4a07",
+              "name": "lowest_cpc",
+              "value": "={{ $json[\"Low CPC\"].toNumber() }}",
+              "type": "number"
+            },
+            {
+              "id": "ec1bae84-226b-491d-90a3-21cf232bd82b",
+              "name": "highest_cpc",
+              "value": "={{ $json[\"High CPC\"].toNumber() }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1640,
+        120
+      ],
+      "id": "ef59064b-0210-4738-9691-dbc57bb24933",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1jhLpB5tERLLwAnxx4YJ472AYQ8Tu-m96YVgo-keenys",
+          "mode": "list",
+          "cachedResultName": "Merge GAds Keyword Research Raw Data Sync",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jhLpB5tERLLwAnxx4YJ472AYQ8Tu-m96YVgo-keenys/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 261830456,
+          "mode": "list",
+          "cachedResultName": "KW Search Results",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1jhLpB5tERLLwAnxx4YJ472AYQ8Tu-m96YVgo-keenys/edit#gid=261830456"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Search Query": "={{ $json.search_keyword }}",
+            "Related Keywords": "={{ $json.related_keywords }}",
+            "Competition Index": "={{ $json.competition_index }}",
+            "Competition Range": "={{ $json.competition_range }}",
+            "Avg Search Vol": "={{ $json.avg_monthly_vol }}",
+            "Lowest CPC": "={{ $json.lowest_cpc }}",
+            "Highest CPC": "={{ $json.highest_cpc }}"
+          },
+          "matchingColumns": [
+            "Search Query"
+          ],
+          "schema": [
+            {
+              "id": "Search Query",
+              "displayName": "Search Query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Related Keywords",
+              "displayName": "Related Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Competition Index",
+              "displayName": "Competition Index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Competition Range",
+              "displayName": "Competition Range",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Avg Search Vol",
+              "displayName": "Avg Search Vol",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Lowest CPC",
+              "displayName": "Lowest CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Highest CPC",
+              "displayName": "Highest CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1860,
+        120
+      ],
+      "id": "4db5e7bd-f941-48f7-a270-3b7abee05e61",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        440,
+        0
+      ],
+      "id": "e504df3c-0a6f-4b0b-94bb-2c0517f82e57",
+      "name": "Loop Over Items"
+    }
+  ],
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Filter1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Filter2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "3c2d884b-463c-4275-b024-4632ed05c6af",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-01-11T08:59:51.010Z",
+      "createdAt": "2025-01-11T08:59:51.010Z",
+      "role": "workflow:owner",
+      "workflowId": "R7vmYZfRYGCpZgPR",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
