@@ -1,0 +1,319 @@
+{
+  "updatedAt": "2023-12-18T07:39:27.000Z",
+  "createdAt": "2023-12-10T07:23:45.342Z",
+  "id": "27Smn3dflcVS4tnd",
+  "name": "APIFY-GAds Scraper-MediaOne Marketing",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "gads-scraper-media-one-marketing",
+        "options": {}
+      },
+      "id": "30bfc168-e94c-475a-9193-c9a33c946eb6",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        800,
+        320
+      ],
+      "webhookId": "92f6e393-9379-4555-a48f-54a86cea1378"
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "APItoken",
+              "stringValue": "RMcnCuQuPp4AAsEwZjt5FNDF4"
+            },
+            {
+              "name": "datasetID",
+              "stringValue": "={{ $json.body.resource.defaultDatasetId }}"
+            },
+            {
+              "name": "actorRunID",
+              "stringValue": "={{ $json.body.eventData.actorRunId }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "3b20a00f-465f-4d6c-8ebf-133ecc9a9a8b",
+      "name": "Set Datadset HTTP Request Variable",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1080,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.datasetID }}/items?token={{ $json.APItoken }}&format=json&clean=false",
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 3000
+            }
+          }
+        }
+      },
+      "id": "c320aa35-b045-4cf7-9a8c-e9201bc2683a",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1400,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "adLastShown",
+              "stringValue": "={{ $json.lastAdShown }}"
+            },
+            {
+              "name": "adScreenshot",
+              "stringValue": "={{ $('Item Lists').item.json.image }}"
+            },
+            {
+              "name": "adTextContent",
+              "stringValue": "={{ $('Item Lists').item.json.textContent }}"
+            },
+            {
+              "name": "adCopy",
+              "stringValue": "={{ $('Item Lists').item.json.copy }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {
+          "includeBinary": true,
+          "ignoreConversionErrors": true
+        }
+      },
+      "id": "9ea2515e-0f2b-4c4c-8c13-5a2ec0dfdac1",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2160,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "limit",
+        "maxItems": 30
+      },
+      "id": "10c19084-afee-4b2b-8924-2a4976de7fdd",
+      "name": "Item Lists",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3.1,
+      "position": [
+        1620,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1Ey7_aZO9wCHxjLS8cDIX9P2ejmJ2xQ9D9CYxjtNt6xM",
+          "mode": "list",
+          "cachedResultName": "APIFY-GAds Scraper-MediaOne Marketing (10 Dec 23 Update)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Ey7_aZO9wCHxjLS8cDIX9P2ejmJ2xQ9D9CYxjtNt6xM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Dec23",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Wx3K4VPEv8JzjVp66a1SC-nVtozBnvjNzzcCu9ffUK4/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date Ad Shown": "={{ $json.adLastShown }}",
+            "Ad Screenshot URL": "={{ $json.adScreenshot }}",
+            "Ad Text Content": "={{ $json.adTextContent }}",
+            "Ad Copy": "={{ $json.adCopy }}"
+          },
+          "matchingColumns": [
+            "Date Ad Shown"
+          ],
+          "schema": [
+            {
+              "id": "Date Ad Shown",
+              "displayName": "Date Ad Shown",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ad Screenshot URL",
+              "displayName": "Ad Screenshot URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Text Content",
+              "displayName": "Ad Text Content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Copy",
+              "displayName": "Ad Copy",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {
+          "cellFormat": "USER_ENTERED"
+        }
+      },
+      "id": "cf29ecfd-2d8d-4fd2-b87c-9e4a7c773725",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        2460,
+        40
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $json.lastShownAt }}",
+        "format": "custom",
+        "customFormat": "dd-MM-yyyy",
+        "outputFieldName": "lastAdShown",
+        "options": {}
+      },
+      "id": "f3e43a3a-e9a2-40d6-aab5-dcbf66c0d596",
+      "name": "Date & Time",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        1840,
+        140
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Set Datadset HTTP Request Variable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Datadset HTTP Request Variable": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Item Lists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "5e62fff1-04e1-4586-8dd9-cf400460dcf0",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2023-12-10T07:23:45.392Z",
+      "createdAt": "2023-12-10T07:23:45.392Z",
+      "role": "workflow:owner",
+      "workflowId": "27Smn3dflcVS4tnd",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
