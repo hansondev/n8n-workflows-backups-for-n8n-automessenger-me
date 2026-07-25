@@ -1,0 +1,799 @@
+{
+  "updatedAt": "2025-01-13T16:51:00.000Z",
+  "createdAt": "2025-01-12T08:41:17.696Z",
+  "id": "ub6JlnLnhc3bZy6c",
+  "name": "Kaya Marketing Agency Assessment - Keywords Allocation From Google Sheet To Notion",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Adgroup Keyword Allocation From Google Sheet To Notion",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "AsGroup Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "AG - Accounting Integration"
+                  },
+                  {
+                    "option": "AG  - HR Integration"
+                  },
+                  {
+                    "option": "AG - CRM Integration"
+                  },
+                  {
+                    "option": "AG - Marketing Automation"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -360,
+        0
+      ],
+      "id": "2df57367-a678-4f61-8aef-040d3da29bc3",
+      "name": "On form submission",
+      "webhookId": "23951ce2-5ff8-4971-930a-dcf2ca4f1002"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "10vTK8JalWdyaIEbq2GV557R7wfYS_o__TedjvyRxQVw",
+          "mode": "list",
+          "cachedResultName": "Merge GAds - Keyword Segmentation Based On AdGroups",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10vTK8JalWdyaIEbq2GV557R7wfYS_o__TedjvyRxQVw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "AG - Accounting Integration",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10vTK8JalWdyaIEbq2GV557R7wfYS_o__TedjvyRxQVw/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        580,
+        -360
+      ],
+      "id": "450ada6b-8c65-486e-91b8-e84d112c563d",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json['AsGroup Name'] }}",
+                    "rightValue": "AG - Accounting Integration",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "AG - Accounting Integration"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "96b07927-558a-46d4-8311-3f23d5bb8be6",
+                    "leftValue": "={{ $json['AsGroup Name'] }}",
+                    "rightValue": "AG  - HR Integration",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "AG  - HR Integration"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "60003833-9457-4a8a-9de1-86f44c6c509e",
+                    "leftValue": "={{ $json['AsGroup Name'] }}",
+                    "rightValue": "AG - CRM Integration",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "AG - CRM Integration"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "147fdcd6-8e9d-4aca-8d55-bb4513789ebf",
+                    "leftValue": "={{ $json['AsGroup Name'] }}",
+                    "rightValue": "AG - Marketing Automation",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "AG - Marketing Automation"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -100,
+        -20
+      ],
+      "id": "22bd963e-4c24-459a-8492-54b2fb74ff83",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "178bdd43-4460-80a1-a9b7-c392acc3c905",
+          "mode": "list",
+          "cachedResultName": "Merge PPC Keyword To Bid Based On AdGroups",
+          "cachedResultUrl": "https://www.notion.so/178bdd43446080a1a9b7c392acc3c905"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Keywords|title",
+              "title": "={{ $json.Keywords }}"
+            },
+            {
+              "key": "Competition Index|number",
+              "numberValue": "={{ $json['Competition Index'] }}"
+            },
+            {
+              "key": "Competition Range|rich_text",
+              "textContent": "={{ $json['Competition Range'] }}"
+            },
+            {
+              "key": "Avg Monthly Vol|number",
+              "numberValue": "={{ $json['Avg Search Vol'] }}"
+            },
+            {
+              "key": "Lowest CPC|number",
+              "numberValue": "={{ $json['Avg Search Vol'] }}"
+            },
+            {
+              "key": "Highest CPC|number",
+              "numberValue": "={{ $json['Lowest CPC'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        -520
+      ],
+      "id": "89ecb420-228b-4767-a9a5-2937bc381139",
+      "name": "Notion",
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "179bdd43-4460-80e2-a805-e8719a08cdc8",
+          "mode": "list",
+          "cachedResultName": "Merge PPC Keyword Match Types",
+          "cachedResultUrl": "https://www.notion.so/179bdd43446080e2a805e8719a08cdc8"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Keywords|title",
+              "title": "={{ $json.Keywords }}"
+            },
+            {
+              "key": "Under AdGroup|select",
+              "selectValue": "={{ $json['AdGroup Name '] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        -320
+      ],
+      "id": "91fd34c8-e15b-4cb4-aa63-8dcc0dae1924",
+      "name": "Notion1",
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "10vTK8JalWdyaIEbq2GV557R7wfYS_o__TedjvyRxQVw",
+          "mode": "list",
+          "cachedResultName": "Merge GAds - Keyword Segmentation Based On AdGroups",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10vTK8JalWdyaIEbq2GV557R7wfYS_o__TedjvyRxQVw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 708793820,
+          "mode": "list",
+          "cachedResultName": "AG  - HR Integration",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10vTK8JalWdyaIEbq2GV557R7wfYS_o__TedjvyRxQVw/edit#gid=708793820"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        580,
+        -20
+      ],
+      "id": "8a6b9fb2-0125-4b54-b7cb-2ffbe801aaec",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "178bdd43-4460-80a1-a9b7-c392acc3c905",
+          "mode": "list",
+          "cachedResultName": "Merge PPC Keyword To Bid Based On AdGroups",
+          "cachedResultUrl": "https://www.notion.so/178bdd43446080a1a9b7c392acc3c905"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Keywords|title",
+              "title": "={{ $json.Keywords }}"
+            },
+            {
+              "key": "Competition Index|number",
+              "numberValue": "={{ $json['Competition Index'] }}"
+            },
+            {
+              "key": "Competition Range|rich_text",
+              "textContent": "={{ $json['Competition Range'] }}"
+            },
+            {
+              "key": "Avg Monthly Vol|number",
+              "numberValue": "={{ $json['Avg Search Vol'] }}"
+            },
+            {
+              "key": "Lowest CPC|number",
+              "numberValue": "={{ $json['Avg Search Vol'] }}"
+            },
+            {
+              "key": "Highest CPC|number",
+              "numberValue": "={{ $json['Lowest CPC'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        -180
+      ],
+      "id": "d3e36800-7761-412d-bddb-bb0b3548b501",
+      "name": "Notion2",
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "179bdd43-4460-80e2-a805-e8719a08cdc8",
+          "mode": "list",
+          "cachedResultName": "Merge PPC Keyword Match Types",
+          "cachedResultUrl": "https://www.notion.so/179bdd43446080e2a805e8719a08cdc8"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Keywords|title",
+              "title": "={{ $json.Keywords }}"
+            },
+            {
+              "key": "Under AdGroup|select",
+              "selectValue": "={{ $json['AdGroup Name '] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        0
+      ],
+      "id": "63886e20-99ed-489e-993f-4f663fa2a02c",
+      "name": "Notion3",
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "10vTK8JalWdyaIEbq2GV557R7wfYS_o__TedjvyRxQVw",
+          "mode": "list",
+          "cachedResultName": "Merge GAds - Keyword Segmentation Based On AdGroups",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10vTK8JalWdyaIEbq2GV557R7wfYS_o__TedjvyRxQVw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1726916982,
+          "mode": "list",
+          "cachedResultName": "AG - CRM Integration",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10vTK8JalWdyaIEbq2GV557R7wfYS_o__TedjvyRxQVw/edit#gid=1726916982"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        600,
+        300
+      ],
+      "id": "3e6c5415-0eca-4a6e-89e9-d56e563b024f",
+      "name": "Google Sheets2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "178bdd43-4460-80a1-a9b7-c392acc3c905",
+          "mode": "list",
+          "cachedResultName": "Merge PPC Keyword To Bid Based On AdGroups",
+          "cachedResultUrl": "https://www.notion.so/178bdd43446080a1a9b7c392acc3c905"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Keywords|title",
+              "title": "={{ $json.Keywords }}"
+            },
+            {
+              "key": "Competition Index|number",
+              "numberValue": "={{ $json['Competition Index'] }}"
+            },
+            {
+              "key": "Competition Range|rich_text",
+              "textContent": "={{ $json['Competition Range'] }}"
+            },
+            {
+              "key": "Avg Monthly Vol|number",
+              "numberValue": "={{ $json['Avg Search Vol'] }}"
+            },
+            {
+              "key": "Lowest CPC|number",
+              "numberValue": "={{ $json['Avg Search Vol'] }}"
+            },
+            {
+              "key": "Highest CPC|number",
+              "numberValue": "={{ $json['Lowest CPC'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        900,
+        160
+      ],
+      "id": "68d2216b-e68e-4f48-a0f6-76152f964ee7",
+      "name": "Notion4",
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "179bdd43-4460-80e2-a805-e8719a08cdc8",
+          "mode": "list",
+          "cachedResultName": "Merge PPC Keyword Match Types",
+          "cachedResultUrl": "https://www.notion.so/179bdd43446080e2a805e8719a08cdc8"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Keywords|title",
+              "title": "={{ $json.Keywords }}"
+            },
+            {
+              "key": "Under AdGroup|select",
+              "selectValue": "={{ $json['AdGroup Name '] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        900,
+        340
+      ],
+      "id": "4385ec50-a694-4034-a23c-cc4827ba874c",
+      "name": "Notion5",
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "10vTK8JalWdyaIEbq2GV557R7wfYS_o__TedjvyRxQVw",
+          "mode": "list",
+          "cachedResultName": "Merge GAds - Keyword Segmentation Based On AdGroups",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10vTK8JalWdyaIEbq2GV557R7wfYS_o__TedjvyRxQVw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1621974038,
+          "mode": "list",
+          "cachedResultName": "AG - Marketing Automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10vTK8JalWdyaIEbq2GV557R7wfYS_o__TedjvyRxQVw/edit#gid=1621974038"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        620,
+        640
+      ],
+      "id": "6650c691-f713-4091-8531-65962dbb4cfb",
+      "name": "Google Sheets3",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "178bdd43-4460-80a1-a9b7-c392acc3c905",
+          "mode": "list",
+          "cachedResultName": "Merge PPC Keyword To Bid Based On AdGroups",
+          "cachedResultUrl": "https://www.notion.so/178bdd43446080a1a9b7c392acc3c905"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Keywords|title",
+              "title": "={{ $json.Keywords }}"
+            },
+            {
+              "key": "Competition Index|number",
+              "numberValue": "={{ $json['Competition Index'] }}"
+            },
+            {
+              "key": "Competition Range|rich_text",
+              "textContent": "={{ $json['Competition Range'] }}"
+            },
+            {
+              "key": "Avg Monthly Vol|number",
+              "numberValue": "={{ $json['Avg Search Vol'] }}"
+            },
+            {
+              "key": "Lowest CPC|number",
+              "numberValue": "={{ $json['Avg Search Vol'] }}"
+            },
+            {
+              "key": "Highest CPC|number",
+              "numberValue": "={{ $json['Lowest CPC'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        920,
+        500
+      ],
+      "id": "b533992c-97be-4215-b7d0-a28e9b4d6418",
+      "name": "Notion6",
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "179bdd43-4460-80e2-a805-e8719a08cdc8",
+          "mode": "list",
+          "cachedResultName": "Merge PPC Keyword Match Types",
+          "cachedResultUrl": "https://www.notion.so/179bdd43446080e2a805e8719a08cdc8"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Keywords|title",
+              "title": "={{ $json.Keywords }}"
+            },
+            {
+              "key": "Under AdGroup|select",
+              "selectValue": "={{ $json['AdGroup Name '] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        920,
+        680
+      ],
+      "id": "c9d0525f-14fc-411b-bcdf-dc467476a466",
+      "name": "Notion7",
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Sheets2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Sheets3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Notion",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Notion1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "Notion2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Notion3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets2": {
+      "main": [
+        [
+          {
+            "node": "Notion4",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Notion5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets3": {
+      "main": [
+        [
+          {
+            "node": "Notion6",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Notion7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "ce364f2b-5ff7-485f-bc89-11f1100b02cc",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-01-12T08:41:17.764Z",
+      "createdAt": "2025-01-12T08:41:17.764Z",
+      "role": "workflow:owner",
+      "workflowId": "ub6JlnLnhc3bZy6c",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
