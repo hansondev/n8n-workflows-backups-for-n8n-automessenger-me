@@ -1,0 +1,1819 @@
+{
+  "updatedAt": "2025-05-26T10:03:53.000Z",
+  "createdAt": "2025-05-22T07:34:08.260Z",
+  "id": "sADFi1YcEZHna9dx",
+  "name": "[DEVELOPMENT] GDrive Files Parse To LlamaParser",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Google Drive File Lookup And Loader",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Actual GDrive File Name",
+              "placeholder": "May25 [ReadyCare] - KOC Influencer Marketing Strategy Deck"
+            },
+            {
+              "fieldLabel": "GDrive Folder Name"
+            },
+            {
+              "fieldLabel": "GDrive Folder ID"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -380,
+        -20
+      ],
+      "id": "ff7bf419-ff98-43fd-b3cc-9043e12afa1d",
+      "name": "On form submission",
+      "webhookId": "26dbae49-bade-46d9-b806-4666d7117b08"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "={{ $json['Actual GDrive File Name'] }}",
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "={{ $json['GDrive Folder ID'] }}",
+            "mode": "id"
+          }
+        },
+        "options": {
+          "fields": [
+            "id",
+            "mimeType",
+            "name",
+            "exportLinks"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -180,
+        -20
+      ],
+      "id": "1dd679ff-3bf8-4337-9bc1-92075c667401",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.file_type }}",
+                    "rightValue": "application/pdf",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "2a39773d-0ffc-4b02-a2d5-6c912e0c09bb"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "PDF"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "fc193b06-363b-4699-a97d-e5a850138b0e",
+                    "leftValue": "={{ $json.file_type }}",
+                    "rightValue": "application/vnd.google-apps.document",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Text File"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "497b0de4-9505-4405-8019-e6df9e3132aa",
+                    "leftValue": "={{ $json.file_type }}",
+                    "rightValue": "application/vnd.google-apps.presentation",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Google Slides"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "1d607827-3624-469d-a4b2-03ba8bb042ed",
+                    "leftValue": "={{ $json.file_type }}",
+                    "rightValue": "application/vnd.google-apps.spreadsheet",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Google Spreadsheet"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "2ae7faa7-a936-4621-a680-60c512163034",
+                    "leftValue": "={{ $json.file_type }}",
+                    "rightValue": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Excel"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "7ddfa924-1c26-4ee3-9890-5c9d2b96717a",
+                    "leftValue": "={{ $json.file_type }}",
+                    "rightValue": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Microsoft Word 1"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "none"
+        }
+      },
+      "id": "267f213c-00d5-4276-af7b-47b4a65cd3ba",
+      "name": "Switch2",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        520,
+        -80
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "387ecdb1-ed3e-48dc-b3eb-504486800405",
+              "name": "file_id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "f04d948d-e9b2-4da1-bbca-9ab2976ac219",
+              "name": "file_name",
+              "value": "={{ $json.name }}",
+              "type": "string"
+            },
+            {
+              "id": "7f6aa7b2-b338-4275-a264-a2048d959a65",
+              "name": "file_type",
+              "value": "={{ $json.mimeType }}",
+              "type": "string"
+            },
+            {
+              "id": "1892c578-6ead-4aff-9560-d29fb4ca85f4",
+              "name": "file_extension",
+              "value": "=.{{ $json.exportLinks['application/vnd.openxmlformats-officedocument.presentationml.presentation'].replace(\"https://docs.google.com/feeds/download/presentations/Export?id=1v39vZ2NZwffK2uQX4QjrkQ4iPNFWuFj2J25gDmvzrk0&exportFormat=pptx\",\"pptx\") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        180,
+        -20
+      ],
+      "id": "eddef347-f5de-4175-a69b-0dc19e981726",
+      "name": "Set File Id & Type"
+    },
+    {
+      "parameters": {
+        "url": "https://api.cloud.llamaindex.ai/api/parsing/supported_file_extensions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        960,
+        -160
+      ],
+      "id": "b8196571-5f52-4cdc-8211-fed3fde52013",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "extensions",
+        "options": {}
+      },
+      "id": "fbd568ea-d51c-4de6-b32e-e14226776393",
+      "name": "Aggregate",
+      "type": "n8n-nodes-base.aggregate",
+      "position": [
+        1240,
+        -180
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c1bc224c-e4a0-42f1-8ce3-2ce672a631e2",
+              "leftValue": "={{ $('Aggregate').first().json.extensions.includes($('Set File Id & Type').first().json.file_extension)}}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1480,
+        -240
+      ],
+      "id": "1c26e361-c86a-4e99-9786-7472a17675c4",
+      "name": "Checking File Extension Supported By Llama Parser"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "llamaparse-data-results",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        560,
+        400
+      ],
+      "id": "dd973fc5-7b96-4e10-b906-3bcf59288f8a",
+      "name": "Webhook",
+      "webhookId": "5b1bd5a8-1019-47c0-a799-a7cbe4420b65"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "55b5a755-eeaf-4ce7-b600-e6c864dc7e10",
+              "name": "data",
+              "type": "string",
+              "value": "={{ $json.body.md }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1c186758-e798-4b50-8a07-fc4c13fba2ae",
+      "name": "Get Parsed Markdown",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        800,
+        400
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.file_id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1080,
+        0
+      ],
+      "id": "06e005f3-ee28-4368-a870-fe420d350ec5",
+      "name": "Google Drive1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        1700,
+        -160
+      ],
+      "id": "5bea770b-3a1d-4a56-983e-eecec1141f35",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.cloud.llamaindex.ai/api/parsing/upload",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "=file",
+              "inputDataFieldName": "data"
+            },
+            {
+              "name": "webhook_url",
+              "value": "=https://n8n.automessenger.me/webhook-test/llamaparse-data-results"
+            },
+            {
+              "name": "accurate_mode",
+              "value": "true"
+            },
+            {
+              "name": "premium_mode",
+              "value": "false"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "0ed03d63-5cea-4dd8-a5e6-f8be4713affe",
+      "name": "Parse Document with LlamaParse",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        1940,
+        -160
+      ],
+      "executeOnce": true,
+      "typeVersion": 4.2,
+      "alwaysOutputData": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "ii82tOu9VBVOXZeo",
+          "name": "Header Auth LlamaParser(boonhong.tan0309@gmail.com)"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Set File Id & Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set File Id & Type": {
+      "main": [
+        [
+          {
+            "node": "Switch2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch2": {
+      "main": [
+        [],
+        [],
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Drive1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Checking File Extension Supported By Llama Parser",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Checking File Extension Supported By Llama Parser": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get Parsed Markdown",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Parse Document with LlamaParse",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "On form submission": [
+      {
+        "json": {
+          "Actual GDrive File Name": "May25 [ReadyCare] - KOC Influencer Marketing Strategy Deck",
+          "GDrive Folder Name": "2025 RC KOC Influencer Trial Giveaway Campaign",
+          "GDrive Folder ID": "1NqGtdwzIcOq0RzvtnZs9k_EQPIGsEpsl",
+          "submittedAt": "2025-05-22T15:45:54.988+08:00",
+          "formMode": "test"
+        }
+      }
+    ],
+    "Google Drive": [
+      {
+        "json": {
+          "exportLinks": {
+            "application/vnd.oasis.opendocument.presentation": "https://docs.google.com/feeds/download/presentations/Export?id=1v39vZ2NZwffK2uQX4QjrkQ4iPNFWuFj2J25gDmvzrk0&exportFormat=odp",
+            "application/pdf": "https://docs.google.com/feeds/download/presentations/Export?id=1v39vZ2NZwffK2uQX4QjrkQ4iPNFWuFj2J25gDmvzrk0&exportFormat=pdf",
+            "application/vnd.openxmlformats-officedocument.presentationml.presentation": "https://docs.google.com/feeds/download/presentations/Export?id=1v39vZ2NZwffK2uQX4QjrkQ4iPNFWuFj2J25gDmvzrk0&exportFormat=pptx",
+            "text/plain": "https://docs.google.com/feeds/download/presentations/Export?id=1v39vZ2NZwffK2uQX4QjrkQ4iPNFWuFj2J25gDmvzrk0&exportFormat=txt"
+          },
+          "id": "1v39vZ2NZwffK2uQX4QjrkQ4iPNFWuFj2J25gDmvzrk0",
+          "name": "May25 [ReadyCare] - KOC Influencer Marketing Strategy Deck",
+          "mimeType": "application/vnd.google-apps.presentation"
+        }
+      }
+    ],
+    "HTTP Request": [
+      {
+        "json": ".pdf"
+      },
+      {
+        "json": ".doc"
+      },
+      {
+        "json": ".docx"
+      },
+      {
+        "json": ".docm"
+      },
+      {
+        "json": ".dot"
+      },
+      {
+        "json": ".dotx"
+      },
+      {
+        "json": ".dotm"
+      },
+      {
+        "json": ".rtf"
+      },
+      {
+        "json": ".wps"
+      },
+      {
+        "json": ".wpd"
+      },
+      {
+        "json": ".sxw"
+      },
+      {
+        "json": ".stw"
+      },
+      {
+        "json": ".sxg"
+      },
+      {
+        "json": ".pages"
+      },
+      {
+        "json": ".mw"
+      },
+      {
+        "json": ".mcw"
+      },
+      {
+        "json": ".uot"
+      },
+      {
+        "json": ".uof"
+      },
+      {
+        "json": ".uos"
+      },
+      {
+        "json": ".uop"
+      },
+      {
+        "json": ".ppt"
+      },
+      {
+        "json": ".pptx"
+      },
+      {
+        "json": ".pot"
+      },
+      {
+        "json": ".pptm"
+      },
+      {
+        "json": ".potx"
+      },
+      {
+        "json": ".potm"
+      },
+      {
+        "json": ".key"
+      },
+      {
+        "json": ".odp"
+      },
+      {
+        "json": ".odg"
+      },
+      {
+        "json": ".otp"
+      },
+      {
+        "json": ".fopd"
+      },
+      {
+        "json": ".sxi"
+      },
+      {
+        "json": ".sti"
+      },
+      {
+        "json": ".epub"
+      },
+      {
+        "json": ".jpg"
+      },
+      {
+        "json": ".jpeg"
+      },
+      {
+        "json": ".png"
+      },
+      {
+        "json": ".gif"
+      },
+      {
+        "json": ".bmp"
+      },
+      {
+        "json": ".svg"
+      },
+      {
+        "json": ".tiff"
+      },
+      {
+        "json": ".webp"
+      },
+      {
+        "json": ".html"
+      },
+      {
+        "json": ".htm"
+      },
+      {
+        "json": ".xls"
+      },
+      {
+        "json": ".xlsx"
+      },
+      {
+        "json": ".xlsm"
+      },
+      {
+        "json": ".xlsb"
+      },
+      {
+        "json": ".xlw"
+      },
+      {
+        "json": ".csv"
+      },
+      {
+        "json": ".dif"
+      },
+      {
+        "json": ".sylk"
+      },
+      {
+        "json": ".slk"
+      },
+      {
+        "json": ".prn"
+      },
+      {
+        "json": ".numbers"
+      },
+      {
+        "json": ".et"
+      },
+      {
+        "json": ".ods"
+      },
+      {
+        "json": ".fods"
+      },
+      {
+        "json": ".uos1"
+      },
+      {
+        "json": ".uos2"
+      },
+      {
+        "json": ".dbf"
+      },
+      {
+        "json": ".wk1"
+      },
+      {
+        "json": ".wk2"
+      },
+      {
+        "json": ".wk3"
+      },
+      {
+        "json": ".wk4"
+      },
+      {
+        "json": ".wks"
+      },
+      {
+        "json": ".wq1"
+      },
+      {
+        "json": ".wq2"
+      },
+      {
+        "json": ".wb1"
+      },
+      {
+        "json": ".wb2"
+      },
+      {
+        "json": ".wb3"
+      },
+      {
+        "json": ".qpw"
+      },
+      {
+        "json": ".xlr"
+      },
+      {
+        "json": ".eth"
+      },
+      {
+        "json": ".tsv"
+      }
+    ],
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "x-forwarded-host": "n8n.automessenger.me",
+            "x-forwarded-server": "n8n.automessenger.me",
+            "x-real-ip": "52.5.178.213",
+            "x-forwarded-for": "52.5.178.213",
+            "x-forwarded-proto": "https",
+            "host": "n8n.automessenger.me",
+            "connection": "Upgrade",
+            "content-length": "87339",
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "user-agent": "LlamaIndex - Parse",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "sentry-trace": "2d305374064e42d59a3c34d1a86eca7d-81fb8d67681ef0e6",
+            "baggage": "sentry-environment=prod,sentry-public_key=da5c8732e2106aabad8742ab2733dff5,sentry-trace_id=2d305374064e42d59a3c34d1a86eca7d"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "jobId": "5a122534-d155-4321-bf8a-840d0cb21781",
+            "txt": "                                                     CREO\n         CREO X ReadyCare Signature\nKOC Influencer Marketing\nStrategy In TikTok\n                    Ready\n                      Cara\n                          SIGNATURE\n                          SELECTION\n  Prepared By: Hanson Tan\n                                                      1\n---\nKey Talking Points\n●  ReadyCare Signature is Malaysia's first USDA Bio-Based certified brand, offering eco-friendly\n   and skin-friendly cleaning solutions.\n●  The campaign targets 20 Key Opinion Consumers (KOCs) to test and review three key\n   products: Biobased Multipurpose Cleaner, Biobased Baby Laundry Detergent, and Biobased\n   Dishwashing Liquid.\n●  Each product is tailored for specific audience groups: women with skin allergies, parents of\n   children with sensitive skin, and general households seeking chemical-free solutions.\n●  The campaign leverages authentic reviews and user-generated content (UGC) from KOCs to\n   build trust and brand confidence among potential customers.\n●  ReadyCare's products are manufactured and certified by Malaysia Halal Certification issued\n   under Department of Islamic Development Malaysia (JAKIM)\n●  The initiative aims to collect video testimonials from KOCs and their followers, enhancing\n   credibility and engagement.\n●  The campaign aligns with ReadyCare's mission to promote a healthier planet through bio-\n   based, renewable cleaning solutions.                                                      2\n---\n   Hashtags To Use (English)\nLanguage         Product Name                         Brand/Product Based Hashtags\nEnglish          Biobased Multipurpose Cleaner        #ReadyCareSignature\n                                                      #RCSignature\n                                                      #BiobasedMultipurposeCleaner\nEnglish          Biobased Laundry Detergent           #ReadyCareSignature\n                                                      #RCSignature\n                                                      #BiobasedLaundryDetergent\nEnglish          Biobased Dishwashing Liquid          #ReadyCareSignature\n                                                      #RCSignature\n                                                      #BiobasedDishwashingLiquid\n\n\nCategory Related Hashtags\n#multipurposecleaner, #cleaninghacks, #homecleaning,\n#stainremover, #cleaningtips, #ecofriendly, #greasecleaner,\n#cleaningmotivation, #householdproducts, #cleaningvideos\n#laundrydetergent, #laundryday, #laundryhacks, #ecofriendly,\n#gentlecleaning, #veganproducts, #hypoallergenic, #babycare,\n#cleaningtips, #stainremoval\n#dishwashingliquid, #kitchencleaning, #ecofriendly, #veganproducts,\n#gentlecleaning, #cleaninghacks, #kitchenhacks, #dishwashing,\n#cleaningtips, #stainremover\n                                                             3\n---\n    Hashtags To Use (Malay)\nLanguage        Product Name                    Brand/Product Based Hashtags\nMalay           Biobased Multipurpose Cleaner   #ReadyCareSignature\n                                                #RCSignature\n                                                #BiobasedMultipurposeCleaner\n\nMalay           Biobased Laundry Detergent      #ReadyCareSignature\n                                                #RCSignature\n                                                #BiobasedBabyLaundryDetergent\nMalay           Biobased Dishwashing Liquid     #ReadyCareSignature\n                                                #RCSignature\n                                                #BiobasedDishwashingLiquid\n\n\nCategory Related Hashtags\n#pembersihserbaguna, #multipurposecleaner, #pembersihrumah,\n#cleaningspray, #stainremover, #pembersihkerak, #cleaninghacks,\n#rumahbersih, #mesraalam\n#produkmesraalam\n#detergenpakaian, #laundrydetergent, #pencucipakaian, #mesraalam,\n#produkmesraalam, #rumahbersih, #stainremover, #cleaninghacks,\n#pembersihpakaian, #laundryday\n#pencucipiring, #dishwashingliquid, #pembersihdapur, #mesraalam,\n#produkmesraalam, #rumahbersih, #stainremover, #cleaninghacks,\n#pembersihkerak. #dapurbersih\n                                                                     4\n---\n    Video Style & Content Ideation\nProduct Name                        Video Styles                        Content Ideations\n                                                                        - Showcase the product in unboxing videos, highlighting its eco-friendly packaging and features.\n                                    - Unboxing videos                   - Create detailed reviews of the product, emphasizing its effectiveness in cleaning tough stains and its\nBiobased Multipurpose Cleaner       - Product reviews                   safety for families.\n                                    - How-to videos                     - Demonstrate how to use the product in various cleaning scenarios, such as kitchen counters or\n                                    - Storytelling videos               bathroom tiles.\n                                                                        - Share personal stories or testimonials about how the product has made cleaning easier and more\n                                                                        sustainable.\n                                    - Day-in-the-life vlogs             - Feature the product in day-in-the-life vlogs, showing how it fits into a parent's laundry routine.\nBiobased Baby Laundry Detergent     - Challenges videos                 - Create a challenge video, such as 'Can this detergent remove tough baby stains in one wash?'.\n                                    - Before-and-after videos           - Show before-and-after comparisons of baby clothes washed with the product.\n                                    - Q&A videos                        - Host a Q&A session answering common questions about the product's safety and effectiveness.\n                                    - Tutorial videos                   - Produce tutorial videos on how to use the product for different types of dishes and kitchenware.\nBiobased Dishwashing Liquid         - Comparison videos                 - Compare the product with conventional dishwashing liquids, highlighting its eco-friendly benefits.\n                                    - Behind-the-scenes videos          - Share behind-the-scenes content of the product's production process to emphasize its sustainability.\n                                    - User-generated content            - Encourage users to share their own videos using the product, creating a community around eco-\n                                                                        friendly cleaning.\n                                                                                                                                                                              5\n---\nBest Practices For KOC Content Creator in TikTok\n1.  Highlight Eco-Friendly Benefits\n●   Emphasize the USDA-certified bio-based and vegan-friendly features of ReadyCare Signature products. KOCs should\n    showcase how these products contribute to a sustainable lifestyle appealing to environmentally conscious consumers in\n    Malaysia.\n1.  Showcase Product Versatility\n●   Demonstrate the multiple uses of ReadyCare products such as the Biobased Multipurpose Cleaner for various surfaces or\n    the Biobased Baby Laundry Detergent for delicate fabrics. This helps potential buyers see the value in one product.\n1.  Engage with Personal Stories\n●   KOCs should share personal experiences or testimonials about using ReadyCare products such as how the Biobased\n    Dishwashing Liquid made their dishes sparkle or how the Baby Laundry Detergent is gentle on their child's skin.\n1.  Leverage TikTok Trends\n●   Incorporate trending sounds challenges or hashtags on TikTok to increase visibility. For example create a 'cleaning hack'\n    video using the Biobased Multipurpose Cleaner to align with popular content themes.\n1.  Use Before-and-After Visuals\n●   Show the effectiveness of ReadyCare products through before-and-after clips. For instance compare dirty dishes cleaned\n    with the Biobased Dishwashing Liquid or stained clothes washed with the Baby Laundry Detergent.\n1.  Encourage User Participation\n●   Invite followers to try ReadyCare products and share their experiences. KOCs can run a giveaway or challenge where\n    participants post their own reviews or cleaning results using a branded hashtag.\n1.  Focus on Safety and Gentleness\n●   Highlight the hypoallergenic and skin-friendly properties of ReadyCare products especially for baby care items. KOCs can\n    reassure parents about the absence of harsh chemicals in the Biobased Baby Laundry Detergent.\n1.  Include Clear Call-to-Actions\n●   End videos with a strong CTA such as 'Swipe up to shop now' or 'Comment below for a chance to win a free trial pack.' This  6\n    drives engagement and conversions for the giveaway campaign.\n---\n  Post-collaboration\n  Recommendations\n1.  Encourage KOCs to tag ReadyCare Signature in their TikTok\n●   Ensure KOCs include @ReadyCareSignature in their captions and video descriptions to link back to the\n    brand's TikTok account. This practice increases brand visibility and allows the KOC's audience to easily\n    discover ReadyCare Signature's TikTok profile.\n1.  Utilize trending and relevant hashtags\n●   Collaborate with KOCs to incorporate trending and niche-specific hashtags like #EcoFriendlyCleaning\n    and #BioBasedProducts in their posts.Hashtags enhance discoverability and attract a broader audience\n    interested in sustainable cleaning solutions.\n1.  Cross-promote collaborations on other platforms\n●   Share snippets or behind-the-scenes content of the KOC collaboration on Instagram Facebook or\n    YouTube linking back to the TikTok post. Cross-promotion maximizes reach and engages audiences\n    across multiple social media platforms.\n1.  Analyze post-collaboration performance metrics\n●   Track engagement metrics such as views likes shares and comments to evaluate the success of the\n    KOC collaboration. Data-driven insights help refine future influencer marketing strategies and improve\n    ROI.\n                                                                                                       7\n---\n       TikTok Ad Planning\nFunnel Level               Campaign Level                      Adgroup Level                                               Ad Level\nTop Funnel                 1. Advertising Objective: Traffic   1. Target Locations: - Perak,Malaysia - Selangor,Malaysia-  1. Ad Angles:\n                           2.Optimization Goal: Reach          Penang,Malaysia                                             - Eco-conscious consumers looking for sustainable\n                                                               2. Target Age Range:- 25-34 , 35-44, 45-54, 55+             cleaning solutions\n                                                               3. Target Gender: Female\n                                                               4. Target Language: English, Malay                          - Parents seeking safe and natural baby care products\n                                                               5. Target Interests:                                        - Pet owners who prioritize eco-friendly pet care\n                                                               - Eco-friendly Products                                     2. Ad Formats:Video, Carousel\n                                                               - Sustainable Living\n                                                               - Home Cleaning\n                                                               - Baby Care\n                                                               - Pet Care\nMid Funnel                 1. Advertising Objective: Web       1. Target Locations: - Perak,Malaysia - Selangor,Malaysia-  1. Ad Angles:\n                           Conversion                          Penang,Malaysia                                             - Showcasing the benefits of bundling eco-friendly products\n                           2.Optimization Goal: Purchase       2. Target Age Range:- 25-34 , 35-44, 45-54, 55+             - Highlighting cost savings with bundle deals (Buy 1 Free 1,\n                                                               3. Target Gender: Female                                    Buy 2 Free 3, Buy 3 Free 5)\n                                                               4. Target Language: English, Malay                          - Demonstrating real-life use cases of the bundled products\n                                                               5. Target Interests:\n                                                               - Eco-friendly Products                                     2. Ad Formats:Video, Spark Ads\n                                                               - Sustainable Living\n                                                               - Home Cleaning\n                                                               - Baby Care\n                                                               - Pet Care\nBottom Funnel              1. Advertising Objective: Web       1. Target Locations: - Perak,Malaysia - Selangor,Malaysia-  1. Ad Angles:\n                           Conversion                          Penang,Malaysia                                             - Limited-time offer for bundle deals\n                           2.Optimization Goal: Purchase       2. Target Age Range:- 25-34 , 35-44, 45-54, 55+             - Customer testimonials and reviews\n                                                               3. Target Gender: Female\n                                                               4. Target Language: English, Malay                          - Exclusive discounts for first-time buyers\n                                                               5. Target Interests:                                        2. Ad Formats:Video, Product Shopping Ads\n                                                               - Eco-friendly Products\n                                                               - Sustainable Living\n                                                               - Home Cleaning\n                                                               - Baby Care\n                                                               - Pet Care\n                                                                                                                                                                                          8",
+            "md": "# CREO X ReadyCare Signature\n\n# KOC Influencer Marketing Strategy In TikTok\n\n# Ready Cara\n\n# SIGNATURE SELECTION\n\nPrepared By: Hanson Tan\n---\n# Key Talking Points\n\n- ReadyCare Signature is Malaysia's first USDA Bio-Based certified brand, offering eco-friendly and skin-friendly cleaning solutions.\n- The campaign targets 20 Key Opinion Consumers (KOCs) to test and review three key products: Biobased Multipurpose Cleaner, Biobased Baby Laundry Detergent, and Biobased Dishwashing Liquid.\n- Each product is tailored for specific audience groups: women with skin allergies, parents of children with sensitive skin, and general households seeking chemical-free solutions.\n- The campaign leverages authentic reviews and user-generated content (UGC) from KOCs to build trust and brand confidence among potential customers.\n- ReadyCare's products are manufactured and certified by Malaysia Halal Certification issued under Department of Islamic Development Malaysia (JAKIM).\n- The initiative aims to collect video testimonials from KOCs and their followers, enhancing credibility and engagement.\n- The campaign aligns with ReadyCare's mission to promote a healthier planet through bio-based, renewable cleaning solutions.\n---\n# Hashtags To Use (English)\n\n| Language | Product Name                  | Brand/Product Based Hashtags                                  |\n| -------- | ----------------------------- | ------------------------------------------------------------- |\n| English  | Biobased Multipurpose Cleaner | #ReadyCareSignature #RCSignature #BiobasedMultipurposeCleaner |\n| English  | Biobased Laundry Detergent    | #ReadyCareSignature #RCSignature #BiobasedLaundryDetergent    |\n| English  | Biobased Dishwashing Liquid   | #ReadyCareSignature #RCSignature #BiobasedDishwashingLiquid   |\n\n# Category Related Hashtags\n\n#multipurposecleaner, #cleaninghacks, #homecleaning,\n\n#stainremover, #cleaningtips, #ecofriendly, #greasecleaner,\n\n#cleaningmotivation, #householdproducts, #cleaningvideos,\n\n#laundrydetergent, #laundryday, #laundryhacks, #ecofriendly,\n\n#gentlecleaning, #veganproducts, #hypoallergenic, #babycare,\n\n#cleaningtips, #stainremoval,\n\n#dishwashingliquid, #kitchencleaning, #ecofriendly, #veganproducts,\n\n#gentlecleaning, #cleaninghacks, #kitchenhacks, #dishwashing,\n\n#cleaningtips, #stainremover\n---\n# Hashtags To Use (Malay)\n\n| Language | Product Name                  | Brand/Product Based Hashtags                                   |\n| -------- | ----------------------------- | -------------------------------------------------------------- |\n| Malay    | Biobased Multipurpose Cleaner | #ReadyCareSignature #RCSignature #BiobasedMultipurposeCleaner  |\n| Malay    | Biobased Laundry Detergent    | #ReadyCareSignature #RCSignature #BiobasedBabyLaundryDetergent |\n| Malay    | Biobased Dishwashing Liquid   | #ReadyCareSignature #RCSignature #BiobasedDishwashingLiquid    |\n\n# Category Related Hashtags\n\n#pembersihserbaguna, #multipurposecleaner, #pembersihrumah,\n\n#cleaningspray, #stainremover, #pembersihkerak, #cleaninghacks,\n\n#rumahbersih, #mesraalam\n\n#produkmesraalam\n\n#detergenpakaian, #laundrydetergent, #pencucipakaian, #mesraalam,\n\n#produkmesraalam, #rumahbersih, #stainremover, #cleaninghacks,\n\n#pembersihpakaian, #laundryday\n\n#pencucipiring, #dishwashingliquid, #pembersihdapur, #mesraalam,\n\n#produkmesraalam, #rumahbersih, #stainremover, #cleaninghacks,\n\n#pembersihkerak, #dapurbersih\n---\n# Video Style & Content Ideation\n\n| Product Name                    | Video Styles                                                                                      | Content Ideations                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |\n| ------------------------------- | ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| Biobased Multipurpose Cleaner   | * Unboxing videos\n* Product reviews\n* How-to videos\n* Storytelling videos\n* Day-in-the-life vlogs | - Showcase the product in unboxing videos, highlighting its eco-friendly packaging and features.\n- Create detailed reviews of the product, emphasizing its effectiveness in cleaning tough stains and its safety for families.\n- Demonstrate how to use the product in various cleaning scenarios, such as kitchen counters or bathroom tiles.\n- Share personal stories or testimonials about how the product has made cleaning easier and more sustainable.\n- Feature the product in day-in-the-life vlogs, showing how it fits into a parent's laundry routine. |\n| Biobased Baby Laundry Detergent | * Challenges videos\n* Before-and-after videos\n* Q\\&A videos\n* Tutorial videos                     | - Create a challenge video, such as 'Can this detergent remove tough baby stains in one wash?'.\n- Show before-and-after comparisons of baby clothes washed with the product.\n- Host a Q\\&A session answering common questions about the product's safety and effectiveness.\n- Produce tutorial videos on how to use the product for different types of dishes and kitchenware.                                                                                                                                                                                    |\n| Biobased Dishwashing Liquid     | * Comparison videos\n* Behind-the-scenes videos\n* User-generated content                           | - Compare the product with conventional dishwashing liquids, highlighting its eco-friendly benefits.\n- Share behind-the-scenes content of the product's production process to emphasize its sustainability.\n- Encourage users to share their own videos using the product, creating a community around eco-friendly cleaning.                                                                                                                                                                                                                                     |\n---\n# Best Practices For KOC Content Creator in TikTok\n\n1. Highlight Eco-Friendly Benefits\n- Emphasize the USDA-certified bio-based and vegan-friendly features of ReadyCare Signature products. KOCs should showcase how these products contribute to a sustainable lifestyle appealing to environmentally conscious consumers in Malaysia.\n2. Showcase Product Versatility\n- Demonstrate the multiple uses of ReadyCare products such as the Biobased Multipurpose Cleaner for various surfaces or the Biobased Baby Laundry Detergent for delicate fabrics. This helps potential buyers see the value in one product.\n3. Engage with Personal Stories\n- KOCs should share personal experiences or testimonials about using ReadyCare products such as how the Biobased Dishwashing Liquid made their dishes sparkle or how the Baby Laundry Detergent is gentle on their child's skin.\n4. Leverage TikTok Trends\n- Incorporate trending sounds challenges or hashtags on TikTok to increase visibility. For example create a 'cleaning hack' video using the Biobased Multipurpose Cleaner to align with popular content themes.\n5. Use Before-and-After Visuals\n- Show the effectiveness of ReadyCare products through before-and-after clips. For instance compare dirty dishes cleaned with the Biobased Dishwashing Liquid or stained clothes washed with the Baby Laundry Detergent.\n6. Encourage User Participation\n- Invite followers to try ReadyCare products and share their experiences. KOCs can run a giveaway or challenge where participants post their own reviews or cleaning results using a branded hashtag.\n7. Focus on Safety and Gentleness\n- Highlight the hypoallergenic and skin-friendly properties of ReadyCare products especially for baby care items. KOCs can reassure parents about the absence of harsh chemicals in the Biobased Baby Laundry Detergent.\n8. Include Clear Call-to-Actions\n- End videos with a strong CTA such as 'Swipe up to shop now' or 'Comment below for a chance to win a free trial pack.' This drives engagement and conversions for the giveaway campaign.\n---\n# Post-collaboration Recommendations\n\n1. Encourage KOCs to tag ReadyCare Signature in their TikTok\n\n- Ensure KOCs include @ReadyCareSignature in their captions and video descriptions to link back to the brand's TikTok account. This practice increases brand visibility and allows the KOC's audience to easily discover ReadyCare Signature's TikTok profile.\n2. Utilize trending and relevant hashtags\n\n- Collaborate with KOCs to incorporate trending and niche-specific hashtags like #EcoFriendlyCleaning and #BioBasedProducts in their posts. Hashtags enhance discoverability and attract a broader audience interested in sustainable cleaning solutions.\n3. Cross-promote collaborations on other platforms\n\n- Share snippets or behind-the-scenes content of the KOC collaboration on Instagram, Facebook, or YouTube linking back to the TikTok post. Cross-promotion maximizes reach and engages audiences across multiple social media platforms.\n4. Analyze post-collaboration performance metrics\n\n- Track engagement metrics such as views, likes, shares, and comments to evaluate the success of the KOC collaboration. Data-driven insights help refine future influencer marketing strategies and improve ROI.\n---\n# TikTok Ad Planning\n\n| Funnel Level  | Campaign Level                                                                                                                                                                                                                                                                                                                                                                                                              | Adgroup Level                                                                                                                                                                                                                                                             | Ad Level |\n| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |\n| Top Funnel    | 1. Advertising Objective: Traffic\n\n2. Optimization Goal: Reach\n\n3. Target Locations:\n\n* Perak, Malaysia\n* Selangor, Malaysia\n* Penang, Malaysia\n\n4. Target Age Range:\n\n* 25-34\n* 35-44\n* 45-54\n* 55+\n\n5. Target Gender: Female\n\n6. Target Language: English, Malay\n\n7. Target Interests:\n\n* Eco-friendly Products\n* Sustainable Living\n* Home Cleaning\n* Baby Care\n* Pet Care           | 1) Ad Angles:\n\n* Eco-conscious consumers looking for sustainable cleaning solutions\n* Parents seeking safe and natural baby care products\n* Pet owners who prioritize eco-friendly pet care\n\n2) Ad Formats: Video, Carousel                                      |          |\n\n| Mid Funnel    | 1. Advertising Objective: Web Conversion\n\n2. Optimization Goal: Purchase\n\n3. Target Locations:\n\n* Perak, Malaysia\n* Selangor, Malaysia\n* Penang, Malaysia\n\n4. Target Age Range:\n\n* 25-34\n* 35-44\n* 45-54\n* 55+\n\n5. Target Gender: Female\n\n6. Target Language: English, Malay\n\n7. Target Interests:\n\n* Eco-friendly Products\n* Sustainable Living\n* Home Cleaning\n* Baby Care\n* Pet Care | 1) Ad Angles:\n\n* Showcasing the benefits of bundling eco-friendly products\n* Highlighting cost savings with bundle deals (Buy 1 Free 1, Buy 2 Free 3, Buy 3 Free 5)\n* Demonstrating real-life use cases of the bundled products\n\n2) Ad Formats: Video, Spark Ads |          |\n| Bottom Funnel | 1. Advertising Objective: Web Conversion\n\n2. Optimization Goal: Purchase\n\n3. Target Locations:\n\n* Perak, Malaysia\n* Selangor, Malaysia\n* Penang, Malaysia\n\n4. Target Age Range:\n\n* 25-34\n* 35-44\n* 45-54\n* 55+\n\n5. Target Gender: Female\n\n6. Target Language: English, Malay\n\n7. Target Interests:\n\n* Eco-friendly Products\n* Sustainable Living\n* Home Cleaning\n* Baby Care\n* Pet Care | 1) Ad Angles:\n\n* Limited-time offer for bundle deals\n* Customer testimonials and reviews\n* Exclusive discounts for first-time buyers\n\n2) Ad Formats: Video, Product Shopping Ads                                                                                 |          |",
+            "json": [
+              {
+                "page": 1,
+                "text": "                                                     CREO\n         CREO X ReadyCare Signature\nKOC Influencer Marketing\nStrategy In TikTok\n                    Ready\n                      Cara\n                          SIGNATURE\n                          SELECTION\n  Prepared By: Hanson Tan\n                                                      1",
+                "md": "# CREO X ReadyCare Signature\n\n# KOC Influencer Marketing Strategy In TikTok\n\n# Ready Cara\n\n# SIGNATURE SELECTION\n\nPrepared By: Hanson Tan",
+                "images": [
+                  {
+                    "name": "img_p0_1.png",
+                    "height": 228,
+                    "width": 228,
+                    "x": 665.036,
+                    "y": -0.02782677165401992,
+                    "original_width": 228,
+                    "original_height": 228,
+                    "ocr": [
+                      {
+                        "x": 82,
+                        "y": 92,
+                        "w": 112,
+                        "h": 40,
+                        "confidence": 0.9998617075043629,
+                        "text": "CREO"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "img_p0_2.png",
+                    "height": 188,
+                    "width": 270,
+                    "x": 282.954,
+                    "y": 204.32117322834603,
+                    "original_width": 270,
+                    "original_height": 188,
+                    "ocr": [
+                      {
+                        "x": 67,
+                        "y": 37,
+                        "w": 134,
+                        "h": 48,
+                        "confidence": 0.8837327228939189,
+                        "text": "Ready"
+                      },
+                      {
+                        "x": 112,
+                        "y": 74,
+                        "w": 93,
+                        "h": 39,
+                        "confidence": 0.9933112263679504,
+                        "text": "Cara"
+                      },
+                      {
+                        "x": 102,
+                        "y": 112,
+                        "w": 94,
+                        "h": 24,
+                        "confidence": 0.9985390621833882,
+                        "text": "SIGNATURE"
+                      },
+                      {
+                        "x": 105,
+                        "y": 131,
+                        "w": 90,
+                        "h": 20,
+                        "confidence": 0.87828540720191,
+                        "text": "SELECTION"
+                      }
+                    ]
+                  }
+                ],
+                "charts": [],
+                "items": [
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "CREO X ReadyCare Signature",
+                    "md": "# CREO X ReadyCare Signature",
+                    "bBox": {
+                      "x": 198,
+                      "y": 22,
+                      "w": 514,
+                      "h": 256
+                    }
+                  },
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "KOC Influencer Marketing Strategy In TikTok",
+                    "md": "# KOC Influencer Marketing Strategy In TikTok",
+                    "bBox": {
+                      "x": 104,
+                      "y": 131.02,
+                      "w": 432,
+                      "h": 66
+                    }
+                  },
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "Ready Cara",
+                    "md": "# Ready Cara",
+                    "bBox": {
+                      "x": 319,
+                      "y": 224,
+                      "w": 76,
+                      "h": 42
+                    }
+                  },
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "SIGNATURE SELECTION",
+                    "md": "# SIGNATURE SELECTION",
+                    "bBox": {
+                      "x": 338,
+                      "y": 265,
+                      "w": 51,
+                      "h": 21
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "Prepared By: Hanson Tan",
+                    "md": "Prepared By: Hanson Tan",
+                    "bBox": {
+                      "x": 126,
+                      "y": 322.01,
+                      "w": 255,
+                      "h": 18
+                    }
+                  }
+                ],
+                "status": "OK",
+                "originalOrientationAngle": 0,
+                "links": [],
+                "width": 720,
+                "height": 405.014173228346,
+                "triggeredAutoMode": false,
+                "parsingMode": "accurate",
+                "structuredData": null,
+                "noStructuredContent": false,
+                "noTextContent": false,
+                "confidence": 0.923
+              },
+              {
+                "page": 2,
+                "text": "Key Talking Points\n●  ReadyCare Signature is Malaysia's first USDA Bio-Based certified brand, offering eco-friendly\n   and skin-friendly cleaning solutions.\n●  The campaign targets 20 Key Opinion Consumers (KOCs) to test and review three key\n   products: Biobased Multipurpose Cleaner, Biobased Baby Laundry Detergent, and Biobased\n   Dishwashing Liquid.\n●  Each product is tailored for specific audience groups: women with skin allergies, parents of\n   children with sensitive skin, and general households seeking chemical-free solutions.\n●  The campaign leverages authentic reviews and user-generated content (UGC) from KOCs to\n   build trust and brand confidence among potential customers.\n●  ReadyCare's products are manufactured and certified by Malaysia Halal Certification issued\n   under Department of Islamic Development Malaysia (JAKIM)\n●  The initiative aims to collect video testimonials from KOCs and their followers, enhancing\n   credibility and engagement.\n●  The campaign aligns with ReadyCare's mission to promote a healthier planet through bio-\n   based, renewable cleaning solutions.                                                      2",
+                "md": "# Key Talking Points\n\n- ReadyCare Signature is Malaysia's first USDA Bio-Based certified brand, offering eco-friendly and skin-friendly cleaning solutions.\n- The campaign targets 20 Key Opinion Consumers (KOCs) to test and review three key products: Biobased Multipurpose Cleaner, Biobased Baby Laundry Detergent, and Biobased Dishwashing Liquid.\n- Each product is tailored for specific audience groups: women with skin allergies, parents of children with sensitive skin, and general households seeking chemical-free solutions.\n- The campaign leverages authentic reviews and user-generated content (UGC) from KOCs to build trust and brand confidence among potential customers.\n- ReadyCare's products are manufactured and certified by Malaysia Halal Certification issued under Department of Islamic Development Malaysia (JAKIM).\n- The initiative aims to collect video testimonials from KOCs and their followers, enhancing credibility and engagement.\n- The campaign aligns with ReadyCare's mission to promote a healthier planet through bio-based, renewable cleaning solutions.",
+                "images": [],
+                "charts": [],
+                "items": [
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "Key Talking Points",
+                    "md": "# Key Talking Points",
+                    "bBox": {
+                      "x": 32,
+                      "y": 17.01,
+                      "w": 372,
+                      "h": 36
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "- ReadyCare Signature is Malaysia's first USDA Bio-Based certified brand, offering eco-friendly and skin-friendly cleaning solutions.\n- The campaign targets 20 Key Opinion Consumers (KOCs) to test and review three key products: Biobased Multipurpose Cleaner, Biobased Baby Laundry Detergent, and Biobased Dishwashing Liquid.\n- Each product is tailored for specific audience groups: women with skin allergies, parents of children with sensitive skin, and general households seeking chemical-free solutions.\n- The campaign leverages authentic reviews and user-generated content (UGC) from KOCs to build trust and brand confidence among potential customers.\n- ReadyCare's products are manufactured and certified by Malaysia Halal Certification issued under Department of Islamic Development Malaysia (JAKIM).\n- The initiative aims to collect video testimonials from KOCs and their followers, enhancing credibility and engagement.\n- The campaign aligns with ReadyCare's mission to promote a healthier planet through bio-based, renewable cleaning solutions.",
+                    "md": "- ReadyCare Signature is Malaysia's first USDA Bio-Based certified brand, offering eco-friendly and skin-friendly cleaning solutions.\n- The campaign targets 20 Key Opinion Consumers (KOCs) to test and review three key products: Biobased Multipurpose Cleaner, Biobased Baby Laundry Detergent, and Biobased Dishwashing Liquid.\n- Each product is tailored for specific audience groups: women with skin allergies, parents of children with sensitive skin, and general households seeking chemical-free solutions.\n- The campaign leverages authentic reviews and user-generated content (UGC) from KOCs to build trust and brand confidence among potential customers.\n- ReadyCare's products are manufactured and certified by Malaysia Halal Certification issued under Department of Islamic Development Malaysia (JAKIM).\n- The initiative aims to collect video testimonials from KOCs and their followers, enhancing credibility and engagement.\n- The campaign aligns with ReadyCare's mission to promote a healthier planet through bio-based, renewable cleaning solutions.",
+                    "bBox": {
+                      "x": 53,
+                      "y": 84.02,
+                      "w": 656,
+                      "h": 314
+                    }
+                  }
+                ],
+                "status": "OK",
+                "originalOrientationAngle": 0,
+                "links": [],
+                "width": 720,
+                "height": 405.014173228346,
+                "triggeredAutoMode": false,
+                "parsingMode": "accurate",
+                "structuredData": null,
+                "noStructuredContent": false,
+                "noTextContent": false,
+                "confidence": 0.993
+              },
+              {
+                "page": 3,
+                "text": "   Hashtags To Use (English)\nLanguage         Product Name                         Brand/Product Based Hashtags\nEnglish          Biobased Multipurpose Cleaner        #ReadyCareSignature\n                                                      #RCSignature\n                                                      #BiobasedMultipurposeCleaner\nEnglish          Biobased Laundry Detergent           #ReadyCareSignature\n                                                      #RCSignature\n                                                      #BiobasedLaundryDetergent\nEnglish          Biobased Dishwashing Liquid          #ReadyCareSignature\n                                                      #RCSignature\n                                                      #BiobasedDishwashingLiquid\n\n\nCategory Related Hashtags\n#multipurposecleaner, #cleaninghacks, #homecleaning,\n#stainremover, #cleaningtips, #ecofriendly, #greasecleaner,\n#cleaningmotivation, #householdproducts, #cleaningvideos\n#laundrydetergent, #laundryday, #laundryhacks, #ecofriendly,\n#gentlecleaning, #veganproducts, #hypoallergenic, #babycare,\n#cleaningtips, #stainremoval\n#dishwashingliquid, #kitchencleaning, #ecofriendly, #veganproducts,\n#gentlecleaning, #cleaninghacks, #kitchenhacks, #dishwashing,\n#cleaningtips, #stainremover\n                                                             3",
+                "md": "# Hashtags To Use (English)\n\n| Language | Product Name                  | Brand/Product Based Hashtags                                  |\n| -------- | ----------------------------- | ------------------------------------------------------------- |\n| English  | Biobased Multipurpose Cleaner | #ReadyCareSignature #RCSignature #BiobasedMultipurposeCleaner |\n| English  | Biobased Laundry Detergent    | #ReadyCareSignature #RCSignature #BiobasedLaundryDetergent    |\n| English  | Biobased Dishwashing Liquid   | #ReadyCareSignature #RCSignature #BiobasedDishwashingLiquid   |\n\n# Category Related Hashtags\n\n#multipurposecleaner, #cleaninghacks, #homecleaning,\n\n#stainremover, #cleaningtips, #ecofriendly, #greasecleaner,\n\n#cleaningmotivation, #householdproducts, #cleaningvideos,\n\n#laundrydetergent, #laundryday, #laundryhacks, #ecofriendly,\n\n#gentlecleaning, #veganproducts, #hypoallergenic, #babycare,\n\n#cleaningtips, #stainremoval,\n\n#dishwashingliquid, #kitchencleaning, #ecofriendly, #veganproducts,\n\n#gentlecleaning, #cleaninghacks, #kitchenhacks, #dishwashing,\n\n#cleaningtips, #stainremover",
+                "images": [],
+                "charts": [],
+                "items": [
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "Hashtags To Use (English)",
+                    "md": "# Hashtags To Use (English)",
+                    "bBox": {
+                      "x": 16,
+                      "y": 17.01,
+                      "w": 544,
+                      "h": 247.01
+                    }
+                  },
+                  {
+                    "type": "table",
+                    "rows": [
+                      [
+                        "Language",
+                        "Product Name",
+                        "Brand/Product Based Hashtags"
+                      ],
+                      [
+                        "English",
+                        "Biobased Multipurpose Cleaner",
+                        "#ReadyCareSignature #RCSignature #BiobasedMultipurposeCleaner"
+                      ],
+                      [
+                        "English",
+                        "Biobased Laundry Detergent",
+                        "#ReadyCareSignature #RCSignature #BiobasedLaundryDetergent"
+                      ],
+                      [
+                        "English",
+                        "Biobased Dishwashing Liquid",
+                        "#ReadyCareSignature #RCSignature #BiobasedDishwashingLiquid"
+                      ]
+                    ],
+                    "md": "| Language | Product Name                  | Brand/Product Based Hashtags                                  |\n| -------- | ----------------------------- | ------------------------------------------------------------- |\n| English  | Biobased Multipurpose Cleaner | #ReadyCareSignature #RCSignature #BiobasedMultipurposeCleaner |\n| English  | Biobased Laundry Detergent    | #ReadyCareSignature #RCSignature #BiobasedLaundryDetergent    |\n| English  | Biobased Dishwashing Liquid   | #ReadyCareSignature #RCSignature #BiobasedDishwashingLiquid   |",
+                    "isPerfectTable": true,
+                    "csv": "\"Language\",\"Product Name\",\"Brand/Product Based Hashtags\"\n\"English\",\"Biobased Multipurpose Cleaner\",\"#ReadyCareSignature #RCSignature #BiobasedMultipurposeCleaner\"\n\"English\",\"Biobased Laundry Detergent\",\"#ReadyCareSignature #RCSignature #BiobasedLaundryDetergent\"\n\"English\",\"Biobased Dishwashing Liquid\",\"#ReadyCareSignature #RCSignature #BiobasedDishwashingLiquid\"",
+                    "bBox": {
+                      "x": 16,
+                      "y": 17.01,
+                      "w": 544,
+                      "h": 267.01
+                    }
+                  },
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "Category Related Hashtags",
+                    "md": "# Category Related Hashtags",
+                    "bBox": {
+                      "x": 442,
+                      "y": 69,
+                      "w": 117,
+                      "h": 9
+                    }
+                  },
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "multipurposecleaner, cleaninghacks, homecleaning,",
+                    "md": "#multipurposecleaner, #cleaninghacks, #homecleaning,",
+                    "bBox": {
+                      "x": 0,
+                      "y": 0,
+                      "w": 720,
+                      "h": 405.01
+                    }
+                  },
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "stainremover, cleaningtips, ecofriendly, greasecleaner,",
+                    "md": "#stainremover, #cleaningtips, #ecofriendly, #greasecleaner,",
+                    "bBox": {
+                      "x": 0,
+                      "y": 0,
+                      "w": 720,
+                      "h": 405.01
+                    }
+                  },
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "cleaningmotivation, householdproducts, cleaningvideos,",
+                    "md": "#cleaningmotivation, #householdproducts, #cleaningvideos,",
+                    "bBox": {
+                      "x": 0,
+                      "y": 0,
+                      "w": 720,
+                      "h": 405.01
+                    }
+                  },
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "laundrydetergent, laundryday, laundryhacks, ecofriendly,",
+                    "md": "#laundrydetergent, #laundryday, #laundryhacks, #ecofriendly,",
+                    "bBox": {
+                      "x": 0,
+                      "y": 0,
+                      "w": 720,
+                      "h": 405.01
+                    }
+                  },
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "gentlecleaning, veganproducts, hypoallergenic, babycare,",
+                    "md": "#gentlecleaning, #veganproducts, #hypoallergenic, #babycare,",
+                    "bBox": {
+                      "x": 0,
+                      "y": 0,
+                      "w": 720,
+                      "h": 405.01
+                    }
+                  },
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "cleaningtips, stainremoval,",
+                    "md": "#cleaningtips, #stainremoval,",
+                    "bBox": {
+                      "x": 0,
+                      "y": 0,
+                      "w": 720,
+                      "h": 405.01
+                    }
+                  },
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "dishwashingliquid, kitchencleaning, ecofriendly, veganproducts,",
+                    "md": "#dishwashingliquid, #kitchencleaning, #ecofriendly, #veganproducts,",
+                    "bBox": {
+                      "x": 0,
+                      "y": 0,
+                      "w": 720,
+                      "h": 405.01
+                    }
+                  },
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "gentlecleaning, cleaninghacks, kitchenhacks, dishwashing,",
+                    "md": "#gentlecleaning, #cleaninghacks, #kitchenhacks, #dishwashing,",
+                    "bBox": {
+                      "x": 0,
+                      "y": 0,
+                      "w": 720,
+                      "h": 405.01
+                    }
+                  },
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "cleaningtips, stainremover",
+                    "md": "#cleaningtips, #stainremover",
+                    "bBox": {
+                      "x": 0,
+                      "y": 0,
+                      "w": 720,
+                      "h": 405.01
+                    }
+                  }
+                ],
+                "status": "OK",
+                "originalOrientationAngle": 0,
+                "links": [],
+                "width": 720,
+                "height": 405.014173228346,
+                "triggeredAutoMode": false,
+                "parsingMode": "accurate",
+                "structuredData": null,
+                "noStructuredContent": false,
+                "noTextContent": false,
+                "confidence": 0.989
+              },
+              {
+                "page": 4,
+                "text": "    Hashtags To Use (Malay)\nLanguage        Product Name                    Brand/Product Based Hashtags\nMalay           Biobased Multipurpose Cleaner   #ReadyCareSignature\n                                                #RCSignature\n                                                #BiobasedMultipurposeCleaner\n\nMalay           Biobased Laundry Detergent      #ReadyCareSignature\n                                                #RCSignature\n                                                #BiobasedBabyLaundryDetergent\nMalay           Biobased Dishwashing Liquid     #ReadyCareSignature\n                                                #RCSignature\n                                                #BiobasedDishwashingLiquid\n\n\nCategory Related Hashtags\n#pembersihserbaguna, #multipurposecleaner, #pembersihrumah,\n#cleaningspray, #stainremover, #pembersihkerak, #cleaninghacks,\n#rumahbersih, #mesraalam\n#produkmesraalam\n#detergenpakaian, #laundrydetergent, #pencucipakaian, #mesraalam,\n#produkmesraalam, #rumahbersih, #stainremover, #cleaninghacks,\n#pembersihpakaian, #laundryday\n#pencucipiring, #dishwashingliquid, #pembersihdapur, #mesraalam,\n#produkmesraalam, #rumahbersih, #stainremover, #cleaninghacks,\n#pembersihkerak. #dapurbersih\n                                                                     4",
+                "md": "# Hashtags To Use (Malay)\n\n| Language | Product Name                  | Brand/Product Based Hashtags                                   |\n| -------- | ----------------------------- | -------------------------------------------------------------- |\n| Malay    | Biobased Multipurpose Cleaner | #ReadyCareSignature #RCSignature #BiobasedMultipurposeCleaner  |\n| Malay    | Biobased Laundry Detergent    | #ReadyCareSignature #RCSignature #BiobasedBabyLaundryDetergent |\n| Malay    | Biobased Dishwashing Liquid   | #ReadyCareSignature #RCSignature #BiobasedDishwashingLiquid    |\n\n# Category Related Hashtags\n\n#pembersihserbaguna, #multipurposecleaner, #pembersihrumah,\n\n#cleaningspray, #stainremover, #pembersihkerak, #cleaninghacks,\n\n#rumahbersih, #mesraalam\n\n#produkmesraalam\n\n#detergenpakaian, #laundrydetergent, #pencucipakaian, #mesraalam,\n\n#produkmesraalam, #rumahbersih, #stainremover, #cleaninghacks,\n\n#pembersihpakaian, #laundryday\n\n#pencucipiring, #dishwashingliquid, #pembersihdapur, #mesraalam,\n\n#produkmesraalam, #rumahbersih, #stainremover, #cleaninghacks,\n\n#pembersihkerak, #dapurbersih",
+                "images": [],
+                "charts": [],
+                "items": [
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "Hashtags To Use (Malay)",
+                    "md": "# Hashtags To Use (Malay)",
+                    "bBox": {
+                      "x": 13,
+                      "y": 17.01,
+                      "w": 518,
+                      "h": 229.01
+                    }
+                  },
+                  {
+                    "type": "table",
+                    "rows": [
+                      [
+                        "Language",
+                        "Product Name",
+                        "Brand/Product Based Hashtags"
+                      ],
+                      [
+                        "Malay",
+                        "Biobased Multipurpose Cleaner",
+                        "#ReadyCareSignature #RCSignature #BiobasedMultipurposeCleaner"
+                      ],
+                      [
+                        "Malay",
+                        "Biobased Laundry Detergent",
+                        "#ReadyCareSignature #RCSignature #BiobasedBabyLaundryDetergent"
+                      ],
+                      [
+                        "Malay",
+                        "Biobased Dishwashing Liquid",
+                        "#ReadyCareSignature #RCSignature #BiobasedDishwashingLiquid"
+                      ]
+                    ],
+                    "md": "| Language | Product Name                  | Brand/Product Based Hashtags                                   |\n| -------- | ----------------------------- | -------------------------------------------------------------- |\n| Malay    | Biobased Multipurpose Cleaner | #ReadyCareSignature #RCSignature #BiobasedMultipurposeCleaner  |\n| Malay    | Biobased Laundry Detergent    | #ReadyCareSignature #RCSignature #BiobasedBabyLaundryDetergent |\n| Malay    | Biobased Dishwashing Liquid   | #ReadyCareSignature #RCSignature #BiobasedDishwashingLiquid    |",
+                    "isPerfectTable": true,
+                    "csv": "\"Language\",\"Product Name\",\"Brand/Product Based Hashtags\"\n\"Malay\",\"Biobased Multipurpose Cleaner\",\"#ReadyCareSignature #RCSignature #BiobasedMultipurposeCleaner\"\n\"Malay\",\"Biobased Laundry Detergent\",\"#ReadyCareSignature #RCSignature #BiobasedBabyLaundryDetergent\"\n\"Malay\",\"Biobased Dishwashing Liquid\",\"#ReadyCareSignature #RCSignature #BiobasedDishwashingLiquid\"",
+                    "bBox": {
+                      "x": 13,
+                      "y": 17.01,
+                      "w": 518,
+                      "h": 250.01
+                    }
+                  },
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "Category Related Hashtags",
+                    "md": "# Category Related Hashtags",
+                    "bBox": {
+                      "x": 398,
+                      "y": 77,
+                      "w": 117,
+                      "h": 9
+                    }
+                  },
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "pembersihserbaguna, multipurposecleaner, pembersihrumah,",
+                    "md": "#pembersihserbaguna, #multipurposecleaner, #pembersihrumah,",
+                    "bBox": {
+                      "x": 0,
+                      "y": 0,
+                      "w": 720,
+                      "h": 405.01
+                    }
+                  },
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "cleaningspray, stainremover, pembersihkerak, cleaninghacks,",
+                    "md": "#cleaningspray, #stainremover, #pembersihkerak, #cleaninghacks,",
+                    "bBox": {
+                      "x": 0,
+                      "y": 0,
+                      "w": 720,
+                      "h": 405.01
+                    }
+                  },
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "rumahbersih, mesraalam",
+                    "md": "#rumahbersih, #mesraalam",
+                    "bBox": {
+                      "x": 0,
+                      "y": 0,
+                      "w": 720,
+                      "h": 405.01
+                    }
+                  },
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "produkmesraalam",
+                    "md": "#produkmesraalam",
+                    "bBox": {
+                      "x": 0,
+                      "y": 0,
+                      "w": 720,
+                      "h": 405.01
+                    }
+                  },
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "detergenpakaian, laundrydetergent, pencucipakaian, mesraalam,",
+                    "md": "#detergenpakaian, #laundrydetergent, #pencucipakaian, #mesraalam,",
+                    "bBox": {
+                      "x": 0,
+                      "y": 0,
+                      "w": 720,
+                      "h": 405.01
+                    }
+                  },
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "produkmesraalam, rumahbersih, stainremover, cleaninghacks,",
+                    "md": "#produkmesraalam, #rumahbersih, #stainremover, #cleaninghacks,",
+                    "bBox": {
+                      "x": 0,
+                      "y": 0,
+                      "w": 720,
+                      "h": 405.01
+                    }
+                  },
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "pembersihpakaian, laundryday",
+                    "md": "#pembersihpakaian, #laundryday",
+                    "bBox": {
+                      "x": 0,
+                      "y": 0,
+                      "w": 720,
+                      "h": 405.01
+                    }
+                  },
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "pencucipiring, dishwashingliquid, pembersihdapur, mesraalam,",
+                    "md": "#pencucipiring, #dishwashingliquid, #pembersihdapur, #mesraalam,",
+                    "bBox": {
+                      "x": 0,
+                      "y": 0,
+                      "w": 720,
+                      "h": 405.01
+                    }
+                  },
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "produkmesraalam, rumahbersih, stainremover, cleaninghacks,",
+                    "md": "#produkmesraalam, #rumahbersih, #stainremover, #cleaninghacks,",
+                    "bBox": {
+                      "x": 0,
+                      "y": 0,
+                      "w": 720,
+                      "h": 405.01
+                    }
+                  },
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "pembersihkerak, dapurbersih",
+                    "md": "#pembersihkerak, #dapurbersih",
+                    "bBox": {
+                      "x": 0,
+                      "y": 0,
+                      "w": 720,
+                      "h": 405.01
+                    }
+                  }
+                ],
+                "status": "OK",
+                "originalOrientationAngle": 0,
+                "links": [],
+                "width": 720,
+                "height": 405.014173228346,
+                "triggeredAutoMode": false,
+                "parsingMode": "accurate",
+                "structuredData": null,
+                "noStructuredContent": false,
+                "noTextContent": false,
+                "confidence": 0.989
+              },
+              {
+                "page": 5,
+                "text": "    Video Style & Content Ideation\nProduct Name                        Video Styles                        Content Ideations\n                                                                        - Showcase the product in unboxing videos, highlighting its eco-friendly packaging and features.\n                                    - Unboxing videos                   - Create detailed reviews of the product, emphasizing its effectiveness in cleaning tough stains and its\nBiobased Multipurpose Cleaner       - Product reviews                   safety for families.\n                                    - How-to videos                     - Demonstrate how to use the product in various cleaning scenarios, such as kitchen counters or\n                                    - Storytelling videos               bathroom tiles.\n                                                                        - Share personal stories or testimonials about how the product has made cleaning easier and more\n                                                                        sustainable.\n                                    - Day-in-the-life vlogs             - Feature the product in day-in-the-life vlogs, showing how it fits into a parent's laundry routine.\nBiobased Baby Laundry Detergent     - Challenges videos                 - Create a challenge video, such as 'Can this detergent remove tough baby stains in one wash?'.\n                                    - Before-and-after videos           - Show before-and-after comparisons of baby clothes washed with the product.\n                                    - Q&A videos                        - Host a Q&A session answering common questions about the product's safety and effectiveness.\n                                    - Tutorial videos                   - Produce tutorial videos on how to use the product for different types of dishes and kitchenware.\nBiobased Dishwashing Liquid         - Comparison videos                 - Compare the product with conventional dishwashing liquids, highlighting its eco-friendly benefits.\n                                    - Behind-the-scenes videos          - Share behind-the-scenes content of the product's production process to emphasize its sustainability.\n                                    - User-generated content            - Encourage users to share their own videos using the product, creating a community around eco-\n                                                                        friendly cleaning.\n                                                                                                                                                                              5",
+                "md": "# Video Style & Content Ideation\n\n| Product Name                    | Video Styles                                                                                      | Content Ideations                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |\n| ------------------------------- | ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| Biobased Multipurpose Cleaner   | * Unboxing videos\n* Product reviews\n* How-to videos\n* Storytelling videos\n* Day-in-the-life vlogs | - Showcase the product in unboxing videos, highlighting its eco-friendly packaging and features.\n- Create detailed reviews of the product, emphasizing its effectiveness in cleaning tough stains and its safety for families.\n- Demonstrate how to use the product in various cleaning scenarios, such as kitchen counters or bathroom tiles.\n- Share personal stories or testimonials about how the product has made cleaning easier and more sustainable.\n- Feature the product in day-in-the-life vlogs, showing how it fits into a parent's laundry routine. |\n| Biobased Baby Laundry Detergent | * Challenges videos\n* Before-and-after videos\n* Q\\&A videos\n* Tutorial videos                     | - Create a challenge video, such as 'Can this detergent remove tough baby stains in one wash?'.\n- Show before-and-after comparisons of baby clothes washed with the product.\n- Host a Q\\&A session answering common questions about the product's safety and effectiveness.\n- Produce tutorial videos on how to use the product for different types of dishes and kitchenware.                                                                                                                                                                                    |\n| Biobased Dishwashing Liquid     | * Comparison videos\n* Behind-the-scenes videos\n* User-generated content                           | - Compare the product with conventional dishwashing liquids, highlighting its eco-friendly benefits.\n- Share behind-the-scenes content of the product's production process to emphasize its sustainability.\n- Encourage users to share their own videos using the product, creating a community around eco-friendly cleaning.                                                                                                                                                                                                                                     |",
+                "images": [],
+                "charts": [],
+                "items": [
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "Video Style & Content Ideation",
+                    "md": "# Video Style & Content Ideation",
+                    "bBox": {
+                      "x": 32,
+                      "y": 17.01,
+                      "w": 628,
+                      "h": 36
+                    }
+                  },
+                  {
+                    "type": "table",
+                    "rows": [
+                      [
+                        "Product Name",
+                        "Video Styles",
+                        "Content Ideations"
+                      ],
+                      [
+                        "Biobased Multipurpose Cleaner",
+                        "* Unboxing videos",
+                        ""
+                      ]
+                    ],
+                    "md": "| Product Name                  | Video Styles       | Content Ideations |\n| ----------------------------- | ------------------ | ----------------- |\n| Biobased Multipurpose Cleaner | \\* Unboxing videos |                   |",
+                    "isPerfectTable": false,
+                    "csv": "\"Product Name\",\"Video Styles\",\"Content Ideations\"\n\"Biobased Multipurpose Cleaner\",\"* Unboxing videos\",\"\"",
+                    "bBox": {
+                      "x": 17,
+                      "y": 17.01,
+                      "w": 692,
+                      "h": 377.99
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "* Product reviews\n* How-to videos\n* Storytelling videos\n* Day-in-the-life vlogs | - Showcase the product in unboxing videos, highlighting its eco-friendly packaging and features.\n- Create detailed reviews of the product, emphasizing its effectiveness in cleaning tough stains and its safety for families.\n- Demonstrate how to use the product in various cleaning scenarios, such as kitchen counters or bathroom tiles.\n- Share personal stories or testimonials about how the product has made cleaning easier and more sustainable.\n- Feature the product in day-in-the-life vlogs, showing how it fits into a parent's laundry routine. |",
+                    "md": "* Product reviews\n* How-to videos\n* Storytelling videos\n* Day-in-the-life vlogs | - Showcase the product in unboxing videos, highlighting its eco-friendly packaging and features.\n- Create detailed reviews of the product, emphasizing its effectiveness in cleaning tough stains and its safety for families.\n- Demonstrate how to use the product in various cleaning scenarios, such as kitchen counters or bathroom tiles.\n- Share personal stories or testimonials about how the product has made cleaning easier and more sustainable.\n- Feature the product in day-in-the-life vlogs, showing how it fits into a parent's laundry routine. |",
+                    "bBox": {
+                      "x": 299,
+                      "y": 93.02,
+                      "w": 390,
+                      "h": 125
+                    }
+                  },
+                  {
+                    "type": "table",
+                    "rows": [],
+                    "md": "\\| Biobased Baby Laundry Detergent | \\* Challenges videos",
+                    "isPerfectTable": false,
+                    "csv": "",
+                    "bBox": {
+                      "x": 0,
+                      "y": 0,
+                      "w": 720,
+                      "h": 405.01
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "* Before-and-after videos\n* Q\\&A videos\n* Tutorial videos                     | - Create a challenge video, such as 'Can this detergent remove tough baby stains in one wash?'.\n- Show before-and-after comparisons of baby clothes washed with the product.\n- Host a Q\\&A session answering common questions about the product's safety and effectiveness.\n- Produce tutorial videos on how to use the product for different types of dishes and kitchenware.                                                                                                                                                                                    |",
+                    "md": "* Before-and-after videos\n* Q\\&A videos\n* Tutorial videos                     | - Create a challenge video, such as 'Can this detergent remove tough baby stains in one wash?'.\n- Show before-and-after comparisons of baby clothes washed with the product.\n- Host a Q\\&A session answering common questions about the product's safety and effectiveness.\n- Produce tutorial videos on how to use the product for different types of dishes and kitchenware.                                                                                                                                                                                    |",
+                    "bBox": {
+                      "x": 299,
+                      "y": 220.02,
+                      "w": 372,
+                      "h": 94
+                    }
+                  },
+                  {
+                    "type": "table",
+                    "rows": [],
+                    "md": "\\| Biobased Dishwashing Liquid     | \\* Comparison videos",
+                    "isPerfectTable": false,
+                    "csv": "",
+                    "bBox": {
+                      "x": 0,
+                      "y": 0,
+                      "w": 720,
+                      "h": 405.01
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "* Behind-the-scenes videos\n* User-generated content                           | - Compare the product with conventional dishwashing liquids, highlighting its eco-friendly benefits.\n- Share behind-the-scenes content of the product's production process to emphasize its sustainability.\n- Encourage users to share their own videos using the product, creating a community around eco-friendly cleaning.                                                                                                                                                                                                                                     |",
+                    "md": "* Behind-the-scenes videos\n* User-generated content                           | - Compare the product with conventional dishwashing liquids, highlighting its eco-friendly benefits.\n- Share behind-the-scenes content of the product's production process to emphasize its sustainability.\n- Encourage users to share their own videos using the product, creating a community around eco-friendly cleaning.                                                                                                                                                                                                                                     |",
+                    "bBox": {
+                      "x": 299,
+                      "y": 316.02,
+                      "w": 391,
+                      "h": 39
+                    }
+                  }
+                ],
+                "status": "OK",
+                "originalOrientationAngle": 0,
+                "links": [],
+                "width": 720,
+                "height": 405.014173228346,
+                "triggeredAutoMode": false,
+                "parsingMode": "accurate",
+                "structuredData": null,
+                "noStructuredContent": false,
+                "noTextContent": false,
+                "confidence": 0.995
+              },
+              {
+                "page": 6,
+                "text": "Best Practices For KOC Content Creator in TikTok\n1.  Highlight Eco-Friendly Benefits\n●   Emphasize the USDA-certified bio-based and vegan-friendly features of ReadyCare Signature products. KOCs should\n    showcase how these products contribute to a sustainable lifestyle appealing to environmentally conscious consumers in\n    Malaysia.\n1.  Showcase Product Versatility\n●   Demonstrate the multiple uses of ReadyCare products such as the Biobased Multipurpose Cleaner for various surfaces or\n    the Biobased Baby Laundry Detergent for delicate fabrics. This helps potential buyers see the value in one product.\n1.  Engage with Personal Stories\n●   KOCs should share personal experiences or testimonials about using ReadyCare products such as how the Biobased\n    Dishwashing Liquid made their dishes sparkle or how the Baby Laundry Detergent is gentle on their child's skin.\n1.  Leverage TikTok Trends\n●   Incorporate trending sounds challenges or hashtags on TikTok to increase visibility. For example create a 'cleaning hack'\n    video using the Biobased Multipurpose Cleaner to align with popular content themes.\n1.  Use Before-and-After Visuals\n●   Show the effectiveness of ReadyCare products through before-and-after clips. For instance compare dirty dishes cleaned\n    with the Biobased Dishwashing Liquid or stained clothes washed with the Baby Laundry Detergent.\n1.  Encourage User Participation\n●   Invite followers to try ReadyCare products and share their experiences. KOCs can run a giveaway or challenge where\n    participants post their own reviews or cleaning results using a branded hashtag.\n1.  Focus on Safety and Gentleness\n●   Highlight the hypoallergenic and skin-friendly properties of ReadyCare products especially for baby care items. KOCs can\n    reassure parents about the absence of harsh chemicals in the Biobased Baby Laundry Detergent.\n1.  Include Clear Call-to-Actions\n●   End videos with a strong CTA such as 'Swipe up to shop now' or 'Comment below for a chance to win a free trial pack.' This  6\n    drives engagement and conversions for the giveaway campaign.",
+                "md": "# Best Practices For KOC Content Creator in TikTok\n\n1. Highlight Eco-Friendly Benefits\n- Emphasize the USDA-certified bio-based and vegan-friendly features of ReadyCare Signature products. KOCs should showcase how these products contribute to a sustainable lifestyle appealing to environmentally conscious consumers in Malaysia.\n2. Showcase Product Versatility\n- Demonstrate the multiple uses of ReadyCare products such as the Biobased Multipurpose Cleaner for various surfaces or the Biobased Baby Laundry Detergent for delicate fabrics. This helps potential buyers see the value in one product.\n3. Engage with Personal Stories\n- KOCs should share personal experiences or testimonials about using ReadyCare products such as how the Biobased Dishwashing Liquid made their dishes sparkle or how the Baby Laundry Detergent is gentle on their child's skin.\n4. Leverage TikTok Trends\n- Incorporate trending sounds challenges or hashtags on TikTok to increase visibility. For example create a 'cleaning hack' video using the Biobased Multipurpose Cleaner to align with popular content themes.\n5. Use Before-and-After Visuals\n- Show the effectiveness of ReadyCare products through before-and-after clips. For instance compare dirty dishes cleaned with the Biobased Dishwashing Liquid or stained clothes washed with the Baby Laundry Detergent.\n6. Encourage User Participation\n- Invite followers to try ReadyCare products and share their experiences. KOCs can run a giveaway or challenge where participants post their own reviews or cleaning results using a branded hashtag.\n7. Focus on Safety and Gentleness\n- Highlight the hypoallergenic and skin-friendly properties of ReadyCare products especially for baby care items. KOCs can reassure parents about the absence of harsh chemicals in the Biobased Baby Laundry Detergent.\n8. Include Clear Call-to-Actions\n- End videos with a strong CTA such as 'Swipe up to shop now' or 'Comment below for a chance to win a free trial pack.' This drives engagement and conversions for the giveaway campaign.",
+                "images": [],
+                "charts": [],
+                "items": [
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "Best Practices For KOC Content Creator in TikTok",
+                    "md": "# Best Practices For KOC Content Creator in TikTok",
+                    "bBox": {
+                      "x": 32,
+                      "y": 17.02,
+                      "w": 607,
+                      "h": 22
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "1. Highlight Eco-Friendly Benefits\n- Emphasize the USDA-certified bio-based and vegan-friendly features of ReadyCare Signature products. KOCs should showcase how these products contribute to a sustainable lifestyle appealing to environmentally conscious consumers in Malaysia.\n2. Showcase Product Versatility\n- Demonstrate the multiple uses of ReadyCare products such as the Biobased Multipurpose Cleaner for various surfaces or the Biobased Baby Laundry Detergent for delicate fabrics. This helps potential buyers see the value in one product.\n3. Engage with Personal Stories\n- KOCs should share personal experiences or testimonials about using ReadyCare products such as how the Biobased Dishwashing Liquid made their dishes sparkle or how the Baby Laundry Detergent is gentle on their child's skin.\n4. Leverage TikTok Trends\n- Incorporate trending sounds challenges or hashtags on TikTok to increase visibility. For example create a 'cleaning hack' video using the Biobased Multipurpose Cleaner to align with popular content themes.\n5. Use Before-and-After Visuals\n- Show the effectiveness of ReadyCare products through before-and-after clips. For instance compare dirty dishes cleaned with the Biobased Dishwashing Liquid or stained clothes washed with the Baby Laundry Detergent.\n6. Encourage User Participation\n- Invite followers to try ReadyCare products and share their experiences. KOCs can run a giveaway or challenge where participants post their own reviews or cleaning results using a branded hashtag.\n7. Focus on Safety and Gentleness\n- Highlight the hypoallergenic and skin-friendly properties of ReadyCare products especially for baby care items. KOCs can reassure parents about the absence of harsh chemicals in the Biobased Baby Laundry Detergent.\n8. Include Clear Call-to-Actions\n- End videos with a strong CTA such as 'Swipe up to shop now' or 'Comment below for a chance to win a free trial pack.' This drives engagement and conversions for the giveaway campaign.",
+                    "md": "1. Highlight Eco-Friendly Benefits\n- Emphasize the USDA-certified bio-based and vegan-friendly features of ReadyCare Signature products. KOCs should showcase how these products contribute to a sustainable lifestyle appealing to environmentally conscious consumers in Malaysia.\n2. Showcase Product Versatility\n- Demonstrate the multiple uses of ReadyCare products such as the Biobased Multipurpose Cleaner for various surfaces or the Biobased Baby Laundry Detergent for delicate fabrics. This helps potential buyers see the value in one product.\n3. Engage with Personal Stories\n- KOCs should share personal experiences or testimonials about using ReadyCare products such as how the Biobased Dishwashing Liquid made their dishes sparkle or how the Baby Laundry Detergent is gentle on their child's skin.\n4. Leverage TikTok Trends\n- Incorporate trending sounds challenges or hashtags on TikTok to increase visibility. For example create a 'cleaning hack' video using the Biobased Multipurpose Cleaner to align with popular content themes.\n5. Use Before-and-After Visuals\n- Show the effectiveness of ReadyCare products through before-and-after clips. For instance compare dirty dishes cleaned with the Biobased Dishwashing Liquid or stained clothes washed with the Baby Laundry Detergent.\n6. Encourage User Participation\n- Invite followers to try ReadyCare products and share their experiences. KOCs can run a giveaway or challenge where participants post their own reviews or cleaning results using a branded hashtag.\n7. Focus on Safety and Gentleness\n- Highlight the hypoallergenic and skin-friendly properties of ReadyCare products especially for baby care items. KOCs can reassure parents about the absence of harsh chemicals in the Biobased Baby Laundry Detergent.\n8. Include Clear Call-to-Actions\n- End videos with a strong CTA such as 'Swipe up to shop now' or 'Comment below for a chance to win a free trial pack.' This drives engagement and conversions for the giveaway campaign.",
+                    "bBox": {
+                      "x": 31,
+                      "y": 54,
+                      "w": 678,
+                      "h": 345
+                    }
+                  }
+                ],
+                "status": "OK",
+                "originalOrientationAngle": 0,
+                "links": [],
+                "width": 720,
+                "height": 405.014173228346,
+                "triggeredAutoMode": false,
+                "parsingMode": "accurate",
+                "structuredData": null,
+                "noStructuredContent": false,
+                "noTextContent": false,
+                "confidence": 0.982
+              },
+              {
+                "page": 7,
+                "text": "  Post-collaboration\n  Recommendations\n1.  Encourage KOCs to tag ReadyCare Signature in their TikTok\n●   Ensure KOCs include @ReadyCareSignature in their captions and video descriptions to link back to the\n    brand's TikTok account. This practice increases brand visibility and allows the KOC's audience to easily\n    discover ReadyCare Signature's TikTok profile.\n1.  Utilize trending and relevant hashtags\n●   Collaborate with KOCs to incorporate trending and niche-specific hashtags like #EcoFriendlyCleaning\n    and #BioBasedProducts in their posts.Hashtags enhance discoverability and attract a broader audience\n    interested in sustainable cleaning solutions.\n1.  Cross-promote collaborations on other platforms\n●   Share snippets or behind-the-scenes content of the KOC collaboration on Instagram Facebook or\n    YouTube linking back to the TikTok post. Cross-promotion maximizes reach and engages audiences\n    across multiple social media platforms.\n1.  Analyze post-collaboration performance metrics\n●   Track engagement metrics such as views likes shares and comments to evaluate the success of the\n    KOC collaboration. Data-driven insights help refine future influencer marketing strategies and improve\n    ROI.\n                                                                                                       7",
+                "md": "# Post-collaboration Recommendations\n\n1. Encourage KOCs to tag ReadyCare Signature in their TikTok\n\n- Ensure KOCs include @ReadyCareSignature in their captions and video descriptions to link back to the brand's TikTok account. This practice increases brand visibility and allows the KOC's audience to easily discover ReadyCare Signature's TikTok profile.\n2. Utilize trending and relevant hashtags\n\n- Collaborate with KOCs to incorporate trending and niche-specific hashtags like #EcoFriendlyCleaning and #BioBasedProducts in their posts. Hashtags enhance discoverability and attract a broader audience interested in sustainable cleaning solutions.\n3. Cross-promote collaborations on other platforms\n\n- Share snippets or behind-the-scenes content of the KOC collaboration on Instagram, Facebook, or YouTube linking back to the TikTok post. Cross-promotion maximizes reach and engages audiences across multiple social media platforms.\n4. Analyze post-collaboration performance metrics\n\n- Track engagement metrics such as views, likes, shares, and comments to evaluate the success of the KOC collaboration. Data-driven insights help refine future influencer marketing strategies and improve ROI.",
+                "images": [],
+                "charts": [],
+                "items": [
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "Post-collaboration Recommendations",
+                    "md": "# Post-collaboration Recommendations",
+                    "bBox": {
+                      "x": 45,
+                      "y": 7.01,
+                      "w": 291,
+                      "h": 58
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "1. Encourage KOCs to tag ReadyCare Signature in their TikTok\n\n- Ensure KOCs include @ReadyCareSignature in their captions and video descriptions to link back to the brand's TikTok account. This practice increases brand visibility and allows the KOC's audience to easily discover ReadyCare Signature's TikTok profile.\n2. Utilize trending and relevant hashtags\n\n- Collaborate with KOCs to incorporate trending and niche-specific hashtags like #EcoFriendlyCleaning and #BioBasedProducts in their posts. Hashtags enhance discoverability and attract a broader audience interested in sustainable cleaning solutions.\n3. Cross-promote collaborations on other platforms\n\n- Share snippets or behind-the-scenes content of the KOC collaboration on Instagram, Facebook, or YouTube linking back to the TikTok post. Cross-promotion maximizes reach and engages audiences across multiple social media platforms.\n4. Analyze post-collaboration performance metrics\n\n- Track engagement metrics such as views, likes, shares, and comments to evaluate the success of the KOC collaboration. Data-driven insights help refine future influencer marketing strategies and improve ROI.",
+                    "md": "1. Encourage KOCs to tag ReadyCare Signature in their TikTok\n\n- Ensure KOCs include @ReadyCareSignature in their captions and video descriptions to link back to the brand's TikTok account. This practice increases brand visibility and allows the KOC's audience to easily discover ReadyCare Signature's TikTok profile.\n2. Utilize trending and relevant hashtags\n\n- Collaborate with KOCs to incorporate trending and niche-specific hashtags like #EcoFriendlyCleaning and #BioBasedProducts in their posts. Hashtags enhance discoverability and attract a broader audience interested in sustainable cleaning solutions.\n3. Cross-promote collaborations on other platforms\n\n- Share snippets or behind-the-scenes content of the KOC collaboration on Instagram, Facebook, or YouTube linking back to the TikTok post. Cross-promotion maximizes reach and engages audiences across multiple social media platforms.\n4. Analyze post-collaboration performance metrics\n\n- Track engagement metrics such as views, likes, shares, and comments to evaluate the success of the KOC collaboration. Data-driven insights help refine future influencer marketing strategies and improve ROI.",
+                    "bBox": {
+                      "x": 30,
+                      "y": 7.01,
+                      "w": 647,
+                      "h": 350.02
+                    }
+                  }
+                ],
+                "status": "OK",
+                "originalOrientationAngle": 0,
+                "links": [],
+                "width": 720,
+                "height": 405.014173228346,
+                "triggeredAutoMode": false,
+                "parsingMode": "accurate",
+                "structuredData": null,
+                "noStructuredContent": false,
+                "noTextContent": false,
+                "confidence": 0.98
+              },
+              {
+                "page": 8,
+                "text": "       TikTok Ad Planning\nFunnel Level               Campaign Level                      Adgroup Level                                               Ad Level\nTop Funnel                 1. Advertising Objective: Traffic   1. Target Locations: - Perak,Malaysia - Selangor,Malaysia-  1. Ad Angles:\n                           2.Optimization Goal: Reach          Penang,Malaysia                                             - Eco-conscious consumers looking for sustainable\n                                                               2. Target Age Range:- 25-34 , 35-44, 45-54, 55+             cleaning solutions\n                                                               3. Target Gender: Female\n                                                               4. Target Language: English, Malay                          - Parents seeking safe and natural baby care products\n                                                               5. Target Interests:                                        - Pet owners who prioritize eco-friendly pet care\n                                                               - Eco-friendly Products                                     2. Ad Formats:Video, Carousel\n                                                               - Sustainable Living\n                                                               - Home Cleaning\n                                                               - Baby Care\n                                                               - Pet Care\nMid Funnel                 1. Advertising Objective: Web       1. Target Locations: - Perak,Malaysia - Selangor,Malaysia-  1. Ad Angles:\n                           Conversion                          Penang,Malaysia                                             - Showcasing the benefits of bundling eco-friendly products\n                           2.Optimization Goal: Purchase       2. Target Age Range:- 25-34 , 35-44, 45-54, 55+             - Highlighting cost savings with bundle deals (Buy 1 Free 1,\n                                                               3. Target Gender: Female                                    Buy 2 Free 3, Buy 3 Free 5)\n                                                               4. Target Language: English, Malay                          - Demonstrating real-life use cases of the bundled products\n                                                               5. Target Interests:\n                                                               - Eco-friendly Products                                     2. Ad Formats:Video, Spark Ads\n                                                               - Sustainable Living\n                                                               - Home Cleaning\n                                                               - Baby Care\n                                                               - Pet Care\nBottom Funnel              1. Advertising Objective: Web       1. Target Locations: - Perak,Malaysia - Selangor,Malaysia-  1. Ad Angles:\n                           Conversion                          Penang,Malaysia                                             - Limited-time offer for bundle deals\n                           2.Optimization Goal: Purchase       2. Target Age Range:- 25-34 , 35-44, 45-54, 55+             - Customer testimonials and reviews\n                                                               3. Target Gender: Female\n                                                               4. Target Language: English, Malay                          - Exclusive discounts for first-time buyers\n                                                               5. Target Interests:                                        2. Ad Formats:Video, Product Shopping Ads\n                                                               - Eco-friendly Products\n                                                               - Sustainable Living\n                                                               - Home Cleaning\n                                                               - Baby Care\n                                                               - Pet Care\n                                                                                                                                                                                          8",
+                "md": "# TikTok Ad Planning\n\n| Funnel Level  | Campaign Level                                                                                                                                                                                                                                                                                                                                                                                                              | Adgroup Level                                                                                                                                                                                                                                                             | Ad Level |\n| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |\n| Top Funnel    | 1. Advertising Objective: Traffic\n\n2. Optimization Goal: Reach\n\n3. Target Locations:\n\n* Perak, Malaysia\n* Selangor, Malaysia\n* Penang, Malaysia\n\n4. Target Age Range:\n\n* 25-34\n* 35-44\n* 45-54\n* 55+\n\n5. Target Gender: Female\n\n6. Target Language: English, Malay\n\n7. Target Interests:\n\n* Eco-friendly Products\n* Sustainable Living\n* Home Cleaning\n* Baby Care\n* Pet Care           | 1) Ad Angles:\n\n* Eco-conscious consumers looking for sustainable cleaning solutions\n* Parents seeking safe and natural baby care products\n* Pet owners who prioritize eco-friendly pet care\n\n2) Ad Formats: Video, Carousel                                      |          |\n\n| Mid Funnel    | 1. Advertising Objective: Web Conversion\n\n2. Optimization Goal: Purchase\n\n3. Target Locations:\n\n* Perak, Malaysia\n* Selangor, Malaysia\n* Penang, Malaysia\n\n4. Target Age Range:\n\n* 25-34\n* 35-44\n* 45-54\n* 55+\n\n5. Target Gender: Female\n\n6. Target Language: English, Malay\n\n7. Target Interests:\n\n* Eco-friendly Products\n* Sustainable Living\n* Home Cleaning\n* Baby Care\n* Pet Care | 1) Ad Angles:\n\n* Showcasing the benefits of bundling eco-friendly products\n* Highlighting cost savings with bundle deals (Buy 1 Free 1, Buy 2 Free 3, Buy 3 Free 5)\n* Demonstrating real-life use cases of the bundled products\n\n2) Ad Formats: Video, Spark Ads |          |\n| Bottom Funnel | 1. Advertising Objective: Web Conversion\n\n2. Optimization Goal: Purchase\n\n3. Target Locations:\n\n* Perak, Malaysia\n* Selangor, Malaysia\n* Penang, Malaysia\n\n4. Target Age Range:\n\n* 25-34\n* 35-44\n* 45-54\n* 55+\n\n5. Target Gender: Female\n\n6. Target Language: English, Malay\n\n7. Target Interests:\n\n* Eco-friendly Products\n* Sustainable Living\n* Home Cleaning\n* Baby Care\n* Pet Care | 1) Ad Angles:\n\n* Limited-time offer for bundle deals\n* Customer testimonials and reviews\n* Exclusive discounts for first-time buyers\n\n2) Ad Formats: Video, Product Shopping Ads                                                                                 |          |",
+                "images": [],
+                "charts": [],
+                "items": [
+                  {
+                    "type": "heading",
+                    "lvl": 1,
+                    "value": "TikTok Ad Planning",
+                    "md": "# TikTok Ad Planning",
+                    "bBox": {
+                      "x": 32,
+                      "y": 14.01,
+                      "w": 257,
+                      "h": 24
+                    }
+                  },
+                  {
+                    "type": "table",
+                    "rows": [
+                      [
+                        "Funnel Level",
+                        "Campaign Level",
+                        "Adgroup Level",
+                        "Ad Level"
+                      ],
+                      [
+                        "Top Funnel",
+                        "1. Advertising Objective: Traffic",
+                        "",
+                        ""
+                      ]
+                    ],
+                    "md": "| Funnel Level | Campaign Level                    | Adgroup Level | Ad Level |\n| ------------ | --------------------------------- | ------------- | -------- |\n| Top Funnel   | 1. Advertising Objective: Traffic |               |          |",
+                    "isPerfectTable": false,
+                    "csv": "\"Funnel Level\",\"Campaign Level\",\"Adgroup Level\",\"Ad Level\"\n\"Top Funnel\",\"1. Advertising Objective: Traffic\",\"\",\"\"",
+                    "bBox": {
+                      "x": 9,
+                      "y": 14.01,
+                      "w": 700,
+                      "h": 381
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "2. Optimization Goal: Reach\n\n3. Target Locations:\n\n* Perak, Malaysia\n* Selangor, Malaysia\n* Penang, Malaysia\n\n4. Target Age Range:\n\n* 25-34\n* 35-44\n* 45-54\n* 55+\n\n5. Target Gender: Female\n\n6. Target Language: English, Malay\n\n7. Target Interests:\n\n* Eco-friendly Products\n* Sustainable Living\n* Home Cleaning\n* Baby Care\n* Pet Care           | 1) Ad Angles:\n\n* Eco-conscious consumers looking for sustainable cleaning solutions\n* Parents seeking safe and natural baby care products\n* Pet owners who prioritize eco-friendly pet care\n\n2) Ad Formats: Video, Carousel                                      |          |",
+                    "md": "2. Optimization Goal: Reach\n\n3. Target Locations:\n\n* Perak, Malaysia\n* Selangor, Malaysia\n* Penang, Malaysia\n\n4. Target Age Range:\n\n* 25-34\n* 35-44\n* 45-54\n* 55+\n\n5. Target Gender: Female\n\n6. Target Language: English, Malay\n\n7. Target Interests:\n\n* Eco-friendly Products\n* Sustainable Living\n* Home Cleaning\n* Baby Care\n* Pet Care           | 1) Ad Angles:\n\n* Eco-conscious consumers looking for sustainable cleaning solutions\n* Parents seeking safe and natural baby care products\n* Pet owners who prioritize eco-friendly pet care\n\n2) Ad Formats: Video, Carousel                                      |          |",
+                    "bBox": {
+                      "x": 110,
+                      "y": 65.01,
+                      "w": 431,
+                      "h": 212
+                    }
+                  },
+                  {
+                    "type": "table",
+                    "rows": [],
+                    "md": "\\| Mid Funnel    | 1. Advertising Objective: Web Conversion",
+                    "isPerfectTable": false,
+                    "csv": "",
+                    "bBox": {
+                      "x": 0,
+                      "y": 0,
+                      "w": 720,
+                      "h": 405.01
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "2. Optimization Goal: Purchase\n\n3. Target Locations:\n\n* Perak, Malaysia\n* Selangor, Malaysia\n* Penang, Malaysia\n\n4. Target Age Range:\n\n* 25-34\n* 35-44\n* 45-54\n* 55+\n\n5. Target Gender: Female\n\n6. Target Language: English, Malay\n\n7. Target Interests:\n\n* Eco-friendly Products\n* Sustainable Living\n* Home Cleaning\n* Baby Care\n* Pet Care | 1) Ad Angles:\n\n* Showcasing the benefits of bundling eco-friendly products\n* Highlighting cost savings with bundle deals (Buy 1 Free 1, Buy 2 Free 3, Buy 3 Free 5)\n* Demonstrating real-life use cases of the bundled products\n\n2) Ad Formats: Video, Spark Ads |          |",
+                    "md": "2. Optimization Goal: Purchase\n\n3. Target Locations:\n\n* Perak, Malaysia\n* Selangor, Malaysia\n* Penang, Malaysia\n\n4. Target Age Range:\n\n* 25-34\n* 35-44\n* 45-54\n* 55+\n\n5. Target Gender: Female\n\n6. Target Language: English, Malay\n\n7. Target Interests:\n\n* Eco-friendly Products\n* Sustainable Living\n* Home Cleaning\n* Baby Care\n* Pet Care | 1) Ad Angles:\n\n* Showcasing the benefits of bundling eco-friendly products\n* Highlighting cost savings with bundle deals (Buy 1 Free 1, Buy 2 Free 3, Buy 3 Free 5)\n* Demonstrating real-life use cases of the bundled products\n\n2) Ad Formats: Video, Spark Ads |          |",
+                    "bBox": {
+                      "x": 110,
+                      "y": 65.01,
+                      "w": 455,
+                      "h": 225.01
+                    }
+                  },
+                  {
+                    "type": "table",
+                    "rows": [],
+                    "md": "\\| Bottom Funnel | 1. Advertising Objective: Web Conversion",
+                    "isPerfectTable": false,
+                    "csv": "",
+                    "bBox": {
+                      "x": 0,
+                      "y": 0,
+                      "w": 720,
+                      "h": 405.01
+                    }
+                  },
+                  {
+                    "type": "text",
+                    "value": "2. Optimization Goal: Purchase\n\n3. Target Locations:\n\n* Perak, Malaysia\n* Selangor, Malaysia\n* Penang, Malaysia\n\n4. Target Age Range:\n\n* 25-34\n* 35-44\n* 45-54\n* 55+\n\n5. Target Gender: Female\n\n6. Target Language: English, Malay\n\n7. Target Interests:\n\n* Eco-friendly Products\n* Sustainable Living\n* Home Cleaning\n* Baby Care\n* Pet Care | 1) Ad Angles:\n\n* Limited-time offer for bundle deals\n* Customer testimonials and reviews\n* Exclusive discounts for first-time buyers\n\n2) Ad Formats: Video, Product Shopping Ads                                                                                 |          |",
+                    "md": "2. Optimization Goal: Purchase\n\n3. Target Locations:\n\n* Perak, Malaysia\n* Selangor, Malaysia\n* Penang, Malaysia\n\n4. Target Age Range:\n\n* 25-34\n* 35-44\n* 45-54\n* 55+\n\n5. Target Gender: Female\n\n6. Target Language: English, Malay\n\n7. Target Interests:\n\n* Eco-friendly Products\n* Sustainable Living\n* Home Cleaning\n* Baby Care\n* Pet Care | 1) Ad Angles:\n\n* Limited-time offer for bundle deals\n* Customer testimonials and reviews\n* Exclusive discounts for first-time buyers\n\n2) Ad Formats: Video, Product Shopping Ads                                                                                 |          |",
+                    "bBox": {
+                      "x": 110,
+                      "y": 65.01,
+                      "w": 189,
+                      "h": 225.01
+                    }
+                  }
+                ],
+                "status": "OK",
+                "originalOrientationAngle": 0,
+                "links": [],
+                "width": 720,
+                "height": 405.014173228346,
+                "triggeredAutoMode": false,
+                "parsingMode": "accurate",
+                "structuredData": null,
+                "noStructuredContent": false,
+                "noTextContent": false,
+                "confidence": 0.979
+              }
+            ],
+            "images": [
+              "img_p0_1.png",
+              "img_p0_2.png"
+            ],
+            "charts": []
+          },
+          "webhookUrl": "https://n8n.automessenger.me/webhook-test/llamaparse-data-results",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "efaaa857-02a7-40c3-ad0f-7e7e56344178",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-05-22T07:34:08.263Z",
+      "createdAt": "2025-05-22T07:34:08.263Z",
+      "role": "workflow:owner",
+      "workflowId": "sADFi1YcEZHna9dx",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
