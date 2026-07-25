@@ -1,0 +1,3624 @@
+{
+  "updatedAt": "2025-05-27T16:29:29.000Z",
+  "createdAt": "2025-05-26T15:39:06.089Z",
+  "id": "j9NmxWEOlFRfCHSS",
+  "name": "[Creo_Porject: LaaLaaCare] - Meta Ad Copies Generator",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "LaaLaaCare FB Ads Ad Copy Generator",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Brand Name"
+            },
+            {
+              "fieldLabel": "Target Audience Group",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Gen Z (Age Range: 13 - 20 years old)"
+                  },
+                  {
+                    "option": "Young Millennials (Age Range: 21 - 30 years old)"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Target Language",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "English"
+                  },
+                  {
+                    "option": "Malay"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Copywriting Strategy",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Attention, Interest, Desire, Action (AIDA Framework)"
+                  },
+                  {
+                    "option": "Problem, Agitate, Solution (PAS Framework)"
+                  },
+                  {
+                    "option": "Feature, Advantage, Benefit (FAB Framework)"
+                  },
+                  {
+                    "option": "Before, After, Bridge (BAS Framework)"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Tones And Voice",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Conversational"
+                  },
+                  {
+                    "option": "Friendly"
+                  },
+                  {
+                    "option": "Formal"
+                  },
+                  {
+                    "option": "Informal"
+                  },
+                  {
+                    "option": "Aggressive"
+                  },
+                  {
+                    "option": "Persuasive"
+                  },
+                  {
+                    "option": "Inspirational"
+                  },
+                  {
+                    "option": "Serious"
+                  },
+                  {
+                    "option": "Enthusiastic"
+                  },
+                  {
+                    "option": "Respectful"
+                  }
+                ]
+              },
+              "multiselect": true
+            },
+            {
+              "fieldLabel": "Amount of Ad Angles",
+              "fieldType": "number"
+            },
+            {
+              "fieldLabel": "Amount of Ad Copies",
+              "fieldType": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -780,
+        -80
+      ],
+      "id": "59200acd-62a3-456f-903b-b0e18eb6e990",
+      "name": "On form submission",
+      "webhookId": "31907870-0945-4d73-b5e1-833f957e97bd"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "34040523-0858-4457-b972-725c1156472c",
+              "name": "brandName",
+              "value": "={{ $json[\"Brand Name\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "33a81dba-af05-406d-a3ee-08b746a86223",
+              "name": "targetAudienceGroup",
+              "value": "={{ $json[\"Target Audience Group\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "a6cf56bb-9d33-46c3-ac48-d8d7ed3ee46a",
+              "name": "targetLanguage",
+              "value": "={{ $json[\"Target Language\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "26e2c602-0fe8-489f-826a-ed87ae2ce008",
+              "name": "copywritingStrategy",
+              "value": "={{ $json[\"Copywriting Strategy\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "a3cf29ec-745b-4eff-ae7c-c820f7776cae",
+              "name": "toneVoiceSelection",
+              "value": "={{ $json[\"Tones And Voice\"].join(\", \") }}",
+              "type": "string"
+            },
+            {
+              "id": "75089fc2-b3a5-4c81-ac08-a079393d7314",
+              "name": "amountAdAngles",
+              "value": "={{ $json['Amount of Ad Angles'] }}",
+              "type": "number"
+            },
+            {
+              "id": "90f12990-bb7c-4dd4-bf48-773d8ec286b5",
+              "name": "amountAdCopies",
+              "value": "={{ $json[\"Amount of Ad Copies\"] }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -520,
+        -80
+      ],
+      "id": "d27d2343-652d-48e5-8cba-f22db3c214a6",
+      "name": "Set All Input For Ad Angle Generator Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro-preview-05-06",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1520,
+        -260
+      ],
+      "id": "4d254a05-44f0-4702-80b2-a7e543a11f63",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=1. Brand Name: {{ $json.brandName }}\n2. Target Audience Group: {{ $json.targetAudienceGroup }}\n3. Target Language: {{ $json.targetLanguage }}\n3. Copywriting Strategy: {{ $json.targetLanguage }}\n{{ $json.copywritingStrategy }}\n4. Tone Voice Selection: {{ $json.toneVoiceSelection }}\n5. Amount An Angles To Generate: {{ $json.amountAdAngles }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a professional and experienced ad copywriter who is also fluent in multiple languages.\n\n# Task\nYou are tasked to generate ad angles based on various use cases. You are provided the necessary inputs such as target language, target audience group, copywriting strategy, tones and voice in order to ad angles according to different use cases.\n\n# Tools\nYou are required to use the following tools in order to generate the right ad angle and avoid any hallucinations or delivery any inaccurate information:\n1. **competitor_ad_copies**: Call this call for getting competitors ad text copies as the reference for identified the copywriting strategy that mostly use for from the listed competitors.\n2. **pas_framework_adcopy_strategy**: Call this tool to retrieve all the ad copy strategy research information for problem-agitation-solution (PAS) framework based on the selective target audience groups.\n3. **aida_framework_adcopy_strategy**: Call this tool to retrieve all the ad copy strategy and description for Attention-Interest-Desire-Action (AIDA) framework research information based on the selective target audience groups.\n4. **bas_framework_adcopy_strategy**: Call this tool to retrieve all the ad copy strategy and description for Before-After-Bridge (BAS) framework research information based on the selective target audience groups.\n5. **fab_framework_adcopy_strategy**: Call this tool to retrieve all the ad copy strategy and description for Feature-Advantage-Benefit (FAB) framework research information based on the selective target audience groups.\n6. **ad_posts_ideation**: Call this tool to retrieve all the ad posts ideation based on the requested voice, tones, and styles. The information can be reference such as voiceover based on targeted languages, selected ad platforms and unique selling point (USP)\n7. **Think**: For let the llm think what are the steps or directions should take in order to generate the right output without any hallucination or confusing information\n\n# User Context\nThe user will provide several important inputs to ensure that you are able to generate the right output (ad angles) such as:\n- Brand Name\n- Target Audience Group\n- Target Language\n- Copywriting Strategy\n- Tone Voice Selection\n- Amount Ad Angles\n\n# Context Definition\n- brandName: The client'd brand name who are selling products or providing solutions to the targeted audience selection.\n- targetAudienceGroup: The selected target audience group would like to generate the right ad angles.\n- copyWritingStrategy: The copywriting strategy selection to generate the right ad angles.\n- toneVoiceSelection: The selection of type of tone and voice to generate the right ad angles to the right target audience groups.\n- amountAdAngles:  The amount of unique Ad Angles to generate based on difference use cases.\n\n# Output\n- The output must be follow the JSON structured schema and output response must not include any unnecessary explanations, definitions and other unrelated data.\n\n## Example Output\n```\njson:[\n  {\n    \"targetAudienceGroup\": \"Gen Z (Age Range: 13 - 20 years old)\",\n    \"adAngle\": \"A female Gen-Z having uncomfortable moment and feeling itchy everytime she replaced her sanitary pads during her menstrual cycle.\",\n    \"toneVoiceSelection\": \"Informal, Friendly, Persuasive\",\n    \"copywritingStrategy\": \"Problem, Agitate, Solution (PAS Framework)\",\n    \"uniqueSellingPoint\": \"Functional pad with probiotics with FIR feature\"\n  },\n  {\n    \"targetAudienceGroup\": \"Gen Z (Age Range: 13 - 20 years old)\",\n    \"adAngle\": \"A Gen Z girl stressed at a café, searching for solutions to infections on her phone, and quickly switches to Shopee when her friend leans over.\",\n    \"toneVoiceSelection\": \"Informal, Friendly, Persuasive\",\n    \"copywritingStrategy\": \"Problem, Agitate, Solution (PAS Framework)\",\n    \"uniqueSellingPoint\": \"pH balanced. FIR. Functional pad with probiotics\"\n  },\n  {\n    \"targetAudienceGroup\": \"Gen Z (Age Range: 13 - 20 years old)\",\n    \"adAngle\": \"A Gen Z girl walking with her friend suddenly panics when the wind blows, revealing a fishy smell, and her friend gives her a side-eye.\",\n    \"toneVoiceSelection\": \"Informal, Friendly, Persuasive\",\n    \"copywritingStrategy\": \"Problem, Agitate, Solution (PAS Framework)\",\n    \"uniqueSellingPoint\": \"ADL SAP technology. 40x fast absorbtion. Functional pad with probiotics\"\n  }\n]\n```\n\n## Definition of JSON Output Fields\n- `targetAudienceGroup`: The selected target audience group would like to generate the right ad angles.\n- `adAngle`: Thead angle based on different storylines or use cases and illustrated storylines or use cases on selected target audience group to showcase and highligh products features as well as how the brand's products can help the target audience to solve the use cases as solution to them.\n- `toneVoiceSelection`: The selection of type of tone and voice to generate the right ad angles to the right target audience group.\n- `uniqueSellingPoint`: The highlighted product features based on different use cases as the solution to selected target audience group."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        -200,
+        -80
+      ],
+      "id": "99e33811-ce61-4143-808a-c686dbf3d953",
+      "name": "Ad Angle Generator Agent"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this call for getting competitors ad text copies as the reference for identified the copywriting strategy that mostly use for from the listed competitors.",
+        "documentId": {
+          "__rl": true,
+          "value": "149qL1RYi7Fe1CjVhRm_PyfXwXi0__4wV-qPY6FEtMzE",
+          "mode": "list",
+          "cachedResultName": "[LaaLaa Care] Main Competitors MetaAds Library Active Ads Records",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/149qL1RYi7Fe1CjVhRm_PyfXwXi0__4wV-qPY6FEtMzE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 992517558,
+          "mode": "list",
+          "cachedResultName": "Ads Query Output",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/149qL1RYi7Fe1CjVhRm_PyfXwXi0__4wV-qPY6FEtMzE/edit#gid=992517558"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        -340,
+        140
+      ],
+      "id": "578113d2-6617-4356-8076-c94509bf8926",
+      "name": "competitor_ad_copies",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to retrieve all the ad copy strategy research information for problem-agitation-solution (PAS) framework based on the selective target audience groups.",
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "1ff6ed59-df50-80ac-a438-e70f30d72813",
+          "mode": "list",
+          "cachedResultName": "[LaaLaaCare] Target Audience Groups Based On  P.A.S Framework",
+          "cachedResultUrl": "https://www.notion.so/1ff6ed59df5080aca438e70f30d72813"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notionTool",
+      "typeVersion": 2.2,
+      "position": [
+        -240,
+        280
+      ],
+      "id": "e75695e1-112b-48b2-a639-079d564939fd",
+      "name": "pas_framework_adcopy_strategy",
+      "credentials": {
+        "notionApi": {
+          "id": "B8AF06lEjQEfczR9",
+          "name": "Notion (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to retrieve all the ad copy strategy and description for Attention-Interest-Desire-Action (AIDA) framework research information based on the selective target audience groups.",
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "1ff6ed59-df50-8027-acc4-cf5c4669f1f8",
+          "mode": "list",
+          "cachedResultName": "[LaaLaaCare] Target Audience Groups Based On AIDA Framework",
+          "cachedResultUrl": "https://www.notion.so/1ff6ed59df508027acc4cf5c4669f1f8"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notionTool",
+      "typeVersion": 2.2,
+      "position": [
+        -100,
+        200
+      ],
+      "id": "44a4c987-1e1c-45ec-9f21-98f7129791ac",
+      "name": "aida_framework_adcopy_strategy",
+      "credentials": {
+        "notionApi": {
+          "id": "B8AF06lEjQEfczR9",
+          "name": "Notion (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to retrieve all the ad copy strategy and description for Before-After-Bridge (BAS) framework research information based on the selective target audience groups.",
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "2006ed59-df50-8013-905a-dea2f92e0f38",
+          "mode": "list",
+          "cachedResultName": "[LaaLaaCare] Target Audience Groups Based On BAS Framework",
+          "cachedResultUrl": "https://www.notion.so/2006ed59df508013905adea2f92e0f38"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notionTool",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        320
+      ],
+      "id": "eb5f543d-bfa8-4396-8e56-fa6c93f1fab5",
+      "name": "bas_framework_adcopy_strategy",
+      "credentials": {
+        "notionApi": {
+          "id": "B8AF06lEjQEfczR9",
+          "name": "Notion (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to retrieve all the ad copy strategy and description for Feature-Advantage-Benefit (FAB) framework research information based on the selective target audience groups.",
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "2006ed59-df50-800e-bc93-dd61c3fd7572",
+          "mode": "list",
+          "cachedResultName": "[LaaLaaCare] Target Audience Groups Based On FAB Framework",
+          "cachedResultUrl": "https://www.notion.so/2006ed59df50800ebc93dd61c3fd7572"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notionTool",
+      "typeVersion": 2.2,
+      "position": [
+        120,
+        220
+      ],
+      "id": "1c41f4d0-178e-4929-ad22-20a24660a094",
+      "name": "fab_framework_adcopy_strategy",
+      "credentials": {
+        "notionApi": {
+          "id": "B8AF06lEjQEfczR9",
+          "name": "Notion (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to retrieve all the ad posts ideation based on the requested voice, tones, and styles. The information can be reference such as voiceover based on targeted languages, selected ad platforms and unique selling point (USP).",
+        "documentId": {
+          "__rl": true,
+          "value": "1L2MMxdl-m4UVZEpH7KctjnccN-8hq7XSgFezntD9ZAc",
+          "mode": "list",
+          "cachedResultName": "CreoXLaaLaaCare - SocialMediaPostingSchedule(Phase1)_V1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1L2MMxdl-m4UVZEpH7KctjnccN-8hq7XSgFezntD9ZAc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1568847990,
+          "mode": "list",
+          "cachedResultName": "Ad Posting",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1L2MMxdl-m4UVZEpH7KctjnccN-8hq7XSgFezntD9ZAc/edit#gid=1568847990"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        260,
+        260
+      ],
+      "id": "b0df3af5-13be-4820-a323-6548f23647b9",
+      "name": "ad_posts_ideation",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        -520,
+        100
+      ],
+      "id": "c463122e-2e8a-456f-94df-70298e934637",
+      "name": "DeepSeek Chat Model",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "8Hvjw0JNKmbO191K",
+          "name": "DeepSeekAPI - info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[\n  {\n    \"targetAudienceGroup\": \"Gen Z (Age Range: 13 - 20 years old)\",\n    \"adAngle\": \"A female Gen-Z having uncomfortable moment and feeling itchy everytime she replaced her sanitary pads during her menstrual cycle.\",\n    \"toneVoiceSelection\": \"Informal, Friendly, Persuasive\",\n    \"uniqueSellingPoint\": \"Functional pad with probiotics with FIR feature\"\n  },\n  {\n    \"targetAudienceGroup\": \"Gen Z (Age Range: 13 - 20 years old)\",\n    \"adAngle\": \"A Gen Z girl stressed at a café, searching for solutions to infections on her phone, and quickly switches to Shopee when her friend leans over.\",\n    \"toneVoiceSelection\": \"Informal, Friendly, Persuasive\",\n    \"uniqueSellingPoint\": \"pH balanced. FIR. Functional pad with probiotics\"\n  },\n  {\n    \"targetAudienceGroup\": \"Gen Z (Age Range: 13 - 20 years old)\",\n    \"adAngle\": \"A Gen Z girl walking with her friend suddenly panics when the wind blows, revealing a fishy smell, and her friend gives her a side-eye.\",\n    \"toneVoiceSelection\": \"Informal, Friendly, Persuasive\",\n    \"uniqueSellingPoint\": \"ADL SAP technology. 40x fast absorbtion. Functional pad with probiotics\"\n  }\n]"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        340,
+        140
+      ],
+      "id": "98d8d828-d9f1-47f9-9f87-1d6609c15237",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        260,
+        -80
+      ],
+      "id": "8fc8aae4-e79a-49fb-852e-294464a11d2d",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "2006ed59-df50-80ae-ac69-ff1187eb5431",
+          "mode": "list",
+          "cachedResultName": "[Phase 1] - [LaaLaaCare]- Ad Angles Variations",
+          "cachedResultUrl": "https://www.notion.so/2006ed59df5080aeac69ff1187eb5431"
+        },
+        "title": "={{ $json['Ad Angle'] }}",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Target Audience Group|rich_text",
+              "textContent": "={{ $json['Target Audience Group'] }}"
+            },
+            {
+              "key": "Tone & Voice Selection|rich_text",
+              "textContent": "={{ $json['Tone & Voice Selection'] }}"
+            },
+            {
+              "key": "Unique Selling Point (USP)|rich_text",
+              "textContent": "={{ $json['Unique Selling Point (USP)'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        1300,
+        -680
+      ],
+      "id": "42783f7c-5f5b-480b-870a-c49792c20d05",
+      "name": "Notion",
+      "credentials": {
+        "notionApi": {
+          "id": "B8AF06lEjQEfczR9",
+          "name": "Notion (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "11MPILlXmKpcY5U-weH1DDOD5prkiV4cHJjJHnlsR50A",
+          "mode": "list",
+          "cachedResultName": "[May2025] - Creo X LaaLaa Care- MetaAds- Awareness - Media Plan",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11MPILlXmKpcY5U-weH1DDOD5prkiV4cHJjJHnlsR50A/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 142016133,
+          "mode": "list",
+          "cachedResultName": "English Ad Copy Generator Agent Output",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11MPILlXmKpcY5U-weH1DDOD5prkiV4cHJjJHnlsR50A/edit#gid=142016133"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Target Audience Group": "={{ $json.targetAudienceGroup }}",
+            "Ad Angle": "={{ $json.adAngle }}",
+            "Tone & Voice Selection": "={{ $json.toneVoiceSelection }}",
+            "Unique Selling Point (USP)": "={{ $json.uniqueSellingPoint }}"
+          },
+          "matchingColumns": [
+            "Target Audience Group"
+          ],
+          "schema": [
+            {
+              "id": "Target Audience Group",
+              "displayName": "Target Audience Group",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ad Angle",
+              "displayName": "Ad Angle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Tone & Voice Selection",
+              "displayName": "Tone & Voice Selection",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Unique Selling Point (USP)",
+              "displayName": "Unique Selling Point (USP)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1080,
+        -680
+      ],
+      "id": "4b0d294e-e14e-4292-bc8a-fccd0a67ecd7",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1800,
+        -680
+      ],
+      "id": "be03920e-180e-438a-bdc1-8095757e0a88",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ba808aad-0155-4fca-bd57-10e7827c33c0",
+              "name": "adAngle",
+              "value": "={{ $json.property_ad_angles }}",
+              "type": "string"
+            },
+            {
+              "id": "058b35f3-d32b-4660-86c1-5661f7e3d6ea",
+              "name": "targetAudienceGroup",
+              "value": "={{ $json.property_target_audience_group }}",
+              "type": "string"
+            },
+            {
+              "id": "2bfc36b9-65a3-4456-b3ae-488f34698eee",
+              "name": "toneVoiceSelection",
+              "value": "={{ $json.property_tone_voice_selection }}",
+              "type": "string"
+            },
+            {
+              "id": "5348b45f-4fe0-4538-b38e-189b791fece6",
+              "name": "uniqueSellingPoint",
+              "value": "={{ $json.property_unique_selling_point_usp }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1560,
+        -680
+      ],
+      "id": "9cd9fde5-e0b4-4d46-8469-e707a461ed66",
+      "name": "Set Inputs For Ad Copies Generator Agent"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "11MPILlXmKpcY5U-weH1DDOD5prkiV4cHJjJHnlsR50A",
+          "mode": "list",
+          "cachedResultName": "[May2025] - Creo X LaaLaa Care- MetaAds- Awareness - Media Plan",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11MPILlXmKpcY5U-weH1DDOD5prkiV4cHJjJHnlsR50A/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1253552864,
+          "mode": "list",
+          "cachedResultName": "Ad Copy Generator Agent Input",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11MPILlXmKpcY5U-weH1DDOD5prkiV4cHJjJHnlsR50A/edit#gid=1253552864"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Generate Angle Status",
+              "lookupValue": "={{ $json['Generate Angle Status'] }}"
+            },
+            {
+              "lookupColumn": "Generate Ad Copy Status",
+              "lookupValue": "Pending"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1380,
+        -380
+      ],
+      "id": "6740240f-d3d4-479b-924d-54762b8aaa2c",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "11MPILlXmKpcY5U-weH1DDOD5prkiV4cHJjJHnlsR50A",
+          "mode": "list",
+          "cachedResultName": "[May2025] - Creo X LaaLaa Care- MetaAds- Awareness - Media Plan",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11MPILlXmKpcY5U-weH1DDOD5prkiV4cHJjJHnlsR50A/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1253552864,
+          "mode": "list",
+          "cachedResultName": "Ad Copy Generator Agent Input",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11MPILlXmKpcY5U-weH1DDOD5prkiV4cHJjJHnlsR50A/edit#gid=1253552864"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Generate Angle Status": "Completed",
+            "Amount of Ad Angles": "={{ $('Set All Input For Ad Angle Generator Agent').first().json.amountAdAngles }}"
+          },
+          "matchingColumns": [
+            "Amount of Ad Angles"
+          ],
+          "schema": [
+            {
+              "id": "Target Audience Group",
+              "displayName": "Target Audience Group",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Amount of Ad Angles",
+              "displayName": "Amount of Ad Angles",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Generate Angle Status",
+              "displayName": "Generate Angle Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Target Language",
+              "displayName": "Target Language",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Brand Name",
+              "displayName": "Brand Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Copywriting Strategy",
+              "displayName": "Copywriting Strategy",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Tones And Voice",
+              "displayName": "Tones And Voice",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Amount of Ad Copies",
+              "displayName": "Amount of Ad Copies",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Angle Generator System Prompt",
+              "displayName": "Ad Angle Generator System Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Angle Generator System Prompt",
+              "displayName": "Ad Angle Generator System Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1140,
+        -380
+      ],
+      "id": "e5bacba6-ccbc-461b-82e5-2c6b77180a5a",
+      "name": "Google Sheets2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[\n  {\n    \"adAngle\": \"A Gen Z girl at a café keeps getting up to go to the toilet, making her friend raise an eyebrow. She sits down all chill but keeps shifting in her chair.\",\n    \"adCopies\": [\n       {\n         \"adCopyV1\": \"That Time of the Month? Don't Let It Cramp Your Style! 😎 \\n\\n Hey bestie! 👋 Feeling a little blah? LaaLaa's got you covered! Our ultra-comfortable pads with wings keep you feeling dry and confident all day long. Join the LaaLaa community and say goodbye to worries! 💖 \\n\\n #FreshGirlEra \\n #LaaLaaCareForYou \\n #CheerUpBestie \\n #BestieAlways \\n #IYKYK \\n #FIRMagic \\n #ProbioticBesties\"\n       },\n       {\n         \"adCopyV2\": \"Stay Fierce, Every Single Day! 😎 \\n\\n Hey bestie! 👋 Even on days you’d rather hide, LaaLaa’s got you covered. Our ultra-comfy essentials keep you feeling fresh and ready for anything. Join a community that celebrates strength, positivity, and the freedom to live boldly — together! ✨ \\n\\n #FreshGirlEra \\n #LaaLaaCareForYou \\n #CheerUpBestie \\n #BestieAlways \\n #IYKYK \\n #FIRMagic \\n #ProbioticBesties\"\n       },\n       {\n         \"adCopyV3\": \"Aunty Flow visiting? Don't let her ruin your vibe! 😎 \\n\\n Hey bestie! 👋 Feeling a bit blah this week? LaaLaa's got your back! Our comfy essentials keep you feeling fresh and confident all day long. Join the LaaLaa community and say goodbye to worries!💖 \\n\\n #FreshGirlEra \\n #LaaLaaCareForYou \\n #CheerUpBestie \\n #BestieAlways \\n #IYKYK \\n #FIRMagic \\n #ProbioticBesties\"\n       }\n     ],\n     \"uniqueSellingPoint\": \"Functional pad with probiotics\"\n  },\n  {\n    \"adAngle\": \"A Gen Z girl at a café keeps getting up to go to the toilet, making her friend raise an eyebrow. She sits down all chill but keeps shifting in her chair.\",\n    \"adCopies\": [\n      {\n        \"adCopyV1\": \"Level up your confidence with LaaLaa! 😉 \\n\\nWe've all been there, girl. Sneaking sniff checks? Not anymore! LaaLaa's got you covered with ultra-comfortable pads that keep you feeling fresh and confident all day long. No more awkward moments, just good vibes! ✨ \\n\\n #FreshGirlEra \\n #LaaLaaCareForYou \\n #CheerUpBestie \\n #BestieAlways \\n #IYKYK \\n #FIRMagic \\n #ProbioticBesties\"\n      },\n      {\n        \"adCopyV2\": \"Say Bye to Awkward Sniff-Checks! 👋 \\n\\n ou know the feeling—double-checking just to make sure everything’s alright. With LaaLaa, you can keep your cool and go about your day, no need for sneaky checks behind your friends. Level up your confidence, sis!✨ \\n\\n #FreshGirlEra \\n #LaaLaaCareForYou \\n #CheerUpBestie \\n #BestieAlways \\n #IYKYK \\n #FIRMagic \\n #ProbioticBesties\"\n       },\n       {\n         \"adCopyV3\": \"Psst… Secret's Out! Feeling Super Fresh? ✅ \\n\\n Girl, we know the struggle is real. That 'just in case' check? Skip the paranoia! LaaLaa gives you that 100% sure feeling, so you can slay all day. Confirm comfy, confirm secure!💖 \\n\\n #FreshGirlEra \\n #LaaLaaCareForYou \\n #CheerUpBestie \\n #BestieAlways \\n #IYKYK \\n #FIRMagic \\n #ProbioticBesties\"\n       }\n     ],\n     \"uniqueSellingPoint\": \"FIR technology for comfort\"\n  }\n]"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        2400,
+        -120
+      ],
+      "id": "e105204d-26bf-4caa-b1e3-df91c3ffc7c2",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool for getting competitors ad text copies as the reference for identified the copywriting strategy that mostly use for from the listed competitors.",
+        "documentId": {
+          "__rl": true,
+          "value": "149qL1RYi7Fe1CjVhRm_PyfXwXi0__4wV-qPY6FEtMzE",
+          "mode": "list",
+          "cachedResultName": "[LaaLaa Care] Main Competitors MetaAds Library Active Ads Records",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/149qL1RYi7Fe1CjVhRm_PyfXwXi0__4wV-qPY6FEtMzE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 992517558,
+          "mode": "list",
+          "cachedResultName": "Ads Query Output",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/149qL1RYi7Fe1CjVhRm_PyfXwXi0__4wV-qPY6FEtMzE/edit#gid=992517558"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        1420,
+        -40
+      ],
+      "id": "065134d0-f061-48c6-83b1-8a42bb7c08ad",
+      "name": "competitor_ad_copies1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to retrieve all the ad copy strategy research information for problem-agitation-solution (PAS) framework based on the selective target audience groups.",
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "1ff6ed59-df50-80ac-a438-e70f30d72813",
+          "mode": "list",
+          "cachedResultName": "[LaaLaaCare] Target Audience Groups Based On  P.A.S Framework",
+          "cachedResultUrl": "https://www.notion.so/1ff6ed59df5080aca438e70f30d72813"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notionTool",
+      "typeVersion": 2.2,
+      "position": [
+        1640,
+        -20
+      ],
+      "id": "08d6b05e-993b-492e-b562-adb0de9699c0",
+      "name": "pas_framework_adcopy_strategy1",
+      "credentials": {
+        "notionApi": {
+          "id": "B8AF06lEjQEfczR9",
+          "name": "Notion (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to retrieve all the ad copy strategy and description for Attention-Interest-Desire-Action (AIDA) framework research information based on the selective target audience groups.",
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "1ff6ed59-df50-8027-acc4-cf5c4669f1f8",
+          "mode": "list",
+          "cachedResultName": "[LaaLaaCare] Target Audience Groups Based On AIDA Framework",
+          "cachedResultUrl": "https://www.notion.so/1ff6ed59df508027acc4cf5c4669f1f8"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notionTool",
+      "typeVersion": 2.2,
+      "position": [
+        1740,
+        120
+      ],
+      "id": "9113d4ac-ba66-4811-ad8e-ef270a2755d1",
+      "name": "aida_framework_adcopy_strategy1",
+      "credentials": {
+        "notionApi": {
+          "id": "B8AF06lEjQEfczR9",
+          "name": "Notion (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to retrieve all the ad copy strategy and description for Before-After-Bridge (BAS) framework research information based on the selective target audience groups.",
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "2006ed59-df50-8013-905a-dea2f92e0f38",
+          "mode": "list",
+          "cachedResultName": "[LaaLaaCare] Target Audience Groups Based On BAS Framework",
+          "cachedResultUrl": "https://www.notion.so/2006ed59df508013905adea2f92e0f38"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notionTool",
+      "typeVersion": 2.2,
+      "position": [
+        1860,
+        0
+      ],
+      "id": "a98eee65-0b66-46fc-8b38-9e7f2e30e898",
+      "name": "bas_framework_adcopy_strategy1",
+      "credentials": {
+        "notionApi": {
+          "id": "B8AF06lEjQEfczR9",
+          "name": "Notion (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to retrieve all the ad copy strategy and description for Feature-Advantage-Benefit (FAB) framework research information based on the selective target audience groups.",
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "2006ed59-df50-800e-bc93-dd61c3fd7572",
+          "mode": "list",
+          "cachedResultName": "[LaaLaaCare] Target Audience Groups Based On FAB Framework",
+          "cachedResultUrl": "https://www.notion.so/2006ed59df50800ebc93dd61c3fd7572"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notionTool",
+      "typeVersion": 2.2,
+      "position": [
+        1980,
+        100
+      ],
+      "id": "030b3e8c-fdc1-4192-a508-50ac63064ec7",
+      "name": "fab_framework_adcopy_strategy1",
+      "credentials": {
+        "notionApi": {
+          "id": "B8AF06lEjQEfczR9",
+          "name": "Notion (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to retrieve all the examples of ad posts as the ideation reference source in order to generate the ad copies in the right style and direction. The information can be reference such as voiceover based on targeted languages, selected ad platforms, unique selling point (USP) and hashtags.",
+        "documentId": {
+          "__rl": true,
+          "value": "1L2MMxdl-m4UVZEpH7KctjnccN-8hq7XSgFezntD9ZAc",
+          "mode": "list",
+          "cachedResultName": "CreoXLaaLaaCare - SocialMediaPostingSchedule(Phase1)_V1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1L2MMxdl-m4UVZEpH7KctjnccN-8hq7XSgFezntD9ZAc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1568847990,
+          "mode": "list",
+          "cachedResultName": "Ad Posting",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1L2MMxdl-m4UVZEpH7KctjnccN-8hq7XSgFezntD9ZAc/edit#gid=1568847990"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        2240,
+        60
+      ],
+      "id": "013d45ba-a4ba-4d76-bf51-395aa3ed0033",
+      "name": "ad_posts_ideation1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to search through the search engine to get the information such as company, products or services information or terminologies or terms that you are not sure about in order to generate the right ad copies.",
+        "workflowId": {
+          "__rl": true,
+          "value": "KdAUfF05Oj85t0Vb",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Perplexica AI Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1520,
+        60
+      ],
+      "id": "fb2bbb07-8f99-4da2-b89c-bc301538833f",
+      "name": "ai_web_search"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to retrieve all the current and on-going schedule social media posts as the source of ideation reference in order to generate the ad copies in the right style and direction. The information can be reference such as english visual caption, social media platforms to publish, and hashtags.",
+        "documentId": {
+          "__rl": true,
+          "value": "1L2MMxdl-m4UVZEpH7KctjnccN-8hq7XSgFezntD9ZAc",
+          "mode": "list",
+          "cachedResultName": "CreoXLaaLaaCare - SocialMediaPostingSchedule(Phase1)_V1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1L2MMxdl-m4UVZEpH7KctjnccN-8hq7XSgFezntD9ZAc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Standard Posting",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1L2MMxdl-m4UVZEpH7KctjnccN-8hq7XSgFezntD9ZAc/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        2120,
+        80
+      ],
+      "id": "80d1fe9c-ab2e-4d71-9ca2-5b8622011f1f",
+      "name": "social_media_post_reference",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        2340,
+        20
+      ],
+      "id": "a2f8fce2-1e86-4962-b8ae-4f89adb0c7f2",
+      "name": "Think"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2360,
+        -380
+      ],
+      "id": "8a62537e-f0c6-414d-8a26-f245dbc83210",
+      "name": "Split Out1"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "adCopies",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2580,
+        -380
+      ],
+      "id": "b5944fe8-98a7-47a3-bf37-b4def592780d",
+      "name": "Split Out2"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('On form submission').first().json['Target Language'] }}",
+                    "rightValue": "English",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "14ba18f1-2884-4168-9b9e-88da31bc731b"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "English"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "13169f86-4668-4f04-9d59-ed61361894a9",
+                    "leftValue": "={{ $('On form submission').first().json['Target Language'] }}",
+                    "rightValue": "Malay",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Malay"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        540,
+        -80
+      ],
+      "id": "b80ebfd0-d9b5-49b8-90c8-3d76629b52ae",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=1. Brand Name: {{ $json['Brand Name'] }}\n2. Ad Angles And Related Data List: {{ JSON.stringify($('Aggregate').item.json.data.map(item => item.adAngle)) }}\n3. Unique Selling Point List: {{ JSON.stringify($('Aggregate').item.json.data.map(item => item.uniqueSellingPoint)) }}\n4. Target Audience Group: {{ $json['Target Audience Group'] }}\n5. Target Language: {{ $json['Target Language'] }}\n6. Target Location: {{ $json['Target Location'] }}\n7. Tone and Voice Selection: {{ $json['Tones And Voice'].split(\",\") }}\n8. Copywriting Strategy: {{ $json['Copywriting Strategy'] }}\n9. Amount Ad Copy Versions To Generate Per Each Ad Angle: {{ $json['Amount of Ad Copies'] }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a professional and experienced ad copywriter who is also fluent in multiple languages.\n\n# Task\nYou are tasked to generate ad copies based on the provided necessary inputs such as client's brand name ad angles, target audience group, tone & voice selection, unique selling point,  target language, copywriting strategy and the amount of ad copies to generate for each ad angle.\n\n# Tools\nYou are required to use the following tools in order to generate the right ad angle and avoid any hallucinations or delivery any inaccurate information:\n1. **competitor_ad_copies1**: Call this tool for getting competitors ad text copies as the reference for identified the copywriting strategy that mostly use for from the listed competitors.\n2. **ai_web_search**: Call this tool to search through the search engine to get the information such as company, products or services information or terminologies or terms that you are not sure about in order to generate the right ad copies.\n3. **pas_framework_adcopy_strategy1**: Call this tool to retrieve all the ad copy strategy research information in problem-agitation-solution (PAS) framework based on the selective target audience groups.\n4. **aida_framework_adcopy_strategy1**: Call this tool to retrieve all the ad copy strategy and description in Attention-Interest-Desire-Action (AIDA) framework research information based on the selective target audience groups.\n5. **bas_framework_adcopy_strategy1**: Call this tool to retrieve all the ad copy strategy and description in Before-After-Bridge (BAS) framework research information based on the selective target audience groups.\n6. **fab_framework_adcopy_strategy1**: Call this tool to retrieve all the ad copy strategy and description in Feature-Advantage-Benefit (FAB) framework research information based on the selective target audience groups.\n7. **social_media_post_reference**: Call this tool to retrieve all the current and on-going schedule social media posts as the source of ideation reference in order to generate the ad copies in the right style and direction. The information can be reference such as english visual caption, social media platforms to publish, and hashtags.\n8. **ad_posts_ideation1**: Call this tool to retrieve all the examples of ad posts as the ideation reference source in order to generate the ad copies in the right style and direction. The information can be reference such as voiceover based on targeted languages, selected ad platforms, unique selling point (USP) and hashtags.\n8. **Think**: For let the llm think what are the steps or directions should take in order to generate the right output without any hallucination or confusing information\n\n# User Context\nThe user will provide several important inputs to ensure that you are able to generate the right output (ad angles) such as:\n- Brand Name\n- Ad Angles List\n- Unique Selling Point List\n- Target Audience Group\n- Target Language\n- Target Location\n- Tone And Voice Selection\n- Copywriting Strategy\n- Amount Ad Copy Versions To Generate\n\n# Input Context Description\n- Brand Name: The client'd brand name who are selling products or providing solutions to the targeted audience selection.\n- Ad Angles List: The list of ad angles had been generated to illustrate the different scenarios and use cases will be happening in the selected target audience group.\n- Unique Selling Point List: The list of unique selling points that been retrieved and generated to showcase and highlight specific product feature as the solution based on difference scenarios and use cases will be happening in the selected target audience group.\n- Target Audience Group: The selected target audience group would like to generate the right ad copies based on the generated ad angles.\n- copyWritingStrategy: The copywriting strategy selection to generate the right ad angles.\n- Target Language: The selected language would like to generate the right ad copies based on the generated ad angles.\n- Tone And Voice Selection: The selection of type of tone and voice to generate the right ad copies based on the generated ad angles.\n- Copywriting Strategy: The selected copywriting strategy to generate the right ad copies based on the generated ad angles.\n- Amount Ad Copy Versions To Generate: The amount of ad copy versions to be generate per each generated ad angle based on different scenarios and use cases will be happening in the selected target audience group.\n\n# Output\n- The output must be follow the JSON structured schema and output response must not include any unnecessary explanations, definitions and other unrelated data.\n\n## Example Output\njson:[\n  {\n    \"adAngle\": \"A Gen Z girl at a café keeps getting up to go to the toilet, making her friend raise an eyebrow. She sits down all chill but keeps shifting in her chair.\",\n    \"adCopies\": [\n       {\n         \"adCopyV1\": \"That Time of the Month? Don't Let It Cramp Your Style! 😎 \\n\\n Hey bestie! 👋 Feeling a little blah? LaaLaa's got you covered! Our ultra-comfortable pads with wings keep you feeling dry and confident all day long. Join the LaaLaa community and say goodbye to worries! 💖 \\n\\n #FreshGirlEra \\n #LaaLaaCareForYou \\n #CheerUpBestie \\n #BestieAlways \\n #IYKYK \\n #FIRMagic \\n #ProbioticBesties\"\n       },\n       {\n         \"adCopyV2\": \"Stay Fierce, Every Single Day! 😎 \\n\\n Hey bestie! 👋 Even on days you’d rather hide, LaaLaa’s got you covered. Our ultra-comfy essentials keep you feeling fresh and ready for anything. Join a community that celebrates strength, positivity, and the freedom to live boldly — together! ✨ \\n\\n #FreshGirlEra \\n #LaaLaaCareForYou \\n #CheerUpBestie \\n #BestieAlways \\n #IYKYK \\n #FIRMagic \\n #ProbioticBesties\"\n       },\n       {\n         \"adCopyV3\": \"Aunty Flow visiting? Don't let her ruin your vibe! 😎 \\n\\n Hey bestie! 👋 Feeling a bit blah this week? LaaLaa's got your back! Our comfy essentials keep you feeling fresh and confident all day long. Join the LaaLaa community and say goodbye to worries!💖 \\n\\n #FreshGirlEra \\n #LaaLaaCareForYou \\n #CheerUpBestie \\n #BestieAlways \\n #IYKYK \\n #FIRMagic \\n #ProbioticBesties\"\n       }\n     ],\n     \"uniqueSellingPoint\": \"Functional pad with probiotics\"\n  },\n  {\n    \"adAngle\": \"A Gen Z girl at a café keeps getting up to go to the toilet, making her friend raise an eyebrow. She sits down all chill but keeps shifting in her chair.\",\n    \"adCopies\": [\n      {\n        \"adCopyV1\": \"Level up your confidence with LaaLaa! 😉 \\n\\nWe've all been there, girl. Sneaking sniff checks? Not anymore! LaaLaa's got you covered with ultra-comfortable pads that keep you feeling fresh and confident all day long. No more awkward moments, just good vibes! ✨ \\n\\n #FreshGirlEra \\n #LaaLaaCareForYou \\n #CheerUpBestie \\n #BestieAlways \\n #IYKYK \\n #FIRMagic \\n #ProbioticBesties\"\n      },\n      {\n        \"adCopyV2\": \"Say Bye to Awkward Sniff-Checks! 👋 \\n\\n ou know the feeling—double-checking just to make sure everything’s alright. With LaaLaa, you can keep your cool and go about your day, no need for sneaky checks behind your friends. Level up your confidence, sis!✨ \\n\\n #FreshGirlEra \\n #LaaLaaCareForYou \\n #CheerUpBestie \\n #BestieAlways \\n #IYKYK \\n #FIRMagic \\n #ProbioticBesties\"\n       },\n       {\n         \"adCopyV3\": \"Psst… Secret's Out! Feeling Super Fresh? ✅ \\n\\n Girl, we know the struggle is real. That \"just in case\" check? Skip the paranoia! LaaLaa gives you that 100% sure feeling, so you can slay all day. Confirm comfy, confirm secure!💖 \\n\\n #FreshGirlEra \\n #LaaLaaCareForYou \\n #CheerUpBestie \\n #BestieAlways \\n #IYKYK \\n #FIRMagic \\n #ProbioticBesties\"\n       }\n     ],\n     \"uniqueSellingPoint\": \"FIR technology for comfort\"\n  }\n]\n\n## Ideal Ad Copies Output\n- To come out more localized ad copies based on the selected target language. the language to convey to message of ad copies are make sure the ad copies should be in more natively localize to the targeted location and convey the message natively to the selected target audience group\n- There's should be only one target language and one target audience group selected. Avoid any other non-related language to mix up in the ad copies.\n- Avoid those words (Banned words) such as \"Period cramp\",  \"period leaks\",  and other period related words. Replace these words with creative wordings in order to generate the ad copies\n\n## Ad Copy Structure Description\n- The ideal output for ad copies content structure based on the following sequence should be in like this:\n -- Headline: The short eye-catching hook line massage.\n -- Description: Illustrate the target audience's use case or storyline about what problem had been raised and showcasing the specific product as the solutiuon\n -- Call-to-action: Simple call-to-action that can lead the audience to the brand or product details destination link\n -- 5 to 7 Suitable Hashtags"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        1740,
+        -380
+      ],
+      "id": "2ec198af-1045-4238-8239-22a7cb901244",
+      "name": "English Ad Copy Generator Agent"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "11MPILlXmKpcY5U-weH1DDOD5prkiV4cHJjJHnlsR50A",
+          "mode": "list",
+          "cachedResultName": "[May2025] - Creo X LaaLaa Care- MetaAds- Awareness - Media Plan",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11MPILlXmKpcY5U-weH1DDOD5prkiV4cHJjJHnlsR50A/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 142016133,
+          "mode": "list",
+          "cachedResultName": "Ad Copy Generator Agent Output",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11MPILlXmKpcY5U-weH1DDOD5prkiV4cHJjJHnlsR50A/edit#gid=142016133"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Ad Angle": "={{ $('Split Out1').item.json.adAngle }}",
+            "Ad Copy V1": "={{ $json.adCopyV1 }}",
+            "Ad Copy V2": "={{ $json.adCopyV2 }}",
+            "Ad Copy V3": "={{ $json.adCopyV3 }}"
+          },
+          "matchingColumns": [
+            "Ad Angle"
+          ],
+          "schema": [
+            {
+              "id": "Target Audience Group",
+              "displayName": "Target Audience Group",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Angle",
+              "displayName": "Ad Angle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Tone & Voice Selection",
+              "displayName": "Tone & Voice Selection",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Unique Selling Point (USP)",
+              "displayName": "Unique Selling Point (USP)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Copy V1",
+              "displayName": "Ad Copy V1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ad Copy V2",
+              "displayName": "Ad Copy V2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ad Copy V3",
+              "displayName": "Ad Copy V3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2820,
+        -380
+      ],
+      "id": "074a9a56-3120-4e53-b5cf-0ebb6b8c94ea",
+      "name": "Google Sheets3",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $json.url }}",
+          "mode": "url"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Ad Copy V1|rich_text",
+              "textContent": "={{ $('Loop Over Items').first().json['Ad Copy V1'] }}"
+            },
+            {
+              "key": "Ad Copy V2|rich_text",
+              "textContent": "={{ $('Loop Over Items').first().json['Ad Copy V2'] }}"
+            },
+            {
+              "key": "Ad Copy V3|rich_text",
+              "textContent": "={{ $('Loop Over Items').first().json['Ad Copy V3'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        3640,
+        -360
+      ],
+      "id": "1d344226-03e1-4a67-bf26-bba73e7e810d",
+      "name": "Notion3",
+      "credentials": {
+        "notionApi": {
+          "id": "B8AF06lEjQEfczR9",
+          "name": "Notion (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "2006ed59-df50-80ae-ac69-ff1187eb5431",
+          "mode": "list",
+          "cachedResultName": "[Phase 1] - [LaaLaaCare] - Ad Angles & Ad Copies Variations (English)",
+          "cachedResultUrl": "https://www.notion.so/2006ed59df5080aeac69ff1187eb5431"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        3320,
+        -360
+      ],
+      "id": "2826ef30-df51-4cbe-887b-87ee5489f319",
+      "name": "Notion4",
+      "credentials": {
+        "notionApi": {
+          "id": "B8AF06lEjQEfczR9",
+          "name": "Notion (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        3040,
+        -380
+      ],
+      "id": "5522064e-7868-46ee-b988-52442d5bde41",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro-preview-05-06",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1440,
+        1180
+      ],
+      "id": "e39dcd45-b942-404c-b68f-6b42ee2198ba",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[\n  {\n    \"adAngle\": \"A Gen Z girl at a café keeps getting up to go to the toilet, making her friend raise an eyebrow. She sits down all chill but keeps shifting in her chair.\",\n    \"adCopies\": [\n       {\n         \"adCopyV1\": \"Ada ‘Alasan’ ke Tandas Lagi? 😅 \\n\\n Asyik ulang ke bilik air sebab rasa tak selesa? Dengan LaaLaa, dah tak perlu lagi! Rasa selesa dan yakin sepanjang hari. Duduk lama pun steady je, tak ada rasa gelisah. Try sekarang untuk nikmati hari yang lebih selesa! \\n\\n #CheerUpBestie \\n #BestieAlways \\n #IYKYK \\n #FIRMagic \\n #ProbioticBesties\"\n       },\n       {\n         \"adCopyV2\": \"Gerak sana, gerak sini... Kenapa tak boleh duduk diam? 😅 \\n\\n Bosan asyik tukar posisi sebab rasa tak best? LaaLaa faham sangat, sis! Dengan LaaLaa, comfy je nak lepak lama-lama, borak dengan kawan pun lebih enjoy. Tak payah risau-walau-sedikit! \\n\\n #FreshGirlEra \\n #LaaLaaCareForYou \\n #CheerUpBestie \\n #BestieAlways \\n #IYKYK \\n #FIRMagic \\n #ProbioticBesties\"\n       },\n       {\n         \"adCopyV3\": \"Duduk chill, yakin all the way! 😎 \\n\\nKawan dah perasan asyik mengelak ke tandas? Rasa tak selesa tu memang boleh spoil mood. Dengan LaaLaa, sis boleh bergaya, duduk santai, dan yakin sepanjang masa. Biarkan hari anda berjalan lancar! \\n\\n #FreshGirlEra \\n #LaaLaaCareForYou \\n #CheerUpBestie \\n #BestieAlways \\n #IYKYK \\n #FIRMagic \\n #ProbioticBesties\"\n       }\n     ],\n     \"uniqueSellingPoint\": \"Functional pad with probiotics\"\n  },\n  {\n    \"adAngle\": \"A Gen Z girl at a café keeps getting up to go to the toilet, making her friend raise an eyebrow. She sits down all chill but keeps shifting in her chair.\",\n    \"adCopies\": [\n      {\n        \"adCopyV1\": \"'Weyh, okay tak ni?' LaaLaa faham situasi tu!  😉 \\n\\n Kita semua ada kawan yang macam ni, kan? Selalu check, risau je. Dengan LaaLaa, tak payah risau lagi! Extra selesa dan yakin sepanjang hari.✨ \\n\\n #FreshGirlEra \\n #LaaLaaCareForYou \\n #CheerUpBestie \\n #BestieAlways \\n #IYKYK \\n #FIRMagic \\n #ProbioticBesties\"\n      },\n      {\n        \"adCopyV2\": \"Takut Ada “Bau-bau” Mysterious? LaaLaa Sentiasa Ada!👋 \\n\\n Asyik risau “sniff test” depan kawan? Dengan LaaLaa, korang tak perlu nervous lagi! Nikmati keselesaan dan rasa segar maksimum setiap masa. Lepas ni, boleh chill & confidence saja! ✨ \\n\\n #FreshGirlEra \\n #LaaLaaCareForYou \\n #CheerUpBestie \\n #BestieAlways \\n #IYKYK \\n #FIRMagic \\n #ProbioticBesties\"\n       },\n       {\n         \"adCopyV3\": \"Rasa tak yakin? LaaLaa faham sangat! 💖 \\n\\n Kadang-kadang memang rasa tak selesa sikit kan? Tapi dengan LaaLaa, korang boleh rasa confident & selesa! Perlindungan extra, so korang boleh fokus on slaying the day! ✨ \\n\\n #FreshGirlEra \\n #LaaLaaCareForYou \\n #CheerUpBestie \\n #BestieAlways \\n #IYKYK \\n #FIRMagic \\n #ProbioticBesties\"\n       }\n     ],\n     \"uniqueSellingPoint\": \"FIR technology for comfort\"\n  }\n]"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        2520,
+        1220
+      ],
+      "id": "9a6ef322-9e29-498a-9f30-65970628c92a",
+      "name": "Structured Output Parser2"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool for getting competitors ad text copies as the reference for identified the copywriting strategy that mostly use for from the listed competitors.",
+        "documentId": {
+          "__rl": true,
+          "value": "149qL1RYi7Fe1CjVhRm_PyfXwXi0__4wV-qPY6FEtMzE",
+          "mode": "list",
+          "cachedResultName": "[LaaLaa Care] Main Competitors MetaAds Library Active Ads Records",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/149qL1RYi7Fe1CjVhRm_PyfXwXi0__4wV-qPY6FEtMzE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 992517558,
+          "mode": "list",
+          "cachedResultName": "Ads Query Output",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/149qL1RYi7Fe1CjVhRm_PyfXwXi0__4wV-qPY6FEtMzE/edit#gid=992517558"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        1540,
+        1300
+      ],
+      "id": "9bd5e59c-6c79-432b-b801-eb5f8b7112ec",
+      "name": "competitor_ad_copies2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to retrieve all the ad copy strategy research information for problem-agitation-solution (PAS) framework based on the selective target audience groups.",
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "1ff6ed59-df50-80ac-a438-e70f30d72813",
+          "mode": "list",
+          "cachedResultName": "[LaaLaaCare] Target Audience Groups Based On  P.A.S Framework",
+          "cachedResultUrl": "https://www.notion.so/1ff6ed59df5080aca438e70f30d72813"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notionTool",
+      "typeVersion": 2.2,
+      "position": [
+        1760,
+        1320
+      ],
+      "id": "09cf0bff-c1c0-4af0-925a-613f37ca8bb3",
+      "name": "pas_framework_adcopy_strategy2",
+      "credentials": {
+        "notionApi": {
+          "id": "B8AF06lEjQEfczR9",
+          "name": "Notion (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to retrieve all the ad copy strategy and description for Attention-Interest-Desire-Action (AIDA) framework research information based on the selective target audience groups.",
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "1ff6ed59-df50-8027-acc4-cf5c4669f1f8",
+          "mode": "list",
+          "cachedResultName": "[LaaLaaCare] Target Audience Groups Based On AIDA Framework",
+          "cachedResultUrl": "https://www.notion.so/1ff6ed59df508027acc4cf5c4669f1f8"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notionTool",
+      "typeVersion": 2.2,
+      "position": [
+        1860,
+        1460
+      ],
+      "id": "54ac08cc-b53b-4d4b-93a6-64cd420d58f1",
+      "name": "aida_framework_adcopy_strategy2",
+      "credentials": {
+        "notionApi": {
+          "id": "B8AF06lEjQEfczR9",
+          "name": "Notion (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to retrieve all the ad copy strategy and description for Before-After-Bridge (BAS) framework research information based on the selective target audience groups.",
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "2006ed59-df50-8013-905a-dea2f92e0f38",
+          "mode": "list",
+          "cachedResultName": "[LaaLaaCare] Target Audience Groups Based On BAS Framework",
+          "cachedResultUrl": "https://www.notion.so/2006ed59df508013905adea2f92e0f38"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notionTool",
+      "typeVersion": 2.2,
+      "position": [
+        1980,
+        1340
+      ],
+      "id": "5bef4d09-447c-40c9-8e7b-43abe7a7af35",
+      "name": "bas_framework_adcopy_strategy2",
+      "credentials": {
+        "notionApi": {
+          "id": "B8AF06lEjQEfczR9",
+          "name": "Notion (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to retrieve all the ad copy strategy and description for Feature-Advantage-Benefit (FAB) framework research information based on the selective target audience groups.",
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "2006ed59-df50-800e-bc93-dd61c3fd7572",
+          "mode": "list",
+          "cachedResultName": "[LaaLaaCare] Target Audience Groups Based On FAB Framework",
+          "cachedResultUrl": "https://www.notion.so/2006ed59df50800ebc93dd61c3fd7572"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notionTool",
+      "typeVersion": 2.2,
+      "position": [
+        2100,
+        1440
+      ],
+      "id": "dfd0d8b6-5539-432b-a57f-c1edcc60b00e",
+      "name": "fab_framework_adcopy_strategy2",
+      "credentials": {
+        "notionApi": {
+          "id": "B8AF06lEjQEfczR9",
+          "name": "Notion (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to retrieve all the examples of ad posts as the ideation reference source in order to generate the ad copies in the right style and direction. The information can be reference such as voiceover based on targeted languages, selected ad platforms, unique selling point (USP) and hashtags.",
+        "documentId": {
+          "__rl": true,
+          "value": "1L2MMxdl-m4UVZEpH7KctjnccN-8hq7XSgFezntD9ZAc",
+          "mode": "list",
+          "cachedResultName": "CreoXLaaLaaCare - SocialMediaPostingSchedule(Phase1)_V1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1L2MMxdl-m4UVZEpH7KctjnccN-8hq7XSgFezntD9ZAc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1568847990,
+          "mode": "list",
+          "cachedResultName": "Ad Posting",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1L2MMxdl-m4UVZEpH7KctjnccN-8hq7XSgFezntD9ZAc/edit#gid=1568847990"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        2360,
+        1400
+      ],
+      "id": "72c9e163-4e8f-41c3-b5c1-0397d81b5078",
+      "name": "ad_posts_ideation2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to search through the search engine to get the information such as company, products or services information or terminologies or terms that you are not sure about in order to generate the right ad copies.",
+        "workflowId": {
+          "__rl": true,
+          "value": "KdAUfF05Oj85t0Vb",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Perplexica AI Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1640,
+        1400
+      ],
+      "id": "61380edf-e780-4683-83d1-1e9dedf11ba0",
+      "name": "ai_web_search1"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to retrieve all the current and on-going schedule social media posts as the source of ideation reference in order to generate the ad copies in the right style and direction. The information can be reference such as english visual caption, social media platforms to publish, and hashtags.",
+        "documentId": {
+          "__rl": true,
+          "value": "1L2MMxdl-m4UVZEpH7KctjnccN-8hq7XSgFezntD9ZAc",
+          "mode": "list",
+          "cachedResultName": "CreoXLaaLaaCare - SocialMediaPostingSchedule(Phase1)_V1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1L2MMxdl-m4UVZEpH7KctjnccN-8hq7XSgFezntD9ZAc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Standard Posting",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1L2MMxdl-m4UVZEpH7KctjnccN-8hq7XSgFezntD9ZAc/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        2240,
+        1420
+      ],
+      "id": "aa0ba456-106e-4869-9a42-67d667746fff",
+      "name": "social_media_post_reference1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        2460,
+        1360
+      ],
+      "id": "abd9bc4e-c6bb-47a1-930f-68da110904ab",
+      "name": "Think1"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2220,
+        960
+      ],
+      "id": "fdc28065-0dfb-4450-8542-d06a971c1708",
+      "name": "Split Out3"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "adCopies",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2480,
+        960
+      ],
+      "id": "cfe390bc-5aff-4fc8-93d8-ddce0fc9e33a",
+      "name": "Split Out4"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "11MPILlXmKpcY5U-weH1DDOD5prkiV4cHJjJHnlsR50A",
+          "mode": "list",
+          "cachedResultName": "[May2025] - Creo X LaaLaa Care- MetaAds- Awareness - Media Plan",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11MPILlXmKpcY5U-weH1DDOD5prkiV4cHJjJHnlsR50A/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 254757048,
+          "mode": "list",
+          "cachedResultName": "Malay Ad Copy Generator Agent Output",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11MPILlXmKpcY5U-weH1DDOD5prkiV4cHJjJHnlsR50A/edit#gid=254757048"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Ad Angle": "={{ $('Split Out3').item.json.adAngle }}",
+            "Ad Copy V1": "={{ $json.adCopyV1 }}",
+            "Ad Copy V2": "={{ $json.adCopyV2 }}",
+            "Ad Copy V3": "={{ $json.adCopyV3 }}"
+          },
+          "matchingColumns": [
+            "Ad Angle"
+          ],
+          "schema": [
+            {
+              "id": "Target Audience Group",
+              "displayName": "Target Audience Group",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Angle",
+              "displayName": "Ad Angle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Tone & Voice Selection",
+              "displayName": "Tone & Voice Selection",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Unique Selling Point (USP)",
+              "displayName": "Unique Selling Point (USP)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Copy V1",
+              "displayName": "Ad Copy V1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ad Copy V2",
+              "displayName": "Ad Copy V2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ad Copy V3",
+              "displayName": "Ad Copy V3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2720,
+        960
+      ],
+      "id": "b3569eb7-0ee0-4c72-b59f-522efdb67dbb",
+      "name": "Google Sheets4",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $json.url }}",
+          "mode": "url"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Ad Copy V1|rich_text",
+              "textContent": "={{ $('Loop Over Items1').first().json['Ad Copy V1'] }}"
+            },
+            {
+              "key": "Ad Copy V2|rich_text",
+              "textContent": "={{ $('Loop Over Items1').first().json['Ad Copy V2'] }}"
+            },
+            {
+              "key": "Ad Copy V3|rich_text",
+              "textContent": "={{ $('Loop Over Items1').first().json['Ad Copy V3'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        3540,
+        980
+      ],
+      "id": "3bc2cb0e-3f2b-48c5-840e-d86ee6530559",
+      "name": "Notion5",
+      "credentials": {
+        "notionApi": {
+          "id": "B8AF06lEjQEfczR9",
+          "name": "Notion (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "2006ed59-df50-8098-8a50-ca667d62e82f",
+          "mode": "list",
+          "cachedResultName": "[Phase 1] - [LaaLaaCare] - [Malay] - Ad Angles & Ad Copies Variations",
+          "cachedResultUrl": "https://www.notion.so/2006ed59df5080988a50ca667d62e82f"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        3220,
+        980
+      ],
+      "id": "3c774e97-b567-4435-a313-ec17d5fc04da",
+      "name": "Notion6",
+      "credentials": {
+        "notionApi": {
+          "id": "B8AF06lEjQEfczR9",
+          "name": "Notion (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        2940,
+        960
+      ],
+      "id": "0711344a-526b-4304-81f0-1231db6d3388",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "11MPILlXmKpcY5U-weH1DDOD5prkiV4cHJjJHnlsR50A",
+          "mode": "list",
+          "cachedResultName": "[May2025] - Creo X LaaLaa Care - Digital Media Plan",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11MPILlXmKpcY5U-weH1DDOD5prkiV4cHJjJHnlsR50A/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1253552864,
+          "mode": "list",
+          "cachedResultName": "Ad Copy Generator Agent Input",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11MPILlXmKpcY5U-weH1DDOD5prkiV4cHJjJHnlsR50A/edit#gid=1253552864"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "row_number": "={{ $('Switch').item.json.row_number }}",
+            "Generate Ad Copy Status": "Completed"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Target Audience Group",
+              "displayName": "Target Audience Group",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Amount of Ad Angles",
+              "displayName": "Amount of Ad Angles",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Generate Angle Status",
+              "displayName": "Generate Angle Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Target Language",
+              "displayName": "Target Language",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Target Location",
+              "displayName": "Target Location",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Brand Name",
+              "displayName": "Brand Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Copywriting Strategy",
+              "displayName": "Copywriting Strategy",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Tones And Voice",
+              "displayName": "Tones And Voice",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Hashtags Template",
+              "displayName": "Hashtags Template",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Generate Ad Copy Status",
+              "displayName": "Generate Ad Copy Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Amount of Ad Copies",
+              "displayName": "Amount of Ad Copies",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Angle Generator System Prompt",
+              "displayName": "Ad Angle Generator System Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Angle Generator System Prompt",
+              "displayName": "Ad Angle Generator System Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2120,
+        -380
+      ],
+      "id": "76e104c4-59c2-4602-bc41-31b29a0f2e90",
+      "name": "Google Sheets5",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=1. Brand Name: {{ $json.brandName }}\n2. Ad Angles List: {{ JSON.stringify($json.adAngleList) }}\n3. Unique Selling Point List: {{ JSON.stringify($json.uniqueSellingPointList) }}\n4. Target Audience Group: {{ $json.targetAudienceGroup }}\n5. Target Language: {{ $json.targetLanguage }}\n6. Target Location: {{ $json.targetLocation }}\n7. Tone and Voice Selection: {{ $json.toneVoiceSelection }}\n8. Copywriting Strategy: {{ $json.copywritingStrategy }}\n9. Amount Ad Copy Versions To Generate Per Each Ad Angle: {{ $json.amountAdCopies }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a professional and experienced ad copywriter who is also fluent in multiple languages.\n\n# Task\nYou are tasked to generate ad copies based on the provided necessary inputs such as client's brand name ad angles, target audience group, tone & voice selection, unique selling point,  target language, copywriting strategy and the amount of ad copies to generate for each ad angle.\n\n# Tools\nYou are required to use the following tools in order to generate the right ad angle and avoid any hallucinations or delivery any inaccurate information:\n1. **competitor_ad_copies1**: Call this tool for getting competitors ad text copies as the reference for identified the copywriting strategy that mostly use for from the listed competitors.\n2. **ai_web_search**: Call this tool to search through the search engine to get the information such as company, products or services information or terminologies or terms that you are not sure about in order to generate the right ad copies.\n3. **pas_framework_adcopy_strategy1**: Call this tool to retrieve all the ad copy strategy research information in problem-agitation-solution (PAS) framework based on the selective target audience groups.\n4. **aida_framework_adcopy_strategy1**: Call this tool to retrieve all the ad copy strategy and description in Attention-Interest-Desire-Action (AIDA) framework research information based on the selective target audience groups.\n5. **bas_framework_adcopy_strategy1**: Call this tool to retrieve all the ad copy strategy and description in Before-After-Bridge (BAS) framework research information based on the selective target audience groups.\n6. **fab_framework_adcopy_strategy1**: Call this tool to retrieve all the ad copy strategy and description in Feature-Advantage-Benefit (FAB) framework research information based on the selective target audience groups.\n7. **social_media_post_reference**: Call this tool to retrieve all the current and on-going schedule social media posts as the source of ideation reference in order to generate the ad copies in the right style and direction. The information can be reference such as english visual caption, social media platforms to publish, and hashtags.\n8. **ad_posts_ideation1**: Call this tool to retrieve all the examples of ad posts as the ideation reference source in order to generate the ad copies in the right style and direction. The information can be reference such as voiceover based on targeted languages, selected ad platforms, unique selling point (USP) and hashtags.\n8. **Think**: For let the llm think what are the steps or directions should take in order to generate the right output without any hallucination or confusing information\n\n# User Context\nThe user will provide several important inputs to ensure that you are able to generate the right output (ad angles) such as:\n- Brand Name\n- Ad Angles List\n- Unique Selling Point List\n- Target Audience Group\n- Target Language\n- Target Location\n- Tone And Voice Selection\n- Copywriting Strategy\n- Hashtags Template\n- Amount Ad Copy Versions To Generate\n\n# Input Context Description\n- Brand Name: The client'd brand name who are selling products or providing solutions to the targeted audience selection.\n- Ad Angles List: The list of ad angles had been generated to illustrate the different scenarios and use cases will be happening in the selected target audience group.\n- Unique Selling Point List: The list of unique selling points that been retrieved and generated to showcase and highlight specific product feature as the solution based on difference scenarios and use cases will be happening in the selected target audience group.\n- Target Audience Group: The selected target audience group would like to generate the right ad copies based on the generated ad angles.\n- copyWritingStrategy: The copywriting strategy selection to generate the right ad angles.\n- Target Language: The selected language would like to generate the right ad copies based on the generated ad angles.\n- Tone And Voice Selection: The selection of type of tone and voice to generate the right ad copies based on the generated ad angles.\n- Copywriting Strategy: The selected copywriting strategy to generate the right ad copies based on the generated ad angles.\n- Hashtags Template: The hastags must be including when generating the ad copies.\n- Amount Ad Copy Versions To Generate: The amount of ad copy versions to be generate per each generated ad angle based on different scenarios and use cases will be happening in the selected target audience group.\n\n# Output\n- The output must be follow the JSON structured schema and output response must not include any unnecessary explanations, definitions and other unrelated data.\n\n## Example Output\njson:[\n  {\n    \"adAngle\": \"A Gen Z girl at a café keeps getting up to go to the toilet, making her friend raise an eyebrow. She sits down all chill but keeps shifting in her chair.\",\n    \"adCopies\": [\n       {\n         \"adCopyV1\": \"Ada ‘Alasan’ ke Tandas Lagi? 😅 \\n\\n Asyik ulang ke bilik air sebab rasa tak selesa? Dengan LaaLaa, dah tak perlu lagi! Rasa selesa dan yakin sepanjang hari. Duduk lama pun steady je, tak ada rasa gelisah. Try sekarang untuk nikmati hari yang lebih selesa! \\n\\n #CheerUpBestie \\n #BestieAlways \\n #IYKYK \\n #FIRMagic \\n #ProbioticBesties\"\n       },\n       {\n         \"adCopyV2\": \"Gerak sana, gerak sini... Kenapa tak boleh duduk diam? 😅 \\n\\n Bosan asyik tukar posisi sebab rasa tak best? LaaLaa faham sangat, sis! Dengan LaaLaa, comfy je nak lepak lama-lama, borak dengan kawan pun lebih enjoy. Tak payah risau-walau-sedikit! \\n\\n #FreshGirlEra \\n #LaaLaaCareForYou \\n #CheerUpBestie \\n #BestieAlways \\n #IYKYK \\n #FIRMagic \\n #ProbioticBesties\"\n       },\n       {\n         \"adCopyV3\": \"Duduk chill, yakin all the way! 😎 \\n\\nKawan dah perasan asyik mengelak ke tandas? Rasa tak selesa tu memang boleh spoil mood. Dengan LaaLaa, sis boleh bergaya, duduk santai, dan yakin sepanjang masa. Biarkan hari anda berjalan lancar! \\n\\n #FreshGirlEra \\n #LaaLaaCareForYou \\n #CheerUpBestie \\n #BestieAlways \\n #IYKYK \\n #FIRMagic \\n #ProbioticBesties\"\n       }\n     ],\n     \"uniqueSellingPoint\": \"Functional pad with probiotics\"\n  },\n  {\n    \"adAngle\": \"A Gen Z girl at a café keeps getting up to go to the toilet, making her friend raise an eyebrow. She sits down all chill but keeps shifting in her chair.\",\n    \"adCopies\": [\n      {\n        \"adCopyV1\": \"'Weyh, okay tak ni?' LaaLaa faham situasi tu!  😉 \\n\\n Kita semua ada kawan yang macam ni, kan? Selalu check, risau je. Dengan LaaLaa, tak payah risau lagi! Extra selesa dan yakin sepanjang hari.✨ \\n\\n #FreshGirlEra \\n #LaaLaaCareForYou \\n #CheerUpBestie \\n #BestieAlways \\n #IYKYK \\n #FIRMagic \\n #ProbioticBesties\"\n      },\n      {\n        \"adCopyV2\": \"Takut Ada “Bau-bau” Mysterious? LaaLaa Sentiasa Ada!👋 \\n\\n Asyik risau “sniff test” depan kawan? Dengan LaaLaa, korang tak perlu nervous lagi! Nikmati keselesaan dan rasa segar maksimum setiap masa. Lepas ni, boleh chill & confidence saja! ✨ \\n\\n #FreshGirlEra \\n #LaaLaaCareForYou \\n #CheerUpBestie \\n #BestieAlways \\n #IYKYK \\n #FIRMagic \\n #ProbioticBesties\"\n       },\n       {\n         \"adCopyV3\": \"Rasa tak yakin? LaaLaa faham sangat! 💖 \\n\\n Kadang-kadang memang rasa tak selesa sikit kan? Tapi dengan LaaLaa, korang boleh rasa confident & selesa! Perlindungan extra, so korang boleh fokus on slaying the day! ✨ \\n\\n #FreshGirlEra \\n #LaaLaaCareForYou \\n #CheerUpBestie \\n #BestieAlways \\n #IYKYK \\n #FIRMagic \\n #ProbioticBesties\"\n       }\n     ],\n     \"uniqueSellingPoint\": \"FIR technology for comfort\"\n  }\n]\n\n## Ideal Ad Copies Output\n- To come out more localized ad copies based on the selected target language. the language to convey to message of ad copies are make sure the ad copies should be in more natively localize to the targeted location and convey the message natively to the selected target audience group\n- There's should be only one target language and one target audience group selected. Avoid any other non-related language to mix up in the ad copies.\n- Avoid those words (Banned words) such as \"Period cramp\",  \"period leaks\",  and other period related words. Replace these words with creative wordings in order to generate the ad copies\n\n## Ad Copy Structure Description\n- The ideal output for ad copies content structure based on the following sequence should be in like this:\n -- Headline: The short eye-catching hook line massage.\n -- Description: Illustrate the target audience's use case or storyline about what problem had been raised and showcasing the specific product as the solutiuon\n -- Call-to-action: Simple call-to-action that can lead the audience to the brand or product details destination link\n -- 5 to 7 Suitable Hashtags"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        1800,
+        960
+      ],
+      "id": "35529087-fa40-4a1a-9fd8-2c507a22f468",
+      "name": "Malay Ad Copy Generator Agent"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "2006ed59-df50-8098-8a50-ca667d62e82f",
+          "mode": "list",
+          "cachedResultName": "[Phase 1] - [LaaLaaCare] - [Malay] - Ad Angles & Ad Copies Variations",
+          "cachedResultUrl": "https://www.notion.so/2006ed59df5080988a50ca667d62e82f"
+        },
+        "title": "={{ $json['Ad Angle'] }}",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Target Audience Group|rich_text",
+              "textContent": "={{ $json['Target Audience Group'] }}"
+            },
+            {
+              "key": "Tone & Voice Selection|rich_text",
+              "textContent": "={{ $json['Tone & Voice Selection'] }}"
+            },
+            {
+              "key": "Unique Selling Point (USP)|rich_text",
+              "textContent": "={{ $json['Unique Selling Point (USP)'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        1300,
+        640
+      ],
+      "id": "e406c93a-bcc7-42ab-a7e5-5aaf2e4f1973",
+      "name": "Notion7",
+      "credentials": {
+        "notionApi": {
+          "id": "B8AF06lEjQEfczR9",
+          "name": "Notion (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "11MPILlXmKpcY5U-weH1DDOD5prkiV4cHJjJHnlsR50A",
+          "mode": "list",
+          "cachedResultName": "[May2025] - Creo X LaaLaa Care- MetaAds- Awareness - Media Plan",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11MPILlXmKpcY5U-weH1DDOD5prkiV4cHJjJHnlsR50A/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 254757048,
+          "mode": "list",
+          "cachedResultName": "Malay Ad Copy Generator Agent Output",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11MPILlXmKpcY5U-weH1DDOD5prkiV4cHJjJHnlsR50A/edit#gid=254757048"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Target Audience Group": "={{ $json.targetAudienceGroup }}",
+            "Ad Angle": "={{ $json.adAngle }}",
+            "Tone & Voice Selection": "={{ $json.toneVoiceSelection }}",
+            "Unique Selling Point (USP)": "={{ $json.uniqueSellingPoint }}"
+          },
+          "matchingColumns": [
+            "Target Audience Group"
+          ],
+          "schema": [
+            {
+              "id": "Target Audience Group",
+              "displayName": "Target Audience Group",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ad Angle",
+              "displayName": "Ad Angle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Tone & Voice Selection",
+              "displayName": "Tone & Voice Selection",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Unique Selling Point (USP)",
+              "displayName": "Unique Selling Point (USP)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ad Copy V1",
+              "displayName": "Ad Copy V1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ad Copy V2",
+              "displayName": "Ad Copy V2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ad Copy V3",
+              "displayName": "Ad Copy V3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1080,
+        640
+      ],
+      "id": "e293c3f8-c1f7-4483-8c90-86b11db08034",
+      "name": "Google Sheets6",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1800,
+        640
+      ],
+      "id": "a249a9ff-e340-4769-9404-f3b6d7e4739e",
+      "name": "Aggregate1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ba808aad-0155-4fca-bd57-10e7827c33c0",
+              "name": "adAngle",
+              "value": "={{ $json.property_ad_angles }}",
+              "type": "string"
+            },
+            {
+              "id": "058b35f3-d32b-4660-86c1-5661f7e3d6ea",
+              "name": "targetAudienceGroup",
+              "value": "={{ $json.property_target_audience_group }}",
+              "type": "string"
+            },
+            {
+              "id": "2bfc36b9-65a3-4456-b3ae-488f34698eee",
+              "name": "toneVoiceSelection",
+              "value": "={{ $json.property_tone_voice_selection }}",
+              "type": "string"
+            },
+            {
+              "id": "5348b45f-4fe0-4538-b38e-189b791fece6",
+              "name": "uniqueSellingPoint",
+              "value": "={{ $json.property_unique_selling_point_usp }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1560,
+        640
+      ],
+      "id": "9b728ff1-b6be-4c7b-9831-7b9afcb84b3e",
+      "name": "Set Inputs For Ad Copies Generator Agent1"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "11MPILlXmKpcY5U-weH1DDOD5prkiV4cHJjJHnlsR50A",
+          "mode": "list",
+          "cachedResultName": "[May2025] - Creo X LaaLaa Care- MetaAds- Awareness - Media Plan",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11MPILlXmKpcY5U-weH1DDOD5prkiV4cHJjJHnlsR50A/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1253552864,
+          "mode": "list",
+          "cachedResultName": "Ad Copy Generator Agent Input",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11MPILlXmKpcY5U-weH1DDOD5prkiV4cHJjJHnlsR50A/edit#gid=1253552864"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Target Language",
+              "lookupValue": "={{ $('Set All Input For Ad Angle Generator Agent').first().json.targetLanguage }}"
+            },
+            {
+              "lookupColumn": "Generate Angle Status",
+              "lookupValue": "Pending"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1000,
+        960
+      ],
+      "id": "5de33dd6-59fe-4eaf-931c-12b029e44fb4",
+      "name": "Google Sheets7",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "11MPILlXmKpcY5U-weH1DDOD5prkiV4cHJjJHnlsR50A",
+          "mode": "list",
+          "cachedResultName": "[May2025] - Creo X LaaLaa Care - Digital Media Plan",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11MPILlXmKpcY5U-weH1DDOD5prkiV4cHJjJHnlsR50A/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1253552864,
+          "mode": "list",
+          "cachedResultName": "Ad Copy Generator Agent Input",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11MPILlXmKpcY5U-weH1DDOD5prkiV4cHJjJHnlsR50A/edit#gid=1253552864"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Generate Angle Status": "Completed",
+            "Target Language": "={{ $('Set All Input For Ad Angle Generator Agent').first().json.targetLanguage }}",
+            "row_number": "={{ $json.row_number }}"
+          },
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "Target Audience Group",
+              "displayName": "Target Audience Group",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Amount of Ad Angles",
+              "displayName": "Amount of Ad Angles",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Generate Angle Status",
+              "displayName": "Generate Angle Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Target Language",
+              "displayName": "Target Language",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Target Location",
+              "displayName": "Target Location",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Brand Name",
+              "displayName": "Brand Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Copywriting Strategy",
+              "displayName": "Copywriting Strategy",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Tones And Voice",
+              "displayName": "Tones And Voice",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Hashtags Template",
+              "displayName": "Hashtags Template",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Generate Ad Copy Status",
+              "displayName": "Generate Ad Copy Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Amount of Ad Copies",
+              "displayName": "Amount of Ad Copies",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Angle Generator System Prompt",
+              "displayName": "Ad Angle Generator System Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Angle Generator System Prompt",
+              "displayName": "Ad Angle Generator System Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1220,
+        960
+      ],
+      "id": "c8d61a09-2981-4b00-91d6-b1be77beaa0f",
+      "name": "Google Sheets8",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cc7dbccc-9ae7-404a-b68d-0a50f2560324",
+              "name": "brandName",
+              "value": "={{ $('Google Sheets7').first().json['Brand Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "b82d3937-f783-42ac-b237-6d52e7324a81",
+              "name": "adAngleList",
+              "value": "={{ $('Aggregate1').first().json.data.map(item => item.adAngle) }}",
+              "type": "array"
+            },
+            {
+              "id": "a53aaf22-5a09-47ef-921a-01a6842e41e5",
+              "name": "uniqueSellingPointList",
+              "value": "={{ $('Aggregate1').first().json.data.map(item => item.uniqueSellingPoint) }}",
+              "type": "array"
+            },
+            {
+              "id": "060c8a0c-9d26-4147-8180-5a6ab6ebf880",
+              "name": "targetAudienceGroup",
+              "value": "={{ $('Google Sheets7').first().json['Target Audience Group'] }}",
+              "type": "string"
+            },
+            {
+              "id": "8e563542-68f6-44ff-9412-3c8ca28978d4",
+              "name": "targetLanguage",
+              "value": "={{ $('Google Sheets7').first().json['Target Language'] }}",
+              "type": "string"
+            },
+            {
+              "id": "aee0aaf5-afa7-4d1a-898f-448448d932d3",
+              "name": "targetLocation",
+              "value": "={{ $('Google Sheets7').first().json['Target Location'] }}",
+              "type": "string"
+            },
+            {
+              "id": "e59bb3a4-aff8-4551-ad7b-5056d01d9ae2",
+              "name": "toneVoiceSelection",
+              "value": "={{ $('Google Sheets7').first().json['Tones And Voice'] }}",
+              "type": "string"
+            },
+            {
+              "id": "682b9400-78c9-440f-8290-41c49be0c43f",
+              "name": "copywritingStrategy",
+              "value": "={{ $('Google Sheets7').first().json['Copywriting Strategy'] }}",
+              "type": "string"
+            },
+            {
+              "id": "f2c4d5aa-389c-4a76-957c-9e4f73fa7ba2",
+              "name": "hashtagsTemplate",
+              "value": "={{ $('Google Sheets7').first().json['Hashtags Template'] }}",
+              "type": "string"
+            },
+            {
+              "id": "8cd0d88d-7d7b-4ae1-a0d6-ba306400ef6e",
+              "name": "amountAdCopies",
+              "value": "={{ $('Google Sheets7').item.json['Amount of Ad Copies'] }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1440,
+        960
+      ],
+      "id": "4616ea53-2915-4517-9f80-8d72c6531718",
+      "name": "Edit Fields"
+    }
+  ],
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Set All Input For Ad Angle Generator Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set All Input For Ad Angle Generator Agent": {
+      "main": [
+        [
+          {
+            "node": "Ad Angle Generator Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "English Ad Copy Generator Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "competitor_ad_copies": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Angle Generator Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pas_framework_adcopy_strategy": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Angle Generator Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "aida_framework_adcopy_strategy": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Angle Generator Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "bas_framework_adcopy_strategy": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Angle Generator Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "fab_framework_adcopy_strategy": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Angle Generator Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ad_posts_ideation": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Angle Generator Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Ad Angle Generator Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Ad Angle Generator Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ad Angle Generator Agent": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Notion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion": {
+      "main": [
+        [
+          {
+            "node": "Set Inputs For Ad Copies Generator Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Inputs For Ad Copies Generator Agent": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "English Ad Copy Generator Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets2": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "English Ad Copy Generator Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "competitor_ad_copies1": {
+      "ai_tool": [
+        [
+          {
+            "node": "English Ad Copy Generator Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pas_framework_adcopy_strategy1": {
+      "ai_tool": [
+        [
+          {
+            "node": "English Ad Copy Generator Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "aida_framework_adcopy_strategy1": {
+      "ai_tool": [
+        [
+          {
+            "node": "English Ad Copy Generator Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "fab_framework_adcopy_strategy1": {
+      "ai_tool": [
+        [
+          {
+            "node": "English Ad Copy Generator Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ad_posts_ideation1": {
+      "ai_tool": [
+        [
+          {
+            "node": "English Ad Copy Generator Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_web_search": {
+      "ai_tool": [
+        [
+          {
+            "node": "English Ad Copy Generator Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "bas_framework_adcopy_strategy1": {
+      "ai_tool": [
+        [
+          {
+            "node": "English Ad Copy Generator Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "social_media_post_reference": {
+      "ai_tool": [
+        [
+          {
+            "node": "English Ad Copy Generator Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think": {
+      "ai_tool": [
+        [
+          {
+            "node": "English Ad Copy Generator Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Split Out2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Sheets6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "English Ad Copy Generator Agent": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out2": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets3": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion4": {
+      "main": [
+        [
+          {
+            "node": "Notion3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Notion4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Malay Ad Copy Generator Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser2": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Malay Ad Copy Generator Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "competitor_ad_copies2": {
+      "ai_tool": [
+        [
+          {
+            "node": "Malay Ad Copy Generator Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "pas_framework_adcopy_strategy2": {
+      "ai_tool": [
+        [
+          {
+            "node": "Malay Ad Copy Generator Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "aida_framework_adcopy_strategy2": {
+      "ai_tool": [
+        [
+          {
+            "node": "Malay Ad Copy Generator Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "bas_framework_adcopy_strategy2": {
+      "ai_tool": [
+        [
+          {
+            "node": "Malay Ad Copy Generator Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "fab_framework_adcopy_strategy2": {
+      "ai_tool": [
+        [
+          {
+            "node": "Malay Ad Copy Generator Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ad_posts_ideation2": {
+      "ai_tool": [
+        [
+          {
+            "node": "Malay Ad Copy Generator Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_web_search1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Malay Ad Copy Generator Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "social_media_post_reference1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Malay Ad Copy Generator Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Malay Ad Copy Generator Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out3": {
+      "main": [
+        [
+          {
+            "node": "Split Out4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out4": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets4": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion6": {
+      "main": [
+        [
+          {
+            "node": "Notion5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Notion6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets5": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Malay Ad Copy Generator Agent": {
+      "main": [
+        [
+          {
+            "node": "Split Out3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion7": {
+      "main": [
+        [
+          {
+            "node": "Set Inputs For Ad Copies Generator Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets6": {
+      "main": [
+        [
+          {
+            "node": "Notion7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Inputs For Ad Copies Generator Agent1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets8": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets7": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Malay Ad Copy Generator Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "English Ad Copy Generator Agent": [
+      {
+        "json": {
+          "output": [
+            {
+              "adAngle": "A Gen Z girl in class, subtly scratching under the table with a deadpan 'I’m dying' face while her friend gives a side-eye. She switches to 'I’m fine' but keeps scratching.",
+              "adCopies": [
+                {
+                  "adCopyV1": "Classroom Itchies? Not Anymore! 🤫\n\nUgh, that sneaky classroom scratch – we've all been there! Friend giving you the side-eye? LaaLaa’s probiotic pads are here to save your school day. Stay comfy, stay focused, and ditch the drama! ✨\n\nJoin the LaaLaa squad!\n\n#LaaLaaComfort\n#ProbioticPower\n#SchoolGirlStrugglesSolved\n#ByeByeItch\n#ConfidentInClass\n#GenZApproved",
+                  "adCopyV2": "That Under-the-Table Itch? We Got You! 😉\n\nTrying to focus in class but *that* feeling won't stop? And your bestie's totally noticed your 'I'm fine' face. Switch to LaaLaa's probiotic pads for ultimate comfort and kick those awkward classroom moments to the curb. Focus on your notes, not the itch!\n\nDiscover LaaLaa today!\n\n#LaaLaaBestie\n#ItchFreeZone\n#ProbioticFresh\n#ClassroomComfort\n#StudyInPeace\n#MYLaaLaa",
+                  "adCopyV3": "Secret Scratching Queen? Dethroned! 👑\n\nDeadpan face in class but secretly battling discomfort? Your friend's onto you! LaaLaa’s functional pads with probiotics mean no more shifting and scratching. Feel fresh, confident, and totally focused on what matters. Slay that presentation, girl!\n\nTry LaaLaa now!\n\n#LaaLaaMagic\n#NoMoreScratching\n#ProbioticsForWin\n#GenZSolutions\n#FocusModeOn\n#ByeDiscomfort"
+                }
+              ],
+              "uniqueSellingPoint": "Functional pad with probiotics"
+            },
+            {
+              "adAngle": "A Gen Z girl walking with a friend when the wind blows, revealing a fishy smell. Her friend side-eyes her, and she nervously laughs while checking herself.",
+              "adCopies": [
+                {
+                  "adCopyV1": "Windy Day Woes? Smell No More! 🌬️\n\nOMG, that sudden gust of wind and the *uh-oh* moment! Friend giving the look? LaaLaa’s pH balancing pads with probiotics keep you fresh and odor-free, no matter what the Malaysian weather throws at you. Walk tall, bestie!\n\nGet your LaaLaa confidence!\n\n#LaaLaaFresh\n#OdorControlWIN\n#pHBalanceMagic\n#WindProofConfidence\n#WalkWithoutWorry\n#MYGenZSecret",
+                  "adCopyV2": "That Awkward Smell Check? Never Again! 😅\n\nWind blows, and suddenly you're all nerves, hoping your friend didn't notice *that* scent. Chill! LaaLaa’s probiotic, pH balancing pads lock away odors, so you can laugh it off for real. Stay fresh, stay fabulous!\n\nFeel the LaaLaa difference!\n\n#FreshAllDayLaaLaa\n#NoMoreSideEyes\n#ProbioticProtection\n#ConfidentGenZ\n#ByeByeOdors\n#KeepItCoolMY",
+                  "adCopyV3": "Side-Eye Alert? Not on LaaLaa's Watch! 👀\n\nThat moment the wind betrays you and your friend’s eyebrow goes up? So stressful! LaaLaa’s pH balancing, odor-control pads with probiotics mean you can face any breeze with zero worries. Stay confident, girl!\n\nChoose LaaLaa for freshness!\n\n#LaaLaaSecure\n#BeatTheBreeze\n#pHBalancedComfort\n#ProbioticsAtWork\n#GenZFreshness\n#NoMoreNervousLaughs"
+                }
+              ],
+              "uniqueSellingPoint": "pH balancing, control odors. Functional pad with probiotics"
+            },
+            {
+              "adAngle": "A Gen Z girl walking stiffly in a mall, clearly uncomfortable. Her friend notices her weird walk, and she forces a cute pose while adjusting her steps.",
+              "adCopies": [
+                {
+                  "adCopyV1": "Ditch the Stiff Walk, Own the Mall! 💃\n\nFeeling that awkward stiff walk at the mall 'cause your pad feels like a plank? Friend noticing? LaaLaa’s FIR tech and probiotic pads bring ultimate comfort, so you can strut your stuff without a care. Strike a pose, queen!\n\nExperience LaaLaa comfort!\n\n#LaaLaaStrut\n#FIRComfort\n#ProbioticPadPower\n#NoMoreStiffWalks\n#MallComfort\n#GenZStyleMY",
+                  "adCopyV2": "Walk Weird? Nah, Walk Wonderful! ✨\n\nThat uncomfortable feeling making you walk funny? And your bestie's like, 'U okay sis?' LaaLaa's FIR technology and probiotic pads are designed for max comfort, letting you move freely and confidently. Cute poses only when you mean them!\n\nMove freely with LaaLaa!\n\n#LaaLaaMoves\n#FIRTechComfort\n#ByeByeAwkwardWalk\n#ProbioticFreshness\n#ShopInComfort\n#MYLaaLaaLife",
+                  "adCopyV3": "Uncomfy Pad Got You Posing Awkwardly? 🙅‍♀️\n\nTrying to hide that stiff, uncomfortable feeling with a 'cute' pose your friend sees right through? Switch to LaaLaa! Our FIR tech and probiotic pads give you that barely-there feel. Walk, dance, conquer the mall your way!\n\nFeel the LaaLaa freedom!\n\n#LaaLaaFreedom\n#ComfortWithFIR\n#NoMoreWeirdWalks\n#ProbioticCare\n#GenZComfortHack\n#BeYourselfLaaLaa"
+                }
+              ],
+              "uniqueSellingPoint": "FIR. Functional pad with probiotics"
+            },
+            {
+              "adAngle": "A Gen Z girl repeatedly sniff-checking herself while her friend watches silently. She smiles wide but still sniffs behind her back.",
+              "adCopies": [
+                {
+                  "adCopyV1": "Secret Sniff Checks? Girl, Stop! 👃🚫\n\nConstantly doing that subtle sniff check while your friend pretends not to notice? That wide smile isn't fooling anyone! LaaLaa’s pH balancing, odor-control pads with probiotics keep you smelling fresh, so you can ditch the paranoia. Confidence unlocked!\n\nStay fresh with LaaLaa!\n\n#LaaLaaOdorFree\n#NoMoreSniffChecks\n#pHBalancePro\n#ProbioticFresh\n#ConfidenceBoostMY\n#GenZSecretWeapon",
+                  "adCopyV2": "That 'Is It Me?' Moment? Not Anymore! 😉\n\nWe see you, doing the secret sniff test even when you're smiling! Don't let odor worries kill your vibe. LaaLaa’s pH balancing pads with probiotics ensure you're fresh and confident, no checks needed. Hang out worry-free!\n\nTrust LaaLaa for freshness!\n\n#LaaLaaConfident\n#ByeByeSecretSniffs\n#OdorControlQueen\n#pHBalancedPerfection\n#ProbioticPowerMY\n#KeepItFreshGenZ",
+                  "adCopyV3": "Smiling Wide, Sniffing on the Sly? We Get It! 😊\n\nYour friend might be quiet, but those repeated sniff checks are a giveaway! Say goodbye to odor anxiety with LaaLaa. Our pH balancing and probiotic pads provide all-day freshness, so your smile is 100% genuine. \n\nChoose LaaLaa, choose confidence!\n\n#FreshWithLaaLaa\n#StopTheSniff\n#ProbioticGuard\n#pHFresh\n#GenZApprovedFreshness\n#RealSmileNoWorries"
+                }
+              ],
+              "uniqueSellingPoint": "pH balancing, control odors. Functional pad with probiotics"
+            },
+            {
+              "adAngle": "A Gen Z girl at a café keeps getting up to 'go to the toilet.' Her friend raises a brow, and she sits down but keeps shifting in her chair.",
+              "adCopies": [
+                {
+                  "adCopyV1": "Too Many 'Toilet Breaks'? Chill Sis! 🚽➡️😌\n\nMaking endless trips to the loo at the café? Friend totally knows what's up. LaaLaa’s ADL SAP tech means 40x fast absorption, so you can stop shifting and actually enjoy your latte. Stay comfy, stay put!\n\nGet LaaLaa, get comfy!\n\n#LaaLaaDryComfort\n#SuperAbsorbentSAP\n#NoMoreFakeToiletTrips\n#ProbioticPadPerfection\n#CafeChillsMY\n#GenZHangouts",
+                  "adCopyV2": "Chair Shifting Champion? Not Anymore! 🏆\n\nYour friend's eyebrow is about to fly off with all those 'toilet' runs and chair wiggles. Feel secure and super dry with LaaLaa's 40x fast absorption ADL SAP tech and probiotic pads. Sip that boba in peace!\n\nStay dry, stay happy with LaaLaa!\n\n#LaaLaaSecureDry\n#FastAbsorptionPro\n#ByeByeChairDance\n#ADLSAPMagic\n#ProbioticComfort\n#MYCafeLife",
+                  "adCopyV3": "Frequent Flyer to the Loo? We See You! 😉\n\nTrying to play it cool with constant 'toilet breaks' while your friend judges silently? LaaLaa's got your back! Our ADL SAP tech offers 40x fast absorption, and our probiotic pads keep you feeling fresh and secure. No more shifting, just good vibes!\n\nChoose LaaLaa, choose peace of mind!\n\n#LaaLaaPeaceOfMind\n#AbsorbLikeABoss\n#StopTheShifting\n#ProbioticProtectionPlus\n#GenZComfortZone\n#StayPutAndSlay"
+                }
+              ],
+              "uniqueSellingPoint": "ADL SAP technology. 40x fast absorption. Functional pad with probiotics"
+            }
+          ]
+        }
+      }
+    ],
+    "On form submission": [
+      {
+        "json": {
+          "Brand Name": "LaaLaa Care Malaysia",
+          "Target Audience Group": "Gen Z (Age Range: 13 - 20 years old)",
+          "Target Language": "Malay",
+          "Copywriting Strategy": "Problem, Agitate, Solution (PAS Framework)",
+          "Tones And Voice": [
+            "Conversational",
+            "Friendly",
+            "Informal",
+            "Persuasive"
+          ],
+          "Amount of Ad Angles": 5,
+          "Amount of Ad Copies": 3,
+          "submittedAt": "2025-05-27T23:39:46.723+08:00",
+          "formMode": "test"
+        }
+      }
+    ],
+    "Ad Angle Generator Agent": [
+      {
+        "json": {
+          "output": [
+            {
+              "targetAudienceGroup": "Gen Z (Age Range: 13 - 20 years old)",
+              "adAngle": "A Gen Z girl in class subtly scratching under the table due to discomfort, her friend notices and gives a side-eye. She switches to a fake smile but continues scratching.",
+              "toneVoiceSelection": "Conversational, Friendly, Informal, Persuasive",
+              "uniqueSellingPoint": "Functional pad with probiotics"
+            },
+            {
+              "targetAudienceGroup": "Gen Z (Age Range: 13 - 20 years old)",
+              "adAngle": "A Gen Z girl walking with a friend suddenly panics when the wind blows, revealing a fishy smell. Her friend side-eyes her, and she nervously laughs while checking herself.",
+              "toneVoiceSelection": "Conversational, Friendly, Informal, Persuasive",
+              "uniqueSellingPoint": "pH balancing, control odors. Functional pad with probiotics"
+            },
+            {
+              "targetAudienceGroup": "Gen Z (Age Range: 13 - 20 years old)",
+              "adAngle": "A Gen Z girl walking stiffly in a mall, clearly uncomfortable. Her friend notices her weird walk, and she forces a cute pose but keeps adjusting her steps.",
+              "toneVoiceSelection": "Conversational, Friendly, Informal, Persuasive",
+              "uniqueSellingPoint": "FIR. Functional pad with probiotics"
+            },
+            {
+              "targetAudienceGroup": "Gen Z (Age Range: 13 - 20 years old)",
+              "adAngle": "A Gen Z girl repeatedly sniff-checking herself in public. Her friend watches silently as she smiles nervously but continues the sniff-check behind her back.",
+              "toneVoiceSelection": "Conversational, Friendly, Informal, Persuasive",
+              "uniqueSellingPoint": "pH balancing, control odors. Functional pad with probiotics"
+            },
+            {
+              "targetAudienceGroup": "Gen Z (Age Range: 13 - 20 years old)",
+              "adAngle": "A Gen Z girl at a café keeps excusing herself to the bathroom. Her friend raises an eyebrow, and she sits down but keeps shifting uncomfortably in her chair.",
+              "toneVoiceSelection": "Conversational, Friendly, Informal, Persuasive",
+              "uniqueSellingPoint": "ADL SAP technology. 40x fast absorption. Functional pad with probiotics"
+            }
+          ]
+        }
+      }
+    ],
+    "Malay Ad Copy Generator Agent": [
+      {
+        "json": {
+          "output": [
+            {
+              "adAngle": "A Gen Z girl in class subtly scratching under the table due to discomfort, her friend notices and gives a side-eye. She switches to a fake smile but continues scratching.",
+              "adCopies": [
+                {
+                  "adCopyV1": "Gatal-Gatal Waktu 'Bulan Mengambang'? 😫\n\nRimasnya bila rasa tak selesa & gatal-gatal masa tengah fokus buat kerja atau belajar. Kawan sebelah dah jeling-jeling? Jangan biarkan ia ganggu keyakinan diri! Dengan LaaLaa Care, pad berfungsi dengan probiotik, kulit rasa nyaman dan bebas iritasi. Teruskan hari dengan penuh konfiden!\n\nCuba LaaLaa sekarang!\n#LaaLaaCareMY #PadProbiotik #SelesaTanpaGatal #ByeByeIritasi #YakinSepanjangHari #MillennialLife #FokusKerja",
+                  "adCopyV2": "Hilang Fokus Sebab Tak Selesa? 🤫\n\nAsyik tergaru-garu bawah meja sampai kawan perasan? Memang spoil mood bila 'benda' tu datang dengan pakej gatal & tak selesa. LaaLaa Care faham! Pad kami dengan probiotik direka khas untuk keselesaan maksimum. Tiada lagi senyum paksa! \n\nDapatkan LaaLaa Care anda!\n#LaaLaaCareMY #ProbiotikPad #NyamanSelalu #NoMoreScratching #ConfidentYou #KerjayaDanKesihatan #WanitaMalaysia",
+                  "adCopyV3": "Kawan Dah Mula Tanya 'Okay Tak Tu?' 👀\n\nSituasi janggal bila kegatalan menyerang di tempat awam? Jangan biarkan ia jejas produktiviti dan ketenangan anda. LaaLaa Care dengan pad probiotik membantu menjaga keseimbangan dan memberi keselesaan berpanjangan. Senyum ikhlas, bukan sebab terpaksa!\n\nAlami keselesaan dengan LaaLaa!\n#LaaLaaCareMY #PadBerfungsi #AntiGatal #JagaMahkotaMu #YoungMillennials #StayComfortable #PilihanBijakWanita"
+                }
+              ],
+              "uniqueSellingPoint": "Functional pad with probiotics"
+            },
+            {
+              "adAngle": "A Gen Z girl walking with a friend suddenly panics when the wind blows, revealing a fishy smell. Her friend side-eyes her, and she nervously laughs while checking herself.",
+              "adCopies": [
+                {
+                  "adCopyV1": "Angin Tiup, Bau Semerbak? 🌬️😟\n\nMalunya bila angin bawa 'aroma' yang tak diundang masa tengah syok jalan dengan kawan. Mesti rasa nak sorok muka kan? Dengan LaaLaa Care, pad probiotik kami bantu seimbangkan pH & kawal bau. Kekal segar & yakin walau angin kuat melanda!\n\nCuba LaaLaa Care hari ini!\n#LaaLaaCareMY #KawalBau #pHBalance #SegarBerkeyakinan #PadProbiotik #ByeByeBauHanyir #ConfidentWalk",
+                  "adCopyV2": "Eh, Bau Apa Tu? Jangan Sampai Kawan Perasan! 🙊\n\nRisau 'kejutan' bau masa tengah bersosial? Tak perlu lagi nervous check diri sendiri! LaaLaa Care dengan fungsi pH balancing dan kawalan bau optima memastikan anda sentiasa selesa dan bebas was-was. Nikmati momen tanpa gangguan!\n\nJom cuba LaaLaa Care!\n#LaaLaaCareMY #BebasBau #YakinTanpaWasWas #PadKawalBau #ProbiotikBaik #WanitaMillennialYakin #StayFresh",
+                  "adCopyV3": "Panik Bila Angin Berbau Lain Macam?  바람 💨\n\nJangan biarkan kebimbangan tentang bau mengganggu hari anda. LaaLaa Care hadir dengan pad probiotik yang bukan sahaja selesa, tapi juga efektif mengawal bau dan menjaga pH ideal. Senyum yakin, bukan senyum cover malu!\n\nDapatkan kesegaran LaaLaa Care!\n#LaaLaaCareMY #AntiBau #pHStabil #YakinSetiapSaat #PadProbiotikMalaysia #FreshAndConfident #MillennialChoice"
+                }
+              ],
+              "uniqueSellingPoint": "pH balancing, control odors. Functional pad with probiotics"
+            },
+            {
+              "adAngle": "A Gen Z girl walking stiffly in a mall, clearly uncomfortable. Her friend notices her weird walk, and she forces a cute pose but keeps adjusting her steps.",
+              "adCopies": [
+                {
+                  "adCopyV1": "Jalan Macam Robot? Kawan Dah Tegur! 🤖\n\nRasa tak selesa sampai cara jalan pun jadi pelik? Nak posing 'cute' pun tak menjadi sebab asyik betulkan kedudukan. LaaLaa Care dengan teknologi FIR dan pad probiotik memberi keselesaan luar biasa. Bergerak bebas tanpa kekok lagi!\n\nRasai kebebasan dengan LaaLaa!\n#LaaLaaCareMY #TeknologiFIR #SuperSelesa #GerakBebas #PadProbiotik #ByeByeJalanKaku #ComfortIsKey",
+                  "adCopyV2": "Awat Jalan Lain Macam Tu Sis? 🚶‍♀️😬\n\nKetidakselesaan bulanan buat pergerakan terbatas? Jangan risau! Pad LaaLaa Care dengan FIR dan probiotik direka untuk flow sekali dengan badan you. Takde lagi istilah 'stiff' atau adjust tak henti. Enjoy je momen berjalan-jalan tu!\n\nCuba LaaLaa Care untuk keselesaan!\n#LaaLaaCareMY #FIRComfort #PadFleksibel #TakSelesaLagi #ProbioticPower #MillennialOnTheGo #SelesaAktif",
+                  "adCopyV3": "Susah Nak Maintain Ayu Bila Tak Selesa? 💃\n\nBila 'dia' datang, habis semua posture lari? Jangan biarkan ia halang anda dari tampil yakin. LaaLaa Care, dengan teknologi FIR pada pad probiotiknya, membantu melancarkan peredaran dan memberi keselesaan maksima. Jalan pun lebih confident!\n\nAlami perbezaan LaaLaa Care!\n#LaaLaaCareMY #PadFIR #KekalSelesaYakin #NoMoreStiffWalks #JomJalan #ProbiotikUntukKesihatan #WanitaBergaya"
+                }
+              ],
+              "uniqueSellingPoint": "FIR. Functional pad with probiotics"
+            },
+            {
+              "adAngle": "A Gen Z girl repeatedly sniff-checking herself in public. Her friend watches silently as she smiles nervously but continues the sniff-check behind her back.",
+              "adCopies": [
+                {
+                  "adCopyV1": "Asyik 'Sniff-Check'? Kantoi Dengan Kawan! 👃😥\n\nTak senang duduk bila was-was ada bau yang kurang menyenangkan? Sampai kena curi-curi hidu. LaaLaa Care faham! Pad probiotik kami dengan pH balancing bantu kawal bau dengan efektif. Lepas ni, senyum pun lebih yakin, tak perlu risau lagi.\n\nYakin tanpa bau dengan LaaLaa!\n#LaaLaaCareMY #BebasBau #pHSeimbang #KeyakinanEkstra #PadProbiotikWangi #StopSniffCheck #MillennialLifeHack",
+                  "adCopyV2": "Paranoid Pasal Bau? Kawan Dah Pandang Lain Macam 👀\n\nJangan biarkan kerisauan tentang bau menguasai diri. Dengan LaaLaa Care, pad probiotik kami bukan saja menyerap, tapi juga mengawal bau dan menyeimbangkan pH. Berinteraksi dengan yakin tanpa perlu 'sniff-test'!\n\nCuba LaaLaa Care untuk keyakinan!\n#LaaLaaCareMY #OdorControl #BalancedpH #ConfidentAlways #NoMoreNervousSmiles #ProbioticFreshness #YoungAndFree",
+                  "adCopyV3": "Hidu Sana, Hidu Sini... Risau Tak Henti? 🤧\n\nPerasaan was-was tentang bau badan semasa 'hari istimewa' memang mengganggu. LaaLaa Care dengan pad probiotik yang menyeimbangkan pH dan mengawal bau ada untuk anda! Hadapi hari dengan lebih tenang dan berkeyakinan.\n\nDapatkan LaaLaa Care anda sekarang!\n#LaaLaaCareMY #ByeByeRisauBau #pHBalanceProbiotic #YakinBergaul #PadAntiBau #StayConfident #PilihanMillennial"
+                }
+              ],
+              "uniqueSellingPoint": "pH balancing, control odors. Functional pad with probiotics"
+            },
+            {
+              "adAngle": "A Gen Z girl at a café keeps excusing herself to the bathroom. Her friend raises an eyebrow, and she sits down but keeps shifting uncomfortably in her chair.",
+              "adCopies": [
+                {
+                  "adCopyV1": "Ulang Alik Tandas Sampai Kawan Hairan? 🚽🔁\n\nRasa tak selesa dan 'bocor' buatkan anda kerap ke tandas? Duduk pun tak senang, asyik bergerak. LaaLaa Care dengan teknologi ADL SAP serap 40x lebih pantas! Nikmati lepak santai tanpa gangguan dan rasa basah.\n\nAlami kekeringan dengan LaaLaa!\n#LaaLaaCareMY #SerapPantas40x #KeringSelesa #ADLSAPTech #PadProbiotik #NoMoreBathroomTrips #EnjoyYourDayOut",
+                  "adCopyV2": "Asyik Minta Diri Ke 'Bilik Rahsia'? 🤫\n\nBosan kan bila ketidakselesaan dan kebocoran ganggu momen lepak dengan kawan? LaaLaa Care faham sangat! Pad kami dengan penyerapan super pantas (40x!) dan probiotik menjaga anda kekal kering dan selesa. Tak perlu lagi gelisah atas kerusi!\n\nCuba LaaLaa, kekal selesa!\n#LaaLaaCareMY #AntiBocor #KeringMaksima #FastAbsorptionPad #ProbioticComfort #CafeHoppingReady #MillennialApproved",
+                  "adCopyV3": "Duduk Tak Senang, Kejap-Kejap Ke Tandas? 🏃‍♀️💨\n\nJangan biarkan 'mood swing' bulanan dan rasa tak selesa mengawal hari anda. Dengan LaaLaa Care, teknologi ADL SAP memastikan penyerapan 40x lebih pantas. Pad probiotik kami juga beri keselesaan ekstra. Duduk chill & yakin sepanjang hari!\n\nDapatkan LaaLaa Care untuk ketenangan!\n#LaaLaaCareMY #SuperSerapan #NoMoreShifting #StayDryAndComfy #ProbioticPadPower #HangoutWithoutWorry #LaaLaaUntukAnda"
+                }
+              ],
+              "uniqueSellingPoint": "ADL SAP technology. 40x fast absorption. Functional pad with probiotics"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "versionId": "f3a8c7f0-3717-4595-b32e-0eb151330028",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-05-26T15:39:06.109Z",
+      "createdAt": "2025-05-26T15:39:06.109Z",
+      "role": "workflow:owner",
+      "workflowId": "j9NmxWEOlFRfCHSS",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
