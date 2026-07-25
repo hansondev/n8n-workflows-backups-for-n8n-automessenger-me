@@ -1,0 +1,429 @@
+{
+  "updatedAt": "2025-09-09T10:03:29.000Z",
+  "createdAt": "2025-06-25T04:02:58.323Z",
+  "id": "tfyIBxAjFGmiaES6",
+  "name": "[Sub-workflow]  - Exa.ai AI Research Answer + Crawl4AI Citation Crawler",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "search_query"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "776661ee-842f-4f03-bf7a-d38a0b6e8580",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.exa.ai/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"exa-pro\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"{{ $json.search_query }}\"\n    }\n  ],\n  \"outputSchema\": {\n    \"type\": \"object\",\n    \"required\": [\n      \"answer\"\n    ],\n    \"additionalProperties\": false,\n    \"properties\": {\n      \"answer\": {\n        \"type\": \"string\",\n        \"description\": \"The solution to all your problems...\"\n      }\n    }\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        224,
+        0
+      ],
+      "id": "f09822ce-0b41-474a-b602-1df641e0bc64",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "6E3m9GBrjAys5biB",
+          "name": "Exa.ai Header Auth (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        240,
+        352
+      ],
+      "id": "eaf97b2c-fc74-4125-83ed-2a5c30fe1ed6",
+      "name": "Wait",
+      "webhookId": "75c74b5b-96bc-41bc-a259-dec4548938a9"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"task_id\": \"{{ $('Crawl4AI Basic POST Request').item.json.task_id }}\",\n  \"status\": \"{{ $json.status }}\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        688,
+        352
+      ],
+      "id": "d3d088b2-fedb-477e-af6f-3b1a4c1950fc",
+      "name": "Task ID Field"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f07a7b5c-71e5-4aca-adce-e01b0d6c7fde",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "=pending",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "7f622642-d24c-47de-b4be-93ce15948db3",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "=processing",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        352
+      ],
+      "id": "b719124b-ff92-4ce6-b7bd-bc2b30954a12",
+      "name": "If In Process"
+    },
+    {
+      "parameters": {
+        "url": "=https://crawl4ai.automessenger.me/task/{{ $json.task_id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        480,
+        352
+      ],
+      "id": "2f9d7e6e-88bd-45fb-9f89-7993282619bb",
+      "name": "Get Markdown Result",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Sxyip2DbXxp8AQIB",
+          "name": "Craw4Ai Header Auth(crawl4ai.automessenger.me)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://crawl4ai.automessenger.me/crawl",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"urls\": {{ JSON.stringify($json.urls) }},\n  \"extraction_config\": {\n    \"type\": \"basic\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        48,
+        352
+      ],
+      "id": "b4299445-2e93-41b8-853a-552b1e5e6f4f",
+      "name": "Crawl4AI Basic POST Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Sxyip2DbXxp8AQIB",
+          "name": "Craw4Ai Header Auth(crawl4ai.automessenger.me)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "469f5bc6-eb39-4ffd-8a78-5a4f9dc4d409",
+              "name": "response",
+              "value": "={{ $json.choices[0].message.content }}",
+              "type": "string"
+            },
+            {
+              "id": "fcbb157a-bdc8-4e71-bd51-5c1ad5d11622",
+              "name": "citations",
+              "value": "={{ $json.choices[0].message.citations }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        448,
+        0
+      ],
+      "id": "2fd2f7f6-7bbf-45d6-b8d4-b26855f43c07",
+      "name": "Get Exa AI Search Results"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "citations",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        672,
+        0
+      ],
+      "id": "89193e20-ea98-46b5-9a4b-da365250f41c",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "id",
+              "renameField": true,
+              "outputFieldName": "urls"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        880,
+        0
+      ],
+      "id": "aea1da82-a144-41df-86a0-94e94fe6a6c2",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"queryAnswer\": {{ JSON.stringify($('Get Exa AI Search Results').first().json.response) }},\n  \"sourceResults\": {{ JSON.stringify( $('Get Markdown Result').item.json.results.map(item => item.markdown).join('\\n\\n'))}}\n}\n\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1552,
+        384
+      ],
+      "id": "5363aee9-fcbf-4651-addc-1f71d2ef242d",
+      "name": "Markdown Result",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "46342989-dc4b-4823-ac75-8ce9b01a7bb0",
+              "name": "queryAnswer",
+              "value": "={{ JSON.stringify($('Get Exa AI Search Results').first().json.response) }}",
+              "type": "string"
+            },
+            {
+              "id": "adce3c9a-ff15-4695-87a2-70ffa4d688f2",
+              "name": "sourceResults",
+              "value": "={{ JSON.stringify( $('Get Markdown Result').item.json.results.map(item => item.markdown).join('\\n\\n'))}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1168,
+        336
+      ],
+      "id": "bf58123a-d791-4bb8-83df-f3126b6935ef",
+      "name": "Edit Fields"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Get Exa AI Search Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get Markdown Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Task ID Field": {
+      "main": [
+        [
+          {
+            "node": "If In Process",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If In Process": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Markdown Result": {
+      "main": [
+        [
+          {
+            "node": "Task ID Field",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crawl4AI Basic POST Request": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Exa AI Search Results": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Crawl4AI Basic POST Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Markdown Result": {
+      "main": [
+        []
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "559f09da-a566-4e26-94f0-998b911f6497",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-06-25T04:02:58.326Z",
+      "createdAt": "2025-06-25T04:02:58.326Z",
+      "role": "workflow:owner",
+      "workflowId": "tfyIBxAjFGmiaES6",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
