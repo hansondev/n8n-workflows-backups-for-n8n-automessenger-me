@@ -1,0 +1,555 @@
+{
+  "updatedAt": "2025-05-26T08:04:37.000Z",
+  "createdAt": "2025-05-26T08:02:08.147Z",
+  "id": "3RtlC1QThv6C02ns",
+  "name": "[Creo_Project:LaaLaaCare] - FBAdsLibraryExtractor",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": " https://api.apify.com/v2/actor-tasks/immense_grasshopper~facebook-ads-scraper-task/runs",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"isDetailsPerAd\": true,\n    \"onlyTotal\": false,\n    \"resultsLimit\": 10,\n    \"startUrls\": [\n        {\n            \"url\": \"{{ $json['FB Ads Url'] }}\"\n        }\n    ]\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        100,
+        180
+      ],
+      "id": "62f1e3a9-31e6-48a9-9318-16d5ed9e4511",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/actor-runs/{{ $json.data.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "waitForFinish",
+              "value": "60"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        540,
+        180
+      ],
+      "id": "b0b14db7-0f67-4ba5-99de-3ddde4607218",
+      "name": "Get Actor Run",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        300,
+        180
+      ],
+      "id": "1655f074-d720-4532-b95a-8b9d701e04bd",
+      "name": "Wait",
+      "webhookId": "c619b5fe-e9ba-46b4-be6c-b3fe4fa81eed"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.data.defaultDatasetId }}/items ",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1020,
+        160
+      ],
+      "id": "bc0a6436-87c9-4125-8a56-b38f7e7e809d",
+      "name": "Get Datasets",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "149qL1RYi7Fe1CjVhRm_PyfXwXi0__4wV-qPY6FEtMzE",
+          "mode": "list",
+          "cachedResultName": "[LaaLaa Care] Main Competitors MetaAds Library Active Ads Records",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/149qL1RYi7Fe1CjVhRm_PyfXwXi0__4wV-qPY6FEtMzE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Advertiser Query",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/149qL1RYi7Fe1CjVhRm_PyfXwXi0__4wV-qPY6FEtMzE/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -440,
+        100
+      ],
+      "id": "645488f7-6aa5-4609-ae5b-185d57d061b9",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "oMHjbut2VzVQ0VcS",
+          "name": "GSheet Trigger- boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -220,
+        100
+      ],
+      "id": "1ebffa32-a1c4-4464-a492-4960ec347abf",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a26e4676-bab1-4eef-bf22-21d966d62a48",
+              "leftValue": "={{ $json.data.status }}",
+              "rightValue": "SUCCEEDED",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        760,
+        180
+      ],
+      "id": "8f844614-5ee2-4286-bf04-e0463d884716",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "79068abf-1cac-49af-8d36-b027623642c7",
+              "name": "competitorName",
+              "value": "={{ $json.pageInfo.adLibraryPageInfo.pageInfo.pageName }}",
+              "type": "string"
+            },
+            {
+              "id": "cd21f4f7-94be-4eeb-805d-eca6adcf3f7d",
+              "name": "adBodyText",
+              "value": "={{ $json.snapshot.body.text || $json.snapshot.cards[0].body }}",
+              "type": "string"
+            },
+            {
+              "id": "892b54ec-2ec3-4b83-92a9-1be470dbcb68",
+              "name": "adImageURL",
+              "value": "={{ $if($json.snapshot.images.isNotEmpty(),$json.snapshot.images[0].originalImageUrl,\"NA\") }}",
+              "type": "string"
+            },
+            {
+              "id": "59916e5d-45f1-41c4-a25a-5c33598d0841",
+              "name": "videoURL",
+              "value": "={{ $if($json.snapshot.videos.isNotEmpty(),$json.snapshot.videos[0].videoSdUrl,\"NA\") }}",
+              "type": "string"
+            },
+            {
+              "id": "442db41b-eeda-40fa-8ec9-0cf2e84bd44e",
+              "name": "ctaText",
+              "value": "={{ $json.snapshot.ctaText }}",
+              "type": "string"
+            },
+            {
+              "id": "0448aeb3-c2ec-4fe3-bd5b-2545250abe3a",
+              "name": "destinationURLs",
+              "value": "={{ $json.snapshot.extraLinks.toJsonString().replaceAll(\"[\",\"\").replaceAll(\"]\",\"\").replaceAll('\"','').replaceAll(\",\",\"\\n\\n\") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1240,
+        160
+      ],
+      "id": "6f147d3e-024a-4000-a5dc-1a2b108abfa3",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "79068abf-1cac-49af-8d36-b027623642c7",
+              "name": "competitorName",
+              "value": "={{ $json.competitorName }}",
+              "type": "string"
+            },
+            {
+              "id": "cd21f4f7-94be-4eeb-805d-eca6adcf3f7d",
+              "name": "adBodyText",
+              "value": "={{ $json.adBodyText }}",
+              "type": "string"
+            },
+            {
+              "id": "892b54ec-2ec3-4b83-92a9-1be470dbcb68",
+              "name": "adImageURL",
+              "value": "={{ $json.adImageURL }}",
+              "type": "string"
+            },
+            {
+              "id": "59916e5d-45f1-41c4-a25a-5c33598d0841",
+              "name": "videoURL",
+              "value": "={{ $json.videoURL }}",
+              "type": "string"
+            },
+            {
+              "id": "442db41b-eeda-40fa-8ec9-0cf2e84bd44e",
+              "name": "ctaText",
+              "value": "={{ $json.ctaText }}",
+              "type": "string"
+            },
+            {
+              "id": "0448aeb3-c2ec-4fe3-bd5b-2545250abe3a",
+              "name": "destinationURLs",
+              "value": "={{ $json.destinationURLs }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "2b0fde55-cf95-4557-9513-ed42d5e838a6",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "149qL1RYi7Fe1CjVhRm_PyfXwXi0__4wV-qPY6FEtMzE",
+          "mode": "list",
+          "cachedResultName": "[LaaLaa Care] Main Competitors MetaAds Library Active Ads Records",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/149qL1RYi7Fe1CjVhRm_PyfXwXi0__4wV-qPY6FEtMzE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 992517558,
+          "mode": "list",
+          "cachedResultName": "Ads Query Output",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1XHTTCJi5G8Aw3VjBoxkIOd-8zhkEmnW_XriuNX12r44/edit#gid=992517558"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Competitor Name": "={{ $json.competitorName }}",
+            "Ad Body Text": "={{ $json.adBodyText }}",
+            "Ad Image URL": "={{ $json.adImageURL }}",
+            "Video URL": "={{ $json.videoURL }}"
+          },
+          "matchingColumns": [
+            "Competitor Name"
+          ],
+          "schema": [
+            {
+              "id": "Competitor Name",
+              "displayName": "Competitor Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Ad Body Text",
+              "displayName": "Ad Body Text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Image URL",
+              "displayName": "Ad Image URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Video URL",
+              "displayName": "Video URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        240,
+        0
+      ],
+      "id": "979fbd13-0ad7-4e00-8bc3-8fececcb56e8",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Actor Run": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get Actor Run",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Datasets": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Get Datasets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "8c3bac35-9597-487b-bf20-2c65c2bbd778",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-05-26T08:02:08.161Z",
+      "createdAt": "2025-05-26T08:02:08.161Z",
+      "role": "workflow:owner",
+      "workflowId": "3RtlC1QThv6C02ns",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
