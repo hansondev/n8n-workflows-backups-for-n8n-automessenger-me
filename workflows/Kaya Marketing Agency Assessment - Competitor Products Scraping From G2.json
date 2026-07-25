@@ -1,0 +1,684 @@
+{
+  "updatedAt": "2025-02-19T11:32:15.000Z",
+  "createdAt": "2025-01-09T09:38:29.972Z",
+  "id": "Sz4OnGwTiZTugBsu",
+  "name": "Kaya Marketing Agency Assessment - Competitor Products Scraping From G2",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "G2 Product Detail Search",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Product G2 URL"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "4dcca1ff-8380-4b67-b021-f66febb6d162",
+      "name": "On form submission",
+      "webhookId": "6cc8bb93-bffa-45cf-b5da-7778b8546510"
+    },
+    {
+      "parameters": {
+        "url": "https://g2-data-api.p.rapidapi.com/g2-products",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "product",
+              "value": "={{ $json['Product G2 URL'] }}"
+            },
+            {
+              "name": "max_reviews",
+              "value": "10"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-rapidapi-host",
+              "value": "g2-data-api.p.rapidapi.com"
+            },
+            {
+              "name": "x-rapidapi-key",
+              "value": "bba2d43494msheb61c0112305090p16270bjsna70952eefac2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        240,
+        0
+      ],
+      "id": "e762e37e-54da-44ba-abfa-2568d49c09b8",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1f5e4f82-e847-45c5-82a7-5491350c21ef",
+              "name": "product_name",
+              "value": "={{ $json.product_name }}",
+              "type": "string"
+            },
+            {
+              "id": "d30609eb-5cae-43eb-9709-61b814186b6e",
+              "name": "product_intro",
+              "value": "={{ $json.what_is }}",
+              "type": "string"
+            },
+            {
+              "id": "101b689d-8930-4b08-8ff2-b6f2a5aabf26",
+              "name": "product_description",
+              "value": "={{ $json.product_description }}",
+              "type": "string"
+            },
+            {
+              "id": "58f615f9-0743-4431-8379-ed9f826f5429",
+              "name": "overall_rating",
+              "value": "={{ $json.rating }}",
+              "type": "number"
+            },
+            {
+              "id": "9bbfc197-9c66-45f6-b38a-4af94d51d93f",
+              "name": "product_categories_arr",
+              "value": "={{ $jmespath($json.categories,\"[*].name\") }}",
+              "type": "array"
+            },
+            {
+              "id": "1588a1b0-bbc4-4c29-a098-645b6ed35d15",
+              "name": "screenshots_urls_arr",
+              "value": "={{ $json.screenshots }}",
+              "type": "array"
+            },
+            {
+              "id": "075d700a-4706-4dfa-b000-42992eb91ae5",
+              "name": "product_features_arr",
+              "value": "={{ $jmespath($json.features, \"[*].features\") }}",
+              "type": "array"
+            },
+            {
+              "id": "5566b6f9-b376-4947-b78e-46a51809f5f3",
+              "name": "review_question_answer_arr",
+              "value": "={{ $jmespath($json.all_reviews,\"[*].review_question_answers\") }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        460,
+        0
+      ],
+      "id": "141770d8-7d93-4ecd-baf8-5b537732b634",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=The consumer review list:\n {{ $json.review_question_answer_arr.toJsonString() }}"
+            },
+            {
+              "content": "You are a market researcher and product development manager. \n\nYour task is to identify the main competitors' pros and cons from the collected list of consumer reviews about the product features, functionality and experiences. All the consumer reviews will be provided by user in JSON format. \n\nThe output must be in JSON format and must includes the `pros`, `cons` fields.",
+              "role": "system"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {
+          "temperature": 0.6
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.7,
+      "position": [
+        680,
+        0
+      ],
+      "id": "0ca5bd5b-242c-4e7f-ae29-9c9dc03ce634",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5f2feb32-be8a-46f6-b37e-0d4fe0385901",
+              "name": "product_name",
+              "value": "={{ $('Edit Fields').item.json.product_name }}",
+              "type": "string"
+            },
+            {
+              "id": "0ffee706-a6c4-4718-b655-cccafb0f831f",
+              "name": "product_introduction",
+              "value": "={{ $('Edit Fields').item.json.product_intro }}",
+              "type": "string"
+            },
+            {
+              "id": "5f0413b4-e71c-48d4-b790-1802ab5f92ab",
+              "name": "product_description",
+              "value": "={{ $('Edit Fields').item.json.product_description }}",
+              "type": "string"
+            },
+            {
+              "id": "56aa3342-106e-436f-8d21-57c3d2bac823",
+              "name": "product_categories",
+              "value": "={{ $('Edit Fields').item.json.product_categories_arr.join(\"\\n- \").replace(\"\",\"- \") }}",
+              "type": "string"
+            },
+            {
+              "id": "821f947d-03b4-45aa-a5e4-9e8cd5114c54",
+              "name": "product_features",
+              "value": "={{ $ifEmpty($('Edit Fields').item.json.product_features_arr.join(\"\\n- \").replace(\"\",\"- \"),\"NA\") }}",
+              "type": "string"
+            },
+            {
+              "id": "3658245e-df56-4f65-ac40-2f3a2636128a",
+              "name": "overall_rating",
+              "value": "={{ $('Edit Fields').item.json.overall_rating }}",
+              "type": "number"
+            },
+            {
+              "id": "3063b234-8332-4d4b-b4e4-bd2c6feeb256",
+              "name": "screenshots_urls",
+              "value": "={{ $('Edit Fields').item.json.screenshots_urls_arr.join(\"\\n- \").replace(\"\",\"- \") }}",
+              "type": "string"
+            },
+            {
+              "id": "8c05fa8e-9711-4a4c-9d62-0fa7e68cdc92",
+              "name": "product_pros",
+              "value": "={{ $json.message.content.pros.join(\"\\n- \").replace(\"\",\"- \") }}",
+              "type": "string"
+            },
+            {
+              "id": "ceb6ae0b-826b-40f4-9cd1-1d7637a50960",
+              "name": "product_cons",
+              "value": "={{ $json.message.content.cons.join(\"\\n- \").replace(\"\",\"- \") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1040,
+        0
+      ],
+      "id": "860fe915-aaa0-4159-97df-18397b13b267",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "returnAll": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        1040,
+        -380
+      ],
+      "id": "c249ae08-43d8-4821-9f63-3f4c6c66e93b",
+      "name": "Notion",
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "176bdd43-4460-8097-80fe-d667c1121758",
+          "mode": "list",
+          "cachedResultName": "Merge.dev",
+          "cachedResultUrl": "https://www.notion.so/176bdd434460809780fed667c1121758"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        1260,
+        -380
+      ],
+      "id": "52c0b4c3-db32-4279-be56-67faa813d5c7",
+      "name": "Notion1",
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Competitor Name|title",
+              "title": "={{ $('Edit Fields1').item.json.product_name }}"
+            },
+            {
+              "key": "Product Introduction|rich_text",
+              "textContent": "={{ $('Edit Fields1').item.json.product_introduction }}"
+            },
+            {
+              "key": "Product Description|rich_text",
+              "textContent": "={{ $('Edit Fields1').item.json.product_description }}"
+            },
+            {
+              "key": "Product Categories|rich_text",
+              "richText": true,
+              "text": {
+                "text": [
+                  {
+                    "text": "={{ $('Edit Fields1').item.json.product_categories }}",
+                    "annotationUi": {}
+                  }
+                ]
+              }
+            },
+            {
+              "key": "Product Features|rich_text",
+              "richText": true,
+              "text": {
+                "text": [
+                  {
+                    "text": "={{ $('Edit Fields1').item.json.product_features }}",
+                    "annotationUi": {}
+                  }
+                ]
+              }
+            },
+            {
+              "key": "Overall Ratings|number",
+              "numberValue": "={{ $('Edit Fields1').item.json.overall_rating }}"
+            },
+            {
+              "key": "Pros|rich_text",
+              "richText": true,
+              "text": {
+                "text": [
+                  {
+                    "text": "={{ $('Edit Fields1').item.json.product_pros }}",
+                    "annotationUi": {}
+                  }
+                ]
+              }
+            },
+            {
+              "key": "Cons|rich_text",
+              "richText": true,
+              "text": {
+                "text": [
+                  {
+                    "text": "={{ $('Edit Fields1').item.json.product_cons }}",
+                    "annotationUi": {}
+                  }
+                ]
+              }
+            },
+            {
+              "key": "Screenshot Urls|url",
+              "ignoreIfEmpty": true,
+              "urlValue": "={{ $('Edit Fields1').item.json.screenshots_urls }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        1700,
+        -380
+      ],
+      "id": "7f471e9a-1bd1-497a-b54b-dae526468382",
+      "name": "Notion2",
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "73bc3fd8-db07-4850-9e42-a9b570111f85",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "={{ $('Edit Fields1').item.json.product_name }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1480,
+        -380
+      ],
+      "id": "6849f26b-e6b9-40a3-917f-761b13ce895f",
+      "name": "Filter",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1B7Ck4gq3YMRMMk3UoMkqkI82qswHxp_TBz_l2xUFfBs",
+          "mode": "list",
+          "cachedResultName": "Scraping Company/Product Detail For Competitor Analysis",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1B7Ck4gq3YMRMMk3UoMkqkI82qswHxp_TBz_l2xUFfBs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1B7Ck4gq3YMRMMk3UoMkqkI82qswHxp_TBz_l2xUFfBs/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "row_number"
+          ],
+          "schema": [
+            {
+              "id": "product_name",
+              "displayName": "product_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "product_introduction",
+              "displayName": "product_introduction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "product_description",
+              "displayName": "product_description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "product_categories",
+              "displayName": "product_categories",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "product_features",
+              "displayName": "product_features",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "overall_rating",
+              "displayName": "overall_rating",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "screenshots_urls",
+              "displayName": "screenshots_urls",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "product_pros",
+              "displayName": "product_pros",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "product_cons",
+              "displayName": "product_cons",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1260,
+        0
+      ],
+      "id": "6f2f5cc3-8d28-4ed3-ba47-8c27fc3eb163",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion": {
+      "main": [
+        [
+          {
+            "node": "Notion1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion1": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Notion2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "17b73473-3458-481f-829e-54536a5e5fbd",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-01-09T09:38:30.077Z",
+      "createdAt": "2025-01-09T09:38:30.077Z",
+      "role": "workflow:owner",
+      "workflowId": "Sz4OnGwTiZTugBsu",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
