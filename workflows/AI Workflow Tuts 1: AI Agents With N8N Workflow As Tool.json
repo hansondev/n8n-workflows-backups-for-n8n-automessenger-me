@@ -1,0 +1,155 @@
+{
+  "updatedAt": "2024-02-17T15:40:18.000Z",
+  "createdAt": "2024-02-17T09:50:15.395Z",
+  "id": "xZI78ndFZ5vM2OMf",
+  "name": "AI Workflow Tuts 1: AI Agents With N8N Workflow As Tool",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "6b758d19-8adc-4ee3-9a81-3b3f9ac441af",
+      "name": "Chat Trigger",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1,
+      "position": [
+        700,
+        240
+      ],
+      "webhookId": "965b7a92-8e88-40f1-a51f-aa1342a251e4"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "88a01bec-562b-42a1-b332-70249d4b1b67",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.2,
+      "position": [
+        920,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "model": "gpt-3.5-turbo-16k",
+        "options": {}
+      },
+      "id": "cea12e63-a3a9-4347-a416-fc5bd2f9c9f5",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        860,
+        460
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAi account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "Workflow tool example",
+        "description": "Call this tool to get a list of fruit.",
+        "workflowId": "jKYdZ7gAmS0yps0H",
+        "responsePropertyName": "data"
+      },
+      "id": "8c661175-ac6a-4786-8c3b-1d80799c2ea1",
+      "name": "Custom n8n Workflow Tool",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 1,
+      "position": [
+        1160,
+        480
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "adf1af0e-7a8f-451d-a7b2-4e31bbdf7d94",
+      "name": "Window Buffer Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.1,
+      "position": [
+        1040,
+        480
+      ]
+    }
+  ],
+  "connections": {
+    "Chat Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Custom n8n Workflow Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "a60c727f-68d8-49c1-996b-1c626385811b",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-02-17T09:50:15.409Z",
+      "createdAt": "2024-02-17T09:50:15.409Z",
+      "role": "workflow:owner",
+      "workflowId": "xZI78ndFZ5vM2OMf",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2024-02-17T09:50:04.623Z",
+      "createdAt": "2024-02-17T09:50:04.623Z",
+      "id": "WMFzqjADjj4FDJJS",
+      "name": "N8N_AI_Workflow_Tuts"
+    }
+  ]
+}
