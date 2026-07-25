@@ -1,0 +1,559 @@
+{
+  "updatedAt": "2024-04-15T06:36:08.000Z",
+  "createdAt": "2024-03-20T02:38:38.391Z",
+  "id": "lfgQKj4JSMpmbGml",
+  "name": "Liveful.co-GAds KWs_AdsPosition",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "de7f83ad-7074-4064-9169-a02dea00cf64",
+      "name": "When clicking \"Test workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        820,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "11Dn7al2sX_2OW3yq9orIQ7WVzGm8ypsskzfFebEPikM",
+          "mode": "list",
+          "cachedResultName": "Apr24 - Liveful.co SG - GAds Campaign Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11Dn7al2sX_2OW3yq9orIQ7WVzGm8ypsskzfFebEPikM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1253977793,
+          "mode": "list",
+          "cachedResultName": "Sheet6",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11Dn7al2sX_2OW3yq9orIQ7WVzGm8ypsskzfFebEPikM/edit#gid=1253977793"
+        },
+        "options": {}
+      },
+      "id": "fddb2e12-e61a-49b4-bb70-b318941a20f8",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.3,
+      "position": [
+        1160,
+        320
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "321aeda7-c3b1-408d-9414-d195d7986f25",
+              "name": "keywords",
+              "value": "={{ $json.keywords }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "149288ad-7c83-4af6-bcc5-d42cd7421d16",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        1560,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.apilayer.com/google_search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $json.keywords }}"
+            },
+            {
+              "name": "country",
+              "value": "sg"
+            },
+            {
+              "name": "lang",
+              "value": "en"
+            },
+            {
+              "name": "mobile",
+              "value": "true"
+            },
+            {
+              "name": "location",
+              "value": "Singapore"
+            },
+            {
+              "name": "gl",
+              "value": "sg"
+            },
+            {
+              "name": "device",
+              "value": "desktop"
+            },
+            {
+              "name": "flatten_results",
+              "value": "false"
+            },
+            {
+              "name": "page",
+              "value": "1"
+            },
+            {
+              "name": "include_html",
+              "value": "false"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "8CTyi6g8FyzCUTjU8OWMrfiFHxMoT74h"
+            }
+          ]
+        },
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 2000
+            }
+          }
+        }
+      },
+      "id": "f0288205-494d-4ed4-94c8-ef15942e7605",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2580,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "11Dn7al2sX_2OW3yq9orIQ7WVzGm8ypsskzfFebEPikM",
+          "mode": "list",
+          "cachedResultName": "Apr24 - Liveful.co SG - GAds Campaign Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11Dn7al2sX_2OW3yq9orIQ7WVzGm8ypsskzfFebEPikM/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 292519273,
+          "mode": "list",
+          "cachedResultName": "KeywordPlanned_AdRanking_Details",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/11Dn7al2sX_2OW3yq9orIQ7WVzGm8ypsskzfFebEPikM/edit#gid=292519273"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Keywords": "={{ $json.keyword }}",
+            "Top Ads 1": "={{ $json.top_ads_rank_1 }}",
+            "Top Ads 2": "={{ $json.top_ads_rank_2 }}",
+            "Top Ads 3": "={{ $json.top_ads_rank_3 }}",
+            "Top Ads 4": "={{ $json.top_ads_rank_4 }}",
+            "Bottom Ads 1": "={{ $json.bottom_ads_rank_1 }}",
+            "Bottom Ads 2": "={{ $json.bottom_ads_rank_2 }}",
+            "Bottom Ads 3": "={{ $json.bottom_ads_rank_3 }}",
+            "Bottom Ads 4": "={{ $json.bottom_ads_rank_4 }}"
+          },
+          "matchingColumns": [
+            "Keywords"
+          ],
+          "schema": [
+            {
+              "id": "Keywords",
+              "displayName": "Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Top Ads 1",
+              "displayName": "Top Ads 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Top Ads 2",
+              "displayName": "Top Ads 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Top Ads 3",
+              "displayName": "Top Ads 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Top Ads 4",
+              "displayName": "Top Ads 4",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Bottom Ads 1",
+              "displayName": "Bottom Ads 1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Bottom Ads 2",
+              "displayName": "Bottom Ads 2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Bottom Ads 3",
+              "displayName": "Bottom Ads 3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Bottom Ads 4",
+              "displayName": "Bottom Ads 4",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e0f13d44-0c4b-4bf3-887a-c8c6bc0250b8",
+      "name": "Google Sheets1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.3,
+      "position": [
+        3620,
+        100
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "cf16c1f0-9bc3-4266-bcb6-e76d8b182f4d",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1900,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 2
+      },
+      "id": "eeb508d3-db47-41d3-b705-5615053e73c0",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2280,
+        140
+      ],
+      "webhookId": "5001c7b0-5528-42bf-8cc4-442c34d9fdaf"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "420a86b0-a046-4785-a462-48b59fc4140f",
+              "name": "keyword",
+              "value": "={{ $('Wait').item.json.keywords }}",
+              "type": "string"
+            },
+            {
+              "id": "64cb489c-e4d8-4014-8a8c-1c679b19465c",
+              "name": "top_ads_rank_1",
+              "value": "=1. Headline: {{ $json.top_ads[0].display_link }}\n2. Description: {{ $json.top_ads[0].description }}\n3. Link: {{ $json.top_ads[0].link }}\n4. Extensions:\n  a. Extension Headline 1: {{ $json[\"top_ads\"][0][\"extensions\"][0][\"text\"] }}\n  b. Extension Headline 2: {{ $json[\"top_ads\"][0][\"extensions\"][1][\"text\"] }}\n  c. Extension Headline 3: {{ $json[\"top_ads\"][0][\"extensions\"][2][\"text\"] }} \n  b. Extension Headline 4: {{ $json[\"top_ads\"][0][\"extensions\"][3][\"text\"] }} ",
+              "type": "string"
+            },
+            {
+              "id": "ac966f76-3a1c-4dd4-80cc-f6a1f67f6073",
+              "name": "top_ads_rank_2",
+              "value": "=1. Headline: {{ $json.top_ads[1].display_link }}\n2. Description: {{ $json.top_ads[1].description }}\n3. Link: {{ $json.top_ads[1].link }}\n4. Extensions:\n  a. Extension Headline 1: {{ $json[\"top_ads\"][1][\"extensions\"][0][\"text\"] }}\n  b. Extension Headline 2: {{ $json[\"top_ads\"][1][\"extensions\"][1][\"text\"] }}\n  c. Extension Headline 3: {{ $json[\"top_ads\"][1][\"extensions\"][2][\"text\"] }} \n  b. Extension Headline 4: {{ $json[\"top_ads\"][1][\"extensions\"][3][\"text\"] }} ",
+              "type": "string"
+            },
+            {
+              "id": "00f69aa7-7710-4e3c-a7d0-e9f442bf89a8",
+              "name": "top_ads_rank_3",
+              "value": "=1. Headline: {{ $json.top_ads[2].display_link }}\n2. Description: {{ $json.top_ads[2].description }}\n3. Link: {{ $json.top_ads[2].link }}\n4. Extensions:\n  a. Extension Headline 1: {{ $json[\"top_ads\"][2][\"extensions\"][0][\"text\"] }}\n  b. Extension Headline 2: {{ $json[\"top_ads\"][2][\"extensions\"][1][\"text\"] }}\n  c. Extension Headline 3: {{ $json[\"top_ads\"][2][\"extensions\"][2][\"text\"] }} \n  b. Extension Headline 4: {{ $json[\"top_ads\"][2][\"extensions\"][3][\"text\"] }} ",
+              "type": "string"
+            },
+            {
+              "id": "756da2ba-586d-4b30-bf41-8c1493333cfb",
+              "name": "top_ads_rank_4",
+              "value": "=1. Headline: {{ $json.top_ads[3].display_link }}\n2. Description: {{ $json.top_ads[3].description }}\n3. Link: {{ $json.top_ads[3].link }}\n4. Extensions:\n  a. Extension Headline 1: {{ $json[\"top_ads\"][3][\"extensions\"][0][\"text\"] }}\n  b. Extension Headline 2: {{ $json[\"top_ads\"][3][\"extensions\"][1][\"text\"] }}\n  c. Extension Headline 3: {{ $json[\"top_ads\"][3][\"extensions\"][2][\"text\"] }} \n  b. Extension Headline 4: {{ $json[\"top_ads\"][3][\"extensions\"][3][\"text\"] }} ",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {
+          "ignoreConversionErrors": true
+        }
+      },
+      "id": "e8301f8b-8d66-45ce-808c-41a90303d765",
+      "name": "Top Ads",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        2940,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "420a86b0-a046-4785-a462-48b59fc4140f",
+              "name": "keyword",
+              "value": "={{ $('Wait').item.json.keywords }}",
+              "type": "string"
+            },
+            {
+              "id": "64cb489c-e4d8-4014-8a8c-1c679b19465c",
+              "name": "bottom_ads_rank_1",
+              "value": "=1. Headline: {{ $json.bottom_ads[0].display_link }}\n2. Description: {{ $json.bottom_ads[0].description }}\n3. Link: {{ $json.bottom_ads[0].link }}\n4. Extensions:\n  a. Extension Headline 1: {{ $json[\"bottom_ads\"][0][\"extensions\"][0][\"text\"] }}\n  b. Extension Headline 2: {{ $json[\"bottom_ads\"][0][\"extensions\"][1][\"text\"] }}\n  c. Extension Headline 3: {{ $json[\"bottom_ads\"][0][\"extensions\"][2][\"text\"] }} \n  b. Extension Headline 4: {{ $json[\"bottom_ads\"][0][\"extensions\"][3][\"text\"] }} ",
+              "type": "string"
+            },
+            {
+              "id": "ac966f76-3a1c-4dd4-80cc-f6a1f67f6073",
+              "name": "bottom_ads_rank_2",
+              "value": "=1. Headline: {{ $json.bottom_ads[1].display_link }}\n2. Description: {{ $json.bottom_ads[1].description }}\n3. Link: {{ $json.bottom_ads[1].link }}\n4. Extensions:\n  a. Extension Headline 1: {{ $json[\"bottom_ads\"][1][\"extensions\"][0][\"text\"] }}\n  b. Extension Headline 2: {{ $json[\"bottom_ads\"][1][\"extensions\"][1][\"text\"] }}\n  c. Extension Headline 3: {{ $json[\"bottom_ads\"][1][\"extensions\"][2][\"text\"] }} \n  b. Extension Headline 4: {{ $json[\"bottom_ads\"][1][\"extensions\"][3][\"text\"] }} ",
+              "type": "string"
+            },
+            {
+              "id": "00f69aa7-7710-4e3c-a7d0-e9f442bf89a8",
+              "name": "=bottom_ads_rank_3",
+              "value": "=1. Headline: {{ $json.bottom_ads[2].display_link }}\n2. Description: {{ $json.bottom_ads[2].description }}\n3. Link: {{ $json.bottom_ads[2].link }}\n4. Extensions:\n  a. Extension Headline 1: {{ $json[\"bottom_ads\"][2][\"extensions\"][0][\"text\"] }}\n  b. Extension Headline 2: {{ $json[\"bottom_ads\"][2][\"extensions\"][1][\"text\"] }}\n  c. Extension Headline 3: {{ $json[\"bottom_ads\"][2][\"extensions\"][2][\"text\"] }} \n  b. Extension Headline 4: {{ $json[\"bottom_ads\"][2][\"extensions\"][3][\"text\"] }} ",
+              "type": "string"
+            },
+            {
+              "id": "756da2ba-586d-4b30-bf41-8c1493333cfb",
+              "name": "bottom_ads_rank_4",
+              "value": "=1. Headline: {{ $json.bottom_ads[3].display_link }}\n2. Description: {{ $json.bottom_ads[3].description }}\n3. Link: {{ $json.bottom_ads[3].link }}\n4. Extensions:\n  a. Extension Headline 1: {{ $json[\"bottom_ads\"][2][\"extensions\"][0][\"text\"] }}\n  b. Extension Headline 2: {{ $json[\"bottom_ads\"][2][\"extensions\"][1][\"text\"] }}\n  c. Extension Headline 3: {{ $json[\"bottom_ads\"][2][\"extensions\"][2][\"text\"] }} \n  b. Extension Headline 4: {{ $json[\"bottom_ads\"][2][\"extensions\"][3][\"text\"] }} ",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {
+          "ignoreConversionErrors": true
+        }
+      },
+      "id": "e13c2848-a764-4b15-8b65-3edffa73e3e7",
+      "name": "Bottom Ads",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        2940,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combinationMode": "mergeByPosition",
+        "options": {}
+      },
+      "id": "eb582d10-e411-46a6-b105-58f5c9dc9d4e",
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [
+        3340,
+        140
+      ]
+    }
+  ],
+  "connections": {
+    "When clicking \"Test workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Top Ads",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Bottom Ads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Top Ads": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Bottom Ads": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "f56623a9-daaa-4186-a914-92df70627840",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-03-20T02:38:38.411Z",
+      "createdAt": "2024-03-20T02:38:38.411Z",
+      "role": "workflow:owner",
+      "workflowId": "lfgQKj4JSMpmbGml",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
