@@ -1,0 +1,929 @@
+{
+  "updatedAt": "2023-11-10T05:23:31.000Z",
+  "createdAt": "2023-11-03T08:57:47.381Z",
+  "id": "XEXG92C79DY6ejDl",
+  "name": "ACCSS-Zementa API",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "79bb7640-5f18-4d81-bced-01248dc19a72",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        400,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "endpoint_for_access_token",
+              "stringValue": " https://oneapi.zemanta.com/o/token/"
+            },
+            {
+              "name": "client_id",
+              "stringValue": "uRhKVRxCKGX141fHvjfN5QrHWLy6FdPSUUhDA8G9"
+            },
+            {
+              "name": "client_secret",
+              "stringValue": "cJiCHvysQu8SVD2olSfwQEO1D9zbfEZftW6LW3ALy94pLmr1AnVO9yRk0VTJmX07vLSdwaWbJYPkUBSZF1F9Qt7Jhb5jZrADxbCLzXCxAcEhWqNWnc9kkC2Q1oUt6Vaa"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7b2e9ef2-7d63-4d3c-81cc-b743a731f86b",
+      "name": "Token Endpoint & Credential Details",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        620,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://oneapi.zemanta.com/rest/v1/campaigns/",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "={{ $json.Authentication }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "09fa9272-5224-45fb-8c58-0b41f3f702c8",
+      "name": "GET All Available Campaign IDs",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1360,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Set Authorization, Campaign Endpoint & From-To Date').item.json.campaign_endpoint }}/{{ $json.advertiser_id[1] }}/{{ $('Set Authorization, Campaign Endpoint & From-To Date').item.json.campaign_stats_endpoint_path }}/?from={{ $('Set Authorization, Campaign Endpoint & From-To Date').item.json.from_date }}&to={{ $('Set Authorization, Campaign Endpoint & From-To Date').item.json.to_date }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "={{ $('Set Authorization, Campaign Endpoint & From-To Date').item.json.Authentication }}"
+            },
+            {
+              "name": "Content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "1d86ffee-ca34-485f-a5d7-c6ea0b534421",
+      "name": "GET ArchAngel Campaign Overall Campaign Stats",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2220,
+        -120
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.adgroup_endpoint }}/?campaignId={{ $json.aa_CampaignId }}&accountId={{ $json.aa_Account_Id }}&includeArchived=false&includeDeliveryStatus=true",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "={{ $('Set Authorization, Campaign Endpoint & From-To Date').item.json.Authentication }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "be22513f-49e1-49f6-91dc-483dcfb40ac4",
+      "name": "GET ArchAngel Campaign Overall Campaign Stats1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        2000,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "impressions",
+              "type": "numberValue",
+              "numberValue": "={{ $json.data.impressions }}"
+            },
+            {
+              "name": "clicks",
+              "type": "numberValue",
+              "numberValue": "={{ $json.data.clicks }}"
+            },
+            {
+              "name": "cpc",
+              "type": "numberValue",
+              "numberValue": "={{ $json.data.cpc }}"
+            },
+            {
+              "name": "totalCost",
+              "type": "numberValue",
+              "numberValue": "={{ $json.data.totalCost }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "83faeee5-adba-4340-9162-f53017d414d8",
+      "name": "Overview Last Month Campaign Performance",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2620,
+        -280
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1fdQEBJXFmsLrbXwjpiHjOn_0fK09Hcueh8haXLkrBuk",
+          "mode": "list",
+          "cachedResultName": "N8N-ZemantaAPI-DataExtraction-Test",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fdQEBJXFmsLrbXwjpiHjOn_0fK09Hcueh8haXLkrBuk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "OverallCampaign",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fdQEBJXFmsLrbXwjpiHjOn_0fK09Hcueh8haXLkrBuk/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Impression": "={{ $json.impressions }}",
+            "Clicks": "={{ $json.clicks }}",
+            "CPC": "={{ $json.cpc }}",
+            "Total Cost": "={{ $json.totalCost }}"
+          },
+          "matchingColumns": [
+            "Impression"
+          ],
+          "schema": [
+            {
+              "id": "Month",
+              "displayName": "Month",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Impression",
+              "displayName": "Impression",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Clicks",
+              "displayName": "Clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "CPC",
+              "displayName": "CPC",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Total Cost",
+              "displayName": "Total Cost",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7a5e5510-a4ea-4f63-8d34-25d5e7f27aab",
+      "name": "Append/Update Values To GSheet(OverallCampaign)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [
+        2940,
+        -340
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "body.data",
+        "options": {}
+      },
+      "id": "49919d2d-93d2-4872-98be-a25df02db10e",
+      "name": "Split Account object from Data Array",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        1700,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "concatenateItems",
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "name",
+              "renameField": true,
+              "outputFieldName": "advertiser_name"
+            },
+            {
+              "fieldToAggregate": "id",
+              "renameField": true,
+              "outputFieldName": "advertiser_id"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c521fafa-5eeb-4ee8-a4a6-11d3dc43c298",
+      "name": "Extract Advertiser Name & ID Items To Into List",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        1960,
+        -60
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.endpoint_for_access_token }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/x-www-form-urlencoded"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "specifyBody": "string",
+        "body": "grant_type=client_credentials",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true
+            }
+          }
+        }
+      },
+      "id": "9f9a4e42-40dc-41c3-becf-a15f0df57cad",
+      "name": "Refresh HTTP Acess Token From Zemanta Server",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        840,
+        240
+      ],
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "WZFQNm71hpVmeqzD",
+          "name": "Zemanta API Basic Authentication (ACCSS)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "Authentication",
+              "stringValue": "={{ $json.body.token_type }} {{ $json.body.access_token }}"
+            },
+            {
+              "name": "campaign_endpoint",
+              "stringValue": "https://oneapi.zemanta.com/rest/v1/campaigns"
+            },
+            {
+              "name": "campaign_stats_endpoint_path",
+              "stringValue": "stats"
+            },
+            {
+              "name": "from_date",
+              "stringValue": "2023-10-01"
+            },
+            {
+              "name": "to_date",
+              "stringValue": "2023-10-30"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "08d731fe-c591-4b26-ad95-8296308e72af",
+      "name": "Set Authorization, Campaign Endpoint & From-To Date",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1120,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "adgroup_endpoint",
+              "stringValue": "https://oneapi.zemanta.com/rest/v1/adgroups"
+            },
+            {
+              "name": "aa_Account_Id",
+              "stringValue": "={{ $('GET All Available Campaign IDs').item.json.body.data[1].accountId }}"
+            },
+            {
+              "name": "aa_CampaignId",
+              "stringValue": "={{ $json.body.data[1].id }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "85fee797-e54f-4596-99f3-8bd771ad4a42",
+      "name": "Set Adgroup Endpoint,AccountID & ArchAngel Campaign ID",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1720,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "data",
+        "options": {}
+      },
+      "id": "a7cd790e-8475-4dc5-941d-0a264a5cc1c2",
+      "name": "Split Account & Campaign object from Data Array",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        2240,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "adgroupName",
+              "stringValue": "={{ $json.name }}"
+            },
+            {
+              "name": "adgroupID",
+              "stringValue": "={{ $json.id }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "bba11dcf-f810-478a-b57e-ae9352d3a0b6",
+      "name": "Set ArchAngel CampaignID,Adgroup Name & ID",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2520,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "concatenateItems",
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "adgroupID"
+            },
+            {
+              "fieldToAggregate": "adgroupName"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1a43fa7d-49a7-4d7a-8d43-a30a5b35756a",
+      "name": "Get Adgroup ID & Adgroup Name Into Array List",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        2760,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://oneapi.zemanta.com/rest/v1/reports/",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "={{ $('Set Authorization, Campaign Endpoint & From-To Date').item.json.Authentication }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"fields\": [\n    {\n      \"field\": \"Ad Group\"\n    },\n    {\n      \"field\": \"Total Spend\"\n    },\n    {\n      \"field\": \"Impressions\"\n    },\n    {\n      \"field\": \"Clicks\"\n    },\n    {\n      \"field\": \"Avg. CPC\"\n    }\n  ],\n  \"options\": {\n    \"showArchived\": false\n  },\n  \"filters\": [\n    {\n      \"field\": \"Date\",\n      \"operator\": \"between\",\n      \"from\": \"2023-10-01\",\n      \"to\": \"2023-10-31\"\n    },\n    {\n      \"field\": \"Ad Group Id\",\n      \"operator\": \"IN\",\n      \"values\": [\"{{ $json.adgroupID[0] }}\",\"{{ $json.adgroupID[1] }}\"]\n    }\n  ]\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "caf4a45c-b608-477d-852b-f1b8190e21f6",
+      "name": "Get Adgroup Performance Downloadable Report Links",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        3040,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 2,
+        "unit": "minutes"
+      },
+      "id": "264a3ab7-8a2f-445e-96c0-427050de474a",
+      "name": "Wait",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        3260,
+        220
+      ],
+      "webhookId": "d5d41994-e912-415a-9e32-61be9ebd284d"
+    },
+    {
+      "parameters": {
+        "url": "=https://oneapi.zemanta.com/rest/v1/reports/{{ $json.data.id }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "={{ $('Set Authorization, Campaign Endpoint & From-To Date').item.json.Authentication }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9b203d11-c09e-47b0-8350-cb87838bd29f",
+      "name": "Get CSV Report Download Link",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        3520,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1fdQEBJXFmsLrbXwjpiHjOn_0fK09Hcueh8haXLkrBuk",
+          "mode": "list",
+          "cachedResultName": "N8N-ZemantaAPI-DataExtraction-Test",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fdQEBJXFmsLrbXwjpiHjOn_0fK09Hcueh8haXLkrBuk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 569859416,
+          "mode": "list",
+          "cachedResultName": "AdgroupReportDownloadLink",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1fdQEBJXFmsLrbXwjpiHjOn_0fK09Hcueh8haXLkrBuk/edit#gid=569859416"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Report ID": "={{ $json.ReportID }}",
+            "Status": "={{ $json.ReportStatus }}",
+            "Download Link": "={{ $json.ReportLink }}"
+          },
+          "matchingColumns": [
+            "Report ID"
+          ],
+          "schema": [
+            {
+              "id": "Report ID",
+              "displayName": "Report ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Download Link",
+              "displayName": "Download Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "data",
+              "displayName": "data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6fc40005-93b7-41ec-96e8-fd85f1d7ef37",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [
+        4120,
+        60
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "ReportID",
+              "stringValue": "={{ $json.data.id }}"
+            },
+            {
+              "name": "ReportStatus",
+              "stringValue": "={{ $json.data.status }}"
+            },
+            {
+              "name": "ReportLink",
+              "stringValue": "={{ $json.data.result }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "24357a81-1e86-491b-bef8-11a6bcaebcf8",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        3740,
+        140
+      ]
+    }
+  ],
+  "connections": {
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Token Endpoint & Credential Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Token Endpoint & Credential Details": {
+      "main": [
+        [
+          {
+            "node": "Refresh HTTP Acess Token From Zemanta Server",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET All Available Campaign IDs": {
+      "main": [
+        [
+          {
+            "node": "Split Account object from Data Array",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Set Adgroup Endpoint,AccountID & ArchAngel Campaign ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET ArchAngel Campaign Overall Campaign Stats1": {
+      "main": [
+        [
+          {
+            "node": "Split Account & Campaign object from Data Array",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET ArchAngel Campaign Overall Campaign Stats": {
+      "main": [
+        [
+          {
+            "node": "Overview Last Month Campaign Performance",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Overview Last Month Campaign Performance": {
+      "main": [
+        [
+          {
+            "node": "Append/Update Values To GSheet(OverallCampaign)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Account object from Data Array": {
+      "main": [
+        [
+          {
+            "node": "Extract Advertiser Name & ID Items To Into List",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Advertiser Name & ID Items To Into List": {
+      "main": [
+        [
+          {
+            "node": "GET ArchAngel Campaign Overall Campaign Stats",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Refresh HTTP Acess Token From Zemanta Server": {
+      "main": [
+        [
+          {
+            "node": "Set Authorization, Campaign Endpoint & From-To Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Authorization, Campaign Endpoint & From-To Date": {
+      "main": [
+        [
+          {
+            "node": "GET All Available Campaign IDs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Adgroup Endpoint,AccountID & ArchAngel Campaign ID": {
+      "main": [
+        [
+          {
+            "node": "GET ArchAngel Campaign Overall Campaign Stats1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Account & Campaign object from Data Array": {
+      "main": [
+        [
+          {
+            "node": "Set ArchAngel CampaignID,Adgroup Name & ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set ArchAngel CampaignID,Adgroup Name & ID": {
+      "main": [
+        [
+          {
+            "node": "Get Adgroup ID & Adgroup Name Into Array List",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Adgroup ID & Adgroup Name Into Array List": {
+      "main": [
+        [
+          {
+            "node": "Get Adgroup Performance Downloadable Report Links",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Adgroup Performance Downloadable Report Links": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get CSV Report Download Link",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get CSV Report Download Link": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Overview Last Month Campaign Performance": [
+      {
+        "json": {
+          "impressions": 240449,
+          "clicks": 1683,
+          "cpc": 0.088,
+          "totalCost": 148.9
+        }
+      }
+    ]
+  },
+  "versionId": "e005dc97-49c1-4fab-886a-fe02356abcdc",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2023-11-03T08:57:47.393Z",
+      "createdAt": "2023-11-03T08:57:47.393Z",
+      "role": "workflow:owner",
+      "workflowId": "XEXG92C79DY6ejDl",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
