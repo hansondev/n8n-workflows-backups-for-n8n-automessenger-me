@@ -1,0 +1,5706 @@
+{
+  "updatedAt": "2025-05-28T04:07:52.000Z",
+  "createdAt": "2025-05-14T07:56:44.675Z",
+  "id": "ew5Vgr9Lv71L5aWt",
+  "name": "RC_Marketing_Campaign: KOC Shoutcut Trial Bundle",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1LCY984Avk7vsMuEQIn3FLA01vyczXVA8rXlHVZCfp9I",
+          "mode": "list",
+          "cachedResultName": "[May25] N8N AI GSlide Agent - RC Marketing Campaign - Free Trial KOC Shoutout Strategy",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1LCY984Avk7vsMuEQIn3FLA01vyczXVA8rXlHVZCfp9I/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Talking Points Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1LCY984Avk7vsMuEQIn3FLA01vyczXVA8rXlHVZCfp9I/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        140,
+        -120
+      ],
+      "id": "f3cfad81-c716-4f7b-824a-4856fdab2ae9",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "oMHjbut2VzVQ0VcS",
+          "name": "GSheet Trigger- boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=1. Company Name: {{ $('Google Sheets Trigger').item.json['Company Name'] }}\n2. Brand Name: {{ $('Google Sheets Trigger').item.json['Brand Name'] }}\n3. Products To Focus: {{ $('Google Sheets Trigger').item.json['Products To Focus'] }}\n4. Website To Scrape: {{ $('Google Sheets Trigger').item.json['Website To Scrape'] }}\n5. Campaign Objectives: {{ $('Google Sheets Trigger').item.json['Campaign Objective'] }}\n6. Proposal Name: {{ $('Google Sheets Trigger').item.json['Proposal Name'] }}\n7. Section Name: {{ $('Google Sheets Trigger').item.json['Section Name'] }}\n8. Amount of Key Points: 10",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "={{ $('Google Sheets Trigger').item.json['System Prompt'] }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        1080,
+        -140
+      ],
+      "id": "40e72fab-a343-41fe-b6c7-ecc2b8de2c34",
+      "name": "Key Talking Points Generator"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to crawl all the web pages based on sitemap schema detection and scrape all the web pages from the sitemap schema and generate the raw web content in markdown format. ",
+        "workflowId": {
+          "__rl": true,
+          "value": "6GmpoovcrJu1Mzsd",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow]  -Crawl4AI Page Sitemap Content Scraper Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "searchUrl": "={{ $('Google Sheets Trigger').item.json['Website To Scrape'] }}"
+          },
+          "matchingColumns": [
+            "searchUrl"
+          ],
+          "schema": [
+            {
+              "id": "searchUrl",
+              "displayName": "searchUrl",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        980,
+        200
+      ],
+      "id": "6ef98649-3f01-4126-8686-792cdea0ba9b",
+      "name": "web_content_scraper_tool"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool for searching and collecting sources from ai-based research engine on the provided user input such as brand name and product to focus then summarize the query results as the output response from the tool.",
+        "workflowId": {
+          "__rl": true,
+          "value": "KdAUfF05Oj85t0Vb",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Perplexica AI Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ $json['Brand Name'] }} {{ $json['Target Country'] }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1120,
+        220
+      ],
+      "id": "134a374a-146f-4cd4-9578-1360d03ae714",
+      "name": "ai_brand_research_tool"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s",
+          "mode": "list",
+          "cachedResultName": "ReadyCare Signature Ecommerce Store Product Listing(Apr2025_Update)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1871117814,
+          "mode": "list",
+          "cachedResultName": "Product Details",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit#gid=1871117814"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        1280,
+        220
+      ],
+      "id": "a655ce71-602b-4073-b64f-e060df94f23c",
+      "name": "readyCareProductDetailLists",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Call this tool for quering the marketing terminology, and marketing strategies or methods would like to apply into the campaign through ai-based web research and get latest knowledge or research such as how it works, use cases, benefits, pros & cons and so on.",
+        "method": "POST",
+        "url": "https://api.exa.ai/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"exa\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": {{ JSON.stringify($json['Campaign Objective']) }}\n    }\n  ],\n  \"extra_body\": {\n    \"text\": false\n  }\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        },
+        "optimizeResponse": true,
+        "dataField": "choices",
+        "fieldsToInclude": "selected",
+        "fields": "message.content"
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        1480,
+        220
+      ],
+      "id": "46f27f5d-2b83-409c-9aa2-03c722b90116",
+      "name": "ai_knowledge_research_tool",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "6E3m9GBrjAys5biB",
+          "name": "Exa.ai Header Auth (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n    \"proposalName\": \"Education Industry Digital Marketing Strategy In TikTok\",\n\t\"sectionName\": \"Key Talking Points\",\n\t\"keyPoints\": [ \"Benefits my child’s education, providing educational activities in a controlled, monitored environment.\", \"Benefits other students by offering educational guidance and activity once school hours are over.\", \"Benefits other parents by providing education and guidance for their children.\"]\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1560,
+        60
+      ],
+      "id": "3edc84b8-fe5e-48d5-949d-405f2081d345",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        900,
+        60
+      ],
+      "id": "f17f381f-3a1f-4de6-a419-129cf1a65093",
+      "name": "DeepSeek Chat Model",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "8Hvjw0JNKmbO191K",
+          "name": "DeepSeekAPI - info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "38acd78b-3c03-4a3d-addc-5640bf74719e",
+              "name": "proposalName",
+              "value": "={{ $json.output.proposalName }}",
+              "type": "string"
+            },
+            {
+              "id": "e1f27c7d-5d41-47af-92fc-41a7e2d75880",
+              "name": "clientName",
+              "value": "={{ $('Switch').item.json['Brand Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "ec5e049d-d7ce-42ec-9e69-5feb71d17c72",
+              "name": "sectionName",
+              "value": "={{ $json.output.sectionName }}",
+              "type": "string"
+            },
+            {
+              "id": "766fe5ee-cf22-4c0a-95cf-0eb89e95fee3",
+              "name": "keyPoints",
+              "value": "=- {{ $json.output.keyPoints.join(\"\\n- \") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1500,
+        -140
+      ],
+      "id": "ad256a3a-f4d2-47b2-b90a-dacb0d74effb",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "RC_Bundle_Pack_KOC_Giveaway_Planner",
+        "filter": {
+          "driveId": {
+            "mode": "list",
+            "value": "My Drive"
+          },
+          "folderId": {
+            "__rl": true,
+            "value": "10hgvcLZLxYcwB4yB81ZUveWsEKJMGb1A",
+            "mode": "list",
+            "cachedResultName": "2025 RC Marketing Campaign Planner",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/10hgvcLZLxYcwB4yB81ZUveWsEKJMGb1A"
+          },
+          "whatToSearch": "folders"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1720,
+        -140
+      ],
+      "id": "7095c0e6-948c-48b2-a3c5-ba168a3f6426",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "3c8b17ce-a631-47a5-850c-fa5430cb3a9a",
+              "leftValue": "={{ $json.mimeType }}",
+              "rightValue": "=application/vnd.google-apps.presentation",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "468ba66a-980c-4636-96ee-cf3bdb79c24e",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "Marketing Strategy Deck",
+              "operator": {
+                "type": "string",
+                "operation": "notContains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2200,
+        -140
+      ],
+      "id": "654ebed5-6c14-4818-ad16-33d8594f4c3c",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "Strategy Deck",
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "={{ $json.id }}",
+            "mode": "id"
+          }
+        },
+        "options": {
+          "fields": [
+            "id",
+            "name",
+            "mimeType"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1960,
+        -140
+      ],
+      "id": "720cacc1-ffec-4771-9a80-2734599688d7",
+      "name": "Google Drive1",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getSlides",
+        "presentationId": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        2440,
+        40
+      ],
+      "id": "413d8bb1-7bf2-4587-b1d5-a3df27a4b2b4",
+      "name": "Get Presentation ID",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.slideProperties.notesPage.pageElements[1].shape.text.textElements[1].textRun.content }}",
+                    "rightValue": "Introduction Slide",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "79c35207-100f-4825-afe2-c4a910c00ab8"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Introduction Slide"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "b1833ad4-2dc1-427e-84e4-8af4ca7db12d",
+                    "leftValue": "={{ $json.slideProperties.notesPage.pageElements[1].shape.text.textElements[1].textRun.content }}",
+                    "rightValue": "Sequence Slide",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Sequence Slide"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        2660,
+        40
+      ],
+      "id": "c7db495e-6e94-4ad1-a254-b6d49e158c63",
+      "name": "Segment Based On Slide Type"
+    },
+    {
+      "parameters": {
+        "operation": "copy",
+        "fileId": {
+          "__rl": true,
+          "value": "1NtQiSHu71H02ia6Fkh_hyllxsmhfZp9tIt8Frlte8iA",
+          "mode": "list",
+          "cachedResultName": "[Creo_Client] - Marketing Strategy Proposal Deck Template",
+          "cachedResultUrl": "https://docs.google.com/presentation/d/1NtQiSHu71H02ia6Fkh_hyllxsmhfZp9tIt8Frlte8iA/edit?usp=drivesdk"
+        },
+        "name": "May25 [ReadyCare] - KOC Influencer Marketing Strategy Deck",
+        "sameFolder": false,
+        "driveId": {
+          "__rl": true,
+          "value": "https://drive.google.com/drive/u/0/folders/10hgvcLZLxYcwB4yB81ZUveWsEKJMGb1A",
+          "mode": "url"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ $('Google Drive').item.json.id }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2420,
+        -320
+      ],
+      "id": "b58e3d81-92e5-4c0b-8d9c-546ca8a8bc1d",
+      "name": "Copy The Presentation Template",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getSlides",
+        "presentationId": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        2640,
+        -320
+      ],
+      "id": "75ef6ee8-1868-4d52-abf2-d83e6e4b3adf",
+      "name": "Get Presentation ID1",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.slideProperties.notesPage.pageElements[1].shape.text.textElements[1].textRun.content }}",
+                    "rightValue": "Introduction Slide",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "79c35207-100f-4825-afe2-c4a910c00ab8"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Introduction Slide"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "b1833ad4-2dc1-427e-84e4-8af4ca7db12d",
+                    "leftValue": "={{ $json.slideProperties.notesPage.pageElements[1].shape.text.textElements[1].textRun.content }}",
+                    "rightValue": "Sequence Slide",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Sequence Slide"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        2860,
+        -360
+      ],
+      "id": "d8abe1a0-d190-40f8-8b71-661480849e20",
+      "name": "Segment Based On Slide Type1"
+    },
+    {
+      "parameters": {
+        "operation": "replaceText",
+        "presentationId": "={{ $('If').first().json.id }}",
+        "textUi": {
+          "textValues": [
+            {
+              "pageObjectIds": "={{ $json.objectId }}",
+              "text": "[CLIENT_NAME]",
+              "replaceText": "={{ $('Edit Fields').item.json.clientName }}"
+            },
+            {
+              "pageObjectIds": "={{ $json.objectId }}",
+              "text": "[PROPOSAL_NAME]",
+              "replaceText": "={{ $('Edit Fields').item.json.proposalName }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        2920,
+        -100
+      ],
+      "id": "b01af3f3-a4cc-4098-84b2-519e3fb53b38",
+      "name": "Replace Text In Introduction Slide",
+      "notesInFlow": true,
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      },
+      "notes": "Replace Text Placeholder With Output Data in Introduction Slide Label"
+    },
+    {
+      "parameters": {
+        "operation": "replaceText",
+        "presentationId": "={{ $('If').first().json.id }}",
+        "textUi": {
+          "textValues": [
+            {
+              "pageObjectIds": "={{ $json.objectId }}",
+              "text": "[SECTION_NAME]",
+              "replaceText": "={{ $('Edit Fields').item.json.sectionName }}"
+            },
+            {
+              "pageObjectIds": "={{ $json.objectId }}",
+              "text": "[DESCRIPTION_KEY_POINTS]",
+              "replaceText": "={{ $('Edit Fields').item.json.keyPoints }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        3000,
+        160
+      ],
+      "id": "11c581f4-5bea-46d3-8e62-a8c809a81f38",
+      "name": "Replace Text in Sequence Slide",
+      "notesInFlow": true,
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      },
+      "notes": "Replace Text Placeholder With Output Data in Section Slide Label"
+    },
+    {
+      "parameters": {
+        "operation": "replaceText",
+        "presentationId": "={{ $('If').item.json.id }}",
+        "textUi": {
+          "textValues": [
+            {
+              "pageObjectIds": "={{ $json.objectId }}",
+              "text": "[SECTION_NAME]",
+              "replaceText": "={{ $('Edit Fields').item.json.sectionName }}"
+            },
+            {
+              "pageObjectIds": "={{ $json.objectId }}",
+              "text": "[DESCRIPTION_KEY_POINTS]",
+              "replaceText": "={{ $('Edit Fields').item.json.keyPoints }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        3140,
+        -300
+      ],
+      "id": "3ccf4b47-0171-43ee-823b-968dc1ab5c87",
+      "name": "Replace Text In Sequence Slide",
+      "notesInFlow": true,
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      },
+      "notes": "Replace Text Placeholder With Output Data in Sequence Slide Label"
+    },
+    {
+      "parameters": {
+        "operation": "replaceText",
+        "presentationId": "={{ $('If').first().json.id }}",
+        "textUi": {
+          "textValues": [
+            {
+              "pageObjectIds": "={{ $json.objectId }}",
+              "text": "[CLIENT_NAME]",
+              "replaceText": "={{ $('Edit Fields').item.json.clientName }}"
+            },
+            {
+              "pageObjectIds": "={{ $json.objectId }}",
+              "text": "[PROPOSAL_NAME]",
+              "replaceText": "={{ $('Edit Fields').item.json.proposalName }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        3100,
+        -560
+      ],
+      "id": "44818b88-979d-42a6-8181-5e1c56dbf0d8",
+      "name": "Replace Text In Introduction Slide1",
+      "notesInFlow": true,
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      },
+      "notes": "Replace Text Placeholder With Output Data in Introduction Slide Label"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "49f72e34-84db-46d2-8c88-34e698408586",
+              "name": "sectionName",
+              "value": "={{ $json['Section Name'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        500,
+        -120
+      ],
+      "id": "034be7d2-c0e4-43b7-85a1-ca116464cfc8",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1LCY984Avk7vsMuEQIn3FLA01vyczXVA8rXlHVZCfp9I",
+          "mode": "list",
+          "cachedResultName": "[May25] N8N AI GSlide Agent - RC Marketing Campaign - Free Trial KOC Shoutout Strategy",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1LCY984Avk7vsMuEQIn3FLA01vyczXVA8rXlHVZCfp9I/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 78908623,
+          "mode": "list",
+          "cachedResultName": "Hashtags Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1LCY984Avk7vsMuEQIn3FLA01vyczXVA8rXlHVZCfp9I/edit#gid=78908623"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -280,
+        1300
+      ],
+      "id": "eddb5590-d6a9-49a9-ab2c-8a49d0265ac3",
+      "name": "Google Sheets Trigger1",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "oMHjbut2VzVQ0VcS",
+          "name": "GSheet Trigger- boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s",
+          "mode": "list",
+          "cachedResultName": "ReadyCare Signature Ecommerce Store Product Listing(Apr2025_Update)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1871117814,
+          "mode": "list",
+          "cachedResultName": "Product Details",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit#gid=1871117814"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        1460,
+        1140
+      ],
+      "id": "44719447-4510-4156-84a4-8cc3762542d0",
+      "name": "readyCareProductDetailLists1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"language\": \"English\",\n  \"keywordList\": [\n    {\n      \"searchKeyword\": \"Multipurpose Cleaner\"\n    },\n    {\n      \"brandProductHashtags\": [ \"#ReadyCare\", \"#RCSignature\", \"#BiobasedMultipurposeCleaner\"],\n     \"topicRelatedHashtags\":[\"#laundrydetergent\", \".#detergent \", \"#detergent\"]\n    }\n   ]\n }"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1620,
+        1040
+      ],
+      "id": "318826a4-5635-42a3-a2ed-5e585398ea93",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        1000
+      ],
+      "id": "ca3be16d-9533-4e38-9c41-88569adde5e1",
+      "name": "DeepSeek Chat Model1",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "8Hvjw0JNKmbO191K",
+          "name": "DeepSeekAPI - info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "38acd78b-3c03-4a3d-addc-5640bf74719e",
+              "name": "language",
+              "value": "={{ $('Hashtag Generator (English)').first().json.output.language }}",
+              "type": "string"
+            },
+            {
+              "id": "e1f27c7d-5d41-47af-92fc-41a7e2d75880",
+              "name": "productName",
+              "value": "=Biobased {{ $json.searchKeyword }}",
+              "type": "string"
+            },
+            {
+              "id": "ec5e049d-d7ce-42ec-9e69-5feb71d17c72",
+              "name": "brandProductHashtags",
+              "value": "={{ $json.brandProductHashtags.join(\"\\n\") }}",
+              "type": "string"
+            },
+            {
+              "id": "766fe5ee-cf22-4c0a-95cf-0eb89e95fee3",
+              "name": "topicRelatedHashtags",
+              "value": "={{ $json.topicRelatedHashtags.join(\"\\n\") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1900,
+        800
+      ],
+      "id": "d43ed233-853e-4358-8087-0defacacf64f",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "096e64d0-a4b6-4f75-9513-3c5e316a2dc5",
+              "name": "agentName",
+              "value": "={{ $json['Agent Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "49f72e34-84db-46d2-8c88-34e698408586",
+              "name": "sectionName",
+              "value": "={{ $json['Section Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "bf2ef8a6-c4af-43a5-805a-f4b82b94a5be",
+              "name": "targetLanguage",
+              "value": "={{ $json['Hashtags Language'].split(\",\") }}",
+              "type": "array"
+            },
+            {
+              "id": "463eb3f7-8654-4617-8ad2-e7f929c5ae99",
+              "name": "systemPrompt",
+              "value": "={{ $json['System Prompt'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        0,
+        1300
+      ],
+      "id": "7e129013-acd1-4660-9f37-10a17c92604d",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1289a38c-f012-4ef1-8eeb-37167ae03135",
+              "leftValue": "={{ $json.sectionName }}",
+              "rightValue": "Key Talking Points",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        720,
+        -120
+      ],
+      "id": "a83430ee-2a57-4897-b46b-1706745082cf",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.targetLanguage }}",
+                    "rightValue": "English",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "id": "5d9dc428-6063-4e56-b3f2-e7f584be5370"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "English"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "c19ec3db-358b-4915-8a2c-c8790f995486",
+                    "leftValue": "={{ $json.targetLanguage }}",
+                    "rightValue": "Malay",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Malay"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        640,
+        1300
+      ],
+      "id": "87cd3c9c-46e3-4b0c-a4d9-b0b19aaf118c",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "targetLanguage",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        340,
+        1300
+      ],
+      "id": "7dbd90a7-790b-447f-b2ac-2949e65469c9",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=1. Brand Name: {{ $('Google Sheets Trigger1').first().json['Brand Name'] }}\n2. Products To Focus: {{ $('Google Sheets Trigger1').item.json['Products To Focus'] }}\n3. Search Keywords: {{ JSON.stringify($('Google Sheets Trigger1').item.json['Search Keywords'].split(\",\")) }}\n6. Target Language: {{ $json.targetLanguage }}\n7. Amount of Brand/Product Based Hashtags To Generate:{{ $('Google Sheets Trigger1').item.json['Amount of Brand/Product Hashtags'] }}\n8. Amount of Keyword/Topic Based Hashtags To Generate: {{ $('Google Sheets Trigger1').item.json['Amount of Keyword Hashtags'] }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "={{ $json.systemPrompt }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        1280,
+        800
+      ],
+      "id": "2038a23d-4cc3-495c-91a1-ba233aec671e",
+      "name": "Hashtag Generator (English)"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to scrape tiktok videos data based on search keywords and lookout for hashtags that available in the post title(postTitle) field. \n- **`readyCareProductDetailLists`**: Call this tool to read and retrieve ReadyCare product details lists where it consist of product information such as product name, product features, product description and product variations for brand and product-based hashtags generation.",
+        "workflowId": {
+          "__rl": true,
+          "value": "cQi1QOhiacRRe20a",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - APIFY Actor - TikTok Video Search Scraper"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "searchKeywords": "={{ JSON.stringify($('Google Sheets Trigger1').item.json['Search Keywords'].split(\",\")) }}"
+          },
+          "matchingColumns": [
+            "searchKeyword"
+          ],
+          "schema": [
+            {
+              "id": "searchKeywords",
+              "displayName": "searchKeywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1260,
+        1140
+      ],
+      "id": "91117b81-77e3-47d8-995a-a9dbcffee186",
+      "name": "tiktok_video_data_scraper"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output.keywordList",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1640,
+        800
+      ],
+      "id": "f1f35c6e-7159-4c1a-97f4-fe859b2dab77",
+      "name": "Split Out1"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1YwjPsa-fn4DnShH95TmtQdfoMSkaBDJcTBd8-Z6sn1M",
+          "mode": "list",
+          "cachedResultName": "[May25] N8N AI GSlide Agent - Hashtags Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YwjPsa-fn4DnShH95TmtQdfoMSkaBDJcTBd8-Z6sn1M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YwjPsa-fn4DnShH95TmtQdfoMSkaBDJcTBd8-Z6sn1M/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Language": "={{ $json.language }}",
+            "Product Name": "={{ $json.productName }}",
+            "Brand/Product Based Hashtags": "={{ $json.brandProductHashtags }}",
+            "Category Related Hashtags": "={{ $json.topicRelatedHashtags }}"
+          },
+          "matchingColumns": [
+            "Language"
+          ],
+          "schema": [
+            {
+              "id": "Language",
+              "displayName": "Language",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Product Name",
+              "displayName": "Product Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Brand/Product Based Hashtags",
+              "displayName": "Brand/Product Based Hashtags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Category Related Hashtags",
+              "displayName": "Category Related Hashtags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2120,
+        800
+      ],
+      "id": "c2459a43-1aec-4c38-b117-d5457b62b457",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getSlides",
+        "presentationId": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        2960,
+        780
+      ],
+      "id": "23f77432-d7ab-4015-aede-18f60919dcee",
+      "name": "Google Slides",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "79680056-34ad-45bf-94be-f86f4fca1b28",
+              "leftValue": "={{ $json.slideProperties.notesPage.pageElements[1].shape.text.textElements[1].textRun.content }}",
+              "rightValue": "Google Sheet URL Placeholder",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        3240,
+        720
+      ],
+      "id": "76701168-8c3c-44b5-beea-325ecf6e6615",
+      "name": "If3"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        3480,
+        800
+      ],
+      "id": "1045704a-36ea-4794-b9a1-76ee71f295ed",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "operation": "replaceText",
+        "presentationId": "={{ $('Google Drive5').item.json.id }}",
+        "textUi": {
+          "textValues": [
+            {
+              "pageObjectIds": "={{ $json.objectId }}",
+              "text": "[SECTION_NAME]",
+              "replaceText": "={{ $('Edit Fields3').first().json.sectionName }} (English)"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        3480,
+        600
+      ],
+      "id": "4604fd0a-ce59-402c-b46e-283737d8d31d",
+      "name": "Google Slides1",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "RC_Bundle_Pack_KOC_Giveaway_Planner",
+        "filter": {
+          "driveId": {
+            "mode": "list",
+            "value": "My Drive"
+          },
+          "folderId": {
+            "__rl": true,
+            "value": "10hgvcLZLxYcwB4yB81ZUveWsEKJMGb1A",
+            "mode": "list",
+            "cachedResultName": "2025 RC Marketing Campaign Planner",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/10hgvcLZLxYcwB4yB81ZUveWsEKJMGb1A"
+          },
+          "whatToSearch": "folders"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2480,
+        800
+      ],
+      "id": "8fdcb2a9-3c14-4712-b453-a79bc1a4a1cc",
+      "name": "Google Drive4",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "Strategy Deck",
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "={{ $json.id }}",
+            "mode": "id"
+          }
+        },
+        "options": {
+          "fields": [
+            "id",
+            "name",
+            "mimeType"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2720,
+        780
+      ],
+      "id": "15acd36e-7336-46e6-b68d-195bec265c23",
+      "name": "Google Drive5",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s",
+          "mode": "list",
+          "cachedResultName": "ReadyCare Signature Ecommerce Store Product Listing(Apr2025_Update)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1871117814,
+          "mode": "list",
+          "cachedResultName": "Product Details",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit#gid=1871117814"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        1380,
+        1940
+      ],
+      "id": "8b09a2d3-d689-4dd0-beeb-bb9d31a9c809",
+      "name": "readyCareProductDetailLists2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"language\": \"English\",\n  \"keywordList\": [\n    {\n      \"searchKeyword\": \"Multipurpose Cleaner\"\n    },\n    {\n      \"brandProductHashtags\": [ \"#ReadyCare\", \"#RCSignature\", \"#BiobasedMultipurposeCleaner\"],\n     \"topicRelatedHashtags\":[\"#laundrydetergent\", \".#detergent \", \"#detergent\"]\n    }\n   ]\n }"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1540,
+        1860
+      ],
+      "id": "9439ef62-8cee-40a8-a2d4-f988c1f7817b",
+      "name": "Structured Output Parser2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "38acd78b-3c03-4a3d-addc-5640bf74719e",
+              "name": "language",
+              "value": "={{ $('Hashtag Generator (Malay)').first().json.output.language }}",
+              "type": "string"
+            },
+            {
+              "id": "e1f27c7d-5d41-47af-92fc-41a7e2d75880",
+              "name": "productName",
+              "value": "=Biobased {{ $json.searchKeyword }}",
+              "type": "string"
+            },
+            {
+              "id": "ec5e049d-d7ce-42ec-9e69-5feb71d17c72",
+              "name": "brandProductHashtags",
+              "value": "={{ $json.brandProductHashtags.join(\"\\n\") }}",
+              "type": "string"
+            },
+            {
+              "id": "766fe5ee-cf22-4c0a-95cf-0eb89e95fee3",
+              "name": "topicRelatedHashtags",
+              "value": "={{ $json.topicRelatedHashtags.join(\"\\n\") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1820,
+        1620
+      ],
+      "id": "7eb2bcf5-202e-48aa-8151-4bbad1746e90",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output.keywordList",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1560,
+        1620
+      ],
+      "id": "2b32550f-b95b-43c4-abaa-62e9d86cafeb",
+      "name": "Split Out2"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1YwjPsa-fn4DnShH95TmtQdfoMSkaBDJcTBd8-Z6sn1M",
+          "mode": "list",
+          "cachedResultName": "[May25] N8N AI GSlide Agent - Hashtags Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YwjPsa-fn4DnShH95TmtQdfoMSkaBDJcTBd8-Z6sn1M/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1YwjPsa-fn4DnShH95TmtQdfoMSkaBDJcTBd8-Z6sn1M/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Language": "={{ $json.language }}",
+            "Product Name": "={{ $json.productName }}",
+            "Brand/Product Based Hashtags": "={{ $json.brandProductHashtags }}",
+            "Category Related Hashtags": "={{ $json.topicRelatedHashtags }}"
+          },
+          "matchingColumns": [
+            "Language"
+          ],
+          "schema": [
+            {
+              "id": "Language",
+              "displayName": "Language",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Product Name",
+              "displayName": "Product Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Brand/Product Based Hashtags",
+              "displayName": "Brand/Product Based Hashtags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Category Related Hashtags",
+              "displayName": "Category Related Hashtags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2020,
+        1620
+      ],
+      "id": "0469523d-1616-4fdb-90f6-19d28e786df4",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getSlides",
+        "presentationId": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        2980,
+        1600
+      ],
+      "id": "b5b34812-890a-4ffa-b683-b668ddcc5a89",
+      "name": "Google Slides2",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "79680056-34ad-45bf-94be-f86f4fca1b28",
+              "leftValue": "={{ $json.slideProperties.notesPage.pageElements[1].shape.text.textElements[1].textRun.content }}",
+              "rightValue": "Google Sheet URL Placeholder",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        3260,
+        1540
+      ],
+      "id": "37be2744-e28c-4af7-8012-d2eb2f82aea0",
+      "name": "If4"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        3500,
+        1620
+      ],
+      "id": "253d3b26-fdb4-49d2-99ee-02bafc513e22",
+      "name": "No Operation, do nothing1"
+    },
+    {
+      "parameters": {
+        "operation": "replaceText",
+        "presentationId": "={{ $('Google Drive7').item.json.id }}",
+        "textUi": {
+          "textValues": [
+            {
+              "pageObjectIds": "={{ $json.objectId }}",
+              "text": "[SECTION_NAME]",
+              "replaceText": "={{ $('Edit Fields3').first().json.sectionName }} (Malay)"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        3500,
+        1420
+      ],
+      "id": "911efbb4-7af9-43bc-b9e0-6ce3f1ac809f",
+      "name": "Google Slides3",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "RC_Bundle_Pack_KOC_Giveaway_Planner",
+        "filter": {
+          "driveId": {
+            "mode": "list",
+            "value": "My Drive"
+          },
+          "folderId": {
+            "__rl": true,
+            "value": "10hgvcLZLxYcwB4yB81ZUveWsEKJMGb1A",
+            "mode": "list",
+            "cachedResultName": "2025 RC Marketing Campaign Planner",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/10hgvcLZLxYcwB4yB81ZUveWsEKJMGb1A"
+          },
+          "whatToSearch": "folders"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2420,
+        1620
+      ],
+      "id": "e2532c0c-574d-41ed-a02e-d364668714d6",
+      "name": "Google Drive6",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "Strategy Deck",
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "={{ $json.id }}",
+            "mode": "id"
+          }
+        },
+        "options": {
+          "fields": [
+            "id",
+            "name",
+            "mimeType"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2680,
+        1620
+      ],
+      "id": "ee5ab418-1f74-4b8f-aea0-df73bb484601",
+      "name": "Google Drive7",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=1. Brand Name: {{ $('Google Sheets Trigger1').first().json['Brand Name'] }}\n2. Products To Focus: {{ $('Google Sheets Trigger1').item.json['Products To Focus'] }}\n3. Search Keywords: {{ JSON.stringify($('Google Sheets Trigger1').item.json['Search Keywords'].split(\",\")) }}\n6. Target Language: {{ $json.targetLanguage.trim() }}\n7. Amount of Brand/Product Based Hashtags To Generate:{{ $('Google Sheets Trigger1').item.json['Amount of Brand/Product Hashtags'] }}\n8. Amount of Keyword/Topic Based Hashtags To Generate: {{ $('Google Sheets Trigger1').item.json['Amount of Keyword Hashtags'] }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "={{ $json.systemPrompt }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        1200,
+        1620
+      ],
+      "id": "e022da18-e0f2-43c8-8e1f-63a50d389dde",
+      "name": "Hashtag Generator (Malay)"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1nH1lEOIGBCLqqF2AxLAi3HePoj4nlAdOybV9xDAE_FQ",
+          "mode": "list",
+          "cachedResultName": "[APIFY_TIkTokDataScraper] - RC - TikTok Video Search Scraper Based On Search Keyword",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1nH1lEOIGBCLqqF2AxLAi3HePoj4nlAdOybV9xDAE_FQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1437194623,
+          "mode": "list",
+          "cachedResultName": "Post Title Only",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1nH1lEOIGBCLqqF2AxLAi3HePoj4nlAdOybV9xDAE_FQ/edit#gid=1437194623"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        1200,
+        1900
+      ],
+      "id": "bbbe250e-6cb0-4b0d-8f22-a3643bb3222b",
+      "name": "tiktok_video_data_scraper1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        1060,
+        1820
+      ],
+      "id": "1fb2017b-4b40-40dd-9b8a-dc346ed45ac8",
+      "name": "DeepSeek Chat Model2",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "8Hvjw0JNKmbO191K",
+          "name": "DeepSeekAPI - info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2200,
+        1620
+      ],
+      "id": "6812efe3-2083-4cc0-a0f2-3f3744f4cc9a",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2300,
+        800
+      ],
+      "id": "29094a4d-e270-492d-9ac7-0b34b6355d9c",
+      "name": "Aggregate1"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1LCY984Avk7vsMuEQIn3FLA01vyczXVA8rXlHVZCfp9I",
+          "mode": "list",
+          "cachedResultName": "[May25] N8N AI GSlide Agent - RC Marketing Campaign - Free Trial KOC Shoutout Strategy",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1LCY984Avk7vsMuEQIn3FLA01vyczXVA8rXlHVZCfp9I/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 198557453,
+          "mode": "list",
+          "cachedResultName": "Video & Content Ideas Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1LCY984Avk7vsMuEQIn3FLA01vyczXVA8rXlHVZCfp9I/edit#gid=198557453"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        80,
+        2660
+      ],
+      "id": "c24ca964-8527-417f-96fe-cfafbdf1e736",
+      "name": "Google Sheets Trigger2",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "oMHjbut2VzVQ0VcS",
+          "name": "GSheet Trigger- boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool for searching and collecting sources from ai-based research engine on the provided user input such as brand name and product to focus then summarize the query results as the output response from the tool.",
+        "workflowId": {
+          "__rl": true,
+          "value": "KdAUfF05Oj85t0Vb",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Perplexica AI Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        900,
+        3080
+      ],
+      "id": "65502d40-38de-4f4e-8728-bfa8f6c5c6eb",
+      "name": "ai_brand_research_tool1"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s",
+          "mode": "list",
+          "cachedResultName": "ReadyCare Signature Ecommerce Store Product Listing(Apr2025_Update)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1871117814,
+          "mode": "list",
+          "cachedResultName": "Product Details",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit#gid=1871117814"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        1160,
+        3020
+      ],
+      "id": "94ea9ed2-4906-489a-8607-5fa6803085af",
+      "name": "readyCareProductDetailLists3",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[\n    {\n      \"productName\": \"Biobased Multipurpose Cleaner\"\n    },\n    {\n      \"videoStyles\": [ \"Unboxing videos\", \"Product reviews\", \"How-to videos\", \"Storytelling videos\", \"Freestyle Daily Vlog\", \"Challenges Videos\"],\n      \"contentIdeations\": [\"Showcase products in unboxing videos, providing a detailed look at the product and its features.\", \"Create detailed reviews of products, offering their honest opinions and experiences. \", \"Create vlogs that integrate the product into their daily lives, showing how it fits into their routines and why it's beneficial.\", \"Create short-form videos that are quick and attention-grabbing, making use of trends, challenges, and viral sounds to increase engagement.\"]\n    }\n]"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1300,
+        2940
+      ],
+      "id": "b5aea33c-7415-4f4b-8e74-140d2a775a29",
+      "name": "Structured Output Parser3"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        680,
+        2840
+      ],
+      "id": "8ee1071d-4477-4c01-bd31-144db1de6463",
+      "name": "DeepSeek Chat Model3",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "8Hvjw0JNKmbO191K",
+          "name": "DeepSeekAPI - info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "38acd78b-3c03-4a3d-addc-5640bf74719e",
+              "name": "productName",
+              "value": "={{ $json.productName }}",
+              "type": "string"
+            },
+            {
+              "id": "e1f27c7d-5d41-47af-92fc-41a7e2d75880",
+              "name": "videoStyles",
+              "value": "=- {{ $json.videoStyles.join(\"\\n- \") }}",
+              "type": "string"
+            },
+            {
+              "id": "ec5e049d-d7ce-42ec-9e69-5feb71d17c72",
+              "name": "contentIdeations",
+              "value": "=- {{ $json.contentIdeations.join(\"\\n- \") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1480,
+        2640
+      ],
+      "id": "b52d09d6-0915-4d35-b1bc-23f1e5e2161c",
+      "name": "Edit Fields5"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "49f72e34-84db-46d2-8c88-34e698408586",
+              "name": "sectionName",
+              "value": "={{ $json['Section Name'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        320,
+        2660
+      ],
+      "id": "289a861b-5bd2-43f3-820b-249b009e4972",
+      "name": "Edit Fields6"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1289a38c-f012-4ef1-8eeb-37167ae03135",
+              "leftValue": "={{ $json.sectionName }}",
+              "rightValue": "Video Style & Content Ideation",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        560,
+        2660
+      ],
+      "id": "c89efbb4-bf3e-4d78-a524-5d03e9f41566",
+      "name": "If5"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1nH1lEOIGBCLqqF2AxLAi3HePoj4nlAdOybV9xDAE_FQ",
+          "mode": "list",
+          "cachedResultName": "[APIFY_TIkTokDataScraper] - RC - TikTok Video Search Scraper Based On Search Keyword",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1nH1lEOIGBCLqqF2AxLAi3HePoj4nlAdOybV9xDAE_FQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1437194623,
+          "mode": "list",
+          "cachedResultName": "Post Title Only",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1nH1lEOIGBCLqqF2AxLAi3HePoj4nlAdOybV9xDAE_FQ/edit#gid=1437194623"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        780,
+        2960
+      ],
+      "id": "98730419-9e8a-4e32-8a1a-5d52701e356a",
+      "name": "tiktok_video_data_retriever",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=1. Brand Name: {{ $('Google Sheets Trigger2').first().json['Brand Name'] }}\n2. Products To Focus: {{ $('Google Sheets Trigger2').first().json['Products To Focus'] }}\n3. Target Country: {{ $('Google Sheets Trigger2').first().json['Target Country'] }}\n4. Marketing Strategies To Apply: {{ JSON.stringify($('Google Sheets Trigger2').first().json['Marketing Campaign Strategy'].split(\",\")) }}\n5. Total Video Styles: {{ $('Google Sheets Trigger2').item.json['Total Video Styles'] }}\n6. Total Content Ideation: {{ $('Google Sheets Trigger2').item.json['Total Content Ideation'] }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "={{ $('Google Sheets Trigger2').first().json['System Prompt'] }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        840,
+        2640
+      ],
+      "id": "add1af81-a95c-4978-8335-aecb6468944a",
+      "name": "Video & Content Ideas Generator"
+    },
+    {
+      "parameters": {
+        "description": " Call this tool for quering the marketing trends and knowledge such as marketing techniques, and marketing strategies or methods for TikTok and influencer KOL or KOC marketing strategy would like to apply into the campaign through ai-based web research and get latest knowledge or research such as how it works, use cases, benefits, guidelines, pros & cons and so on.",
+        "workflowId": {
+          "__rl": true,
+          "value": "KdAUfF05Oj85t0Vb",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Perplexica AI Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1040,
+        3100
+      ],
+      "id": "82878442-a1be-49f5-9bf5-23d32c5b2e2b",
+      "name": "ai_knowledge_research_tool1"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1240,
+        2640
+      ],
+      "id": "aa2f7b79-0209-4912-afab-aa2c492d3f58",
+      "name": "Split Out3"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1iRQq9TCFQ6vnOZ7MycJvS8NB2MlwK5eZ1tVWUU11rxA",
+          "mode": "list",
+          "cachedResultName": "[May25] N8N AI GSlide Agent - Video Style & Content Ideation Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iRQq9TCFQ6vnOZ7MycJvS8NB2MlwK5eZ1tVWUU11rxA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iRQq9TCFQ6vnOZ7MycJvS8NB2MlwK5eZ1tVWUU11rxA/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Product Name": "={{ $json.productName }}",
+            "Video Styles": "={{ $json.videoStyles }}",
+            "Content Ideations": "={{ $json.contentIdeations }}"
+          },
+          "matchingColumns": [
+            "Product Name"
+          ],
+          "schema": [
+            {
+              "id": "Product Name",
+              "displayName": "Product Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Video Styles",
+              "displayName": "Video Styles",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Content Ideations",
+              "displayName": "Content Ideations",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1720,
+        2620
+      ],
+      "id": "c005ad9a-36d6-4880-b1a6-ccb181a4130a",
+      "name": "Google Sheets3",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getSlides",
+        "presentationId": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        2720,
+        2620
+      ],
+      "id": "e0a1e7d5-422f-4ee0-991c-874be248854c",
+      "name": "Google Slides4",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "79680056-34ad-45bf-94be-f86f4fca1b28",
+              "leftValue": "={{ $json.pageElements[0].shape.text.textElements[1].textRun.content }}",
+              "rightValue": "[SECTION_NAME]",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        3000,
+        2620
+      ],
+      "id": "035aee71-9bba-408a-b826-2ef753cfabdb",
+      "name": "If6"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        3240,
+        2720
+      ],
+      "id": "0aaa5d59-c9ae-4751-8438-ae4fc3ed6b39",
+      "name": "No Operation, do nothing2"
+    },
+    {
+      "parameters": {
+        "operation": "replaceText",
+        "presentationId": "={{ $('Google Drive9').item.json.id }}",
+        "textUi": {
+          "textValues": [
+            {
+              "pageObjectIds": "={{ $json.objectId }}",
+              "text": "[SECTION_NAME]",
+              "replaceText": "={{ $('Google Sheets Trigger2').first().json['Section Name'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        3220,
+        2480
+      ],
+      "id": "9d21f320-2d07-455d-b8c5-4bdd2d124742",
+      "name": "Google Slides5",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "RC_Bundle_Pack_KOC_Giveaway_Planner",
+        "filter": {
+          "driveId": {
+            "mode": "list",
+            "value": "My Drive"
+          },
+          "folderId": {
+            "__rl": true,
+            "value": "10hgvcLZLxYcwB4yB81ZUveWsEKJMGb1A",
+            "mode": "list",
+            "cachedResultName": "2025 RC Marketing Campaign Planner",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/10hgvcLZLxYcwB4yB81ZUveWsEKJMGb1A"
+          },
+          "whatToSearch": "folders"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2160,
+        2620
+      ],
+      "id": "f8c4f88b-4b08-40ff-a217-edc23b773be2",
+      "name": "Google Drive8",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "Strategy Deck",
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "={{ $json.id }}",
+            "mode": "id"
+          }
+        },
+        "options": {
+          "fields": [
+            "id",
+            "name",
+            "mimeType"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2420,
+        2620
+      ],
+      "id": "ee6afcd4-8fd9-4c8d-a68b-1718643aa6c5",
+      "name": "Google Drive9",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1940,
+        2620
+      ],
+      "id": "d76c8864-b259-4daa-acf5-e1ca7bffe1e5",
+      "name": "Aggregate2"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1LCY984Avk7vsMuEQIn3FLA01vyczXVA8rXlHVZCfp9I",
+          "mode": "list",
+          "cachedResultName": "[May25] N8N AI GSlide Agent - RC Marketing Campaign - Free Trial KOC Shoutout Strategy",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1LCY984Avk7vsMuEQIn3FLA01vyczXVA8rXlHVZCfp9I/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1707296383,
+          "mode": "list",
+          "cachedResultName": "Best Practices Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1LCY984Avk7vsMuEQIn3FLA01vyczXVA8rXlHVZCfp9I/edit#gid=1707296383"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        40,
+        3420
+      ],
+      "id": "d51ad9ce-5bb2-409d-9a71-1a35f7e9b168",
+      "name": "Google Sheets Trigger3",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "oMHjbut2VzVQ0VcS",
+          "name": "GSheet Trigger- boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool for searching and collecting sources from ai-based research engine on the provided user input such as brand name and product to focus then summarize the query results as the output response from the tool.",
+        "workflowId": {
+          "__rl": true,
+          "value": "KdAUfF05Oj85t0Vb",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Perplexica AI Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ $('Google Sheets Trigger3').item.json['Brand Name'] }} {{ $('Google Sheets Trigger3').item.json['Target Country'] }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        780,
+        3740
+      ],
+      "id": "59520f65-b619-4f4d-950b-d51f6775db88",
+      "name": "ai_brand_research_tool2"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[\n    {\n      \"practiceHeadline\": \"Authentic and Relatable Content\",\n      \"practiceDescription\": \"Focus on creating content that is authentic and relatable to your audience. According to successful influencers, 'What’s working best on TikTok is authentic, relatable content that speaks directly to the audience.' This helps in building a genuine connection with your followers.\"\n    },\n    {\n      \"practiceHeadline\": \"Attention-Grabbing Hooks\",\n      \"practiceDescription\": \"The first 3 seconds of your video are crucial. Use a strong hook to capture the viewer's attention, whether it's a question, a quirky visual, a trend, or a catchy sound. This is essential for stopping users mid-scroll and winning favor with the TikTok algorithm.\"\n    },\n    {\n      \"practiceHeadline\": \"Consistent Brand Identity\",\n      \"practiceDescription\": \"Develop a personal brand that is consistent, recognizable, and uniquely yours. A strong brand identity can help you stand out and resonate with various audiences.\"\n    }\n]"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1260,
+        3720
+      ],
+      "id": "236b4945-ee3f-44f4-8c50-5bac6189ec4b",
+      "name": "Structured Output Parser4"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        620,
+        3660
+      ],
+      "id": "a373e22b-f428-424f-92d1-85ccd5a4b9ad",
+      "name": "DeepSeek Chat Model4",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "8Hvjw0JNKmbO191K",
+          "name": "DeepSeekAPI - info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "49f72e34-84db-46d2-8c88-34e698408586",
+              "name": "sectionName",
+              "value": "={{ $json['Section Name'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        280,
+        3420
+      ],
+      "id": "314c4627-e874-4154-ab5c-02d30a91b282",
+      "name": "Edit Fields7"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1289a38c-f012-4ef1-8eeb-37167ae03135",
+              "leftValue": "={{ $json.sectionName }}",
+              "rightValue": "Best Practices",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        520,
+        3420
+      ],
+      "id": "6ead1e08-d07e-458d-8e79-4480dbd44386",
+      "name": "If7"
+    },
+    {
+      "parameters": {
+        "description": " Call this tool for quering the marketing trends and knowledge such as marketing techniques, and marketing strategies or methods for TikTok and influencer KOL or KOC marketing strategy would like to apply into the campaign through ai-based web research and get latest knowledge or research such as how it works, use cases, benefits, guidelines, pros & cons and so on.",
+        "workflowId": {
+          "__rl": true,
+          "value": "KdAUfF05Oj85t0Vb",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Perplexica AI Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        940,
+        3780
+      ],
+      "id": "0e4292a4-ab40-43f6-b7d0-2c30a5c8b70e",
+      "name": "ai_knowledge_research_tool2"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=1. Brand Name: {{ $('Google Sheets Trigger3').first().json['Brand Name'] }}\n2. Products To Focus: {{ $('Google Sheets Trigger3').first().json['Products To Focus'] }}\n3. Target Country: {{ $('Google Sheets Trigger3').first().json['Target Country'] }}\n4. Marketing Strategies To Apply: {{ JSON.stringify($('Google Sheets Trigger3').first().json['Marketing Strategies To Apply'].split(\",\")) }}\n5. Total Practice Headlines To Generate: {{ $('Google Sheets Trigger3').item.json['Total Practice Headlines'] }}\n6. Total Practice Descriptions To Generate: {{ $('Google Sheets Trigger3').item.json['Total Practice Description'] }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "={{ $('Google Sheets Trigger3').first().json['System Prompt'] }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        800,
+        3400
+      ],
+      "id": "06da60c2-4fb5-45b1-9b09-9a9a34433e07",
+      "name": "Best Practices Generator"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to read and retrieve ReadyCare product details lists where it consist of product information such as product name, product features, product description and product variations for practices or guidelines for KOC to promote ReadyCare selected products.",
+        "documentId": {
+          "__rl": true,
+          "value": "1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s",
+          "mode": "list",
+          "cachedResultName": "ReadyCare Signature Ecommerce Store Product Listing(Apr2025_Update)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1871117814,
+          "mode": "list",
+          "cachedResultName": "Product Details",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit#gid=1871117814"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        1100,
+        3760
+      ],
+      "id": "85676d9d-2e04-4e27-933a-f4c6eb9c8fda",
+      "name": "readyCareProductDetailLists4",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getSlides",
+        "presentationId": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        2060,
+        3400
+      ],
+      "id": "f1921a1d-c7af-404d-9dc5-a0a963108810",
+      "name": "Google Slides6",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "79680056-34ad-45bf-94be-f86f4fca1b28",
+              "leftValue": "={{ $json.pageElements[0].shape.text.textElements[1].textRun.content }}",
+              "rightValue": "[SECTION_NAME]",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "5ed75031-29b1-4d36-8162-1859efd9a490",
+              "leftValue": "={{ $json.pageElements[0].shape.text.textElements[1].textRun.content }}",
+              "rightValue": "[DESCRIPTION_KEY_POINTS]",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2340,
+        3400
+      ],
+      "id": "34824c46-dbcb-444c-86be-1c9682015dd2",
+      "name": "If8"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2580,
+        3500
+      ],
+      "id": "15e0a779-96fa-483a-922c-81a75578cddb",
+      "name": "No Operation, do nothing3"
+    },
+    {
+      "parameters": {
+        "operation": "replaceText",
+        "presentationId": "={{ $('Google Drive11').item.json.id }}",
+        "textUi": {
+          "textValues": [
+            {
+              "pageObjectIds": "={{ $json.objectId }}",
+              "text": "[SECTION_NAME]",
+              "replaceText": "={{ $('Google Sheets Trigger3').item.json['Section Name'] }}"
+            },
+            {
+              "pageObjectIds": "={{ $json.objectId }}",
+              "text": "[DESCRIPTION_KEY_POINTS]",
+              "replaceText": "={{ $('Edit Fields8').item.json.bestPracticeList.replaceAll(\"[{\",\"\").replaceAll('\"practiceHeadline\":','- ').replaceAll('\"practiceDescription\":','\\n').replaceAll(\"{\",\"\\n\").replaceAll('\"','').replaceAll(\",\",\"\").replaceAll(\"}\",\"\\n\").replaceAll(\"]\",\"\") }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        2560,
+        3260
+      ],
+      "id": "fbbd5b40-9088-46c6-92e1-9ed85327dd45",
+      "name": "Google Slides7",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "RC_Bundle_Pack_KOC_Giveaway_Planner",
+        "filter": {
+          "driveId": {
+            "mode": "list",
+            "value": "My Drive"
+          },
+          "folderId": {
+            "__rl": true,
+            "value": "10hgvcLZLxYcwB4yB81ZUveWsEKJMGb1A",
+            "mode": "list",
+            "cachedResultName": "2025 RC Marketing Campaign Planner",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/10hgvcLZLxYcwB4yB81ZUveWsEKJMGb1A"
+          },
+          "whatToSearch": "folders"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1500,
+        3400
+      ],
+      "id": "f6706b96-7d0f-45fd-8527-1372b9fcb501",
+      "name": "Google Drive10",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "Strategy Deck",
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "={{ $json.id }}",
+            "mode": "id"
+          }
+        },
+        "options": {
+          "fields": [
+            "id",
+            "name",
+            "mimeType"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1760,
+        3400
+      ],
+      "id": "e9c26309-1510-4490-99fc-27ef2d8760ef",
+      "name": "Google Drive11",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "69f57ba5-dc8b-4050-ae62-65a6fe3873e7",
+              "name": "bestPracticeList",
+              "value": "={{ JSON.stringify($jmespath($json.output,\"[*]\")) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1160,
+        3400
+      ],
+      "id": "d7dc91bd-6b4b-4d94-bacd-1aef1621969b",
+      "name": "Edit Fields8"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1LCY984Avk7vsMuEQIn3FLA01vyczXVA8rXlHVZCfp9I",
+          "mode": "list",
+          "cachedResultName": "[May25] N8N AI GSlide Agent - RC Marketing Campaign - Free Trial KOC Shoutout Strategy",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1LCY984Avk7vsMuEQIn3FLA01vyczXVA8rXlHVZCfp9I/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1622382008,
+          "mode": "list",
+          "cachedResultName": "Ad Planning Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1LCY984Avk7vsMuEQIn3FLA01vyczXVA8rXlHVZCfp9I/edit#gid=1622382008"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -20,
+        4260
+      ],
+      "id": "70d9eb50-b0c1-49b5-980e-58616bb42de8",
+      "name": "Google Sheets Trigger4",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "oMHjbut2VzVQ0VcS",
+          "name": "GSheet Trigger- boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool for searching and collecting sources from ai-based research engine on the provided user input such as brand name and product to focus then summarize the query results as the output response from the tool.",
+        "workflowId": {
+          "__rl": true,
+          "value": "KdAUfF05Oj85t0Vb",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Perplexica AI Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ $('Google Sheets Trigger4').item.json['Brand Name'] }} {{ $('Google Sheets Trigger4').item.json['Target Country'] }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        540,
+        4600
+      ],
+      "id": "9cfdfcc3-b451-4f0a-b74d-211779d5d855",
+      "name": "ai_brand_research_tool3"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": " [\n    {\n      \"funnelLevel\": \"Top Funnel\",\n      \"campaignLevel\": {\n          \"advertisingObjective\": \"Traffic\",\n          \"optimizationGoal\": \"Purchase\"\n        },\n      \"adgroupLevel\": {\n          \"targetLocations\": [\"Perak,Malaysia\", \"Selangor,Malaysia\", \"Penang,Malaysia\"],\n          \"targetAgeRange\": [\"25-34\", \"35-44\", \"45-54\", \"55+\"],\n          \"targetGender\": \"Female\",\n          \"targetLanguage\": [\"English\", \"Malay\"],\n          \"targetInterest\": [\"Laundry\", \"Cleaning Appliances\", \"Detergents\", \"Dishwashers\"]\n      },\n      \"adLevel\": {\n          \"angle\": [\"Female household who have skin allergy and sensitive about chemical based cleaning agent, detergent and dishwashing liquid\", \"Mother who have children with their children have skin allergy and sensitive about laundry liquid, chemical based cleaning agent, detergent and dishwashing liquid\", \"Female consumers who support eco-green cleaning solutions or products and care about green solutions\"],\n          \"adFormat\": [\"Video\", \"Carousel\", \"Image\"]\n        }\n    } ,\n    {\n      \"funnelLevel\": \"Mid Funnel\",\n      \"campaignLevel\": {\n          \"advertisingObjective\": \"Web Conversion\",\n          \"optimizationGoal\": \"Purchase\"\n        },\n      \"adgroupLevel\": {\n          \"targetLocations\": [\"Perak,Malaysia\", \"Selangor,Malaysia\", \"Penang,Malaysia\"],\n          \"targetAgeRange\": [\"25-34\", \"35-44\", \"45-54\", \"55+\"],\n          \"targetGender\": \"Female\",\n          \"targetLanguage\": [\"English\", \"Malay\"],\n          \"targetInterest\": [\"Laundry\", \"Cleaning Appliances\", \"Detergents\", \"Dishwashers\"]\n      },\n      \"adLevel\": {\n          \"angle\": [\"Female household who have skin allergy and sensitive about chemical based cleaning agent, detergent and dishwashing liquid\", \"Mother who have children with their children have skin allergy and sensitive about laundry liquid, chemical based cleaning agent, detergent and dishwashing liquid\", \"Female consumers who support eco-green cleaning solutions or products and care about green solutions\"],\n           \"adFormat\": [\"Video\", \"Carousel\", \"Image\"]\n      } \n  },\n  {\n      \"funnelLevel\": \"Bottom Funnel\",\n      \"campaignLevel\": {\n          \"advertisingObjective\": \"Web Conversion\",\n          \"optimizationGoal\": \"Purchase\"\n        },\n      \"adgroupLevel\": {\n          \"targetLocations\": [\"Perak,Malaysia\", \"Selangor,Malaysia\", \"Penang,Malaysia\"],\n          \"targetAgeRange\": [\"25-34\", \"35-44\", \"45-54\", \"55+\"],\n          \"targetGender\": \"Female\",\n          \"targetLanguage\": [\"English\", \"Malay\"],\n          \"targetInterest\": [\"Laundry\", \"Cleaning Appliances\", \"Detergents\", \"Dishwashers\"]\n      },\n      \"adLevel\": {\n          \"angle\": [\"Female household who have skin allergy and sensitive about chemical based cleaning agent, detergent and dishwashing liquid\", \"Mother who have children with their children have skin allergy and sensitive about laundry liquid, chemical based cleaning agent, detergent and dishwashing liquid\", \"Female consumers who support eco-green cleaning solutions or products and care about green solutions\"],\n           \"adFormat\": [\"Video\", \"Carousel\", \"Image\"]\n      } \n  }\n]"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1120,
+        4540
+      ],
+      "id": "c6ce589f-4866-4dc7-80cc-2028a18c94ea",
+      "name": "Structured Output Parser5"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        440,
+        4500
+      ],
+      "id": "1927b852-523a-4646-87f6-06453101c3ab",
+      "name": "DeepSeek Chat Model5",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "8Hvjw0JNKmbO191K",
+          "name": "DeepSeekAPI - info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "49f72e34-84db-46d2-8c88-34e698408586",
+              "name": "sectionName",
+              "value": "={{ $json['Section Name'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        220,
+        4260
+      ],
+      "id": "9e9aa6c2-d6aa-4bc6-b0c0-162940d0e099",
+      "name": "Edit Fields9"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1289a38c-f012-4ef1-8eeb-37167ae03135",
+              "leftValue": "={{ $json.sectionName }}",
+              "rightValue": "Ad Planning",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        460,
+        4260
+      ],
+      "id": "d2bf9e8e-ec92-4f8c-81fb-1814d9634206",
+      "name": "If9"
+    },
+    {
+      "parameters": {
+        "description": " Call this tool for quering the marketing trends and knowledge such as marketing techniques, and marketing strategies or methods for TikTok and influencer KOL or KOC marketing strategy would like to apply into the campaign through ai-based web research and get latest knowledge or research such as how it works, use cases, benefits, guidelines, pros & cons and so on.",
+        "workflowId": {
+          "__rl": true,
+          "value": "KdAUfF05Oj85t0Vb",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Perplexica AI Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        700,
+        4640
+      ],
+      "id": "43bd522a-0a5e-4e2a-bca6-500229fc38da",
+      "name": "ai_knowledge_research_tool3"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to read and retrieve ReadyCare product details lists where it consist of product information such as product name, product features, product description and product variations for practices or guidelines for KOC to promote ReadyCare selected products.",
+        "documentId": {
+          "__rl": true,
+          "value": "1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s",
+          "mode": "list",
+          "cachedResultName": "ReadyCare Signature Ecommerce Store Product Listing(Apr2025_Update)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1871117814,
+          "mode": "list",
+          "cachedResultName": "Product Details",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit#gid=1871117814"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        940,
+        4620
+      ],
+      "id": "86c8df02-7ed5-4b2a-b24e-23796643214e",
+      "name": "readyCareProductDetailLists5",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=1. Brand Name: {{ $('Google Sheets Trigger4').first().json['Brand Name'] }}\n2. Products To Focus: {{ $('Google Sheets Trigger4').first().json['Products To Focus'] }}\n3. Target Country: {{ $('Google Sheets Trigger4').first().json['Target Country'] }}\n4. Marketing Strategies To Apply: {{ JSON.stringify($('Google Sheets Trigger4').first().json['Marketing Strategies To Apply'].split(\",\")) }}\n5. Product Bundling Strategies: {{ $('Google Sheets Trigger4').item.json['Bundle strategy Per Product'] }}\n",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "={{ $('Google Sheets Trigger4').first().json['System Prompt'] }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        740,
+        4240
+      ],
+      "id": "ce21e089-d457-4251-b7ca-fcfc82a7eb99",
+      "name": "Ad Planning Generator"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1160,
+        4240
+      ],
+      "id": "872779bd-38df-4f01-928d-132cbfe2ca55",
+      "name": "Split Out4"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1wb1TFMUTyRQdkFnzYwxkCmcKmv2YF61gdaADBuWe_d8",
+          "mode": "list",
+          "cachedResultName": "[May25] N8N AI GSlide Agent -  Ad Planning Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wb1TFMUTyRQdkFnzYwxkCmcKmv2YF61gdaADBuWe_d8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1wb1TFMUTyRQdkFnzYwxkCmcKmv2YF61gdaADBuWe_d8/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Funnel Level": "={{ $json.funnelLevel }}",
+            "Campaign Level": "={{ $json.campaignLevel }}",
+            "Adgroup Level": "={{ $json.adgroupLevel }}",
+            "Ad Level": "={{ $json.adLevel }}"
+          },
+          "matchingColumns": [
+            "Funnel Level"
+          ],
+          "schema": [
+            {
+              "id": "Funnel Level",
+              "displayName": "Funnel Level",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Campaign Level",
+              "displayName": "Campaign Level",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Adgroup Level",
+              "displayName": "Adgroup Level",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Level",
+              "displayName": "Ad Level",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1620,
+        4220
+      ],
+      "id": "5aeaef72-b78b-4737-8f63-462480122d70",
+      "name": "Google Sheets4",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getSlides",
+        "presentationId": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        2620,
+        4220
+      ],
+      "id": "07343f5b-863c-4563-ba8b-3bef94e75143",
+      "name": "Google Slides8",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "79680056-34ad-45bf-94be-f86f4fca1b28",
+              "leftValue": "={{ $json.pageElements[0].shape.text.textElements[1].textRun.content }}",
+              "rightValue": "[SECTION_NAME]",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2900,
+        4220
+      ],
+      "id": "97cf9b7b-2143-4369-8e2c-7b9c296c2701",
+      "name": "If10"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        3140,
+        4320
+      ],
+      "id": "3654fc95-1644-4392-9f80-dec5cde97358",
+      "name": "No Operation, do nothing4"
+    },
+    {
+      "parameters": {
+        "operation": "replaceText",
+        "presentationId": "={{ $('Google Drive13').item.json.id }}",
+        "textUi": {
+          "textValues": [
+            {
+              "pageObjectIds": "={{ $json.objectId }}",
+              "text": "[SECTION_NAME]",
+              "replaceText": "={{ $('Google Sheets Trigger4').first().json['Section Name'] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        3120,
+        4080
+      ],
+      "id": "cc1fb4b4-971e-4189-b980-c9aef39d0a6a",
+      "name": "Google Slides9",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "RC_Bundle_Pack_KOC_Giveaway_Planner",
+        "filter": {
+          "driveId": {
+            "mode": "list",
+            "value": "My Drive"
+          },
+          "folderId": {
+            "__rl": true,
+            "value": "10hgvcLZLxYcwB4yB81ZUveWsEKJMGb1A",
+            "mode": "list",
+            "cachedResultName": "2025 RC Marketing Campaign Planner",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/10hgvcLZLxYcwB4yB81ZUveWsEKJMGb1A"
+          },
+          "whatToSearch": "folders"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2060,
+        4220
+      ],
+      "id": "6ea8cd25-b3d9-43a5-971b-76e5f1368809",
+      "name": "Google Drive12",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "Strategy Deck",
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "={{ $json.id }}",
+            "mode": "id"
+          }
+        },
+        "options": {
+          "fields": [
+            "id",
+            "name",
+            "mimeType"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2320,
+        4220
+      ],
+      "id": "fd5cd674-eb1b-458b-aebf-c5638ffd1084",
+      "name": "Google Drive13",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1840,
+        4220
+      ],
+      "id": "c6e755e5-9d5c-49a2-aa55-059b3ff6d6df",
+      "name": "Aggregate3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "38acd78b-3c03-4a3d-addc-5640bf74719e",
+              "name": "funnelLevel",
+              "value": "={{ $json.funnelLevel }}",
+              "type": "string"
+            },
+            {
+              "id": "e1f27c7d-5d41-47af-92fc-41a7e2d75880",
+              "name": "campaignLevel",
+              "value": "=1. Advertising Objective: {{ $json.campaignLevel.advertisingObjective }}\n2.OptimizationGoal: {{ $json.campaignLevel.optimizationGoal }}",
+              "type": "string"
+            },
+            {
+              "id": "ec5e049d-d7ce-42ec-9e69-5feb71d17c72",
+              "name": "adgroupLevel",
+              "value": "=1. Target Locations: \n- {{ $json.adgroupLevel.targetLocations.join(\"\\n- \") }}\n2. Target Age Range:\n- {{ $json.adgroupLevel.targetAgeRange.join(\"\\n- \") }}\n3. Target Gender: {{ $json.adgroupLevel.targetGender }}\n4. Target Language: {{ $json.adgroupLevel.targetLanguage.join(\", \") }}\n5. Target Interests:\n- {{ $json.adgroupLevel.targetInterest.join(\"\\n- \") }}",
+              "type": "string"
+            },
+            {
+              "id": "4a7f03e0-e8d8-407b-8640-6c88c16709a4",
+              "name": "adLevel",
+              "value": "=1. Ad Angles: \n- {{ $json.adLevel.angle.join(\"\\n- \") }}\n2. Ad Formats:{{ $json.adLevel.adFormat.join(\", \") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1380,
+        4240
+      ],
+      "id": "609062a0-b504-4586-b148-f23a7d127198",
+      "name": "Edit Fields10"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1LCY984Avk7vsMuEQIn3FLA01vyczXVA8rXlHVZCfp9I",
+          "mode": "list",
+          "cachedResultName": "[May25] N8N AI GSlide Agent - RC Marketing Campaign - Free Trial KOC Shoutout Strategy",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1LCY984Avk7vsMuEQIn3FLA01vyczXVA8rXlHVZCfp9I/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 131099846,
+          "mode": "list",
+          "cachedResultName": "Post-collaboration Steps Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1LCY984Avk7vsMuEQIn3FLA01vyczXVA8rXlHVZCfp9I/edit#gid=131099846"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -120,
+        5040
+      ],
+      "id": "8f18d4ab-3c64-432b-b86f-f99317edc848",
+      "name": "Google Sheets Trigger5",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "oMHjbut2VzVQ0VcS",
+          "name": "GSheet Trigger- boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool for searching and collecting sources from ai-based research engine on the provided user input such as brand name and product to focus then summarize the query results as the output response from the tool.",
+        "workflowId": {
+          "__rl": true,
+          "value": "KdAUfF05Oj85t0Vb",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Perplexica AI Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ $('Google Sheets Trigger5').item.json['Brand Name'] }} {{ $('Google Sheets Trigger5').item.json['Target Country'] }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        620,
+        5360
+      ],
+      "id": "05a2a5c7-eea4-4988-82f2-48686073e80b",
+      "name": "ai_brand_research_tool4"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": " [\n    {\n      \"recommendationHeadline\": \"Regularly putting call-to-action in the KOCs TikTok account posting\",\n      \"practiceDescription\": \"Using call-to-action (CTA) prompts and direct messages to encourage interaction from their audience.\"\n    },\n    {\n      \"recommendationHeadline\": \"Use TikTok available creative feature such as Brand and product tagging\",\n      \"recommendationDescription\": \"By using TikTok brand tagging feature link back to Readycare’s TikTok for maximum visibility.\"\n    }\n   ]"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1100,
+        5360
+      ],
+      "id": "896c5318-9b69-4acc-82bb-fd3ce01951c3",
+      "name": "Structured Output Parser6"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        460,
+        5280
+      ],
+      "id": "203d64b7-8550-42fe-8cdb-413588cf1248",
+      "name": "DeepSeek Chat Model6",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "8Hvjw0JNKmbO191K",
+          "name": "DeepSeekAPI - info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "49f72e34-84db-46d2-8c88-34e698408586",
+              "name": "sectionName",
+              "value": "={{ $json['Section Name'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        120,
+        5040
+      ],
+      "id": "c3fa5eac-2576-4817-8241-6bd02f2f3049",
+      "name": "Edit Fields11"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1289a38c-f012-4ef1-8eeb-37167ae03135",
+              "leftValue": "={{ $json.sectionName }}",
+              "rightValue": "Post-collaboration",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        360,
+        5040
+      ],
+      "id": "c964f099-e20d-4d37-ba2f-ba2a1846c03e",
+      "name": "If11"
+    },
+    {
+      "parameters": {
+        "description": " Call this tool for quering the marketing trends and knowledge such as marketing techniques, and marketing strategies or methods for TikTok and influencer KOL or KOC marketing strategy would like to apply into the campaign through ai-based web research and get latest knowledge or research such as how it works, use cases, benefits, guidelines, pros & cons and so on.",
+        "workflowId": {
+          "__rl": true,
+          "value": "KdAUfF05Oj85t0Vb",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Perplexica AI Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        780,
+        5400
+      ],
+      "id": "e4067f7e-502b-44de-b5ae-8f72bd5d58e0",
+      "name": "ai_knowledge_research_tool4"
+    },
+    {
+      "parameters": {
+        "operation": "getSlides",
+        "presentationId": "={{ $json.id }}"
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        1960,
+        5080
+      ],
+      "id": "ab2dca5d-f2c7-479a-a848-e5977c7e5947",
+      "name": "Google Slides10",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "79680056-34ad-45bf-94be-f86f4fca1b28",
+              "leftValue": "={{ $json.pageElements[0].shape.text.textElements[1].textRun.content }}",
+              "rightValue": "[SECTION_NAME]",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "5ed75031-29b1-4d36-8162-1859efd9a490",
+              "leftValue": "={{ $json.pageElements[0].shape.text.textElements[1].textRun.content }}",
+              "rightValue": "[DESCRIPTION_KEY_POINTS]",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2200,
+        5080
+      ],
+      "id": "a6f6ba7b-83d5-4ffe-b071-b1588a7843bb",
+      "name": "If12"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2420,
+        5120
+      ],
+      "id": "c936ddfb-f507-4831-a6f9-9a42ddd4e004",
+      "name": "No Operation, do nothing5"
+    },
+    {
+      "parameters": {
+        "operation": "replaceText",
+        "presentationId": "={{ $('Google Drive15').item.json.id }}",
+        "textUi": {
+          "textValues": [
+            {
+              "pageObjectIds": "={{ $json.objectId }}",
+              "text": "[SECTION_NAME]",
+              "replaceText": "={{ $('Google Sheets Trigger5').item.json['Section Name'] }}"
+            },
+            {
+              "pageObjectIds": "={{ $json.objectId }}",
+              "text": "[DESCRIPTION_KEY_POINTS]",
+              "replaceText": "={{ $('Edit Fields12').item.json.bestPracticeList.replaceAll(\"[{\",\"\").replaceAll('\"recommendationHeadline\":','- ').replaceAll('\"recommendationDescription\":','\\n').replaceAll(\"{\",\"\\n\").replaceAll('\"','').replaceAll(\",\",\"\").replaceAll(\"}\",\"\\n\").replaceAll(\"]\",\"\") }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSlides",
+      "typeVersion": 2,
+      "position": [
+        2400,
+        4880
+      ],
+      "id": "62d9b3dc-903e-4505-a458-172578542984",
+      "name": "Google Slides11",
+      "credentials": {
+        "googleSlidesOAuth2Api": {
+          "id": "UttAUbRkOySiEVc5",
+          "name": "GSlides Acc(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "RC_Bundle_Pack_KOC_Giveaway_Planner",
+        "filter": {
+          "driveId": {
+            "mode": "list",
+            "value": "My Drive"
+          },
+          "folderId": {
+            "__rl": true,
+            "value": "10hgvcLZLxYcwB4yB81ZUveWsEKJMGb1A",
+            "mode": "list",
+            "cachedResultName": "2025 RC Marketing Campaign Planner",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/10hgvcLZLxYcwB4yB81ZUveWsEKJMGb1A"
+          },
+          "whatToSearch": "folders"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1400,
+        5080
+      ],
+      "id": "4f4575c4-17d2-4519-bd3a-84cf40ed4061",
+      "name": "Google Drive14",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "Strategy Deck",
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "={{ $json.id }}",
+            "mode": "id"
+          }
+        },
+        "options": {
+          "fields": [
+            "id",
+            "name",
+            "mimeType"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1660,
+        5080
+      ],
+      "id": "1dc1eedb-4a61-49d0-93c9-942c37325988",
+      "name": "Google Drive15",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "69f57ba5-dc8b-4050-ae62-65a6fe3873e7",
+              "name": "bestPracticeList",
+              "value": "={{ JSON.stringify($jmespath($json.output,\"[*]\")) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1140,
+        5060
+      ],
+      "id": "da442072-40fc-473b-9a30-c8b08a8df2a3",
+      "name": "Edit Fields12"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        920,
+        5400
+      ],
+      "id": "2cac5bf7-ff6a-43bc-b494-131cd4252f39",
+      "name": "Think"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=1. Brand Name: {{ $('Google Sheets Trigger5').first().json['Brand Name'] }}\n2. Products To Focus: {{ $('Google Sheets Trigger5').first().json['Products To Focus'] }}\n3. Target Country: {{ $('Google Sheets Trigger5').first().json['Target Country'] }}\n4. Marketing Strategies To Apply: {{ JSON.stringify($('Google Sheets Trigger5').first().json['Marketing Strategies To Apply'].split(\",\")) }}\n5. Total Post-collaboration Recomeendations To Generate: {{ $('Google Sheets Trigger5').item.json['Total Recommendations'] }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "={{ $('Google Sheets Trigger5').first().json['System Prompt'] }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        680,
+        5060
+      ],
+      "id": "a9406db6-7c2b-4995-ac44-4ac75130ed36",
+      "name": "Post-collaboration Steps Generator"
+    }
+  ],
+  "connections": {
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "web_content_scraper_tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Key Talking Points Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_brand_research_tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Key Talking Points Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "readyCareProductDetailLists": {
+      "ai_tool": [
+        [
+          {
+            "node": "Key Talking Points Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_knowledge_research_tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Key Talking Points Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Key Talking Points Generator",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Key Talking Points Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Key Talking Points Generator": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Google Drive1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive1": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Copy The Presentation Template",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Presentation ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Presentation ID": {
+      "main": [
+        [
+          {
+            "node": "Segment Based On Slide Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Segment Based On Slide Type": {
+      "main": [
+        [
+          {
+            "node": "Replace Text In Introduction Slide",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Replace Text in Sequence Slide",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Presentation ID1": {
+      "main": [
+        [
+          {
+            "node": "Segment Based On Slide Type1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Segment Based On Slide Type1": {
+      "main": [
+        [
+          {
+            "node": "Replace Text In Introduction Slide1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Replace Text In Sequence Slide",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Copy The Presentation Template": {
+      "main": [
+        [
+          {
+            "node": "Get Presentation ID1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "readyCareProductDetailLists1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Hashtag Generator (English)",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Hashtag Generator (English)",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Hashtag Generator (English)",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Key Talking Points Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Hashtag Generator (English)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Hashtag Generator (Malay)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hashtag Generator (English)": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "tiktok_video_data_scraper": {
+      "ai_tool": [
+        [
+          {
+            "node": "Hashtag Generator (English)",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Text In Introduction Slide": {
+      "main": [
+        []
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Aggregate1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Slides": {
+      "main": [
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "Google Slides1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive4": {
+      "main": [
+        [
+          {
+            "node": "Google Drive5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive5": {
+      "main": [
+        [
+          {
+            "node": "Google Slides",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "readyCareProductDetailLists2": {
+      "ai_tool": [
+        [
+          {
+            "node": "Hashtag Generator (Malay)",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser2": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Hashtag Generator (Malay)",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Slides2": {
+      "main": [
+        [
+          {
+            "node": "If4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If4": {
+      "main": [
+        [
+          {
+            "node": "Google Slides3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive6": {
+      "main": [
+        [
+          {
+            "node": "Google Drive7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive7": {
+      "main": [
+        [
+          {
+            "node": "Google Slides2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hashtag Generator (Malay)": {
+      "main": [
+        [
+          {
+            "node": "Split Out2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "tiktok_video_data_scraper1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Hashtag Generator (Malay)",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Hashtag Generator (Malay)",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Google Drive6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate1": {
+      "main": [
+        [
+          {
+            "node": "Google Drive4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets Trigger2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_brand_research_tool1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Video & Content Ideas Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "readyCareProductDetailLists3": {
+      "ai_tool": [
+        [
+          {
+            "node": "Video & Content Ideas Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser3": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Video & Content Ideas Generator",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Video & Content Ideas Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields5": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields6": {
+      "main": [
+        [
+          {
+            "node": "If5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If5": {
+      "main": [
+        [
+          {
+            "node": "Video & Content Ideas Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "tiktok_video_data_retriever": {
+      "ai_tool": [
+        [
+          {
+            "node": "Video & Content Ideas Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Video & Content Ideas Generator": {
+      "main": [
+        [
+          {
+            "node": "Split Out3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_knowledge_research_tool1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Video & Content Ideas Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets3": {
+      "main": [
+        [
+          {
+            "node": "Aggregate2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Slides4": {
+      "main": [
+        [
+          {
+            "node": "If6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If6": {
+      "main": [
+        [
+          {
+            "node": "Google Slides5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive8": {
+      "main": [
+        [
+          {
+            "node": "Google Drive9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive9": {
+      "main": [
+        [
+          {
+            "node": "Google Slides4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate2": {
+      "main": [
+        [
+          {
+            "node": "Google Drive8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets Trigger3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_brand_research_tool2": {
+      "ai_tool": [
+        [
+          {
+            "node": "Best Practices Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser4": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Best Practices Generator",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Best Practices Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields7": {
+      "main": [
+        [
+          {
+            "node": "If7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If7": {
+      "main": [
+        [
+          {
+            "node": "Best Practices Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_knowledge_research_tool2": {
+      "ai_tool": [
+        [
+          {
+            "node": "Best Practices Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Best Practices Generator": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "readyCareProductDetailLists4": {
+      "ai_tool": [
+        [
+          {
+            "node": "Best Practices Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Slides6": {
+      "main": [
+        [
+          {
+            "node": "If8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If8": {
+      "main": [
+        [
+          {
+            "node": "Google Slides7",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive10": {
+      "main": [
+        [
+          {
+            "node": "Google Drive11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive11": {
+      "main": [
+        [
+          {
+            "node": "Google Slides6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields8": {
+      "main": [
+        [
+          {
+            "node": "Google Drive10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets Trigger4": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_brand_research_tool3": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Planning Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser5": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Ad Planning Generator",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Ad Planning Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields9": {
+      "main": [
+        [
+          {
+            "node": "If9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If9": {
+      "main": [
+        [
+          {
+            "node": "Ad Planning Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_knowledge_research_tool3": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Planning Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "readyCareProductDetailLists5": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ad Planning Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ad Planning Generator": {
+      "main": [
+        [
+          {
+            "node": "Split Out4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out4": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets4": {
+      "main": [
+        [
+          {
+            "node": "Aggregate3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Slides8": {
+      "main": [
+        [
+          {
+            "node": "If10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If10": {
+      "main": [
+        [
+          {
+            "node": "Google Slides9",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive12": {
+      "main": [
+        [
+          {
+            "node": "Google Drive13",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive13": {
+      "main": [
+        [
+          {
+            "node": "Google Slides8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate3": {
+      "main": [
+        [
+          {
+            "node": "Google Drive12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields10": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets Trigger5": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_brand_research_tool4": {
+      "ai_tool": [
+        [
+          {
+            "node": "Post-collaboration Steps Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser6": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Post-collaboration Steps Generator",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model6": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Post-collaboration Steps Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields11": {
+      "main": [
+        [
+          {
+            "node": "If11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If11": {
+      "main": [
+        [
+          {
+            "node": "Post-collaboration Steps Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_knowledge_research_tool4": {
+      "ai_tool": [
+        [
+          {
+            "node": "Post-collaboration Steps Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Slides10": {
+      "main": [
+        [
+          {
+            "node": "If12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If12": {
+      "main": [
+        [
+          {
+            "node": "Google Slides11",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive14": {
+      "main": [
+        [
+          {
+            "node": "Google Drive15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive15": {
+      "main": [
+        [
+          {
+            "node": "Google Slides10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields12": {
+      "main": [
+        [
+          {
+            "node": "Google Drive14",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think": {
+      "ai_tool": [
+        [
+          {
+            "node": "Post-collaboration Steps Generator",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Post-collaboration Steps Generator": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:Google Sheets Trigger": {
+      "documentId": "1LCY984Avk7vsMuEQIn3FLA01vyczXVA8rXlHVZCfp9I",
+      "sheetId": 0,
+      "lastRevision": 292,
+      "lastRevisionLink": "https://docs.google.com/spreadsheets/export?id=1LCY984Avk7vsMuEQIn3FLA01vyczXVA8rXlHVZCfp9I&revision=292&exportFormat=xlsx"
+    },
+    "node:Google Sheets Trigger1": {
+      "documentId": "1LCY984Avk7vsMuEQIn3FLA01vyczXVA8rXlHVZCfp9I",
+      "sheetId": 78908623,
+      "lastRevision": 292,
+      "lastRevisionLink": "https://docs.google.com/spreadsheets/export?id=1LCY984Avk7vsMuEQIn3FLA01vyczXVA8rXlHVZCfp9I&revision=292&exportFormat=xlsx"
+    },
+    "node:Google Sheets Trigger2": {
+      "documentId": "1LCY984Avk7vsMuEQIn3FLA01vyczXVA8rXlHVZCfp9I",
+      "sheetId": 198557453,
+      "lastRevision": 292,
+      "lastRevisionLink": "https://docs.google.com/spreadsheets/export?id=1LCY984Avk7vsMuEQIn3FLA01vyczXVA8rXlHVZCfp9I&revision=292&exportFormat=xlsx"
+    },
+    "node:Google Sheets Trigger3": {
+      "documentId": "1LCY984Avk7vsMuEQIn3FLA01vyczXVA8rXlHVZCfp9I",
+      "sheetId": 1707296383,
+      "lastRevision": 292,
+      "lastRevisionLink": "https://docs.google.com/spreadsheets/export?id=1LCY984Avk7vsMuEQIn3FLA01vyczXVA8rXlHVZCfp9I&revision=292&exportFormat=xlsx"
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Hashtag Generator (English)": [
+      {
+        "json": {
+          "output": {
+            "language": "English",
+            "keywordList": [
+              {
+                "searchKeyword": "Multipurpose Cleaner",
+                "brandProductHashtags": [
+                  "#ReadyCareSignature",
+                  "#RCSignature",
+                  "#BiobasedMultipurposeCleaner"
+                ],
+                "topicRelatedHashtags": [
+                  "#multipurposecleaner",
+                  "#cleaninghacks",
+                  "#homecleaning",
+                  "#stainremover",
+                  "#cleaningtips",
+                  "#ecofriendly",
+                  "#greasecleaner",
+                  "#cleaningmotivation",
+                  "#householdproducts",
+                  "#cleaningvideos"
+                ]
+              },
+              {
+                "searchKeyword": "Laundry Detergent",
+                "brandProductHashtags": [
+                  "#ReadyCareSignature",
+                  "#RCSignature",
+                  "#BiobasedLaundryDetergent"
+                ],
+                "topicRelatedHashtags": [
+                  "#laundrydetergent",
+                  "#laundryday",
+                  "#laundryhacks",
+                  "#ecofriendly",
+                  "#gentlecleaning",
+                  "#veganproducts",
+                  "#hypoallergenic",
+                  "#babycare",
+                  "#cleaningtips",
+                  "#stainremoval"
+                ]
+              },
+              {
+                "searchKeyword": "Dishwashing Liquid",
+                "brandProductHashtags": [
+                  "#ReadyCareSignature",
+                  "#RCSignature",
+                  "#BiobasedDishwashingLiquid"
+                ],
+                "topicRelatedHashtags": [
+                  "#dishwashingliquid",
+                  "#kitchencleaning",
+                  "#ecofriendly",
+                  "#veganproducts",
+                  "#gentlecleaning",
+                  "#cleaninghacks",
+                  "#kitchenhacks",
+                  "#dishwashing",
+                  "#cleaningtips",
+                  "#stainremover"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "Hashtag Generator (Malay)": [
+      {
+        "json": {
+          "output": {
+            "language": "Malay",
+            "keywordList": [
+              {
+                "searchKeyword": "Multipurpose Cleaner",
+                "brandProductHashtags": [
+                  "#ReadyCareSignature",
+                  "#RCSignature",
+                  "#BiobasedMultipurposeCleaner"
+                ],
+                "topicRelatedHashtags": [
+                  "#pembersihserbaguna",
+                  "#multipurposecleaner",
+                  "#pembersihrumah",
+                  "#cleaningspray",
+                  "#stainremover",
+                  "#pembersihkerak",
+                  "#cleaninghacks",
+                  "#rumahbersih",
+                  "#mesraalam",
+                  "#produkmesraalam"
+                ]
+              },
+              {
+                "searchKeyword": "Laundry Detergent",
+                "brandProductHashtags": [
+                  "#ReadyCareSignature",
+                  "#RCSignature",
+                  "#BiobasedBabyLaundryDetergent"
+                ],
+                "topicRelatedHashtags": [
+                  "#detergenpakaian",
+                  "#laundrydetergent",
+                  "#pencucipakaian",
+                  "#mesraalam",
+                  "#produkmesraalam",
+                  "#rumahbersih",
+                  "#stainremover",
+                  "#cleaninghacks",
+                  "#pembersihpakaian",
+                  "#laundryday"
+                ]
+              },
+              {
+                "searchKeyword": "Dishwashing Liquid",
+                "brandProductHashtags": [
+                  "#ReadyCareSignature",
+                  "#RCSignature",
+                  "#BiobasedDishwashingLiquid"
+                ],
+                "topicRelatedHashtags": [
+                  "#pencucipiring",
+                  "#dishwashingliquid",
+                  "#pembersihdapur",
+                  "#mesraalam",
+                  "#produkmesraalam",
+                  "#rumahbersih",
+                  "#stainremover",
+                  "#cleaninghacks",
+                  "#pembersihkerak",
+                  "#dapurbersih"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "Video & Content Ideas Generator": [
+      {
+        "json": {
+          "output": [
+            {
+              "productName": "Biobased Multipurpose Cleaner",
+              "videoStyles": [
+                "Unboxing videos",
+                "Product reviews",
+                "How-to videos",
+                "Storytelling videos"
+              ],
+              "contentIdeations": [
+                "Showcase the product in unboxing videos, highlighting its eco-friendly packaging and features.",
+                "Create detailed reviews of the product, emphasizing its effectiveness in cleaning tough stains and its safety for families.",
+                "Demonstrate how to use the product in various cleaning scenarios, such as kitchen counters or bathroom tiles.",
+                "Share personal stories or testimonials about how the product has made cleaning easier and more sustainable."
+              ]
+            },
+            {
+              "productName": "Biobased Baby Laundry Detergent",
+              "videoStyles": [
+                "Day-in-the-life vlogs",
+                "Challenges videos",
+                "Before-and-after videos",
+                "Q&A videos"
+              ],
+              "contentIdeations": [
+                "Feature the product in day-in-the-life vlogs, showing how it fits into a parent's laundry routine.",
+                "Create a challenge video, such as 'Can this detergent remove tough baby stains in one wash?'.",
+                "Show before-and-after comparisons of baby clothes washed with the product.",
+                "Host a Q&A session answering common questions about the product's safety and effectiveness."
+              ]
+            },
+            {
+              "productName": "Biobased Dishwashing Liquid",
+              "videoStyles": [
+                "Tutorial videos",
+                "Comparison videos",
+                "Behind-the-scenes videos",
+                "User-generated content"
+              ],
+              "contentIdeations": [
+                "Produce tutorial videos on how to use the product for different types of dishes and kitchenware.",
+                "Compare the product with conventional dishwashing liquids, highlighting its eco-friendly benefits.",
+                "Share behind-the-scenes content of the product's production process to emphasize its sustainability.",
+                "Encourage users to share their own videos using the product, creating a community around eco-friendly cleaning."
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "Best Practices Generator": [
+      {
+        "json": {
+          "output": [
+            {
+              "practiceHeadline": "Highlight Eco-Friendly Benefits",
+              "practiceDescription": "Emphasize the USDA-certified bio-based and vegan-friendly features of ReadyCare Signature products. KOCs should showcase how these products contribute to a sustainable lifestyle, appealing to environmentally conscious consumers in Malaysia."
+            },
+            {
+              "practiceHeadline": "Showcase Product Versatility",
+              "practiceDescription": "Demonstrate the multiple uses of ReadyCare products, such as the Biobased Multipurpose Cleaner for various surfaces or the Biobased Baby Laundry Detergent for delicate fabrics. This helps potential buyers see the value in one product."
+            },
+            {
+              "practiceHeadline": "Engage with Personal Stories",
+              "practiceDescription": "KOCs should share personal experiences or testimonials about using ReadyCare products, such as how the Biobased Dishwashing Liquid made their dishes sparkle or how the Baby Laundry Detergent is gentle on their child's skin."
+            },
+            {
+              "practiceHeadline": "Leverage TikTok Trends",
+              "practiceDescription": "Incorporate trending sounds, challenges, or hashtags on TikTok to increase visibility. For example, create a 'cleaning hack' video using the Biobased Multipurpose Cleaner to align with popular content themes."
+            },
+            {
+              "practiceHeadline": "Use Before-and-After Visuals",
+              "practiceDescription": "Show the effectiveness of ReadyCare products through before-and-after clips. For instance, compare dirty dishes cleaned with the Biobased Dishwashing Liquid or stained clothes washed with the Baby Laundry Detergent."
+            },
+            {
+              "practiceHeadline": "Encourage User Participation",
+              "practiceDescription": "Invite followers to try ReadyCare products and share their experiences. KOCs can run a giveaway or challenge where participants post their own reviews or cleaning results using a branded hashtag."
+            },
+            {
+              "practiceHeadline": "Focus on Safety and Gentleness",
+              "practiceDescription": "Highlight the hypoallergenic and skin-friendly properties of ReadyCare products, especially for baby care items. KOCs can reassure parents about the absence of harsh chemicals in the Biobased Baby Laundry Detergent."
+            },
+            {
+              "practiceHeadline": "Include Clear Call-to-Actions",
+              "practiceDescription": "End videos with a strong CTA, such as 'Swipe up to shop now' or 'Comment below for a chance to win a free trial pack.' This drives engagement and conversions for the giveaway campaign."
+            }
+          ]
+        }
+      }
+    ],
+    "Ad Planning Generator": [
+      {
+        "json": {
+          "output": [
+            {
+              "funnelLevel": "Top Funnel",
+              "campaignLevel": {
+                "advertisingObjective": "Traffic",
+                "optimizationGoal": "Reach"
+              },
+              "adgroupLevel": {
+                "targetLocations": [
+                  "Perak,Malaysia",
+                  "Selangor,Malaysia",
+                  "Penang,Malaysia"
+                ],
+                "targetAgeRange": [
+                  "25-34",
+                  "35-44",
+                  "45-54",
+                  "55+"
+                ],
+                "targetGender": "Female",
+                "targetLanguage": [
+                  "English",
+                  "Malay"
+                ],
+                "targetInterest": [
+                  "Eco-friendly Products",
+                  "Sustainable Living",
+                  "Home Cleaning",
+                  "Baby Care",
+                  "Pet Care"
+                ]
+              },
+              "adLevel": {
+                "angle": [
+                  "Eco-conscious consumers looking for sustainable cleaning solutions",
+                  "Parents seeking safe and natural baby care products",
+                  "Pet owners who prioritize eco-friendly pet care"
+                ],
+                "adFormat": [
+                  "Video",
+                  "Carousel"
+                ]
+              }
+            },
+            {
+              "funnelLevel": "Mid Funnel",
+              "campaignLevel": {
+                "advertisingObjective": "Web Conversion",
+                "optimizationGoal": "Purchase"
+              },
+              "adgroupLevel": {
+                "targetLocations": [
+                  "Perak,Malaysia",
+                  "Selangor,Malaysia",
+                  "Penang,Malaysia"
+                ],
+                "targetAgeRange": [
+                  "25-34",
+                  "35-44",
+                  "45-54",
+                  "55+"
+                ],
+                "targetGender": "Female",
+                "targetLanguage": [
+                  "English",
+                  "Malay"
+                ],
+                "targetInterest": [
+                  "Eco-friendly Products",
+                  "Sustainable Living",
+                  "Home Cleaning",
+                  "Baby Care",
+                  "Pet Care"
+                ]
+              },
+              "adLevel": {
+                "angle": [
+                  "Showcasing the benefits of bundling eco-friendly products",
+                  "Highlighting cost savings with bundle deals (Buy 1 Free 1, Buy 2 Free 3, Buy 3 Free 5)",
+                  "Demonstrating real-life use cases of the bundled products"
+                ],
+                "adFormat": [
+                  "Video",
+                  "Spark Ads"
+                ]
+              }
+            },
+            {
+              "funnelLevel": "Bottom Funnel",
+              "campaignLevel": {
+                "advertisingObjective": "Web Conversion",
+                "optimizationGoal": "Purchase"
+              },
+              "adgroupLevel": {
+                "targetLocations": [
+                  "Perak,Malaysia",
+                  "Selangor,Malaysia",
+                  "Penang,Malaysia"
+                ],
+                "targetAgeRange": [
+                  "25-34",
+                  "35-44",
+                  "45-54",
+                  "55+"
+                ],
+                "targetGender": "Female",
+                "targetLanguage": [
+                  "English",
+                  "Malay"
+                ],
+                "targetInterest": [
+                  "Eco-friendly Products",
+                  "Sustainable Living",
+                  "Home Cleaning",
+                  "Baby Care",
+                  "Pet Care"
+                ]
+              },
+              "adLevel": {
+                "angle": [
+                  "Limited-time offer for bundle deals",
+                  "Customer testimonials and reviews",
+                  "Exclusive discounts for first-time buyers"
+                ],
+                "adFormat": [
+                  "Video",
+                  "Product Shopping Ads"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "Post-collaboration Steps Generator": [
+      {
+        "json": {
+          "output": [
+            {
+              "recommendationHeadline": "Encourage KOCs to tag ReadyCare Signature in their TikTok posts",
+              "practiceDescription": "Ensure KOCs include @ReadyCareSignature in their captions and video descriptions to link back to the brand's TikTok account.",
+              "recommendationDescription": "This practice increases brand visibility and allows the KOC's audience to easily discover ReadyCare Signature's TikTok profile."
+            },
+            {
+              "recommendationHeadline": "Utilize trending and relevant hashtags",
+              "practiceDescription": "Collaborate with KOCs to incorporate trending and niche-specific hashtags like #EcoFriendlyCleaning and #BioBasedProducts in their posts.",
+              "recommendationDescription": "Hashtags enhance discoverability and attract a broader audience interested in sustainable cleaning solutions."
+            },
+            {
+              "recommendationHeadline": "Cross-promote collaborations on other platforms",
+              "practiceDescription": "Share snippets or behind-the-scenes content of the KOC collaboration on Instagram, Facebook, or YouTube, linking back to the TikTok post.",
+              "recommendationDescription": "Cross-promotion maximizes reach and engages audiences across multiple social media platforms."
+            },
+            {
+              "recommendationHeadline": "Analyze post-collaboration performance metrics",
+              "practiceDescription": "Track engagement metrics such as views, likes, shares, and comments to evaluate the success of the KOC collaboration.",
+              "recommendationDescription": "Data-driven insights help refine future influencer marketing strategies and improve ROI."
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "versionId": "68c78a21-31c9-4d60-b32d-30d9869bb6e4",
+  "triggerCount": 4,
+  "shared": [
+    {
+      "updatedAt": "2025-05-14T07:56:44.690Z",
+      "createdAt": "2025-05-14T07:56:44.690Z",
+      "role": "workflow:owner",
+      "workflowId": "ew5Vgr9Lv71L5aWt",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
