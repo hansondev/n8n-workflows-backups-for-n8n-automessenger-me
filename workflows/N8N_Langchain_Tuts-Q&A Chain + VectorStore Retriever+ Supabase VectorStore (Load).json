@@ -1,0 +1,193 @@
+{
+  "updatedAt": "2024-03-20T15:42:25.000Z",
+  "createdAt": "2024-03-20T14:23:18.895Z",
+  "id": "kpLGyvGFTfLp3RB8",
+  "name": "N8N_Langchain_Tuts-Q&A Chain + VectorStore Retriever+ Supabase VectorStore (Load)",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "d8492029-cee7-450d-b47a-b7dcd88523f3",
+      "name": "Chat Trigger",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1,
+      "position": [
+        720,
+        420
+      ],
+      "webhookId": "e89f3ada-6359-453d-912d-92044fca1cc6"
+    },
+    {
+      "parameters": {},
+      "id": "171eb8b8-9331-4ad1-8af9-8dcf3be025ae",
+      "name": "Question and Answer Chain",
+      "type": "@n8n/n8n-nodes-langchain.chainRetrievalQa",
+      "typeVersion": 1.3,
+      "position": [
+        1040,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "model": "gpt-3.5-turbo-16k",
+        "options": {
+          "temperature": 0.7
+        }
+      },
+      "id": "2fbdcf1b-da76-4b5c-850a-4d4fbd92e5f5",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        920,
+        580
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAi account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "topK": 2
+      },
+      "id": "ab370f9c-a7a4-4511-88c7-85ab4de5ed5d",
+      "name": "Vector Store Retriever",
+      "type": "@n8n/n8n-nodes-langchain.retrieverVectorStore",
+      "typeVersion": 1,
+      "position": [
+        1140,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "options": {
+          "batchSize": 1536
+        }
+      },
+      "id": "bdfe9726-2b8f-4b7a-8ec9-6eb8a47ec17a",
+      "name": "Embeddings OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1,
+      "position": [
+        1160,
+        920
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAi account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableName": {
+          "__rl": true,
+          "value": "n8ndocuments",
+          "mode": "list",
+          "cachedResultName": "n8ndocuments"
+        },
+        "options": {
+          "queryName": "n8ndocuments"
+        }
+      },
+      "id": "a5213c31-a9f4-4b8a-b17a-51008215edea",
+      "name": "Supabase Vector Store",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1,
+      "position": [
+        1220,
+        740
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "yov7On8fy5Gs5ldh",
+          "name": "Supabase account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Chat Trigger": {
+      "main": [
+        [
+          {
+            "node": "Question and Answer Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Question and Answer Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vector Store Retriever": {
+      "ai_retriever": [
+        [
+          {
+            "node": "Question and Answer Chain",
+            "type": "ai_retriever",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase Vector Store": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Vector Store Retriever",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "4ed21571-9ab2-4c67-b0a8-cbd4db559c0a",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-03-20T14:23:18.909Z",
+      "createdAt": "2024-03-20T14:23:18.909Z",
+      "role": "workflow:owner",
+      "workflowId": "kpLGyvGFTfLp3RB8",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
