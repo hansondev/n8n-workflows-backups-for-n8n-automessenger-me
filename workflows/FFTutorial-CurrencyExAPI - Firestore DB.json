@@ -1,0 +1,905 @@
+{
+  "updatedAt": "2024-01-24T02:02:57.000Z",
+  "createdAt": "2024-01-23T05:26:34.824Z",
+  "id": "lecYBf5BV4jusHEk",
+  "name": "FFTutorial-CurrencyExAPI - Firestore DB",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "8f1e7d49-b119-4f05-b92c-d9814ca2b0dc",
+      "name": "When clicking \"Test Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        620,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "url": "http://api.exchangerate.host/live",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "access_key",
+              "value": "d11da8891df97b8260dcc29f115516b0"
+            },
+            {
+              "name": "base",
+              "value": "USD"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e7efc382-77ad-4a5c-8790-c4bda0240483",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        960,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = items[0].json.quotes\n\nconst data_arr = Object.entries(data).map(entry =>{\n  return [entry[0],entry[1]]\n})\n\nreturn {currencyRate:data_arr}"
+      },
+      "id": "0598742e-c943-45e2-b745-8fd3a6cdef8d",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1400,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "currencyRate",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "id": "0ead2edb-de9e-41f4-9cef-1596111ba96b",
+      "name": "Split Out",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1680,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "currencyCode",
+              "stringValue": "={{ $json.currencyRate[0].slice(3) }}"
+            },
+            {
+              "name": "currencyRate",
+              "type": "numberValue",
+              "numberValue": "={{ $json.currencyRate[1] }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "a86a9c37-d937-4e15-b3cd-c2afc4801fd9",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1960,
+        20
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "fa46858b-60e9-4308-9501-2fcc05a6d0e4",
+              "leftValue": "CAD",
+              "rightValue": "={{ $json.currencyCode }}",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "4e2e28c0-60b4-4b9c-a954-f2fa5e290956",
+              "leftValue": "CNY",
+              "rightValue": "={{ $json.currencyCode }}",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "8abd407e-8c87-4179-8b98-5ad792278d99",
+              "leftValue": "AUD",
+              "rightValue": "={{ $json.currencyCode }}",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "c53536a5-5741-4dd8-8839-9cd1ea9c2acd",
+              "leftValue": "EUR",
+              "rightValue": "={{ $json.currencyCode }}",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "ca61e97e-d61c-49d7-b62a-9fdaabb69829",
+              "leftValue": "GBP",
+              "rightValue": "={{ $json.currencyCode }}",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "358604a2-87a5-40c7-85a1-eefd54a444ea",
+              "leftValue": "HKD",
+              "rightValue": "={{ $json.currencyCode }}",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "e170da80-24ea-44fa-91a4-34d124437560",
+              "leftValue": "JPY",
+              "rightValue": "={{ $json.currencyCode }}",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "624b5038-36c7-4265-a27e-5c0f99218d88",
+              "leftValue": "RUB",
+              "rightValue": "={{ $json.currencyCode }}",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "583109f1-af60-4b5e-b88c-33af6bfb5316",
+              "leftValue": "SGD",
+              "rightValue": "={{ $json.currencyCode }}",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "472f80e5-5367-4c76-8f72-e33b66e192a2",
+              "leftValue": "AED",
+              "rightValue": "={{ $json.currencyCode }}",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "id": "90deeb41-02ff-4fee-af8e-4f7be54cd3f9",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [
+        2220,
+        -20
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "currencyCode",
+              "stringValue": "USD"
+            },
+            {
+              "name": "currencyRate",
+              "type": "numberValue",
+              "numberValue": "1.00"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "78f64c95-f18b-4704-b39c-5a4f446ae9b8",
+      "name": "Edit Fields1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2140,
+        420
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "3145f6c4-a59c-4de1-be27-e5f9ed699b15",
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [
+        2500,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1xQz5OD2pBvi4newf7tD9nx8u7KrKoU8nNex--l_5rcc",
+          "mode": "list",
+          "cachedResultName": "FFTutorial-CurrencyExchangeDemoApp (23Jan2024)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1xQz5OD2pBvi4newf7tD9nx8u7KrKoU8nNex--l_5rcc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1xQz5OD2pBvi4newf7tD9nx8u7KrKoU8nNex--l_5rcc/edit#gid=0"
+        },
+        "options": {}
+      },
+      "id": "b6c0d72a-599c-4865-aabb-ce52a4227afc",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        3620,
+        80
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "_id",
+              "type": "numberValue",
+              "numberValue": "={{ $itemIndex +2 }}"
+            },
+            {
+              "name": "CurrencyCode",
+              "stringValue": "={{ $json.currencyCode }}"
+            },
+            {
+              "name": "CurrencyRate",
+              "type": "numberValue",
+              "numberValue": "={{ $json.currencyRate.round(2) }}"
+            },
+            {
+              "name": "ShowValue",
+              "type": "booleanValue"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "da663c00-30fc-4d7c-a83a-998ccc787c49",
+      "name": "Edit Fields3",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2720,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1xQz5OD2pBvi4newf7tD9nx8u7KrKoU8nNex--l_5rcc",
+          "mode": "list",
+          "cachedResultName": "FFTutorial-CurrencyExchangeDemoApp (23Jan2024)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1xQz5OD2pBvi4newf7tD9nx8u7KrKoU8nNex--l_5rcc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1xQz5OD2pBvi4newf7tD9nx8u7KrKoU8nNex--l_5rcc/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "_id": "={{ $json._id }}",
+            "CurrencyCode": "={{ $json.CurrencyCode }}",
+            "CurrencyRate": "={{ $json.CurrencyRate }}",
+            "ShowValue": "={{ $json.ShowValue }}"
+          },
+          "matchingColumns": [
+            "_id"
+          ],
+          "schema": [
+            {
+              "id": "_id",
+              "displayName": "_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "CurrencyCode",
+              "displayName": "CurrencyCode",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CurrencyRate",
+              "displayName": "CurrencyRate",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ShowValue",
+              "displayName": "ShowValue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "71b0d1f2-586b-427c-b09c-bfb7746b470e",
+      "name": "Google Sheets1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        3120,
+        160
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "5c952c29-1e3c-48e4-9e82-95c1233a9d6d",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        3400,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "collection",
+        "projectId": "fftutorial-currencyexchangeapp"
+      },
+      "id": "41da4947-dbe2-4946-a784-3e0058a0e81d",
+      "name": "Google Cloud Firestore",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        4100,
+        -60
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "projectId": "fftutorial-currencyexchangeapp",
+        "collection": "currencies",
+        "updateKey": "_id",
+        "columns": "currencyCode,currencyRate,showValue"
+      },
+      "id": "c81d3032-7a96-4407-9c91-f2f9a608bf5f",
+      "name": "Google Cloud Firestore1",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        4280,
+        160
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "_id",
+              "type": "numberValue",
+              "numberValue": "={{ $json._id }}"
+            },
+            {
+              "name": "currencyCode",
+              "stringValue": "={{ $json.CurrencyCode }}"
+            },
+            {
+              "name": "currencyRate",
+              "type": "numberValue",
+              "numberValue": "={{ $json.CurrencyRate }}"
+            },
+            {
+              "name": "showValue",
+              "type": "booleanValue"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "2ed5ef78-8815-4fe6-91e8-c7577b47dfae",
+      "name": "Edit Fields2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        3880,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "projectName",
+              "stringValue": "fftutorial-currencyexchangeapp"
+            },
+            {
+              "name": "collectName",
+              "stringValue": "={{ $json.name }}"
+            },
+            {
+              "name": "keyIdentifier",
+              "stringValue": "_id"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "62997563-e546-4d8f-a1e6-22d04a946440",
+      "name": "Edit Fields4",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        4320,
+        -60
+      ]
+    }
+  ],
+  "connections": {
+    "When clicking \"Test Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Cloud Firestore": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Cloud Firestore1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "HTTP Request": [
+      {
+        "json": {
+          "success": true,
+          "terms": "https://currencylayer.com/terms",
+          "privacy": "https://currencylayer.com/privacy",
+          "timestamp": 1706015103,
+          "source": "USD",
+          "quotes": {
+            "USDAED": 3.672897,
+            "USDAFN": 72.613879,
+            "USDALL": 95.580593,
+            "USDAMD": 404.230858,
+            "USDANG": 1.801242,
+            "USDAOA": 831.000194,
+            "USDARS": 821.923505,
+            "USDAUD": 1.517451,
+            "USDAWG": 1.8025,
+            "USDAZN": 1.701071,
+            "USDBAM": 1.799049,
+            "USDBBD": 2.018176,
+            "USDBDT": 109.701692,
+            "USDBGN": 1.80005,
+            "USDBHD": 0.376905,
+            "USDBIF": 2850.651262,
+            "USDBMD": 1,
+            "USDBND": 1.34033,
+            "USDBOB": 6.907178,
+            "USDBRL": 4.966698,
+            "USDBSD": 0.999522,
+            "USDBTC": 0.000025636296,
+            "USDBTN": 83.083716,
+            "USDBWP": 13.711458,
+            "USDBYN": 3.27112,
+            "USDBYR": 19600,
+            "USDBZD": 2.014773,
+            "USDCAD": 1.34729,
+            "USDCDF": 2684.999835,
+            "USDCHF": 0.868725,
+            "USDCLF": 0.032888,
+            "USDCLP": 907.54002,
+            "USDCNY": 7.091698,
+            "USDCOP": 3902.35,
+            "USDCRC": 513.497356,
+            "USDCUC": 1,
+            "USDCUP": 26.5,
+            "USDCVE": 101.427612,
+            "USDCZK": 22.843965,
+            "USDDJF": 177.965634,
+            "USDDKK": 6.86144,
+            "USDDOP": 58.891699,
+            "USDDZD": 134.574304,
+            "USDEGP": 30.895301,
+            "USDERN": 15,
+            "USDETB": 56.550275,
+            "USDEUR": 0.920085,
+            "USDFJD": 2.26665,
+            "USDFKP": 0.785782,
+            "USDGBP": 0.786535,
+            "USDGEL": 2.655038,
+            "USDGGP": 0.785782,
+            "USDGHS": 12.084111,
+            "USDGIP": 0.785782,
+            "USDGMD": 67.374986,
+            "USDGNF": 8592.348661,
+            "USDGTQ": 7.81513,
+            "USDGYD": 209.286923,
+            "USDHKD": 7.82256,
+            "USDHNL": 24.648386,
+            "USDHRK": 6.88032,
+            "USDHTG": 131.531018,
+            "USDHUF": 354.343995,
+            "USDIDR": 15708.05,
+            "USDILS": 3.76505,
+            "USDIMP": 0.785782,
+            "USDINR": 83.12855,
+            "USDIQD": 1309.423063,
+            "USDIRR": 42049.999715,
+            "USDISK": 136.829891,
+            "USDJEP": 0.785782,
+            "USDJMD": 155.373649,
+            "USDJOD": 0.709397,
+            "USDJPY": 147.949499,
+            "USDKES": 162.710036,
+            "USDKGS": 89.290603,
+            "USDKHR": 4074.06726,
+            "USDKMF": 451.874989,
+            "USDKPW": 900.008359,
+            "USDKRW": 1337.63985,
+            "USDKWD": 0.30764,
+            "USDKYD": 0.832935,
+            "USDKZT": 444.937081,
+            "USDLAK": 20673.25822,
+            "USDLBP": 15023.042322,
+            "USDLKR": 319.872691,
+            "USDLRD": 189.349869,
+            "USDLSL": 19.19023,
+            "USDLTL": 2.95274,
+            "USDLVL": 0.60489,
+            "USDLYD": 4.810832,
+            "USDMAD": 9.958882,
+            "USDMDL": 17.679467,
+            "USDMGA": 4552.770752,
+            "USDMKD": 56.672676,
+            "USDMMK": 2099.032306,
+            "USDMNT": 3423.054631,
+            "USDMOP": 8.05215,
+            "USDMRU": 39.550014,
+            "USDMUR": 44.350418,
+            "USDMVR": 15.400865,
+            "USDMWK": 1682.610935,
+            "USDMXN": 17.23495,
+            "USDMYR": 4.727009,
+            "USDMZN": 63.499729,
+            "USDNAD": 19.189689,
+            "USDNGN": 891.010193,
+            "USDNIO": 36.610494,
+            "USDNOK": 10.51118,
+            "USDNPR": 132.919752,
+            "USDNZD": 1.64175,
+            "USDOMR": 0.384956,
+            "USDPAB": 0.999522,
+            "USDPEN": 3.741261,
+            "USDPGK": 3.741077,
+            "USDPHP": 56.225975,
+            "USDPKR": 279.622581,
+            "USDPLN": 4.03165,
+            "USDPYG": 7306.507243,
+            "USDQAR": 3.64075,
+            "USDRON": 4.579704,
+            "USDRSD": 107.848022,
+            "USDRUB": 88.000044,
+            "USDRWF": 1285.874604,
+            "USDSAR": 3.750454,
+            "USDSBD": 8.375797,
+            "USDSCR": 13.193885,
+            "USDSDG": 601.000305,
+            "USDSEK": 10.440415,
+            "USDSGD": 1.340065,
+            "USDSHP": 1.271198,
+            "USDSLE": 23.004116,
+            "USDSLL": 19750.000245,
+            "USDSOS": 571.000228,
+            "USDSRD": 36.438503,
+            "USDSTD": 20697.981008,
+            "USDSYP": 13001.836833,
+            "USDSZL": 19.122084,
+            "USDTHB": 35.7055,
+            "USDTJS": 10.899993,
+            "USDTMT": 3.5,
+            "USDTND": 3.109499,
+            "USDTOP": 2.3684,
+            "USDTRY": 30.280596,
+            "USDTTD": 6.787767,
+            "USDTWD": 31.401047,
+            "USDTZS": 2514.99903,
+            "USDUAH": 37.461918,
+            "USDUGX": 3815.586136,
+            "USDUYU": 39.047409,
+            "USDUZS": 12339.717056,
+            "USDVEF": 3609664.467052,
+            "USDVES": 36.060575,
+            "USDVND": 24575,
+            "USDVUV": 119.979642,
+            "USDWST": 2.74717,
+            "USDXAF": 603.38969,
+            "USDXAG": 0.044829,
+            "USDXAU": 0.000493,
+            "USDXCD": 2.70255,
+            "USDXDR": 0.750883,
+            "USDXOF": 603.38969,
+            "USDXPF": 110.049818,
+            "USDYER": 250.350287,
+            "USDZAR": 19.032197,
+            "USDZMK": 9001.19826,
+            "USDZMW": 26.562601,
+            "USDZWL": 321.999592
+          }
+        }
+      }
+    ]
+  },
+  "versionId": "431d8e2f-a561-434b-99d0-6a86dc58f8ca",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-01-23T05:26:35.013Z",
+      "createdAt": "2024-01-23T05:26:35.013Z",
+      "role": "workflow:owner",
+      "workflowId": "lecYBf5BV4jusHEk",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
