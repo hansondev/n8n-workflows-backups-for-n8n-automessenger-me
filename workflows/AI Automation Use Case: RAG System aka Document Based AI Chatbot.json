@@ -1,0 +1,380 @@
+{
+  "updatedAt": "2024-06-21T15:11:42.000Z",
+  "createdAt": "2024-06-20T15:54:45.450Z",
+  "id": "I3h8Zxtg3vnH58hN",
+  "name": "AI Automation Use Case: RAG System aka Document Based AI Chatbot",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "1ea023b5-2be0-4100-b108-98f29e6ce0ca",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        640,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "loader": "textLoader",
+        "options": {}
+      },
+      "id": "f41bff1c-053a-4b0e-a358-1af30c6f235d",
+      "name": "Default Data Loader",
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1,
+      "position": [
+        1300,
+        660
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "d5019619-76f7-4642-a4f4-4f03e63250bd",
+      "name": "Recursive Character Text Splitter",
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        1140,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1H6AtazI2euXVVaf_X3WaEpetgXg74SUE",
+          "mode": "list",
+          "cachedResultName": "HR+Policies+Handbook+(2).txt",
+          "cachedResultUrl": "https://drive.google.com/file/d/1H6AtazI2euXVVaf_X3WaEpetgXg74SUE/view?usp=drivesdk"
+        },
+        "options": {}
+      },
+      "id": "377f0e1e-0241-4677-9b9b-2fdcaad741d5",
+      "name": "Google Drive",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        860,
+        440
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "ZZtfpdmhfdrjjM7Z",
+          "name": "GDrive-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "adb66b52-c8a8-4d89-8512-651e0e446674",
+      "name": "Embeddings OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1,
+      "position": [
+        1040,
+        600
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "collectionName": "udemyLangchainTut1",
+        "options": {
+          "embeddingDimensions": 1536,
+          "isAutoEmbedded": false
+        }
+      },
+      "id": "1aefaf75-4f22-4aaf-baf3-e30baf6711ba",
+      "name": "Zep Vector Store",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreZep",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        360
+      ],
+      "credentials": {
+        "zepApi": {
+          "id": "zCsbfnAJO9E7Q6b9",
+          "name": "Zep API Key-zep.automessenger.me"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Stage 1: Upserting Documents Into Vector Store",
+        "height": 669.0282131661446,
+        "width": 1040.3134796238244
+      },
+      "id": "c81b42fb-611a-4a14-b962-93b881d81ffa",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        580,
+        280
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "4fb7fc40-054b-446b-8984-f529cfe2cbc8",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.manualChatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        1960,
+        440
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "3a2adab9-9466-4119-ba22-f6a2e49ab1ea",
+      "name": "Question and Answer Chain",
+      "type": "@n8n/n8n-nodes-langchain.chainRetrievalQa",
+      "typeVersion": 1.3,
+      "position": [
+        2180,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "model": "claude-3-haiku-20240307",
+        "options": {}
+      },
+      "id": "6df48cf3-5fae-4b5d-a01f-049cbf531913",
+      "name": "Anthropic Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.1,
+      "position": [
+        2180,
+        660
+      ],
+      "credentials": {
+        "anthropicApi": {
+          "id": "A086ghbh0vMy1zjD",
+          "name": "Anthropic (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "15dac701-2924-4a50-a47d-24e98f203afb",
+      "name": "Vector Store Retriever",
+      "type": "@n8n/n8n-nodes-langchain.retrieverVectorStore",
+      "typeVersion": 1,
+      "position": [
+        2380,
+        660
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "6801bd30-55af-44f0-964e-c58953b7b1fb",
+      "name": "Embeddings OpenAI1",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1,
+      "position": [
+        2140,
+        1000
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "collectionName": "udemylangchaintut1",
+        "options": {}
+      },
+      "id": "3db8a2c8-829c-461c-bfe6-1544641f53cb",
+      "name": "Zep Vector Store1",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreZep",
+      "typeVersion": 1,
+      "position": [
+        2240,
+        840
+      ],
+      "credentials": {
+        "zepApi": {
+          "id": "zCsbfnAJO9E7Q6b9",
+          "name": "Zep API Key-zep.automessenger.me"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Stage 2: Querying & Retrieving Vectorized Text Documents By Using Q&A Chain",
+        "height": 892.5391849529778,
+        "width": 988.4012539184954
+      },
+      "id": "b0a59ca4-fbbe-477c-a7e8-294db7f17163",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1900,
+        260
+      ]
+    }
+  ],
+  "connections": {
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Zep Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Zep Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Zep Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Question and Answer Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Question and Answer Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vector Store Retriever": {
+      "ai_retriever": [
+        [
+          {
+            "node": "Question and Answer Chain",
+            "type": "ai_retriever",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Zep Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Zep Vector Store1": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Vector Store Retriever",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "5611c8f5-52f0-482c-9411-c341c758542d",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-06-20T15:54:45.533Z",
+      "createdAt": "2024-06-20T15:54:45.533Z",
+      "role": "workflow:owner",
+      "workflowId": "I3h8Zxtg3vnH58hN",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2024-06-20T14:55:32.293Z",
+      "createdAt": "2024-06-20T14:55:32.293Z",
+      "id": "5gO74HHz9IApTqg6",
+      "name": "Udemy-Derek_Chung"
+    }
+  ]
+}
