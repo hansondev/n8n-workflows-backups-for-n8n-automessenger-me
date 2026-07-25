@@ -1,0 +1,213 @@
+{
+  "updatedAt": "2024-10-13T07:05:05.000Z",
+  "createdAt": "2024-10-12T07:28:50.727Z",
+  "id": "9t0dg7DOK2PNcZco",
+  "name": "AI Custom Tool Workflow:cipc_course_modules_extraction",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "4fe36902-88f1-419e-a27c-42c8dd97007e",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        300,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "253c2b17-c749-4f0a-93e8-5ff74f1ce49b",
+              "name": "landing_page_url",
+              "value": "={{ $json.query }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "18238137-d986-4c3f-8e8c-c598de90b0b2",
+      "name": "Set Landing Page URL",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        500,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.landing_page_url }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "content-type",
+              "value": "text/html"
+            }
+          ]
+        },
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 10000
+            }
+          },
+          "allowUnauthorizedCerts": true,
+          "timeout": 10000
+        }
+      },
+      "id": "3a2b041d-daf1-4a88-a0ed-b238426c3597",
+      "name": "GET Raw HTML",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        720,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "module_title",
+              "cssSelector": "div.course-section > div.course-section-header > span.course-section-name > strong > span",
+              "returnArray": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d59b0e48-384b-42b2-bb15-a8269cdf4eee",
+      "name": "HTML",
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        920,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "id": "a1cf07f9-f35f-4343-9b6f-6ef8ad855af9",
+      "name": "Aggregate",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1140,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ee6c1ec0-403c-4fc2-9096-7915ee674800",
+              "name": "response",
+              "value": "={{ $json.data }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4611ba21-3b76-4e97-b2c8-9a5fe124ce4f",
+      "name": "Set Response",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1360,
+        240
+      ]
+    }
+  ],
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Set Landing Page URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Landing Page URL": {
+      "main": [
+        [
+          {
+            "node": "GET Raw HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Raw HTML": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Set Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "cccbd53f-9772-4899-b490-fef962e07886",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-10-12T07:28:50.751Z",
+      "createdAt": "2024-10-12T07:28:50.751Z",
+      "role": "workflow:owner",
+      "workflowId": "9t0dg7DOK2PNcZco",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
