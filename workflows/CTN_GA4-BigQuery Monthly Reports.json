@@ -1,0 +1,661 @@
+{
+  "updatedAt": "2024-10-21T04:53:17.000Z",
+  "createdAt": "2024-09-04T08:04:27.907Z",
+  "id": "3tpSgIfDQCPec3ht",
+  "name": "CTN_GA4-BigQuery Monthly Reports",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "projectId": {
+          "__rl": true,
+          "value": "ctn-hanson-n8n-integration",
+          "mode": "list",
+          "cachedResultName": "ctn-hanson-n8n-integration",
+          "cachedResultUrl": "https://console.cloud.google.com/bigquery?project=ctn-hanson-n8n-integration"
+        },
+        "sqlQuery": "/* GA4BQ query start*/\n\nSELECT\n  parse_date(\"%Y%m%d\", event_date) as `Date`,\n  traffic_source.source as `user_source`,\n  traffic_source.name as `user_campaign`,\n  traffic_source.medium as `user_medium`,\n  COUNT(*)/COUNT(DISTINCT user_pseudo_id) as `Events_per_user`\nFROM\n  `ctn-hanson-n8n-integration.analytics_426212519.events_*`\nWHERE\n  (\n    REGEXP_EXTRACT(_TABLE_SUFFIX, r'[0-9]+') BETWEEN '{{ $json.start_date }}' AND '{{ $json.end_date }}'\n  )\n  AND (\n    (\n      SELECT\n        value.string_value\n      FROM\n        UNNEST (event_params)\n      WHERE\n        key='affiliate_code'\n    )='Y02IB3n2'\n    AND event_name='generate_lead'\n    AND traffic_source.source<>'direct'\n  )\nGROUP BY\n  1,\n  2,\n  3,\n  4\n\n/* GA4BQ query end*/",
+        "options": {}
+      },
+      "id": "5996cb89-711e-4a35-b9f0-ddd93cdf0d0e",
+      "name": "Google BigQuery",
+      "type": "n8n-nodes-base.googleBigQuery",
+      "typeVersion": 2.1,
+      "position": [
+        1020,
+        280
+      ],
+      "credentials": {
+        "googleBigQueryOAuth2Api": {
+          "id": "Esaan9GJ8k4XsIdO",
+          "name": "BigQuery (marketing@citinow.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "632ebd27-6433-486e-aefc-8bf88206ef71",
+              "name": "date",
+              "value": "={{ $json.Date }}",
+              "type": "string"
+            },
+            {
+              "id": "b65401e1-add6-4bc0-85dd-9b3e12556f35",
+              "name": "user_source",
+              "value": "={{ $json.user_source }}",
+              "type": "string"
+            },
+            {
+              "id": "39ff53ff-08b7-4448-aed3-389b66d05aa4",
+              "name": "user_campaign",
+              "value": "={{ $json.user_campaign }}",
+              "type": "string"
+            },
+            {
+              "id": "a9d2fdc4-6259-4f4b-86d1-e22752081977",
+              "name": "user_medium",
+              "value": "={{ $json.user_medium }}",
+              "type": "string"
+            },
+            {
+              "id": "93e7d897-f8d0-4894-aae6-298a4bedfb66",
+              "name": "generate_lead_event",
+              "value": "={{ $json.Events_per_user }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7b1bb007-a444-46f8-b1bc-43b263055434",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1240,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "signup_date"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6ac78d1f-04bf-4f22-902b-47cc45eeac57",
+      "name": "Sort",
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        1460,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "={{ $('n8n Form Trigger').item.json['Google Sheet ID'] }}",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "={{ $('n8n Form Trigger').item.json['Sheet Tab Name'] }}",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Signup Date": "={{ $json.signup_date }}",
+            "Signup Source": "={{ $json.signup_source }}",
+            "Signup Medium": "={{ $json.signup_medium }}",
+            "Campaign Name": "={{ $json.signup_campaign_name }}",
+            "Sign Up Curency": "={{ $json.signup_currency }}",
+            "User Per Signup": "={{ $json.user_per_signup }}"
+          },
+          "matchingColumns": [
+            "Signup Date"
+          ],
+          "schema": [
+            {
+              "id": "Signup Date",
+              "displayName": "Signup Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Signup Source",
+              "displayName": "Signup Source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Signup Medium",
+              "displayName": "Signup Medium",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Campaign Name",
+              "displayName": "Campaign Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Sign Up Curency",
+              "displayName": "Sign Up Curency",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "User Per Signup",
+              "displayName": "User Per Signup",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ced8d71c-c3f7-42f4-9ae2-31f96da9f2fc",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1680,
+        280
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "OXDxWGfDEtymBBHC",
+          "name": "GSheet - marketing@citinow.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "ctn_ga4-bigquery-lead_generate-event",
+        "formTitle": "CTN GA4-BigQuery Event: lead_generate Monthly Data Sync.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Start Date",
+              "fieldType": "date",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "End Date",
+              "fieldType": "date",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Google Sheet ID",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Sheet Tab Name"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "ec7446b8-f159-4334-ad8f-ba9891f477b0",
+      "name": "n8n Form Trigger",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.1,
+      "position": [
+        440,
+        280
+      ],
+      "webhookId": "9b25dce1-f68c-442e-85ce-addfc68233fd"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5270ef6f-018a-4fbc-a10d-d123afdce734",
+              "name": "start_date",
+              "value": "={{ $json[\"Start Date\"].split(\"-\").join(\"\") }}",
+              "type": "string"
+            },
+            {
+              "id": "6aeb6add-afdb-4653-9a3f-3ba03aecc242",
+              "name": "end_date",
+              "value": "={{ $json[\"End Date\"].split(\"-\").join(\"\") }}",
+              "type": "string"
+            },
+            {
+              "id": "f39c47fe-c38a-45b6-a635-6cf97f8ce246",
+              "name": "gsheet_id",
+              "value": "={{ $json[\"Google Sheet ID\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "6bccf3ac-10e5-4b04-acb2-2346280df902",
+              "name": "sheet_tabname",
+              "value": "={{ $json[\"Sheet Tab Name\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "444efb16-49ed-4899-8e30-c6060110d3b6",
+      "name": "Edit Fields1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        740,
+        280
+      ]
+    }
+  ],
+  "connections": {
+    "Google BigQuery": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Sort",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "n8n Form Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Google BigQuery",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "Edit Fields1": [
+      {
+        "json": {
+          "start_date": "20240917",
+          "end_date": "20241009",
+          "gsheet_id": "1_6zmvf_-Zm0cM3IL4I4_ZLJH-bsnIVRzIl0-4SCtAjg",
+          "sheet_tabname": "Sept-Oct2024"
+        }
+      }
+    ],
+    "Google BigQuery": [
+      {
+        "json": {
+          "Date": "2024-10-06",
+          "user_source": "(direct)",
+          "user_campaign": "(direct)",
+          "user_medium": "(none)",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-10-06",
+          "user_source": "propellerads",
+          "user_campaign": "ctn_register-free_rm100_bonus 0.4bonus",
+          "user_medium": "push_mobile",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-10-06",
+          "user_source": "propellerads",
+          "user_campaign": "ctn_register-300_slot-fishing-lotto_bonus",
+          "user_medium": "push_mobile",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-10-06",
+          "user_source": "propellerads",
+          "user_campaign": "ctn_register-free_hkd200_bonus 0.4bonus",
+          "user_medium": "push_mobile",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-10-07",
+          "user_source": "trafficnomads",
+          "user_campaign": "ctn_main-300_slot-fishing-lotto_bonus",
+          "user_medium": "push_mobile",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-10-07",
+          "user_source": "propellerads",
+          "user_campaign": "ctn_register-free_rm100_bonus 0.4bonus",
+          "user_medium": "push_mobile",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-09-28",
+          "user_source": "rollerads",
+          "user_campaign": "ctn_promo-free_rm100_bonus 0.4bonus",
+          "user_medium": "push_mobile",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-09-28",
+          "user_source": "propellerads",
+          "user_campaign": "ctn_register-free_hkd200_bonus 0.4bonus",
+          "user_medium": "push_desktop",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-09-28",
+          "user_source": "propellerads",
+          "user_campaign": "ctn_register-free_hkd200_bonus 0.4bonus",
+          "user_medium": "push_mobile",
+          "Events_per_user": "1.5"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-10-08",
+          "user_source": "propellerads",
+          "user_campaign": "ctn_register-free_rm100_bonus 0.4bonus",
+          "user_medium": "push_mobile",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-09-27",
+          "user_source": "propellerads",
+          "user_campaign": "ctn_register-300_slot-fishing-lotto_bonus",
+          "user_medium": "push_mobile",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-09-29",
+          "user_source": "propellerads",
+          "user_campaign": "ctn_main-free_rm100_bonus 0.4bonus",
+          "user_medium": "inpage_push_mobile",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-09-29",
+          "user_source": "rollerads",
+          "user_campaign": "ctn_promo-free_hkd200_bonus 0.4bonus",
+          "user_medium": "inpage_push_mobile",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-09-29",
+          "user_source": "propellerads",
+          "user_campaign": "ctn_register-free_rm100_bonus 0.4bonus",
+          "user_medium": "inter500x700",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-10-02",
+          "user_source": "trafficnomads",
+          "user_campaign": "ctn_main-300_slot-fishing-lotto_bonus",
+          "user_medium": "push_mobile",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-10-02",
+          "user_source": "(direct)",
+          "user_campaign": "(direct)",
+          "user_medium": "(none)",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-10-02",
+          "user_source": "trafficnomads",
+          "user_campaign": "ctn_main-free_rm100_bonus 0.4bonus",
+          "user_medium": "push_mobile",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-09-26",
+          "user_source": "trafficnomads",
+          "user_campaign": "ctn_main-300_slot-fishing-lotto_bonus",
+          "user_medium": "push_mobile",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-09-26",
+          "user_source": "propellerads",
+          "user_campaign": "ctn_register-free_hkd200_bonus 0.4bonus",
+          "user_medium": "push_mobile",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-09-26",
+          "user_source": "trafficnomads",
+          "user_campaign": "ctn_main-free_rm100_bonus 0.4bonus",
+          "user_medium": "push_mobile",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-09-30",
+          "user_source": "trafficnomads",
+          "user_campaign": "ctn_main-300_slot-fishing-lotto_bonus",
+          "user_medium": "push_mobile",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-09-30",
+          "user_source": "rollerads",
+          "user_campaign": "ctn_promo-free_hkd200_bonus 0.4bonus",
+          "user_medium": "push_mobile",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-09-30",
+          "user_source": "propellerads",
+          "user_campaign": "ctn_register-free_hkd200_bonus 0.4bonus",
+          "user_medium": "push_mobile",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-10-03",
+          "user_source": "trafficnomads",
+          "user_campaign": "ctn_main-300_slot-fishing-lotto_bonus",
+          "user_medium": "push_mobile",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-10-03",
+          "user_source": "trafficnomads",
+          "user_campaign": "ctn_promo-free_rm100_bonus 0.4bonus",
+          "user_medium": "inpage_push_mobile",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-09-25",
+          "user_source": "propellerads",
+          "user_campaign": "ctn_main-free_rm100_bonus 0.4bonus",
+          "user_medium": "inpage_push_mobile",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-09-25",
+          "user_source": "trafficnomads",
+          "user_campaign": "ctn_main-free_hkd200_bonus 0.4bonus",
+          "user_medium": "push_desktop",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-10-05",
+          "user_source": "trafficnomads",
+          "user_campaign": "ctn_promo-free_rm100_bonus 0.4bonus",
+          "user_medium": "inpage_push_mobile",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-10-06",
+          "user_source": "trafficnomads",
+          "user_campaign": "ctn_main-free_rm100_bonus 0.4bonus",
+          "user_medium": "push_mobile",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-09-21",
+          "user_source": "propellerads",
+          "user_campaign": "ctn_register",
+          "user_medium": "direct_click",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-09-27",
+          "user_source": "adsterra",
+          "user_campaign": "ctn_my_freerm128",
+          "user_medium": "popunder",
+          "Events_per_user": "1.0"
+        }
+      },
+      {
+        "json": {
+          "Date": "2024-09-29",
+          "user_source": "trafficnomads",
+          "user_campaign": "ctn_main-300_slot-fishing-lotto_bonus",
+          "user_medium": "push_mobile",
+          "Events_per_user": "1.0"
+        }
+      }
+    ]
+  },
+  "versionId": "4489dbed-aa9d-46d0-97f8-54d1d9638d03",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-09-04T08:04:28.107Z",
+      "createdAt": "2024-09-04T08:04:28.107Z",
+      "role": "workflow:owner",
+      "workflowId": "3tpSgIfDQCPec3ht",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
