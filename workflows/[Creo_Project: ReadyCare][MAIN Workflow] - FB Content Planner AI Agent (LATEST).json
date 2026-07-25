@@ -1,0 +1,3826 @@
+{
+  "updatedAt": "2025-07-14T11:27:01.000Z",
+  "createdAt": "2025-06-18T11:33:48.891Z",
+  "id": "YAJRK0fH1B9bPHxE",
+  "name": "[Creo_Project: ReadyCare][MAIN Workflow] - FB Content Planner AI Agent (LATEST)",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        300,
+        400
+      ],
+      "id": "9449b24f-4563-4330-b991-8f4c5b29c7ef",
+      "name": "DeepSeek Chat Model",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "8Hvjw0JNKmbO191K",
+          "name": "DeepSeekAPI - info.hansondev@gmail.com"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        1220,
+        320
+      ],
+      "id": "421d9b28-e83a-4d31-8447-0b92b5558037",
+      "name": "Think"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[\n  {\n    \"datePosting\": \"27 Apr 2025\",\n    \"textPostV1\": \"👚 Laundry Wins: Bright Clothes, Happy Skin! 🌿\\n Emma’s busy mornings got easier when she switched to a gentle bio-based detergent that keeps clothes fresh and soft—perfect for her little ones’ sensitive skin. ✨\\n]n Explore easy laundry care here:https://rcsignature.com.my/shop/biobased-laundry-liquid-detergent/\\n\\n #LaundryTips #GentleCare #EcoFriendly #FreshClothes #FamilyFirst\",\n    \"textPostV2\":\"✨ Keeping Fun Clean, Naturally! 👧🎨\\n Little hands make big messes, but cleanup doesn't have to be a chore. When playtime turns into a sticky situation on the floor, a quick wipe with a plant-based multipurpose cleaner leaves surfaces sparkling and safe for the next adventure.\\n\\n Make Your Home Cleaner & Safer. Get Your ReadyCare Bio-based Home Cleaning Products Here 👉 https://rcsignature.com.my/shop/biobased-multipurpose-cleaner/\",\n    \"visualIdea\": \"Video reel showing a child's messy crayon and juice spills on a floor being easily wiped away by a parent using the multipurpose cleaner. The visual should be bright, quick-paced, and end with the child playing happily on the clean floor.\"\n  },\n  {\n    \"datePosting\": \"29 Apr 2025\",\n    \"textPostV1\": \"🌿 Say goodbye to harsh chemical smells!\\n After cleaning, wouldn’t it be nice if your home smelled fresh and natural? Many find that bio-based cleaners with essential oils leave a gentle, uplifting scent—no overwhelming fumes, just clean air. 🍋🌸\\n\\n Discover the difference nature makes🌱✨: https://rcsignature.com.my/biobased-shop/ \\n #FreshHome #NaturalScents #EcoFriendlyCleaning #NoHarshChemicals\",\n    \"textPostV2\":\"🍳 Kitchen Grease, Meet Your Match!\\n Last night's amazing dinner shouldn't leave a greasy reminder. Many home cooks are finding that a bio-based dish soap cuts through tough oil and food stains effortlessly, leaving pots and pans sparkling without drying out their hands.\\n\\n Discover a gentler way to clean your kitchenware: https://rcsignature.com.my/shop/biobased-dish-washing-liquid/\",\n    \"visualIdea\": \"Static image of a sparkling clean pan held up by a smiling person. In the background, a sink with other clean dishes, and the dishwashing liquid bottle is subtly placed on the counter.\"\n  },\n  {\n    \"datePosting\": \"3 May 2025\",\n    \"textPostV1\": \"🍼 Baby Bottle Care Made Simple!\\n New mom Sarah found peace of mind knowing her baby's bottles were cleaned gently without harsh chemicals. It's reassuring to use something safe yet effective every day, she says. 💧\\n\\n Discover gentle cleaning for your little one’s essentials: https://rcsignature.com.my/shop/biobased-baby-bottle-utensil-cleaner/ #SafeForBaby #GentleCleaning #PeaceOfMind #EcoFriendlyParenting 🌿\",\n    \"textPostV2\":\"🐾 Muddy Paws, Clean Floors, Happy Home!\\n Every pet owner knows the struggle of muddy paw prints after a rainy day walk. Imagine easily wiping them away, leaving the floor clean and smelling fresh, without any harsh chemicals that could irritate your furry friend's paws. 🐕\\n\\n Keep your home ready for any adventure: https://rcsignature.com.my/shop/biobased-multipurpose-cleaner/\",\n    \"visualIdea\": \"Video reel showing a dog running inside with muddy paws, followed by the owner cheerfully cleaning the tracks with a mop and the multipurpose cleaner. The video ends with the dog lying comfortably on the spotless floor.\"\n  }\n]\n\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1380,
+        320
+      ],
+      "id": "edead0f8-ef89-4893-b221-c3436a335554",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        100
+      ],
+      "id": "09f3a42a-e5a9-4656-92c4-967317ba6d9f",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to get the upcoming regional public holidays in order to create general festival greetings or story history of some regional festive posting to match the festive appreciation or holiday celebration for content post.",
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "en.malaysia#holiday@group.v.calendar.google.com",
+          "mode": "list",
+          "cachedResultName": "Holidays in Malaysia"
+        },
+        "returnAll": true,
+        "timeMin": "={{ $now.plus(17, 'days') }}",
+        "timeMax": "={{ $now.plus(7,'weeks') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        1200,
+        460
+      ],
+      "id": "83c52520-991a-4f93-bfac-d2ff1333e724",
+      "name": "get_public_holidays",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "UZglpsDrPwduER7r",
+          "name": "GCalendar(boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formTitle": "Creo Client: ReadyCare Monthly Social Media Posting Form",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Month of Year",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "January"
+                  },
+                  {
+                    "option": "February"
+                  },
+                  {
+                    "option": "March"
+                  },
+                  {
+                    "option": "April"
+                  },
+                  {
+                    "option": "May"
+                  },
+                  {
+                    "option": "June"
+                  },
+                  {
+                    "option": "July"
+                  },
+                  {
+                    "option": "August"
+                  },
+                  {
+                    "option": "september"
+                  },
+                  {
+                    "option": "October"
+                  },
+                  {
+                    "option": "November"
+                  },
+                  {
+                    "option": "December"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Start Posting Date",
+              "fieldType": "date"
+            },
+            {
+              "fieldLabel": "End Posting Date",
+              "fieldType": "date"
+            },
+            {
+              "fieldLabel": "Tone And Voice",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Conversational"
+                  },
+                  {
+                    "option": "Friendly"
+                  },
+                  {
+                    "option": "Formal"
+                  },
+                  {
+                    "option": "Informal"
+                  },
+                  {
+                    "option": "Aggressive"
+                  },
+                  {
+                    "option": "Persuasive"
+                  }
+                ]
+              },
+              "multiselect": true
+            },
+            {
+              "fieldLabel": "Total Posts Generator",
+              "fieldType": "number"
+            },
+            {
+              "fieldLabel": "Visual Types Posts Segmentation",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Video Reels: 8 Posts"
+                  },
+                  {
+                    "option": "Static Image/Image Carousel: 5 Posts"
+                  }
+                ]
+              },
+              "multiselect": true
+            },
+            {
+              "fieldLabel": "Visual Ideation",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Sharing heneral home & office cleaning knowledge"
+                  },
+                  {
+                    "option": "Sharing home cleaning tips and tricks (Life hacks)"
+                  },
+                  {
+                    "option": "Create awareness of the importance of bio-based products"
+                  },
+                  {
+                    "option": "Engaging mini-games for audience having fun and engage"
+                  },
+                  {
+                    "option": "Mini quiz or poll for audience having interaction and engagement"
+                  }
+                ]
+              },
+              "multiselect": true
+            }
+          ]
+        },
+        "options": {
+          "path": "readycare-fb-post-generator"
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -420,
+        -2160
+      ],
+      "id": "1e71d5b1-ae4a-4a6a-ac86-d75f12537390",
+      "name": "On form submission",
+      "webhookId": "96899b02-77f3-4344-ab09-e99d8fb95c38"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "create",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p7wajxjrsq5m1oi",
+        "table": "mwmwss1f1qmy3y2",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Month",
+              "fieldValue": "={{ $json['Month of Year'] }}"
+            },
+            {
+              "fieldName": "Start Posting Date",
+              "fieldValue": "={{ $json['Start Posting Date'] }}"
+            },
+            {
+              "fieldName": "End Posting Date",
+              "fieldValue": "={{ $json['End Posting Date'] }}"
+            },
+            {
+              "fieldName": "Tone And Voice",
+              "fieldValue": "={{ $json['Tone And Voice'] }}"
+            },
+            {
+              "fieldName": "Total Posts Generate",
+              "fieldValue": "={{ $json['Total Posts Generator'] }}"
+            },
+            {
+              "fieldName": "Post Type Segmentation",
+              "fieldValue": "=- {{ $json['Visual Types Posts Segmentation'].join(\"\\n -\") }}"
+            },
+            {
+              "fieldName": "Visual Ideation",
+              "fieldValue": "=- {{ $json['Visual Ideation'].join(\"\\n- \") }}"
+            },
+            {
+              "fieldName": "Status",
+              "fieldValue": "Pending"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -100,
+        -2160
+      ],
+      "id": "8a793f68-8324-43ec-9e12-70f0238ffb46",
+      "name": "NocoDB",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "readycare-fb-post-generator",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -440,
+        160
+      ],
+      "id": "5c15a8d2-bc14-4e90-96b5-e162bfdae230",
+      "name": "Webhook",
+      "webhookId": "7877e78d-081d-41dc-a1ae-daf2102c8e7b"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=- {{ $json['Visual Ideation'].join(\"\\n -\") }}"
+            },
+            {
+              "content": "=<Role>\nYou are a social media content planning specialist who familiarized with most trending social media platforms including Facebook, Instagram, TikTok, X.com, LinkedIn etc that knowing about the content posting structure is different based on the social media platforms.\n</Role>\n<Task>\nYou are tasked to come out at least 4 to 5 target audience list based on provided user details and provided tool to fetch the company background and research details.\n</Task>\n<Tools>\nYou are require to use the listed tool(s) in order for well-understand about the company background, brand, product and services before come out the list of target audience as below:\n- research_data_fetcher: Use this tool to read and fetch the data needed such as company name, company website, company location, industry types and research output.\n</Tools>\n<Output>\nYou should only generate what the user requested as output without any other explaination and extra information about the requested task in text based.",
+              "role": "system"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        200,
+        -2160
+      ],
+      "id": "8631d80d-3669-461c-b42f-95fa7cd33d3e",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p7wajxjrsq5m1oi",
+        "table": "mige3921kfky65s",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDbTool",
+      "typeVersion": 3,
+      "position": [
+        220,
+        -1960
+      ],
+      "id": "b66cb64d-5778-4dba-b35b-40a092d3fa7d",
+      "name": "NocoDB1",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p7wajxjrsq5m1oi",
+        "table": "mwmwss1f1qmy3y2",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('NocoDB').item.json.Id }}"
+            },
+            {
+              "fieldName": "Target Audience",
+              "fieldValue": "={{ $json.message.content }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        580,
+        -2160
+      ],
+      "id": "66c6f2af-c323-4eb8-82ff-e405dfe27510",
+      "name": "NocoDB2",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        240,
+        120
+      ],
+      "id": "9e4eab94-0f4a-4560-8675-938a93188a6f",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1764e9a9-8a3f-4101-93e2-2641f4c33b74",
+              "name": "month",
+              "value": "={{ $json.Month }}",
+              "type": "string"
+            },
+            {
+              "id": "aff2545b-fbf6-4138-8b75-399a086c821c",
+              "name": "startDate",
+              "value": "={{ $json['Start Posting Date'] }}",
+              "type": "string"
+            },
+            {
+              "id": "0c53bcea-8520-40b1-997e-6bb9a1c51355",
+              "name": "endDate",
+              "value": "={{ $json['End Posting Date'] }}",
+              "type": "string"
+            },
+            {
+              "id": "4fb9d3d7-2613-4dd7-83d7-e206fdd81ef8",
+              "name": "brandName",
+              "value": "={{ $json['Brand Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "43efa54e-d6f9-4e33-a396-894c5cd891d2",
+              "name": "companyUrl",
+              "value": "={{ $json['Brand Website'] }}",
+              "type": "string"
+            },
+            {
+              "id": "6b93c609-d992-496d-8fa4-b4c968e70841",
+              "name": "businessOverview",
+              "value": "={{ $json['Business Overview'] }}",
+              "type": "string"
+            },
+            {
+              "id": "e95da6c6-6d82-4ba2-a56f-1abbcd85e0ec",
+              "name": "targetAudience",
+              "value": "={{ $json['Target Audience'] }}",
+              "type": "string"
+            },
+            {
+              "id": "1e5a2833-6e90-407a-88e2-924d3498c138",
+              "name": "coreProducts",
+              "value": "={{ $json['Core Products'] }}",
+              "type": "string"
+            },
+            {
+              "id": "14ecb7f0-57e5-4fca-aa1a-549ffecfdc20",
+              "name": "totalPostsToGenerate",
+              "value": "={{ $json['Total Posts Generate'] }}",
+              "type": "number"
+            },
+            {
+              "id": "f8f111a4-67d4-4af8-90f1-c41f66382a74",
+              "name": "callToAction",
+              "value": "={{ $json['Call To Action'] }}",
+              "type": "string"
+            },
+            {
+              "id": "87b128d6-a343-4543-9585-6175975be481",
+              "name": "visualIdeation",
+              "value": "={{ $json['Visual Ideation'] }}",
+              "type": "string"
+            },
+            {
+              "id": "b1ffaaff-a7e2-44d4-a34c-9d3c31889ec7",
+              "name": "toneAndVoice",
+              "value": "={{ $json['Tone And Voice'] }}",
+              "type": "string"
+            },
+            {
+              "id": "82f59f68-203a-44e0-9caa-3988eace777e",
+              "name": "postTypeSegmentation",
+              "value": "={{ $json['Post Type Segmentation'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        520,
+        100
+      ],
+      "id": "9348347a-7aa4-4429-9cbf-30ea4a5eaf61",
+      "name": "Merge Both AI Agent Input + Company Research Details"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Generate the Facebook Content Posting Planner for the month,{{ $json.month }}{{ $now.format('yyyy') }}:\n1. Start Date: {{ $json.startDate }}\n2. End Date: {{ $json.endDate }}\n3. Brand Name: {{ $json.brandName }}\n4. Business Overview: {{ $json.businessOverview }}\n5. Core Products: {{ $json.coreProducts }}\n5. Target Audience: {{ $json.targetAudience }}\n6. Total Posts To Generate: {{ $json.totalPostsToGenerate }}\n7. Tone And Voice: {{ $json.toneAndVoice }}\n8. Call-to-action: {{ $json.callToAction }}\n9. Visual Ideation: {{ $json.visualIdeation }}\n10 Post Types Segmentation: {{ $json.postTypeSegmentation }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a social media content planning specialist who familiarized with most trending social media platforms including Facebook, Instagram, TikTok, X.com, LinkedIn etc which knowing well about the content posting structure and outline differently based on the various social media platforms. \n\n# Task\n- You are tasked to come out a monthly proper Facebook post content planner for my client's Facebook business page. The post content must be relate to target audience and showcase how the brand's services can give their audience feel and experience the brand service fulfillment.\n- Don't not come out pushy or hardsell intent phrases or less using these words such as \"Our [Company Name]\", \"Our [Brand Name]\" or \"Our [Product Name]\", following by the selected tone and voice to make the content more engaging and interactive.\n\n# Tools\nYou are require to use the listed tools in order for well-understand about the the writing style, the product and services and post content structure before come out the full content post. Here is the list of the tools require based on the sequence as below:\n1. `fb_posts_data_table`: Call this tool to retrieve all the previous scraped Facebook Page Posts in table format. This allows you to capture and analyze the style from the previous post content published before generate the new post content output.\n2. `company_research_retriever`: Call this tool to fetch and retrieve the scraped company, brand and industry research data. By getting this data, you are able to understand my client business background, products and services details in overview information for post content crafting.\n3. `readyCare_product_page_url`: Call this tool to read and retrieve all ReadyCare Product Page URLs that had been scraped to create an additional call-to-action at the end of the text content post when you specifically mention about product on particular use cases.\n4. `readyCare_product_details`: Call this tool to read and retrieve all ReadyCare Products details that had been scraped including product name, description and variations for illustrating how the specific products can fix and solve the audience daily household cleaning problems.\n5. `ai_search_query`: Call this tool to query region or local based information such as general knowledge about the geolocation, industry knowledge, guidelines, tips or any queries related to the company, brands and products.\n6. `get_public_holidays`: Call this tool to get the upcoming regional public holidays in order to create general festival greetings or story history of some regional festives posting to match the festives appreciation or holiday celebration for content post.\n7. `Think`: Call this tool to do some reasoning and thinking about what are steps to take next in order to accomplish the requested task. It will not obtain new information or change the database, but just append the thought to the log. Use it when complex reasoning or some cache memory is needed.\n\n# Input Context\nIn order to come out a proper Facebook posts content planner, I will provide the inputs for you such as:\n- Month\n- Start Date\n- End Date\n- Brand Name\n- Business Overview\n- Core Products\n- Target Audience\n- Total Posts Generate\n- Tone And Voice\n- Call To Action (CTA)\n- Visual Ideation\n- Post Types Segmentation\n\n# Text Post Content Structure\n- The ideal output for text post content(textPost) structure based on the following sequence should be in like this:\n -- Headline: The use case of the day\n -- Description: Illustrate the audience's use case about what problem had benn raised and how to solve it\n -- Call-to-action: Simple call-to-action that can lead the audience to the brand or product details destination link\n -- 4 to 6 Suitable Hashtags\n\n# Output\n- The output must be follow the JSON structured schema and output response must not include any unnecessary explanations, definitions and other unrelated information.\n- The output of post content must be unique and should not repeated from the previous post content.\n- The output should not include the the label of content structure such as `Headline`, `Description` and `Call-to-action`\n- For `visualIdea` should crafting out based on \"Visual Ideation\" and \"Post Types Segmentation\" input context. This can be ensure that the visual idea description can be more insightful for graphic visual designer reference to come out the right creative formats and artworks.\n\n## Example Output\njson:[\n  {\n    \"datePosting\": \"27 Apr 2025\",\n    \"textPostV1\": \"👚 Laundry Wins: Bright Clothes, Happy Skin! 🌿\nEmma’s busy mornings got easier when she switched to a gentle bio-based detergent that keeps clothes fresh and soft—perfect for her little ones’ sensitive skin. ✨\nExplore easy laundry care here:https://rcsignature.com.my/shop/biobased-laundry-liquid-detergent/\\n\\n #LaundryTips #GentleCare #EcoFriendly #FreshClothes #FamilyFirst\",\n    \"textPostV2\":\"✨ Keeping Fun Clean, Naturally! 👧🎨\\n Little hands make big messes, but cleanup doesn't have to be a chore. When playtime turns into a sticky situation on the floor, a quick wipe with a plant-based multipurpose cleaner leaves surfaces sparkling and safe for the next adventure.\\n\\n Make Your Home Cleaner & Safer. Get Your ReadyCare Bio-based Home Cleaning Products Here 👉 https://rcsignature.com.my/shop/biobased-multipurpose-cleaner/\",\n    \"visualIdea\": \"Video reel showing a child's messy crayon and juice spills on a floor being easily wiped away by a parent using the multipurpose cleaner. The visual should be bright, quick-paced, and end with the child playing happily on the clean floor.\"\n  },\n  {\n    \"datePosting\": \"29 Apr 2025\",\n    \"textPostV1\": \"🌿 Say goodbye to harsh chemical smells!\nAfter cleaning, wouldn’t it be nice if your home smelled fresh and natural? Many find that bio-based cleaners with essential oils leave a gentle, uplifting scent—no overwhelming fumes, just clean air. 🍋🌸\nDiscover the difference nature makes🌱✨: https://rcsignature.com.my/biobased-shop/\n#FreshHome #NaturalScents #EcoFriendlyCleaning #NoHarshChemicals \",\n    \"textPostV2\":\"🍳 Kitchen Grease, Meet Your Match!\\n Last night's amazing dinner shouldn't leave a greasy reminder. Many home cooks are finding that a bio-based dish soap cuts through tough oil and food stains effortlessly, leaving pots and pans sparkling without drying out their hands.\\n\\n Discover a gentler way to clean your kitchenware: https://rcsignature.com.my/shop/biobased-dish-washing-liquid/\",\n    \"visualIdea\": \"Static image of a sparkling clean pan held up by a smiling person. In the background, a sink with other clean dishes, and the dishwashing liquid bottle is subtly placed on the counter.\"\n  },\n  {\n    \"datePosting\": \"3 May 2025\",\n    \"textPostV1\": \"🍼 Baby Bottle Care Made Simple!\\n New mom Sarah found peace of mind knowing her baby's bottles were cleaned gently without harsh chemicals. \"It's reassuring to use something safe yet effective every day,\" she says. 💧\\n\\n Discover gentle cleaning for your little one’s essentials: https://rcsignature.com.my/shop/biobased-baby-bottle-utensil-cleaner/ #SafeForBaby #GentleCleaning #PeaceOfMind #EcoFriendlyParenting 🌿\",\n    \"textPostV2\":\"🐾 Muddy Paws, Clean Floors, Happy Home!\\n Every pet owner knows the struggle of muddy paw prints after a rainy day walk. Imagine easily wiping them away, leaving the floor clean and smelling fresh, without any harsh chemicals that could irritate your furry friend's paws. 🐕\\n\\n Keep your home ready for any adventure: https://rcsignature.com.my/shop/biobased-multipurpose-cleaner/\",\n    \"visualIdea\": \"Video reel showing a dog running inside with muddy paws, followed by the owner cheerfully cleaning the tracks with a mop and the multipurpose cleaner. The video ends with the dog lying comfortably on the spotless floor.\"\n  }\n  ...\n]\n\n## Definition of JSON Output Fields\n- datePosting: The date for scheduling and publishing the post to the Facebook business page.\n- textPostV1: The version 1 of text content post to describing and telling the storylines to their audience based on their audience daily real life events or use cases that can relate to the selected Brand products or core services features and how the brand's products or services can help the targeted audience to solve the use cases or challenges as solution to them.\n- textPostV2: The version 2 of text content post to describing and telling the storylines to their audience based on their audience daily real life events or use cases that can relate to the selected Brand products or core services features and how the brand's products or services can help the targeted audience to solve the use cases or challenges as solution to them.\n- visualIdea: The description of the visual idea for creative team as the reference or starting point that what kind of storyboard or elements to illustrate and support the generated text content (copywriting). The longer description, the creative team will easier to understand they want to do."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        780,
+        100
+      ],
+      "id": "dc5bfaf3-b9a0-4236-acb9-122306e5294e",
+      "name": "FB Post Content Agent"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to retrieve all the previous scraped Facebook Page Posts in table format. This allows you to capture and analyze the style from the previous post content published before generate the new post content output.",
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p7wajxjrsq5m1oi",
+        "table": "m2ro5zqbusdq8a9",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDbTool",
+      "typeVersion": 3,
+      "position": [
+        620,
+        340
+      ],
+      "id": "1d25722f-e906-4f8e-8af8-f5b8d38a3ac4",
+      "name": "fb_posts_data_table",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to fetch and retrieve the scraped company, brand and industry research data. By getting this data, you are able to understand my client business background, products and services details in overview information for post content crafting.",
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p7wajxjrsq5m1oi",
+        "table": "mige3921kfky65s",
+        "options": {
+          "fields": [
+            "Research Output"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDbTool",
+      "typeVersion": 3,
+      "position": [
+        660,
+        500
+      ],
+      "id": "417078a6-6afb-413f-8f47-01fd6385afbc",
+      "name": "company_research_retriever",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        500,
+        360
+      ],
+      "id": "2627aa75-d0f7-4769-a8d7-610a49818c57",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to query region or local based information such as general knowledge about the geolocation, industry knowledge, guidelines, tips or any queries related to the company, brands and products.",
+        "workflowId": {
+          "__rl": true,
+          "value": "Ek66VfFhjAWBSb3v",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Tavily AI Research Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1080,
+        500
+      ],
+      "id": "4aced05c-b9ee-4ec7-a351-a70a1a837bd5",
+      "name": "ai_search_query"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1600,
+        100
+      ],
+      "id": "93331103-d132-4407-bdb4-97718e00b96e",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "bb08b5e4-562d-42c8-b6c3-fefbc58acb70",
+              "leftValue": "={{ $('Merge Both AI Agent Input + Company Research Details').first().json.month }}",
+              "rightValue": "={{ $json.Month }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1780,
+        400
+      ],
+      "id": "69a0dd15-9e48-4ccb-b4b9-35c9f966df8d",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "path": "fb-readycare-content-google-doc-generator",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -540,
+        1140
+      ],
+      "id": "77fe6950-26c3-4c5c-8b50-1f6c6564a4a2",
+      "name": "Webhook1",
+      "webhookId": "3098f031-338b-4ea5-a991-7dfc1435e98b"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to read and retrieve all ReadyCare Product Page URLs that had been scraped to create an additional call-to-action at the end of the text content post when you specifically mention about product on particular use cases.",
+        "documentId": {
+          "__rl": true,
+          "value": "1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s",
+          "mode": "list",
+          "cachedResultName": "ReadyCare Signature Ecommerce Store Product Listing(Apr2025_Update)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "All Product Pages",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        800,
+        440
+      ],
+      "id": "6377615b-6b0c-4520-bba8-640dfc7c4845",
+      "name": "readyCare_product_page_url",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": " Call this tool to read and retrieve all ReadyCare Products details that had been scraped including product name, description and variations for illustrating how the specific products can fix and solve the audience daily household cleaning problems.",
+        "documentId": {
+          "__rl": true,
+          "value": "1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s",
+          "mode": "list",
+          "cachedResultName": "ReadyCare Signature Ecommerce Store Product Listing(Apr2025_Update)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1871117814,
+          "mode": "list",
+          "cachedResultName": "Product Details",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit#gid=1871117814"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        960,
+        420
+      ],
+      "id": "1732946f-48a0-45cc-bdc3-25f3449b61f7",
+      "name": "readyCare_product_details",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://facebook-scraper-api4.p.rapidapi.com/get_facebook_page_id",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "link",
+              "value": "={{ $json['FB Page URL'] }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-rapidapi-host",
+              "value": "facebook-scraper-api4.p.rapidapi.com"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -80,
+        -940
+      ],
+      "id": "fa4df086-4e1c-4133-adb7-8dce44b68039",
+      "name": "GET FB Page ID",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "RhcMhaqem5mohNc1",
+          "name": "RapidAPI Header Auth(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/actor-runs/{{ $json.data.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "waitForFinish",
+              "value": "60"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1200,
+        -940
+      ],
+      "id": "f7e8c41f-9766-4dff-865c-bb2d1cee6e2b",
+      "name": "Get Actor Run",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        960,
+        -940
+      ],
+      "id": "45b0d58a-4a4e-4eed-ab07-cc2990350f22",
+      "name": "Wait",
+      "webhookId": "a3216efe-abbd-429b-b905-9afced96f8d4"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.data.defaultDatasetId }}/items ",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1820,
+        -960
+      ],
+      "id": "9a8d660f-6c93-4c9d-91d8-5ab2a9a18c27",
+      "name": "Get Datasets",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "575cc607-2b70-4323-b268-995590595b10",
+              "leftValue": "={{ $json.data.status }}",
+              "rightValue": "SUCCEEDED",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1480,
+        -940
+      ],
+      "id": "9f304fca-ea8b-4211-9909-215e4b3ea544",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d34a454b-8ca5-484d-8497-a9b21dc01027",
+              "name": "fbPageID",
+              "value": "={{ $json.facebook_id }}",
+              "type": "string"
+            },
+            {
+              "id": "5abdcb31-b02b-4fe4-8012-431bf344b1f8",
+              "name": "fbPageURL",
+              "value": "={{ $('On form submission1').first().json['FB Page URL'] }}",
+              "type": "string"
+            },
+            {
+              "id": "289e120f-34ba-43db-b1a0-e76f24755de3",
+              "name": "maxPosts",
+              "value": "={{ $('On form submission1').first().json['Max Posts Scrape'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        260,
+        -940
+      ],
+      "id": "89238434-5833-422a-8fcd-c99917f364a6",
+      "name": "SET Inputs For APIFY FB Scraper"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/actor-tasks/immense_grasshopper~facebook-posts-scraper-task/runs",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"input\": [\n        {\n            \"url\": \"{{ $json.fbPageURL }}\",\n            \"maxPosts\": {{ $json.maxPosts }}\n        }\n    ]\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        640,
+        -940
+      ],
+      "id": "becc5417-30db-4ef8-9daa-dffaa630d742",
+      "name": "APIFY FB Posts Scraper Actor Start",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ed570b1b-7813-4061-a8c6-fff5e4d43aa4",
+              "name": "numRow",
+              "value": "={{ $itemIndex+1 }}",
+              "type": "string"
+            },
+            {
+              "id": "37e5b5be-aec7-4377-87e3-8941c6302423",
+              "name": "datePublished",
+              "value": "={{ $json.creationDate }}",
+              "type": "string"
+            },
+            {
+              "id": "094014be-d849-4620-9a1b-900d3f4ece69",
+              "name": "postText",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "1c542148-722b-4c44-89bb-d8a8f3fac310",
+              "name": "postID",
+              "value": "={{ $json.postId }}",
+              "type": "string"
+            },
+            {
+              "id": "78fe163a-62d8-4d97-b9f8-70aa937fb0d4",
+              "name": "postURL",
+              "value": "={{ $json.postUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "19b3d5ae-028f-4040-a3ee-94f49f9ae7c2",
+              "name": "reactionCount",
+              "value": "={{ $json.reactionCount }}",
+              "type": "number"
+            },
+            {
+              "id": "644d9b4e-6b50-4c44-a933-65e2e5a4515b",
+              "name": "shareCount",
+              "value": "={{ $json.shareCount }}",
+              "type": "string"
+            },
+            {
+              "id": "f743818d-0527-4de1-9ca1-c41dae2644aa",
+              "name": "commentCount",
+              "value": "={{ $json.commentComment }}",
+              "type": "string"
+            },
+            {
+              "id": "a0725947-9049-442e-bdd7-b0972d0f638a",
+              "name": "videoViewCount",
+              "value": "={{ $json.videoViewCount }}",
+              "type": "string"
+            },
+            {
+              "id": "6bb8f671-ded0-469c-8e65-0044051f2aad",
+              "name": "imagePostList",
+              "value": "={{ $json.imageUrlList }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -340,
+        -560
+      ],
+      "id": "d7fb896e-e3c1-48ac-a6d3-aa90d1b71829",
+      "name": "Mapped Important Fields With Scraped Data"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "={{ $now.format('yyyy-MM-dd-hh-mm-ss') }}_FB-ReadyCare-Posts-Scraped",
+          "mode": "id"
+        },
+        "embeddingBatchSize": 500,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "typeVersion": 1.3,
+      "position": [
+        920,
+        -680
+      ],
+      "id": "884515de-0d72-4c2f-9468-02c5019bf383",
+      "name": "Qdrant Vector Store",
+      "credentials": {
+        "qdrantApi": {
+          "id": "JHGJ4OS8az0ug9lO",
+          "name": "QdrantCluster[creo_sementra_fb_posts](boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "text-embedding-3-large",
+        "options": {
+          "dimensions": 1536,
+          "batchSize": 500
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        800,
+        -440
+      ],
+      "id": "62529a75-ef03-437c-a34e-21cebf4eb989",
+      "name": "Embeddings OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        1120,
+        -420
+      ],
+      "id": "cdc99062-1920-449b-8074-f69743e85fd8",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "formTitle": "ReadyCare FB Page Posts Scraping",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "FB Page Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Sementra Hot Spring Nature Resort Gopeng"
+                  },
+                  {
+                    "option": "Readycare Signature"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "FB Page URL",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "https://www.facebook.com/sementrahotspringnatureresortgopeng"
+                  },
+                  {
+                    "option": "https://www.facebook.com/readycaresignature"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Max Posts Scrape",
+              "fieldType": "number"
+            },
+            {
+              "fieldLabel": "Post Type Segmentation",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Video Reels: 8 Posts"
+                  },
+                  {
+                    "option": "Static Image/Image Carousel: 5 Posts"
+                  }
+                ]
+              },
+              "multiselect": true
+            }
+          ]
+        },
+        "options": {
+          "path": "fb-readycare-posts-scraping"
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -360,
+        -940
+      ],
+      "id": "0522d1f3-ae71-4bd2-9ff2-8ca5a295dd0d",
+      "name": "On form submission1",
+      "webhookId": "9a909819-2f21-448d-9734-986d19b6bf11"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -60,
+        -540
+      ],
+      "id": "c2789cf4-cbf0-4548-901f-8dc761189d90",
+      "name": "Loop Over Items2"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "create",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p7wajxjrsq5m1oi",
+        "table": "m2ro5zqbusdq8a9",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Row Num",
+              "fieldValue": "={{ $json.numRow }}"
+            },
+            {
+              "fieldName": "Date Published",
+              "fieldValue": "={{ $json.datePublished }}"
+            },
+            {
+              "fieldName": "Post ID",
+              "fieldValue": "={{ $json.postID }}"
+            },
+            {
+              "fieldName": "Text Post",
+              "fieldValue": "={{ $json.postText }}"
+            },
+            {
+              "fieldName": "Post URL",
+              "fieldValue": "={{ $json.postURL }}"
+            },
+            {
+              "fieldName": "Post Image List",
+              "fieldValue": "={{ $json.imagePostList }}"
+            },
+            {
+              "fieldName": "Reaction Counts",
+              "fieldValue": "={{ $json.reactionCount }}"
+            },
+            {
+              "fieldName": "Share Counts",
+              "fieldValue": "={{ $json.shareCount }}"
+            },
+            {
+              "fieldName": "Comment Counts",
+              "fieldValue": "={{ $json.commentCount }}"
+            },
+            {
+              "fieldName": "Video View Counts",
+              "fieldValue": "={{ $json.videoViewCount }}"
+            },
+            {
+              "fieldName": "Scraped Date Updates",
+              "fieldValue": "={{ $now.format('yyyy-MM-dd') }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        560,
+        -500
+      ],
+      "id": "b5e3912f-a9d1-4f09-9b50-05a90664827b",
+      "name": "NocoDB9",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p7wajxjrsq5m1oi",
+        "table": "m2ro5zqbusdq8a9",
+        "limit": 40,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        560,
+        -680
+      ],
+      "id": "2527e352-a4cf-4aa7-85cb-7fa491259a42",
+      "name": "NocoDB10",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        260,
+        -680
+      ],
+      "id": "b5179be8-fcea-43dd-beb8-20c8a5d536b2",
+      "name": "Aggregate1"
+    },
+    {
+      "parameters": {
+        "content": "## 1. ReadyCare FB Posting Scraping + Store in Nocodb + Qdrant Vector DB",
+        "height": 920,
+        "width": 2640
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -520,
+        -1060
+      ],
+      "typeVersion": 1,
+      "id": "0e24e489-dca1-4fea-b23e-003e2a190dc6",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "height": 760,
+        "width": 2660,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -520,
+        -60
+      ],
+      "typeVersion": 1,
+      "id": "df63430d-4e43-4cf0-80de-42752d0d6e52",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p7wajxjrsq5m1oi",
+        "table": "mfhswpgxr5ttu7q",
+        "options": {
+          "viewId": "vwgdtna84t9mygao"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -260,
+        -1560
+      ],
+      "id": "4b551815-b981-469e-a699-766e9a128b0b",
+      "name": "Get many rows",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Brand Name: {{ $json['Brand Name'] }}\nBusiness Location: {{ $json['Business Location'] }}\nBrand Website: {{ $json['Brand Website'] }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a web research specialist who familiarized on scraping the web content from the user search query and summarizing what the company, brand and products details.  \n\n# Task\n- You are tasked to come out a simple but comprehensive details of client's business research overview based on user provided information such as client's brand name, client official business website url and client's business location.\n- The tasks to be fulfill including generating for business overview, core service and target audience.\n\n# Tool\nIn order able to scrape the web content based on user provided brand website url to generate the require output such as the business overview, core service and target audience. You are require to use the following tool:\n- `**ai_web_research_tool**` : Call this tool to get the search query through the ai search engine, gather the sources and results such as the business overview, core service and target audience. as the output.\n\n# User Context\nYou are require to input the provided user context as reference in order to come out the right output. The user context information will be provided by the user as such:\n- Brand Name\n- Business Location\n- Brand Website\n\n# Output\nThe output should be in structured JSON format where the output had been generated will be allocate based on the require JSON structure or schema without any task explaination and other unnecessary details.\n\n## Example of JSON structure\n```\njson: {\n \"businessOverview\": \"ReadyCare Signature is a company based in Ipoh, Perak, Malaysia, specializing in bio-based cleaning solutions with a strong emphasis on environmental sustainability. The company operates primarily from two locations: its main factory at Lot 222429, Hala Industri Bercham 3, Kawasan Industri Ringan Bercham, and a retail outlet at Lot G5, No 39 Ipoh Garden Square, Jalan Sultan Azlan Shah Utara.\\n\\n Under the leadership of Mr. Yeoh Eng Foo, ReadyCare has developed the Signature Selection Biobased Series, which comprises plant-based cleaning products that are dermatologist-tested, vegan, USDA Certified Biobased, and Halal Certified. The focus is on creating effective cleaning solutions that pose minimal risk to families and the environment. Their manufacturing facility employs advanced robotic technology, with about one robot for every five workers, to enhance quality control and precision.\\n\\n ReadyCare Signature stands out for its commitment to sustainability, utilizing solar energy and recyclable materials in its operations. They have also launched initiatives such as Refill Stations for their products, promoting sustainable consumption practices. Their products are marketed as being gentle on the skin and effective without harmful chemicals, suitable for families, including those with babies and pets.\",\n  \"coreProducts\": \"1. Biobased Veggie Wash\\n -The vegan residue free, and easy rinse off formulation dissolves quickly, leaving the fruits and vegetables clean and safe to consume. Main Ingredients: Aqua, Plant Based Surfactant, Glycerine, Baking Soda, Citric Acid, Food additive grade disinfectant, Salt, Food Grade Preservative, Food Additive Grade Disinfectant. Cautions: Store in cool and dry place. Keep out of reach of children. For external use only. In case of contact with eyes, rinse immediately with plenty of water for several minutes and seek medical advice if irritation persists.\\n\\n 2. Biobased Laundry Liquid Detergent\\n -USDA Certified Biobased, food grade baking soda, low pH, no optical brightener, dye, parabens, or perfume, gentle on skin, vegan friendly, low-suds formula.\\n\\n 3.Biobased Dishwashing Liquid: Eucalyptus\\n -USDA Certified Biobased formulation, food grade baking soda, prevents bacterial growth, easy to rinse off, neutral pH, biobased and Vegan formulation, no added petrochemical surfactants, gentle to skin.\",\n  \"targetAudience\": \"- For household who are looking for non-chemical based household cleaning products. \\n- For families who have skin sensitive and allergic concern on heavy and mid chemical-based clearning products.\\n - For parent who have children have skin sensitive and allergic concern on heavy and mid chemical-based clearning products\"\n}\n\n```"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        100,
+        -1560
+      ],
+      "id": "ad1280cc-a305-4517-b326-33d7f5b0f846",
+      "name": "Brand Research Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        -300,
+        -1340
+      ],
+      "id": "47206899-e526-45df-af08-5b1ff5fae78c",
+      "name": "DeepSeek Chat Model1",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "8Hvjw0JNKmbO191K",
+          "name": "DeepSeekAPI - info.hansondev@gmail.com"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n \"businessOverview\": \"ReadyCare Signature is a company based in Ipoh, Perak, Malaysia, specializing in bio-based cleaning solutions with a strong emphasis on environmental sustainability. The company operates primarily from two locations: its main factory at Lot 222429, Hala Industri Bercham 3, Kawasan Industri Ringan Bercham, and a retail outlet at Lot G5, No 39 Ipoh Garden Square, Jalan Sultan Azlan Shah Utara.\\n\\n Under the leadership of Mr. Yeoh Eng Foo, ReadyCare has developed the Signature Selection Biobased Series, which comprises plant-based cleaning products that are dermatologist-tested, vegan, USDA Certified Biobased, and Halal Certified. The focus is on creating effective cleaning solutions that pose minimal risk to families and the environment. Their manufacturing facility employs advanced robotic technology, with about one robot for every five workers, to enhance quality control and precision.\\n\\n ReadyCare Signature stands out for its commitment to sustainability, utilizing solar energy and recyclable materials in its operations. They have also launched initiatives such as Refill Stations for their products, promoting sustainable consumption practices. Their products are marketed as being gentle on the skin and effective without harmful chemicals, suitable for families, including those with babies and pets.\",\n  \"coreProducts\": \"1. Biobased Veggie Wash\\n -The vegan residue free, and easy rinse off formulation dissolves quickly, leaving the fruits and vegetables clean and safe to consume. Main Ingredients: Aqua, Plant Based Surfactant, Glycerine, Baking Soda, Citric Acid, Food additive grade disinfectant, Salt, Food Grade Preservative, Food Additive Grade Disinfectant. Cautions: Store in cool and dry place. Keep out of reach of children. For external use only. In case of contact with eyes, rinse immediately with plenty of water for several minutes and seek medical advice if irritation persists.\\n\\n 2. Biobased Laundry Liquid Detergent\\n -USDA Certified Biobased, food grade baking soda, low pH, no optical brightener, dye, parabens, or perfume, gentle on skin, vegan friendly, low-suds formula.\\n\\n 3.Biobased Dishwashing Liquid: Eucalyptus\\n -USDA Certified Biobased formulation, food grade baking soda, prevents bacterial growth, easy to rinse off, neutral pH, biobased and Vegan formulation, no added petrochemical surfactants, gentle to skin.\",\n  \"targetAudience\": \"- For household who are looking for non-chemical based household cleaning products. \\n- For families who have skin sensitive and allergic concern on heavy and mid chemical-based clearning products.\\n - For parent who have children have skin sensitive and allergic concern on heavy and mid chemical-based clearning products\"\n}",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        320,
+        -1400
+      ],
+      "id": "1b801a1a-7b90-4652-86cd-75ca2e8c51bf",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        480,
+        -1260
+      ],
+      "id": "6637776b-5316-4ccf-9c66-536671aab6b5",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to get the search query through the ai search engine, gather the sources and results such as the business overview, core service and target audience. as the output.",
+        "workflowId": {
+          "__rl": true,
+          "value": "Ek66VfFhjAWBSb3v",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Tavily AI Research Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        180,
+        -1340
+      ],
+      "id": "38fc4e27-176e-4083-b072-2ce2872ea9e9",
+      "name": "ai_web_research_tool"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -40,
+        -1400
+      ],
+      "id": "61e700bd-1322-4257-a749-cdc20332e2ac",
+      "name": "Google Gemini Chat Model3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p7wajxjrsq5m1oi",
+        "table": "mfhswpgxr5ttu7q",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Business Overview",
+              "fieldValue": "={{ $json.output.businessOverview }}"
+            },
+            {
+              "fieldName": "Core Products",
+              "fieldValue": "={{ $json.output.coreProducts }}"
+            },
+            {
+              "fieldName": "Target Audience",
+              "fieldValue": "={{ $json.output.targetAudience }}"
+            },
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Get many rows').item.json.Id }}"
+            },
+            {
+              "fieldName": "Target Audience",
+              "fieldValue": "={{ $json.output.targetAudience }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        460,
+        -1560
+      ],
+      "id": "8a31ac04-dac1-4846-bcac-4669e4e61450",
+      "name": "Update a row",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formTitle": "Creo Client - Sementra Resort Business Overview Research",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Brand Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Sementra Resort & Hot Spring Gopeng"
+                  },
+                  {
+                    "option": "Readycare Signature"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Brand Website",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "https://sementra.my/"
+                  },
+                  {
+                    "option": "https://rcsignature.com.my/"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Social Media Platforms",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Facebook"
+                  },
+                  {
+                    "option": "Instagram"
+                  },
+                  {
+                    "option": "TikTok"
+                  }
+                ]
+              },
+              "multiselect": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -500,
+        -1560
+      ],
+      "id": "39e40946-5c72-423e-a118-739a8681fdd1",
+      "name": "On form submission2",
+      "webhookId": "81f1be26-ddb1-47c7-90e9-30ff8d771b76"
+    },
+    {
+      "parameters": {
+        "content": "## Scanning For Client's Business Overview Research",
+        "height": 500,
+        "width": 1200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -540,
+        -1640
+      ],
+      "typeVersion": 1,
+      "id": "101aebcb-a9ca-4005-8c7b-7279ddfc2d3a",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "nocodb-readycare-biz-research-done",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        920,
+        -1800
+      ],
+      "id": "16ab1c6b-a2ed-44bd-b581-a103e2035ee5",
+      "name": "Webhook2",
+      "webhookId": "cb9099cd-963b-44c2-9e54-78698fc663b9"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p7wajxjrsq5m1oi",
+        "table": "mfhswpgxr5ttu7q",
+        "options": {
+          "viewId": "vwgdtna84t9mygao"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1140,
+        -1800
+      ],
+      "id": "108d72c7-613f-41ab-aefc-86cf20a53425",
+      "name": "Get Business Research Overview Info1",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "  {\n   \"clientName\": \"The client's brand name\",\n   \"clientWebsite\": \"The client's brand website\",\n   \"clientSocialMediaPlatforms\": [\"Facebook\", \"Instagram\", \"TikTok\", \"Youtube\"],\n   \"clientSocialMediaProfiles\": [\n      {\n      \"Facebook\": \"https://facebook.com/client-page\",\n      \"Instagram\": \"https://instagram.com/client-username\",\n      \"TikTok\": \"https://tiktok.com/@client-username\",\n      \"Youtube\": \"https://youtube.com/@client-username\"\n     }\n    ]\n  }",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1860,
+        -1600
+      ],
+      "id": "5a25973f-4b77-4993-8ac7-6a99397a739c",
+      "name": "Structured Output Parser2"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-pro",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1460,
+        -1620
+      ],
+      "id": "e0c4af88-eb53-427c-86ba-e478c3e14760",
+      "name": "Google Gemini Chat Model4",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        2060,
+        -1480
+      ],
+      "id": "b617f55d-7e75-4cd2-9b44-768e75e4fccf",
+      "name": "OpenAI Chat Model5",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output.clientSocialMediaProfiles",
+        "options": {
+          "destinationFieldName": "socialMediaProfiles"
+        }
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        880,
+        -1320
+      ],
+      "id": "c2df21e8-a595-46e3-b07c-8d14d7a28c25",
+      "name": "Split Out2"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to crawl the listed client's brand website to scrape and return the raw webpage content as context in order to complete the task requested.",
+        "workflowId": {
+          "__rl": true,
+          "value": "QeHEewsZGYiAUIfz",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Crawl4AI Single Webpage Crawler"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "url": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('url', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "url"
+          ],
+          "schema": [
+            {
+              "id": "url",
+              "displayName": "url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1600,
+        -1600
+      ],
+      "id": "1c532cbb-9822-41fb-9ebe-d597c00b71e1",
+      "name": "webpage_crawler"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1320,
+        -1600
+      ],
+      "id": "d88c7517-f8c2-4eb0-9f78-2b94e4d668c0",
+      "name": "OpenAI Chat Model6",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "text": "={{ $json[\"Business Overview\"] }}",
+        "attributes": {
+          "attributes": [
+            {
+              "name": "industryType",
+              "description": "Categorize the suitable resort type based on the provided user input"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        1360,
+        -1800
+      ],
+      "id": "a6c2ef6e-a96f-4b43-8b01-6760f309321e",
+      "name": "Industry Type Segementation"
+    },
+    {
+      "parameters": {
+        "content": "## ReadyCare Business Research & Social Media Profiles Finder\n",
+        "height": 760,
+        "width": 1640
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        720,
+        -1860
+      ],
+      "typeVersion": 1,
+      "id": "e7450bd1-5199-4d1f-9420-f8df595fea70",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Client Brand Name: {{ $('Get Business Research Overview Info1').item.json[\"Brand Name\"] }}\nClient Business Overview: {{ $('Get Business Research Overview Info1').item.json['Business Overview'] }}\nClient Brand Website: {{ $('Get Business Research Overview Info1').item.json['Brand Website'] }}\nClient Core Product: \n{{ $('Get Business Research Overview Info1').item.json['Core Products'] }}\nClient Target Audience: \n{{ $('Get Business Research Overview Info1').item.json[\"Target Audience\"] }}\nTarget Location: {{ $('Get Business Research Overview Info1').item.json[\"Business Location\"].split(\", \").last() }}\n",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a market research and analysis specialist who are able to do web scraping based on client name, and client website.\n\n# Task\n- You are tasked to do web scraping to lookout my client's {{ $('Get Business Research Overview Info1').item.json['Brand Name'] }} social media profiles before strategize on crafting the ad creative and ad content for upcoming ads campaign.\n\n# User Context\nYou are require to follow the provided user input as context and references for you to generate the right output and avoid any hallucination or any misinformation occurred. The user context will be providing such as:\n- Client Brand Name\n- Client Business Overview\n- Client Brand Website\n- Client Core Products\n- Client Target Audience\n\n# Tools To Use\nYou are require to use the following tools in order to accomplish the requesting task and generate the right outputs are listed as below:\n- `webpage_crawler`: Call this tool to crawl the listed client's brand website to scrape and return the raw webpage content as context in order to complete the task requested.\n- `client_info_searcher`: Call this tool to query the client's require information such as business overview, business location, core products and target audience based on the listed client brand name.\n\n# Output\nThe output generated must be in structured JSON data format without any explanation and unneccessary information. Only come out the output that what had been require above and following the example of JSON structure output or schema as refenrence below.\n\n## Example of JSON Output\n```\njson:\n  {\n   \"clientName\": \"The client's brand name\",\n   \"clientWebsite\": \"The client's brand website\",\n   \"clientSocialMediaPlatforms\": [\"Facebook\", \"Instagram\", \"TikTok\", \"Youtube\"],\n   \"clientSocialMediaProfiles\": [\n      {\n      \"Facebook\": \"https://facebook.com/client-page\",\n      \"Instagram\": \"https://instagram.com/client-username\",\n      \"TikTok\": \"https://tiktok.com/@client-username\",\n      \"Youtube\": \"https://youtube.com/@client-username\"\n     }\n    ]\n  }\n\n\n\n```"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        1680,
+        -1800
+      ],
+      "id": "5750169f-4f1e-4701-b66f-cd44be16f8aa",
+      "name": "Brand Social Media Profiles Finder"
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to query the client's require information such as business overview, business location, core products and target audience based on the listed client brand name.",
+        "workflowId": {
+          "__rl": true,
+          "value": "Ek66VfFhjAWBSb3v",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Tavily AI Research Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', ``, 'string') }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1740,
+        -1580
+      ],
+      "id": "266b480d-412d-4571-8101-633e3e9135c7",
+      "name": "client_info_searcher"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p7wajxjrsq5m1oi",
+        "table": "mfhswpgxr5ttu7q",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $('Get Business Research Overview Info1').item.json.Id }}"
+            },
+            {
+              "fieldName": "Social Media Used",
+              "fieldValue": "={{ $('Brand Social Media Profiles Finder').item.json.output.clientSocialMediaPlatforms }}"
+            },
+            {
+              "fieldName": "Social Media Profiles",
+              "fieldValue": "={{ $json.socialMediaProfiles }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1160,
+        -1320
+      ],
+      "id": "7aed8ae5-8067-4cb6-828f-adbf5024f5eb",
+      "name": "Update Social Media Profiles Links",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p7wajxjrsq5m1oi",
+        "table": "mwmwss1f1qmy3y2",
+        "options": {
+          "where": "=(Month,eq,{{ $now.plus(1,'month').format('LLLL') }})"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -100,
+        40
+      ],
+      "id": "a512a50d-00c1-4ef9-8fd5-9fb9c6bcbb71",
+      "name": "Get many rows1",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p7wajxjrsq5m1oi",
+        "table": "mfhswpgxr5ttu7q",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -100,
+        300
+      ],
+      "id": "ab68226e-4994-4f23-a627-8a320b2be141",
+      "name": "Get many rows2",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "create",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p7wajxjrsq5m1oi",
+        "table": "m72ka7lvi629usb",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Date Posting",
+              "fieldValue": "={{ $json.datePosting }}"
+            },
+            {
+              "fieldName": "Month Year",
+              "fieldValue": "={{ $('Merge Both AI Agent Input + Company Research Details').first().json.month }} {{ $now.format('yyyy') }}"
+            },
+            {
+              "fieldName": "Text Post V1",
+              "fieldValue": "={{ $json.textPostV1 }}"
+            },
+            {
+              "fieldName": "Text Post V2",
+              "fieldValue": "={{ $json.textPostV2 }}"
+            },
+            {
+              "fieldName": "Visual Idea",
+              "fieldValue": "={{ $json.visualIdea }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1380,
+        100
+      ],
+      "id": "54e55f7f-456a-4c83-9751-7a5c45be0daa",
+      "name": "Create a row",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p7wajxjrsq5m1oi",
+        "table": "mwmwss1f1qmy3y2",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        1560,
+        400
+      ],
+      "id": "bd67b1d1-da69-44ab-b0fb-05d9070e2fff",
+      "name": "Get The AI Input Table Record",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "update",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p7wajxjrsq5m1oi",
+        "table": "mwmwss1f1qmy3y2",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldName": "Id",
+              "fieldValue": "={{ $json.Id }}"
+            },
+            {
+              "fieldName": "Status",
+              "fieldValue": "Completed"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        2000,
+        400
+      ],
+      "id": "7d95dd6e-b17b-42b5-90d5-879bb2a58d15",
+      "name": "Update AI Input Record Status -> Completed",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $('Copy Last Month Content Planner GDocs').first().json.id }}",
+        "simple": false
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1000,
+        1220
+      ],
+      "id": "029c83f0-de0a-4119-92fe-63e4a296783e",
+      "name": "Google Docs",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        520,
+        1140
+      ],
+      "id": "c9df8002-3c03-4deb-b321-c48072c9fb7d",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3bd4c732-4a26-4638-81c9-36034ca9a617",
+              "name": "tableCells",
+              "value": "={{ $jmespath($json.body.content, '[?table].table.tableRows[-1].tableCells')[0] }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2200,
+        960
+      ],
+      "id": "def65f02-0bc0-411b-af7e-da9e8f24bbf5",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "11368f3e-434a-4cb9-a1c8-cb7d3a7f8daf",
+              "name": "table",
+              "value": "={{ $jmespath($json.body.content, '[?table]')[0] }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1180,
+        1220
+      ],
+      "id": "c77f45ba-0c59-47dd-b698-cf48a3e029a1",
+      "name": "Get Table"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $('Copy Last Month Content Planner GDocs').first().json.id }}",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "object": "tableRow",
+              "action": "insert",
+              "index": "={{ $('Get Table1').item.json.table.startIndex }}",
+              "rowIndex": "={{ $('Get Table1').item.json.table.table.tableRows.length - 1 }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1780,
+        960
+      ],
+      "id": "64829fdb-4d09-4396-8355-932631997a2c",
+      "name": "Insert table row at bottom",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $('Copy Last Month Content Planner GDocs').first().json.id }}",
+        "simple": false
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2000,
+        960
+      ],
+      "id": "798f8896-9da3-449d-8823-03d4729c2dd2",
+      "name": "Get updated document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $('Copy Last Month Content Planner GDocs').first().json.id }}",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "object": "tableRow",
+              "action": "delete",
+              "index": "={{ $json[\"table\"][\"startIndex\"] }}",
+              "rowIndex": "={{ $json[\"table\"][\"table\"][\"tableRows\"].length - 1 }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1360,
+        1220
+      ],
+      "id": "a9a8f230-73f7-4303-93fe-52ae670b5187",
+      "name": "Google Docs1",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $('Copy Last Month Content Planner GDocs').first().json.id }}",
+        "simple": false
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1360,
+        960
+      ],
+      "id": "2e94aa0c-51e7-43d0-86f4-8d587f381bde",
+      "name": "Google Docs2",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "11368f3e-434a-4cb9-a1c8-cb7d3a7f8daf",
+              "name": "table",
+              "value": "={{ $jmespath($json.body.content, '[?table]')[0] }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1580,
+        960
+      ],
+      "id": "6e20730d-b5a1-4ff0-983f-285afecd6b06",
+      "name": "Get Table1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bae18e06-1a31-4a2d-99c0-a1bfb201dc9e",
+              "name": "Month Year",
+              "value": "={{ $json['Month Year'] }}",
+              "type": "string"
+            },
+            {
+              "id": "74aa8c3f-48e3-4c72-ba2c-b35155464b9d",
+              "name": "datePosting",
+              "value": "={{ $json['Date Posting'] }}",
+              "type": "string"
+            },
+            {
+              "id": "d2e4f52e-d396-4361-9cce-b7e7623cb2fb",
+              "name": "textPostV1",
+              "value": "={{ $json['Text Post V1'] }}",
+              "type": "string"
+            },
+            {
+              "id": "0ecff522-dcba-4822-8c6c-4aff3d8afcea",
+              "name": "textPostV2",
+              "value": "={{ $json['Text Post V2'] }}",
+              "type": "string"
+            },
+            {
+              "id": "9917245f-d1ac-4329-a039-4d0f95f732e6",
+              "name": "visualIdea",
+              "value": "={{ $json['Visual Idea'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        760,
+        1220
+      ],
+      "id": "36fdfa0b-4932-47fe-b981-72fbd722ab5d",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "74aa8c3f-48e3-4c72-ba2c-b35155464b9d",
+              "name": "datePosting",
+              "value": "={{ $('Edit Fields3').first().json.datePosting }}",
+              "type": "string"
+            },
+            {
+              "id": "d2e4f52e-d396-4361-9cce-b7e7623cb2fb",
+              "name": "textPostV1",
+              "value": "={{ $('Edit Fields3').first().json.textPostV1 }}",
+              "type": "string"
+            },
+            {
+              "id": "7df15573-fb54-4d42-95d8-c7d17048076f",
+              "name": "textPostV2",
+              "value": "={{ $('Edit Fields3').first().json.textPostV2 }}",
+              "type": "string"
+            },
+            {
+              "id": "9917245f-d1ac-4329-a039-4d0f95f732e6",
+              "name": "visualIdea",
+              "value": "={{ $('Edit Fields3').first().json.visualIdea }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        840,
+        940
+      ],
+      "id": "ff95b244-63a8-46b4-a128-5de6a7a5972d",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1120,
+        940
+      ],
+      "id": "ef737716-7c7b-4530-aa00-017f5d753449",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $('Copy Last Month Content Planner GDocs').first().json.id }}",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "locationChoice": "location",
+              "index": "={{ $json.tableCells[3].content[0].startIndex }}",
+              "text": "={{ $('Edit Fields3').item.json.visualIdea }}}"
+            },
+            {
+              "action": "insert",
+              "locationChoice": "location",
+              "index": "={{ $json.tableCells[2].content[0].startIndex }}",
+              "text": "={{ $('Edit Fields3').item.json.textPostV2 }}"
+            },
+            {
+              "action": "insert",
+              "locationChoice": "location",
+              "index": "={{ $json.tableCells[1].content[0].startIndex }}",
+              "text": "={{ $('Edit Fields3').item.json.textPostV1 }}"
+            },
+            {
+              "action": "insert",
+              "locationChoice": "location",
+              "index": "={{ $json.tableCells[0].content[0].startIndex }}",
+              "text": "={{ $('Edit Fields3').item.json.datePosting }}"
+            },
+            {
+              "action": "replaceAll",
+              "text": "={{ $('Get updated document').item.json.body.content[1].paragraph.elements[0].textRun.content }}",
+              "replaceText": "=SEMENTRA - {{ $now.plus({week:3}).format('LLLL').toUpperCase() }} 2025  SOCIAL MEDIA POST"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2400,
+        960
+      ],
+      "id": "e56cde2f-6cfa-41cb-90f8-c14e366ca818",
+      "name": "Update a document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "copy",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.id }}",
+          "mode": "id"
+        },
+        "name": "=[{{ $now.plus({week:3}).format('LLLL yyyy') }}]- ReadyCare - Monthly FB Content Creation Planner",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        120,
+        1140
+      ],
+      "id": "62e8f9bb-419f-45be-9864-493f9d6d8f13",
+      "name": "Copy Last Month Content Planner GDocs",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5d70667e-a21c-4117-84e5-d958e752622b",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "={{ $now.format('LLLL yyyy') }}",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "cbff7e9d-15c7-4b24-ae99-36cf5205377c",
+              "leftValue": "={{ $json.mimeType }}",
+              "rightValue": "application/vnd.google-apps.document",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -100,
+        1140
+      ],
+      "id": "858a7156-7c7d-4c57-b8bd-0b5925b4b77b",
+      "name": "Filtered Last Month GDocs Content Planner"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "ReadyCare - Monthly FB Content Creation Planner",
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "1ifAFdk-hXXClnZDc13ocgur4T4YkVUuI",
+            "mode": "list",
+            "cachedResultName": "Monthly FB Posting",
+            "cachedResultUrl": "https://drive.google.com/drive/folders/1ifAFdk-hXXClnZDc13ocgur4T4YkVUuI"
+          }
+        },
+        "options": {
+          "fields": [
+            "name",
+            "mimeType",
+            "id"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -320,
+        1140
+      ],
+      "id": "09d1110f-d08f-4a6b-aaa3-ba29f313b3d2",
+      "name": "Get ALL ReadyCare - Monthly FB Content Creation Planner GDocs",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p7wajxjrsq5m1oi",
+        "table": "m72ka7lvi629usb",
+        "options": {
+          "where": "=(Month Year,eq,{{ $now.plus(1,\"months\").format('LLLL yyyy') }})"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        300,
+        1140
+      ],
+      "id": "74d16478-fc89-4c73-97d1-266fde8f4eb2",
+      "name": "Get many rows3",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Think": {
+      "ai_tool": [
+        [
+          {
+            "node": "FB Post Content Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "FB Post Content Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Create a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_public_holidays": {
+      "ai_tool": [
+        [
+          {
+            "node": "FB Post Content Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "NocoDB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NocoDB": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get many rows1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get many rows2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "NocoDB2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NocoDB1": {
+      "ai_tool": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Merge Both AI Agent Input + Company Research Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Both AI Agent Input + Company Research Details": {
+      "main": [
+        [
+          {
+            "node": "FB Post Content Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FB Post Content Agent": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "fb_posts_data_table": {
+      "ai_tool": [
+        [
+          {
+            "node": "FB Post Content Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "company_research_retriever": {
+      "ai_tool": [
+        [
+          {
+            "node": "FB Post Content Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "FB Post Content Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_search_query": {
+      "ai_tool": [
+        [
+          {
+            "node": "FB Post Content Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Get The AI Input Table Record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Update AI Input Record Status -> Completed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Get ALL ReadyCare - Monthly FB Content Creation Planner GDocs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "readyCare_product_page_url": {
+      "ai_tool": [
+        [
+          {
+            "node": "FB Post Content Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "readyCare_product_details": {
+      "ai_tool": [
+        [
+          {
+            "node": "FB Post Content Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET FB Page ID": {
+      "main": [
+        [
+          {
+            "node": "SET Inputs For APIFY FB Scraper",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Actor Run": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get Actor Run",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Datasets": {
+      "main": [
+        [
+          {
+            "node": "Mapped Important Fields With Scraped Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Get Datasets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SET Inputs For APIFY FB Scraper": {
+      "main": [
+        [
+          {
+            "node": "APIFY FB Posts Scraper Actor Start",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "APIFY FB Posts Scraper Actor Start": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mapped Important Fields With Scraped Data": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission1": {
+      "main": [
+        [
+          {
+            "node": "GET FB Page ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items2": {
+      "main": [
+        [
+          {
+            "node": "Aggregate1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "NocoDB9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NocoDB9": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "NocoDB10": {
+      "main": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate1": {
+      "main": [
+        [
+          {
+            "node": "NocoDB10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows": {
+      "main": [
+        [
+          {
+            "node": "Brand Research Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brand Research Agent": {
+      "main": [
+        [
+          {
+            "node": "Update a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Brand Research Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_web_research_tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Brand Research Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Brand Research Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission2": {
+      "main": [
+        [
+          {
+            "node": "Get many rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook2": {
+      "main": [
+        [
+          {
+            "node": "Get Business Research Overview Info1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Business Research Overview Info1": {
+      "main": [
+        [
+          {
+            "node": "Industry Type Segementation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser2": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Brand Social Media Profiles Finder",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Brand Social Media Profiles Finder",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Structured Output Parser2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out2": {
+      "main": [
+        [
+          {
+            "node": "Update Social Media Profiles Links",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "webpage_crawler": {
+      "ai_tool": [
+        [
+          {
+            "node": "Brand Social Media Profiles Finder",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model6": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Industry Type Segementation",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Industry Type Segementation": {
+      "main": [
+        [
+          {
+            "node": "Brand Social Media Profiles Finder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Brand Social Media Profiles Finder": {
+      "main": [
+        [
+          {
+            "node": "Split Out2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "client_info_searcher": {
+      "ai_tool": [
+        [
+          {
+            "node": "Brand Social Media Profiles Finder",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows2": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Create a row": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get The AI Input Table Record": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs": {
+      "main": [
+        [
+          {
+            "node": "Get Table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Update a document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Table": {
+      "main": [
+        [
+          {
+            "node": "Google Docs1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert table row at bottom": {
+      "main": [
+        [
+          {
+            "node": "Get updated document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get updated document": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs2": {
+      "main": [
+        [
+          {
+            "node": "Get Table1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Table1": {
+      "main": [
+        [
+          {
+            "node": "Insert table row at bottom",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Google Docs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Google Docs2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a document": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Copy Last Month Content Planner GDocs": {
+      "main": [
+        [
+          {
+            "node": "Get many rows3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filtered Last Month GDocs Content Planner": {
+      "main": [
+        [
+          {
+            "node": "Copy Last Month Content Planner GDocs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get ALL ReadyCare - Monthly FB Content Creation Planner GDocs": {
+      "main": [
+        [
+          {
+            "node": "Filtered Last Month GDocs Content Planner",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows3": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "On form submission": [
+      {
+        "json": {
+          "Month of Year": "July",
+          "Start Posting Date": "2025-07-01",
+          "End Posting Date": "2025-06-30",
+          "Tone And Voice": [
+            "Conversational",
+            "Friendly",
+            "Informal",
+            "Persuasive"
+          ],
+          "Total Posts Generator": 14,
+          "Visual Types Posts Segmentation": [
+            "Video Reels: 8 Posts",
+            "Static Image/Image Carousel: 5 Posts"
+          ],
+          "Visual Ideation": [
+            "Sharing heneral home & office cleaning knowledge",
+            "Sharing home cleaning tips and tricks (Life hacks)",
+            "Create awareness of the importance of bio-based products",
+            "Engaging mini-games for audience having fun and engage",
+            "Mini quiz or poll for audience having interaction and engagement"
+          ],
+          "submittedAt": "2025-06-18T23:05:03.654+08:00",
+          "formMode": "test"
+        }
+      }
+    ],
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "x-forwarded-host": "n8n.automessenger.me",
+            "x-forwarded-server": "n8n.automessenger.me",
+            "x-real-ip": "52.15.226.51",
+            "x-forwarded-for": "52.15.226.51",
+            "x-forwarded-proto": "https",
+            "host": "n8n.automessenger.me",
+            "connection": "Upgrade",
+            "content-length": "623",
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "user-agent": "axios/1.10.0",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "sentry-trace": "305d8494204843118748947afa8924e3-9b41f79a28c7353d",
+            "baggage": "sentry-environment=production,sentry-release=0.111.4,sentry-public_key=545692f1a4c6783d1ebb54fa5c095dc8,sentry-trace_id=305d8494204843118748947afa8924e3,sentry-org_id=4505953073889280"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "type": "records.after.insert",
+            "id": "6619fe42-aac1-4731-a2de-30d9b09261e3",
+            "data": {
+              "table_id": "mwmwss1f1qmy3y2",
+              "table_name": "[AI_AGENT] - FB Post Content Agent",
+              "rows": [
+                {
+                  "Id": 1,
+                  "CreatedAt": "2025-06-18T15:13:36.490Z",
+                  "UpdatedAt": "2025-06-18T15:13:36.490Z",
+                  "Month": "Sample Text",
+                  "Start Posting Date": "2025-06-18T15:13:36.490Z",
+                  "End Posting Date": "2025-06-18T15:13:36.490Z",
+                  "Tone And Voice": "Conversational",
+                  "Total Posts Generate": 123,
+                  "Version": 123,
+                  "Status": "Pending",
+                  "Post Type Segmentation": "Sample Long text",
+                  "Target Audience": "Sample Long text",
+                  "Visual Ideation": "Sample Long text",
+                  "Call To Action": "Sample Long text"
+                }
+              ]
+            }
+          },
+          "webhookUrl": "https://n8n.automessenger.me/webhook-test/readycare-fb-post-generator",
+          "executionMode": "test"
+        }
+      }
+    ],
+    "Webhook1": [
+      {
+        "json": {
+          "headers": {
+            "x-forwarded-host": "n8n.automessenger.me",
+            "x-forwarded-server": "n8n.automessenger.me",
+            "x-real-ip": "52.15.226.51",
+            "x-forwarded-for": "52.15.226.51",
+            "x-forwarded-proto": "https",
+            "host": "n8n.automessenger.me",
+            "connection": "Upgrade",
+            "content-length": "623",
+            "accept": "application/json, text/plain, */*",
+            "content-type": "application/json",
+            "user-agent": "axios/1.10.0",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "sentry-trace": "305d8494204843118748947afa8924e3-8763646377256748",
+            "baggage": "sentry-environment=production,sentry-release=0.111.4,sentry-public_key=545692f1a4c6783d1ebb54fa5c095dc8,sentry-trace_id=305d8494204843118748947afa8924e3,sentry-org_id=4505953073889280"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "type": "records.after.insert",
+            "id": "2871eb31-69b9-4567-9f3a-b8ab4c0b79c0",
+            "data": {
+              "table_id": "mwmwss1f1qmy3y2",
+              "table_name": "[AI_AGENT] - FB Post Content Agent",
+              "rows": [
+                {
+                  "Id": 1,
+                  "CreatedAt": "2025-06-18T15:47:07.611Z",
+                  "UpdatedAt": "2025-06-18T15:47:07.611Z",
+                  "Month": "Sample Text",
+                  "Start Posting Date": "2025-06-18T15:47:07.611Z",
+                  "End Posting Date": "2025-06-18T15:47:07.611Z",
+                  "Tone And Voice": "Conversational",
+                  "Total Posts Generate": 123,
+                  "Version": 123,
+                  "Status": "Pending",
+                  "Post Type Segmentation": "Sample Long text",
+                  "Target Audience": "Sample Long text",
+                  "Visual Ideation": "Sample Long text",
+                  "Call To Action": "Sample Long text"
+                }
+              ]
+            }
+          },
+          "webhookUrl": "https://n8n.automessenger.me/webhook-test/fb-readycare-content-google-doc-generator",
+          "executionMode": "test"
+        }
+      }
+    ],
+    "On form submission1": [
+      {
+        "json": {
+          "FB Page Name": "Readycare Signature",
+          "FB Page URL": "https://www.facebook.com/readycaresignature",
+          "Max Posts Scrape": 16,
+          "Post Type Segmentation": [
+            "Video Reels: 8 Posts",
+            "Static Image/Image Carousel: 5 Posts"
+          ],
+          "submittedAt": "2025-07-14T17:09:30.005+08:00",
+          "formMode": "test"
+        }
+      }
+    ],
+    "On form submission2": [
+      {
+        "json": {
+          "Brand Name": "Readycare Signature",
+          "Brand Website": "https://rcsignature.com.my/",
+          "Social Media Platforms": [
+            "Facebook",
+            "Instagram",
+            "TikTok"
+          ],
+          "submittedAt": "2025-07-14T17:46:54.884+08:00",
+          "formMode": "test"
+        }
+      }
+    ],
+    "Brand Research Agent": [
+      {
+        "json": {
+          "output": {
+            "businessOverview": "Readycare Signature, a brand under ReadyCare (M) Sdn. Bhd., is a company based in Ipoh, Perak, Malaysia, that specializes in creating eco-friendly, biobased cleaning products. Their mission is to produce effective cleaning solutions that are safe for families, including those with babies and pets, and kind to the planet. The company prides itself on its local Malaysian roots and commitment to sustainability, utilizing a modern factory with Industry 4.0 technologies and green energy sources like solar power. They emphasize transparency in their manufacturing and actively engage the community through initiatives such as the 'Plastic Reborn Campaign' to promote an eco-friendly lifestyle.",
+            "coreProducts": "Readycare Signature offers a range of biobased cleaning products made from renewable, plant-based materials. Their products are formulated to be pH balanced, gentle on the skin, and free from harsh chemicals. The core product line includes:\\n\\n1.  **Biobased Veggie Wash**: For cleaning fruits and vegetables.\\n2.  **Biobased Laundry Liquid Detergent**: A gentle detergent for clothing.\\n3.  **Biobased Dishwashing Liquid**: For washing dishes.\\n4.  **Biobased Multipurpose Cleaner**: An all-purpose cleaner for various surfaces.\\n5.  **Biobased Baby Series**: Includes specialized products like Baby Bottle & Utensil Cleaner and Baby Laundry Detergent.\\n6.  **Biobased Pet Series**: Features pet-specific products like shampoos for cats and dogs and a pet deodorant.",
+            "targetAudience": "- Environmentally conscious consumers seeking sustainable and biodegradable alternatives to conventional cleaning products.\\n- Families with babies, young children, and pets who require gentle, non-toxic, and safe household cleaning solutions.\\n- Individuals with sensitive skin or allergies who need products free from harsh chemicals, artificial fragrances, and dyes.\\n- Health-conscious households that prioritize using plant-based and natural ingredients in their daily cleaning routines."
+          }
+        }
+      }
+    ],
+    "Brand Social Media Profiles Finder": [
+      {
+        "json": {
+          "output": {
+            "clientName": "Readycare Signature",
+            "clientWebsite": "https://rcsignature.com.my/",
+            "clientSocialMediaPlatforms": [
+              "Facebook",
+              "Instagram",
+              "TikTok",
+              "Youtube"
+            ],
+            "clientSocialMediaProfiles": [
+              {
+                "Facebook": "https://www.facebook.com/readycaresignature/",
+                "Instagram": "https://www.instagram.com/readycare.signature",
+                "TikTok": "https://www.tiktok.com/@readycare.signature",
+                "Youtube": "https://www.youtube.com/@readycaresignature"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "FB Post Content Agent": [
+      {
+        "json": {
+          "output": [
+            {
+              "datePosting": "01 Aug 2025",
+              "textPostV1": "Bye-bye sticky floors and hello happy little feet! 👣\nLittle explorers and their accidental spills are no match for a cleaner that’s tough on messes but gentle on surfaces. One quick wipe and the floor is sparkling clean and safe for the next adventure.\nKeep your home ready for anything 👉 https://rcsignature.com.my/shop/biobased-multipurpose-cleaner/\n#CleanHappy #SafeForKids #EcoFriendlyHome #MessyPlay #MalaysiaMade",
+              "textPostV2": "Spills, splatters, and little footprints! 🐾\nA busy home means messes are just around the corner. But what if cleaning them up was quick, easy, and didn't fill your home with harsh chemical smells? A plant-based multipurpose cleaner makes it possible.\nDiscover the power of gentle cleaning: https://rcsignature.com.my/biobased-shop/\n#ReadyForAnything #PlantBasedCleaning #HealthyHome #FamilyFirst #IpohBrand",
+              "visualIdea": "Video Reel: A fast-paced, upbeat video showing a toddler spilling juice on the floor. A parent then cheerfully wipes it away with the multipurpose cleaner, showing how easily it cleans. The video ends with the toddler playing happily on the spotless floor. Text overlays highlight \"Tough on Mess\" and \"Safe for Play.\""
+            },
+            {
+              "datePosting": "04 Aug 2025",
+              "textPostV1": "Tackling that pile of laundry just got easier! 🧺\nEver feel like your clothes don’t get that truly fresh feeling? Switching to a bio-based detergent can make all the difference, leaving your laundry soft, fresh, and free from harsh chemical residues that can irritate the skin.\nFeel the difference in your next load: https://rcsignature.com.my/shop/biobased-laundry-liquid-detergent/\n#LaundryDay #FreshAndClean #GentleOnSkin #EcoFriendlyLiving #SustainableHome",
+              "textPostV2": "What if your laundry routine could be kinder to your clothes and the planet? 🌿\nMany are discovering that a detergent made with plant-based ingredients not only cleans effectively but also keeps fabrics soft and vibrant for longer. It's a small change with a big impact!\nUpgrade your laundry game: https://rcsignature.com.my/biobased-shop/\n#LaundryTips #EcoConscious #BioBased #CleanLiving #Malaysia",
+              "visualIdea": "Static Image: A bright, airy photo of a person smiling as they fold a pile of fresh, clean laundry. The laundry basket is filled with soft-looking clothes, and a bottle of the laundry detergent is subtly placed on a nearby shelf. The focus is on the feeling of satisfaction and freshness."
+            },
+            {
+              "datePosting": "06 Aug 2025",
+              "textPostV1": "From greasy pans to sparkling clean! ✨\nLast night’s delicious dinner shouldn't mean a tough cleanup session. Imagine a dishwashing liquid that cuts through grease effortlessly without leaving your hands feeling dry and tight. It’s possible with a pH-balanced, plant-based formula!\nMake dish time a breeze: https://rcsignature.com.my/shop/biobased-dish-washing-liquid/\n#KitchenHacks #CleanDishes #GentleOnHands #EcoFriendlyKitchen #SupportLocalMY",
+              "textPostV2": "Tired of that greasy film on your plates? 🍽️\nIt’s frustrating when you have to re-wash dishes because they don’t feel truly clean. A powerful, bio-based dish soap can lift away stubborn food stains and grease in one wash, leaving your kitchenware spotless and your hands happy.\nExperience a better clean: https://rcsignature.com.my/biobased-shop/\n#DishwashingTips #SparklingClean #PlantPower #HealthyKitchen #ReadycareSignature",
+              "visualIdea": "Video Reel: A satisfying before-and-after video showing a greasy pan being washed. The video can be a time-lapse, starting with the dirty pan and quickly showing the dishwashing liquid cutting through the grease, ending with the pan sparkling clean under running water. Upbeat music and text like \"Grease Be Gone!\" make it engaging."
+            },
+            {
+              "datePosting": "08 Aug 2025",
+              "textPostV1": "Did you know? The air inside your home can be more polluted than the air outside! 😮\nOne way to create a fresher, healthier space is by choosing cleaning products that don't release harsh chemicals. Bio-based cleaners with natural scents can leave your home smelling amazing without the nasty fumes.\nBreathe easier with a greener clean: https://rcsignature.com.my/biobased-shop/\n#HealthyHome #IndoorAirQuality #EcoFriendlyCleaning #GoGreen #LifeHacks",
+              "textPostV2": "Why choose bio-based? It’s simple! 🌱\nProducts made from plants are not only effective but also biodegradable, meaning they are kinder to our planet. By making this small switch, you're helping to reduce your environmental footprint, one clean surface at a time.\nJoin the green cleaning movement: https://rcsignature.com.my/\n#SustainableLiving #EcoAwareness #PlanetOverPlastic #BioBased #CleanGreen",
+              "visualIdea": "Image Carousel: A series of visually appealing graphics that educate the audience.\nSlide 1: \"Why Go Bio-Based?\" with icons representing plants, safety, and the planet.\nSlide 2: \"Gentle on Skin, Tough on Grime\" with a picture of hands in gentle soap suds.\nSlide 3: \"Safe for the Whole Family (Furry Ones, Too!)\" with an image of a child and a pet playing on a clean floor.\nSlide 4: \"A Choice for a Greener Planet\" showing the product next to a thriving plant."
+            },
+            {
+              "datePosting": "11 Aug 2025",
+              "textPostV1": "Peace of mind for new parents! 🍼\nCleaning baby bottles and utensils is a daily task, and it's so important to use a cleaner that is gentle and safe. A bio-based cleaner gives you the confidence that your little one's things are free from germs and harsh chemical residues.\nFor the gentlest clean for your baby: https://rcsignature.com.my/shop/biobased-baby-bottle-utensil-cleaner/\n#BabyCare #NewParents #SafeForBaby #GentleCleaning #MomLifeMY",
+              "textPostV2": "Keeping your baby's world clean and safe. 👶\nFrom milk residue to food stains, a baby's utensils need a thorough but gentle wash. Many parents are finding that a plant-based cleaner is the perfect solution, effectively cleaning without leaving behind any harmful substances.\nDiscover a worry-free clean: https://rcsignature.com.my/biobased-shop/\n#ParentingHacks #BabyEssentials #EcoFriendlyParenting #CleanAndSafe #MalaysiaBaby",
+              "visualIdea": "Video Reel: A heartwarming video of a parent washing baby bottles with the Biobased Baby Bottle & Utensil Cleaner. The video should have a soft, gentle feel, with close-ups of the product creating a light foam and rinsing off easily. The reel ends with the parent happily feeding the baby with a sparkling clean bottle."
+            },
+            {
+              "datePosting": "13 Aug 2025",
+              "textPostV1": "Let's play a game! 🎮 Can you spot the 5 differences between these two pictures?\nLook closely at this sparkling clean living room and see if you can find what has changed! Drop your answers in the comments below. Let's see who has the sharpest eyes!\nNeed help making your home this spotless? Check out our solutions: https://rcsignature.com.my/\n#GameTime #SpotTheDifference #BrainTeaser #CleanHome #FunFriday",
+              "textPostV2": "Time for a fun challenge! ✨\nWe've hidden 5 of our products in this picture of a beautifully clean home. Can you find them all? Comment with the products you see!\nGet all your cleaning essentials here: https://rcsignature.com.my/biobased-shop/\n#ScavengerHunt #FunAndGames #HowManyCanYouFind #CleanLiving #EngageAndWin",
+              "visualIdea": "Static Image (Mini-Game): A \"Spot the Difference\" game. A high-quality image of a clean and tidy living room is presented side-by-side with a slightly altered version. The differences could be a missing product, a moved pillow, a different colored cushion, etc. The visual should be bright and engaging, with clear instructions in the caption."
+            },
+            {
+              "datePosting": "15 Aug 2025",
+              "textPostV1": "Happy paws, happy home! 🐾\nWe love our furry friends, but not the mess they sometimes bring in! With a pet-safe cleaner, you can easily wipe away muddy paw prints and other little accidents, leaving your floors clean and your pets safe from harsh chemicals.\nFor a pet-friendly clean: https://rcsignature.com.my/shop/biobased-multipurpose-cleaner/\n#PetLovers #CleanHomeHappyPet #PetSafeCleaning #FurryFriends #DogLifeMY",
+              "textPostV2": "Bath time for your furry friend doesn't have to be a struggle! 🐶\nA gentle, bio-based pet shampoo can make all the difference, leaving their coat soft, shiny, and smelling fresh without irritating their sensitive skin. Happy pet, happy you!\nTreat your pet to a gentle bath: https://rcsignature.com.my/shop/dog-biobased-pet-shampoo/\n#PetCare #DogShampoo #HappyPets #GentleAndNatural #CatLifeMY",
+              "visualIdea": "Video Reel: A cute and funny video of a dog with muddy paws running into the house. The owner then uses the multipurpose cleaner to easily wipe the prints away. The video can then transition to the dog getting a bath with the pet shampoo, looking happy and fluffy. The reel ends with the clean dog cuddling with its owner in a spotless living room."
+            },
+            {
+              "datePosting": "18 Aug 2025",
+              "textPostV1": "What's your biggest cleaning headache? 🤔\nIs it…\nA) Stubborn kitchen grease\nB) Soap scum in the bathroom\nC) Dusty surfaces\nD) Pet messes\nVote in the comments below! We want to know what your biggest challenges are so we can share the best tips!\nFind a solution for every challenge: https://rcsignature.com.my/\n#CleaningPoll #HaveYourSay #CleaningTips #HomeLife #AudienceInteraction",
+              "textPostV2": "Let's talk cleaning! Which of these tasks do you dread the most?\n1.  Washing the dishes\n2.  Doing the laundry\n3.  Cleaning the toilet\n4.  Mopping the floors\nShare your number in the comments! Let's see which chore is the least popular!\nMake any chore easier with the right tools: https://rcsignature.com.my/biobased-shop/\n#MiniPoll #CleaningHacks #TellUs #CommunityLove #InteractivePost",
+              "visualIdea": "Static Image (Poll): A visually engaging graphic with four quadrants, each representing a different cleaning challenge (e.g., a greasy pan, a grimy shower, a dusty shelf, muddy paw prints). The text \"What's Your Biggest Cleaning Challenge?\" is prominently displayed in the center. The caption encourages followers to comment with their answer."
+            },
+            {
+              "datePosting": "20 Aug 2025",
+              "textPostV1": "Eating clean starts with cleaning clean! 🥬\nWashing your fruits and vegetables is an important step in preparing a healthy meal. A veggie wash helps to remove waxes, pesticides, and dirt, so you can enjoy your fresh produce with peace of mind.\nFor cleaner, safer produce: https://rcsignature.com.my/shop/biobased-veggie-wash/\n#HealthyEating #EatClean #VeggieWash #FreshProduce #KitchenTips",
+              "textPostV2": "Are you washing your veggies right? 🥦\nRinsing with water is good, but a dedicated veggie wash can help to remove unseen residues more effectively. It's a simple step that can make a big difference in the quality and safety of your food.\nGive your fruits and veggies a proper clean: https://rcsignature.com.my/biobased-shop/\n#FoodSafety #HealthTips #EatYourVeggies #CleanEating #MalaysiaHealth",
+              "visualIdea": "Video Reel: A satisfying video showing a variety of fresh fruits and vegetables being washed with the Biobased Veggie Wash. The video can use slow-motion shots of the water rinsing the produce, making it look crisp and delicious. The reel ends with a shot of a colorful, fresh salad being prepared."
+            },
+            {
+              "datePosting": "22 Aug 2025",
+              "textPostV1": "Life Hack: Make your own natural room spray! ✨\nLove the fresh scent of your multipurpose cleaner? Pour some into a spray bottle with water for a quick and easy way to freshen up any room. It’s a great way to get that clean smell without any artificial fragrances.\nGet that natural freshness: https://rcsignature.com.my/shop/biobased-multipurpose-cleaner/\n#LifeHack #DIY #NaturalHome #FreshScent #CleaningTips",
+              "textPostV2": "Did you know you can use your fabric softener for more than just laundry? 🌿\nAdd a small amount to a spray bottle with water and lightly mist your curtains and upholstery to give them a soft, fresh scent. It’s a simple trick to keep your home smelling lovely!\nTry it with our gentle fabric softener: https://rcsignature.com.my/shop/biobased-fabric-softener/\n#HomeHacks #DIYProjects #FreshHome #EcoFriendlyTips #CreativeIdeas",
+              "visualIdea": "Static Image/Carousel: A \"life hack\" style carousel.\nSlide 1: A beautiful shot of a room with the text \"Life Hack: Natural Room Spray.\"\nSlide 2: A simple graphic showing a bottle of multipurpose cleaner, a spray bottle, and water, with text explaining the steps.\nSlide 3: An image of someone spraying the natural air freshener in their living room, looking pleased with the fresh scent. The visual should be bright and inspiring."
+            },
+            {
+              "datePosting": "25 Aug 2025",
+              "textPostV1": "A healthier planet starts at home. 🌍\nBeing an environmentally conscious brand from Ipoh, we're proud to power our factory with solar energy and use sustainable practices. Choosing our products means you're not just cleaning your home, but also supporting a local business that cares for the environment.\nJoin us on our green journey: https://rcsignature.com.my/\n#MadeInMalaysia #SupportLocal #EcoFriendlyBusiness #Sustainability #GreenFuture",
+              "textPostV2": "We're more than just cleaning products. We're a promise. ✨\nA promise to create effective, bio-based solutions that are safe for your family and our planet. From our eco-friendly factory in Perak to your home, we're committed to making a positive impact.\nLearn more about our story: https://rcsignature.com.my/about-us/\n#LocalBrand #MalaysianPride #EcoConscious #OurStory #ReadycareSignature",
+              "visualIdea": "Video Reel: A \"behind-the-scenes\" look at the Readycare Signature factory. The video can show snippets of the clean, modern facility, the use of robotic technology, and shots of the solar panels. The tone should be inspiring and authentic, highlighting the company's commitment to quality and sustainability. The video ends with a friendly wave from the team."
+            },
+            {
+              "datePosting": "27 Aug 2025",
+              "textPostV1": "Getting the house ready for the big day! 🇲🇾\nAs we prepare to celebrate our nation's independence, a clean and welcoming home is the perfect way to get into the festive spirit. Let's make our homes shine as brightly as our Malaysian pride!\nFor a celebration-ready home: https://rcsignature.com.my/\n#Merdeka #MalaysiaNationalDay #CleanHome #FestiveVibes #ProudMalaysian",
+              "textPostV2": "There's a special feeling in the air as we approach Hari Kebangsaan! ✨\nGetting the house clean and tidy is a wonderful way to honor the occasion and create a warm, inviting space for family and friends. Let's get our homes sparkling for the celebration!\nFind everything you need for a pre-celebration clean: https://rcsignature.com.my/biobased-shop/\n#HariKebangsaan #MerdekaReady #MalaysianHome #CleaningUp #FestivePrep",
+              "visualIdea": "Static Image: A cheerful image of a family cleaning their living room together, with subtle Malaysian flag decorations in the background. They are all smiling and working as a team. The text \"Getting Ready for Merdeka!\" is overlaid on the image in a festive font. The atmosphere is one of happy preparation."
+            },
+            {
+              "datePosting": "29 Aug 2025",
+              "textPostV1": "The secret to a streak-free shine on your windows? ✨\nIt’s not just about what you use, but when you use it! Cleaning windows on a cloudy day is often better, as direct sunlight can cause the cleaner to dry too quickly, leaving streaks.\nGet that crystal-clear view: https://rcsignature.com.my/shop/biobased-glass-cleaner/\n#CleaningTips #LifeHacks #StreakFree #WindowCleaning #HomeCare",
+              "textPostV2": "Tired of looking through streaky windows? 🪟\nA simple tip for a perfect shine is to use a bio-based glass cleaner and wipe with a microfiber cloth. It's a game-changer for getting that crystal-clear finish without the harsh chemical smell.\nSee the world more clearly: https://rcsignature.com.my/biobased-shop/\n#GlassCleaner #HomeHacks101 #SparklingClean #ClearView #EcoFriendlyHome",
+              "visualIdea": "Video Reel: A 'tips and tricks' style video showing the difference between cleaning a window in direct sunlight (creating streaks) and cleaning it on a cloudy day (no streaks). The video can use a split-screen effect to demonstrate the point clearly. It ends with a satisfying shot of a perfectly clean window reflecting a beautiful view."
+            },
+            {
+              "datePosting": "30 Aug 2025",
+              "textPostV1": "Kitchen Quiz Time! 🧠\nWhat's the best way to tackle a tough, baked-on food stain on a pan?\nA) Scrub it with a steel wool\nB) Soak it in hot water with a good dish soap\nC) Put it in the freezer\nComment with your answer! Let's see who the kitchen cleaning gurus are!\nFor a powerful soak: https://rcsignature.com.my/shop/biobased-dish-washing-liquid/\n#KitchenQuiz #CleaningHacks #TestYourKnowledge #InteractiveFun #DishwashingTips",
+              "textPostV2": "Let's test your cleaning knowledge! 💡\nTo remove a fresh red wine spill from a tablecloth, you should:\nA) Rub it vigorously with a wet cloth\nB) Pour white wine on it\nC) Blot it gently and treat with a stain remover\nWhat's your guess? Let us know in the comments!\nBe ready for any spill: https://rcsignature.com.my/shop/biobased-laundry-liquid-detergent/\n#QuizTime #LifeHacksQuiz #StainRemoval #LaundryTips #CleanFreak",
+              "visualIdea": "Static Image (Quiz): A fun, graphic-based quiz question. The image could show a picture of a dirty pan with the question \"How do you clean this?\" and three options (A, B, C) with small icons. The design should be eye-catching and encourage participation. The correct answer (B) can be revealed in the comments or in a follow-up story."
+            },
+            {
+              "datePosting": "31 Aug 2025",
+              "textPostV1": "Happy National Day, Malaysia! 🇲🇾\nToday, we celebrate our beautiful nation, our diverse culture, and the spirit of unity that makes us who we are. Wishing everyone a joyful and memorable Hari Kebangsaan!\nWith love from a proud local brand.\n#SelamatHariKebangsaan #MalaysiaNationalDay #Merdeka68 #ProudlyMalaysian #UnityInDiversity",
+              "textPostV2": "Wishing all Malaysians a Happy Independence Day! ❤️\nAs a homegrown brand, we are so proud to be part of this incredible nation. Let's celebrate our shared journey and look forward to a bright future together. Selamat Hari Kebangsaan!\n#HariKebangsaan2025 #MalaysiaBoleh #Merdeka #AnakMalaysia #KitaMalaysia",
+              "visualIdea": "Video Reel: A celebratory video montage showcasing the beauty and diversity of Malaysia. It could feature shots of iconic landmarks, different cultural celebrations, and the smiling faces of Malaysians. The video should have uplifting, patriotic music. The reel ends with the text \"Selamat Hari Kebangsaan, Malaysia! - From Your Friends at Readycare Signature\" and the Malaysian flag waving."
+            }
+          ]
+        }
+      }
+    ],
+    "Copy Last Month Content Planner GDocs": [
+      {
+        "json": {
+          "kind": "drive#file",
+          "id": "1zwxA3HI609Gq-26apY6NLbHRBF8-ywbawOxnh76U70k",
+          "name": "[August 2025]- ReadyCare - Monthly FB Content Creation Planner",
+          "mimeType": "application/vnd.google-apps.document"
+        }
+      }
+    ]
+  },
+  "versionId": "8e9a1030-ada0-42dd-93e2-a331a0f65291",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-06-18T11:33:48.904Z",
+      "createdAt": "2025-06-18T11:33:48.904Z",
+      "role": "workflow:owner",
+      "workflowId": "YAJRK0fH1B9bPHxE",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
