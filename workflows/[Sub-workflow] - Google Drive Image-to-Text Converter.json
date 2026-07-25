@@ -1,0 +1,186 @@
+{
+  "updatedAt": "2025-08-01T14:56:46.000Z",
+  "createdAt": "2025-08-01T14:48:22.724Z",
+  "id": "pVGNeIjhcx8MhvW2",
+  "name": "[Sub-workflow] - Google Drive Image-to-Text Converter",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "imageUrl"
+            }
+          ]
+        }
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        64,
+        320
+      ]
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        400,
+        96
+      ],
+      "id": "729fe43c-a5d2-4f6d-812e-b7838cdffaf1",
+      "name": "When clicking ‘Execute workflow’",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.imageUrl.replaceAll(\"https://drive.google.com/file/d/\",\"\").replaceAll(\"/view?usp=sharing\",\"\").replaceAll(\"/view?usp=drive_link\",\"\").replaceAll(\"/view?usp=drivesdk\",\"\",).replaceAll(\"\\n\",\"\") }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        272,
+        320
+      ],
+      "id": "1d6bb941-5e28-4457-8a7c-005b46296629",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "ZZtfpdmhfdrjjM7Z",
+          "name": "GDrive-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "image",
+        "operation": "analyze",
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "text": "Extract only the text-based context from the image",
+        "inputType": "base64",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        480,
+        320
+      ],
+      "id": "153ba33a-44ee-428b-a3ad-0c47ec2e3fb6",
+      "name": "Analyze image",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d2375f12-88d9-4c47-8a6b-77b6c216468c",
+              "name": "imageToText",
+              "value": "={{ $json.content }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        688,
+        320
+      ],
+      "id": "11cd1c46-b9d6-4668-a08e-fce4ae23d79b",
+      "name": "Text Output"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        []
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Analyze image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze image": {
+      "main": [
+        [
+          {
+            "node": "Text Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "When clicking ‘Execute workflow’": [
+      {
+        "json": {
+          "imageUrl": "https://drive.google.com/file/d/1vOaIUysqLTOpEnNoFzqaBgXfgrAA0rYR/view?usp=sharing"
+        }
+      }
+    ]
+  },
+  "versionId": "93fa4abf-3d69-4037-961e-d9d22979b740",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-08-01T14:48:22.730Z",
+      "createdAt": "2025-08-01T14:48:22.730Z",
+      "role": "workflow:owner",
+      "workflowId": "pVGNeIjhcx8MhvW2",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
