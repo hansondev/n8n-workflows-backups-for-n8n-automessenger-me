@@ -1,0 +1,90 @@
+{
+  "updatedAt": "2025-06-04T04:45:23.000Z",
+  "createdAt": "2025-06-03T07:10:08.331Z",
+  "id": "dWjQ1s17EW5iXudn",
+  "name": "My workflow 11",
+  "active": false,
+  "isArchived": true,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "dd35bc9d-392f-42e6-87de-7d90e4e8e856",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "returnAll": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.wordpress",
+      "typeVersion": 1,
+      "position": [
+        -120,
+        -180
+      ],
+      "id": "f576b9cd-5bf4-4dbb-b57d-fc71e12f72bb",
+      "name": "Wordpress",
+      "credentials": {
+        "wordpressApi": {
+          "id": "XvElTo6wbe59lO92",
+          "name": "WPAccount (rcsignature.com.my)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "url": "https://rcsignature.com.my/wp-json/wp/v2/campaign",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "2e7454a1-9156-43ed-884f-4e9b2a37db80",
+      "name": "HTTP Request"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "fe0e0bd9-a83f-4a88-8be6-e2361d962e33",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-06-03T07:10:08.342Z",
+      "createdAt": "2025-06-03T07:10:08.342Z",
+      "role": "workflow:owner",
+      "workflowId": "dWjQ1s17EW5iXudn",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
