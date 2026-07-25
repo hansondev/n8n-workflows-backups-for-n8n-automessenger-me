@@ -1,0 +1,177 @@
+{
+  "updatedAt": "2024-04-07T15:37:35.000Z",
+  "createdAt": "2024-03-21T10:45:59.138Z",
+  "id": "t6lLzZpLAHfFCEPm",
+  "name": "My workflow 4",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "14a8ef27-6845-4a48-89c8-82f9528aaaa6",
+      "name": "Chat Trigger",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1,
+      "position": [
+        740,
+        280
+      ],
+      "webhookId": "5bab7234-5308-43e2-9039-57b7c0153f45"
+    },
+    {
+      "parameters": {
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "id": "2e803ea0-f9e7-4a2c-b3e5-f60546d2dea7",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.5,
+      "position": [
+        1000,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "model": "=mistralai/mistral-7b-instruct:free",
+        "options": {
+          "baseURL": "https://openrouter.ai/api/v1/"
+        }
+      },
+      "id": "20da030a-3c70-4eca-b3f8-0c931b61f589",
+      "name": "OpenRouter",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        860,
+        420
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "As6tgCfGdOjAFLSK",
+          "name": "OpenRouterAPI"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "504fbc2a-4d43-42e3-baab-059f36f6396b",
+      "name": "Structured Output Parser",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.1,
+      "position": [
+        1380,
+        620
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "30447e0e-106b-44d5-bae4-12a2188e8ff7",
+      "name": "Auto-fixing Output Parser",
+      "type": "@n8n/n8n-nodes-langchain.outputParserAutofixing",
+      "typeVersion": 1,
+      "position": [
+        1260,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "model": "gpt-3.5-turbo-0125",
+        "options": {}
+      },
+      "id": "f4afc710-648e-42d0-8597-709157ca8a80",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        1220,
+        580
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAi account (info.hansondev@gmail.com)"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Chat Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Auto-fixing Output Parser",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Auto-fixing Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Auto-fixing Output Parser",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "f38dac62-4adc-4a70-af13-afc731e205e9",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-03-21T10:45:59.182Z",
+      "createdAt": "2024-03-21T10:45:59.182Z",
+      "role": "workflow:owner",
+      "workflowId": "t6lLzZpLAHfFCEPm",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
