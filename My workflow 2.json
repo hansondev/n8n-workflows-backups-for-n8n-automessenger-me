@@ -1,0 +1,83 @@
+{
+  "updatedAt": "2023-12-23T15:37:09.226Z",
+  "createdAt": "2023-12-23T15:37:09.226Z",
+  "id": "9BvCK8c2WxXJ6AzX",
+  "name": "My workflow 2",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "55004e4b-c2b8-471e-9c7a-43a158f05acb",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        880,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.mapbox.com/geocoding/v5/mapbox.places/Los%20Angeles.json",
+        "options": {}
+      },
+      "id": "0d3631f9-1508-4c03-80cc-17a75d993abb",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1320,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "include": "none",
+        "options": {}
+      },
+      "id": "175cbab7-1523-4c0f-a75d-7ad2a1c02cff",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1100,
+        360
+      ]
+    }
+  ],
+  "connections": {
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "c3e70877-527b-4e5a-8404-1eadaf9c7f4f",
+  "triggerCount": 0,
+  "shared": [],
+  "tags": []
+}
