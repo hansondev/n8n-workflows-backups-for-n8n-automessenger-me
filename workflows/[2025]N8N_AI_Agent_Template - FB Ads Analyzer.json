@@ -1,0 +1,757 @@
+{
+  "updatedAt": "2025-06-06T12:34:30.000Z",
+  "createdAt": "2025-06-05T15:36:18.277Z",
+  "id": "nOdZND4HRFeLnDYK",
+  "name": "[2025]N8N_AI_Agent_Template - FB Ads Analyzer",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        40,
+        240
+      ],
+      "id": "3db7d0a1-9169-429e-83be-f6f05166ca77",
+      "name": "Telegram Trigger",
+      "webhookId": "7630b87d-2f8a-417f-b0fd-f5bf22a3a525",
+      "credentials": {
+        "telegramApi": {
+          "id": "CMng6gAaMmqZbHLF",
+          "name": "TGBot-access_token-n8n_ai_1_bot"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.voice.file_id }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "012e4d6d-bb21-4ca8-b626-010da33d94e9"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Voice"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "b5048aaf-d4c7-4364-890e-42d6ab1f1ca9",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Text"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        540,
+        240
+      ],
+      "id": "8a58a495-0983-43e0-8813-49bfa544d299",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "fileId": "={{ $json.message.voice.file_id }}"
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        780,
+        140
+      ],
+      "id": "c72ba10f-6f45-4dab-a709-c7ddbb33a875",
+      "name": "Telegram",
+      "webhookId": "47ca9bb9-d2bb-45c7-952e-76556b7b1207"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        940,
+        140
+      ],
+      "id": "5e660242-da9e-4659-957e-80c49f9e6255",
+      "name": "Transcribe"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "20bf50a2-8592-4d14-8a83-f538b088c4e1",
+              "name": "text",
+              "value": "={{ $json.message.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        940,
+        320
+      ],
+      "id": "cfb434ed-6529-43ad-9496-821c84d42c4d",
+      "name": "Set \"text\""
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "99bb4c39-df17-437e-909e-4fabf1a8402e",
+              "leftValue": "={{ $json.message.from.username }}",
+              "rightValue": "trinitosss",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "d911736b-1a3a-462e-a1cb-b082db547707",
+              "leftValue": "={{ $json.message.from.username }}",
+              "rightValue": "arrowmvn",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        280,
+        240
+      ],
+      "id": "89cbe890-b2fa-4cbb-a139-8c43e6654d8b",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        280,
+        460
+      ],
+      "id": "7075150f-baf1-46ec-9256-9c244aead7d6",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1240,
+        420
+      ],
+      "id": "beba0f71-733a-4c14-ae3c-3365bacb25a9",
+      "name": "OpenAI Chat Model"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        2160,
+        100
+      ],
+      "id": "9864828e-b3f7-453c-a035-19d450a9f700",
+      "name": "Telegram1",
+      "webhookId": "3e370613-aec5-457f-87e6-9b11d54be986"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "1",
+        "contextWindowLength": 15
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        1380,
+        420
+      ],
+      "id": "7dece7d3-d4f9-47df-a249-df386c20be89",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "P8WKIZli9TG5BZWm",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        40,
+        620
+      ],
+      "id": "920f17b4-357f-4dd4-a776-d215c963a4c1",
+      "name": "When chat message received",
+      "webhookId": "f2733277-bb91-42ee-bdf7-4a448ef32d76"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2180,
+        400
+      ],
+      "id": "5c3802db-5861-4a8e-8945-aae643042da4",
+      "name": "No Operation, do nothing1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "20bf50a2-8592-4d14-8a83-f538b088c4e1",
+              "name": "text",
+              "value": "={{ $json.chatInput }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        940,
+        500
+      ],
+      "id": "2df9b187-9ef4-4c30-a66e-ef462149c9fc",
+      "name": "Set \"text\"2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9e5d877f-a430-477a-adcb-14cdc573ae86",
+              "leftValue": "={{ $('Switch').item.json.message.chat.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1660,
+        220
+      ],
+      "id": "32b9c6a2-79e6-4b67-9be2-ee91c451af97",
+      "name": "If1",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "toolDescription": "Retrieve Ads Insights from the Meta Ads API, using the /insights endpoint.",
+        "url": "https://graph.facebook.com/v22.0/{accountId}/insights",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "facebookGraphApi",
+        "sendQuery": true,
+        "specifyQuery": "json",
+        "jsonQuery": "{\n  \"fields\": {fields},\n  \"level\": {level},\n  \"time_range\": {time_range},\n  \"action_breakdown\": \"action_type\",\n  \"time_increment\": \"all_days\",\n  \"limit\": \"300\"\n}",
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "fields",
+              "description": "All fields you want to retrieve. For example: \"adset_id,adset_name,spend,impressions,clicks,actions\"",
+              "type": "string"
+            },
+            {
+              "name": "level",
+              "description": "Level of the ads hierarchy. Could be campaign, adset or ad.",
+              "type": "string"
+            },
+            {
+              "name": "time_range",
+              "description": "Start and end date in the format {\"since\":\"YYYY-MM-DD\", \"until\":\"YYYY-MM-DD\"}"
+            },
+            {
+              "name": "accountId",
+              "description": "The correct ad account id found from the adAccountDirectory."
+            }
+          ]
+        },
+        "optimizeResponse": true,
+        "dataField": "data"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        1680,
+        980
+      ],
+      "id": "6e622645-b12f-4b36-9848-d203a403c90e",
+      "name": "AD Insights"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text }}",
+        "options": {
+          "systemMessage": "=You are a Meta Ads API assistant that can retrieve information based on the user's request.\nCurrent datetime is: {{ $now }}\n\n# GUIDELINES\n- DO NOT sum events. Use only \"purchase\" for purchases, for example. While there are many purchase events, you should only choose the one most likely to resume all purchases. The same apply for other action types.\n- Reply very directly. If the user asked about sales, only give the sales information. Avoid writing too much information the user didn't ask for.\n- If there's a date involved in the resquest, put it at the top of the data.\n- Always include the ad account name in the beginning of the reply.\n- If no date or time range is formated, revert to using the last 30 days from today's date.\n- If you're unsure which ad account to use, use the \"adAccountDirectory\" tool to find the right ad account to use. If no specific ad account is provided by the user, ask which ad account they want to get insights from.\n- Always use the currency set on the campaign/ad set/ad level over the main currency of the ad account.\n\n# TOOLS\n- adAccountDirectory: Use this tool to find the accountId associated with the correct ad account.\n- AD Insights: Use this tool to find the data and statistics from the ad accounts.\n\n# EXAMPLES\n1) Input: \"Find the most profitable campaign for john smith\".\n  Action: Use adAccountDirectory to find the accountId attached to the name \"John Smith\".\n  Action: Use AdInsights with the correct accountId found in the directory to find the most profitable campaign.\n\n# TEXT FORMATTING\n- It's important to organize the response in a very readable format.\n- Output using some aliases for formatting words or phrases.\n- Only the following aliases can be used:\n  - *bold*\n  - _italic_\n  - `code`"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        1300,
+        220
+      ],
+      "id": "0134135f-fdb3-40ec-91ff-31acd94e52ed",
+      "name": "Master Ad Assistant"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        1220,
+        760
+      ],
+      "id": "06f6d077-d9d7-468b-8dc3-cb88005225cc",
+      "name": "Calculator"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        1660,
+        760
+      ],
+      "id": "29b66920-e4c7-41da-baa5-6046b2412724",
+      "name": "Think"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "base": {
+          "__rl": true,
+          "value": "appGt0XKu9C73DPRn",
+          "mode": "list",
+          "cachedResultName": "AI Ad Assistant Backend",
+          "cachedResultUrl": "https://airtable.com/appGt0XKu9C73DPRn"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tbl8iaEbm0olth2UM",
+          "mode": "list",
+          "cachedResultName": "Ad Accounts",
+          "cachedResultUrl": "https://airtable.com/appGt0XKu9C73DPRn/tbl8iaEbm0olth2UM"
+        },
+        "returnAll": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Return_All', ``, 'boolean') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtableTool",
+      "typeVersion": 2.1,
+      "position": [
+        1240,
+        1000
+      ],
+      "id": "41b6385e-7d65-484c-9130-bdef34e59a32",
+      "name": "adAccountDirectory"
+    },
+    {
+      "parameters": {
+        "content": "## Input\nSlack/Telegram/pigeon carrier\n",
+        "height": 880,
+        "width": 1060,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "f5476d26-5c22-4d27-bba1-3f49f61e93ce",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Account Layer\nFinds the correct ad account",
+        "height": 220,
+        "width": 320
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1080,
+        900
+      ],
+      "id": "2dd3784b-85c6-4320-a508-4287d30e6fd2",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Ad Insight Layer\nFinds the ad data",
+        "height": 220,
+        "width": 320,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1480,
+        900
+      ],
+      "id": "73826ca5-28a7-4a02-a85a-d8d099048a5d",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Brain\nAdvanced Reasoning\n",
+        "height": 220,
+        "width": 320,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1480,
+        660
+      ],
+      "id": "7de53cb5-e650-4aca-ac15-bb7b2a394122",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Calculator\nActionable Insights\n\n",
+        "height": 220,
+        "width": 320,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1080,
+        660
+      ],
+      "id": "12fd4b1d-54f2-43fe-a9c5-0dc8a5e493d5",
+      "name": "Sticky Note4"
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set \"text\"",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram": {
+      "main": [
+        [
+          {
+            "node": "Transcribe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe": {
+      "main": [
+        [
+          {
+            "node": "Master Ad Assistant",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set \"text\"": {
+      "main": [
+        [
+          {
+            "node": "Master Ad Assistant",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Master Ad Assistant",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Master Ad Assistant",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Set \"text\"2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set \"text\"2": {
+      "main": [
+        [
+          {
+            "node": "Master Ad Assistant",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Telegram1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AD Insights": {
+      "ai_tool": [
+        [
+          {
+            "node": "Master Ad Assistant",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Master Ad Assistant": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator": {
+      "ai_tool": [
+        [
+          {
+            "node": "Master Ad Assistant",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think": {
+      "ai_tool": [
+        [
+          {
+            "node": "Master Ad Assistant",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "adAccountDirectory": {
+      "ai_tool": [
+        [
+          {
+            "node": "Master Ad Assistant",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "54f0a66d-c065-4e71-871b-90f58db68a30",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-06-05T15:36:18.286Z",
+      "createdAt": "2025-06-05T15:36:18.286Z",
+      "role": "workflow:owner",
+      "workflowId": "nOdZND4HRFeLnDYK",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
