@@ -1,0 +1,204 @@
+{
+  "updatedAt": "2025-07-11T03:43:37.000Z",
+  "createdAt": "2025-06-17T15:08:51.067Z",
+  "id": "Ek66VfFhjAWBSb3v",
+  "name": "[Sub-workflow] - Tavily AI Research Search Tool",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "query"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -80,
+        20
+      ],
+      "id": "2e971b75-64e2-41b8-8622-36994304cb4e",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://perplexica-1.automessenger.me/api/search",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"chatModel\": {\n    \"provider\": \"openai\",\n    \"name\": \"gpt-4o-mini\"\n  },\n  \"embeddingModel\": {\n    \"provider\": \"openai\",\n    \"name\": \"text-embedding-3-large\"\n  },\n  \"optimizationMode\": \"speed\",\n  \"focusMode\": \"webSearch\",\n  \"query\": \"{{ $json.query }}\",\n  \"history\": [\n    [\"human\", \"Hi, how are you?\"],\n    [\"assistant\", \"I am doing well, how can I help you today?\"]\n  ],\n  \"systemInstructions\": \"Focus on providing technical details where requested by the user.\",\n  \"stream\": false\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        140,
+        -260
+      ],
+      "id": "c62dd433-0d5c-4394-b050-cf57d4c4b10f",
+      "name": "Perplexity API",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "44172b6e-8679-4f98-8931-715589ff5a24",
+              "name": "summary",
+              "value": "={{ $json.answer }}",
+              "type": "string"
+            },
+            {
+              "id": "0a2727dc-6ec9-4719-993a-cf132f301703",
+              "name": "sources",
+              "value": "={{ $json.results }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        420,
+        20
+      ],
+      "id": "ffe8b668-04b8-4831-a1f8-14c16693894d",
+      "name": "Results"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.tavily.com/search",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "={{ $json.query }}"
+            },
+            {
+              "name": "search_depth",
+              "value": "advanced"
+            },
+            {
+              "name": "include_answer",
+              "value": "advanced"
+            },
+            {
+              "name": "include_raw_content",
+              "value": "text"
+            },
+            {
+              "name": "country",
+              "value": "malaysia"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        200,
+        20
+      ],
+      "id": "59938139-ccfe-4a80-a2fd-01fa4ce81394",
+      "name": "Tavily AI Search API",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "jw4gYxuN2GQVeas8",
+          "name": "TavilyAI Header Auth (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -280,
+        -260
+      ],
+      "id": "914b7237-4ae3-46a1-ae9c-7cda1ede423e",
+      "name": "When clicking ‘Execute workflow’",
+      "disabled": true
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Tavily AI Search API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Perplexity API": {
+      "main": [
+        []
+      ]
+    },
+    "Tavily AI Search API": {
+      "main": [
+        [
+          {
+            "node": "Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "When clicking ‘Execute workflow’": [
+      {
+        "json": {
+          "query": "Sementra Hot Spring Nature Resort Gopeng Perak, Malaysia"
+        }
+      }
+    ]
+  },
+  "versionId": "ac512bf1-2bbc-48ba-9dc3-1f13501927ed",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-06-17T15:08:51.071Z",
+      "createdAt": "2025-06-17T15:08:51.071Z",
+      "role": "workflow:owner",
+      "workflowId": "Ek66VfFhjAWBSb3v",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2025-04-26T07:53:53.852Z",
+      "createdAt": "2025-04-26T07:53:53.852Z",
+      "id": "hCI3uuYrzecVAgbS",
+      "name": "AI Agent Subworkflow"
+    }
+  ]
+}
