@@ -1,0 +1,792 @@
+{
+  "updatedAt": "2025-05-21T12:01:31.000Z",
+  "createdAt": "2025-05-21T09:38:17.913Z",
+  "id": "0VPi8fUcCnSJupio",
+  "name": "[DEVELOPMENT] Ecommerce Product Link Crawler + Product Page Scraper",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f07a7b5c-71e5-4aca-adce-e01b0d6c7fde",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "=pending",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "7f622642-d24c-47de-b4be-93ce15948db3",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "=processing",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -760,
+        160
+      ],
+      "id": "c274930c-f673-4193-9a6a-01e77799686e",
+      "name": "If In Process2"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://crawl4ai.automessenger.me/crawl",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"urls\": \"{{ $json['Shop Page URL'] }}\",\n  \"crawler_params\": {\n    \"headless\": true\n  },\n  \"extraction_config\": {\n    \"type\": \"json_css\",\n    \"params\": {\n      \"schema\": {\n        \"name\": \"ReadyCare Signature Product Pages\",\n        \"baseSelector\": \"{{ $json['CSS Base Selector'] }}\",\n        \"fields\": [\n          {\n            \"name\": \"product_title\",\n            \"selector\": \"{{ $json['Product Title CSS Selector'] }}\",\n            \"type\": \"text\"\n          },\n          {\n            \"name\": \"product_image\",\n            \"selector\": \"{{ $json['Product Image CSS Selector'] }}\",\n            \"type\": \"attribute\",\n            \"attribute\": \"src\"\n          },\n          {\n            \"name\": \"product_link\",\n            \"selector\": \"{{ $json['Product Link CSS Selector'] }}\",\n            \"type\": \"attribute\",\n            \"attribute\": \"href\"\n          }\n        ]\n      },\n      \"verbose\": true\n    }\n  },\n  \"cache_mode\": \"bypass\",\n  \"semaphore_count\": 2\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -980,
+        -100
+      ],
+      "id": "c707cc60-99e9-4949-80e4-0b186c71d622",
+      "name": "CSS Crawl Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Sxyip2DbXxp8AQIB",
+          "name": "Craw4Ai Header Auth(crawl4ai.automessenger.me)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 15
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -1300,
+        160
+      ],
+      "id": "bef7067c-1caa-4581-8cd0-8b5206df2bc7",
+      "name": "Wait for CSS Crawl",
+      "webhookId": "75c74b5b-96bc-41bc-a259-dec4548938a9"
+    },
+    {
+      "parameters": {
+        "url": "=https://crawl4ai.automessenger.me/task/{{ $json.task_id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1100,
+        160
+      ],
+      "id": "83635a4d-f77a-46c5-8a94-7aaef8da80c9",
+      "name": "Get CSS Crawl",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Sxyip2DbXxp8AQIB",
+          "name": "Craw4Ai Header Auth(crawl4ai.automessenger.me)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"task_id\": \"{{ $('CSS Crawl Request').item.json.task_id }}\",\n  \"status\": \"{{ $json.status }}\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -920,
+        160
+      ],
+      "id": "f28223da-7432-4b5a-a827-d17eb64e8b6b",
+      "name": "CSS TID Field"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"products\": {{ $('Get CSS Crawl').item.json.result.extracted_content }}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -540,
+        140
+      ],
+      "id": "6ef5728e-c677-4bd9-8827-b881974899b6",
+      "name": "CSS Result"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "products",
+        "options": {
+          "destinationFieldName": "data"
+        }
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -320,
+        140
+      ],
+      "id": "f019ab30-0bc4-4d6b-9339-15a527202364",
+      "name": "CSS Result Split"
+    },
+    {
+      "parameters": {
+        "formTitle": "Ecommerce Shop Page Using Crawl4Ai Scraper",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Shop Page URL"
+            },
+            {
+              "fieldLabel": "CSS Base Selector"
+            },
+            {
+              "fieldLabel": "Product Title CSS Selector"
+            },
+            {
+              "fieldLabel": "Product Image CSS Selector"
+            },
+            {
+              "fieldLabel": "Product Link CSS Selector"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -1220,
+        -100
+      ],
+      "id": "694c0521-11f4-4972-b37e-b9d40cf9ab21",
+      "name": "On form submission",
+      "webhookId": "03592d55-3d9f-41a3-8ff2-6c92586434a1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "dd96d96f-24b9-4a1c-b5f5-5cbecc9a9f38",
+              "name": "Product Title",
+              "value": "={{ $json.data.product_title }}",
+              "type": "string"
+            },
+            {
+              "id": "95337cef-ece4-4346-b120-e816a8ba0b51",
+              "name": "Product Image",
+              "value": "={{ $json.data.product_image }}",
+              "type": "string"
+            },
+            {
+              "id": "5021474d-40b8-4d43-b62f-b1cef7f97f80",
+              "name": "Product Link",
+              "value": "={{ $json.data.product_link }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -100,
+        140
+      ],
+      "id": "3b0b5157-18b4-478d-a4ce-5631ec95f949",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s",
+          "mode": "list",
+          "cachedResultName": "ReadyCare Signature Ecommerce Store Product Listing(Apr2025_Update)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "All Product Pages",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Product Name": "={{ $json['Product Title'] }}",
+            "Pricing": "={{ $json.Pricing }}",
+            "Product Page Link": "={{ $json['Product Link'] }}"
+          },
+          "matchingColumns": [
+            "Product Name"
+          ],
+          "schema": [
+            {
+              "id": "Product Name",
+              "displayName": "Product Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Pricing",
+              "displayName": "Pricing",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Product Page Link",
+              "displayName": "Product Page Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        100,
+        140
+      ],
+      "id": "1e212172-7c29-44bc-89ca-7be8e822188c",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f07a7b5c-71e5-4aca-adce-e01b0d6c7fde",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "=pending",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "7f622642-d24c-47de-b4be-93ce15948db3",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "=processing",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        480,
+        600
+      ],
+      "id": "7cd7b6ad-b088-411e-8705-727c1560b6f2",
+      "name": "If In Process"
+    },
+    {
+      "parameters": {
+        "url": "=https://crawl4ai.automessenger.me/task/{{ $json.task_id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        160,
+        600
+      ],
+      "id": "3bf48218-014f-4e9d-b01e-d70d2e3b36b4",
+      "name": "Get LLM Scrape Config",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Sxyip2DbXxp8AQIB",
+          "name": "Craw4Ai Header Auth(crawl4ai.automessenger.me)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"task_id\": \"{{ $('Crawl4AI - Use LLM Extraction').item.json.task_id }}\",\n  \"status\": \"{{ $json.status }}\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        320,
+        600
+      ],
+      "id": "29c2e144-00b6-4e58-b66f-0cfcadaab3c3",
+      "name": "Get Task ID Field"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://crawl4ai.automessenger.me/crawl",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"urls\": \"{{ $json['Product Page Link'] }}\",\n  \"crawler_params\": {\n    \"headless\": true\n  },\n \"extraction_config\": {\n    \"type\": \"llm\",\n    \"params\": {\n      \"llm_config\": {\n        \"provider\": \"openai/gpt4o-mini\"\n      },\n      \"schema\": {\n        \"title\" : \"Ready Care Product Details\",\n        \"type\": \"object\",\n        \"properties\": {\n          \"product_name\": {\n            \"title\": \"Product Name\",\n            \"description\": \"Name of the product.\",\n            \"type\": \"string\"\n          },\n          \"description\": {\n            \"title\": \"Product Description\",\n            \"description\": \"Short description about the product.\",\n            \"type\": \"string\"\n          },\n          \"product_features\": {\n            \"title\": \"Product Features\",\n            \"description\": \"List of the product features.\",\n            \"type\": \"string\"\n          },\n          \"product_variation\":{\n            \"title\": \"Product Variation\",\n            \"description\": \"The list of options that product variations in terms of size, color, etc. Usually appearing before add to cart button.\",\n            \"type\": \"string\"\n          }\n\n        },\n        \"required\": [\n          \"product_variation\"\n        ]\n      },\n      \"extraction_type\": \"schema\",\n      \"instruction\": \"From the crawled content, extract all the information mentioned such as product name, descriptions, product features and product variations. Do not miss any details in the entire content.\"\n    }\n  },\n  \"cache_mode\": \"bypass\"\n} ",
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 10000
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -280,
+        600
+      ],
+      "id": "a309a6e8-0452-4b9c-98c7-32f4f8706dd8",
+      "name": "Crawl4AI - Use LLM Extraction",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Sxyip2DbXxp8AQIB",
+          "name": "Craw4Ai Header Auth(crawl4ai.automessenger.me)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"products\": {{ $('Get LLM Scrape Config').item.json.result.extracted_content }}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        740,
+        580
+      ],
+      "id": "2f091d1d-faee-4492-a805-e135ca58ea1f",
+      "name": "JSON Array Product Details"
+    },
+    {
+      "parameters": {
+        "amount": 15
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -20,
+        600
+      ],
+      "id": "e75499fa-a183-4fba-be53-b707ed8404c6",
+      "name": "Wait for LLLM Crawl",
+      "webhookId": "75c74b5b-96bc-41bc-a259-dec4548938a9"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s",
+          "mode": "list",
+          "cachedResultName": "ReadyCare Signature Ecommerce Store Product Listing(Apr2025_Update)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1871117814,
+          "mode": "list",
+          "cachedResultName": "Product Details",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit#gid=1871117814"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Product Name": "={{ $json.products[0].product_name }}",
+            "Product Description": "={{ $json.products[0].description }}",
+            "Product Features": "={{ $json.products[0].product_features }}",
+            "Product Variations": "={{ $json.products[0].product_variation }}"
+          },
+          "matchingColumns": [
+            "Product Name"
+          ],
+          "schema": [
+            {
+              "id": "Product Name",
+              "displayName": "Product Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Product Description",
+              "displayName": "Product Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Product Features",
+              "displayName": "Product Features",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Product Variations",
+              "displayName": "Product Variations",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -180,
+        440
+      ],
+      "id": "90de031c-825c-4e2a-8a59-fa021fb78b4f",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -520,
+        580
+      ],
+      "id": "77af265d-c612-4eba-94ef-8f9d3320b915",
+      "name": "Loop Over Items"
+    }
+  ],
+  "connections": {
+    "If In Process2": {
+      "main": [
+        [
+          {
+            "node": "CSS Result",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait for CSS Crawl",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CSS Crawl Request": {
+      "main": [
+        [
+          {
+            "node": "Wait for CSS Crawl",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for CSS Crawl": {
+      "main": [
+        [
+          {
+            "node": "Get CSS Crawl",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get CSS Crawl": {
+      "main": [
+        [
+          {
+            "node": "CSS TID Field",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CSS TID Field": {
+      "main": [
+        [
+          {
+            "node": "If In Process2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CSS Result": {
+      "main": [
+        [
+          {
+            "node": "CSS Result Split",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CSS Result Split": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "CSS Crawl Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If In Process": {
+      "main": [
+        [
+          {
+            "node": "JSON Array Product Details",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait for LLLM Crawl",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get LLM Scrape Config": {
+      "main": [
+        [
+          {
+            "node": "Get Task ID Field",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Task ID Field": {
+      "main": [
+        [
+          {
+            "node": "If In Process",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crawl4AI - Use LLM Extraction": {
+      "main": [
+        [
+          {
+            "node": "Wait for LLLM Crawl",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON Array Product Details": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for LLLM Crawl": {
+      "main": [
+        [
+          {
+            "node": "Get LLM Scrape Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Crawl4AI - Use LLM Extraction",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "On form submission": [
+      {
+        "json": {
+          "Shop Page URL": "https://rcsignature.com.my/biobased-shop/",
+          "CSS Base Selector": "div > div > ul > li.product",
+          "Product Title CSS Selector": "div > div > ul > li.product > a.woocommerce-loop-product__link > h2",
+          "Product Image CSS Selector": "div > div > ul > li.product > a.woocommerce-loop-product__link > img[src]",
+          "Product Link CSS Selector": "div > div > ul > li.product > a.add_to_cart_button",
+          "submittedAt": "2025-05-21T19:04:49.335+08:00",
+          "formMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "145fe1d2-a97d-4624-ab70-0babf2a2cc46",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-05-21T09:38:17.919Z",
+      "createdAt": "2025-05-21T09:38:17.919Z",
+      "role": "workflow:owner",
+      "workflowId": "0VPi8fUcCnSJupio",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
