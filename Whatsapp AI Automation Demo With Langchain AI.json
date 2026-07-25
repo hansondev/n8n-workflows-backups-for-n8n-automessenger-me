@@ -1,0 +1,91 @@
+{
+  "updatedAt": "2024-04-07T16:05:18.000Z",
+  "createdAt": "2024-04-07T15:39:38.421Z",
+  "id": "AorhwVTQ3qTSnSET",
+  "name": "Whatsapp AI Automation Demo With Langchain AI",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "path": "whatsapp-webhook",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "0f617972-cdeb-48a0-b8a3-95c3092b0341",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [
+        880,
+        360
+      ],
+      "webhookId": "29368edc-2d2e-4c75-a198-e8c553a480c8"
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{ $json.query['hub.challenge'] }}",
+        "options": {}
+      },
+      "id": "d7e8bd34-0498-419a-b819-653bd83b6c06",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        1240,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "whatsapp-webhook",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "dd5a9e12-dbf0-451d-98c8-bf8badabb8a3",
+      "name": "Webhook1",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [
+        880,
+        600
+      ],
+      "webhookId": "29368edc-2d2e-4c75-a198-e8c553a480c8"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "2188dcd5-a30b-4984-8d69-b11fe56bccb1",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-04-07T15:39:38.438Z",
+      "createdAt": "2024-04-07T15:39:38.438Z",
+      "role": "workflow:owner",
+      "workflowId": "AorhwVTQ3qTSnSET",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
