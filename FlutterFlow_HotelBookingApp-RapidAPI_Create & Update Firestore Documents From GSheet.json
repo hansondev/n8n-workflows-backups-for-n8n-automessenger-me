@@ -1,0 +1,3256 @@
+{
+  "updatedAt": "2024-01-01T09:27:24.000Z",
+  "createdAt": "2024-01-01T08:21:12.077Z",
+  "id": "89rGhBKJJjHzVyEh",
+  "name": "FlutterFlow_HotelBookingApp-RapidAPI_Create & Update Firestore Documents From GSheet",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "460280e7-d095-41ad-8ce6-119aefc3bf67",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        880,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Country & City List RapidAPI Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Country": "={{ $json.countryName }}",
+            "Flag": "={{ $json.flagImage }}"
+          },
+          "matchingColumns": [
+            "Country"
+          ],
+          "schema": [
+            {
+              "id": "Country",
+              "displayName": "Country",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Flag",
+              "displayName": "Flag",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6be86981-e164-43ee-93ee-78dd094c566f",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        1900,
+        160
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Country & City List RapidAPI Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Country",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit#gid=0"
+        },
+        "options": {}
+      },
+      "id": "237fe429-b2f0-4cfb-b609-bac69437f192",
+      "name": "Google Sheets3",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        3140,
+        60
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "projectId": "={{ $('Replace Me1').item.json.firebaseProjectID }}",
+        "collection": "={{ $('Replace Me1').item.json.countryCollectionName }}",
+        "updateKey": "_id",
+        "columns": "Country,Flag"
+      },
+      "id": "504bed94-89c3-4f1e-b365-78c0bc696772",
+      "name": "Google Cloud Firestore3",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        3760,
+        -60
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://geography4.p.rapidapi.com/apis/geography/v1/country/region/Asia",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "sortBy",
+              "value": "name"
+            },
+            {
+              "name": "sortOrder",
+              "value": "asc"
+            },
+            {
+              "name": "limit",
+              "value": "10"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-RapidAPI-Host",
+              "value": "geography4.p.rapidapi.com"
+            },
+            {
+              "name": "X-RapidAPI-Key",
+              "value": "bba2d43494msheb61c0112305090p16270bjsna70952eefac2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "918a05e1-20c5-4e06-b2c1-8ab78cec5724",
+      "name": "Get Top Headline News",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1240,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "countryName",
+              "stringValue": "={{ $json.name.common }}"
+            },
+            {
+              "name": "citiesName",
+              "stringValue": "={{ $json.capital[0].name }}"
+            },
+            {
+              "name": "flagImage",
+              "stringValue": "={{ $json.flags.png }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "fa0e6e39-7422-4ee8-8e49-a6f931da61ed",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1620,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "c83072a0-9794-4996-8352-6536099b3c2a",
+      "name": "Loop Over Items1",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        2640,
+        120
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "12cb903f-c8a2-4530-90ec-b8577efc8298",
+      "name": "Replace Me1",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2820,
+        180
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Country & City List RapidAPI Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1110509167,
+          "mode": "list",
+          "cachedResultName": "City",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit#gid=1110509167"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "City": "={{ $json.citiesName }}"
+          },
+          "matchingColumns": [
+            "City"
+          ],
+          "schema": [
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "CountryDocRef",
+              "displayName": "CountryDocRef",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "91b2b007-46d0-4d5c-a47e-7fc004cc3f87",
+      "name": "Google Sheets1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        1900,
+        400
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "d2bae58a-df5e-49b4-b968-ca7f1bd35fe0",
+      "name": "Merge",
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 2.1,
+      "position": [
+        2160,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "firebaseProjectID",
+              "stringValue": "fftutorial-hotelbookingapp"
+            },
+            {
+              "name": "countryCollectionName",
+              "stringValue": "Countries"
+            },
+            {
+              "name": "cityCollectionName",
+              "stringValue": "Cities"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "d470d033-e4ae-48be-bc40-2c9bbefd7383",
+      "name": "Set Firebase Project & Collection",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2400,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "_id",
+              "stringValue": "={{ $json.row_number }}"
+            },
+            {
+              "name": "Country",
+              "stringValue": "={{ $json.Country }}"
+            },
+            {
+              "name": "Flag",
+              "stringValue": "={{ $json.Flag }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "9a72a505-4802-45df-a427-a972784b35e3",
+      "name": "Edit Fields2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        3440,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow Tutorial-Country & City List RapidAPI Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1110509167,
+          "mode": "list",
+          "cachedResultName": "City",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1h91uHu9-c9BPtW6GCcROeovAc2gcFneSFLkkPdjjTf0/edit#gid=1110509167"
+        },
+        "options": {}
+      },
+      "id": "be62b48f-909c-4797-9fe3-829a3d05fe71",
+      "name": "Google Sheets4",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        3180,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "projectId": "={{ $('Replace Me1').item.json.firebaseProjectID }}",
+        "collection": "={{ $('Replace Me1').item.json.cityCollectionName }}",
+        "updateKey": "_id",
+        "columns": "City,CountryDocRef"
+      },
+      "id": "a4494b0e-f341-42cc-aa3e-b34cfef8a7e9",
+      "name": "Google Cloud Firestore",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        3800,
+        180
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "_id",
+              "stringValue": "={{ $json.row_number }}"
+            },
+            {
+              "name": "City",
+              "stringValue": "={{ $json.City }}"
+            },
+            {
+              "name": "CountryDocRef",
+              "stringValue": "=/{{ $('Replace Me1').item.json.countryCollectionName }}/ {{ $json.row_number }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "823208cd-29a2-4534-b634-e45c295224ac",
+      "name": "Edit Fields3",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        3480,
+        280
+      ]
+    }
+  ],
+  "connections": {
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Get Top Headline News",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Top Headline News": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Replace Me1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Replace Me1": {
+      "main": [
+        [
+          {
+            "node": "Set Firebase Project & Collection",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Sheets3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Sheets4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Set Firebase Project & Collection",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Firebase Project & Collection": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets4": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Get Top Headline News": [
+      {
+        "json": {
+          "href": "/apis/geography/v1/country/AFG",
+          "name": {
+            "common": "Afghanistan",
+            "official": "Islamic Republic of Afghanistan",
+            "nativeName": [
+              {
+                "lang": "prs",
+                "official": "جمهوری اسلامی افغانستان",
+                "common": "افغانستان"
+              },
+              {
+                "lang": "pus",
+                "official": "د افغانستان اسلامي جمهوریت",
+                "common": "افغانستان"
+              },
+              {
+                "lang": "tuk",
+                "official": "Owganystan Yslam Respublikasy",
+                "common": "Owganystan"
+              }
+            ],
+            "translations": [
+              {
+                "lang": "ara",
+                "official": "جمهورية أففانستان الإسلامية",
+                "common": "أفغانستان"
+              },
+              {
+                "lang": "bre",
+                "official": "Republik Islamek Afghanistan",
+                "common": "Afghanistan"
+              },
+              {
+                "lang": "ces",
+                "official": "Afghanska islamska republika",
+                "common": "Afghanistan"
+              },
+              {
+                "lang": "cym",
+                "official": "Gweriniaeth Islamaidd Affganistan",
+                "common": "Affganistan"
+              },
+              {
+                "lang": "deu",
+                "official": "Islamische Republik Afghanistan",
+                "common": "Afghanistan"
+              },
+              {
+                "lang": "est",
+                "official": "Afganistani Islamivabariik",
+                "common": "Afganistan"
+              },
+              {
+                "lang": "fin",
+                "official": "Afganistanin islamilainen tasavalta",
+                "common": "Afganistan"
+              },
+              {
+                "lang": "fra",
+                "official": "Republique islamique d'Afghanistan",
+                "common": "Afghanistan"
+              },
+              {
+                "lang": "hrv",
+                "official": "Islamska Republika Afganistan",
+                "common": "Afganistan"
+              },
+              {
+                "lang": "hun",
+                "official": "Afganisztani Iszlam Koztarsasag",
+                "common": "Afganisztan"
+              },
+              {
+                "lang": "ita",
+                "official": "Repubblica islamica dell'Afghanistan",
+                "common": "Afghanistan"
+              },
+              {
+                "lang": "jpn",
+                "official": "アフガニスタン·イスラム共和国",
+                "common": "アフガニスタン"
+              },
+              {
+                "lang": "kor",
+                "official": "아프가니스탄 이슬람 공화국",
+                "common": "아프가니스탄"
+              },
+              {
+                "lang": "nld",
+                "official": "Islamitische Republiek Afghanistan",
+                "common": "Afghanistan"
+              },
+              {
+                "lang": "per",
+                "official": "جمهوری اسلامی افغانستان",
+                "common": "افغانستان"
+              },
+              {
+                "lang": "pol",
+                "official": "Islamska Republika Afganistanu",
+                "common": "Afganistan"
+              },
+              {
+                "lang": "por",
+                "official": "Republica Islamica do Afeganistao",
+                "common": "Afeganistao"
+              },
+              {
+                "lang": "rus",
+                "official": "Исламская Республика Афганистан",
+                "common": "Афганистан"
+              },
+              {
+                "lang": "slk",
+                "official": "Afgansky islamsky stat",
+                "common": "Afganistan"
+              },
+              {
+                "lang": "spa",
+                "official": "Republica Islamica de Afganistan",
+                "common": "Afganistan"
+              },
+              {
+                "lang": "srp",
+                "official": "Исламска Република Авганистан",
+                "common": "Авганистан"
+              },
+              {
+                "lang": "swe",
+                "official": "Islamiska republiken Afghanistan",
+                "common": "Afghanistan"
+              },
+              {
+                "lang": "tur",
+                "official": "Afganistan Islam Cumhuriyeti",
+                "common": "Afganistan"
+              },
+              {
+                "lang": "urd",
+                "official": "اسلامی جمہوریہ افغانستان",
+                "common": "افغانستان"
+              },
+              {
+                "lang": "zho",
+                "official": "阿富汗伊斯兰共和国",
+                "common": "阿富汗"
+              }
+            ]
+          },
+          "tld": [
+            ".af"
+          ],
+          "cca2": "AF",
+          "ccn3": "004",
+          "cca3": "AFG",
+          "cioc": "AFG",
+          "fifa": "AFG",
+          "independent": true,
+          "status": "officially-assigned",
+          "unMember": true,
+          "currencies": [
+            {
+              "name": "Afghan afghani",
+              "alphaCode": "AFN",
+              "symbol": "؋"
+            }
+          ],
+          "idd": {
+            "root": "+9",
+            "suffixes": [
+              "3"
+            ]
+          },
+          "capital": [
+            {
+              "name": "Kabul",
+              "latLng": {
+                "lat": 34.52,
+                "lng": 69.18
+              }
+            }
+          ],
+          "altSpellings": [
+            "AF",
+            "Afganistan"
+          ],
+          "region": "Asia",
+          "subregion": "Southern Asia",
+          "continents": [
+            "Asia"
+          ],
+          "languages": [
+            {
+              "code": "prs",
+              "name": "Dari"
+            },
+            {
+              "code": "pus",
+              "name": "Pashto"
+            },
+            {
+              "code": "tuk",
+              "name": "Turkmen"
+            }
+          ],
+          "latLng": {
+            "lat": 33,
+            "lng": 65
+          },
+          "landlocked": "true",
+          "borders": [
+            "IRN",
+            "PAK",
+            "TKM",
+            "UZB",
+            "TJK",
+            "CHN"
+          ],
+          "area": 652230,
+          "flag": "🇦🇫",
+          "flags": {
+            "png": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_the_Taliban.svg/320px-Flag_of_the_Taliban.svg.png",
+            "svg": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Flag_of_the_Taliban.svg",
+            "alt": "The flag of the Islamic Emirate of Afghanistan has a white field with Arabic inscriptions — the Shahada — in black across its center."
+          },
+          "demonyms": [
+            {
+              "langCode": "eng",
+              "f": "Afghan",
+              "m": "Afghan"
+            },
+            {
+              "langCode": "fra",
+              "f": "Afghane",
+              "m": "Afghan"
+            }
+          ],
+          "coatOfArms": {
+            "png": "https://mainfacts.com/media/images/coats_of_arms/af.png",
+            "svg": "https://mainfacts.com/media/images/coats_of_arms/af.svg"
+          },
+          "population": 40218234,
+          "maps": {
+            "googleMaps": "https://goo.gl/maps/BXBGw7yUUFknCfva9",
+            "openStreetMaps": "https://www.openstreetmap.org/relation/303427"
+          },
+          "gini": {},
+          "car": {
+            "signs": [
+              "AFG"
+            ],
+            "side": "right"
+          },
+          "timezones": [
+            "UTC+04:30"
+          ],
+          "startOfWeek": "monday",
+          "postalCode": {},
+          "gdp": {
+            "currency": "USD",
+            "value": 14786862100,
+            "year": 2021
+          },
+          "groups": [
+            "SAARC"
+          ]
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "href": "/apis/geography/v1/country/ARM",
+          "name": {
+            "common": "Armenia",
+            "official": "Republic of Armenia",
+            "nativeName": [
+              {
+                "lang": "hye",
+                "official": "Հայաստանի Հանրապետություն",
+                "common": "Հայաստան"
+              }
+            ],
+            "translations": [
+              {
+                "lang": "ara",
+                "official": "جمهورية أرمينيا",
+                "common": "أرمينيا"
+              },
+              {
+                "lang": "bre",
+                "official": "Republik Armenia",
+                "common": "Armenia"
+              },
+              {
+                "lang": "ces",
+                "official": "Armenska republika",
+                "common": "Armenie"
+              },
+              {
+                "lang": "cym",
+                "official": "Gweriniaeth Armenia",
+                "common": "Armenia"
+              },
+              {
+                "lang": "deu",
+                "official": "Republik Armenien",
+                "common": "Armenien"
+              },
+              {
+                "lang": "est",
+                "official": "Armeenia Vabariik",
+                "common": "Armeenia"
+              },
+              {
+                "lang": "fin",
+                "official": "Armenian tasavalta",
+                "common": "Armenia"
+              },
+              {
+                "lang": "fra",
+                "official": "Republique d'Armenie",
+                "common": "Armenie"
+              },
+              {
+                "lang": "hrv",
+                "official": "Republika Armenija",
+                "common": "Armenija"
+              },
+              {
+                "lang": "hun",
+                "official": "Ormenyorszag",
+                "common": "Ormenyorszag"
+              },
+              {
+                "lang": "ita",
+                "official": "Repubblica di Armenia",
+                "common": "Armenia"
+              },
+              {
+                "lang": "jpn",
+                "official": "アルメニア共和国",
+                "common": "アルメニア"
+              },
+              {
+                "lang": "kor",
+                "official": "아르메니아 공화국",
+                "common": "아르메니아"
+              },
+              {
+                "lang": "nld",
+                "official": "Republiek Armenie",
+                "common": "Armenie"
+              },
+              {
+                "lang": "per",
+                "official": "جمهوری ارمنستان",
+                "common": "ارمنستان"
+              },
+              {
+                "lang": "pol",
+                "official": "Republika Armenii",
+                "common": "Armenia"
+              },
+              {
+                "lang": "por",
+                "official": "Republica da Armenia",
+                "common": "Armenia"
+              },
+              {
+                "lang": "rus",
+                "official": "Республика Армения",
+                "common": "Армения"
+              },
+              {
+                "lang": "slk",
+                "official": "Armenska republika",
+                "common": "Armensko"
+              },
+              {
+                "lang": "spa",
+                "official": "Republica de Armenia",
+                "common": "Armenia"
+              },
+              {
+                "lang": "srp",
+                "official": "Република Јерменија",
+                "common": "Јерменија"
+              },
+              {
+                "lang": "swe",
+                "official": "Republiken Armenien",
+                "common": "Armenien"
+              },
+              {
+                "lang": "tur",
+                "official": "Ermenistan Cumhuriyeti",
+                "common": "Ermenistan"
+              },
+              {
+                "lang": "urd",
+                "official": "جمہوریہ آرمینیا",
+                "common": "آرمینیا"
+              },
+              {
+                "lang": "zho",
+                "official": "亚美尼亚共和国",
+                "common": "亚美尼亚"
+              }
+            ]
+          },
+          "tld": [
+            ".am"
+          ],
+          "cca2": "AM",
+          "ccn3": "051",
+          "cca3": "ARM",
+          "cioc": "ARM",
+          "fifa": "ARM",
+          "independent": true,
+          "status": "officially-assigned",
+          "unMember": true,
+          "currencies": [
+            {
+              "name": "Armenian dram",
+              "alphaCode": "AMD",
+              "symbol": "֏"
+            }
+          ],
+          "idd": {
+            "root": "+3",
+            "suffixes": [
+              "74"
+            ]
+          },
+          "capital": [
+            {
+              "name": "Yerevan",
+              "latLng": {
+                "lat": 40.17,
+                "lng": 44.5
+              }
+            }
+          ],
+          "altSpellings": [
+            "AM",
+            "Hayastan",
+            "Republic of Armenia",
+            "Հայաստանի Հանրապետություն"
+          ],
+          "region": "Asia",
+          "subregion": "Western Asia",
+          "continents": [
+            "Asia"
+          ],
+          "languages": [
+            {
+              "code": "hye",
+              "name": "Armenian"
+            }
+          ],
+          "latLng": {
+            "lat": 40,
+            "lng": 45
+          },
+          "landlocked": "true",
+          "borders": [
+            "AZE",
+            "GEO",
+            "IRN",
+            "TUR"
+          ],
+          "area": 29743,
+          "flag": "🇦🇲",
+          "flags": {
+            "png": "https://flagcdn.com/w320/am.png",
+            "svg": "https://flagcdn.com/am.svg",
+            "alt": "The flag of Armenia is composed of three equal horizontal bands of red, blue and orange."
+          },
+          "demonyms": [
+            {
+              "langCode": "eng",
+              "f": "Armenian",
+              "m": "Armenian"
+            },
+            {
+              "langCode": "fra",
+              "f": "Armenienne",
+              "m": "Armenien"
+            }
+          ],
+          "coatOfArms": {
+            "png": "https://mainfacts.com/media/images/coats_of_arms/am.png",
+            "svg": "https://mainfacts.com/media/images/coats_of_arms/am.svg"
+          },
+          "population": 2963234,
+          "maps": {
+            "googleMaps": "https://goo.gl/maps/azWUtK9bUQYEyccbA",
+            "openStreetMaps": "https://www.openstreetmap.org/relation/364066"
+          },
+          "gini": {},
+          "car": {
+            "signs": [
+              "AM"
+            ],
+            "side": "right"
+          },
+          "timezones": [
+            "UTC+04:00"
+          ],
+          "startOfWeek": "monday",
+          "postalCode": {
+            "format": "######",
+            "regex": "^(\\d{6})$"
+          },
+          "gdp": {
+            "currency": "USD",
+            "value": 13861409800,
+            "year": 2021
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "href": "/apis/geography/v1/country/AZE",
+          "name": {
+            "common": "Azerbaijan",
+            "official": "Republic of Azerbaijan",
+            "nativeName": [
+              {
+                "lang": "aze",
+                "official": "Azərbaycan Respublikası",
+                "common": "Azərbaycan"
+              },
+              {
+                "lang": "rus",
+                "official": "Азербаиджанская Республика",
+                "common": "Азербаиджан"
+              }
+            ],
+            "translations": [
+              {
+                "lang": "ara",
+                "official": "جمهورية أذربيجان",
+                "common": "أذربيجان"
+              },
+              {
+                "lang": "bre",
+                "official": "Republik Azerbaidjan",
+                "common": "Azerbaidjan"
+              },
+              {
+                "lang": "ces",
+                "official": "Azerbajdzanska republika",
+                "common": "Azerbajdzan"
+              },
+              {
+                "lang": "cym",
+                "official": "Gweriniaeth Aserbaijan",
+                "common": "Aserbaijan"
+              },
+              {
+                "lang": "deu",
+                "official": "Republik Aserbaidschan",
+                "common": "Aserbaidschan"
+              },
+              {
+                "lang": "est",
+                "official": "Aserbaidzaani Vabariik",
+                "common": "Aserbaidzaan"
+              },
+              {
+                "lang": "fin",
+                "official": "Azerbaidzanin tasavalta",
+                "common": "Azerbaidzan"
+              },
+              {
+                "lang": "fra",
+                "official": "Republique d'Azerbaidjan",
+                "common": "Azerbaidjan"
+              },
+              {
+                "lang": "hrv",
+                "official": "Republika Azerbajdzan",
+                "common": "Azerbajdzan"
+              },
+              {
+                "lang": "hun",
+                "official": "Azerbajdzsan",
+                "common": "Azerbajdzsan"
+              },
+              {
+                "lang": "ita",
+                "official": "Repubblica dell'Azerbaigian",
+                "common": "Azerbaijan"
+              },
+              {
+                "lang": "jpn",
+                "official": "アゼルバイジャン共和国",
+                "common": "アゼルバイジャン"
+              },
+              {
+                "lang": "kor",
+                "official": "아제르바이잔 공화국",
+                "common": "아제르바이잔"
+              },
+              {
+                "lang": "nld",
+                "official": "Republiek Azerbeidzjan",
+                "common": "Azerbeidzjan"
+              },
+              {
+                "lang": "per",
+                "official": "جمهوری آذربایجان",
+                "common": "جمهوری آذربایجان"
+              },
+              {
+                "lang": "pol",
+                "official": "Republika Azerbejdzanu",
+                "common": "Azerbejdzan"
+              },
+              {
+                "lang": "por",
+                "official": "Republica do Azerbaijao",
+                "common": "Azerbeijao"
+              },
+              {
+                "lang": "rus",
+                "official": "Азербаиджанская Республика",
+                "common": "Азербаиджан"
+              },
+              {
+                "lang": "slk",
+                "official": "Azerbajǆanska republika",
+                "common": "AzerbajǇan"
+              },
+              {
+                "lang": "spa",
+                "official": "Republica de Azerbaiyan",
+                "common": "Azerbaiyan"
+              },
+              {
+                "lang": "srp",
+                "official": "Азербејџанска Република",
+                "common": "Азербејџан"
+              },
+              {
+                "lang": "swe",
+                "official": "Republiken Azerbajdzjan",
+                "common": "Azerbajdzjan"
+              },
+              {
+                "lang": "tur",
+                "official": "Azerbaycan Cumhuriyeti",
+                "common": "Azerbaycan"
+              },
+              {
+                "lang": "urd",
+                "official": "جمہوریہ آذربائیجان",
+                "common": "آذربائیجان"
+              },
+              {
+                "lang": "zho",
+                "official": "阿塞拜疆共和国",
+                "common": "阿塞拜疆"
+              }
+            ]
+          },
+          "tld": [
+            ".az"
+          ],
+          "cca2": "AZ",
+          "ccn3": "031",
+          "cca3": "AZE",
+          "cioc": "AZE",
+          "fifa": "AZE",
+          "independent": true,
+          "status": "officially-assigned",
+          "unMember": true,
+          "currencies": [
+            {
+              "name": "Azerbaijani manat",
+              "alphaCode": "AZN",
+              "symbol": "₼"
+            }
+          ],
+          "idd": {
+            "root": "+9",
+            "suffixes": [
+              "94"
+            ]
+          },
+          "capital": [
+            {
+              "name": "Baku",
+              "latLng": {
+                "lat": 40.38,
+                "lng": 49.87
+              }
+            }
+          ],
+          "altSpellings": [
+            "AZ",
+            "Republic of Azerbaijan",
+            "Azərbaycan Respublikası"
+          ],
+          "region": "Asia",
+          "subregion": "Western Asia",
+          "continents": [
+            "Asia"
+          ],
+          "languages": [
+            {
+              "code": "aze",
+              "name": "Azerbaijani"
+            },
+            {
+              "code": "rus",
+              "name": "Russian"
+            }
+          ],
+          "latLng": {
+            "lat": 40.5,
+            "lng": 47.5
+          },
+          "landlocked": "true",
+          "borders": [
+            "ARM",
+            "GEO",
+            "IRN",
+            "RUS",
+            "TUR"
+          ],
+          "area": 86600,
+          "flag": "🇦🇿",
+          "flags": {
+            "png": "https://flagcdn.com/w320/az.png",
+            "svg": "https://flagcdn.com/az.svg",
+            "alt": "The flag of Azerbaijan features three equal horizontal bands of blue, red and green, with a white fly-side facing crescent and eight-pointed star centered in the red band."
+          },
+          "demonyms": [
+            {
+              "langCode": "eng",
+              "f": "Azerbaijani",
+              "m": "Azerbaijani"
+            },
+            {
+              "langCode": "fra",
+              "f": "Azerbaidjanaise",
+              "m": "Azerbaidjanais"
+            }
+          ],
+          "coatOfArms": {
+            "png": "https://mainfacts.com/media/images/coats_of_arms/az.png",
+            "svg": "https://mainfacts.com/media/images/coats_of_arms/az.svg"
+          },
+          "population": 10110116,
+          "maps": {
+            "googleMaps": "https://goo.gl/maps/az3Zz7ar2aoB9AUc6",
+            "openStreetMaps": "https://www.openstreetmap.org/relation/364110"
+          },
+          "gini": {},
+          "car": {
+            "signs": [
+              "AZ"
+            ],
+            "side": "right"
+          },
+          "timezones": [
+            "UTC+04:00"
+          ],
+          "startOfWeek": "monday",
+          "postalCode": {
+            "format": "AZ ####",
+            "regex": "^(?:AZ)*(\\d{4})$"
+          },
+          "gdp": {
+            "currency": "USD",
+            "value": 54622175000,
+            "year": 2021
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "href": "/apis/geography/v1/country/BHR",
+          "name": {
+            "common": "Bahrain",
+            "official": "Kingdom of Bahrain",
+            "nativeName": [
+              {
+                "lang": "ara",
+                "official": "مملكة البحرين",
+                "common": "‏البحرين"
+              }
+            ],
+            "translations": [
+              {
+                "lang": "ara",
+                "official": "مملكة البحرين",
+                "common": "‏البحرين"
+              },
+              {
+                "lang": "bre",
+                "official": "Rouantelezh Bahrein",
+                "common": "Bahrein"
+              },
+              {
+                "lang": "ces",
+                "official": "Kralovstvi Bahrajn",
+                "common": "Bahrajn"
+              },
+              {
+                "lang": "cym",
+                "official": "Teyrnas Bahrein",
+                "common": "Bahrain"
+              },
+              {
+                "lang": "deu",
+                "official": "Konigreich Bahrain",
+                "common": "Bahrain"
+              },
+              {
+                "lang": "est",
+                "official": "Bahreini Kuningriik",
+                "common": "Bahrein"
+              },
+              {
+                "lang": "fin",
+                "official": "Bahrainin kuningaskunta",
+                "common": "Bahrain"
+              },
+              {
+                "lang": "fra",
+                "official": "Royaume de Bahrein",
+                "common": "Bahrein"
+              },
+              {
+                "lang": "hrv",
+                "official": "Kraljevina Bahrein",
+                "common": "Bahrein"
+              },
+              {
+                "lang": "hun",
+                "official": "Bahreini Kiralysag",
+                "common": "Bahrein"
+              },
+              {
+                "lang": "ita",
+                "official": "Regno del Bahrain",
+                "common": "Bahrein"
+              },
+              {
+                "lang": "jpn",
+                "official": "バーレーン王国",
+                "common": "バーレーン"
+              },
+              {
+                "lang": "kor",
+                "official": "바레인 왕국",
+                "common": "바레인"
+              },
+              {
+                "lang": "nld",
+                "official": "Koninkrijk Bahrein",
+                "common": "Bahrein"
+              },
+              {
+                "lang": "per",
+                "official": "پادشاهی بحرین",
+                "common": "بحرین"
+              },
+              {
+                "lang": "pol",
+                "official": "Krolestwo Bahrajnu",
+                "common": "Bahrajn"
+              },
+              {
+                "lang": "por",
+                "official": "Reino do Bahrein",
+                "common": "Bahrein"
+              },
+              {
+                "lang": "rus",
+                "official": "Королевство Бахреин",
+                "common": "Бахреин"
+              },
+              {
+                "lang": "slk",
+                "official": "Bahrajnske kralovstvo",
+                "common": "Bahrajn"
+              },
+              {
+                "lang": "spa",
+                "official": "Reino de Bahrein",
+                "common": "Bahrein"
+              },
+              {
+                "lang": "srp",
+                "official": "Краљевина Бахреин",
+                "common": "Бахреин"
+              },
+              {
+                "lang": "swe",
+                "official": "Konungariket Bahrain",
+                "common": "Bahrain"
+              },
+              {
+                "lang": "tur",
+                "official": "Bahreyn Krallıgı",
+                "common": "Bahreyn"
+              },
+              {
+                "lang": "urd",
+                "official": "مملکتِ بحرین",
+                "common": "بحرین"
+              },
+              {
+                "lang": "zho",
+                "official": "巴林王国",
+                "common": "巴林"
+              }
+            ]
+          },
+          "tld": [
+            ".bh"
+          ],
+          "cca2": "BH",
+          "ccn3": "048",
+          "cca3": "BHR",
+          "cioc": "BHR",
+          "fifa": "BHR",
+          "independent": true,
+          "status": "officially-assigned",
+          "unMember": true,
+          "currencies": [
+            {
+              "name": "Bahraini dinar",
+              "alphaCode": "BHD",
+              "symbol": ".د.ب"
+            }
+          ],
+          "idd": {
+            "root": "+9",
+            "suffixes": [
+              "73"
+            ]
+          },
+          "capital": [
+            {
+              "name": "Manama",
+              "latLng": {
+                "lat": 26.23,
+                "lng": 50.57
+              }
+            }
+          ],
+          "altSpellings": [
+            "BH",
+            "Kingdom of Bahrain",
+            "Mamlakat al-Bahrayn"
+          ],
+          "region": "Asia",
+          "subregion": "Western Asia",
+          "continents": [
+            "Asia"
+          ],
+          "languages": [
+            {
+              "code": "ara",
+              "name": "Arabic"
+            }
+          ],
+          "latLng": {
+            "lat": 26,
+            "lng": 50.55
+          },
+          "landlocked": "false",
+          "area": 765,
+          "flag": "🇧🇭",
+          "flags": {
+            "png": "https://flagcdn.com/w320/bh.png",
+            "svg": "https://flagcdn.com/bh.svg",
+            "alt": "The flag of Bahrain has a red field. On the hoist side, it features a white vertical band that spans about one-third the width of the field and is separated from the rest of the field by five adjoining fly-side pointing white isosceles triangles that serve as a serrated line."
+          },
+          "demonyms": [
+            {
+              "langCode": "eng",
+              "f": "Bahraini",
+              "m": "Bahraini"
+            },
+            {
+              "langCode": "fra",
+              "f": "Bahreinienne",
+              "m": "Bahreinien"
+            }
+          ],
+          "coatOfArms": {
+            "png": "https://mainfacts.com/media/images/coats_of_arms/bh.png",
+            "svg": "https://mainfacts.com/media/images/coats_of_arms/bh.svg"
+          },
+          "population": 1701583,
+          "maps": {
+            "googleMaps": "https://goo.gl/maps/5Zue99Zc6vFBHxzJ7",
+            "openStreetMaps": "https://www.openstreetmap.org/relation/378734"
+          },
+          "gini": {},
+          "car": {
+            "signs": [
+              "BRN"
+            ],
+            "side": "right"
+          },
+          "timezones": [
+            "UTC+03:00"
+          ],
+          "startOfWeek": "monday",
+          "postalCode": {
+            "format": "####|###",
+            "regex": "^(\\d{3}\\d?)$"
+          },
+          "gdp": {
+            "currency": "USD",
+            "value": 38868664000,
+            "year": 2021
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "href": "/apis/geography/v1/country/BGD",
+          "name": {
+            "common": "Bangladesh",
+            "official": "People's Republic of Bangladesh",
+            "nativeName": [
+              {
+                "lang": "ben",
+                "official": "বাংলাদেশ গণপ্রজাতন্ত্রী",
+                "common": "বাংলাদেশ"
+              }
+            ],
+            "translations": [
+              {
+                "lang": "ara",
+                "official": "جمهورية بنغلاديش الشعبية",
+                "common": "بنغلاديش"
+              },
+              {
+                "lang": "bre",
+                "official": "Republik pobl Bangladesh",
+                "common": "Bangladesh"
+              },
+              {
+                "lang": "ces",
+                "official": "Bangladesska lidova republika",
+                "common": "Banglades"
+              },
+              {
+                "lang": "cym",
+                "official": "Gweriniaeth Pobl Bangladesh",
+                "common": "Bangladesh"
+              },
+              {
+                "lang": "deu",
+                "official": "Volksrepublik Bangladesch",
+                "common": "Bangladesch"
+              },
+              {
+                "lang": "est",
+                "official": "Bangladeshi Rahvavabariik",
+                "common": "Bangladesh"
+              },
+              {
+                "lang": "fin",
+                "official": "Bangladeshin kansantasavalta",
+                "common": "Bangladesh"
+              },
+              {
+                "lang": "fra",
+                "official": "La Republique populaire du Bangladesh",
+                "common": "Bangladesh"
+              },
+              {
+                "lang": "hrv",
+                "official": "Narodna Republika Banglades",
+                "common": "Banglades"
+              },
+              {
+                "lang": "hun",
+                "official": "Banglades",
+                "common": "Banglades"
+              },
+              {
+                "lang": "ita",
+                "official": "Repubblica popolare del Bangladesh",
+                "common": "Bangladesh"
+              },
+              {
+                "lang": "jpn",
+                "official": "バングラデシュ人民共和国",
+                "common": "バングラデシュ"
+              },
+              {
+                "lang": "kor",
+                "official": "방글라데시 인민 공화국",
+                "common": "방글라데시"
+              },
+              {
+                "lang": "nld",
+                "official": "Volksrepubliek Bangladesh",
+                "common": "Bangladesh"
+              },
+              {
+                "lang": "per",
+                "official": "جمهوری خلق بنگلادش",
+                "common": "بنگلادش"
+              },
+              {
+                "lang": "pol",
+                "official": "Ludowa Republika Bangladeszu",
+                "common": "Bangladesz"
+              },
+              {
+                "lang": "por",
+                "official": "Republica Popular do Bangladesh",
+                "common": "Bangladesh"
+              },
+              {
+                "lang": "rus",
+                "official": "Народная Республика Бангладеш",
+                "common": "Бангладеш"
+              },
+              {
+                "lang": "slk",
+                "official": "Bangladesska ludova republika",
+                "common": "Banglades"
+              },
+              {
+                "lang": "spa",
+                "official": "Republica Popular de Bangladesh",
+                "common": "Bangladesh"
+              },
+              {
+                "lang": "srp",
+                "official": "Народна Република Бангладеш",
+                "common": "Бангладеш"
+              },
+              {
+                "lang": "swe",
+                "official": "Folkrepubliken Bangladesh",
+                "common": "Bangladesh"
+              },
+              {
+                "lang": "tur",
+                "official": "Banglades Halk Cumhuriyeti",
+                "common": "Banglades"
+              },
+              {
+                "lang": "urd",
+                "official": "عوامی جمہوریہ بنگلہ دیش",
+                "common": "بنگلہ دیش"
+              },
+              {
+                "lang": "zho",
+                "official": "孟加拉人民共和国",
+                "common": "孟加拉国"
+              }
+            ]
+          },
+          "tld": [
+            ".bd"
+          ],
+          "cca2": "BD",
+          "ccn3": "050",
+          "cca3": "BGD",
+          "cioc": "BAN",
+          "fifa": "BAN",
+          "independent": true,
+          "status": "officially-assigned",
+          "unMember": true,
+          "currencies": [
+            {
+              "name": "Bangladeshi taka",
+              "alphaCode": "BDT",
+              "symbol": "৳"
+            }
+          ],
+          "idd": {
+            "root": "+8",
+            "suffixes": [
+              "80"
+            ]
+          },
+          "capital": [
+            {
+              "name": "Dhaka",
+              "latLng": {
+                "lat": 23.72,
+                "lng": 90.4
+              }
+            }
+          ],
+          "altSpellings": [
+            "BD",
+            "People's Republic of Bangladesh",
+            "Gonoprojatontri Bangladesh"
+          ],
+          "region": "Asia",
+          "subregion": "Southern Asia",
+          "continents": [
+            "Asia"
+          ],
+          "languages": [
+            {
+              "code": "ben",
+              "name": "Bengali"
+            }
+          ],
+          "latLng": {
+            "lat": 24,
+            "lng": 90
+          },
+          "landlocked": "false",
+          "borders": [
+            "MMR",
+            "IND"
+          ],
+          "area": 147570,
+          "flag": "🇧🇩",
+          "flags": {
+            "png": "https://flagcdn.com/w320/bd.png",
+            "svg": "https://flagcdn.com/bd.svg",
+            "alt": "The flag of Bangladesh has a dark green field bearing a large red circle that is offset slightly towards the hoist side of center."
+          },
+          "demonyms": [
+            {
+              "langCode": "eng",
+              "f": "Bangladeshi",
+              "m": "Bangladeshi"
+            },
+            {
+              "langCode": "fra",
+              "f": "Bangladaise",
+              "m": "Bangladais"
+            }
+          ],
+          "coatOfArms": {
+            "png": "https://mainfacts.com/media/images/coats_of_arms/bd.png",
+            "svg": "https://mainfacts.com/media/images/coats_of_arms/bd.svg"
+          },
+          "population": 164689383,
+          "maps": {
+            "googleMaps": "https://goo.gl/maps/op6gmLbHcvv6rLhH6",
+            "openStreetMaps": "https://www.openstreetmap.org/relation/184640"
+          },
+          "gini": {},
+          "car": {
+            "signs": [
+              "BD"
+            ],
+            "side": "left"
+          },
+          "timezones": [
+            "UTC+06:00"
+          ],
+          "startOfWeek": "sunday",
+          "postalCode": {
+            "format": "####",
+            "regex": "^(\\d{4})$"
+          },
+          "gdp": {
+            "currency": "USD",
+            "value": 416264946000,
+            "year": 2021
+          },
+          "groups": [
+            "CW",
+            "D8",
+            "SAARC"
+          ]
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "href": "/apis/geography/v1/country/BTN",
+          "name": {
+            "common": "Bhutan",
+            "official": "Kingdom of Bhutan",
+            "nativeName": [
+              {
+                "lang": "dzo",
+                "official": "འབྲུག་རྒྱལ་ཁབ་",
+                "common": "འབྲུག་ཡུལ་"
+              }
+            ],
+            "translations": [
+              {
+                "lang": "ara",
+                "official": "مملكة بوتان",
+                "common": "بوتان"
+              },
+              {
+                "lang": "bre",
+                "official": "Rouantelezh Bhoutan",
+                "common": "Bhoutan"
+              },
+              {
+                "lang": "ces",
+                "official": "Bhutanske kralovstvi",
+                "common": "Bhutan"
+              },
+              {
+                "lang": "cym",
+                "official": "Teyrnas Bhwtan",
+                "common": "Bhwtan"
+              },
+              {
+                "lang": "deu",
+                "official": "Konigreich Bhutan",
+                "common": "Bhutan"
+              },
+              {
+                "lang": "est",
+                "official": "Bhutani Kuningriik",
+                "common": "Bhutan"
+              },
+              {
+                "lang": "fin",
+                "official": "Bhutanin kuningaskunta",
+                "common": "Bhutan"
+              },
+              {
+                "lang": "fra",
+                "official": "Royaume du Bhoutan",
+                "common": "Bhoutan"
+              },
+              {
+                "lang": "hrv",
+                "official": "Kraljevina Butan",
+                "common": "Butan"
+              },
+              {
+                "lang": "hun",
+                "official": "Bhutani Kiralysag",
+                "common": "Bhutan"
+              },
+              {
+                "lang": "ita",
+                "official": "Regno del Bhutan",
+                "common": "Bhutan"
+              },
+              {
+                "lang": "jpn",
+                "official": "ブータン王国",
+                "common": "ブータン"
+              },
+              {
+                "lang": "kor",
+                "official": "부탄 왕국",
+                "common": "부탄"
+              },
+              {
+                "lang": "nld",
+                "official": "Koninkrijk Bhutan",
+                "common": "Bhutan"
+              },
+              {
+                "lang": "per",
+                "official": "پادشاهی بوتان",
+                "common": "بوتان"
+              },
+              {
+                "lang": "pol",
+                "official": "Bhutan",
+                "common": "Bhutan"
+              },
+              {
+                "lang": "por",
+                "official": "Reino do Butao",
+                "common": "Butao"
+              },
+              {
+                "lang": "rus",
+                "official": "Королевство Бутан",
+                "common": "Бутан"
+              },
+              {
+                "lang": "slk",
+                "official": "Bhutanske kralovstvo",
+                "common": "Bhutan"
+              },
+              {
+                "lang": "spa",
+                "official": "Reino de Butan",
+                "common": "Butan"
+              },
+              {
+                "lang": "srp",
+                "official": "Краљевина Бутан",
+                "common": "Бутан"
+              },
+              {
+                "lang": "swe",
+                "official": "Konungariket Bhutan",
+                "common": "Bhutan"
+              },
+              {
+                "lang": "tur",
+                "official": "Butan Krallıgı",
+                "common": "Butan"
+              },
+              {
+                "lang": "urd",
+                "official": "سلطنت بھوٹان",
+                "common": "بھوٹان"
+              },
+              {
+                "lang": "zho",
+                "official": "不丹王国",
+                "common": "不丹"
+              }
+            ]
+          },
+          "tld": [
+            ".bt"
+          ],
+          "cca2": "BT",
+          "ccn3": "064",
+          "cca3": "BTN",
+          "cioc": "BHU",
+          "fifa": "BHU",
+          "independent": true,
+          "status": "officially-assigned",
+          "unMember": true,
+          "currencies": [
+            {
+              "name": "Bhutanese ngultrum",
+              "alphaCode": "BTN",
+              "symbol": "Nu."
+            },
+            {
+              "name": "Indian rupee",
+              "alphaCode": "INR",
+              "symbol": "₹"
+            }
+          ],
+          "idd": {
+            "root": "+9",
+            "suffixes": [
+              "75"
+            ]
+          },
+          "capital": [
+            {
+              "name": "Thimphu",
+              "latLng": {
+                "lat": 27.47,
+                "lng": 89.63
+              }
+            }
+          ],
+          "altSpellings": [
+            "BT",
+            "Kingdom of Bhutan"
+          ],
+          "region": "Asia",
+          "subregion": "Southern Asia",
+          "continents": [
+            "Asia"
+          ],
+          "languages": [
+            {
+              "code": "dzo",
+              "name": "Dzongkha"
+            }
+          ],
+          "latLng": {
+            "lat": 27.5,
+            "lng": 90.5
+          },
+          "landlocked": "true",
+          "borders": [
+            "CHN",
+            "IND"
+          ],
+          "area": 38394,
+          "flag": "🇧🇹",
+          "flags": {
+            "png": "https://flagcdn.com/w320/bt.png",
+            "svg": "https://flagcdn.com/bt.svg",
+            "alt": "The flag of Bhutan is divided diagonally, from the lower hoist-side corner to the upper fly-side corner, into an upper yellow and a lower orange triangle. A fly-side facing white dragon holding four jewels in its claws is situated along the boundary of the two triangles."
+          },
+          "demonyms": [
+            {
+              "langCode": "eng",
+              "f": "Bhutanese",
+              "m": "Bhutanese"
+            },
+            {
+              "langCode": "fra",
+              "f": "Bhoutanaise",
+              "m": "Bhoutanais"
+            }
+          ],
+          "coatOfArms": {
+            "png": "https://mainfacts.com/media/images/coats_of_arms/bt.png",
+            "svg": "https://mainfacts.com/media/images/coats_of_arms/bt.svg"
+          },
+          "population": 771612,
+          "maps": {
+            "googleMaps": "https://goo.gl/maps/VEfXXBftTFLUpNgp8",
+            "openStreetMaps": "https://www.openstreetmap.org/relation/184629"
+          },
+          "gini": {},
+          "car": {
+            "signs": [
+              "BHT"
+            ],
+            "side": "left"
+          },
+          "timezones": [
+            "UTC+06:00"
+          ],
+          "startOfWeek": "monday",
+          "postalCode": {},
+          "gdp": {
+            "currency": "USD",
+            "value": 2539553020,
+            "year": 2021
+          },
+          "groups": [
+            "SAARC"
+          ]
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "href": "/apis/geography/v1/country/BRN",
+          "name": {
+            "common": "Brunei",
+            "official": "Nation of Brunei, Abode of Peace",
+            "nativeName": [
+              {
+                "lang": "msa",
+                "official": "Nation of Brunei, Abode Damai",
+                "common": "Negara Brunei Darussalam"
+              }
+            ],
+            "translations": [
+              {
+                "lang": "ara",
+                "official": "بروناي دار السلام",
+                "common": "بروناي"
+              },
+              {
+                "lang": "bre",
+                "official": "Stad Brunei Darussalam",
+                "common": "Brunei"
+              },
+              {
+                "lang": "ces",
+                "official": "Sultanat Brunej",
+                "common": "Brunej"
+              },
+              {
+                "lang": "cym",
+                "official": "Teyrnas Brwnei",
+                "common": "Brunei"
+              },
+              {
+                "lang": "deu",
+                "official": "Sultanat Brunei Darussalam",
+                "common": "Brunei"
+              },
+              {
+                "lang": "est",
+                "official": "Brunei Darussalami Riik",
+                "common": "Brunei"
+              },
+              {
+                "lang": "fin",
+                "official": "Brunei Darussalamin valtio",
+                "common": "Brunei"
+              },
+              {
+                "lang": "fra",
+                "official": "Etat de Brunei Darussalam",
+                "common": "Brunei"
+              },
+              {
+                "lang": "hrv",
+                "official": "Nacija od Bruneja, Kucu Mira",
+                "common": "Brunej"
+              },
+              {
+                "lang": "hun",
+                "official": "Brunei Szultanatus",
+                "common": "Brunei"
+              },
+              {
+                "lang": "ita",
+                "official": "Nazione di Brunei, Dimora della Pace",
+                "common": "Brunei"
+              },
+              {
+                "lang": "jpn",
+                "official": "ブルネイ、平和の精舎の国家",
+                "common": "ブルネイ・ダルサラーム"
+              },
+              {
+                "lang": "kor",
+                "official": "브루나이 다루살람국",
+                "common": "브루나이"
+              },
+              {
+                "lang": "nld",
+                "official": "Natie van Brunei, de verblijfplaats van de Vrede",
+                "common": "Brunei"
+              },
+              {
+                "lang": "per",
+                "official": "برونئی سرای صلح",
+                "common": "برونئی"
+              },
+              {
+                "lang": "pol",
+                "official": "Panstwo Brunei Darussalam",
+                "common": "Brunei"
+              },
+              {
+                "lang": "por",
+                "official": "Nacao do Brunei, Morada da Paz",
+                "common": "Brunei"
+              },
+              {
+                "lang": "rus",
+                "official": "Нация Брунеи, обитель мира",
+                "common": "Брунеи"
+              },
+              {
+                "lang": "slk",
+                "official": "Brunejsky sultanat",
+                "common": "Brunej"
+              },
+              {
+                "lang": "spa",
+                "official": "Nacion de Brunei, Morada de la Paz",
+                "common": "Brunei"
+              },
+              {
+                "lang": "srp",
+                "official": "Султанат Брунеј, боравиште мира",
+                "common": "Брунеј"
+              },
+              {
+                "lang": "swe",
+                "official": "Brunei Darussalam",
+                "common": "Brunei"
+              },
+              {
+                "lang": "tur",
+                "official": "Brunei Barıs Ulkesi Devleti",
+                "common": "Brunei"
+              },
+              {
+                "lang": "urd",
+                "official": "ریاستِ برونائی دارالسلام",
+                "common": "برونائی"
+              },
+              {
+                "lang": "zho",
+                "official": "文莱和平之国",
+                "common": "文莱"
+              }
+            ]
+          },
+          "tld": [
+            ".bn"
+          ],
+          "cca2": "BN",
+          "ccn3": "096",
+          "cca3": "BRN",
+          "cioc": "BRU",
+          "fifa": "BRU",
+          "independent": true,
+          "status": "officially-assigned",
+          "unMember": true,
+          "currencies": [
+            {
+              "name": "Brunei dollar",
+              "alphaCode": "BND",
+              "symbol": "$"
+            },
+            {
+              "name": "Singapore dollar",
+              "alphaCode": "SGD",
+              "symbol": "$"
+            }
+          ],
+          "idd": {
+            "root": "+6",
+            "suffixes": [
+              "73"
+            ]
+          },
+          "capital": [
+            {
+              "name": "Bandar Seri Begawan",
+              "latLng": {
+                "lat": 4.88,
+                "lng": 114.93
+              }
+            }
+          ],
+          "altSpellings": [
+            "BN",
+            "Brunei Darussalam",
+            "Nation of Brunei",
+            "the Abode of Peace"
+          ],
+          "region": "Asia",
+          "subregion": "South-Eastern Asia",
+          "continents": [
+            "Asia"
+          ],
+          "languages": [
+            {
+              "code": "msa",
+              "name": "Malay"
+            }
+          ],
+          "latLng": {
+            "lat": 4.5,
+            "lng": 114.66666666
+          },
+          "landlocked": "false",
+          "borders": [
+            "MYS"
+          ],
+          "area": 5765,
+          "flag": "🇧🇳",
+          "flags": {
+            "png": "https://flagcdn.com/w320/bn.png",
+            "svg": "https://flagcdn.com/bn.svg",
+            "alt": "The flag of Brunei has a yellow field with two adjoining diagonal bands of white and black that extend from the upper hoist side of the field to the lower fly side. The red emblem of Brunei is centered on the field."
+          },
+          "demonyms": [
+            {
+              "langCode": "eng",
+              "f": "Bruneian",
+              "m": "Bruneian"
+            },
+            {
+              "langCode": "fra",
+              "f": "Bruneienne",
+              "m": "Bruneien"
+            }
+          ],
+          "coatOfArms": {
+            "png": "https://mainfacts.com/media/images/coats_of_arms/bn.png",
+            "svg": "https://mainfacts.com/media/images/coats_of_arms/bn.svg"
+          },
+          "population": 437483,
+          "maps": {
+            "googleMaps": "https://goo.gl/maps/4jb4CqBXhr8vNh579",
+            "openStreetMaps": "https://www.openstreetmap.org/relation/2103120"
+          },
+          "gini": {},
+          "car": {
+            "signs": [
+              "BRU"
+            ],
+            "side": "left"
+          },
+          "timezones": [
+            "UTC+08:00"
+          ],
+          "startOfWeek": "monday",
+          "postalCode": {
+            "format": "@@####",
+            "regex": "^([A-Z]{2}\\d{4})$"
+          },
+          "gdp": {
+            "currency": "USD",
+            "value": 14006570000,
+            "year": 2021
+          },
+          "groups": [
+            "APEC",
+            "CW",
+            "ASEAN"
+          ]
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "href": "/apis/geography/v1/country/KHM",
+          "name": {
+            "common": "Cambodia",
+            "official": "Kingdom of Cambodia",
+            "nativeName": [
+              {
+                "lang": "khm",
+                "official": "ព្រះរាជាណាចក្រកម្ពុជា",
+                "common": "Kampuchea"
+              }
+            ],
+            "translations": [
+              {
+                "lang": "ara",
+                "official": "مملكة كمبوديا",
+                "common": "كمبوديا"
+              },
+              {
+                "lang": "bre",
+                "official": "Rouantelezh Kambodja",
+                "common": "Kambodja"
+              },
+              {
+                "lang": "ces",
+                "official": "Kambodzske kralovstvi",
+                "common": "Kambodza"
+              },
+              {
+                "lang": "cym",
+                "official": "Teyrnas Cambodia",
+                "common": "Cambodia"
+              },
+              {
+                "lang": "deu",
+                "official": "Konigreich Kambodscha",
+                "common": "Kambodscha"
+              },
+              {
+                "lang": "est",
+                "official": "Kambodza Kuningriik",
+                "common": "Kambodza"
+              },
+              {
+                "lang": "fin",
+                "official": "Kambodzan kuningaskunta",
+                "common": "Kambodza"
+              },
+              {
+                "lang": "fra",
+                "official": "Royaume du Cambodge",
+                "common": "Cambodge"
+              },
+              {
+                "lang": "hrv",
+                "official": "Kraljevina Kambodza",
+                "common": "Kambodza"
+              },
+              {
+                "lang": "hun",
+                "official": "Kambodzsai Kiralysag",
+                "common": "Kambodzsa"
+              },
+              {
+                "lang": "ita",
+                "official": "Regno di Cambogia",
+                "common": "Cambogia"
+              },
+              {
+                "lang": "jpn",
+                "official": "カンボジア王国",
+                "common": "カンボジア"
+              },
+              {
+                "lang": "kor",
+                "official": "캄보디아 왕국",
+                "common": "캄보디아"
+              },
+              {
+                "lang": "nld",
+                "official": "Koninkrijk Cambodja",
+                "common": "Cambodja"
+              },
+              {
+                "lang": "per",
+                "official": "پادشاهی کامبوج",
+                "common": "کامبوج"
+              },
+              {
+                "lang": "pol",
+                "official": "Krolestwo Kambodzy",
+                "common": "Kambodza"
+              },
+              {
+                "lang": "por",
+                "official": "Reino do Camboja",
+                "common": "Camboja"
+              },
+              {
+                "lang": "rus",
+                "official": "Королевство Камбоджа",
+                "common": "Камбоджа"
+              },
+              {
+                "lang": "slk",
+                "official": "Kamboǆske kralovstvo",
+                "common": "Kamboǆa"
+              },
+              {
+                "lang": "spa",
+                "official": "Reino de Camboya",
+                "common": "Camboya"
+              },
+              {
+                "lang": "srp",
+                "official": "Краљевина Камбоџа",
+                "common": "Камбоџа"
+              },
+              {
+                "lang": "swe",
+                "official": "Konungariket Kambodja",
+                "common": "Kambodja"
+              },
+              {
+                "lang": "tur",
+                "official": "Kambocya Krallıgı",
+                "common": "Kambocya"
+              },
+              {
+                "lang": "urd",
+                "official": "مملکتِ کمبوڈیا",
+                "common": "کمبوڈیا"
+              },
+              {
+                "lang": "zho",
+                "official": "柬埔寨王国",
+                "common": "柬埔寨"
+              }
+            ]
+          },
+          "tld": [
+            ".kh"
+          ],
+          "cca2": "KH",
+          "ccn3": "116",
+          "cca3": "KHM",
+          "cioc": "CAM",
+          "fifa": "CAM",
+          "independent": true,
+          "status": "officially-assigned",
+          "unMember": true,
+          "currencies": [
+            {
+              "name": "Cambodian riel",
+              "alphaCode": "KHR",
+              "symbol": "៛"
+            },
+            {
+              "name": "United States dollar",
+              "alphaCode": "USD",
+              "symbol": "$"
+            }
+          ],
+          "idd": {
+            "root": "+8",
+            "suffixes": [
+              "55"
+            ]
+          },
+          "capital": [
+            {
+              "name": "Phnom Penh",
+              "latLng": {
+                "lat": 11.55,
+                "lng": 104.92
+              }
+            }
+          ],
+          "altSpellings": [
+            "KH",
+            "Kingdom of Cambodia"
+          ],
+          "region": "Asia",
+          "subregion": "South-Eastern Asia",
+          "continents": [
+            "Asia"
+          ],
+          "languages": [
+            {
+              "code": "khm",
+              "name": "Khmer"
+            }
+          ],
+          "latLng": {
+            "lat": 13,
+            "lng": 105
+          },
+          "landlocked": "false",
+          "borders": [
+            "LAO",
+            "THA",
+            "VNM"
+          ],
+          "area": 181035,
+          "flag": "🇰🇭",
+          "flags": {
+            "png": "https://flagcdn.com/w320/kh.png",
+            "svg": "https://flagcdn.com/kh.svg",
+            "alt": "The flag of Cambodia features three horizontal bands of blue, red and blue, with a white depiction of the temple complex, Angkor Wat centered in the red band."
+          },
+          "demonyms": [
+            {
+              "langCode": "eng",
+              "f": "Cambodian",
+              "m": "Cambodian"
+            },
+            {
+              "langCode": "fra",
+              "f": "Cambodgienne",
+              "m": "Cambodgien"
+            }
+          ],
+          "coatOfArms": {
+            "png": "https://mainfacts.com/media/images/coats_of_arms/kh.png",
+            "svg": "https://mainfacts.com/media/images/coats_of_arms/kh.svg"
+          },
+          "population": 16718971,
+          "maps": {
+            "googleMaps": "https://goo.gl/maps/nztQtFSrUXZymJaW8",
+            "openStreetMaps": "https://www.openstreetmap.org/relation/49898"
+          },
+          "gini": {},
+          "car": {
+            "signs": [
+              "K"
+            ],
+            "side": "right"
+          },
+          "timezones": [
+            "UTC+07:00"
+          ],
+          "startOfWeek": "monday",
+          "postalCode": {
+            "format": "#####",
+            "regex": "^(\\d{5})$"
+          },
+          "gdp": {
+            "currency": "USD",
+            "value": 26961061900,
+            "year": 2021
+          },
+          "groups": [
+            "ASEAN"
+          ]
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "href": "/apis/geography/v1/country/CHN",
+          "name": {
+            "common": "China",
+            "official": "People's Republic of China",
+            "nativeName": [
+              {
+                "lang": "zho",
+                "official": "中华人民共和国",
+                "common": "中国"
+              }
+            ],
+            "translations": [
+              {
+                "lang": "ara",
+                "official": "جمهورية الصين الشعبية",
+                "common": "الصين"
+              },
+              {
+                "lang": "bre",
+                "official": "Republik Pobl Sina",
+                "common": "Sina"
+              },
+              {
+                "lang": "ces",
+                "official": "Cinska lidova republika",
+                "common": "Cina"
+              },
+              {
+                "lang": "cym",
+                "official": "Gweriniaeth Pobl Tsieina",
+                "common": "Tsieina"
+              },
+              {
+                "lang": "deu",
+                "official": "Volksrepublik China",
+                "common": "China"
+              },
+              {
+                "lang": "est",
+                "official": "Hiina Rahvavabariik",
+                "common": "Hiina"
+              },
+              {
+                "lang": "fin",
+                "official": "Kiinan kansantasavalta",
+                "common": "Kiina"
+              },
+              {
+                "lang": "fra",
+                "official": "Republique populaire de Chine",
+                "common": "Chine"
+              },
+              {
+                "lang": "hrv",
+                "official": "Narodna Republika Kina",
+                "common": "Kina"
+              },
+              {
+                "lang": "hun",
+                "official": "Kinai Nepkoztarsasag",
+                "common": "Kina"
+              },
+              {
+                "lang": "ita",
+                "official": "Repubblica popolare cinese",
+                "common": "Cina"
+              },
+              {
+                "lang": "jpn",
+                "official": "中華人民共和国",
+                "common": "中国"
+              },
+              {
+                "lang": "kor",
+                "official": "중화인민공화국",
+                "common": "중국"
+              },
+              {
+                "lang": "nld",
+                "official": "Volksrepubliek China",
+                "common": "China"
+              },
+              {
+                "lang": "per",
+                "official": "جمهوری خلق چین",
+                "common": "چین"
+              },
+              {
+                "lang": "pol",
+                "official": "Chinska Republika Ludowa",
+                "common": "Chiny"
+              },
+              {
+                "lang": "por",
+                "official": "Republica Popular da China",
+                "common": "China"
+              },
+              {
+                "lang": "rus",
+                "official": "Народная Республика Китаи",
+                "common": "Китаи"
+              },
+              {
+                "lang": "slk",
+                "official": "Cinska ludova republika",
+                "common": "Cina"
+              },
+              {
+                "lang": "spa",
+                "official": "Republica Popular de China",
+                "common": "China"
+              },
+              {
+                "lang": "srp",
+                "official": "Народна Република Кина",
+                "common": "Кина"
+              },
+              {
+                "lang": "swe",
+                "official": "Folkrepubliken Kina",
+                "common": "Kina"
+              },
+              {
+                "lang": "tur",
+                "official": "Cin Halk Cumhuriyeti",
+                "common": "Cin"
+              },
+              {
+                "lang": "urd",
+                "official": "عوامی جمہوریہ چین",
+                "common": "چین"
+              }
+            ]
+          },
+          "tld": [
+            ".cn",
+            ".中国",
+            ".中國",
+            ".公司",
+            ".网络"
+          ],
+          "cca2": "CN",
+          "ccn3": "156",
+          "cca3": "CHN",
+          "cioc": "CHN",
+          "fifa": "CHN",
+          "independent": true,
+          "status": "officially-assigned",
+          "unMember": true,
+          "currencies": [
+            {
+              "name": "Chinese yuan",
+              "alphaCode": "CNY",
+              "symbol": "¥"
+            }
+          ],
+          "idd": {
+            "root": "+8",
+            "suffixes": [
+              "6"
+            ]
+          },
+          "capital": [
+            {
+              "name": "Beijing",
+              "latLng": {
+                "lat": 39.92,
+                "lng": 116.38
+              }
+            }
+          ],
+          "altSpellings": [
+            "CN",
+            "Zhongguo",
+            "Zhongguo",
+            "Zhonghua",
+            "People's Republic of China",
+            "中华人民共和国",
+            "Zhonghua Renmin Gongheguo"
+          ],
+          "region": "Asia",
+          "subregion": "Eastern Asia",
+          "continents": [
+            "Asia"
+          ],
+          "languages": [
+            {
+              "code": "zho",
+              "name": "Chinese"
+            }
+          ],
+          "latLng": {
+            "lat": 35,
+            "lng": 105
+          },
+          "landlocked": "false",
+          "borders": [
+            "AFG",
+            "BTN",
+            "MMR",
+            "HKG",
+            "IND",
+            "KAZ",
+            "NPL",
+            "PRK",
+            "KGZ",
+            "LAO",
+            "MAC",
+            "MNG",
+            "PAK",
+            "RUS",
+            "TJK",
+            "VNM"
+          ],
+          "area": 9706961,
+          "flag": "🇨🇳",
+          "flags": {
+            "png": "https://flagcdn.com/w320/cn.png",
+            "svg": "https://flagcdn.com/cn.svg",
+            "alt": "The flag of China has a red field. In the canton are five yellow five-pointed stars — a large star and four smaller stars arranged in a vertical arc on the fly side of the large star."
+          },
+          "demonyms": [
+            {
+              "langCode": "eng",
+              "f": "Chinese",
+              "m": "Chinese"
+            },
+            {
+              "langCode": "fra",
+              "f": "Chinoise",
+              "m": "Chinois"
+            }
+          ],
+          "coatOfArms": {
+            "png": "https://mainfacts.com/media/images/coats_of_arms/cn.png",
+            "svg": "https://mainfacts.com/media/images/coats_of_arms/cn.svg"
+          },
+          "population": 1402112000,
+          "maps": {
+            "googleMaps": "https://goo.gl/maps/p9qC6vgiFRRXzvGi7",
+            "openStreetMaps": "https://www.openstreetmap.org/relation/270056"
+          },
+          "gini": {},
+          "car": {
+            "signs": [
+              "RC"
+            ],
+            "side": "right"
+          },
+          "timezones": [
+            "UTC+08:00"
+          ],
+          "startOfWeek": "monday",
+          "postalCode": {
+            "format": "######",
+            "regex": "^(\\d{6})$"
+          },
+          "gdp": {
+            "currency": "USD",
+            "value": 17734062600000,
+            "year": 2021
+          },
+          "groups": [
+            "BRICS",
+            "G8",
+            "APEC"
+          ]
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "href": "/apis/geography/v1/country/GEO",
+          "name": {
+            "common": "Georgia",
+            "official": "Georgia",
+            "nativeName": [
+              {
+                "lang": "kat",
+                "official": "საქართველო",
+                "common": "საქართველო"
+              }
+            ],
+            "translations": [
+              {
+                "lang": "ara",
+                "official": "جورجيا",
+                "common": "جورجيا"
+              },
+              {
+                "lang": "bre",
+                "official": "Republik Jorjia",
+                "common": "Jorjia"
+              },
+              {
+                "lang": "ces",
+                "official": "Gruzie",
+                "common": "Gruzie"
+              },
+              {
+                "lang": "cym",
+                "official": "Georgia",
+                "common": "Georgia"
+              },
+              {
+                "lang": "deu",
+                "official": "Georgien",
+                "common": "Georgien"
+              },
+              {
+                "lang": "est",
+                "official": "Gruusia",
+                "common": "Gruusia"
+              },
+              {
+                "lang": "fin",
+                "official": "Georgia",
+                "common": "Georgia"
+              },
+              {
+                "lang": "fra",
+                "official": "Republique de Georgie",
+                "common": "Georgie"
+              },
+              {
+                "lang": "hrv",
+                "official": "Gruzija",
+                "common": "Gruzija"
+              },
+              {
+                "lang": "hun",
+                "official": "Gruzia",
+                "common": "Gruzia"
+              },
+              {
+                "lang": "ita",
+                "official": "Georgia",
+                "common": "Georgia"
+              },
+              {
+                "lang": "jpn",
+                "official": "グルジア",
+                "common": "グルジア"
+              },
+              {
+                "lang": "kor",
+                "official": "조지아",
+                "common": "조지아"
+              },
+              {
+                "lang": "nld",
+                "official": "Georgia",
+                "common": "Georgie"
+              },
+              {
+                "lang": "per",
+                "official": "گرجستان",
+                "common": "گرجستان"
+              },
+              {
+                "lang": "pol",
+                "official": "Gruzja",
+                "common": "Gruzja"
+              },
+              {
+                "lang": "por",
+                "official": "Georgia",
+                "common": "Georgia"
+              },
+              {
+                "lang": "rus",
+                "official": "Грузия",
+                "common": "Грузия"
+              },
+              {
+                "lang": "slk",
+                "official": "Gruzinsko",
+                "common": "Gruzinsko"
+              },
+              {
+                "lang": "spa",
+                "official": "Georgia",
+                "common": "Georgia"
+              },
+              {
+                "lang": "srp",
+                "official": "Грузија",
+                "common": "Грузија"
+              },
+              {
+                "lang": "swe",
+                "official": "Georgien",
+                "common": "Georgien"
+              },
+              {
+                "lang": "tur",
+                "official": "Gurcistan",
+                "common": "Gurcistan"
+              },
+              {
+                "lang": "urd",
+                "official": "جارجیا",
+                "common": "جارجیا"
+              },
+              {
+                "lang": "zho",
+                "official": "格鲁吉亚",
+                "common": "格鲁吉亚"
+              }
+            ]
+          },
+          "tld": [
+            ".ge"
+          ],
+          "cca2": "GE",
+          "ccn3": "268",
+          "cca3": "GEO",
+          "cioc": "GEO",
+          "fifa": "GEO",
+          "independent": true,
+          "status": "officially-assigned",
+          "unMember": true,
+          "currencies": [
+            {
+              "name": "lari",
+              "alphaCode": "GEL",
+              "symbol": "₾"
+            }
+          ],
+          "idd": {
+            "root": "+9",
+            "suffixes": [
+              "95"
+            ]
+          },
+          "capital": [
+            {
+              "name": "Tbilisi",
+              "latLng": {
+                "lat": 41.68,
+                "lng": 44.83
+              }
+            }
+          ],
+          "altSpellings": [
+            "GE",
+            "Sakartvelo"
+          ],
+          "region": "Asia",
+          "subregion": "Western Asia",
+          "continents": [
+            "Asia"
+          ],
+          "languages": [
+            {
+              "code": "kat",
+              "name": "Georgian"
+            }
+          ],
+          "latLng": {
+            "lat": 42,
+            "lng": 43.5
+          },
+          "landlocked": "false",
+          "borders": [
+            "ARM",
+            "AZE",
+            "RUS",
+            "TUR"
+          ],
+          "area": 69700,
+          "flag": "🇬🇪",
+          "flags": {
+            "png": "https://flagcdn.com/w320/ge.png",
+            "svg": "https://flagcdn.com/ge.svg",
+            "alt": "The flag of Georgia has a white field with a large centered red cross that extends to the edges and divides the field into four quarters. A small red Bolnur-Katskhuri cross is centered in each quarter."
+          },
+          "demonyms": [
+            {
+              "langCode": "eng",
+              "f": "Georgian",
+              "m": "Georgian"
+            },
+            {
+              "langCode": "fra",
+              "f": "Georgienne",
+              "m": "Georgien"
+            }
+          ],
+          "coatOfArms": {
+            "png": "https://mainfacts.com/media/images/coats_of_arms/ge.png",
+            "svg": "https://mainfacts.com/media/images/coats_of_arms/ge.svg"
+          },
+          "population": 3714000,
+          "maps": {
+            "googleMaps": "https://goo.gl/maps/bvCaGBePR1ZEDK5cA",
+            "openStreetMaps": "https://www.openstreetmap.org/relation/28699"
+          },
+          "gini": {},
+          "car": {
+            "signs": [
+              "GE"
+            ],
+            "side": "right"
+          },
+          "timezones": [
+            "UTC+04:00"
+          ],
+          "startOfWeek": "monday",
+          "postalCode": {
+            "format": "####",
+            "regex": "^(\\d{4})$"
+          },
+          "gdp": {
+            "currency": "USD",
+            "value": 18629365800,
+            "year": 2021
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "18c200bf-136a-4271-a023-19ef93217f6a",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-01-01T08:21:12.090Z",
+      "createdAt": "2024-01-01T08:21:12.090Z",
+      "role": "workflow:owner",
+      "workflowId": "89rGhBKJJjHzVyEh",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
