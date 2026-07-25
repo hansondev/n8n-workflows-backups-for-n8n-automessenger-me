@@ -1,0 +1,3475 @@
+{
+  "updatedAt": "2025-01-10T08:38:12.000Z",
+  "createdAt": "2025-01-10T02:40:20.501Z",
+  "id": "rZbyWkZWkIctZszq",
+  "name": "Kaya Marketing Agency Assessment - Google Ads Transparency Scraper",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/actor-tasks/immense_grasshopper~gads-transparency-scraper-for-kaya-use/run-sync-get-dataset-items?token=RMcnCuQuPp4AAsEwZjt5FNDF4",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"adType\": \"1\",\n    \"fromDate\": \"{{ $json['From Date'] }}\",\n    \"platforms\": \"{{ $json['Google Ads Platform'] }}\",\n    \"queries\": [\n        \"{{ $json['Google Advertiser ID'] }}\"\n    ],\n    \"targetCountries\": [\n        \"2840\"\n    ],\n    \"toDate\": \"{{ $('On form submission').item.json['To Date'] }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1080,
+        -1100
+      ],
+      "id": "67278e43-619f-4f10-b180-dd0d11f510df",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "formTitle": "APIFY Google Ads Transparency Scraper",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Company Name"
+            },
+            {
+              "fieldLabel": "Google Advertiser ID",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "From Date",
+              "fieldType": "date",
+              "formatDate": "yyyy-mm-dd",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "To Date",
+              "fieldType": "date",
+              "formatDate": "yyyy-mm-dd",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Google Ads Platform",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "1"
+                  },
+                  {
+                    "option": "2"
+                  },
+                  {
+                    "option": "3"
+                  },
+                  {
+                    "option": "4"
+                  },
+                  {
+                    "option": "5"
+                  }
+                ]
+              },
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        40
+      ],
+      "id": "3f670d9a-20cf-4092-bdaa-b73739d5a838",
+      "name": "On form submission",
+      "webhookId": "cd6cda5c-8ee2-4fee-b341-dd596f30c61b"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json[\"Google Ads Platform\"] }}",
+                    "rightValue": "1",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Google Play"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "a994177b-2b49-407a-8c55-5e8fec9c520e",
+                    "leftValue": "={{ $json[\"Google Ads Platform\"] }}",
+                    "rightValue": "2",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Google Maps"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "20bf004e-8618-4223-9324-1361d989b5d8",
+                    "leftValue": "={{ $json[\"Google Ads Platform\"] }}",
+                    "rightValue": "3",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Google Search"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "d874cab9-f2e8-4c51-8dac-35ff01dd473c",
+                    "leftValue": "={{ $json[\"Google Ads Platform\"] }}",
+                    "rightValue": "4",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Google Shopping"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "66b63578-a943-4361-95d7-f13e06163adf",
+                    "leftValue": "={{ $json[\"Google Ads Platform\"] }}",
+                    "rightValue": "5",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Youtube"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        420,
+        0
+      ],
+      "id": "5cbf7cd6-e082-4864-a557-eb7470d7d987",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/actor-tasks/immense_grasshopper~gads-transparency-scraper-for-kaya-use/run-sync-get-dataset-items?token=RMcnCuQuPp4AAsEwZjt5FNDF4",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"adType\": \"1\",\n    \"fromDate\": \"{{ $json['From Date'] }}\",\n    \"platforms\": \"{{ $json['Google Ads Platform'] }}\",\n    \"queries\": [\n        \"{{ $json['Google Advertiser ID'] }}\"\n    ],\n    \"targetCountries\": [\n        \"2840\"\n    ],\n    \"toDate\": \"{{ $('On form submission').item.json['To Date'] }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1200,
+        -400
+      ],
+      "id": "fba2405d-1da8-4437-96dc-ff995a71797f",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/actor-tasks/immense_grasshopper~gads-transparency-scraper-for-kaya-use/run-sync-get-dataset-items?token=RMcnCuQuPp4AAsEwZjt5FNDF4",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"adType\": \"1\",\n    \"fromDate\": \"{{ $json['From Date'] }}\",\n    \"platforms\": \"{{ $json['Google Ads Platform'] }}\",\n    \"queries\": [\n        \"{{ $json['Google Advertiser ID'] }}\"\n    ],\n    \"targetCountries\": [\n        \"2840\"\n    ],\n    \"toDate\": \"{{ $('On form submission').item.json['To Date'] }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1220,
+        100
+      ],
+      "id": "459f3c3f-8aad-4ee4-8e74-4bed094b94c7",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/actor-tasks/immense_grasshopper~gads-transparency-scraper-for-kaya-use/run-sync-get-dataset-items?token=RMcnCuQuPp4AAsEwZjt5FNDF4",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"adType\": \"1\",\n    \"fromDate\": \"{{ $json['From Date'] }}\",\n    \"platforms\": \"{{ $json['Google Ads Platform'] }}\",\n    \"queries\": [\n        \"{{ $json['Google Advertiser ID'] }}\"\n    ],\n    \"targetCountries\": [\n        \"2840\"\n    ],\n    \"toDate\": \"{{ $('On form submission').item.json['To Date'] }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1160,
+        680
+      ],
+      "id": "f3e8e457-ba07-48a1-bace-4b8c5a060983",
+      "name": "HTTP Request3"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/actor-tasks/immense_grasshopper~gads-transparency-scraper-for-kaya-use/run-sync-get-dataset-items?token=RMcnCuQuPp4AAsEwZjt5FNDF4",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"adType\": \"1\",\n    \"fromDate\": \"{{ $json['From Date'] }}\",\n    \"platforms\": \"{{ $json['Google Ads Platform'] }}\",\n    \"queries\": [\n        \"{{ $json['Google Advertiser ID'] }}\"\n    ],\n    \"targetCountries\": [\n        \"2840\"\n    ],\n    \"toDate\": \"{{ $('On form submission').item.json['To Date'] }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1120,
+        1220
+      ],
+      "id": "8382c247-f4d9-493f-a1fb-bd6dfe0af826",
+      "name": "HTTP Request4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ea5ee3e4-ac93-431c-917d-2aa30c0a1e2c",
+              "name": "campany_name",
+              "value": "={{ $('On form submission').item.json['Company Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "c4ab5fa2-691d-4728-89e4-3a57e0f4d42d",
+              "name": "advertiser_name",
+              "value": "={{ $json.advertiserName }}",
+              "type": "string"
+            },
+            {
+              "id": "18652199-2b22-4001-824e-242d9a11f0f4",
+              "name": "stats_min_impressions",
+              "value": "={{ $json.stats.impressions.total.min }}",
+              "type": "string"
+            },
+            {
+              "id": "8424e803-fad1-495b-878b-087814dbe159",
+              "name": "stats_max_impressions",
+              "value": "={{ $json.stats.impressions.total.max }}",
+              "type": "string"
+            },
+            {
+              "id": "66dddfa4-b4cb-4eb6-87ff-f2368b702cfd",
+              "name": "target_regions_arr",
+              "value": "={{ $jmespath($json.stats.impressions.byRegion,\"[*].regionName\") }}",
+              "type": "array"
+            },
+            {
+              "id": "51911434-4ca2-418d-9a72-7fc6f927c257",
+              "name": "ad_type",
+              "value": "={{ $json.adType }}",
+              "type": "string"
+            },
+            {
+              "id": "856817bf-c466-44c9-8a72-308f8d1199fe",
+              "name": "ad_title_arr",
+              "value": "={{ $jmespath($json.variations,\"[*].textMetadata.title\") }}",
+              "type": "array"
+            },
+            {
+              "id": "78b0d801-b092-4944-ad86-959300d02053",
+              "name": "ad_desctiption_arr",
+              "value": "={{ $jmespath($json.variations,\"[*].textMetadata.description\") }}",
+              "type": "array"
+            },
+            {
+              "id": "0dbf1a93-923e-47ab-bde5-df6932962e20",
+              "name": "ad_display_url_arr",
+              "value": "={{ $jmespath($json.variations,\"[*].textMetadata.displayUrl\") }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1480,
+        100
+      ],
+      "id": "c5aa732f-560e-46ca-b9eb-b184195d7144",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2fc0babe-3e42-46d0-bdc6-69e262917272",
+              "name": "campany_name",
+              "value": "={{ $json.campany_name }}",
+              "type": "string"
+            },
+            {
+              "id": "a1faa6a9-3159-4735-a610-e01b5fe91b49",
+              "name": "advertiser_name",
+              "value": "={{ $json.advertiser_name }}",
+              "type": "string"
+            },
+            {
+              "id": "865d5c53-ec2c-4bd4-ae81-a86be347a454",
+              "name": "gads_platforms",
+              "value": "Google Search",
+              "type": "string"
+            },
+            {
+              "id": "168c3a69-12c3-4621-b807-9417e805ca66",
+              "name": "ad_type",
+              "value": "={{ $json.ad_type }}",
+              "type": "string"
+            },
+            {
+              "id": "20e8ce69-d62f-4a27-89f3-9102b0c3e0c0",
+              "name": "stats_min_impressions",
+              "value": "={{ $json.stats_max_impressions }}",
+              "type": "string"
+            },
+            {
+              "id": "a64453da-a201-44bb-b3ae-2f0bb11e1a1e",
+              "name": "stats_max_impressions",
+              "value": "={{ $json.stats_max_impressions }}",
+              "type": "string"
+            },
+            {
+              "id": "31785e78-9e60-48e4-9971-7f667039ad9f",
+              "name": "target_regions",
+              "value": "={{ $json.target_regions_arr.join(\",\") }}",
+              "type": "string"
+            },
+            {
+              "id": "d6af0df1-5daf-4c6d-b862-90b0f5466b7e",
+              "name": "ad_title",
+              "value": "={{ $json.ad_title_arr.join(\"\\n- \") }}",
+              "type": "string"
+            },
+            {
+              "id": "c47fb66a-2eb5-4f3f-8353-3020269647df",
+              "name": "ad_desctiption",
+              "value": "={{ $json.ad_desctiption_arr.join(\"\\n- \") }}",
+              "type": "string"
+            },
+            {
+              "id": "d88fa635-c994-49ba-ba39-29fb7ff4aeb2",
+              "name": "ad_display_url",
+              "value": "={{ $json.ad_display_url_arr.join(\"\\n- \") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1700,
+        100
+      ],
+      "id": "c9f59a45-7970-4842-ab87-0e68c224b4d2",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "177bdd43-4460-8038-a48d-c3d6cccaee6f",
+          "mode": "list",
+          "cachedResultName": "Merge Google Ads 2024 Campaigns Records",
+          "cachedResultUrl": "https://www.notion.so/177bdd4344608038a48dc3d6cccaee6f"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Company Name|title",
+              "title": "={{ $json.campany_name }}"
+            },
+            {
+              "key": "Advertiser Name|rich_text",
+              "textContent": "={{ $json.advertiser_name }}"
+            },
+            {
+              "key": "Google Ads Platform|rich_text",
+              "textContent": "={{ $json.gads_platforms }}"
+            },
+            {
+              "key": "Ad Type|rich_text",
+              "textContent": "={{ $json.ad_type }}"
+            },
+            {
+              "key": "Target Regions|rich_text",
+              "textContent": "={{ $json.target_regions }}"
+            },
+            {
+              "key": "Min. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_min_impressions }}"
+            },
+            {
+              "key": "Max. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_max_impressions }}"
+            },
+            {
+              "key": "Ad Title|rich_text",
+              "textContent": "={{ $json.ad_title }}"
+            },
+            {
+              "key": "Ad Description|rich_text",
+              "textContent": "={{ $json.ad_desctiption }}"
+            },
+            {
+              "key": "Ad Display URL|url",
+              "urlValue": "={{ $json.ad_display_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2500,
+        1700
+      ],
+      "id": "ee2afc9f-b3a6-4ee3-8fe0-810432ff2fdb",
+      "name": "Notion",
+      "alwaysOutputData": true,
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ea5ee3e4-ac93-431c-917d-2aa30c0a1e2c",
+              "name": "campany_name",
+              "value": "={{ $('On form submission').item.json['Company Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "c4ab5fa2-691d-4728-89e4-3a57e0f4d42d",
+              "name": "advertiser_name",
+              "value": "={{ $json.advertiserName }}",
+              "type": "string"
+            },
+            {
+              "id": "18652199-2b22-4001-824e-242d9a11f0f4",
+              "name": "stats_min_impressions",
+              "value": "={{ $json.stats.impressions.total.min }}",
+              "type": "string"
+            },
+            {
+              "id": "8424e803-fad1-495b-878b-087814dbe159",
+              "name": "stats_max_impressions",
+              "value": "={{ $json.stats.impressions.total.max }}",
+              "type": "string"
+            },
+            {
+              "id": "66dddfa4-b4cb-4eb6-87ff-f2368b702cfd",
+              "name": "target_regions_arr",
+              "value": "={{ $jmespath($json.stats.impressions.byRegion,\"[*].regionName\") }}",
+              "type": "array"
+            },
+            {
+              "id": "51911434-4ca2-418d-9a72-7fc6f927c257",
+              "name": "ad_type",
+              "value": "={{ $json.adType }}",
+              "type": "string"
+            },
+            {
+              "id": "856817bf-c466-44c9-8a72-308f8d1199fe",
+              "name": "ad_title_arr",
+              "value": "={{ $jmespath($json.variations,\"[*].textMetadata.title\") }}",
+              "type": "array"
+            },
+            {
+              "id": "78b0d801-b092-4944-ad86-959300d02053",
+              "name": "ad_desctiption_arr",
+              "value": "={{ $jmespath($json.variations,\"[*].textMetadata.description\") }}",
+              "type": "array"
+            },
+            {
+              "id": "0dbf1a93-923e-47ab-bde5-df6932962e20",
+              "name": "ad_display_url_arr",
+              "value": "={{ $jmespath($json.variations,\"[*].textMetadata.displayUrl\") }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1300,
+        -1100
+      ],
+      "id": "8ca73482-5350-4f52-882e-54d2298dca47",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2fc0babe-3e42-46d0-bdc6-69e262917272",
+              "name": "campany_name",
+              "value": "={{ $json.campany_name }}",
+              "type": "string"
+            },
+            {
+              "id": "a1faa6a9-3159-4735-a610-e01b5fe91b49",
+              "name": "advertiser_name",
+              "value": "={{ $json.advertiser_name }}",
+              "type": "string"
+            },
+            {
+              "id": "865d5c53-ec2c-4bd4-ae81-a86be347a454",
+              "name": "gads_platforms",
+              "value": "Google Search",
+              "type": "string"
+            },
+            {
+              "id": "168c3a69-12c3-4621-b807-9417e805ca66",
+              "name": "ad_type",
+              "value": "={{ $json.ad_type }}",
+              "type": "string"
+            },
+            {
+              "id": "20e8ce69-d62f-4a27-89f3-9102b0c3e0c0",
+              "name": "stats_min_impressions",
+              "value": "={{ $json.stats_max_impressions }}",
+              "type": "string"
+            },
+            {
+              "id": "a64453da-a201-44bb-b3ae-2f0bb11e1a1e",
+              "name": "stats_max_impressions",
+              "value": "={{ $json.stats_max_impressions }}",
+              "type": "string"
+            },
+            {
+              "id": "31785e78-9e60-48e4-9971-7f667039ad9f",
+              "name": "target_regions",
+              "value": "={{ $json.target_regions_arr.join(\",\") }}",
+              "type": "string"
+            },
+            {
+              "id": "d6af0df1-5daf-4c6d-b862-90b0f5466b7e",
+              "name": "ad_title",
+              "value": "={{ $json.ad_title_arr.join(\"\\n- \") }}",
+              "type": "string"
+            },
+            {
+              "id": "c47fb66a-2eb5-4f3f-8353-3020269647df",
+              "name": "ad_desctiption",
+              "value": "={{ $json.ad_desctiption_arr.join(\"\\n- \") }}",
+              "type": "string"
+            },
+            {
+              "id": "d88fa635-c994-49ba-ba39-29fb7ff4aeb2",
+              "name": "ad_display_url",
+              "value": "={{ $json.ad_display_url_arr.join(\"\\n- \") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1520,
+        -1100
+      ],
+      "id": "2e4ba38f-75b3-4394-8cba-cc23b37a2f62",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ea5ee3e4-ac93-431c-917d-2aa30c0a1e2c",
+              "name": "campany_name",
+              "value": "={{ $('On form submission').item.json['Company Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "c4ab5fa2-691d-4728-89e4-3a57e0f4d42d",
+              "name": "advertiser_name",
+              "value": "={{ $json.advertiserName }}",
+              "type": "string"
+            },
+            {
+              "id": "18652199-2b22-4001-824e-242d9a11f0f4",
+              "name": "stats_min_impressions",
+              "value": "={{ $json.stats.impressions.total.min }}",
+              "type": "string"
+            },
+            {
+              "id": "8424e803-fad1-495b-878b-087814dbe159",
+              "name": "stats_max_impressions",
+              "value": "={{ $json.stats.impressions.total.max }}",
+              "type": "string"
+            },
+            {
+              "id": "66dddfa4-b4cb-4eb6-87ff-f2368b702cfd",
+              "name": "target_regions_arr",
+              "value": "={{ $jmespath($json.stats.impressions.byRegion,\"[*].regionName\") }}",
+              "type": "array"
+            },
+            {
+              "id": "51911434-4ca2-418d-9a72-7fc6f927c257",
+              "name": "ad_type",
+              "value": "={{ $json.adType }}",
+              "type": "string"
+            },
+            {
+              "id": "856817bf-c466-44c9-8a72-308f8d1199fe",
+              "name": "ad_title_arr",
+              "value": "={{ $jmespath($json.variations,\"[*].textMetadata.title\") }}",
+              "type": "array"
+            },
+            {
+              "id": "78b0d801-b092-4944-ad86-959300d02053",
+              "name": "ad_desctiption_arr",
+              "value": "={{ $jmespath($json.variations,\"[*].textMetadata.description\") }}",
+              "type": "array"
+            },
+            {
+              "id": "0dbf1a93-923e-47ab-bde5-df6932962e20",
+              "name": "ad_display_url_arr",
+              "value": "={{ $jmespath($json.variations,\"[*].textMetadata.displayUrl\") }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1420,
+        -420
+      ],
+      "id": "1a9cb110-6847-4c89-9314-1ddc78995233",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2fc0babe-3e42-46d0-bdc6-69e262917272",
+              "name": "campany_name",
+              "value": "={{ $json.campany_name }}",
+              "type": "string"
+            },
+            {
+              "id": "a1faa6a9-3159-4735-a610-e01b5fe91b49",
+              "name": "advertiser_name",
+              "value": "={{ $json.advertiser_name }}",
+              "type": "string"
+            },
+            {
+              "id": "865d5c53-ec2c-4bd4-ae81-a86be347a454",
+              "name": "gads_platforms",
+              "value": "Google Search",
+              "type": "string"
+            },
+            {
+              "id": "168c3a69-12c3-4621-b807-9417e805ca66",
+              "name": "ad_type",
+              "value": "={{ $json.ad_type }}",
+              "type": "string"
+            },
+            {
+              "id": "20e8ce69-d62f-4a27-89f3-9102b0c3e0c0",
+              "name": "stats_min_impressions",
+              "value": "={{ $json.stats_max_impressions }}",
+              "type": "string"
+            },
+            {
+              "id": "a64453da-a201-44bb-b3ae-2f0bb11e1a1e",
+              "name": "stats_max_impressions",
+              "value": "={{ $json.stats_max_impressions }}",
+              "type": "string"
+            },
+            {
+              "id": "31785e78-9e60-48e4-9971-7f667039ad9f",
+              "name": "target_regions",
+              "value": "={{ $json.target_regions_arr.join(\",\") }}",
+              "type": "string"
+            },
+            {
+              "id": "d6af0df1-5daf-4c6d-b862-90b0f5466b7e",
+              "name": "ad_title",
+              "value": "={{ $json.ad_title_arr.join(\"\\n- \") }}",
+              "type": "string"
+            },
+            {
+              "id": "c47fb66a-2eb5-4f3f-8353-3020269647df",
+              "name": "ad_desctiption",
+              "value": "={{ $json.ad_desctiption_arr.join(\"\\n- \") }}",
+              "type": "string"
+            },
+            {
+              "id": "d88fa635-c994-49ba-ba39-29fb7ff4aeb2",
+              "name": "ad_display_url",
+              "value": "={{ $json.ad_display_url_arr.join(\"\\n- \") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1640,
+        -420
+      ],
+      "id": "3ab37a3a-ec48-4c5d-82c9-450d96149a2f",
+      "name": "Edit Fields5"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ea5ee3e4-ac93-431c-917d-2aa30c0a1e2c",
+              "name": "campany_name",
+              "value": "={{ $('On form submission').item.json['Company Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "c4ab5fa2-691d-4728-89e4-3a57e0f4d42d",
+              "name": "advertiser_name",
+              "value": "={{ $json.advertiserName }}",
+              "type": "string"
+            },
+            {
+              "id": "18652199-2b22-4001-824e-242d9a11f0f4",
+              "name": "stats_min_impressions",
+              "value": "={{ $json.stats.impressions.total.min }}",
+              "type": "string"
+            },
+            {
+              "id": "8424e803-fad1-495b-878b-087814dbe159",
+              "name": "stats_max_impressions",
+              "value": "={{ $json.stats.impressions.total.max }}",
+              "type": "string"
+            },
+            {
+              "id": "66dddfa4-b4cb-4eb6-87ff-f2368b702cfd",
+              "name": "target_regions_arr",
+              "value": "={{ $jmespath($json.stats.impressions.byRegion,\"[*].regionName\") }}",
+              "type": "array"
+            },
+            {
+              "id": "51911434-4ca2-418d-9a72-7fc6f927c257",
+              "name": "ad_type",
+              "value": "={{ $json.adType }}",
+              "type": "string"
+            },
+            {
+              "id": "856817bf-c466-44c9-8a72-308f8d1199fe",
+              "name": "ad_title_arr",
+              "value": "={{ $jmespath($json.variations,\"[*].textMetadata.title\") }}",
+              "type": "array"
+            },
+            {
+              "id": "78b0d801-b092-4944-ad86-959300d02053",
+              "name": "ad_desctiption_arr",
+              "value": "={{ $jmespath($json.variations,\"[*].textMetadata.description\") }}",
+              "type": "array"
+            },
+            {
+              "id": "0dbf1a93-923e-47ab-bde5-df6932962e20",
+              "name": "ad_display_url_arr",
+              "value": "={{ $jmespath($json.variations,\"[*].textMetadata.displayUrl\") }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1440,
+        700
+      ],
+      "id": "395c7a80-a03c-42cf-b6ae-ef7f0d377ea9",
+      "name": "Edit Fields6"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2fc0babe-3e42-46d0-bdc6-69e262917272",
+              "name": "campany_name",
+              "value": "={{ $json.campany_name }}",
+              "type": "string"
+            },
+            {
+              "id": "a1faa6a9-3159-4735-a610-e01b5fe91b49",
+              "name": "advertiser_name",
+              "value": "={{ $json.advertiser_name }}",
+              "type": "string"
+            },
+            {
+              "id": "865d5c53-ec2c-4bd4-ae81-a86be347a454",
+              "name": "gads_platforms",
+              "value": "Google Search",
+              "type": "string"
+            },
+            {
+              "id": "168c3a69-12c3-4621-b807-9417e805ca66",
+              "name": "ad_type",
+              "value": "={{ $json.ad_type }}",
+              "type": "string"
+            },
+            {
+              "id": "20e8ce69-d62f-4a27-89f3-9102b0c3e0c0",
+              "name": "stats_min_impressions",
+              "value": "={{ $json.stats_max_impressions }}",
+              "type": "string"
+            },
+            {
+              "id": "a64453da-a201-44bb-b3ae-2f0bb11e1a1e",
+              "name": "stats_max_impressions",
+              "value": "={{ $json.stats_max_impressions }}",
+              "type": "string"
+            },
+            {
+              "id": "31785e78-9e60-48e4-9971-7f667039ad9f",
+              "name": "target_regions",
+              "value": "={{ $json.target_regions_arr.join(\",\") }}",
+              "type": "string"
+            },
+            {
+              "id": "d6af0df1-5daf-4c6d-b862-90b0f5466b7e",
+              "name": "ad_title",
+              "value": "={{ $json.ad_title_arr.join(\"\\n- \") }}",
+              "type": "string"
+            },
+            {
+              "id": "c47fb66a-2eb5-4f3f-8353-3020269647df",
+              "name": "ad_desctiption",
+              "value": "={{ $json.ad_desctiption_arr.join(\"\\n- \") }}",
+              "type": "string"
+            },
+            {
+              "id": "d88fa635-c994-49ba-ba39-29fb7ff4aeb2",
+              "name": "ad_display_url",
+              "value": "={{ $json.ad_display_url_arr.join(\"\\n- \") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1660,
+        700
+      ],
+      "id": "f509ef11-ea98-4be1-a13a-9ee1c15b2187",
+      "name": "Edit Fields7"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.campany_name }}",
+                    "rightValue": "Rutter",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Rutter"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "63c71aae-037e-4d7a-8846-6d43b8dc32ac",
+                    "leftValue": "={{ $json.campany_name }}",
+                    "rightValue": "Codat",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Codat"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cad8137e-3c7a-4fdc-9587-d7171f8e4cfa",
+                    "leftValue": "={{ $json.campany_name }}",
+                    "rightValue": "Railz",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Railz"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "0aac3b98-a838-4b14-83bd-1836bd270cf4",
+                    "leftValue": "={{ $json.campany_name }}",
+                    "rightValue": "Merge",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Merge"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1900,
+        700
+      ],
+      "id": "579741da-aa07-4e5d-a4a2-fa532821cca8",
+      "name": "Switch4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ea5ee3e4-ac93-431c-917d-2aa30c0a1e2c",
+              "name": "campany_name",
+              "value": "={{ $('On form submission').item.json['Company Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "c4ab5fa2-691d-4728-89e4-3a57e0f4d42d",
+              "name": "advertiser_name",
+              "value": "={{ $json.advertiserName }}",
+              "type": "string"
+            },
+            {
+              "id": "18652199-2b22-4001-824e-242d9a11f0f4",
+              "name": "stats_min_impressions",
+              "value": "={{ $json.stats.impressions.total.min }}",
+              "type": "string"
+            },
+            {
+              "id": "8424e803-fad1-495b-878b-087814dbe159",
+              "name": "stats_max_impressions",
+              "value": "={{ $json.stats.impressions.total.max }}",
+              "type": "string"
+            },
+            {
+              "id": "66dddfa4-b4cb-4eb6-87ff-f2368b702cfd",
+              "name": "target_regions_arr",
+              "value": "={{ $jmespath($json.stats.impressions.byRegion,\"[*].regionName\") }}",
+              "type": "array"
+            },
+            {
+              "id": "51911434-4ca2-418d-9a72-7fc6f927c257",
+              "name": "ad_type",
+              "value": "={{ $json.adType }}",
+              "type": "string"
+            },
+            {
+              "id": "856817bf-c466-44c9-8a72-308f8d1199fe",
+              "name": "ad_title_arr",
+              "value": "={{ $jmespath($json.variations,\"[*].textMetadata.title\") }}",
+              "type": "array"
+            },
+            {
+              "id": "78b0d801-b092-4944-ad86-959300d02053",
+              "name": "ad_desctiption_arr",
+              "value": "={{ $jmespath($json.variations,\"[*].textMetadata.description\") }}",
+              "type": "array"
+            },
+            {
+              "id": "0dbf1a93-923e-47ab-bde5-df6932962e20",
+              "name": "ad_display_url_arr",
+              "value": "={{ $jmespath($json.variations,\"[*].textMetadata.displayUrl\") }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1460,
+        1220
+      ],
+      "id": "949982d9-8cc3-431d-a905-fbe0c7816a5a",
+      "name": "Edit Fields8"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2fc0babe-3e42-46d0-bdc6-69e262917272",
+              "name": "campany_name",
+              "value": "={{ $json.campany_name }}",
+              "type": "string"
+            },
+            {
+              "id": "a1faa6a9-3159-4735-a610-e01b5fe91b49",
+              "name": "advertiser_name",
+              "value": "={{ $json.advertiser_name }}",
+              "type": "string"
+            },
+            {
+              "id": "865d5c53-ec2c-4bd4-ae81-a86be347a454",
+              "name": "gads_platforms",
+              "value": "Google Search",
+              "type": "string"
+            },
+            {
+              "id": "168c3a69-12c3-4621-b807-9417e805ca66",
+              "name": "ad_type",
+              "value": "={{ $json.ad_type }}",
+              "type": "string"
+            },
+            {
+              "id": "20e8ce69-d62f-4a27-89f3-9102b0c3e0c0",
+              "name": "stats_min_impressions",
+              "value": "={{ $json.stats_max_impressions }}",
+              "type": "string"
+            },
+            {
+              "id": "a64453da-a201-44bb-b3ae-2f0bb11e1a1e",
+              "name": "stats_max_impressions",
+              "value": "={{ $json.stats_max_impressions }}",
+              "type": "string"
+            },
+            {
+              "id": "31785e78-9e60-48e4-9971-7f667039ad9f",
+              "name": "target_regions",
+              "value": "={{ $json.target_regions_arr.join(\",\") }}",
+              "type": "string"
+            },
+            {
+              "id": "d6af0df1-5daf-4c6d-b862-90b0f5466b7e",
+              "name": "ad_title",
+              "value": "={{ $json.ad_title_arr.join(\"\\n- \") }}",
+              "type": "string"
+            },
+            {
+              "id": "c47fb66a-2eb5-4f3f-8353-3020269647df",
+              "name": "ad_desctiption",
+              "value": "={{ $json.ad_desctiption_arr.join(\"\\n- \") }}",
+              "type": "string"
+            },
+            {
+              "id": "d88fa635-c994-49ba-ba39-29fb7ff4aeb2",
+              "name": "ad_display_url",
+              "value": "={{ $json.ad_display_url_arr.join(\"\\n- \") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1680,
+        1220
+      ],
+      "id": "4424eb80-af3a-4b98-8154-997db4854a3f",
+      "name": "Edit Fields9"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "177bdd43-4460-805f-a483-e4fa75b26e42",
+          "mode": "list",
+          "cachedResultName": "Rutter Google Ads 2024 Campaigns Records",
+          "cachedResultUrl": "https://www.notion.so/177bdd434460805fa483e4fa75b26e42"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Company Name|title",
+              "title": "={{ $json.campany_name }}"
+            },
+            {
+              "key": "Advertiser Name|rich_text",
+              "textContent": "={{ $json.advertiser_name }}"
+            },
+            {
+              "key": "Google Ads Platform|rich_text",
+              "textContent": "={{ $json.gads_platforms }}"
+            },
+            {
+              "key": "Ad Type|rich_text",
+              "textContent": "={{ $json.ad_type }}"
+            },
+            {
+              "key": "Target Regions|rich_text",
+              "textContent": "={{ $json.target_regions }}"
+            },
+            {
+              "key": "Min. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_min_impressions }}"
+            },
+            {
+              "key": "Max. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_max_impressions }}"
+            },
+            {
+              "key": "Ad Title|rich_text",
+              "textContent": "={{ $json.ad_title }}"
+            },
+            {
+              "key": "Ad Description|rich_text",
+              "textContent": "={{ $json.ad_desctiption }}"
+            },
+            {
+              "key": "Ad Display URL|url",
+              "urlValue": "={{ $json.ad_display_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2460,
+        500
+      ],
+      "id": "e3df27ff-55d9-4079-855d-68a0ce282df3",
+      "name": "Notion3",
+      "alwaysOutputData": true,
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "177bdd43-4460-800f-babf-d87dcae08622",
+          "mode": "list",
+          "cachedResultName": "Codat Google Ads 2024 Campaigns Records",
+          "cachedResultUrl": "https://www.notion.so/177bdd434460800fbabfd87dcae08622"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Company Name|title",
+              "title": "={{ $json.campany_name }}"
+            },
+            {
+              "key": "Advertiser Name|rich_text",
+              "textContent": "={{ $json.advertiser_name }}"
+            },
+            {
+              "key": "Google Ads Platform|rich_text",
+              "textContent": "={{ $json.gads_platforms }}"
+            },
+            {
+              "key": "Ad Type|rich_text",
+              "textContent": "={{ $json.ad_type }}"
+            },
+            {
+              "key": "Target Regions|rich_text",
+              "textContent": "={{ $json.target_regions }}"
+            },
+            {
+              "key": "Min. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_min_impressions }}"
+            },
+            {
+              "key": "Max. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_max_impressions }}"
+            },
+            {
+              "key": "Ad Title|rich_text",
+              "textContent": "={{ $json.ad_title }}"
+            },
+            {
+              "key": "Ad Description|rich_text",
+              "textContent": "={{ $json.ad_desctiption }}"
+            },
+            {
+              "key": "Ad Display URL|url",
+              "urlValue": "={{ $json.ad_display_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2480,
+        640
+      ],
+      "id": "a54f85a5-03f2-41fb-b499-c06840ec6688",
+      "name": "Notion4",
+      "alwaysOutputData": true,
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "177bdd43-4460-80b5-abf1-e4d20999d52c",
+          "mode": "list",
+          "cachedResultName": "Railz Google Ads 2024 Campaigns Records",
+          "cachedResultUrl": "https://www.notion.so/177bdd43446080b5abf1e4d20999d52c"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Company Name|title",
+              "title": "={{ $json.campany_name }}"
+            },
+            {
+              "key": "Advertiser Name|rich_text",
+              "textContent": "={{ $json.advertiser_name }}"
+            },
+            {
+              "key": "Google Ads Platform|rich_text",
+              "textContent": "={{ $json.gads_platforms }}"
+            },
+            {
+              "key": "Ad Type|rich_text",
+              "textContent": "={{ $json.ad_type }}"
+            },
+            {
+              "key": "Target Regions|rich_text",
+              "textContent": "={{ $json.target_regions }}"
+            },
+            {
+              "key": "Min. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_min_impressions }}"
+            },
+            {
+              "key": "Max. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_max_impressions }}"
+            },
+            {
+              "key": "Ad Title|rich_text",
+              "textContent": "={{ $json.ad_title }}"
+            },
+            {
+              "key": "Ad Description|rich_text",
+              "textContent": "={{ $json.ad_desctiption }}"
+            },
+            {
+              "key": "Ad Display URL|url",
+              "urlValue": "={{ $json.ad_display_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2500,
+        780
+      ],
+      "id": "92a05ef2-943d-42eb-a48a-62bafca362ec",
+      "name": "Notion5",
+      "alwaysOutputData": true,
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "177bdd43-4460-805f-a483-e4fa75b26e42",
+          "mode": "list",
+          "cachedResultName": "Google Ads Campaigns Competitor Records",
+          "cachedResultUrl": "https://www.notion.so/177bdd434460805fa483e4fa75b26e42"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Company Name|title",
+              "title": "={{ $json.campany_name }}"
+            },
+            {
+              "key": "Advertiser Name|rich_text",
+              "textContent": "={{ $json.advertiser_name }}"
+            },
+            {
+              "key": "Google Ads Platform|rich_text",
+              "textContent": "={{ $json.gads_platforms }}"
+            },
+            {
+              "key": "Ad Type|rich_text",
+              "textContent": "={{ $json.ad_type }}"
+            },
+            {
+              "key": "Target Regions|rich_text",
+              "textContent": "={{ $json.target_regions }}"
+            },
+            {
+              "key": "Min. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_min_impressions }}"
+            },
+            {
+              "key": "Max. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_max_impressions }}"
+            },
+            {
+              "key": "Ad Title|rich_text",
+              "textContent": "={{ $json.ad_title }}"
+            },
+            {
+              "key": "Ad Description|rich_text",
+              "textContent": "={{ $json.ad_desctiption }}"
+            },
+            {
+              "key": "Ad Display URL|url",
+              "urlValue": "={{ $json.ad_display_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2500,
+        1100
+      ],
+      "id": "3bb26ba5-ac62-4b6b-830d-0f9c58dd3f5b",
+      "name": "Notion6",
+      "alwaysOutputData": true,
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "177bdd43-4460-800f-babf-d87dcae08622",
+          "mode": "list",
+          "cachedResultName": "Codat Google Ads 2024 Campaigns Records",
+          "cachedResultUrl": "https://www.notion.so/177bdd434460800fbabfd87dcae08622"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Company Name|title",
+              "title": "={{ $json.campany_name }}"
+            },
+            {
+              "key": "Advertiser Name|rich_text",
+              "textContent": "={{ $json.advertiser_name }}"
+            },
+            {
+              "key": "Google Ads Platform|rich_text",
+              "textContent": "={{ $json.gads_platforms }}"
+            },
+            {
+              "key": "Ad Type|rich_text",
+              "textContent": "={{ $json.ad_type }}"
+            },
+            {
+              "key": "Target Regions|rich_text",
+              "textContent": "={{ $json.target_regions }}"
+            },
+            {
+              "key": "Min. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_min_impressions }}"
+            },
+            {
+              "key": "Max. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_max_impressions }}"
+            },
+            {
+              "key": "Ad Title|rich_text",
+              "textContent": "={{ $json.ad_title }}"
+            },
+            {
+              "key": "Ad Description|rich_text",
+              "textContent": "={{ $json.ad_desctiption }}"
+            },
+            {
+              "key": "Ad Display URL|url",
+              "urlValue": "={{ $json.ad_display_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2500,
+        1320
+      ],
+      "id": "8a28fac3-7cc4-46fb-875e-8c323654047c",
+      "name": "Notion7",
+      "alwaysOutputData": true,
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "177bdd43-4460-80b5-abf1-e4d20999d52c",
+          "mode": "list",
+          "cachedResultName": "Railz Google Ads 2024 Campaigns Records",
+          "cachedResultUrl": "https://www.notion.so/177bdd43446080b5abf1e4d20999d52c"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Company Name|title",
+              "title": "={{ $json.campany_name }}"
+            },
+            {
+              "key": "Advertiser Name|rich_text",
+              "textContent": "={{ $json.advertiser_name }}"
+            },
+            {
+              "key": "Google Ads Platform|rich_text",
+              "textContent": "={{ $json.gads_platforms }}"
+            },
+            {
+              "key": "Ad Type|rich_text",
+              "textContent": "={{ $json.ad_type }}"
+            },
+            {
+              "key": "Target Regions|rich_text",
+              "textContent": "={{ $json.target_regions }}"
+            },
+            {
+              "key": "Min. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_min_impressions }}"
+            },
+            {
+              "key": "Max. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_max_impressions }}"
+            },
+            {
+              "key": "Ad Title|rich_text",
+              "textContent": "={{ $json.ad_title }}"
+            },
+            {
+              "key": "Ad Description|rich_text",
+              "textContent": "={{ $json.ad_desctiption }}"
+            },
+            {
+              "key": "Ad Display URL|url",
+              "urlValue": "={{ $json.ad_display_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2520,
+        1500
+      ],
+      "id": "22b204ac-da2e-4259-bb5d-c8ef2b103a61",
+      "name": "Notion8",
+      "alwaysOutputData": true,
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.campany_name }}",
+                    "rightValue": "Rutter",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Rutter"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "63c71aae-037e-4d7a-8846-6d43b8dc32ac",
+                    "leftValue": "={{ $json.campany_name }}",
+                    "rightValue": "Codat",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Codat"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cad8137e-3c7a-4fdc-9587-d7171f8e4cfa",
+                    "leftValue": "={{ $json.campany_name }}",
+                    "rightValue": "Railz",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Railz"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "0aac3b98-a838-4b14-83bd-1836bd270cf4",
+                    "leftValue": "={{ $json.campany_name }}",
+                    "rightValue": "Merge",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Merge"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1980,
+        1200
+      ],
+      "id": "8c4059f3-d29b-43aa-a171-3d2296bba40a",
+      "name": "Switch6"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "177bdd43-4460-8038-a48d-c3d6cccaee6f",
+          "mode": "list",
+          "cachedResultName": "Merge Google Ads 2024 Campaigns Records",
+          "cachedResultUrl": "https://www.notion.so/177bdd4344608038a48dc3d6cccaee6f"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Company Name|title",
+              "title": "={{ $json.campany_name }}"
+            },
+            {
+              "key": "Advertiser Name|rich_text",
+              "textContent": "={{ $json.advertiser_name }}"
+            },
+            {
+              "key": "Google Ads Platform|rich_text",
+              "textContent": "={{ $json.gads_platforms }}"
+            },
+            {
+              "key": "Ad Type|rich_text",
+              "textContent": "={{ $json.ad_type }}"
+            },
+            {
+              "key": "Target Regions|rich_text",
+              "textContent": "={{ $json.target_regions }}"
+            },
+            {
+              "key": "Min. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_min_impressions }}"
+            },
+            {
+              "key": "Max. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_max_impressions }}"
+            },
+            {
+              "key": "Ad Title|rich_text",
+              "textContent": "={{ $json.ad_title }}"
+            },
+            {
+              "key": "Ad Description|rich_text",
+              "textContent": "={{ $json.ad_desctiption }}"
+            },
+            {
+              "key": "Ad Display URL|url",
+              "urlValue": "={{ $json.ad_display_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2500,
+        940
+      ],
+      "id": "16a4b497-e7f4-4ac6-9ca7-390eac84b96f",
+      "name": "Notion9",
+      "alwaysOutputData": true,
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "177bdd43-4460-805f-a483-e4fa75b26e42",
+          "mode": "list",
+          "cachedResultName": "Rutter Google Ads 2024 Campaigns Records",
+          "cachedResultUrl": "https://www.notion.so/177bdd434460805fa483e4fa75b26e42"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Company Name|title",
+              "title": "={{ $json.campany_name }}"
+            },
+            {
+              "key": "Advertiser Name|rich_text",
+              "textContent": "={{ $json.advertiser_name }}"
+            },
+            {
+              "key": "Google Ads Platform|rich_text",
+              "textContent": "={{ $json.gads_platforms }}"
+            },
+            {
+              "key": "Ad Type|rich_text",
+              "textContent": "={{ $json.ad_type }}"
+            },
+            {
+              "key": "Target Regions|rich_text",
+              "textContent": "={{ $json.target_regions }}"
+            },
+            {
+              "key": "Min. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_min_impressions }}"
+            },
+            {
+              "key": "Max. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_max_impressions }}"
+            },
+            {
+              "key": "Ad Title|rich_text",
+              "textContent": "={{ $json.ad_title }}"
+            },
+            {
+              "key": "Ad Description|rich_text",
+              "textContent": "={{ $json.ad_desctiption }}"
+            },
+            {
+              "key": "Ad Display URL|url",
+              "urlValue": "={{ $json.ad_display_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2420,
+        -120
+      ],
+      "id": "a05fb930-8092-4c3d-a999-80627d1ec9ea",
+      "name": "Notion11",
+      "alwaysOutputData": true,
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "177bdd43-4460-800f-babf-d87dcae08622",
+          "mode": "list",
+          "cachedResultName": "Codat Google Ads 2024 Campaigns Records",
+          "cachedResultUrl": "https://www.notion.so/177bdd434460800fbabfd87dcae08622"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Company Name|title",
+              "title": "={{ $json.campany_name }}"
+            },
+            {
+              "key": "Advertiser Name|rich_text",
+              "textContent": "={{ $json.advertiser_name }}"
+            },
+            {
+              "key": "Google Ads Platform|rich_text",
+              "textContent": "={{ $json.gads_platforms }}"
+            },
+            {
+              "key": "Ad Type|rich_text",
+              "textContent": "={{ $json.ad_type }}"
+            },
+            {
+              "key": "Target Regions|rich_text",
+              "textContent": "={{ $json.target_regions }}"
+            },
+            {
+              "key": "Min. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_min_impressions }}"
+            },
+            {
+              "key": "Max. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_max_impressions }}"
+            },
+            {
+              "key": "Ad Title|rich_text",
+              "textContent": "={{ $json.ad_title }}"
+            },
+            {
+              "key": "Ad Description|rich_text",
+              "textContent": "={{ $json.ad_desctiption }}"
+            },
+            {
+              "key": "Ad Display URL|url",
+              "urlValue": "={{ $json.ad_display_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2440,
+        40
+      ],
+      "id": "0c4f6ced-2913-4527-8318-95ea5dd85e1f",
+      "name": "Notion12",
+      "alwaysOutputData": true,
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "177bdd43-4460-80b5-abf1-e4d20999d52c",
+          "mode": "list",
+          "cachedResultName": "Railz Google Ads 2024 Campaigns Records",
+          "cachedResultUrl": "https://www.notion.so/177bdd43446080b5abf1e4d20999d52c"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Company Name|title",
+              "title": "={{ $json.campany_name }}"
+            },
+            {
+              "key": "Advertiser Name|rich_text",
+              "textContent": "={{ $json.advertiser_name }}"
+            },
+            {
+              "key": "Google Ads Platform|rich_text",
+              "textContent": "={{ $json.gads_platforms }}"
+            },
+            {
+              "key": "Ad Type|rich_text",
+              "textContent": "={{ $json.ad_type }}"
+            },
+            {
+              "key": "Target Regions|rich_text",
+              "textContent": "={{ $json.target_regions }}"
+            },
+            {
+              "key": "Min. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_min_impressions }}"
+            },
+            {
+              "key": "Max. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_max_impressions }}"
+            },
+            {
+              "key": "Ad Title|rich_text",
+              "textContent": "={{ $json.ad_title }}"
+            },
+            {
+              "key": "Ad Description|rich_text",
+              "textContent": "={{ $json.ad_desctiption }}"
+            },
+            {
+              "key": "Ad Display URL|url",
+              "urlValue": "={{ $json.ad_display_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2440,
+        200
+      ],
+      "id": "b260d34a-662f-4229-9f3c-b589b92cae34",
+      "name": "Notion13",
+      "alwaysOutputData": true,
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "177bdd43-4460-8038-a48d-c3d6cccaee6f",
+          "mode": "list",
+          "cachedResultName": "Merge Google Ads 2024 Campaigns Records",
+          "cachedResultUrl": "https://www.notion.so/177bdd4344608038a48dc3d6cccaee6f"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Company Name|title",
+              "title": "={{ $json.campany_name }}"
+            },
+            {
+              "key": "Advertiser Name|rich_text",
+              "textContent": "={{ $json.advertiser_name }}"
+            },
+            {
+              "key": "Google Ads Platform|rich_text",
+              "textContent": "={{ $json.gads_platforms }}"
+            },
+            {
+              "key": "Ad Type|rich_text",
+              "textContent": "={{ $json.ad_type }}"
+            },
+            {
+              "key": "Target Regions|rich_text",
+              "textContent": "={{ $json.target_regions }}"
+            },
+            {
+              "key": "Min. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_min_impressions }}"
+            },
+            {
+              "key": "Max. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_max_impressions }}"
+            },
+            {
+              "key": "Ad Title|rich_text",
+              "textContent": "={{ $json.ad_title }}"
+            },
+            {
+              "key": "Ad Description|rich_text",
+              "textContent": "={{ $json.ad_desctiption }}"
+            },
+            {
+              "key": "Ad Display URL|url",
+              "urlValue": "={{ $json.ad_display_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2440,
+        360
+      ],
+      "id": "fdd9a252-2fe9-416f-8635-9e1c4e501f56",
+      "name": "Notion14",
+      "alwaysOutputData": true,
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.campany_name }}",
+                    "rightValue": "Rutter",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Rutter"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "63c71aae-037e-4d7a-8846-6d43b8dc32ac",
+                    "leftValue": "={{ $json.campany_name }}",
+                    "rightValue": "Codat",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Codat"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cad8137e-3c7a-4fdc-9587-d7171f8e4cfa",
+                    "leftValue": "={{ $json.campany_name }}",
+                    "rightValue": "Railz",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Railz"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "0aac3b98-a838-4b14-83bd-1836bd270cf4",
+                    "leftValue": "={{ $json.campany_name }}",
+                    "rightValue": "Merge",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Merge"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        2000,
+        80
+      ],
+      "id": "5c89ec74-3148-45af-afde-72174fa9d037",
+      "name": "Switch5"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "177bdd43-4460-805f-a483-e4fa75b26e42",
+          "mode": "list",
+          "cachedResultName": "Rutter Google Ads 2024 Campaigns Records",
+          "cachedResultUrl": "https://www.notion.so/177bdd434460805fa483e4fa75b26e42"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Company Name|title",
+              "title": "={{ $json.campany_name }}"
+            },
+            {
+              "key": "Advertiser Name|rich_text",
+              "textContent": "={{ $json.advertiser_name }}"
+            },
+            {
+              "key": "Google Ads Platform|rich_text",
+              "textContent": "={{ $json.gads_platforms }}"
+            },
+            {
+              "key": "Ad Type|rich_text",
+              "textContent": "={{ $json.ad_type }}"
+            },
+            {
+              "key": "Target Regions|rich_text",
+              "textContent": "={{ $json.target_regions }}"
+            },
+            {
+              "key": "Min. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_min_impressions }}"
+            },
+            {
+              "key": "Max. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_max_impressions }}"
+            },
+            {
+              "key": "Ad Title|rich_text",
+              "textContent": "={{ $json.ad_title }}"
+            },
+            {
+              "key": "Ad Description|rich_text",
+              "textContent": "={{ $json.ad_desctiption }}"
+            },
+            {
+              "key": "Ad Display URL|url",
+              "urlValue": "={{ $json.ad_display_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2340,
+        -760
+      ],
+      "id": "9be0f4e5-9f89-4b83-bba1-0cfa621a91b1",
+      "name": "Notion21",
+      "alwaysOutputData": true,
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "177bdd43-4460-800f-babf-d87dcae08622",
+          "mode": "list",
+          "cachedResultName": "Codat Google Ads 2024 Campaigns Records",
+          "cachedResultUrl": "https://www.notion.so/177bdd434460800fbabfd87dcae08622"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Company Name|title",
+              "title": "={{ $json.campany_name }}"
+            },
+            {
+              "key": "Advertiser Name|rich_text",
+              "textContent": "={{ $json.advertiser_name }}"
+            },
+            {
+              "key": "Google Ads Platform|rich_text",
+              "textContent": "={{ $json.gads_platforms }}"
+            },
+            {
+              "key": "Ad Type|rich_text",
+              "textContent": "={{ $json.ad_type }}"
+            },
+            {
+              "key": "Target Regions|rich_text",
+              "textContent": "={{ $json.target_regions }}"
+            },
+            {
+              "key": "Min. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_min_impressions }}"
+            },
+            {
+              "key": "Max. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_max_impressions }}"
+            },
+            {
+              "key": "Ad Title|rich_text",
+              "textContent": "={{ $json.ad_title }}"
+            },
+            {
+              "key": "Ad Description|rich_text",
+              "textContent": "={{ $json.ad_desctiption }}"
+            },
+            {
+              "key": "Ad Display URL|url",
+              "urlValue": "={{ $json.ad_display_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2360,
+        -600
+      ],
+      "id": "568a2544-6bf7-4292-b899-d9f9260b5168",
+      "name": "Notion22",
+      "alwaysOutputData": true,
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "177bdd43-4460-80b5-abf1-e4d20999d52c",
+          "mode": "list",
+          "cachedResultName": "Railz Google Ads 2024 Campaigns Records",
+          "cachedResultUrl": "https://www.notion.so/177bdd43446080b5abf1e4d20999d52c"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Company Name|title",
+              "title": "={{ $json.campany_name }}"
+            },
+            {
+              "key": "Advertiser Name|rich_text",
+              "textContent": "={{ $json.advertiser_name }}"
+            },
+            {
+              "key": "Google Ads Platform|rich_text",
+              "textContent": "={{ $json.gads_platforms }}"
+            },
+            {
+              "key": "Ad Type|rich_text",
+              "textContent": "={{ $json.ad_type }}"
+            },
+            {
+              "key": "Target Regions|rich_text",
+              "textContent": "={{ $json.target_regions }}"
+            },
+            {
+              "key": "Min. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_min_impressions }}"
+            },
+            {
+              "key": "Max. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_max_impressions }}"
+            },
+            {
+              "key": "Ad Title|rich_text",
+              "textContent": "={{ $json.ad_title }}"
+            },
+            {
+              "key": "Ad Description|rich_text",
+              "textContent": "={{ $json.ad_desctiption }}"
+            },
+            {
+              "key": "Ad Display URL|url",
+              "urlValue": "={{ $json.ad_display_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2360,
+        -440
+      ],
+      "id": "5ec0a3dd-3de5-4c2d-aefa-7150ebfe115a",
+      "name": "Notion23",
+      "alwaysOutputData": true,
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "177bdd43-4460-8038-a48d-c3d6cccaee6f",
+          "mode": "list",
+          "cachedResultName": "Merge Google Ads 2024 Campaigns Records",
+          "cachedResultUrl": "https://www.notion.so/177bdd4344608038a48dc3d6cccaee6f"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Company Name|title",
+              "title": "={{ $json.campany_name }}"
+            },
+            {
+              "key": "Advertiser Name|rich_text",
+              "textContent": "={{ $json.advertiser_name }}"
+            },
+            {
+              "key": "Google Ads Platform|rich_text",
+              "textContent": "={{ $json.gads_platforms }}"
+            },
+            {
+              "key": "Ad Type|rich_text",
+              "textContent": "={{ $json.ad_type }}"
+            },
+            {
+              "key": "Target Regions|rich_text",
+              "textContent": "={{ $json.target_regions }}"
+            },
+            {
+              "key": "Min. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_min_impressions }}"
+            },
+            {
+              "key": "Max. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_max_impressions }}"
+            },
+            {
+              "key": "Ad Title|rich_text",
+              "textContent": "={{ $json.ad_title }}"
+            },
+            {
+              "key": "Ad Description|rich_text",
+              "textContent": "={{ $json.ad_desctiption }}"
+            },
+            {
+              "key": "Ad Display URL|url",
+              "urlValue": "={{ $json.ad_display_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2360,
+        -280
+      ],
+      "id": "4799a9b7-dca4-4227-b4be-a87d4a4c99a3",
+      "name": "Notion24",
+      "alwaysOutputData": true,
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.campany_name }}",
+                    "rightValue": "Rutter",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Rutter"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "63c71aae-037e-4d7a-8846-6d43b8dc32ac",
+                    "leftValue": "={{ $json.campany_name }}",
+                    "rightValue": "Codat",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Codat"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cad8137e-3c7a-4fdc-9587-d7171f8e4cfa",
+                    "leftValue": "={{ $json.campany_name }}",
+                    "rightValue": "Railz",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Railz"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "0aac3b98-a838-4b14-83bd-1836bd270cf4",
+                    "leftValue": "={{ $json.campany_name }}",
+                    "rightValue": "Merge",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Merge"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1920,
+        -560
+      ],
+      "id": "bc9a0496-472a-4f8a-956f-1fb7d0124f05",
+      "name": "Switch8"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "177bdd43-4460-805f-a483-e4fa75b26e42",
+          "mode": "list",
+          "cachedResultName": "Rutter Google Ads 2024 Campaigns Records",
+          "cachedResultUrl": "https://www.notion.so/177bdd434460805fa483e4fa75b26e42"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Company Name|title",
+              "title": "={{ $json.campany_name }}"
+            },
+            {
+              "key": "Advertiser Name|rich_text",
+              "textContent": "={{ $json.advertiser_name }}"
+            },
+            {
+              "key": "Google Ads Platform|rich_text",
+              "textContent": "={{ $json.gads_platforms }}"
+            },
+            {
+              "key": "Ad Type|rich_text",
+              "textContent": "={{ $json.ad_type }}"
+            },
+            {
+              "key": "Target Regions|rich_text",
+              "textContent": "={{ $json.target_regions }}"
+            },
+            {
+              "key": "Min. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_min_impressions }}"
+            },
+            {
+              "key": "Max. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_max_impressions }}"
+            },
+            {
+              "key": "Ad Title|rich_text",
+              "textContent": "={{ $json.ad_title }}"
+            },
+            {
+              "key": "Ad Description|rich_text",
+              "textContent": "={{ $json.ad_desctiption }}"
+            },
+            {
+              "key": "Ad Display URL|url",
+              "urlValue": "={{ $json.ad_display_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2340,
+        -1360
+      ],
+      "id": "05e76b06-882c-49df-aae7-3434a8cbe6d9",
+      "name": "Notion25",
+      "alwaysOutputData": true,
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "177bdd43-4460-800f-babf-d87dcae08622",
+          "mode": "list",
+          "cachedResultName": "Codat Google Ads 2024 Campaigns Records",
+          "cachedResultUrl": "https://www.notion.so/177bdd434460800fbabfd87dcae08622"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Company Name|title",
+              "title": "={{ $json.campany_name }}"
+            },
+            {
+              "key": "Advertiser Name|rich_text",
+              "textContent": "={{ $json.advertiser_name }}"
+            },
+            {
+              "key": "Google Ads Platform|rich_text",
+              "textContent": "={{ $json.gads_platforms }}"
+            },
+            {
+              "key": "Ad Type|rich_text",
+              "textContent": "={{ $json.ad_type }}"
+            },
+            {
+              "key": "Target Regions|rich_text",
+              "textContent": "={{ $json.target_regions }}"
+            },
+            {
+              "key": "Min. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_min_impressions }}"
+            },
+            {
+              "key": "Max. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_max_impressions }}"
+            },
+            {
+              "key": "Ad Title|rich_text",
+              "textContent": "={{ $json.ad_title }}"
+            },
+            {
+              "key": "Ad Description|rich_text",
+              "textContent": "={{ $json.ad_desctiption }}"
+            },
+            {
+              "key": "Ad Display URL|url",
+              "urlValue": "={{ $json.ad_display_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2360,
+        -1200
+      ],
+      "id": "330e5556-d07d-447b-abe6-914843d581db",
+      "name": "Notion26",
+      "alwaysOutputData": true,
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "177bdd43-4460-80b5-abf1-e4d20999d52c",
+          "mode": "list",
+          "cachedResultName": "Railz Google Ads 2024 Campaigns Records",
+          "cachedResultUrl": "https://www.notion.so/177bdd43446080b5abf1e4d20999d52c"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Company Name|title",
+              "title": "={{ $json.campany_name }}"
+            },
+            {
+              "key": "Advertiser Name|rich_text",
+              "textContent": "={{ $json.advertiser_name }}"
+            },
+            {
+              "key": "Google Ads Platform|rich_text",
+              "textContent": "={{ $json.gads_platforms }}"
+            },
+            {
+              "key": "Ad Type|rich_text",
+              "textContent": "={{ $json.ad_type }}"
+            },
+            {
+              "key": "Target Regions|rich_text",
+              "textContent": "={{ $json.target_regions }}"
+            },
+            {
+              "key": "Min. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_min_impressions }}"
+            },
+            {
+              "key": "Max. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_max_impressions }}"
+            },
+            {
+              "key": "Ad Title|rich_text",
+              "textContent": "={{ $json.ad_title }}"
+            },
+            {
+              "key": "Ad Description|rich_text",
+              "textContent": "={{ $json.ad_desctiption }}"
+            },
+            {
+              "key": "Ad Display URL|url",
+              "urlValue": "={{ $json.ad_display_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2360,
+        -1040
+      ],
+      "id": "93231e31-e8b8-4f77-9746-615bcfe347e3",
+      "name": "Notion27",
+      "alwaysOutputData": true,
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "177bdd43-4460-8038-a48d-c3d6cccaee6f",
+          "mode": "list",
+          "cachedResultName": "Merge Google Ads 2024 Campaigns Records",
+          "cachedResultUrl": "https://www.notion.so/177bdd4344608038a48dc3d6cccaee6f"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Company Name|title",
+              "title": "={{ $json.campany_name }}"
+            },
+            {
+              "key": "Advertiser Name|rich_text",
+              "textContent": "={{ $json.advertiser_name }}"
+            },
+            {
+              "key": "Google Ads Platform|rich_text",
+              "textContent": "={{ $json.gads_platforms }}"
+            },
+            {
+              "key": "Ad Type|rich_text",
+              "textContent": "={{ $json.ad_type }}"
+            },
+            {
+              "key": "Target Regions|rich_text",
+              "textContent": "={{ $json.target_regions }}"
+            },
+            {
+              "key": "Min. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_min_impressions }}"
+            },
+            {
+              "key": "Max. Ad Impressions|rich_text",
+              "textContent": "={{ $json.stats_max_impressions }}"
+            },
+            {
+              "key": "Ad Title|rich_text",
+              "textContent": "={{ $json.ad_title }}"
+            },
+            {
+              "key": "Ad Description|rich_text",
+              "textContent": "={{ $json.ad_desctiption }}"
+            },
+            {
+              "key": "Ad Display URL|url",
+              "urlValue": "={{ $json.ad_display_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        2360,
+        -880
+      ],
+      "id": "810d313f-77cf-4e08-a262-c4ab601e9a08",
+      "name": "Notion28",
+      "alwaysOutputData": true,
+      "credentials": {
+        "notionApi": {
+          "id": "QZPblVJhG4YwVOn9",
+          "name": "Notion Acc- boonhong0309@gmail.com"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.campany_name }}",
+                    "rightValue": "Rutter",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Rutter"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "63c71aae-037e-4d7a-8846-6d43b8dc32ac",
+                    "leftValue": "={{ $json.campany_name }}",
+                    "rightValue": "Codat",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Codat"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cad8137e-3c7a-4fdc-9587-d7171f8e4cfa",
+                    "leftValue": "={{ $json.campany_name }}",
+                    "rightValue": "Railz",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Railz"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "0aac3b98-a838-4b14-83bd-1836bd270cf4",
+                    "leftValue": "={{ $json.campany_name }}",
+                    "rightValue": "Merge",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Merge"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1920,
+        -1160
+      ],
+      "id": "222a7650-a9af-49cb-b472-916e5ef70b3e",
+      "name": "Switch9"
+    }
+  ],
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Switch5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Switch9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields5": {
+      "main": [
+        [
+          {
+            "node": "Switch8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields6": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields7": {
+      "main": [
+        [
+          {
+            "node": "Switch4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch4": {
+      "main": [
+        [
+          {
+            "node": "Notion3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notion4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notion5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notion9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields8": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields9": {
+      "main": [
+        [
+          {
+            "node": "Switch6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request4": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch6": {
+      "main": [
+        [
+          {
+            "node": "Notion6",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notion7",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notion8",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch5": {
+      "main": [
+        [
+          {
+            "node": "Notion11",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notion12",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notion13",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notion14",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch8": {
+      "main": [
+        [
+          {
+            "node": "Notion21",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notion22",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notion23",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notion24",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch9": {
+      "main": [
+        [
+          {
+            "node": "Notion25",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notion26",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notion27",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Notion28",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "On form submission": [
+      {
+        "json": {
+          "Company Name": "Merge",
+          "Google Advertiser ID": "AR14577836399601385473",
+          "From Date": "2024-01-01",
+          "To Date": "2024-01-31",
+          "Google Ads Platform": "3",
+          "submittedAt": "2025-01-10T16:36:12.615+08:00",
+          "formMode": "test"
+        }
+      }
+    ]
+  },
+  "versionId": "7cf2ca3a-baf6-4cd5-8eb3-4be5804150ce",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-01-10T02:40:20.585Z",
+      "createdAt": "2025-01-10T02:40:20.585Z",
+      "role": "workflow:owner",
+      "workflowId": "rZbyWkZWkIctZszq",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
