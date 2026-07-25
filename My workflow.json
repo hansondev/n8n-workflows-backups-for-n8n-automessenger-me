@@ -1,0 +1,178 @@
+{
+  "updatedAt": "2023-11-15T07:53:45.000Z",
+  "createdAt": "2023-11-15T06:57:01.000Z",
+  "id": "JNIRv5TZrgRFWy5e",
+  "name": "My workflow",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "chartType": "line",
+        "labelsMode": "array",
+        "labelsArray": "=[\"{{ $json.Week[0] }}\", \"{{ $json.Week[1] }}\", \"{{ $json.Week[2] }}\", \"{{ $json.Week[3] }}\", \"{{ $json.Week[4] }}\"]",
+        "data": "=[{{ $json[\"Impressions\"][0] }},{{ $json[\"Impressions\"][1] }},{{ $json[\"Impressions\"][2] }},{{ $json[\"Impressions\"][3] }},{{ $json[\"Impressions\"][4] }} ]",
+        "output": "=data",
+        "chartOptions": {},
+        "datasetOptions": {
+          "fill": true,
+          "label": "Impression",
+          "pointStyle": "circle"
+        }
+      },
+      "id": "30823e61-0c76-4c2c-8175-8ebe101effd4",
+      "name": "QuickChart",
+      "type": "n8n-nodes-base.quickChart",
+      "typeVersion": 1,
+      "position": [
+        1160,
+        200
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "305f598d-cb9b-4ebf-aa54-3a33fa727974",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        280,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1iLVXXryzy2fCkYvtkvNggmCF6VIQinrDnaC3b9WWzGA",
+          "mode": "list",
+          "cachedResultName": "SK-Builder - GAds Search-Weekly Based-Monthly Report_Data_Sync (Nov23 Update)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iLVXXryzy2fCkYvtkvNggmCF6VIQinrDnaC3b9WWzGA/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Oct23",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1iLVXXryzy2fCkYvtkvNggmCF6VIQinrDnaC3b9WWzGA/edit#gid=0"
+        },
+        "options": {
+          "outputFormatting": {
+            "values": {
+              "general": "FORMATTED_VALUE",
+              "date": "FORMATTED_STRING"
+            }
+          }
+        }
+      },
+      "id": "1ceaaf46-8962-4799-a914-5abcc891edf0",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.1,
+      "position": [
+        560,
+        280
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "D0wD1dhlh67pREI5",
+          "name": "GSheet-boonhong.tan@accss.asia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "concatenateItems",
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "Week"
+            },
+            {
+              "fieldToAggregate": "Impressions"
+            },
+            {
+              "fieldToAggregate": "Ctr"
+            },
+            {
+              "fieldToAggregate": "Clicks"
+            },
+            {
+              "fieldToAggregate": "['Average cpc']",
+              "renameField": true,
+              "outputFieldName": "CPC"
+            },
+            {
+              "fieldToAggregate": "Conversions"
+            },
+            {
+              "fieldToAggregate": "Cost"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c3236cf2-4f0b-49f0-80ef-717f6b8ddd23",
+      "name": "Item Lists",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        820,
+        280
+      ]
+    }
+  ],
+  "connections": {
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Item Lists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists": {
+      "main": [
+        [
+          {
+            "node": "QuickChart",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "eeccdb9f-a94e-47f7-82c8-8c407845ded7",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2023-11-15T06:57:01.011Z",
+      "createdAt": "2023-11-15T06:57:01.011Z",
+      "role": "workflow:owner",
+      "workflowId": "JNIRv5TZrgRFWy5e",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
