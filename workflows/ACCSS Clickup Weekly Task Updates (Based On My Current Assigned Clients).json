@@ -1,0 +1,565 @@
+{
+  "updatedAt": "2023-10-27T16:48:41.000Z",
+  "createdAt": "2023-10-26T09:32:29.566Z",
+  "id": "urYVSxA9FRrdVBgB",
+  "name": "ACCSS Clickup Weekly Task Updates (Based On My Current Assigned Clients)",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "getAll",
+        "team": "3872917",
+        "space": "5876506",
+        "folderless": true,
+        "list": "24740576",
+        "filters": {
+          "assignees": [
+            61703731
+          ],
+          "dateUpdatedGt": "={{ $('Get Last 7 Days Date').item.json.last7days }}"
+        }
+      },
+      "id": "994082ef-9594-4be7-8c50-17c09fc25fbe",
+      "name": "ClickUp1",
+      "type": "n8n-nodes-base.clickUp",
+      "typeVersion": 1,
+      "position": [
+        840,
+        60
+      ],
+      "credentials": {
+        "clickUpApi": {
+          "id": "9Mgv40vHADIDaBdl",
+          "name": "ACCSS ClickUp (boonhong.tan@accss.asia)"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "3393f2cc-b573-4bd6-b084-71926c505f28",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -440,
+        -20
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "taskID",
+              "stringValue": "={{ $('ClickUp1').item.json.id }}"
+            },
+            {
+              "name": "taskName",
+              "stringValue": "={{ $('ClickUp1').item.json.name }}"
+            },
+            {
+              "name": "dateTaskUpdate",
+              "stringValue": "={{ $json.dateTaskUpdate }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "24aa2bd9-fcc2-4a3a-b65d-1e9ea100f414",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.1,
+      "position": [
+        1380,
+        -40
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "concatenateItems",
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "taskID"
+            },
+            {
+              "fieldToAggregate": "taskName"
+            },
+            {
+              "fieldToAggregate": "dateTaskUpdate"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3431bce4-ad5e-42eb-b149-3840bb8b0662",
+      "name": "Item Lists",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        1620,
+        -140
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $json.date_updated }}",
+        "format": "custom",
+        "customFormat": "dd-MM-yyyy",
+        "outputFieldName": "dateTaskUpdate",
+        "options": {}
+      },
+      "id": "10ac4d31-2bbf-4f7f-ad4a-394b0d9f8363",
+      "name": "Date & Time1",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        1060,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "f1228249-16b4-4436-a564-ffe43065fdb7",
+      "name": "Get Current Date",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        80,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $('Get Current Date').item.json.currentDate }}",
+        "format": "custom",
+        "customFormat": "dd-MM-yyyy",
+        "outputFieldName": "getCurrentDate",
+        "options": {}
+      },
+      "id": "ed51c0e2-e327-4ef7-92bc-f1c907ad599b",
+      "name": "Formatted Current Date",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        600,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "addToDate",
+        "magnitude": "={{ $json.currentDate }}",
+        "duration": -7,
+        "outputFieldName": "last7days"
+      },
+      "id": "18b82ca7-70f7-4da4-8971-bc896904b202",
+      "name": "Get Last 7 Days Date",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        320,
+        20
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "list",
+        "operation": "getAll",
+        "team": "3872917",
+        "space": "5876506",
+        "folderless": true,
+        "filters": {}
+      },
+      "id": "7dd6857e-006c-4a92-82d6-0736af4a469c",
+      "name": "CU-GetAllList",
+      "type": "n8n-nodes-base.clickUp",
+      "typeVersion": 1,
+      "position": [
+        -180,
+        20
+      ],
+      "credentials": {
+        "clickUpApi": {
+          "id": "9Mgv40vHADIDaBdl",
+          "name": "ACCSS ClickUp (boonhong.tan@accss.asia)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "comment",
+        "operation": "getAll",
+        "commentsOn": "task",
+        "id": "={{ $json.taskID[2] }}",
+        "limit": 2
+      },
+      "id": "f8e249fa-f0d8-481d-b36f-dad42bb299ba",
+      "name": "ArchAngel Display-Get Updated Comment",
+      "type": "n8n-nodes-base.clickUp",
+      "typeVersion": 1,
+      "position": [
+        1940,
+        -640
+      ],
+      "credentials": {
+        "clickUpApi": {
+          "id": "9Mgv40vHADIDaBdl",
+          "name": "ACCSS ClickUp (boonhong.tan@accss.asia)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $json.date }}",
+        "format": "custom",
+        "customFormat": "dd-MM-yyyy",
+        "outputFieldName": "formattedDateUpdated",
+        "options": {}
+      },
+      "id": "8cd10014-109d-445b-8408-a67a58c3a9e2",
+      "name": "Comment Sent Date",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        2180,
+        -760
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "comment",
+        "operation": "getAll",
+        "commentsOn": "task",
+        "id": "={{ $json.taskID[3] }}",
+        "limit": 5
+      },
+      "id": "91b49a10-d7af-4798-b8a1-adf92f970d3e",
+      "name": "ArchAngel Social-Get Updated Comment",
+      "type": "n8n-nodes-base.clickUp",
+      "typeVersion": 1,
+      "position": [
+        1960,
+        -420
+      ],
+      "credentials": {
+        "clickUpApi": {
+          "id": "9Mgv40vHADIDaBdl",
+          "name": "ACCSS ClickUp (boonhong.tan@accss.asia)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $json.date }}",
+        "format": "custom",
+        "customFormat": "dd-MM-yyyy",
+        "options": {}
+      },
+      "id": "d499f104-5235-42fd-8eeb-0a70f966051a",
+      "name": "Comment Sent Date1",
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        2240,
+        -520
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "dateCommentReceived",
+              "stringValue": "={{ $json.formattedDateUpdated }}"
+            },
+            {
+              "name": "packageType",
+              "stringValue": "Display"
+            },
+            {
+              "name": "commentReceived",
+              "stringValue": "={{ $('ArchAngel Display-Get Updated Comment').item.json.comment_text }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "047c0e3a-0826-4737-a901-b2417849f286",
+      "name": "Edit Fields1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.1,
+      "position": [
+        2660,
+        -960
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "dateCommentReceived",
+              "stringValue": "={{ $json.formattedDate }}"
+            },
+            {
+              "name": "packageType",
+              "stringValue": "Social"
+            },
+            {
+              "name": "commentReceived",
+              "stringValue": "={{ $('ArchAngel Social-Get Updated Comment').item.json.comment_text }}"
+            },
+            {
+              "name": "url",
+              "type": "arrayValue",
+              "arrayValue": "={{ $jmespath($('ArchAngel Social-Get Updated Comment').item.json.comment, '[*].attachment.url') }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {
+          "dotNotation": false
+        }
+      },
+      "id": "a7c7d5e2-bba8-4f50-bbb6-e2635e2fc2ec",
+      "name": "Edit Fields2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.1,
+      "position": [
+        2500,
+        -580
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "025b356c-3df1-4291-93e5-a6ba20d725ea",
+      "name": "IF",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        2420,
+        -800
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "url",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "id": "97316d28-eb3d-41ff-9a0e-7e25a1045cc6",
+      "name": "Item Lists1",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [
+        2800,
+        -720
+      ]
+    }
+  ],
+  "connections": {
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "CU-GetAllList",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ClickUp1": {
+      "main": [
+        [
+          {
+            "node": "Date & Time1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Item Lists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Item Lists": {
+      "main": [
+        [
+          {
+            "node": "ArchAngel Display-Get Updated Comment",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "ArchAngel Social-Get Updated Comment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Current Date": {
+      "main": [
+        [
+          {
+            "node": "Get Last 7 Days Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Formatted Current Date": {
+      "main": [
+        [
+          {
+            "node": "ClickUp1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Last 7 Days Date": {
+      "main": [
+        [
+          {
+            "node": "Formatted Current Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "CU-GetAllList": {
+      "main": [
+        [
+          {
+            "node": "Get Current Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ArchAngel Display-Get Updated Comment": {
+      "main": [
+        [
+          {
+            "node": "Comment Sent Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ArchAngel Social-Get Updated Comment": {
+      "main": [
+        [
+          {
+            "node": "Comment Sent Date1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Comment Sent Date": {
+      "main": [
+        [
+          {
+            "node": "IF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Comment Sent Date1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Item Lists1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:ClickUp Trigger": {
+      "webhookId": "eb15a92f-7267-4f8d-9014-f896d5b7fa25",
+      "secret": "XV3R9VZM5A7RI9HF764X36S8KP9TC5A7FTFXZ7HE8SQAOLH1230UYOA5INL1TRE9"
+    }
+  },
+  "meta": null,
+  "pinData": {},
+  "versionId": "cb539def-3ab1-4941-acf5-2074ae3da995",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2023-10-26T09:32:29.576Z",
+      "createdAt": "2023-10-26T09:32:29.576Z",
+      "role": "workflow:owner",
+      "workflowId": "urYVSxA9FRrdVBgB",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
