@@ -1,0 +1,311 @@
+{
+  "updatedAt": "2023-12-19T11:31:00.000Z",
+  "createdAt": "2023-12-18T14:57:09.875Z",
+  "id": "ZAzB7jMCcVXDlvE7",
+  "name": "FlutterFlow_AirbnbDemoApp-Create Firestore Documents From GSheet Rows",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "d89ca483-3296-472c-829f-320f32606daa",
+      "name": "When clicking \"Execute Workflow\"",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        820,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "collection",
+        "projectId": "={{ $json.firebaseProjectName }}"
+      },
+      "id": "01e585e8-230b-42ff-bf0a-f1a57564e654",
+      "name": "Google Cloud Firestore",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        1360,
+        300
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "projectId": "={{ $('Edit Fields1').item.json.firebaseProjectName }}",
+        "collection": "={{ $json.collectionName }}",
+        "documentId": "={{ $json.documentID }}"
+      },
+      "id": "b8a7f6ab-6a52-46a5-b59a-d9ffd06b4df5",
+      "name": "Google Cloud Firestore1",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        1880,
+        260
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "firebaseProjectName",
+              "stringValue": "flutterflow-airbnbdemoapp"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "ba379033-d71a-4b59-853e-b6785ae6fabb",
+      "name": "Edit Fields1",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1040,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "collectionName",
+              "stringValue": "={{ $json.name }}"
+            },
+            {
+              "name": "documentID",
+              "stringValue": "GQjUeknABOh18yZh5GZb"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "c161fbbb-890a-4585-97c2-aec5aaa430d2",
+      "name": "Edit Fields2",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        1580,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1nRXLSbzZSh3GryX-Zgb8p4Tj9fCGTvo2m6tAcjG5PKs",
+          "mode": "list",
+          "cachedResultName": "FlutterFlow-AirBnb Demo Data Scrape-1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1nRXLSbzZSh3GryX-Zgb8p4Tj9fCGTvo2m6tAcjG5PKs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1nRXLSbzZSh3GryX-Zgb8p4Tj9fCGTvo2m6tAcjG5PKs/edit#gid=0"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRange"
+            }
+          }
+        }
+      },
+      "id": "654be327-3b81-48be-8710-93d2df25387e",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.2,
+      "position": [
+        2300,
+        200
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CO0sFNtxmxNRoEJX",
+          "name": "GSheet-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "projectId": "={{ $('Edit Fields1').item.json.firebaseProjectName }}",
+        "collection": "={{ $('Edit Fields2').item.json.collectionName }}",
+        "updateKey": "_id",
+        "columns": "location,distance,ratings,price,dates"
+      },
+      "id": "ff7a34de-0889-4cca-bd00-61bdf65e617e",
+      "name": "Google Cloud Firestore3",
+      "type": "n8n-nodes-base.googleFirebaseCloudFirestore",
+      "typeVersion": 1,
+      "position": [
+        2920,
+        140
+      ],
+      "credentials": {
+        "googleFirebaseCloudFirestoreOAuth2Api": {
+          "id": "kjDsRqv4Xb5VmpsA",
+          "name": "G.Firebase-Firestore(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fields": {
+          "values": [
+            {
+              "name": "_id",
+              "stringValue": "={{ $('Google Sheets').item.json.row_number }}"
+            },
+            {
+              "name": "location",
+              "stringValue": "={{ $('Google Sheets').item.json.Location }}"
+            },
+            {
+              "name": "distance",
+              "stringValue": "={{ $('Google Sheets').item.json.Distance }}"
+            },
+            {
+              "name": "dates",
+              "stringValue": "={{ $('Google Sheets').item.json.Dates }}"
+            },
+            {
+              "name": "price",
+              "stringValue": "={{ $('Google Sheets').item.json.Price }}"
+            },
+            {
+              "name": "ratings",
+              "stringValue": "={{ $('Google Sheets').item.json.Ratings }}"
+            }
+          ]
+        },
+        "include": "none",
+        "options": {}
+      },
+      "id": "16cfcf84-adc4-4aa7-82b0-190a652a101a",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.2,
+      "position": [
+        2640,
+        220
+      ]
+    }
+  ],
+  "connections": {
+    "When clicking \"Execute Workflow\"": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Cloud Firestore": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Cloud Firestore1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Google Cloud Firestore3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "e6794b8a-14bc-43d1-a1b8-28776d07e33f",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2023-12-18T14:57:09.891Z",
+      "createdAt": "2023-12-18T14:57:09.891Z",
+      "role": "workflow:owner",
+      "workflowId": "ZAzB7jMCcVXDlvE7",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
