@@ -1,0 +1,1349 @@
+{
+  "updatedAt": "2025-08-28T15:29:18.000Z",
+  "createdAt": "2025-07-23T02:49:04.777Z",
+  "id": "7TNDOe9dkRY456dR",
+  "name": "[July2025][Creo_Project - ImperialChamber] - FB IG SMM Post Scheduling",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 11
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        192
+      ],
+      "id": "c6789d0a-12b6-4c33-85e3-c146da0a54d6",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "operation": "formatDate",
+        "date": "={{ $json.timestamp }}",
+        "format": "custom",
+        "customFormat": "dd LLLL yyyy",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        448,
+        192
+      ],
+      "id": "11844c5e-0b0b-42e6-bce1-2c481dcc79c1",
+      "name": "Reformat Date (dd-MM-yyyy)2"
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "operation": "getAll",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p7wajxjrsq5m1oi",
+        "table": "m72ka7lvi629usb",
+        "options": {
+          "where": "=(Month Year,eq,{{ $now.format('LLLL yyyy') }})"
+        }
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -528,
+        144
+      ],
+      "id": "39310bb9-2299-4f1b-ac0a-1ae4057c278e",
+      "name": "Get The Current Month Records2",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "authentication": "nocoDbApiToken",
+        "workspaceId": "wk5kmyh4",
+        "projectId": "p7wajxjrsq5m1oi",
+        "table": "m72ka7lvi629usb",
+        "id": "={{ $json.Id }}"
+      },
+      "type": "n8n-nodes-base.nocoDb",
+      "typeVersion": 3,
+      "position": [
+        -320,
+        160
+      ],
+      "id": "5f5e1d20-8608-44b8-99b5-642ab898701d",
+      "name": "Get a row2",
+      "credentials": {
+        "nocoDbApiToken": {
+          "id": "1ewLfqjJfKZD2VGA",
+          "name": "NocoDBCloudAPI(boonhong.tan0309@gmail.com)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "70eee3a2-d37e-45bb-bfcc-0acbc68900a6",
+              "leftValue": "={{ $json['Proposed Date Schedule'] }}",
+              "rightValue": "={{ $('Get Current Date').item.json.currentDate.toDateTime().format('d LLLL yyyy') }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        1136,
+        192
+      ],
+      "id": "15387017-81e2-4525-aef4-0c9cbd1aac00",
+      "name": "Filter2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "37aaefdc-67e2-4652-a5e4-3b02ce243009",
+              "name": "datePosting",
+              "value": "={{ $json['Proposed Date Schedule'] }}",
+              "type": "string"
+            },
+            {
+              "id": "0fe91242-f916-4d2c-9544-edbdf5530dc2",
+              "name": "textPost",
+              "value": "={{ $json['Text Post'] }}",
+              "type": "string"
+            },
+            {
+              "id": "3bd2af0a-d237-40c6-863a-c9454ef477fb",
+              "name": "mediaFileDownloadLinks",
+              "value": "={{ $json['Finished Artwork'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1424,
+        192
+      ],
+      "id": "1eb3eef9-7031-4d87-a816-2cfb55806427",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {
+          "responseFormat": "json_object"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        3104,
+        896
+      ],
+      "id": "ca2afce7-94dd-4829-be18-490481185f56",
+      "name": "OpenAI Chat Model3",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "text": "=Media File Download Links:{{ $json.mediaFileDownloadLinks }}",
+        "schemaType": "fromJson",
+        "jsonSchemaExample": "{\n\t\"metaPlatformType\": \"FB\",\n\t\"visualDownloadLink\": [\"https://device-d5e0c2aa-ac14-4e69-96cb-5658890b2eb9.remotewd.com:49592/sdk/v2/files/7dvxkorqfpyjmhmhirhvfsmp/content?download=true\",\"https://device-d5e0c2aa-ac14-4e69-96cb-5658890b2eb9.remotewd.com:49592/sdk/v2/files/7dvxkorqfpyjmhmhirhvfsmp/content?download=true\"]\n}",
+        "options": {
+          "systemPromptTemplate": "=<Role>\nYou are an expert of data extraction.\n</Role>\n<Task>\nYou are tasked to extract Meta platform, FB visual Download Links based on the user provided text data and transform it into key-value pair JSON object structure.\n</Task>\n<Context>\nYou will providing the following information from user as below:\n- Media Download Files\n</Context>\n<Output>\nThe output only FB media download links and it must be in JSON format without any other extra  explanation and non-relevant information.\n</Output>"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        2992,
+        736
+      ],
+      "id": "61016f94-255a-4a8e-a874-54fcf167b0c3",
+      "name": "Meta(FB) Visual Link Extractor2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4.1-mini"
+        },
+        "options": {
+          "responseFormat": "json_object"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        1696,
+        1056
+      ],
+      "id": "03118d3c-4d49-4157-86a1-db473a93a814",
+      "name": "OpenAI Chat Model4",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "text": "=Media File Download Links:{{ $json.mediaFileDownloadLinks }}",
+        "schemaType": "fromJson",
+        "jsonSchemaExample": "{\n\t\"metaPlatformType\": \"IG\",\n\t\"visualDownloadLink\": [\"https://device-d5e0c2aa-ac14-4e69-96cb-5658890b2eb9.remotewd.com:49592/sdk/v2/files/7dvxkorqfpyjmhmhirhvfsmp/content?download=true\",\"https://device-d5e0c2aa-ac14-4e69-96cb-5658890b2eb9.remotewd.com:49592/sdk/v2/files/7dvxkorqfpyjmhmhirhvfsmp/content?download=true\"]\n}",
+        "options": {
+          "systemPromptTemplate": "=<Role>\nYou are an expert of data extraction.\n</Role>\n<Task>\nYou are tasked to extract Meta platform, IG media download links based on the user provided text data and transform it into key-value pair JSON object structure.\n</Task>\n<Context>\nYou will providing the following information from user as below:\n- Media File Download Links\n</Context>\n<Output>\nThe output only IG media download links and it must be in JSON format without any other extra explanation and non-relevant information.\n</Output>"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        1600,
+        832
+      ],
+      "id": "2ff8e01c-b398-45c0-b37b-ba66368152b5",
+      "name": "Meta(IG) Visual Link Extractor",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output.visualDownloadLink",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2000,
+        832
+      ],
+      "id": "d41c76c1-cce3-4117-9fdd-a0e7bf661bf2",
+      "name": "Split Out5",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5f247cee-5f40-40a2-a9e9-9ea6504547f0",
+              "leftValue": "={{ $json.mediaFileDownloadLinks }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1632,
+        192
+      ],
+      "id": "0c98dc1e-a10d-4588-83b7-d3b90049a11b",
+      "name": "Proceed If  Media Upload Column Is Not Empty2"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1648,
+        432
+      ],
+      "id": "83f03ac6-8e5c-4e1a-9f56-f43db869b556",
+      "name": "No Operation, do nothing2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "5f247cee-5f40-40a2-a9e9-9ea6504547f0",
+              "leftValue": "={{ $json.mediaFileDownloadLinks }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1280,
+        944
+      ],
+      "id": "fdfcf531-e32b-408e-bf41-cbbb80c39e75",
+      "name": "Proceed If  Media Upload Column Is Not Empty3",
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1280,
+        1184
+      ],
+      "id": "28e95785-8249-40bc-907f-ac86d007780b",
+      "name": "No Operation, do nothing3",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://postiz-1.automessenger.me/api/public/v1/upload",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2144,
+        1104
+      ],
+      "id": "e9ec09a7-8e6c-43cd-861b-76ed30d4dbd0",
+      "name": "Upload New File Into Postiz3",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "DzijKDzGmSsenvJe",
+          "name": "HeaderAuth-Postiz-1.automessenger.me"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        1888,
+        1104
+      ],
+      "id": "92a332d4-c830-4535-a4c2-c2f2273bbdf1",
+      "name": "Read/Write Files from Disk4",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "include": "specifiedFields",
+        "fieldsToInclude": "id, path",
+        "options": {
+          "includeBinaries": false
+        }
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2384,
+        1104
+      ],
+      "id": "f7737502-5af7-4cf4-9046-1727d247cad2",
+      "name": "Aggregate4",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://postiz-1.automessenger.me/api/public/v1/posts",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"type\": \"now\",\n  \"date\": \"{{ $now.toISO() }}\",\n  \"shortLink\": false,\n  \"tags\": [],\n  \"posts\": [\n    {\n      \"integration\": {\n        \"id\": {{ JSON.stringify($('Rename Platform Type Fields & Visual Download Links2').first().json.readycarePostizIntegrationId) }}\n      },\n      \"value\": [\n        {\n          \"content\": {{ JSON.stringify($('Proceed If  Media Upload Column Is Not Empty3').first().json['Text Post V1'].removeMarkdown()) }},\n          \"image\":{{ JSON.stringify($json.data) }}\n        }\n      ],\n      \"settings\": {\n        \"__type\": \"instagram\",\n        \"post_type\": \"post\"\n      }\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2592,
+        1104
+      ],
+      "id": "01eb0454-c54e-4605-815f-34d0afbb807d",
+      "name": "Create A New FB Post (Post Now)3",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "DzijKDzGmSsenvJe",
+          "name": "HeaderAuth-Postiz-1.automessenger.me"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.visualDownloadLinks }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2496,
+        832
+      ],
+      "id": "0dbdc5ca-c804-424e-ba88-debcba7d516a",
+      "name": "Download The Visual Media2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "45c46054-ed07-4026-8548-ce028b94d128",
+              "name": "metaPlatformType",
+              "value": "={{ $('Meta(IG) Visual Link Extractor').item.json.output.metaPlatformType }}",
+              "type": "string"
+            },
+            {
+              "id": "736c2499-f776-496d-ad85-85d1ef94f35a",
+              "name": "visualDownloadLinks",
+              "value": "={{ $json['output.visualDownloadLink'] }}",
+              "type": "string"
+            },
+            {
+              "id": "9e10cc86-f45c-4eda-89a4-1c1e5c716762",
+              "name": "readycarePostizIntegrationId",
+              "value": "cmd7kjas2000fjja6cibbu5oy",
+              "type": "string"
+            },
+            {
+              "id": "2bf4faee-7c2a-440d-8164-e5faa1866556",
+              "name": "platformIdentifier",
+              "value": "instagram",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2224,
+        832
+      ],
+      "id": "6f60d1f8-9504-4b5f-8b92-10a2d534104d",
+      "name": "Rename Platform Type Fields & Visual Download Links2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://postiz-1.automessenger.me/api/public/v1/upload",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3472,
+        48
+      ],
+      "id": "622913de-91d8-4232-888e-34d0db0bc97b",
+      "name": "Upload New File Into Postiz4",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "DzijKDzGmSsenvJe",
+          "name": "HeaderAuth-Postiz-1.automessenger.me"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        3200,
+        48
+      ],
+      "id": "59a3f90b-43a4-4264-91a0-f1bf09232f2a",
+      "name": "Read/Write Files from Disk5"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "include": "specifiedFields",
+        "fieldsToInclude": "id, path",
+        "options": {
+          "includeBinaries": false
+        }
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        3728,
+        48
+      ],
+      "id": "ad02f783-ada3-4dc8-9c68-80d20ed84d31",
+      "name": "Aggregate5"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://postiz-1.automessenger.me/api/public/v1/posts",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"type\": \"now\",\n  \"date\": \"{{ $now.toISO() }}\",\n  \"shortLink\": false,\n  \"tags\": [],\n  \"posts\": [\n    {\n      \"integration\": {\n        \"id\": {{ JSON.stringify($('Switch').item.json.postizIntegrationId) }}\n      },\n      \"value\": [\n        {\n          \"content\": {{ JSON.stringify($('Switch').item.json.postCaption) }},\n          \"image\":{{ JSON.stringify($json.data) }}\n        }\n      ]\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3968,
+        48
+      ],
+      "id": "0f80129e-d87f-491b-a523-abbe1444a9fb",
+      "name": "Create A New FB Post (Post Now)4",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "DzijKDzGmSsenvJe",
+          "name": "HeaderAuth-Postiz-1.automessenger.me"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Actual Date Post Scheduling",
+        "height": 656,
+        "width": 4368,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        64,
+        -32
+      ],
+      "typeVersion": 1,
+      "id": "6c490b11-96bd-483e-ab09-1b7af648f3ac",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        672,
+        192
+      ],
+      "id": "51481007-2131-4cea-a5f2-b6e2698987b5",
+      "name": "Get Current Date"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1w5cLVnq-oAvqBW1xCkudMY1uF-zOWYV_MP8lVJubmPY",
+          "mode": "list",
+          "cachedResultName": "Imperial Chamber Posting Schedule",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1w5cLVnq-oAvqBW1xCkudMY1uF-zOWYV_MP8lVJubmPY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 561582027,
+          "mode": "list",
+          "cachedResultName": "JULY25[Restructure]",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1w5cLVnq-oAvqBW1xCkudMY1uF-zOWYV_MP8lVJubmPY/edit#gid=561582027"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        912,
+        192
+      ],
+      "id": "7a6391af-5744-4d29-8634-c666d8c8b873",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "postizIntegrationId, postizIdentifier",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2128,
+        176
+      ],
+      "id": "291b3b93-d5e9-4957-9401-b4cba83d1d08",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "17cbfca8-9369-4251-8a4b-f4b8b1371cba",
+              "name": "postizIntegrationId",
+              "value": "=[\"cmd7kcqtg0009jja64g87kvxg\",\"cmd7kkyqf000hjja6rklniqsn\"]",
+              "type": "array"
+            },
+            {
+              "id": "7600fd37-639a-47ea-91cc-32657b7a875c",
+              "name": "postizIdentifier",
+              "value": "[\"facebook\",\"instagram\"]",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {
+          "dotNotation": true
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1904,
+        176
+      ],
+      "id": "e8a9931e-950e-4a82-83de-18d7b2e0a5b7",
+      "name": "Postiz Integration Identifier Array Details"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d57724d1-8858-4aad-91d6-6c987c838a8a",
+              "name": "postizIntegrationId",
+              "value": "={{ $json.postizIntegrationId }}",
+              "type": "string"
+            },
+            {
+              "id": "5c6a878f-b242-4b97-ae5b-dac6e5350124",
+              "name": "postizIdentifier",
+              "value": "={{ $json.postizIdentifier }}",
+              "type": "string"
+            },
+            {
+              "id": "69ec0cf3-871b-4de6-8a07-e76f74111ceb",
+              "name": "postCaption",
+              "value": "={{ $('Edit Fields2').item.json.textPost }}",
+              "type": "string"
+            },
+            {
+              "id": "2c420576-a243-4294-bf0d-06a0004aa596",
+              "name": "visualDownloadLink",
+              "value": "={{ $('Proceed If  Media Upload Column Is Not Empty2').item.json.mediaFileDownloadLinks.replaceAll(\"https://drive.google.com/file/d/\",\"\").replaceAll(\"/view?usp=sharing\",\"\").replaceAll(\"/view?usp=drive_link\",\"\").replaceAll(\"/view?usp=drivesdk\",\"\",).replaceAll(\"\\n\",\"\") }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2336,
+        176
+      ],
+      "id": "7092f224-58a4-4f4a-9fc2-b53ef94183e5",
+      "name": "Postiz Integration & Identifier Details Split Out"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.visualDownloadLink }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2960,
+        48
+      ],
+      "id": "7ce27665-944f-4f24-9cb9-4c5d1c41e5c3",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.postizIdentifier }}",
+                    "rightValue": "facebook",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "2fa29ce6-c76d-4a61-9784-51b729bd4d4f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Facebook"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "e146a375-8daa-413e-8b97-865fc0be4ff3",
+                    "leftValue": "={{ $json.postizIdentifier }}",
+                    "rightValue": "instagram",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Instagram"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        2656,
+        176
+      ],
+      "id": "924fba8c-1c30-4ee0-9684-0d35b2770db6",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://postiz-1.automessenger.me/api/public/v1/upload",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3472,
+        304
+      ],
+      "id": "a7b7e33b-2b94-47c3-9bea-4831da752f25",
+      "name": "Upload New File Into Postiz",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "DzijKDzGmSsenvJe",
+          "name": "HeaderAuth-Postiz-1.automessenger.me"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        3200,
+        304
+      ],
+      "id": "64db6419-a903-45b1-8342-712c95934f42",
+      "name": "Read/Write Files from Disk"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "include": "specifiedFields",
+        "fieldsToInclude": "id, path",
+        "options": {
+          "includeBinaries": false
+        }
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        3728,
+        304
+      ],
+      "id": "43bff7f7-093a-4d47-a93d-89f4279fcb34",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.visualDownloadLink }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        2960,
+        304
+      ],
+      "id": "ad16d950-398a-40af-bfbf-08bc9e846b30",
+      "name": "Download file1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://postiz-1.automessenger.me/api/public/v1/posts",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"type\": \"now\",\n  \"date\": \"{{ $now.toISO() }}\",\n  \"shortLink\": false,\n  \"tags\": [],\n  \"posts\": [\n    {\n      \"integration\": {\n        \"id\": {{ JSON.stringify($('Switch').item.json.postizIntegrationId) }}\n      },\n      \"value\": [\n        {\n          \"content\": {{ JSON.stringify($('Switch').item.json.postCaption) }},\n          \"image\":{{ JSON.stringify($json.data) }}\n        }\n      ],\n      \"settings\": {\n        \"__type\": \"instagram\",\n        \"post_type\": \"post\"\n      }\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3968,
+        304
+      ],
+      "id": "6fe0f410-c1a3-4f67-91ff-904c97c26e28",
+      "name": "Create A New IG Post (Post Now)",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "DzijKDzGmSsenvJe",
+          "name": "HeaderAuth-Postiz-1.automessenger.me"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Reformat Date (dd-MM-yyyy)2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reformat Date (dd-MM-yyyy)2": {
+      "main": [
+        [
+          {
+            "node": "Get Current Date",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get The Current Month Records2": {
+      "main": [
+        []
+      ]
+    },
+    "Get a row2": {
+      "main": [
+        []
+      ]
+    },
+    "Filter2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Proceed If  Media Upload Column Is Not Empty2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Meta(FB) Visual Link Extractor2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Meta(FB) Visual Link Extractor2": {
+      "main": [
+        []
+      ]
+    },
+    "OpenAI Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Meta(IG) Visual Link Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Meta(IG) Visual Link Extractor": {
+      "main": [
+        [
+          {
+            "node": "Split Out5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out5": {
+      "main": [
+        [
+          {
+            "node": "Rename Platform Type Fields & Visual Download Links2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Proceed If  Media Upload Column Is Not Empty2": {
+      "main": [
+        [
+          {
+            "node": "Postiz Integration Identifier Array Details",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Proceed If  Media Upload Column Is Not Empty3": {
+      "main": [
+        [
+          {
+            "node": "Meta(IG) Visual Link Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload New File Into Postiz3": {
+      "main": [
+        [
+          {
+            "node": "Aggregate4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk4": {
+      "main": [
+        [
+          {
+            "node": "Upload New File Into Postiz3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate4": {
+      "main": [
+        [
+          {
+            "node": "Create A New FB Post (Post Now)3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download The Visual Media2": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rename Platform Type Fields & Visual Download Links2": {
+      "main": [
+        [
+          {
+            "node": "Download The Visual Media2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload New File Into Postiz4": {
+      "main": [
+        [
+          {
+            "node": "Aggregate5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk5": {
+      "main": [
+        [
+          {
+            "node": "Upload New File Into Postiz4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate5": {
+      "main": [
+        [
+          {
+            "node": "Create A New FB Post (Post Now)4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Current Date": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Filter2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postiz Integration Identifier Array Details": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Postiz Integration & Identifier Details Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postiz Integration & Identifier Details Split Out": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Download file1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload New File Into Postiz": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk": {
+      "main": [
+        [
+          {
+            "node": "Upload New File Into Postiz",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Create A New IG Post (Post Now)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file1": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {
+    "node:Schedule Trigger1": {
+      "recurrenceRules": []
+    }
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "3fb6ce19-e893-4ec2-844a-0a9285b9376a",
+  "triggerCount": 1,
+  "shared": [
+    {
+      "updatedAt": "2025-07-23T02:49:04.784Z",
+      "createdAt": "2025-07-23T02:49:04.784Z",
+      "role": "workflow:owner",
+      "workflowId": "7TNDOe9dkRY456dR",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
