@@ -1,0 +1,431 @@
+{
+  "updatedAt": "2025-04-25T07:31:45.000Z",
+  "createdAt": "2025-04-24T05:25:56.516Z",
+  "id": "du4B21TMZhi9J0hx",
+  "name": "[CREO_Project] - ReadyCare_Product_Detail_Page_Scraping",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f07a7b5c-71e5-4aca-adce-e01b0d6c7fde",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "=pending",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "7f622642-d24c-47de-b4be-93ce15948db3",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "=processing",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1040,
+        80
+      ],
+      "id": "a0d4e434-6e2a-4306-8475-eb6443750b2c",
+      "name": "If In Process"
+    },
+    {
+      "parameters": {
+        "url": "=https://crawl4ai.automessenger.me/task/{{ $json.task_id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        720,
+        80
+      ],
+      "id": "a7ed68c6-1b8e-4a78-b7f3-57d8d7212ec4",
+      "name": "Get LLM Scrape Config",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Sxyip2DbXxp8AQIB",
+          "name": "Craw4Ai Header Auth(crawl4ai.automessenger.me)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"task_id\": \"{{ $('Crawl4AI - Use LLM Extraction').item.json.task_id }}\",\n  \"status\": \"{{ $json.status }}\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        880,
+        80
+      ],
+      "id": "35a714ae-5922-4a66-ae7a-e6f67aae83ab",
+      "name": "Get Task ID Field"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://crawl4ai.automessenger.me/crawl",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"urls\": \"{{ $json['Product Page Link'] }}\",\n  \"crawler_params\": {\n    \"headless\": true\n  },\n \"extraction_config\": {\n    \"type\": \"llm\",\n    \"params\": {\n      \"llm_config\": {\n        \"provider\": \"openai/gpt4o-mini\"\n      },\n      \"schema\": {\n        \"title\" : \"Ready Care Product Details\",\n        \"type\": \"object\",\n        \"properties\": {\n          \"product_name\": {\n            \"title\": \"Product Name\",\n            \"description\": \"Name of the product.\",\n            \"type\": \"string\"\n          },\n          \"description\": {\n            \"title\": \"Product Description\",\n            \"description\": \"Short description about the product.\",\n            \"type\": \"string\"\n          },\n          \"product_features\": {\n            \"title\": \"Product Features\",\n            \"description\": \"List of the product features.\",\n            \"type\": \"string\"\n          },\n          \"product_variation\":{\n            \"title\": \"Product Variation\",\n            \"description\": \"The list of options that product variations in terms of size, color, etc. Usually appearing before add to cart button.\",\n            \"type\": \"string\"\n          }\n\n        },\n        \"required\": [\n          \"product_variation\"\n        ]\n      },\n      \"extraction_type\": \"schema\",\n      \"instruction\": \"From the crawled content, extract all the information mentioned such as product name, descriptions, product features and product variations. Do not miss any details in the entire content.\"\n    }\n  },\n  \"cache_mode\": \"bypass\"\n} ",
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 10000
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        280,
+        80
+      ],
+      "id": "4b58ecb8-bf5d-4920-9d2c-929d411a85ed",
+      "name": "Crawl4AI - Use LLM Extraction",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Sxyip2DbXxp8AQIB",
+          "name": "Craw4Ai Header Auth(crawl4ai.automessenger.me)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"products\": {{ $('Get LLM Scrape Config').item.json.result.extracted_content }}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1300,
+        60
+      ],
+      "id": "7648863c-62dc-4ef0-bf84-617d1c7a34b8",
+      "name": "JSON Array Product Details"
+    },
+    {
+      "parameters": {
+        "amount": 15
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        540,
+        80
+      ],
+      "id": "c78c4015-37e5-47b1-bd32-42d0992d03b9",
+      "name": "Wait for LLLM Crawl",
+      "webhookId": "75c74b5b-96bc-41bc-a259-dec4548938a9"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s",
+          "mode": "list",
+          "cachedResultName": "ReadyCare Signature Ecommerce Store Product Listing(Apr2025_Update)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1871117814,
+          "mode": "list",
+          "cachedResultName": "Product Details",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit#gid=1871117814"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Product Name": "={{ $json.products[0].product_name }}",
+            "Product Description": "={{ $json.products[0].description }}",
+            "Product Features": "={{ $json.products[0].product_features }}",
+            "Product Variations": "={{ $json.products[0].product_variation }}"
+          },
+          "matchingColumns": [
+            "Product Name"
+          ],
+          "schema": [
+            {
+              "id": "Product Name",
+              "displayName": "Product Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Product Description",
+              "displayName": "Product Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Product Features",
+              "displayName": "Product Features",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Product Variations",
+              "displayName": "Product Variations",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        380,
+        -80
+      ],
+      "id": "75853866-6d17-41cd-b34e-98623070a1d1",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        40,
+        60
+      ],
+      "id": "40d1ad14-08bd-40e2-896d-994991e0aea3",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s",
+          "mode": "list",
+          "cachedResultName": "ReadyCare Signature Ecommerce Store Product Listing(Apr2025_Update)",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "All Product Pages",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1JTp18igs3ry8HVr7wrQoyEYJUyH6yNN11CkaUdMCp6s/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -260,
+        60
+      ],
+      "id": "304dbb42-eb95-478a-8d1a-8b7ec42f0604",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "oMHjbut2VzVQ0VcS",
+          "name": "GSheet Trigger- boonhong.tan0309@gmail.com"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "If In Process": {
+      "main": [
+        [
+          {
+            "node": "JSON Array Product Details",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait for LLLM Crawl",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get LLM Scrape Config": {
+      "main": [
+        [
+          {
+            "node": "Get Task ID Field",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Task ID Field": {
+      "main": [
+        [
+          {
+            "node": "If In Process",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crawl4AI - Use LLM Extraction": {
+      "main": [
+        [
+          {
+            "node": "Wait for LLLM Crawl",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JSON Array Product Details": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for LLLM Crawl": {
+      "main": [
+        [
+          {
+            "node": "Get LLM Scrape Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Crawl4AI - Use LLM Extraction",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "2bc8b19e-7f9d-4e95-840c-4301f713e3a4",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-04-24T05:25:56.523Z",
+      "createdAt": "2025-04-24T05:25:56.523Z",
+      "role": "workflow:owner",
+      "workflowId": "du4B21TMZhi9J0hx",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2025-04-25T07:31:07.022Z",
+      "createdAt": "2025-04-25T07:31:07.022Z",
+      "id": "9Gp47jN1RS49GmsF",
+      "name": "CREO_PROJECT"
+    },
+    {
+      "updatedAt": "2025-04-25T07:31:25.019Z",
+      "createdAt": "2025-04-25T07:31:25.019Z",
+      "id": "d0GbgHO5mVb8EyMk",
+      "name": "Creo-ReadyCare"
+    }
+  ]
+}
