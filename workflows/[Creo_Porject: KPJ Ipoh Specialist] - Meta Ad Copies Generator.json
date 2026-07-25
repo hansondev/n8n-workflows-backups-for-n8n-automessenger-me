@@ -1,0 +1,1109 @@
+{
+  "updatedAt": "2025-04-23T10:12:08.000Z",
+  "createdAt": "2025-04-22T08:18:18.677Z",
+  "id": "esOch5z2SMhlcwoq",
+  "name": "[Creo_Porject: KPJ Ipoh Specialist] - Meta Ad Copies Generator",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Craft {{ $json.numberAdCopies.toString() }} ad copies version for each of the ad name: {{ $json.adName }} under the specific ad name:{{ $json.adName }}\n\nHere is the information provided of the ad name, {{ $json.adName }}:\n1. Angle: {{ $json.angle }}\n2. Target Language: {{ $json.targetLanguage }}\n3. Copywriting Strategy: {{ $json.copywritingStrategy }}\n4. serviceProvider: {{ $json.serviceProvider }}\n5. Media Format: {{ $json.mediaFormat }}\n6. Tone And Voice: {{ $json.toneAndVoice }}\n7. Ad Copy Structure: {{ $json.adCopyStructure }}\n8. Total Paragraphs Per Ad Copy: {{ $json.adCopyStructure.split(\"\\n\\n\").length }}\n\n- You also require to use `web_search` tool to search for my client, {{ $json.serviceProvider }} for company background, products and services information and specific angle,{{ $json.angle }} for get more understanding on the use case in order to generate the right and relevant ad copies for my client.\n\n- Do not output the ad copy structure that with the definition and description into the ad copy",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Role\nYou are a professional ad copywriter who is also fluent in multiple languages.\n\n# Task\nYou are tasked with crafting multiple versions of ad copies based on different industries, niches, languages, and copywriting strategies. \n\n# Tools\nYou are required to use the following tools to craft the right and accurate ad copies and avoid any hallucinations:\n1. **competitor_ad_copies**:For getting competitors ad text copies as the reference for crafting the relevant topic of ad copies\n2. **web_search**: Search through the web to get company, products or services information or terminologies that unknown for ad copies crafting\n3. **think**: For let the llm think what are the steps or directions should take in order to generate the right output without any hallucination or confusing information\n\n# User Context\nThe user will provide several important inputs to ensure that you are able to generate the right output such as:\n- adName\n- mediaFormat\n- angle\n- targetLanguage\n- serviceProvider\n- copyWritingStrategy\n- adCopyStructure \n- numberAdCopies\n\n# Context Definition\n- adName: An unique identifier of ad level in the Meta or TikTok ads campaign configuration based on specific angle stated for crafting different and unique version of ad copies\n- mediaFormat: Type of media format that will focusing on\n- targetLanguage: target language(s) would like to generate ad copies to deliver to the right target audience\n- serviceProvider: The user's client who are selling products or providing solutions to the targeted audience selection\n- copyWritingStrategy: The copywriting strategy selection to crafting the ad copies into more engaging and interactive\n- toneAndVoice: The suitable type of tone and voice to delivery the message to the right target audience and angle \n- adCopyStructure: The ad copy structure to delivery the message structurely and storyline alike\n- numberAdCopies: Total number of ad copies or version that want to generate for\n\n# Additional Context\n- In order to make the ad copies more engaging and interactive, you can adding relevant emojis or icons such as\"✅💯👉\" to delivery the ad copies in human expression or human interaction feeling\n\n# Output\n- All output must follow the structured JSON format."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        440,
+        0
+      ],
+      "id": "ad210594-e3be-427b-970b-ec859f967b43",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Read and extract the ad copies from the column or field name, \"Ad Body Text\" from the listed advertisers recorded in the sheet",
+        "documentId": {
+          "__rl": true,
+          "value": "1TRElc5uO1Y6PnqeWpe4PiherDNyIyHOLHpgk1Jnga-E",
+          "mode": "list",
+          "cachedResultName": "KPJ Ipoh Specialist & Competitors MetaAds Library Active Ads Records",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TRElc5uO1Y6PnqeWpe4PiherDNyIyHOLHpgk1Jnga-E/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 992517558,
+          "mode": "list",
+          "cachedResultName": "Ads Query Output",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1TRElc5uO1Y6PnqeWpe4PiherDNyIyHOLHpgk1Jnga-E/edit#gid=992517558"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRange"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        460,
+        280
+      ],
+      "id": "6fa8361f-90bb-47c9-a812-67bf095a8e61",
+      "name": "competitor_ad_copies",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"adName\": \"The ad name labelled specifically\",\n  \"angle\": \"The perspective used to position a product or service to attract and engage a specific target audience.\",\n  \"targetLanguage\": \"The selected language to craft the ad copies\",\n  \"serviceProvider\": \"The name of the user's client or service provider.\",\n  \"copywritingStrategy\": \"Type of copywriting strategies that can be used to engage and persuade readers.\",\n  \"toneAndVoice\": \"The suitable type of tone and voice to delivery the message to the right target audience and angle\",\n  \"ad copies\": [\"👁️✨ 𝗖𝗹𝗲𝗮𝗿 𝗩𝗶𝘀𝗶𝗼𝗻 𝗔𝘄𝗮𝗶𝘁𝘀 – 𝗟𝗔𝗦𝗜𝗞 / 𝗣𝗥𝗞 𝗡𝗼𝘄 𝗔𝘃𝗮𝗶𝗹𝗮𝗯𝗹𝗲 𝗮𝘁 𝗘𝗦𝗖 𝗞𝘂𝗰𝗵𝗶𝗻𝗴!👨‍⚕️🔬Say goodbye to glasses and contact lenses! 𝗘𝗦𝗖 𝗞𝘂𝗰𝗵𝗶𝗻𝗴 is proud to offer 𝗮𝗱𝘃𝗮𝗻𝗰𝗲𝗱 𝗟𝗔𝗦𝗜𝗞 / 𝗣𝗥𝗞 𝘃𝗶𝘀𝗶𝗼𝗻 𝗰𝗼𝗿𝗿𝗲𝗰𝘁𝗶𝗼𝗻 – giving you 𝘀𝗵𝗮𝗿𝗽, 𝗰𝗹𝗲𝗮𝗿 𝘃𝗶𝘀𝗶𝗼𝗻 𝘄𝗶𝘁𝗵 𝗽𝗿𝗲𝗰𝗶𝘀𝗶𝗼𝗻 𝗮𝗻𝗱 𝘀𝗮𝗳𝗲𝘁𝘆. 🎉 𝗟𝗶𝗺𝗶𝘁𝗲𝗱-𝗧𝗶𝗺𝗲 𝗢𝗳𝗳𝗲𝗿: 𝗙𝗥𝗘𝗘 𝗦𝗰𝗿𝗲𝗲𝗻𝗶𝗻𝗴!✅ Safe & Effective Vision Correction ✅ Non-invasive Procedure✅ Pre and Post Operation Package Included ✅ Eligible for Ages 𝟭𝟴-𝟰𝟱 \", \"💉Knees giving you trouble? Explore the different types of knee injections that can help relieve pain and improve mobility! From cortisone to hyaluronic acid, find out which option might be best for you.Dr Sean Leo is an orthopaedic surgeon and he can help you assess your options for treatment. We are located at Mount Elizabeth Hospital Novena and Farrer Park Hospital. For more information on Orthokinetics and for booking consultations, drop us a DM or email at appointment@orthokinetics.sg. You can also contact us on Whatsapp at +65 8439 2120! 📧📲\"]  \n\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        940,
+        220
+      ],
+      "id": "6c656e7f-d71f-406c-824d-12bdffd54c5d",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "33b7b279-e993-45cf-9e34-37a29a5819ee",
+              "name": "response",
+              "value": "={{ $json.message }}\n\nSources:\n{{ $json.sources.toJsonString() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        820,
+        580
+      ],
+      "id": "26586d78-4a0f-438f-9f56-1f6e43b2c0d4",
+      "name": "Response"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://perplexica-1.automessenger.me/api/search",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"chatModel\": {\n    \"provider\": \"openai\",\n    \"name\": \"gpt-4o-mini\"\n  },\n  \"embeddingModel\": {\n    \"provider\": \"openai\",\n    \"name\": \"text-embedding-3-large\"\n  },\n  \"optimizationMode\": \"speed\",\n  \"focusMode\": \"webSearch\",\n  \"query\": \"{{ $json.query }}\",\n  \"history\": [\n    [\"human\", \"Hi, how are you?\"],\n    [\"assistant\", \"I am doing well, how can I help you today?\"]\n  ],\n  \"systemInstructions\": \"Focus on providing technical details where requested by the user.\",\n  \"stream\": false\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        620,
+        580
+      ],
+      "id": "db39d979-09e0-4704-934d-13062c197891",
+      "name": "Perplexity API"
+    },
+    {
+      "parameters": {
+        "content": "## Perplexity\n- Get account from OpenRouter.ai to access Perplexity API\n- Set API key in the Perplexity API node\n- Credential \n   Name : Authorization \n   Value: Bearer <api-key value>",
+        "height": 254,
+        "width": 1094,
+        "color": 7
+      },
+      "id": "1f8156e6-ecee-4e39-9b59-ec3b60285504",
+      "name": "Sticky Note15",
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -140,
+        520
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"query\": \"the search term\"\n}"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        420,
+        580
+      ],
+      "id": "d8f0df5c-9a02-4af4-9d79-4b8e2a3f4b4d",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "name": "web_search",
+        "description": "=Get the in depth information about the user's search query that is relevant to the search query, including web content, and other relevant sources",
+        "workflowId": {
+          "__rl": true,
+          "value": "={{ $workflow.id }}",
+          "mode": "id"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ $fromAI(\"query\",\"The search term\") }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        640,
+        280
+      ],
+      "id": "dbb59c4c-b980-454b-bb09-2536905c0399",
+      "name": "web_search"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "66f475b1-e679-48c5-b560-ef00e67f5f79",
+              "name": "adname",
+              "value": "={{ $json.output.adName }}",
+              "type": "string"
+            },
+            {
+              "id": "5faf9cdb-daff-44dc-8f0e-5739f70e01aa",
+              "name": "angle",
+              "value": "={{ $json.output.angle }}",
+              "type": "string"
+            },
+            {
+              "id": "5f6c86f4-659e-4dd9-848a-2e0a9d080de2",
+              "name": "targetLanguage",
+              "value": "={{ $json.output.targetLanguage }}",
+              "type": "string"
+            },
+            {
+              "id": "d8a84a8a-4e5d-4b86-b9d1-a92970a952a1",
+              "name": "copywritingStrategy",
+              "value": "={{ $json.output.copywritingStrategy }}",
+              "type": "string"
+            },
+            {
+              "id": "56c1616d-80e1-4f08-8a19-dfde9677dc46",
+              "name": "toneAndVoice",
+              "value": "={{ $json.output.toneAndVoice }}",
+              "type": "string"
+            },
+            {
+              "id": "6fbea22f-7cf4-4d25-8ff6-980a03391635",
+              "name": "adcopies",
+              "value": "={{ $json.output[\"ad copies\"] }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        880,
+        0
+      ],
+      "id": "f2b3ea6b-6719-4cb9-a927-adba61272890",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        800,
+        320
+      ],
+      "id": "f870a22a-0020-47d0-a732-d7afd7528dd3",
+      "name": "Think"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "1SztwrZ68_GWRfjgtrPRWNhEa_z0ZKzo8pEeG1Y1WvZY",
+          "mode": "list",
+          "cachedResultName": "[Apr2025]Creo_KPJIpohSepcialist- MetaAds- LeadGen - Media Plan",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1SztwrZ68_GWRfjgtrPRWNhEa_z0ZKzo8pEeG1Y1WvZY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1342458573,
+          "mode": "list",
+          "cachedResultName": "Ad Copy Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1SztwrZ68_GWRfjgtrPRWNhEa_z0ZKzo8pEeG1Y1WvZY/edit#gid=1342458573"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        -100,
+        0
+      ],
+      "id": "3fbfe92b-4669-453f-845a-dc04c5883586",
+      "name": "Google Sheets Trigger",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "oMHjbut2VzVQ0VcS",
+          "name": "GSheet Trigger- boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e53c609a-a6b8-4bac-8e99-a94f644266bb",
+              "name": "adName",
+              "value": "={{ $json['Ad Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "0fab52df-6cd0-4d74-b400-527fd12ab551",
+              "name": "mediaFormat",
+              "value": "={{ $json['Media Format'] }}",
+              "type": "string"
+            },
+            {
+              "id": "742c8dcb-be20-4a4b-89f3-7f4c3ebc0bc1",
+              "name": "targetLanguage",
+              "value": "={{ $json[\"Target Language\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "4c94dc54-24f6-4882-9b6a-4efd9d55f75b",
+              "name": "angle",
+              "value": "={{ $json.Angle }}",
+              "type": "string"
+            },
+            {
+              "id": "e161d9c1-fd0a-4074-862e-845b92b0ad3d",
+              "name": "copywritingStrategy",
+              "value": "={{ $json['Copywriting Strategy'] }}",
+              "type": "string"
+            },
+            {
+              "id": "44f4c4e7-59bb-446c-8e69-c78ac440b469",
+              "name": "serviceProvider",
+              "value": "={{ $json['Service Provider'] }}",
+              "type": "string"
+            },
+            {
+              "id": "42945d51-4aa0-49a7-a41d-13fedaef7d79",
+              "name": "toneAndVoice",
+              "value": "={{ $json['Tones And Voice'] }}",
+              "type": "string"
+            },
+            {
+              "id": "c6475f78-194e-4106-886d-e5f77ac16a26",
+              "name": "adCopyStructure",
+              "value": "={{ $json['Ad Copy Structure'] }}",
+              "type": "string"
+            },
+            {
+              "id": "fd47873d-d302-4648-9098-50677265fa58",
+              "name": "numberAdCopies",
+              "value": "={{ $json['No of Ad Copies'] }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        120,
+        0
+      ],
+      "id": "a5fde328-c403-43d0-a1bc-b1d833eac219",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.adcopies.length }}",
+                    "rightValue": 2,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    },
+                    "id": "605a5e72-7c26-403e-83df-ad0419de55b8"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "2 Ad Copies"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "2f46720e-3eb6-41e0-a738-0892a6697cb9",
+                    "leftValue": "={{ $json.adcopies.length }}",
+                    "rightValue": 3,
+                    "operator": {
+                      "type": "number",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "3 Ad Copies"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1100,
+        0
+      ],
+      "id": "ff789ac8-870f-4069-b11d-e112ebd495ba",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "66f475b1-e679-48c5-b560-ef00e67f5f79",
+              "name": "adname",
+              "value": "={{ $json.adname }}",
+              "type": "string"
+            },
+            {
+              "id": "5faf9cdb-daff-44dc-8f0e-5739f70e01aa",
+              "name": "angle",
+              "value": "={{ $json.angle }}",
+              "type": "string"
+            },
+            {
+              "id": "5f6c86f4-659e-4dd9-848a-2e0a9d080de2",
+              "name": "targetLanguage",
+              "value": "={{ $json.targetLanguage }}",
+              "type": "string"
+            },
+            {
+              "id": "d8a84a8a-4e5d-4b86-b9d1-a92970a952a1",
+              "name": "copywritingStrategy",
+              "value": "={{ $json.copywritingStrategy }}",
+              "type": "string"
+            },
+            {
+              "id": "de7d8f28-9054-4d8f-a9af-18bc986ae19d",
+              "name": "toneAndVoice",
+              "value": "={{ $json.toneAndVoice }}",
+              "type": "string"
+            },
+            {
+              "id": "6fbea22f-7cf4-4d25-8ff6-980a03391635",
+              "name": "adCopyV1",
+              "value": "={{ $json.adcopies[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "2900006b-211f-43f0-afb9-fb78a265e2d3",
+              "name": "adCopyV2",
+              "value": "={{ $json.adcopies[1] }}",
+              "type": "string"
+            },
+            {
+              "id": "c6aac409-6dee-48d4-8c0e-316acd1ac91b",
+              "name": "adCopyV3",
+              "value": "={{ $json.adcopies[2] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1360,
+        80
+      ],
+      "id": "ed58d921-3d93-4c2d-a756-58c6e268797c",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "66f475b1-e679-48c5-b560-ef00e67f5f79",
+              "name": "adname",
+              "value": "={{ $json.adname }}",
+              "type": "string"
+            },
+            {
+              "id": "5faf9cdb-daff-44dc-8f0e-5739f70e01aa",
+              "name": "angle",
+              "value": "={{ $json.angle }}",
+              "type": "string"
+            },
+            {
+              "id": "5f6c86f4-659e-4dd9-848a-2e0a9d080de2",
+              "name": "targetLanguage",
+              "value": "={{ $json.targetLanguage }}",
+              "type": "string"
+            },
+            {
+              "id": "d8a84a8a-4e5d-4b86-b9d1-a92970a952a1",
+              "name": "copywritingStrategy",
+              "value": "={{ $json.copywritingStrategy }}",
+              "type": "string"
+            },
+            {
+              "id": "de7d8f28-9054-4d8f-a9af-18bc986ae19d",
+              "name": "mediaFormat",
+              "value": "={{ $json.mediaFormat }}",
+              "type": "string"
+            },
+            {
+              "id": "6fbea22f-7cf4-4d25-8ff6-980a03391635",
+              "name": "adCopyV1",
+              "value": "={{ $json.adcopies[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "2900006b-211f-43f0-afb9-fb78a265e2d3",
+              "name": "adCopyV2",
+              "value": "={{ $json.adcopies[1] }}",
+              "type": "string"
+            },
+            {
+              "id": "c6aac409-6dee-48d4-8c0e-316acd1ac91b",
+              "name": "adCopyV3",
+              "value": "={{ $json.adcopies[2] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1360,
+        -80
+      ],
+      "id": "9d9c4a3d-444c-4d16-9ed4-6ad564247f0a",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1SztwrZ68_GWRfjgtrPRWNhEa_z0ZKzo8pEeG1Y1WvZY",
+          "mode": "list",
+          "cachedResultName": "[Apr2025]Creo_KPJIpohSepcialist- MetaAds- LeadGen - Media Plan",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1SztwrZ68_GWRfjgtrPRWNhEa_z0ZKzo8pEeG1Y1WvZY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1342458573,
+          "mode": "list",
+          "cachedResultName": "Ad Copy Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1SztwrZ68_GWRfjgtrPRWNhEa_z0ZKzo8pEeG1Y1WvZY/edit#gid=1342458573"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Ad Name": "={{ $json.adname }}",
+            "Angle": "={{ $json.angle }}",
+            "Target Language": "={{ $json.targetLanguage }}",
+            "Ad Copy V1": "={{ $json.adCopyV1 }}",
+            "Ad Copy V2": "={{ $json.adCopyV2 }}",
+            "Ad Copy V3": "={{ $json.adCopyV3 }}"
+          },
+          "matchingColumns": [
+            "Ad Name"
+          ],
+          "schema": [
+            {
+              "id": "Campaign Name",
+              "displayName": "Campaign Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Adset Name",
+              "displayName": "Adset Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Name",
+              "displayName": "Ad Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Angle",
+              "displayName": "Angle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Media Format",
+              "displayName": "Media Format",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Target Language",
+              "displayName": "Target Language",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Service Provider",
+              "displayName": "Service Provider",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Copywriting Strategy",
+              "displayName": "Copywriting Strategy",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Tones And Voice",
+              "displayName": "Tones And Voice",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Copy Structure",
+              "displayName": "Ad Copy Structure",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "No of Ad Copies",
+              "displayName": "No of Ad Copies",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Copy V1",
+              "displayName": "Ad Copy V1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Copy V2",
+              "displayName": "Ad Copy V2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Copy V3",
+              "displayName": "Ad Copy V3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1580,
+        80
+      ],
+      "id": "3e95219c-eed6-46c0-a9a4-5d7c7568ef82",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1801hpV3alskHI_WrtFbMtEnxsnaywegG6fwbGbtrieI",
+          "mode": "list",
+          "cachedResultName": "Creo_BigPos - MetaAds- Media Plan",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1801hpV3alskHI_WrtFbMtEnxsnaywegG6fwbGbtrieI/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1342458573,
+          "mode": "list",
+          "cachedResultName": "Ad Copy Generator",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1801hpV3alskHI_WrtFbMtEnxsnaywegG6fwbGbtrieI/edit#gid=1342458573"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Ad Name": "={{ $json.adname }}",
+            "Media Format": "={{ $json.mediaFormat }}",
+            "Target Language": "={{ $json.targetLanguage }}",
+            "Angle": "={{ $json.angle }}",
+            "Copywriting Strategy": "={{ $json.copywritingStrategy }}",
+            "Ad Copy V1": "={{ $json.adCopyV1 }}",
+            "Ad Copy V2": "={{ $json.adCopyV2 }}",
+            "Ad Copy V3": "={{ $json.adCopyV3 }}"
+          },
+          "matchingColumns": [
+            "Ad Name"
+          ],
+          "schema": [
+            {
+              "id": "Campaign Name",
+              "displayName": "Campaign Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Adset Name",
+              "displayName": "Adset Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Name",
+              "displayName": "Ad Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Media Format",
+              "displayName": "Media Format",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Target Language",
+              "displayName": "Target Language",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Angle",
+              "displayName": "Angle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Copywriting Strategy",
+              "displayName": "Copywriting Strategy",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "No of Ad Copies",
+              "displayName": "No of Ad Copies",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Ad Copy V1",
+              "displayName": "Ad Copy V1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Copy V2",
+              "displayName": "Ad Copy V2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Ad Copy V3",
+              "displayName": "Ad Copy V3",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1560,
+        -80
+      ],
+      "id": "abf32330-d442-48ac-b99e-20d5b035ea89",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        260,
+        220
+      ],
+      "id": "747115ca-4f6f-4597-8a3d-655d77fa27d1",
+      "name": "DeepSeek Chat Model",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "8Hvjw0JNKmbO191K",
+          "name": "DeepSeekAPI - info.hansondev@gmail.com"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "competitor_ad_copies": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Perplexity API": {
+      "main": [
+        [
+          {
+            "node": "Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Perplexity API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "web_search": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "397c15ec-e69a-4729-a55e-3568410e4457",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-04-22T08:18:18.687Z",
+      "createdAt": "2025-04-22T08:18:18.687Z",
+      "role": "workflow:owner",
+      "workflowId": "esOch5z2SMhlcwoq",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
