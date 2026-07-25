@@ -1,0 +1,296 @@
+{
+  "updatedAt": "2024-04-14T09:55:17.000Z",
+  "createdAt": "2024-04-14T09:23:14.907Z",
+  "id": "UbVH8ljIK5l4R345",
+  "name": "N8N Tut -Social Image Generator with NOTION and RenderForm API",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "getAll",
+        "databaseId": {
+          "__rl": true,
+          "value": "9bd88663-e0f3-4bf8-9a5d-678bd3453dee",
+          "mode": "list",
+          "cachedResultName": "Social Image Generator",
+          "cachedResultUrl": "https://www.notion.so/9bd88663e0f34bf89a5d678bd3453dee"
+        },
+        "returnAll": true,
+        "options": {}
+      },
+      "id": "31b034c4-e7d5-403b-a121-380a0f88e79d",
+      "name": "Notion",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        600,
+        240
+      ],
+      "credentials": {
+        "notionApi": {
+          "id": "FLsp4qKnEya8NwFa",
+          "name": "NotionAPI- info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "2b350251-2e40-4807-bc98-b6d5e434ced4",
+              "leftValue": "={{ $json.property_social }}",
+              "rightValue": "",
+              "operator": {
+                "type": "array",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "d0455007-a3c4-40f4-b184-99c69f34916d",
+              "leftValue": "={{ $json.property_name }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "e56ee652-50a4-4ca2-bf34-8f23f0390438",
+              "leftValue": "={{ $json.property_position }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "9931556a-8a5f-4269-bc10-4b5bcb9b315c",
+              "leftValue": "={{ $json.property_image }}",
+              "rightValue": "",
+              "operator": {
+                "type": "array",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "0c03621c-ac17-4225-833d-a645a59de1ac",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [
+        820,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://get.renderform.io/api/v2/render",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"template\":\"old-zebras-dance-always-1297\",\"data\":{\"image.src\":\"{{ $json.property_image[0] }}\",\"topic_name.text\":\"{{ $json[\"property_topic\"] }}\",\"presenter.text\":\"{{ $json[\"property_name\"] }}\",\"presenter_title.text\":\"{{ $json[\"property_position\"] }}\"}} ",
+        "options": {}
+      },
+      "id": "9bb1548e-4094-419a-847f-be665afe00dc",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1040,
+        240
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "EpR4miSiZE8uXnyr",
+          "name": "RenderForm APIKey - info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "operation": "update",
+        "pageId": {
+          "__rl": true,
+          "value": "={{ $('Notion').item.json.id }}",
+          "mode": "id"
+        },
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "Social|files",
+              "fileUrls": {
+                "fileUrl": [
+                  {
+                    "name": "social",
+                    "url": "={{ $json.href }}"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "0ab64791-2bcd-41e9-9da9-7b9dbecf886c",
+      "name": "Notion1",
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        1320,
+        220
+      ],
+      "credentials": {
+        "notionApi": {
+          "id": "FLsp4qKnEya8NwFa",
+          "name": "NotionAPI- info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyHour"
+            }
+          ]
+        },
+        "event": "pagedUpdatedInDatabase",
+        "databaseId": {
+          "__rl": true,
+          "value": "9bd88663-e0f3-4bf8-9a5d-678bd3453dee",
+          "mode": "list",
+          "cachedResultName": "Social Image Generator",
+          "cachedResultUrl": "https://www.notion.so/9bd88663e0f34bf89a5d678bd3453dee"
+        }
+      },
+      "id": "769058a3-669f-4536-bb10-66cf26e814f4",
+      "name": "Notion Trigger",
+      "type": "n8n-nodes-base.notionTrigger",
+      "typeVersion": 1,
+      "position": [
+        340,
+        320
+      ],
+      "credentials": {
+        "notionApi": {
+          "id": "FLsp4qKnEya8NwFa",
+          "name": "NotionAPI- info.hansondev@gmail.com"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Notion": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Notion1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notion Trigger": {
+      "main": [
+        [
+          {
+            "node": "Notion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "HTTP Request": [
+      {
+        "json": {
+          "requestId": "req-e45b9185-1b8e-4f54-8231-d17ab4080bf0",
+          "href": "https://cdn.renderform.io/swLBn7KNYVm4XqLvSxtj/results/req-e45b9185-1b8e-4f54-8231-d17ab4080bf0.jpg"
+        }
+      },
+      {
+        "json": {
+          "requestId": "req-ff409333-2a39-4036-9531-2023825c4ad9",
+          "href": "https://cdn.renderform.io/swLBn7KNYVm4XqLvSxtj/results/req-ff409333-2a39-4036-9531-2023825c4ad9.jpg"
+        }
+      },
+      {
+        "json": {
+          "requestId": "req-ec22e0a0-82e1-4549-8d68-c44fe8441f89",
+          "href": "https://cdn.renderform.io/swLBn7KNYVm4XqLvSxtj/results/req-ec22e0a0-82e1-4549-8d68-c44fe8441f89.jpg"
+        }
+      }
+    ]
+  },
+  "versionId": "5a2c5d62-0c87-4806-be35-696d96ed81e7",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-04-14T09:23:14.917Z",
+      "createdAt": "2024-04-14T09:23:14.917Z",
+      "role": "workflow:owner",
+      "workflowId": "UbVH8ljIK5l4R345",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2024-04-14T07:31:49.916Z",
+      "createdAt": "2024-04-14T07:31:49.916Z",
+      "id": "ScuvvVPj2YdLYDqM",
+      "name": "N8N_Workflow_Demo"
+    }
+  ]
+}
