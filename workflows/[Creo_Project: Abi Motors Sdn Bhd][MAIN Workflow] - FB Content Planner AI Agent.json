@@ -1,0 +1,3008 @@
+{
+  "updatedAt": "2025-05-19T10:05:58.000Z",
+  "createdAt": "2025-04-28T09:03:09.090Z",
+  "id": "fKiDEX7scizEhoh2",
+  "name": "[Creo_Project: Abi Motors Sdn Bhd][MAIN Workflow] - FB Content Planner AI Agent",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        400,
+        0
+      ],
+      "id": "202743ba-117e-4a0d-84b8-b347c33e3e85",
+      "name": "Think"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1NrQL2lG64zReJsr30vtnkUVVTZtcBrzaY1aRLWX30hg",
+          "mode": "list",
+          "cachedResultName": "[2025] - Abi Motors Sdn Bhd - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NrQL2lG64zReJsr30vtnkUVVTZtcBrzaY1aRLWX30hg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 407131889,
+          "mode": "list",
+          "cachedResultName": "Input For AI Agent",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NrQL2lG64zReJsr30vtnkUVVTZtcBrzaY1aRLWX30hg/edit#gid=407131889"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -1420,
+        220
+      ],
+      "id": "aadee786-2082-4a00-b6c1-eb799f6386e2",
+      "name": "Google Sheets1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[\n  {\n    \"datePosting\": \"27 Apr 2025\",\n    \"textPost\": \"🚗 Ever wondered how to maximize fuel efficiency on your daily commute? Here are 5 simple tips to save fuel and money! Drop your favorite fuel-saving trick in the comments! 👇 \\n 📍 Showroom (Beside Parkson, Ipoh Parade) \\n 🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5 \\n ☎️ 05-242 4888 / 012-750 0527 #AbiMotors #FuelEfficiency #DriveSmart #Perodua #Ipoh\",\n    \"visualIdea\": \"An animated GIF illustrating a car driving smoothly with fuel-saving tips popping up along the way.\"\n  },\n  {\n    \"datePosting\": \"29 Apr 2025\",\n    \"textPost\": \"🚗🔧 Quiz Time! How often should you change your car’s engine oil? \\n A) Every 3,000 km  \\n B) Every 5,000 km \\n C) Every 10,000 km \\n Drop your answer below and let’s see who gets it right! \\n 📍 No. 2, Jalan Selamat, Greentown, 30450 Ipoh, Perak. \\n 🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5 \\n ☎️ 05-242 4888 / 012-750 0527 \\n #CarQuiz #PeroduaMaintenance #TestYourKnowledge\",\n    \"visualIdea\": \"The post 2 of visual idea that illustrating the visual type content.\"\n  },\n  {\n    \"datePosting\": \"3 May 2025\",\n    \"textPost\": \"🚗🎉 Fun Fact: The Perodua Myvi is one of Malaysia’s best-selling cars! \\n What do you love most about your Myvi? Drop a comment below! \\n📍 No. 2, Jalan Selamat, Greentown, 30450 Ipoh, Perak. \\n 🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5 \\n ☎️ 05-242 4888 / 012-750 0527 \\n #PeroduaMyvi #BestSeller #MalaysiaCars\",\n    \"visualIdea\": \"Static image of a Perodua Myvi with fun facts and customer testimonials.\"\n  }\n]\n\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        560,
+        -40
+      ],
+      "id": "d9faca6a-aeee-4b71-857b-f78adc9753d6",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        300,
+        -320
+      ],
+      "id": "f3529794-40d7-414b-80d3-442871aac0e2",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1e8LkaphOHSGppvCafYudWfam5GxdhoUfqnc-mvVHuzQ",
+          "mode": "list",
+          "cachedResultName": "[2025] - Abi Motors Sdn Bhd - [MASTER Plan] - Monthly FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1e8LkaphOHSGppvCafYudWfam5GxdhoUfqnc-mvVHuzQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 366802693,
+          "mode": "list",
+          "cachedResultName": "June",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1e8LkaphOHSGppvCafYudWfam5GxdhoUfqnc-mvVHuzQ/edit#gid=366802693"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date Posting": "={{ $json.datePosting }}",
+            "Text Post": "={{ $json.textPost }}",
+            "Visual Idea": "={{ $json.visualIdea }}"
+          },
+          "matchingColumns": [
+            "Date Posting"
+          ],
+          "schema": [
+            {
+              "id": "Date Posting",
+              "displayName": "Date Posting",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Text Post",
+              "displayName": "Text Post",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Visual Idea",
+              "displayName": "Visual Idea",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Remark",
+              "displayName": "Remark",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        580,
+        -320
+      ],
+      "id": "3f71b970-ef56-402b-b5c5-974820d6bc95",
+      "name": "Google Sheets2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to get the upcoming public holidays in order to create general festive postings or special occasional posting to match the theme.",
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "en.malaysia#holiday@group.v.calendar.google.com",
+          "mode": "list",
+          "cachedResultName": "Holidays in Malaysia"
+        },
+        "returnAll": true,
+        "timeMax": "={{ $now.plus({ week: 4 }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        240,
+        20
+      ],
+      "id": "fb3ca9e2-3228-45eb-b555-b96cbac06335",
+      "name": "get_public_holidays",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "UZglpsDrPwduER7r",
+          "name": "GCalendar(boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.targetLanguage }}",
+                    "rightValue": "English",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "id": "333cec3f-3b80-4eae-9c88-e7a3f4c60149"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "English"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "ef0ae382-6395-4905-9599-6f194d533a38",
+                    "leftValue": "={{ $json.targetLanguage }}",
+                    "rightValue": "Malay",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Malay"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        -900,
+        220
+      ],
+      "id": "eeaa3a8e-c276-4ae8-864c-cc123e53ee62",
+      "name": "Target Language"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1NrQL2lG64zReJsr30vtnkUVVTZtcBrzaY1aRLWX30hg",
+          "mode": "list",
+          "cachedResultName": "[2025] - Abi Motors Sdn Bhd - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NrQL2lG64zReJsr30vtnkUVVTZtcBrzaY1aRLWX30hg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1438649008,
+          "mode": "list",
+          "cachedResultName": "FB Posts Scraped Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NrQL2lG64zReJsr30vtnkUVVTZtcBrzaY1aRLWX30hg/edit#gid=1438649008"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        -380,
+        700
+      ],
+      "id": "73eafd7b-299b-4ea4-80bd-929a1dd461e5",
+      "name": "facebook_posts_data1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolThink",
+      "typeVersion": 1,
+      "position": [
+        180,
+        680
+      ],
+      "id": "ce0dfb4d-5974-41be-a4ca-92fbfa0a494f",
+      "name": "Think1"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[\n  {\n    \"datePosting\": \"27 Apr 2025\",\n    \"textPost\": \"Kereta kecil, jimat minyak! 🚗💨 \\n Perodua Axia adalah pilihan terbaik untuk perjalanan harian anda. Dengan reka bentuk yang compact dan efisien, ia sempurna untuk bandar seperti Ipoh! \\n📍 𝐒𝐡𝐨𝐰𝐫𝐨𝐨𝐦 ( 𝐁𝐞𝐬𝐢𝐝𝐞 𝐏𝐚𝐫𝐤𝐬𝐨𝐧, 𝐈𝐩𝐨𝐡 𝐏𝐚𝐫𝐚𝐝𝐞 ) \\n🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5 \\n ☎️ 05-242 4888 / 012-750 0527 \\n #AbiMotors \\n #PeroduaAxia #JimatMinyak #IpohMali\",\n    \"visualIdea\": \"Static image of Perodua Axia parked in a city setting with a fuel efficiency meter highlighted.\"\n  },\n  {\n    \"datePosting\": \"29 Apr 2025\",\n    \"textPost\": \"Uji pengetahuan anda tentang Perodua! 🧠🚗 \\n Siapa boleh teka model Perodua yang paling laris di Malaysia? Teka di komen dan menang hadiah menarik! \\n 📍𝐒𝐡𝐨𝐰𝐫𝐨𝐨𝐦 ( 𝐁𝐞𝐬𝐢𝐝𝐞 𝐏𝐚𝐫𝐤𝐬𝐨𝐧, 𝐈𝐩𝐨𝐡 𝐏𝐚𝐫𝐚𝐝𝐞 )\\n 🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5 \\n ☎️ 05-242 4888 / 012-750 0527 \\n #AbiMotors #QuizPerodua #MenangHadiah #IpohMali\",\n    \"visualIdea\": \"Interactive quiz post with a static image of Perodua models and a question overlay.\"\n  },\n  {\n    \"datePosting\": \"2 May 2025\",\n    \"textPost\": \"Jom road trip dengan Perodua Aruz! 🚗🌄 \\n Dengan ruang yang luas dan selesa, Aruz adalah pilihan terbaik untuk perjalanan keluarga anda. Jom test drive hari ini! \\n 📍 𝐒𝐡𝐨𝐰𝐫𝐨𝐨𝐦 ( 𝐁𝐞𝐬𝐢𝐝𝐞 𝐏𝐚𝐫𝐤𝐬𝐨𝐧, 𝐈𝐩𝐨𝐡 𝐏𝐚𝐫𝐚𝐝𝐞 ) \\n 🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5 \\n ☎️ 05-242 4888 / 012-750 0527 \\n #AbiMotors #PeroduaAruz #RoadTrip #FamilyCar\",\n    \"visualIdea\": \"Animated GIF of a Perodua Aruz driving through scenic routes with family enjoying the ride.\"\n  }  \n]\n\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        320,
+        620
+      ],
+      "id": "86494117-943e-4c86-a82f-5441dcc16349",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to get the upcoming public holidays in order to create general festive postings or special occasional posting to match the theme.",
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "en.malaysia#holiday@group.v.calendar.google.com",
+          "mode": "list",
+          "cachedResultName": "Holidays in Malaysia"
+        },
+        "returnAll": true,
+        "timeMax": "={{ $now.plus({ week: 4 }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        20,
+        720
+      ],
+      "id": "0fc9bb10-89f4-4384-a37b-48a16586b0d8",
+      "name": "get_public_holidays1",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "UZglpsDrPwduER7r",
+          "name": "GCalendar(boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -800,
+        1120
+      ],
+      "id": "ed340d99-0965-4214-9ae4-ed4157518ee3",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1NrQL2lG64zReJsr30vtnkUVVTZtcBrzaY1aRLWX30hg",
+          "mode": "list",
+          "cachedResultName": "[2025] - Abi Motors Sdn Bhd - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NrQL2lG64zReJsr30vtnkUVVTZtcBrzaY1aRLWX30hg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1438649008,
+          "mode": "list",
+          "cachedResultName": "FB Posts Scraped Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NrQL2lG64zReJsr30vtnkUVVTZtcBrzaY1aRLWX30hg/edit#gid=1438649008"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        -240,
+        -20
+      ],
+      "id": "8c431b2b-71eb-4ca8-8731-5429583c1aa6",
+      "name": "facebook_posts_data",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -640,
+        1180
+      ],
+      "id": "fc64948f-ec54-4448-b7c9-25b45affaa0d",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        -620,
+        660
+      ],
+      "id": "64affcd7-faf4-4a65-84ad-9117bcb3bad3",
+      "name": "DeepSeek Chat Model1",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "8Hvjw0JNKmbO191K",
+          "name": "DeepSeekAPI - info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "abf5a1f2-936f-4edf-b82c-aadcfd599aff",
+              "name": "webURL",
+              "value": "={{ $json['Website URL'] }}",
+              "type": "string"
+            },
+            {
+              "id": "ca7f411b-82e6-4d2c-9b5b-3cf511095390",
+              "name": "searchQuery",
+              "value": "={{ $json.Name }}{{ $json.Geolocation }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1420,
+        -840
+      ],
+      "id": "db5f5fee-9bbd-4170-a318-40579aecb803",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ddc53601-f3de-4f0e-9bac-4ad590891705",
+              "leftValue": "={{ $json.Industry }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1720,
+        -600
+      ],
+      "id": "bf446a85-3467-474d-8972-e6b93a4ce574",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -1260,
+        -280
+      ],
+      "id": "681e1d36-320c-48cb-9c04-8767186609ca",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to get the search query through the search engine, gather the sources and summarize the web research as the output.",
+        "workflowId": {
+          "__rl": true,
+          "value": "KdAUfF05Oj85t0Vb",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Perplexica AI Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ $('If').item.json.Name }} {{ $('If').item.json.Geolocation }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -840,
+        -300
+      ],
+      "id": "50e662a8-10f0-4fb5-aee7-ed17cb636687",
+      "name": "ai_web_research_tool"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Company Name: {{ $json.Name }} {{ $json.Geolocation }}\nIndustry Type: {{ $json.Industry }}\nWebsite URL: {{ $json['Website URL'] }}",
+        "options": {
+          "systemMessage": "={{ $json['Prompt For AI Agent'] }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        -1140,
+        -480
+      ],
+      "id": "e8383358-1e7b-4693-bf7d-262a8e79a6b4",
+      "name": "Web Research Agent"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Identify the input user's search query for segmenting the most suitable industry:\n{{ $json.searchQuery }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "# Role\nYou are a market research specialist who are specialize on doing market search and market analysis\n\n# Task\nYou are tasked to identify which the right category industry to be segmented based on the user requested search query\n\n# Output Format\nOnly output the actual text-based answer without any unnecessary explanations, definitions and other factual data. If you had been identified more than one category, you can output the categories with comma-separated for each category"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.6,
+      "position": [
+        -1160,
+        -840
+      ],
+      "id": "0503146b-0a8c-4831-9713-2a9d26d8db64",
+      "name": "Identify Industry Type"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls",
+          "mode": "list",
+          "cachedResultName": "[2025] - SementraResort - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2095342283,
+          "mode": "list",
+          "cachedResultName": "Web Research",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls/edit#gid=2095342283"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $('Google Sheets Trigger').item.json.Name }}",
+            "Website URL": "={{ $('Google Sheets Trigger').item.json['Website URL'] }}",
+            "Industry": "={{ $json.text }}"
+          },
+          "matchingColumns": [
+            "Name"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Website URL",
+              "displayName": "Website URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Geolocation",
+              "displayName": "Geolocation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Industry",
+              "displayName": "Industry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Prompt For AI Agent",
+              "displayName": "Prompt For AI Agent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -840,
+        -840
+      ],
+      "id": "df04d169-fcaf-476d-9d44-622346af8fe9",
+      "name": "Update Industry Type",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Call this tool to get the search query through the search engine, gather the sources and summarize the web research as the output.",
+        "workflowId": {
+          "__rl": true,
+          "value": "KdAUfF05Oj85t0Vb",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Perplexica AI Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ $('If').item.json.Name }} {{ $('If').item.json.Geolocation }}"
+          },
+          "matchingColumns": [
+            "query"
+          ],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        -360,
+        -660
+      ],
+      "id": "ed075743-48be-4ba5-91a2-e1842e7c0252",
+      "name": "ai_web_research_tool1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Company Name: {{ $('Google Sheets Trigger').first().json.Name }} {{ $('Google Sheets Trigger').first().json.Geolocation }}\nIndustry Type: {{ $json['Industry'] }}\nWebsite URL: {{ $('Google Sheets Trigger').first().json['Website URL']}}",
+        "options": {
+          "systemMessage": "={{ $('Google Sheets Trigger').first().json['Prompt For AI Agent'] }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        -600,
+        -840
+      ],
+      "id": "ef0a394c-05ba-4a28-a632-8ea35d9d6d5d",
+      "name": "Web Research Agent1"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1NrQL2lG64zReJsr30vtnkUVVTZtcBrzaY1aRLWX30hg",
+          "mode": "list",
+          "cachedResultName": "[2025] - Abi Motors Sdn Bhd - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NrQL2lG64zReJsr30vtnkUVVTZtcBrzaY1aRLWX30hg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2095342283,
+          "mode": "list",
+          "cachedResultName": "Web Research",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ulzBJ9FC9gyIByU7ASEN9fr_y0Hzz4Lz5948q3GXRls/edit#gid=2095342283"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Name": "={{ $('Google Sheets').first().json.Name }}",
+            "Research Result": "={{ $json.output }}",
+            "Status": "Completed"
+          },
+          "matchingColumns": [
+            "Name"
+          ],
+          "schema": [
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Website URL",
+              "displayName": "Website URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Geolocation",
+              "displayName": "Geolocation",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Industry",
+              "displayName": "Industry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Research Result",
+              "displayName": "Research Result",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Prompt For AI Agent",
+              "displayName": "Prompt For AI Agent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        0,
+        -580
+      ],
+      "id": "a2e756bd-e150-4792-86f3-b569bea69565",
+      "name": "Update Web Research Result1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formTitle": "Creo Client: Abi Motors Sdn Bhd Monthly Social Media Posting Form",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Month of Year",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "January"
+                  },
+                  {
+                    "option": "February"
+                  },
+                  {
+                    "option": "March"
+                  },
+                  {
+                    "option": "April"
+                  },
+                  {
+                    "option": "May"
+                  },
+                  {
+                    "option": "June"
+                  },
+                  {
+                    "option": "July"
+                  },
+                  {
+                    "option": "August"
+                  },
+                  {
+                    "option": "september"
+                  },
+                  {
+                    "option": "October"
+                  },
+                  {
+                    "option": "November"
+                  },
+                  {
+                    "option": "December"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Client Name Label",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "SementraResort"
+                  },
+                  {
+                    "option": "ReadyCare"
+                  },
+                  {
+                    "option": "Abi Motors Sdn Bhd"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "GSheet AI Agent Input File Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "[2025] - Abi Motors Sdn Bhd - [AI Agent Input] - FB Content Creation Planner"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "GDocs Social Media Content Plan File Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Monthly FB Content Creation Planner"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -2620,
+        240
+      ],
+      "id": "0c25ac6f-49e5-4e7c-97c4-87bae175d86b",
+      "name": "On form submission",
+      "webhookId": "ab286419-9ce8-44a7-adc0-21d670891071"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1340,
+        -660
+      ],
+      "id": "07931a78-b2f2-4757-bbdd-e99af9f03abb",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AKgD9IaohMNo9oOr",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -720,
+        -660
+      ],
+      "id": "9175e0d1-ee4f-4c07-8ea0-1b432d27dc59",
+      "name": "OpenAI Chat Model2",
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1NrQL2lG64zReJsr30vtnkUVVTZtcBrzaY1aRLWX30hg",
+          "mode": "list",
+          "cachedResultName": "[2025] - Abi Motors Sdn Bhd - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NrQL2lG64zReJsr30vtnkUVVTZtcBrzaY1aRLWX30hg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2095342283,
+          "mode": "list",
+          "cachedResultName": "Web Research",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NrQL2lG64zReJsr30vtnkUVVTZtcBrzaY1aRLWX30hg/edit#gid=2095342283"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -2040,
+        -540
+      ],
+      "id": "178c9c28-2508-4046-b52b-9fba983e3b4e",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1764e9a9-8a3f-4101-93e2-2641f4c33b74",
+              "name": "month",
+              "value": "={{ $('On form submission').first().json['Month of Year'] }}",
+              "type": "string"
+            },
+            {
+              "id": "aff2545b-fbf6-4138-8b75-399a086c821c",
+              "name": "startDate",
+              "value": "={{ $('Google Sheets1').first().json['Start Date'] }}",
+              "type": "string"
+            },
+            {
+              "id": "0c53bcea-8520-40b1-997e-6bb9a1c51355",
+              "name": "endDate",
+              "value": "={{ $('Google Sheets1').first().json['End Date'] }}",
+              "type": "string"
+            },
+            {
+              "id": "4fb9d3d7-2613-4dd7-83d7-e206fdd81ef8",
+              "name": "brandName",
+              "value": "={{ $('Google Sheets4').first().json.Name }} {{ $('Google Sheets4').first().json.Geolocation }}",
+              "type": "string"
+            },
+            {
+              "id": "43efa54e-d6f9-4e33-a396-894c5cd891d2",
+              "name": "websiteUrl",
+              "value": "={{ $('Google Sheets4').item.json['Website URL'] }}",
+              "type": "string"
+            },
+            {
+              "id": "b235bac2-0188-4462-ae8e-d0be95dcadc4",
+              "name": "industryCategory",
+              "value": "={{ $('Google Sheets4').first().json.Industry }}",
+              "type": "string"
+            },
+            {
+              "id": "e95da6c6-6d82-4ba2-a56f-1abbcd85e0ec",
+              "name": "targetAudience",
+              "value": "={{ $('Google Sheets1').first().json['Target Audience'] }}",
+              "type": "string"
+            },
+            {
+              "id": "81979ddb-cc40-4ee2-96da-77644a0e83ce",
+              "name": "targetLanguage",
+              "value": "={{ $json['Target Language'] }}",
+              "type": "string"
+            },
+            {
+              "id": "14ecb7f0-57e5-4fca-aa1a-549ffecfdc20",
+              "name": "totalPostsToGenerate",
+              "value": "={{ $json['Total Generate Posts'] }}",
+              "type": "number"
+            },
+            {
+              "id": "d1470c84-73c8-4042-ab6a-8d8727a2a6a0",
+              "name": "postsPerLanguageRatio",
+              "value": "={{ $json['Posts Per Language Ratio'] }}",
+              "type": "string"
+            },
+            {
+              "id": "9dcd9a60-c1b7-434e-83b8-d6d11db296f3",
+              "name": "postPerLanguage",
+              "value": "={{ $json['Posts Per Language'] }}",
+              "type": "string"
+            },
+            {
+              "id": "b1ffaaff-a7e2-44d4-a34c-9d3c31889ec7",
+              "name": "toneAndVoice",
+              "value": "={{ $json['Tones And Voice'] }}",
+              "type": "string"
+            },
+            {
+              "id": "87b128d6-a343-4543-9585-6175975be481",
+              "name": "mediaTypesVisualContent",
+              "value": "={{ $json['FB Media Types For Visual Idea'] }}",
+              "type": "string"
+            },
+            {
+              "id": "817a2b71-bae7-4ce0-b7ee-346a2f766bad",
+              "name": "contentTypesVisualIdeas",
+              "value": "={{ $json['Content Types For Visual Idea'] }}",
+              "type": "string"
+            },
+            {
+              "id": "de13a73f-a877-4395-acbf-0b5cd60f9a00",
+              "name": "callToAction",
+              "value": "={{ $json['Call-to-action'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1160,
+        220
+      ],
+      "id": "cc9f0386-2002-452b-8fbd-1c70e3aa6f30",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "=[ENG-Malay Mix] - {{ $('On form submission').first().json['Client Name Label'] }} - {{ $('On form submission').first().json['GDocs Social Media Content Plan File Name'] }}",
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "1fokTP_tEJzYMyasVtn4yXU3jZ0ebjp1t",
+            "mode": "id"
+          },
+          "whatToSearch": "all",
+          "fileTypes": [
+            "application/vnd.google-apps.document"
+          ]
+        },
+        "options": {
+          "fields": [
+            "name",
+            "id",
+            "mimeType"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -2260,
+        240
+      ],
+      "id": "bb017ca4-4d28-4b40-9528-68cfca0750fe",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "={{ $json.name }}",
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "1fokTP_tEJzYMyasVtn4yXU3jZ0ebjp1t",
+            "mode": "id"
+          }
+        },
+        "options": {
+          "fields": [
+            "id",
+            "name",
+            "mimeType"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -1820,
+        220
+      ],
+      "id": "33742400-6c7d-4dac-9cbd-fc0238a60ac9",
+      "name": "Google Drive2",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "wxfpldrZxu3HDK2c",
+          "name": "GDrive Account (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "104792ab-69ca-4dee-b254-82685b529080",
+              "leftValue": "={{ $json.name }}",
+              "rightValue": "=[{{ $('On form submission').item.json['Month of Year'] }} 2025]",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -2060,
+        240
+      ],
+      "id": "db63c23e-f338-44ab-b2c1-02ae6d0444bd",
+      "name": "If1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -2060,
+        500
+      ],
+      "id": "655e7ab5-ee7c-400a-a1c1-bb25afe4b0ed",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1NrQL2lG64zReJsr30vtnkUVVTZtcBrzaY1aRLWX30hg",
+          "mode": "list",
+          "cachedResultName": "[2025] - Abi Motors Sdn Bhd - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NrQL2lG64zReJsr30vtnkUVVTZtcBrzaY1aRLWX30hg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2095342283,
+          "mode": "list",
+          "cachedResultName": "Web Research",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NrQL2lG64zReJsr30vtnkUVVTZtcBrzaY1aRLWX30hg/edit#gid=2095342283"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -1620,
+        220
+      ],
+      "id": "7a7922d2-207c-4767-a6a8-64c5c7fbd527",
+      "name": "Google Sheets4",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Generate the Facebook Content Posting Planner for the month,{{ $json.month }}{{ $now.format('yyyy') }}:\n- Start Date: {{ $json.startDate }}\n- End Date: {{ $json.endDate }}\n- Target Language: {{ $json.targetLanguage }}\n- Tone And Voice: {{ $json.toneAndVoice }}\n- Call-to-action: {{ $json.callToAction }} \n- Total {{ $json.targetLanguage }} Posts To Generate: {{ $json.postPerLanguage }}\n- FB Media Types For Visual Idea: {{ $json.mediaTypesVisualContent }}\n- Content Types For Visual Idea: {{ $json.contentTypesVisualIdeas }}\n",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "={{ $('Google Sheets1').item.json['Prompt For AI Agent'] }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        -140,
+        -320
+      ],
+      "id": "46f282f8-48ec-4659-b249-6649e3adb153",
+      "name": "Social Media Post (ENG) Agent"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Generate the Facebook Content Posting Planner for the month,{{ $json.month }}{{ $now.format('yyyy') }}:\n- Start Date: {{ $json.startDate }}\n- End Date: {{ $json.endDate }}\n- Target Language: {{ $json.targetLanguage }}\n- Tone And Voice: {{ $json.toneAndVoice }}\n- Call-to-action: {{ $json.callToAction }} \n- Total {{ $json.targetLanguage }} Posts To Generate: {{ $json.postPerLanguage }}\n- FB Media Types For Visual Idea: {{ $json.mediaTypesVisualContent }}\n- Content Types For Visual Idea: {{ $json.contentTypesVisualIdeas }}\n",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "={{ $('Google Sheets1').item.json['Prompt For AI Agent'] }}\n",
+          "maxIterations": 10
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        -260,
+        380
+      ],
+      "id": "4efa9959-14d5-4cef-83e1-d4688840aee8",
+      "name": "Social Media Post (MALAY) Agent"
+    },
+    {
+      "parameters": {
+        "name": "ai_web_search",
+        "description": "Call this tool for searching and quering about my client about the business, products, car brands, dealer services, industry related knowledge etc. By getting this data, you are able to understand my client business, products, services, industry related knowledge from search engine and compile the information in the brief and easier way.",
+        "workflowId": {
+          "__rl": true,
+          "value": "KdAUfF05Oj85t0Vb",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Perplexica AI Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', `all the keywords or terms would like to query information through search engine`, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        80,
+        60
+      ],
+      "id": "38cd225b-57f9-4c0b-90ee-2ea3cfa576d8",
+      "name": "ai_web_search"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool retrieval the scraped web research data.By getting this data, you are able to understand my client business, products and services details in summary information from the website itself.",
+        "documentId": {
+          "__rl": true,
+          "value": "1NrQL2lG64zReJsr30vtnkUVVTZtcBrzaY1aRLWX30hg",
+          "mode": "list",
+          "cachedResultName": "[2025] - Abi Motors Sdn Bhd - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NrQL2lG64zReJsr30vtnkUVVTZtcBrzaY1aRLWX30hg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2095342283,
+          "mode": "list",
+          "cachedResultName": "Web Research",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NrQL2lG64zReJsr30vtnkUVVTZtcBrzaY1aRLWX30hg/edit#gid=2095342283"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRangeA1",
+              "range": "E:E"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        -80,
+        40
+      ],
+      "id": "fd56ace6-e70f-4aad-afb4-bb36e736258d",
+      "name": "web_research_retriever",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        -400,
+        -40
+      ],
+      "id": "25a27e4a-d024-4ea1-a632-ac35334e2f1e",
+      "name": "DeepSeek Chat Model",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "8Hvjw0JNKmbO191K",
+          "name": "DeepSeekAPI - info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $('Google Drive2').first().json.id }}",
+        "simple": false
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1280,
+        -240
+      ],
+      "id": "af502487-6e8b-4bf0-9f10-4597e742260d",
+      "name": "Google Docs2",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        800,
+        -320
+      ],
+      "id": "8308e7f0-91a0-4566-9b58-5c930c9139e9",
+      "name": "Loop Over Items2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "11368f3e-434a-4cb9-a1c8-cb7d3a7f8daf",
+              "name": "table",
+              "value": "={{ $jmespath($json.body.content, '[?table]')[0] }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1460,
+        -240
+      ],
+      "id": "5face8a2-50de-4f63-8efd-0d7f783f1422",
+      "name": "Get Table2"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $('Google Drive2').first().json.id }}",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "object": "tableRow",
+              "action": "delete",
+              "index": "={{ $json[\"table\"][\"startIndex\"] }}",
+              "rowIndex": "={{ $json[\"table\"][\"table\"][\"tableRows\"].length - 1 }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1640,
+        -240
+      ],
+      "id": "00a3421f-8f6d-460c-9ae0-9b274e9e0732",
+      "name": "Google Docs5",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "74aa8c3f-48e3-4c72-ba2c-b35155464b9d",
+              "name": "datePosting",
+              "value": "={{ $json['Date Posting'] }}",
+              "type": "string"
+            },
+            {
+              "id": "d2e4f52e-d396-4361-9cce-b7e7623cb2fb",
+              "name": "textPost",
+              "value": "={{ $json['Text Post'] }}",
+              "type": "string"
+            },
+            {
+              "id": "9917245f-d1ac-4329-a039-4d0f95f732e6",
+              "name": "visualIdea",
+              "value": "={{ $json['Visual Idea'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1040,
+        -240
+      ],
+      "id": "0cd1e7b9-7f5d-4967-8380-bbf051328ebd",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $('Google Drive2').first().json.id }}",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "locationChoice": "location",
+              "index": "={{ $json.tableCells[2].content[0].startIndex }}",
+              "text": "={{ $('Edit Fields4').item.json.visualIdea }}"
+            },
+            {
+              "action": "insert",
+              "locationChoice": "location",
+              "index": "={{ $json.tableCells[1].content[0].startIndex }}",
+              "text": "={{ $('Edit Fields4').item.json.textPost }}"
+            },
+            {
+              "action": "insert",
+              "locationChoice": "location",
+              "index": "={{ $json.tableCells[0].content[0].startIndex }}",
+              "text": "={{ $('Edit Fields4').item.json.datePosting }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2520,
+        -480
+      ],
+      "id": "5973108a-022e-4508-9fea-8ff9f36fd529",
+      "name": "Google Docs6",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3bd4c732-4a26-4638-81c9-36034ca9a617",
+              "name": "tableCells",
+              "value": "={{ $jmespath($json.body.content, '[?table].table.tableRows[-1].tableCells')[0] }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2300,
+        -480
+      ],
+      "id": "bde8d8bb-1e83-464e-9d44-7eb595742739",
+      "name": "Edit Fields5"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $('Google Drive2').first().json.id }}",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "object": "tableRow",
+              "action": "insert",
+              "index": "={{ $('Get Table3').item.json.table.startIndex }}",
+              "rowIndex": "={{ $('Get Table3').item.json.table.table.tableRows.length - 1 }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1880,
+        -480
+      ],
+      "id": "18d81e67-d307-4874-8885-89fbf2f2fceb",
+      "name": "Insert table row at bottom2",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $('Google Drive2').first().json.id }}",
+        "simple": false
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2100,
+        -480
+      ],
+      "id": "f38076ec-3638-4b19-8dfa-f5cbba983d78",
+      "name": "Get updated document2",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $('Google Drive2').first().json.id }}",
+        "simple": false
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1460,
+        -480
+      ],
+      "id": "a7d2407f-427e-4f31-9a43-a1ab10d0f000",
+      "name": "Google Docs7",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "11368f3e-434a-4cb9-a1c8-cb7d3a7f8daf",
+              "name": "table",
+              "value": "={{ $jmespath($json.body.content, '[?table]')[0] }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1680,
+        -480
+      ],
+      "id": "61006045-c5d7-4ef8-b6d5-db1c8941a081",
+      "name": "Get Table3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "74aa8c3f-48e3-4c72-ba2c-b35155464b9d",
+              "name": "datePosting",
+              "value": "={{ $('Edit Fields4').item.json.datePosting }}",
+              "type": "string"
+            },
+            {
+              "id": "d2e4f52e-d396-4361-9cce-b7e7623cb2fb",
+              "name": "textPost",
+              "value": "={{ $('Edit Fields4').item.json.textPost }}",
+              "type": "string"
+            },
+            {
+              "id": "9917245f-d1ac-4329-a039-4d0f95f732e6",
+              "name": "visualIdea",
+              "value": "={{ $('Edit Fields4').item.json.visualIdea }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1000,
+        -500
+      ],
+      "id": "6247ee83-ae88-4bd7-bcc5-c5514120b1c3",
+      "name": "Edit Fields6"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1220,
+        -500
+      ],
+      "id": "36ea4af6-a1db-451c-a2a2-706e84b6ae47",
+      "name": "Loop Over Items3"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        160,
+        380
+      ],
+      "id": "919c7392-f6b0-430c-a32a-f7d85c9f0e12",
+      "name": "Split Out1"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1e8LkaphOHSGppvCafYudWfam5GxdhoUfqnc-mvVHuzQ",
+          "mode": "list",
+          "cachedResultName": "[2025] - Abi Motors Sdn Bhd - [MASTER Plan] - Monthly FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1e8LkaphOHSGppvCafYudWfam5GxdhoUfqnc-mvVHuzQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 366802693,
+          "mode": "list",
+          "cachedResultName": "June",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1e8LkaphOHSGppvCafYudWfam5GxdhoUfqnc-mvVHuzQ/edit#gid=366802693"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date Posting": "={{ $json.datePosting }}",
+            "Text Post": "={{ $json.textPost }}",
+            "Visual Idea": "={{ $json.visualIdea }}"
+          },
+          "matchingColumns": [
+            "Date Posting"
+          ],
+          "schema": [
+            {
+              "id": "Date Posting",
+              "displayName": "Date Posting",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Text Post",
+              "displayName": "Text Post",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Visual Idea",
+              "displayName": "Visual Idea",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Remark",
+              "displayName": "Remark",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        440,
+        380
+      ],
+      "id": "082d53d3-726e-4197-9490-94ceb8608e84",
+      "name": "Google Sheets3",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        660,
+        380
+      ],
+      "id": "e842b7dc-cd57-4fbf-a55f-9f207ad209be",
+      "name": "Loop Over Items4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "74aa8c3f-48e3-4c72-ba2c-b35155464b9d",
+              "name": "datePosting",
+              "value": "={{ $json['Date Posting'] }}",
+              "type": "string"
+            },
+            {
+              "id": "d2e4f52e-d396-4361-9cce-b7e7623cb2fb",
+              "name": "textPost",
+              "value": "={{ $json['Text Post'] }}",
+              "type": "string"
+            },
+            {
+              "id": "9917245f-d1ac-4329-a039-4d0f95f732e6",
+              "name": "visualIdea",
+              "value": "={{ $json['Visual Idea'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        900,
+        400
+      ],
+      "id": "0afd134d-0b6e-4cfd-9af5-be2e664517c1",
+      "name": "Edit Fields7"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $('Google Drive2').first().json.id }}",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "locationChoice": "location",
+              "index": "={{ $json.tableCells[2].content[0].startIndex }}",
+              "text": "={{ $('Edit Fields7').item.json.visualIdea }}"
+            },
+            {
+              "action": "insert",
+              "locationChoice": "location",
+              "index": "={{ $json.tableCells[1].content[0].startIndex }}",
+              "text": "={{ $('Edit Fields7').item.json.textPost }}"
+            },
+            {
+              "action": "insert",
+              "locationChoice": "location",
+              "index": "={{ $json.tableCells[0].content[0].startIndex }}",
+              "text": "={{ $('Edit Fields7').item.json.datePosting }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        2180,
+        400
+      ],
+      "id": "ae0a8160-5837-4ad6-b5f6-b689016c97c8",
+      "name": "Google Docs9",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3bd4c732-4a26-4638-81c9-36034ca9a617",
+              "name": "tableCells",
+              "value": "={{ $jmespath($json.body.content, '[?table].table.tableRows[-1].tableCells')[0] }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1960,
+        400
+      ],
+      "id": "77bbad9a-e824-4bc8-9fdf-48df8a60ce8d",
+      "name": "Edit Fields8"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $('Google Drive2').first().json.id }}",
+        "simple": false,
+        "actionsUi": {
+          "actionFields": [
+            {
+              "object": "tableRow",
+              "action": "insert",
+              "index": "={{ $('Get Table5').item.json.table.startIndex }}",
+              "rowIndex": "={{ $('Get Table5').item.json.table.table.tableRows.length - 1 }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1540,
+        400
+      ],
+      "id": "a067767c-b3f2-4135-bb5e-0f91823b60ea",
+      "name": "Insert table row at bottom3",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $('Google Drive2').first().json.id }}",
+        "simple": false
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        400
+      ],
+      "id": "e25cc395-52ca-4e88-91df-a93c9e570571",
+      "name": "Get updated document3",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "documentURL": "={{ $('Google Drive2').first().json.id }}",
+        "simple": false
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        400
+      ],
+      "id": "ff0c6c03-61d7-40aa-830c-39d992231ad7",
+      "name": "Google Docs10",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "w2SCA7vD6txNv0AE",
+          "name": "GDocs (boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "11368f3e-434a-4cb9-a1c8-cb7d3a7f8daf",
+              "name": "table",
+              "value": "={{ $jmespath($json.body.content, '[?table]')[0] }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1340,
+        400
+      ],
+      "id": "4304b093-0616-4ced-a205-20f80ce8c841",
+      "name": "Get Table5"
+    },
+    {
+      "parameters": {
+        "name": "ai_web_search",
+        "description": "Call this tool for searching and quering about my client about the business, products, car brands, dealer services, industry related knowledge etc. By getting this data, you are able to understand my client business, products, services, industry related knowledge from search engine and compile the information in the brief and easier way.",
+        "workflowId": {
+          "__rl": true,
+          "value": "KdAUfF05Oj85t0Vb",
+          "mode": "list",
+          "cachedResultName": "[Sub-workflow] - Perplexica AI Search Tool"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "query": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('query', `all the keywords or terms would like to query information through search engine`, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "query",
+              "displayName": "query",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.1,
+      "position": [
+        -120,
+        780
+      ],
+      "id": "9a7ba325-f284-4b1d-8c4a-9721ebffa5b2",
+      "name": "ai_web_search1"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool retrieval the scraped web research data.By getting this data, you are able to understand my client business, products and services details in summary information from the website itself.",
+        "documentId": {
+          "__rl": true,
+          "value": "1NrQL2lG64zReJsr30vtnkUVVTZtcBrzaY1aRLWX30hg",
+          "mode": "list",
+          "cachedResultName": "[2025] - Abi Motors Sdn Bhd - [AI Agent Input] - FB Content Creation Planner",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NrQL2lG64zReJsr30vtnkUVVTZtcBrzaY1aRLWX30hg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2095342283,
+          "mode": "list",
+          "cachedResultName": "Web Research",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1NrQL2lG64zReJsr30vtnkUVVTZtcBrzaY1aRLWX30hg/edit#gid=2095342283"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "specifyRangeA1",
+              "range": "E:E"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.5,
+      "position": [
+        -240,
+        700
+      ],
+      "id": "2469d4b1-c5aa-4204-96dd-2180d9f29853",
+      "name": "web_research_retriever1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "a0YmEAT240Tl0C1b",
+          "name": "GSheet-boonhong.tan0309@gmail.com"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Think": {
+      "ai_tool": [
+        [
+          {
+            "node": "Social Media Post (ENG) Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Social Media Post (ENG) Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_public_holidays": {
+      "ai_tool": [
+        [
+          {
+            "node": "Social Media Post (ENG) Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Target Language": {
+      "main": [
+        [
+          {
+            "node": "Social Media Post (ENG) Agent",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Social Media Post (MALAY) Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "facebook_posts_data1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Social Media Post (MALAY) Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Think1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Social Media Post (MALAY) Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Social Media Post (MALAY) Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get_public_holidays1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Social Media Post (MALAY) Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "facebook_posts_data": {
+      "ai_tool": [
+        [
+          {
+            "node": "Social Media Post (ENG) Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        []
+      ]
+    },
+    "DeepSeek Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Social Media Post (MALAY) Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Identify Industry Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Web Research Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Web Research Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_web_research_tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "Web Research Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Web Research Agent": {
+      "main": [
+        [
+          {
+            "node": "Update Web Research Result1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Identify Industry Type": {
+      "main": [
+        [
+          {
+            "node": "Update Industry Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Industry Type": {
+      "main": [
+        [
+          {
+            "node": "Web Research Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_web_research_tool1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Web Research Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Web Research Agent1": {
+      "main": [
+        [
+          {
+            "node": "Update Web Research Result1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Identify Industry Type",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Web Research Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive2": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Google Drive2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Target Language",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets4": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Social Media Post (ENG) Agent": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Social Media Post (MALAY) Agent": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_web_search": {
+      "ai_tool": [
+        [
+          {
+            "node": "Social Media Post (ENG) Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "web_research_retriever": {
+      "ai_tool": [
+        [
+          {
+            "node": "Social Media Post (ENG) Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Social Media Post (ENG) Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs2": {
+      "main": [
+        [
+          {
+            "node": "Get Table2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields6",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Table2": {
+      "main": [
+        [
+          {
+            "node": "Google Docs5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs5": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Google Docs2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs6": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields5": {
+      "main": [
+        [
+          {
+            "node": "Google Docs6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert table row at bottom2": {
+      "main": [
+        [
+          {
+            "node": "Get updated document2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get updated document2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs7": {
+      "main": [
+        [
+          {
+            "node": "Get Table3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Table3": {
+      "main": [
+        [
+          {
+            "node": "Insert table row at bottom2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields6": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items3": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Google Docs7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets3": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items4": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Edit Fields7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields7": {
+      "main": [
+        [
+          {
+            "node": "Google Docs10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields8": {
+      "main": [
+        [
+          {
+            "node": "Google Docs9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert table row at bottom3": {
+      "main": [
+        [
+          {
+            "node": "Get updated document3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get updated document3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs10": {
+      "main": [
+        [
+          {
+            "node": "Get Table5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Table5": {
+      "main": [
+        [
+          {
+            "node": "Insert table row at bottom3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs9": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "web_research_retriever1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Social Media Post (MALAY) Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ai_web_search1": {
+      "ai_tool": [
+        [
+          {
+            "node": "Social Media Post (MALAY) Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {
+    "On form submission": [
+      {
+        "json": {
+          "Month of Year": "June",
+          "Client Name Label": "Abi Motors Sdn Bhd",
+          "GSheet AI Agent Input File Name": "[2025] - Abi Motors Sdn Bhd - [AI Agent Input] - FB Content Creation Planner",
+          "GDocs Social Media Content Plan File Name": "Monthly FB Content Creation Planner",
+          "submittedAt": "2025-05-19T12:07:51.762+08:00",
+          "formMode": "test"
+        }
+      }
+    ],
+    "Social Media Post (ENG) Agent": [
+      {
+        "json": {
+          "output": [
+            {
+              "datePosting": "06/02/2025",
+              "textPost": "Happy The Yang di-Pertuan Agong's Birthday! 🎉 Wishing everyone a joyful and safe celebration. Remember to drive safely and enjoy the holiday with your loved ones!\n📍 Showroom (Beside Parkson, Ipoh Parade)\n🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5\n☎️ 05-242 4888 / 012-750 0527\n#AbiMotors #HappyHoliday #DriveSafe #Perodua",
+              "visualIdea": "An animated GIF of festive fireworks with a Perodua car in the foreground, celebrating the holiday spirit."
+            },
+            {
+              "datePosting": "06/07/2025",
+              "textPost": "🚗 Planning a road trip for Hari Raya Haji? Here’s how to prepare your car for a smooth journey:\n1. Check your tires and brakes.\n2. Top up fluids and fuel.\n3. Pack an emergency kit.\n\nSafe travels and Selamat Hari Raya Haji!\n📍 Showroom (Beside Parkson, Ipoh Parade)\n🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5\n☎️ 05-242 4888 / 012-750 0527\n#AbiMotors #HariRayaHaji #RoadTripTips #Perodua",
+              "visualIdea": "A static image of a Perodua car with a checklist overlay for road trip preparations."
+            },
+            {
+              "datePosting": "06/10/2025",
+              "textPost": "🚗 Did you know? Regular car maintenance can save you money in the long run! Here’s why:\n- Prevents costly repairs.\n- Improves fuel efficiency.\n- Extends your car’s lifespan.\n\nBook a service today and keep your ride smooth!\n📍 Showroom (Beside Parkson, Ipoh Parade)\n🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5\n☎️ 05-242 4888 / 012-750 0527\n#AbiMotors #CarCare #MaintenanceTips #Perodua",
+              "visualIdea": "An animated GIF of a Perodua car being serviced, highlighting key maintenance steps."
+            },
+            {
+              "datePosting": "06/14/2025",
+              "textPost": "🚗 Quiz Time! Which Perodua model is known for its spacious interior and fuel efficiency?\nA) Myvi\nB) Axia\nC) Aruz\n\nDrop your answer below and let’s see who gets it right!\n📍 Showroom (Beside Parkson, Ipoh Parade)\n🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5\n☎️ 05-242 4888 / 012-750 0527\n#AbiMotors #CarQuiz #TestYourKnowledge #Perodua",
+              "visualIdea": "A static image carousel featuring the Myvi, Axia, and Aruz with a quiz question overlay."
+            },
+            {
+              "datePosting": "06/18/2025",
+              "textPost": "🚗 Fuel-saving tips for your daily commute:\n1. Avoid heavy acceleration.\n2. Keep tires properly inflated.\n3. Use air conditioning wisely.\n\nSave money and the environment—one drive at a time!\n📍 Showroom (Beside Parkson, Ipoh Parade)\n🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5\n☎️ 05-242 4888 / 012-750 0527\n#AbiMotors #FuelEfficiency #DriveSmart #Perodua",
+              "visualIdea": "An animated GIF of a car driving with fuel-saving tips popping up along the way."
+            },
+            {
+              "datePosting": "06/22/2025",
+              "textPost": "🚗 Meet the Perodua Myvi—your perfect city companion! With its compact size and advanced features, it’s designed for urban adventures.\n\nWhat’s your favorite Myvi feature? Comment below!\n📍 Showroom (Beside Parkson, Ipoh Parade)\n🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5\n☎️ 05-242 4888 / 012-750 0527\n#AbiMotors #PeroduaMyvi #CityDriving #CompactCar",
+              "visualIdea": "A static image of the Perodua Myvi with highlighted features like infotainment and fuel efficiency."
+            },
+            {
+              "datePosting": "06/26/2025",
+              "textPost": "🚗 Mini-Game Alert! 🎮 Guess the Perodua model based on the emoji clues:\n1. 🚙 + ⛽ = ?\n2. 🚗 + 🏙️ = ?\n3. 🚙 + 🏞️ = ?\n\nDrop your answers below and see if you’re a Perodua pro!\n📍 Showroom (Beside Parkson, Ipoh Parade)\n🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5\n☎️ 05-242 4888 / 012-750 0527\n#AbiMotors #MiniGame #FunWithCars #Perodua",
+              "visualIdea": "An animated GIF of emoji clues transitioning to Perodua car models."
+            },
+            {
+              "datePosting": "06/30/2025",
+              "textPost": "🚗 Customer Spotlight: \"Switching to a Perodua Bezza was the best decision for my family! Spacious, fuel-efficient, and perfect for long drives.\" — Mr. Lim\n\nShare your Perodua story with us!\n📍 Showroom (Beside Parkson, Ipoh Parade)\n🌐 https://maps.app.goo.gl/gNBsjvmYjruQyUZs5\n☎️ 05-242 4888 / 012-750 0527\n#AbiMotors #CustomerStories #PeroduaBezza #HappyDrivers",
+              "visualIdea": "A static image of a happy family with their Perodua Bezza, showcasing a testimonial overlay."
+            }
+          ]
+        }
+      }
+    ],
+    "Web Research Agent": [
+      {
+        "json": {
+          "output": "Abi Motors Sdn Bhd is a well-established car dealership based in Ipoh, Perak, Malaysia, founded on January 17, 1994. It operates as an authorized dealer for Perodua, one of Malaysia's leading automotive brands. \n\n**Company Overview**\n- **Incorporation:** The company is registered under the number 0287148X / 199401001470.\n- **Business Focus:** It specializes in the sale of both new and used vehicles, particularly Perodua models, and offers comprehensive after-sales services to ensure customer satisfaction post-purchase.\n\n**Location**\n- The dealership is located at No. 2, Jalan Selamat, Greentown, Ipoh, 30450, Perak, which is conveniently situated next to Ipoh Parade, making it easily accessible for customers.\n\n**Products and Services**\n- **Vehicle Offerings:** Abi Motors showcases a range of Perodua models including the Myvi, Axia, and Bezza, with competitive pricing and various financing options available. Test drives are also offered to potential buyers.\n- **After-Sales Services:** The dealership provides extensive after-sales support including maintenance, repairs, and the supply of genuine parts.\n\n**Customer Engagement**\n- The company actively engages with customers through its Facebook page, sharing updates, promotions, and testimonials, which helps build a loyal customer community.\n\nIn summary, Abi Motors Sdn Bhd is recognized for its reliable vehicle offerings and dedicated after-sales services in the automotive industry, making it a top choice for car buyers in Ipoh and surrounding areas."
+        }
+      }
+    ]
+  },
+  "versionId": "b2369ea1-43af-4b28-adc4-62115a0bcadb",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-04-28T09:03:09.096Z",
+      "createdAt": "2025-04-28T09:03:09.096Z",
+      "role": "workflow:owner",
+      "workflowId": "fKiDEX7scizEhoh2",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
