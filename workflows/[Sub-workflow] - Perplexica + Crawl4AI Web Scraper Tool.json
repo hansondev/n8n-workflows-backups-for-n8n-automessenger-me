@@ -1,0 +1,370 @@
+{
+  "updatedAt": "2025-05-18T16:01:07.000Z",
+  "createdAt": "2025-04-30T08:31:22.572Z",
+  "id": "7bUBKA1atgtRksuX",
+  "name": "[Sub-workflow] - Perplexica + Crawl4AI Web Scraper Tool",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://perplexica-1.automessenger.me/api/search",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"chatModel\": {\n    \"provider\": \"openai\",\n    \"name\": \"gpt-4o-mini\"\n  },\n  \"embeddingModel\": {\n    \"provider\": \"openai\",\n    \"name\": \"text-embedding-3-large\"\n  },\n  \"optimizationMode\": \"speed\",\n  \"focusMode\": \"webSearch\",\n  \"query\": \"{{ $json.query }}\",\n  \"history\": [\n    [\"human\", \"Hi, how are you?\"],\n    [\"assistant\", \"I am doing well, how can I help you today?\"]\n  ],\n  \"systemInstructions\": \"Focus on providing technical details where requested by the user.\",\n  \"stream\": false\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -200,
+        40
+      ],
+      "id": "86d82be5-c96c-4ae0-a217-6e83522c351a",
+      "name": "Perplexity API"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "85861e82-8910-4794-8b0b-58f433bd4cfb",
+              "name": "summary",
+              "value": "={{ $json.summary }}",
+              "type": "string"
+            },
+            {
+              "id": "ceae9bfe-7c2d-4f38-985e-ba6f192b5185",
+              "name": "sourceUrls",
+              "value": "={{ $jmespath($json.sources,\"[*].metadata.url\") }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        180,
+        40
+      ],
+      "id": "9ef74b51-d5cb-4a93-b02e-41dca1ba7255",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -20,
+        400
+      ],
+      "id": "5233afc6-e85e-49c2-b553-6202baeec71b",
+      "name": "Wait",
+      "webhookId": "75c74b5b-96bc-41bc-a259-dec4548938a9"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"task_id\": \"{{ $('Crawl4AI Basic POST Request').item.json.task_id }}\",\n  \"status\": \"{{ $json.status }}\"\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        380,
+        400
+      ],
+      "id": "cb155379-7c05-4e45-8f02-0febc0013380",
+      "name": "Task ID Field"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f07a7b5c-71e5-4aca-adce-e01b0d6c7fde",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "=pending",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            },
+            {
+              "id": "7f622642-d24c-47de-b4be-93ce15948db3",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "=processing",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        580,
+        400
+      ],
+      "id": "fdc7df46-a973-45a2-b68e-157f9d7ba5de",
+      "name": "If In Process"
+    },
+    {
+      "parameters": {
+        "url": "=https://crawl4ai.automessenger.me/task/{{ $json.task_id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        180,
+        400
+      ],
+      "id": "12a99d5d-5b03-41af-9c2b-fd1a7e25886f",
+      "name": "Get Markdown Result",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Sxyip2DbXxp8AQIB",
+          "name": "Craw4Ai Header Auth(crawl4ai.automessenger.me)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"result\": {{ JSON.stringify( $('Get Markdown Result').item.json.results.map(item => item.markdown).join('\\n\\n'))}}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        820,
+        380
+      ],
+      "id": "6c22f3cb-be54-4e15-8ae5-6dbb1c31d3bd",
+      "name": "Markdown Result"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://crawl4ai.automessenger.me/crawl",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"urls\": {{ JSON.stringify($json.sourceUrls) }},\n  \"extraction_config\": {\n    \"type\": \"basic\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -220,
+        400
+      ],
+      "id": "bb3eba54-cbf6-40d5-859c-4d30c014aaec",
+      "name": "Crawl4AI Basic POST Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "Sxyip2DbXxp8AQIB",
+          "name": "Craw4Ai Header Auth(crawl4ai.automessenger.me)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "44172b6e-8679-4f98-8931-715589ff5a24",
+              "name": "summary",
+              "value": "={{ $json.message }}",
+              "type": "string"
+            },
+            {
+              "id": "0a2727dc-6ec9-4719-993a-cf132f301703",
+              "name": "sources",
+              "value": "={{ $json.sources }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        0,
+        40
+      ],
+      "id": "f8b0f492-ccb2-4a8b-856e-5ad9577dcda2",
+      "name": "Results"
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "query"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -440,
+        40
+      ],
+      "id": "b25e767e-2d1c-4a7d-ab05-6454078fc978",
+      "name": "When Executed by Another Workflow"
+    }
+  ],
+  "connections": {
+    "Perplexity API": {
+      "main": [
+        [
+          {
+            "node": "Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get Markdown Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Task ID Field": {
+      "main": [
+        [
+          {
+            "node": "If In Process",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If In Process": {
+      "main": [
+        [
+          {
+            "node": "Markdown Result",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Markdown Result": {
+      "main": [
+        [
+          {
+            "node": "Task ID Field",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Crawl4AI Basic POST Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crawl4AI Basic POST Request": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Results": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Perplexity API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "049fd18f-93b5-40f5-ba64-f537dfc88f55",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-04-30T08:31:22.578Z",
+      "createdAt": "2025-04-30T08:31:22.578Z",
+      "role": "workflow:owner",
+      "workflowId": "7bUBKA1atgtRksuX",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2025-04-26T07:53:53.852Z",
+      "createdAt": "2025-04-26T07:53:53.852Z",
+      "id": "hCI3uuYrzecVAgbS",
+      "name": "AI Agent Subworkflow"
+    }
+  ]
+}
