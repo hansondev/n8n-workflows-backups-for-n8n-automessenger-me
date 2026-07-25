@@ -1,0 +1,103 @@
+{
+  "updatedAt": "2025-05-22T07:10:17.000Z",
+  "createdAt": "2025-05-22T04:10:18.039Z",
+  "id": "EyVJiYGG3QE9SzGO",
+  "name": "[DEVELOPMENT] - CREO_PROJECT - ReadCare - WP Landing Page Content Generator V1",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -260,
+        700
+      ],
+      "id": "5c09dc13-6b0d-4a43-9684-7c55f32c59e7",
+      "name": "When clicking ‘Test workflow’",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "page",
+        "operation": "getAll",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.wordpress",
+      "typeVersion": 1,
+      "position": [
+        -40,
+        700
+      ],
+      "id": "1f65364e-55d2-443f-9114-fe1437cc4af9",
+      "name": "Wordpress",
+      "credentials": {
+        "wordpressApi": {
+          "id": "XvElTo6wbe59lO92",
+          "name": "Wordpress account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "endpoint": "https://rcsignature.com.my/graphql",
+        "query": "query NewQuery {\n  pages {\n    edges {\n      node {\n        id\n        date\n        title\n      }\n    }\n  }\n}"
+      },
+      "type": "n8n-nodes-base.graphql",
+      "typeVersion": 1.1,
+      "position": [
+        180,
+        700
+      ],
+      "id": "4fe94398-b52f-454a-ad19-454bf39c6b53",
+      "name": "GraphQL",
+      "disabled": true
+    }
+  ],
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Wordpress",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wordpress": {
+      "main": [
+        [
+          {
+            "node": "GraphQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "567792e4-29c9-476c-8386-2a6bffa980aa",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-05-22T04:10:18.044Z",
+      "createdAt": "2025-05-22T04:10:18.044Z",
+      "role": "workflow:owner",
+      "workflowId": "EyVJiYGG3QE9SzGO",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
