@@ -1,0 +1,432 @@
+{
+  "updatedAt": "2024-10-11T00:59:11.000Z",
+  "createdAt": "2024-06-21T15:29:01.733Z",
+  "id": "lVgtaQEClIB0V7nx",
+  "name": "AI Automation Use Case: RAG System Integrate With Slack Bot",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "796175eb-4c11-4bdc-b10a-9ac08abcd224",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        460,
+        360
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1H6AtazI2euXVVaf_X3WaEpetgXg74SUE",
+          "mode": "list",
+          "cachedResultName": "HR+Policies+Handbook+(2).txt",
+          "cachedResultUrl": "https://drive.google.com/file/d/1H6AtazI2euXVVaf_X3WaEpetgXg74SUE/view?usp=drivesdk"
+        },
+        "options": {}
+      },
+      "id": "d2a4d8fd-83cf-4ab6-9f21-c0c871dbe2ca",
+      "name": "Google Drive",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        780,
+        320
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "ZZtfpdmhfdrjjM7Z",
+          "name": "GDrive-info.hansondev@gmail.com"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "46f03653-4b1c-45c6-9589-c274267d2d17",
+      "name": "Embeddings OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1,
+      "position": [
+        960,
+        500
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataType": "binary",
+        "loader": "textLoader",
+        "options": {}
+      },
+      "id": "6f3a4fb6-4a31-44c8-b9a4-4bf619693e3a",
+      "name": "Default Data Loader",
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        500
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "0b4883e7-80ca-442d-ae7c-caa317c0df2b",
+      "name": "Recursive Character Text Splitter",
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        1240,
+        640
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "234d59ad-025f-46cd-b324-2cb61bc947bf",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.manualChatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        1560,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.text }}"
+      },
+      "id": "8ad252fe-79e2-4a95-b8a5-0cdb13068bdb",
+      "name": "Question and Answer Chain",
+      "type": "@n8n/n8n-nodes-langchain.chainRetrievalQa",
+      "typeVersion": 1.3,
+      "position": [
+        1820,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "model": "claude-3-haiku-20240307",
+        "options": {}
+      },
+      "id": "162afdb6-566d-40b7-b784-144fa61c3ed9",
+      "name": "Anthropic Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.1,
+      "position": [
+        1820,
+        520
+      ],
+      "credentials": {
+        "anthropicApi": {
+          "id": "A086ghbh0vMy1zjD",
+          "name": "Anthropic (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "topK": 5
+      },
+      "id": "3cbd8b00-2f2c-4f2b-a224-b65fa742cc2d",
+      "name": "Vector Store Retriever",
+      "type": "@n8n/n8n-nodes-langchain.retrieverVectorStore",
+      "typeVersion": 1,
+      "position": [
+        2020,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "7a635d7c-8071-4317-9195-1dcfd3f63132",
+      "name": "Embeddings OpenAI1",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOpenAi",
+      "typeVersion": 1,
+      "position": [
+        1820,
+        840
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAI account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableName": {
+          "__rl": true,
+          "value": "rpc/match_n8n_slack_rag",
+          "mode": "list",
+          "cachedResultName": "rpc/match_n8n_slack_rag"
+        },
+        "options": {
+          "queryName": "match_n8n_slack_rag"
+        }
+      },
+      "id": "ba7bf34f-caaf-40b1-9a01-8b1473d18429",
+      "name": "Supabase Vector Store1",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1,
+      "position": [
+        2020,
+        680
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "MKg3ITGPdMttRx16",
+          "name": "Project: n8n-slack-rag-system"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Webhook').item.json.body.response_url }}",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "texr",
+              "value": "={{ $json.response.text }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true
+            }
+          }
+        }
+      },
+      "id": "4de0623c-03ff-49e2-b43d-b20d9d7091d6",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2200,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "slack-hr-test-bot",
+        "options": {}
+      },
+      "id": "7f6c6986-0a33-432a-a08d-295431b8faf3",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        1600,
+        460
+      ],
+      "webhookId": "8d63744e-05e5-440c-b97f-0874505f6af7"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "tableName": {
+          "__rl": true,
+          "value": "n8n_slack_rag",
+          "mode": "list",
+          "cachedResultName": "n8n_slack_rag"
+        },
+        "options": {}
+      },
+      "id": "165f8537-8439-4c1b-9858-830d05082355",
+      "name": "Supabase Vector Store",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        320
+      ],
+      "credentials": {
+        "supabaseApi": {
+          "id": "MKg3ITGPdMttRx16",
+          "name": "Project: n8n-slack-rag-system"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Question and Answer Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Question and Answer Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vector Store Retriever": {
+      "ai_retriever": [
+        [
+          {
+            "node": "Question and Answer Chain",
+            "type": "ai_retriever",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings OpenAI1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store1",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase Vector Store1": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Vector Store Retriever",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Question and Answer Chain": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Question and Answer Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "0bb00a74-a22a-4f7e-b16e-58d7a283fafd",
+  "triggerCount": 2,
+  "shared": [
+    {
+      "updatedAt": "2024-06-21T15:29:01.930Z",
+      "createdAt": "2024-06-21T15:29:01.930Z",
+      "role": "workflow:owner",
+      "workflowId": "lVgtaQEClIB0V7nx",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": [
+    {
+      "updatedAt": "2024-06-20T14:55:32.293Z",
+      "createdAt": "2024-06-20T14:55:32.293Z",
+      "id": "5gO74HHz9IApTqg6",
+      "name": "Udemy-Derek_Chung"
+    }
+  ]
+}
