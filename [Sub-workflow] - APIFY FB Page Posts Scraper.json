@@ -1,0 +1,463 @@
+{
+  "updatedAt": "2025-09-04T17:01:56.000Z",
+  "createdAt": "2025-09-04T11:10:49.020Z",
+  "id": "L63Xf9FMH8gQsZZU",
+  "name": "[Sub-workflow] - APIFY FB Page Posts Scraper",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "fbPageUrl"
+            }
+          ]
+        }
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        -288,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://facebook-scraper-api4.p.rapidapi.com/get_facebook_page_id",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "link",
+              "value": "={{ $json.fbPageUrl }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-rapidapi-host",
+              "value": "facebook-scraper-api4.p.rapidapi.com"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        192,
+        208
+      ],
+      "id": "c87e2279-77ce-4c8f-8222-1e0193b2343a",
+      "name": "GET FB Page ID",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "RhcMhaqem5mohNc1",
+          "name": "RapidAPI Header Auth(info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/actor-runs/{{ $json.data.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "waitForFinish",
+              "value": "60"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        544,
+        432
+      ],
+      "id": "10b9fe20-d555-4bf4-9a16-c24aee0fb3bd",
+      "name": "Get Actor Run",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        304,
+        432
+      ],
+      "id": "38a19067-8563-4584-bda4-2588ae6ca00e",
+      "name": "Wait",
+      "webhookId": "a3216efe-abbd-429b-b905-9afced96f8d4"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.apify.com/v2/datasets/{{ $json.data.defaultDatasetId }}/items ",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1104,
+        416
+      ],
+      "id": "e9789873-0026-4e5f-89ab-db972b9811e2",
+      "name": "Get Datasets",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "s9OHZ04epaISws1v",
+          "name": "APIFY Header Auth (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "575cc607-2b70-4323-b268-995590595b10",
+              "leftValue": "={{ $json.data.status }}",
+              "rightValue": "SUCCEEDED",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        800,
+        432
+      ],
+      "id": "3c458f4f-7d17-4044-9b21-3cffdf58849e",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d34a454b-8ca5-484d-8497-a9b21dc01027",
+              "name": "fbPageID",
+              "value": "={{ $json.facebook_id }}",
+              "type": "string"
+            },
+            {
+              "id": "5abdcb31-b02b-4fe4-8012-431bf344b1f8",
+              "name": "fbPageURL",
+              "value": "={{ $('When Executed by Another Workflow').item.json.fbPageUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "289e120f-34ba-43db-b1a0-e76f24755de3",
+              "name": "maxPosts",
+              "value": "=50",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        528,
+        208
+      ],
+      "id": "608b5e36-589b-42bd-8e45-f73eaf3668f2",
+      "name": "SET Inputs For APIFY FB Scraper"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/actor-tasks/boonhongtan0309~facebook-posts-scraper-reefheaven/runs",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"captionText\": false,\n    \"resultsLimit\": 20,\n    \"startUrls\": [\n        {\n            \"url\": {{ JSON.stringify($json.fbPageURL) }},\n            \"method\": \"GET\"\n        }\n    ]\n}",
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -16,
+        432
+      ],
+      "id": "5f232d57-2cdc-4be4-8924-57bb52080c9c",
+      "name": "APIFY FB Posts Scraper Actor Start",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "ka8mQTiaSBrnVUh2",
+          "name": "APIFYHeaderAuth(boonhong.tan0309@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        176,
+        -64
+      ],
+      "id": "6e5c7c0e-9b0f-4a54-962e-d14185b37aac",
+      "name": "When clicking ‘Execute workflow’",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ed570b1b-7813-4061-a8c6-fff5e4d43aa4",
+              "name": "numRow",
+              "value": "={{ $itemIndex+1 }}",
+              "type": "string"
+            },
+            {
+              "id": "37e5b5be-aec7-4377-87e3-8941c6302423",
+              "name": "datePublished",
+              "value": "={{ $json.timestamp.toDateTime('s').format('yyyy-MM-dd') }}",
+              "type": "string"
+            },
+            {
+              "id": "1c542148-722b-4c44-89bb-d8a8f3fac310",
+              "name": "postID",
+              "value": "={{ $json.postId }}",
+              "type": "string"
+            },
+            {
+              "id": "094014be-d849-4620-9a1b-900d3f4ece69",
+              "name": "postText",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "78fe163a-62d8-4d97-b9f8-70aa937fb0d4",
+              "name": "postURL",
+              "value": "={{ $json.url }}",
+              "type": "string"
+            },
+            {
+              "id": "b034941a-3e1f-401d-bc8f-9e261d232da3",
+              "name": "imageUrls",
+              "value": "={{ $jmespath($json.media,\"[*].image.uri\") }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1376,
+        416
+      ],
+      "id": "932d5c64-5f3b-4d89-906b-73beadaa3cc3",
+      "name": "Mapped Important Fields With Scraped Data"
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "GET FB Page ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET FB Page ID": {
+      "main": [
+        [
+          {
+            "node": "SET Inputs For APIFY FB Scraper",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Actor Run": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get Actor Run",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Get Datasets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SET Inputs For APIFY FB Scraper": {
+      "main": [
+        [
+          {
+            "node": "APIFY FB Posts Scraper Actor Start",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "APIFY FB Posts Scraper Actor Start": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        []
+      ]
+    },
+    "Get Datasets": {
+      "main": [
+        [
+          {
+            "node": "Mapped Important Fields With Scraped Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "When clicking ‘Execute workflow’": [
+      {
+        "json": {
+          "fbPageUrl": "https://www.facebook.com/ReefHavenAU/"
+        }
+      }
+    ]
+  },
+  "versionId": "966a089f-f7ec-4c14-be14-ac9c7af90bb6",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2025-09-04T11:10:49.026Z",
+      "createdAt": "2025-09-04T11:10:49.026Z",
+      "role": "workflow:owner",
+      "workflowId": "L63Xf9FMH8gQsZZU",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
