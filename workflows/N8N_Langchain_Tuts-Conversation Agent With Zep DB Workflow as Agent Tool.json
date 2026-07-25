@@ -1,0 +1,165 @@
+{
+  "updatedAt": "2024-03-17T15:02:40.000Z",
+  "createdAt": "2024-03-16T14:23:47.109Z",
+  "id": "ir2VQjRy0mjk6i2v",
+  "name": "N8N_Langchain_Tuts-Conversation Agent With Zep DB Workflow as Agent Tool",
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "name": "Blog_post",
+        "description": "Call this tool to answer user's questions which is related to software or cloud-based tools. The input from users should be in full question.",
+        "workflowId": "L7s4Q1wR9yOEBIYn"
+      },
+      "id": "5f5e9057-66e5-4010-b1ba-e2ce271ba5e8",
+      "name": "Custom n8n Workflow Tool",
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 1,
+      "position": [
+        1060,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "options": {
+          "maxTokens": 500,
+          "temperature": 0.6
+        }
+      },
+      "id": "79a5b224-9125-4fb3-b4d1-0b931a0e88a6",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        680,
+        500
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "yiRVTvFCIbOLYyIG",
+          "name": "OpenAi account (info.hansondev@gmail.com)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "N8nBlogPost"
+      },
+      "id": "7398cc73-f994-4456-934c-b90ff348eefa",
+      "name": "Zep",
+      "type": "@n8n/n8n-nodes-langchain.memoryZep",
+      "typeVersion": 1.2,
+      "position": [
+        820,
+        540
+      ],
+      "credentials": {
+        "zepApi": {
+          "id": "zCsbfnAJO9E7Q6b9",
+          "name": "Zep API Key-zep.automessenger.me"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Assistant is a large language model trained by OpenAI.\n\nAssistant is designed to be able to assist with a wide range of tasks, from answering simple questions to providing in-depth explanations and discussions on a wide range of topics. As a language model, Assistant is able to generate human-like text based on the input it receives, allowing it to engage in natural-sounding conversations and provide responses that are coherent and relevant to the topic at hand.\n\nAssistant is constantly learning and improving, and its capabilities are constantly evolving. It is able to process and understand large amounts of text, and can use this knowledge to provide accurate and informative responses to a wide range of questions. Additionally, Assistant is able to generate its own text based on the input it receives, allowing it to engage in discussions and provide explanations and descriptions on a wide range of topics.\n\nOverall, Assistant is a powerful system that can help with a wide range of tasks and provide valuable insights and information on a wide range of topics. Whether you need help with a specific question or just want to have a conversation about a particular topic, Assistant is here to assist."
+        }
+      },
+      "id": "b7cb9ac8-3b94-4c8c-a127-709750d29539",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.5,
+      "position": [
+        780,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "public": true,
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "id": "a6fab376-9ef8-45bd-93df-8315ecfdc996",
+      "name": "Chat Trigger",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1,
+      "position": [
+        560,
+        300
+      ],
+      "webhookId": "1e625174-0e49-47f9-a481-5b7b869c0ea1"
+    }
+  ],
+  "connections": {
+    "Custom n8n Workflow Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Zep": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chat Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "pinData": {},
+  "versionId": "25e3e50b-f031-48e8-9ecd-fabe74ccaba7",
+  "triggerCount": 0,
+  "shared": [
+    {
+      "updatedAt": "2024-03-16T14:23:47.129Z",
+      "createdAt": "2024-03-16T14:23:47.129Z",
+      "role": "workflow:owner",
+      "workflowId": "ir2VQjRy0mjk6i2v",
+      "projectId": "qPrZL5I25Uy3N5u7"
+    }
+  ],
+  "tags": []
+}
